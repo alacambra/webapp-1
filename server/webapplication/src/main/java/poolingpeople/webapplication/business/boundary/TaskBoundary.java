@@ -27,7 +27,7 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 /*
  * What is a @managedBean, @Stateful Why they van not be together?
  */
-public class TaskBoundry {
+public class TaskBoundary {
 
 	private final ObjectMapper mapper = new ObjectMapper();
 
