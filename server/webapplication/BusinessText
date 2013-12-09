@@ -1,0 +1,37 @@
+	exception handling, persistence unit fürs testing
+	
+	
+	Testing: Cyclomatic complexity measures the
+	number of independent execution paths in your methods and classes and even in your modules.
+	The higher the number, the higher the complexity -> Sonar Maven Plugin
+	CI & QA: Jenkins jobs, Fitnesse plugin for jenkins/hudson
+	Continous QA Feedback: Sonar
+	
+	REST: response can be conveniently
+	created with a Builder pattern. We are creating a noContent() response, which is translated
+	into the HTTP code 204. This HTTP code is returned regardless of the actual process result, even if
+	exceptions exist. A good PUT implementation would return HTTP Created (code 201) in the case
+	of an invocation with a not-yet-existing URI, and it would return HTTP OK (code 200) in the case
+	of an update of already-existing information.
+	
+	Transactions: Do we really need transactions? This question is hard to answer; rephrasing it to “Do we
+	really need ACID (atomicity, consistency, isolation, durability)?” makes answering the question
+	easier.
+	
+	TimerService: Every five minutes (minute = “*/5”), the method persistHitsCache is invoked in a
+	transaction context by the container. In subsequent iterations, I factored out the periodic
+	execution into a dedicated class (see Listing 35) and made the period’s length configurable.
+	
+	Performance Logging: With Java Management Extensions (JMX) it is trivial to expose useful management information to
+	an easily accessible management infrastructure, such as VisualVM, as type-safe Java objects. -> MXBeans—The Easy Way to Expose Cohesive Data
+	Stresstests: JMeter, VisualVM
+	
+	Caching: Instead of updating all entries and relying on the JPA implementation-specific optimizations,
+	only the changed entries computed by the caches are passed to EntityManager.
+	
+	DevOps: We just started with the implementation of the DevOps idea. You could create and deploy not only the application server
+	with the installed application, but also the operating systems, virtual machines, and the whole
+	infrastructure, for example, firewalls and other resources. Tools such as Puppet
+	(http://www.puppetlabs.com/) or Chef (http://www.opscode.com/chef/) allow you to keep the
+	server configuration synchronized with a central master
+	

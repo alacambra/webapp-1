@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="whateverEJB">
+		<jta-data-source>jdbc/whateverDb</jta-data-source>
+		<mapping-file>META-INF/eclipselink-orm.xml</mapping-file>
+<!-- 		<class>poolingpeople.webapplication.business.entity.Users</class> -->
+<!-- 		<class>poolingpeople.webapplication.business.entity.Login</class> -->
+<!-- 		<class>poolingpeople.webapplication.business.entity.Address</class> -->
+		<properties>
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode"	value="database" />
+			<property name="eclipselink.logging.level" value="FINE"/>
+		</properties>
+	</persistence-unit>
+</persistence>

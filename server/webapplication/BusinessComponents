@@ -1,0 +1,9 @@
+	---------------------
+	|Business components| 
+	---------------------
+	 
+	- User: CRUD, account/profile: information fields, change user infos
+	- Registration: create user registration, send confirmation link, activate user account 
+	- Messaging: send messages, persist messages, 
+	- Dashboard: Chats , Contacts, Settings
+	- Performance monitoring: exposing runtime data such as number of exceptions, method execution time via JMX : MXBeans
