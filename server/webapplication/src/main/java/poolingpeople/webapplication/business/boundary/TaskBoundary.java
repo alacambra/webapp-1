@@ -12,7 +12,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.module.SimpleModule;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import poolingpeople.webapplication.business.entity.EntityFactory;
@@ -24,30 +26,45 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 @Path("task")
 @Stateful
 @Neo4jTransaction
-@AuthValidator
+//@AuthValidator
 /*
  * What is a @managedBean, @Stateful Why they van not be together?
  */
 public class TaskBoundary {
 
 	private final ObjectMapper mapper = new ObjectMapper();
+	
 
 	@Inject
 	private EntityFactory entityFactory;
 
 	@Inject
-	GraphDatabaseService databaseService; 
+	GraphDatabaseService databaseService;
+	
+	public TaskBoundary() {
+		mapper.registerModule(new MyModule());
+	}
+
+	public class MyModule extends SimpleModule
+	{
+		public MyModule() {
+			super("ModuleName", new Version(0,0,1,null));
+		}
+		@Override
+		public void setupModule(SetupContext context)
+		{
+			context.setMixInAnnotations(PersistedTask.class	, TaskMixin.class);
+		}
+	}
 
 	@GET
 	@Path("{id:[\\w\\d-]+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTask(@PathParam("id") String id) {
 
-		mapper.constructType(PersistedTask.class);
-		
 		try {
 			PersistedTask task = entityFactory.getTask(id);
-			String r = mapper.writerWithView(TaskMixin2.class).writeValueAsString(task);
+			String r = mapper.writerWithView(TaskMixin.class).writeValueAsString(task);
 			return Response.ok().entity(r).build();
 		} catch (Exception e) {
 			System.err.println(e);
@@ -58,10 +75,9 @@ public class TaskBoundary {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllTask() {
-
 		try {
-			mapper.getSerializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
-			mapper.getDeserializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
+//			mapper.getSerializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
+			//			mapper.getDeserializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
 			String r = mapper.writerWithView(View.SampleView.class).writeValueAsString(entityFactory.getAllTask());
 			return Response.ok().entity(r).build();
 		} catch (Exception e) {
@@ -77,7 +93,7 @@ public class TaskBoundary {
 	public Response saveTask(String json) {
 
 		try {
-			
+
 			PersistedTask persistedTask = mapper.readValue(json,PersistedTask.class);
 			String r = mapper.writeValueAsString(persistedTask);
 			return Response.ok().entity(r).build();
@@ -87,7 +103,7 @@ public class TaskBoundary {
 			throw new WebApplicationException(e);
 		}
 	}
-	
+
 	@PUT
 	@Path("fakeit")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -95,7 +111,7 @@ public class TaskBoundary {
 	public Response fakeTask(String json) {
 
 		try {
-			
+
 			PersistedTask persistedTask = entityFactory.createTask();
 			persistedTask.setDescription("desc");
 			persistedTask.setEndDate(1L);

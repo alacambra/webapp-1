@@ -28,7 +28,8 @@ public class TaskMixin implements ITask {
 	}
 
 	@Override
-	public String getTitel() {
+	@JsonView(View.NoSend.class)
+	public String getTitle() {
 		return null;
 	}
 

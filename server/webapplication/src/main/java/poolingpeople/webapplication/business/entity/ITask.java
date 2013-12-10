@@ -1,6 +1,5 @@
 package poolingpeople.webapplication.business.entity;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
@@ -13,7 +12,7 @@ public interface ITask {
 
 	String getId();
 
-	String getTitel();
+	String getTitle();
 
 	void setTitle(String title);
 
