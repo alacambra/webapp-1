@@ -181,9 +181,9 @@ public class NeoManager {
 		Iterator<Relationship> iterator = null;
 
 		if ( direction == null ) {
-			iterator = node.getRelationships(Relations.DOES).iterator();
+			iterator = node.getRelationships(relation).iterator();
 		} else {
-			iterator = node.getRelationships(Relations.DOES, direction).iterator();
+			iterator = node.getRelationships(relation, direction).iterator();
 		}
 
 		if (iterator.hasNext()) {
@@ -191,7 +191,7 @@ public class NeoManager {
 			if ( iterator.hasNext() ) {
 				throw new RuntimeException("More than one relations has been found");
 			}
-			Node relatedNode = rel.getStartNode() == node ? rel.getEndNode() : rel.getStartNode(); 
+			Node relatedNode = rel.getStartNode().equals(node) ? rel.getEndNode() : rel.getStartNode(); 
 			return relatedNode;
 		}
 
@@ -229,7 +229,7 @@ public class NeoManager {
 
 		Iterable<Relationship> iterator = null;
 
-		if ( direction != null) {
+		if ( direction == null) {
 			iterator = node.getRelationships(relation);
 		} else {
 			iterator = node.getRelationships(relation, direction);
@@ -238,7 +238,7 @@ public class NeoManager {
 		Collection<Node> relatedNodes = new ArrayList<Node>();
 
 		for ( Relationship rel : iterator ) {
-			Node relatedNode = rel.getStartNode() == node ? rel.getEndNode() : rel.getStartNode();
+			Node relatedNode = rel.getStartNode().equals(node) ? rel.getEndNode() : rel.getStartNode();
 			relatedNodes.add(relatedNode);
 		}
 
@@ -263,8 +263,8 @@ public class NeoManager {
 		}
 	}
 
-	public void hasProperty(Node node, String key) {
-		node.hasProperty(key);
+	public boolean hasProperty(Node node, String key) {
+		return node.hasProperty(key);
 	}
 
 	public void removeNode(Node n) {
