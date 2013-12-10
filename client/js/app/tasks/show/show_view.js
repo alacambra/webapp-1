@@ -1,17 +1,10 @@
 define(['app',
-        'tpl!app/tasks/list/templates/list.tpl',
-        'tpl!app/tasks/list/templates/list_item.tpl'],
-function(App, list_tpl, list_item_tpl) {
-    App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
-        List.Task = Marionette.ItemView.extend({
+    'tpl!app/tasks/show/templates/show.tpl'],
+function(App, show_tpl) {
+    App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
+        Show.Task = Marionette.ItemView.extend({
             className: 'list-row',
-            template: list_item_tpl,
-
-
-            events: {
-                'click .js-delete': 'delete_item',
-                'click .js-title': 'show'
-            },
+            template: show_tpl,
 
 
             templateHelpers: {
@@ -40,28 +33,9 @@ function(App, list_tpl, list_item_tpl) {
                     if (progress == null || progress === undefined) return '';
                     return progress * 100 + '%';
                 }
-            },
-
-
-            delete_item: function() {
-                if (confirm('Are you sure?')) {
-                    this.trigger('task:delete', this.model);
-                }
-            },
-
-            show: function() {
-                this.trigger('task:show', this.model);
             }
         });
-
-
-        List.Tasks = Marionette.CompositeView.extend({
-            id: 'tasks',
-            template: list_tpl,
-            itemView: List.Task,
-            itemViewContainer: '#js-task-list-items'
-        })
     });
 
-    return App.Tasks.List;
+    return App.Tasks.Show;
 });

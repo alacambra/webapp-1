@@ -47,12 +47,19 @@ function(App, View){
 
                 // list view handlers
                 list_view.on('itemview:task:delete', destroy);
+                list_view.on('itemview:task:show', show);
 
 
                 // list view handler functions
                 function destroy(child_view, model) {
                     tasks.remove(model);
                     //model.destroy();
+                }
+
+                function show(child_view, model) {
+                    require(['app/tasks/show/show_controller'], function (ShowController) {
+                        ShowController.show_task(model);
+                    });
                 }
             }
         }

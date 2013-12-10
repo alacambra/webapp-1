@@ -1,4 +1,4 @@
-<div class="col-md-3"><%= title %></div>
+<div class="col-md-3 js-title"><%= title %></div>
 <div class="col-md-2"><%= description %>&nbsp;</div>
 <div class="col-md-1"><%= status_text(status) %>&nbsp;</div>
 <div class="col-md-1"><%= priority_text(priority) %>&nbsp;</div>
