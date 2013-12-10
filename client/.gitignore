@@ -1,1 +1,5 @@
 .idea
+.sass-cache
+css/base.css
+npm-debug.log
+node_modules/*
