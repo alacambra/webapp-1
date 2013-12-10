@@ -6,50 +6,50 @@ define(['app',
         List.Task = Marionette.ItemView.extend({
             template: list_item_tpl,
 
+
+            events: {
+                'click .js-delete': 'delete_item'
+            },
+
+
             templateHelpers: {
                 format_date: function(date) {
-                    return moment(date).format('DD.MM.YYYY')
+                    if (date == null || date === undefined) return '';
+                    return moment(date * 1000).format('DD.MM.YYYY');
                 },
 
                 status_text: function(status) {
-                    var status_texts = [
-                        'ToDo',
-                        'New',
-                        'Assigned',
-                        'On hold',
-                        'Completed',
-                        'Archieved',
-                        'Requested',
-                        'Offered'
-                    ];
-
-                    return status_texts[status] || '-';
+                    var texts = ['ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'];
+                    return texts[status] || '';
                 },
 
-                priority_text: function(status) {
-                    var status_texts = [
-                        'Low',
-                        'Normal',
-                        'High'
-                    ];
-
-                    return status_texts[status] || '-';
+                priority_text: function(priority) {
+                    var texts = ['Low', 'Normal', 'High'];
+                    return texts[priority] || '';
                 },
 
                 format_duration: function(duration) {
+                    if (duration == null || duration === undefined) return '';
                     var duration = moment.duration(duration, 'minutes');
                     return parseInt(duration.asHours()) + ':' + pad(duration.asMinutes() % 60);
                 },
 
                 format_progress: function(progress) {
+                    if (progress == null || progress === undefined) return '';
                     return progress * 100 + '%';
+                }
+            },
+
+
+            delete_item: function() {
+                if (confirm('Are you sure?')) {
+                    this.trigger('task:delete', this.model);
                 }
             }
         });
 
 
         List.Tasks = Marionette.CompositeView.extend({
-            tagName: 'div',
             id: 'tasks',
             template: list_tpl,
             itemView: List.Task

@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-default btn-xs js-edit">
             <span class="glyphicon glyphicon-pencil"></span>
         </button>
-        <button type="button" class="btn btn-default btn-xs js-destroy">
+        <button type="button" class="btn btn-default btn-xs js-delete">
             <span class="glyphicon glyphicon-trash"></span>
         </button>
     </div>

@@ -26,11 +26,11 @@ module.exports = function(grunt) {
             specs: {
                 files: ['test/spec/*.spec.js'],
                 tasks: 'jasmine'
-            },
+            }/*,
             sass: {
                 files: ['css/*.sass'],
                 tasks: 'sass'
-            }
+            }*/
         }
     });
 
