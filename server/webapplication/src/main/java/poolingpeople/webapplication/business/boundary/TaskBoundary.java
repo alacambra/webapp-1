@@ -24,6 +24,7 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 @Path("task")
 @Stateful
 @Neo4jTransaction
+@AuthValidator
 /*
  * What is a @managedBean, @Stateful Why they van not be together?
  */
@@ -46,7 +47,7 @@ public class TaskBoundary {
 		
 		try {
 			PersistedTask task = entityFactory.getTask(id);
-			String r = mapper.writeValueAsString(task);
+			String r = mapper.writerWithView(TaskMixin2.class).writeValueAsString(task);
 			return Response.ok().entity(r).build();
 		} catch (Exception e) {
 			System.err.println(e);
@@ -59,7 +60,9 @@ public class TaskBoundary {
 	public Response getAllTask() {
 
 		try {
-			String r = mapper.writeValueAsString(entityFactory.getAllTask());
+			mapper.getSerializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
+			mapper.getDeserializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
+			String r = mapper.writerWithView(View.SampleView.class).writeValueAsString(entityFactory.getAllTask());
 			return Response.ok().entity(r).build();
 		} catch (Exception e) {
 			System.err.println(e);

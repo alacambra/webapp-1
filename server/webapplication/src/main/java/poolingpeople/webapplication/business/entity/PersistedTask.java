@@ -12,7 +12,7 @@ import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 
-public class PersistedTask {
+public class PersistedTask implements ITask {
 
 	private Node underlyingNode;
 	private NeoManager manager;
@@ -54,32 +54,60 @@ public class PersistedTask {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getNodeType()
+	 */
+	@Override
 	@JsonIgnore
 	public PoolingpeopleObjectType getNodeType() {
 		return NODE_TYPE;
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getNode()
+	 */
+	@Override
 	@JsonIgnore
 	public Node getNode() {
 		return underlyingNode;
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getId()
+	 */
+	@Override
 	public String getId() {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.ID.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getTitel()
+	 */
+	@Override
 	public String getTitel() {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.TITLE.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setTitle(java.lang.String)
+	 */
+	@Override
 	public void setTitle(String title) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.TITLE.name(), title);
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getDescription()
+	 */
+	@Override
 	public String getDescription() {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.DESCRIPTION.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setDescription(java.lang.String)
+	 */
+	@Override
 	public void setDescription(String description) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.DESCRIPTION.name(), description);
 	}
@@ -87,44 +115,84 @@ public class PersistedTask {
 	/*
 	 * @todo: Intercept nullables and return a defaulted injected value... if possible 
 	 */
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getPriority()
+	 */
+	@Override
 	@JsonIgnore
 	public TaskPriority getPriority() {
 		return TaskPriority.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name()));
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setPriority(poolingpeople.webapplication.business.entity.TaskPriority)
+	 */
+	@Override
 	public void setPriority(TaskPriority priority) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name(), priority.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getStatus()
+	 */
+	@Override
 	@JsonIgnore
 	public TaskStatus getStatus() {
 		return  TaskStatus.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.STATUS.name()));
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setStatus(poolingpeople.webapplication.business.entity.TaskStatus)
+	 */
+	@Override
 	public void setStatus(TaskStatus status) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.STATUS.name(), status.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getStartDate()
+	 */
+	@Override
 	public Long getStartDate() {
 		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.START_DATE.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setStartDate(java.lang.Long)
+	 */
+	@Override
 	public void setStartDate(Long startDate) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.START_DATE.name(), startDate);;
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getEndDate()
+	 */
+	@Override
 	public Long getEndDate() {
 		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.END_DATE.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setEndDate(java.lang.Long)
+	 */
+	@Override
 	public void setEndDate(Long endDate) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.END_DATE.name(), endDate);;
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#getProgress()
+	 */
+	@Override
 	public Integer getProgress() {
 		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name());
 	}
 
+	/* (non-Javadoc)
+	 * @see poolingpeople.webapplication.business.entity.ITask#setProgress(int)
+	 */
+	@Override
 	public void setProgress(int progress) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name(), progress);
 	}
