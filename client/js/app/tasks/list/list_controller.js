@@ -1,4 +1,5 @@
-define(['app', 'app/entities/task', 'app/tasks/list/list_view'], function(App, View){
+define(['app', 'app/entities/task', 'app/tasks/list/list_view'],
+function(App, View){
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _){
         List.Controller = {
             list_tasks: function() {

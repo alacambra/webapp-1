@@ -1,7 +1,7 @@
 define(['app',
         'tpl!app/tasks/list/templates/list.tpl',
         'tpl!app/tasks/list/templates/list_item.tpl'],
-       function(App, list_tpl, list_item_tpl) {
+function(App, list_tpl, list_item_tpl) {
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
         List.Task = Marionette.ItemView.extend({
             className: 'list-row',
