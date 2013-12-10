@@ -1,9 +1,15 @@
 define(['app',
-        'tpl!app/tasks/show/templates/show.tpl'],
-function(App, show_tpl) {
-    App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
-        Show.Task = Marionette.ItemView.extend({
-            template: show_tpl,
+        'tpl!app/tasks/edit/templates/edit.tpl',
+        'backbone_syphon'],
+function(App, edit_tpl) {
+    App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
+        Edit.Task = Marionette.ItemView.extend({
+            template: edit_tpl,
+
+
+            events: {
+                'click button.js-submit': 'submit'
+            },
 
 
             templateHelpers: {
@@ -32,9 +38,27 @@ function(App, show_tpl) {
                     if (progress == null || progress === undefined) return '';
                     return progress * 100 + '%';
                 }
+            },
+
+
+            onSaveSuccessful: function() {
+                setTimeout(function() {
+                    $('#js-task-form-save').fadeOut(300, function() {
+                        $('.js-submit').removeClass('disabled')
+                    });
+                }, 100);
+            },
+
+
+            submit: function(e) {
+                e.preventDefault();
+                var data = Backbone.Syphon.serialize(this);
+                this.trigger('form:submit', data);
+                this.$('#js-task-form-save').fadeIn(300);
+                this.$('.js-submit').addClass('disabled');
             }
         });
     });
 
-    return App.Tasks.Show;
+    return App.Tasks.Edit;
 });

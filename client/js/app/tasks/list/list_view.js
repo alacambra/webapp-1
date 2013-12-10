@@ -9,8 +9,9 @@ function(App, list_tpl, list_item_tpl) {
 
 
             events: {
-                'click .js-delete': 'delete_item',
-                'click .js-title': 'show'
+                'click .js-title': 'show',
+                'click .js-edit': 'edit',
+                'click .js-delete': 'delete_item'
             },
 
 
@@ -43,14 +44,20 @@ function(App, list_tpl, list_item_tpl) {
             },
 
 
+            show: function() {
+                this.trigger('task:show', this.model);
+            },
+
+
+            edit: function() {
+                this.trigger('task:edit', this.model);
+            },
+
+
             delete_item: function() {
                 if (confirm('Are you sure?')) {
                     this.trigger('task:delete', this.model);
                 }
-            },
-
-            show: function() {
-                this.trigger('task:show', this.model);
             }
         });
 
