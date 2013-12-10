@@ -4,6 +4,7 @@ define(['app',
        function(App, list_tpl, list_item_tpl) {
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
         List.Task = Marionette.ItemView.extend({
+            className: 'list-row',
             template: list_item_tpl,
 
 
@@ -52,7 +53,8 @@ define(['app',
         List.Tasks = Marionette.CompositeView.extend({
             id: 'tasks',
             template: list_tpl,
-            itemView: List.Task
+            itemView: List.Task,
+            itemViewContainer: '#js-task-list-items'
         })
     });
 

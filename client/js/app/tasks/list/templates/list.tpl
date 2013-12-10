@@ -10,3 +10,5 @@
     <div class="col-md-1">Duration</div>
     <div class="col-md-1">Progress</div>
 </div>
+
+<div id="js-task-list-items"></div>
