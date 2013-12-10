@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.module.SimpleModule;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import poolingpeople.webapplication.business.entity.EntityFactory;
+import poolingpeople.webapplication.business.entity.ITask;
 import poolingpeople.webapplication.business.entity.PersistedTask;
 import poolingpeople.webapplication.business.entity.TaskPriority;
 import poolingpeople.webapplication.business.entity.TaskStatus;
@@ -53,7 +54,7 @@ public class TaskBoundary {
 		@Override
 		public void setupModule(SetupContext context)
 		{
-			context.setMixInAnnotations(PersistedTask.class	, TaskMixin.class);
+			context.setMixInAnnotations(ITask.class	, TaskMixin.class);
 		}
 	}
 
@@ -63,7 +64,7 @@ public class TaskBoundary {
 	public Response getTask(@PathParam("id") String id) {
 
 		try {
-			PersistedTask task = entityFactory.getTask(id);
+			ITask task = entityFactory.getTask(id);
 			String r = mapper.writerWithView(TaskMixin.class).writeValueAsString(task);
 			return Response.ok().entity(r).build();
 		} catch (Exception e) {
@@ -76,6 +77,9 @@ public class TaskBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllTask() {
 		try {
+			
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.registerModule(new MyModule());
 //			mapper.getSerializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
 			//			mapper.getDeserializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
 			String r = mapper.writerWithView(View.SampleView.class).writeValueAsString(entityFactory.getAllTask());
@@ -94,7 +98,7 @@ public class TaskBoundary {
 
 		try {
 
-			PersistedTask persistedTask = mapper.readValue(json,PersistedTask.class);
+			ITask persistedTask = mapper.readValue(json, PersistedTask.class);
 			String r = mapper.writeValueAsString(persistedTask);
 			return Response.ok().entity(r).build();
 
@@ -112,7 +116,7 @@ public class TaskBoundary {
 
 		try {
 
-			PersistedTask persistedTask = entityFactory.createTask();
+			ITask persistedTask = entityFactory.createTask();
 			persistedTask.setDescription("desc");
 			persistedTask.setEndDate(1L);
 			persistedTask.setStartDate(2L);

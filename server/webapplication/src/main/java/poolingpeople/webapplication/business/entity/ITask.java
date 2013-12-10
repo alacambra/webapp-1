@@ -6,10 +6,6 @@ import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 
 public interface ITask {
 
-	PoolingpeopleObjectType getNodeType();
-
-	Node getNode();
-
 	String getId();
 
 	String getTitle();

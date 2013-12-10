@@ -1,25 +1,11 @@
 package poolingpeople.webapplication.business.boundary;
 
 import org.codehaus.jackson.map.annotate.JsonView;
-import org.neo4j.graphdb.Node;
-
 import poolingpeople.webapplication.business.entity.ITask;
 import poolingpeople.webapplication.business.entity.TaskPriority;
 import poolingpeople.webapplication.business.entity.TaskStatus;
-import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 
-public class TaskMixin implements ITask {
-
-	@Override
-	
-	public PoolingpeopleObjectType getNodeType() {
-		return null;
-	}
-
-	@Override
-	public Node getNode() {
-		return null;
-	}
+public class TaskMixin implements ITask{
 
 	@Override
 	@JsonView(View.SampleView.class)
@@ -91,5 +77,4 @@ public class TaskMixin implements ITask {
 	@Override
 	public void setProgress(int progress) {
 	}
-
 }

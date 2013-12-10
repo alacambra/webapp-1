@@ -5,11 +5,13 @@ import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 
 import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 
 public class PersistedTask implements ITask {
@@ -53,12 +55,10 @@ public class PersistedTask implements ITask {
 
 	}
 
-	@Override
 	public PoolingpeopleObjectType getNodeType() {
 		return NODE_TYPE;
 	}
 	
-	@Override
 	public Node getNode() {
 		return underlyingNode;
 	}
@@ -110,7 +110,7 @@ public class PersistedTask implements ITask {
 	@Override
 	@JsonIgnore
 	public TaskStatus getStatus() {
-		return  TaskStatus.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.STATUS.name()));
+		return TaskStatus.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.STATUS.name()));
 	}
 
 	
@@ -128,7 +128,7 @@ public class PersistedTask implements ITask {
 	
 	@Override
 	public void setStartDate(Long startDate) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.START_DATE.name(), startDate);;
+		manager.setProperty(underlyingNode, NodesPropertiesNames.START_DATE.name(), startDate);
 	}
 
 	
@@ -140,7 +140,7 @@ public class PersistedTask implements ITask {
 	
 	@Override
 	public void setEndDate(Long endDate) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.END_DATE.name(), endDate);;
+		manager.setProperty(underlyingNode, NodesPropertiesNames.END_DATE.name(), endDate);
 	}
 
 	
@@ -163,6 +163,12 @@ public class PersistedTask implements ITask {
 	public int hashCode() {
 		return underlyingNode.hashCode();
 	}
+	
+	public void addSubtask(ITask child) {
+		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE, ((PersistedTask) child).getNodeType());
+		manager.createRelationshipTo(underlyingNode, ((PersistedTask) child).getNode(), Relations.IS_SUBPROJECT_OF);
+	}
+	
 }
 
 
