@@ -1,7 +1,9 @@
 package poolingpeople.webapplication.business.boundary;
 
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.swing.text.StyledEditorKit.ItalicAction;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
+import org.mockito.cglib.proxy.Mixin;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import poolingpeople.webapplication.business.entity.EntityFactory;
@@ -26,6 +29,7 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 
 @Path("task")
 @Stateful
+//@Stateless
 @Neo4jTransaction
 //@AuthValidator
 /*
@@ -34,23 +38,20 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 public class TaskBoundary {
 
 	private final ObjectMapper mapper = new ObjectMapper();
-	
 
 	@Inject
 	private EntityFactory entityFactory;
 
-	@Inject
-	GraphDatabaseService databaseService;
-	
 	public TaskBoundary() {
-		mapper.registerModule(new MyModule());
+		mapper.registerModule(new TaskMixinModule());
 	}
 
-	public class MyModule extends SimpleModule
+	public class TaskMixinModule extends SimpleModule
 	{
-		public MyModule() {
-			super("ModuleName", new Version(0,0,1,null));
+		public TaskMixinModule() {
+			super("TaskMixin", new Version(0,0,1,null));
 		}
+		
 		@Override
 		public void setupModule(SetupContext context)
 		{
@@ -78,10 +79,6 @@ public class TaskBoundary {
 	public Response getAllTask() {
 		try {
 			
-			ObjectMapper mapper = new ObjectMapper();
-			mapper.registerModule(new MyModule());
-//			mapper.getSerializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
-			//			mapper.getDeserializationConfig().addMixInAnnotations(PersistedTask.class	, TaskMixin.class);
 			String r = mapper.writerWithView(View.SampleView.class).writeValueAsString(entityFactory.getAllTask());
 			return Response.ok().entity(r).build();
 		} catch (Exception e) {

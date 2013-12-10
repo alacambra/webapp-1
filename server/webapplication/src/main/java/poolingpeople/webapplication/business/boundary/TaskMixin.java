@@ -1,6 +1,10 @@
 package poolingpeople.webapplication.business.boundary;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonView;
+import org.neo4j.graphdb.Node;
+
 import poolingpeople.webapplication.business.entity.ITask;
 import poolingpeople.webapplication.business.entity.TaskPriority;
 import poolingpeople.webapplication.business.entity.TaskStatus;
@@ -10,6 +14,11 @@ public class TaskMixin implements ITask{
 	@Override
 	@JsonView(View.SampleView.class)
 	public String getId() {
+		return null;
+	}
+	
+	@JsonIgnore
+	public Node getNode() {
 		return null;
 	}
 
@@ -76,5 +85,33 @@ public class TaskMixin implements ITask{
 
 	@Override
 	public void setProgress(int progress) {
+	}
+
+	@Override
+	@JsonProperty(value="priority")
+	public Integer getPriorityInteger() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@JsonProperty(value="priority")
+	public void setPriorityInteger(Integer priority) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@JsonProperty(value="status")
+	public Integer getStatusInteger() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@JsonProperty(value="status")
+	public void setStatus(Integer status) {
+		// TODO Auto-generated method stub
+		
 	}
 }

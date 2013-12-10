@@ -1,6 +1,28 @@
 package poolingpeople.webapplication.business.entity;
 
 public enum TaskPriority {
-	HIGH,
-	LOW
+	LOW(1),
+	NORMAL(2),
+	HIGH(3);
+	
+	private int priorityNumber;
+	
+	private TaskPriority(int num) {
+		this.priorityNumber = num;
+	}
+	
+	public int getNumber() {
+		return priorityNumber;
+	}
+	
+	public static TaskPriority getPriority(Integer num) {
+		TaskPriority[] prios = TaskPriority.values();
+		
+		for (int i = 0; i < prios.length; i++ ){
+			if (num == prios[i].getNumber())
+				return prios[i];
+		}
+		
+		return null;
+	}
 }

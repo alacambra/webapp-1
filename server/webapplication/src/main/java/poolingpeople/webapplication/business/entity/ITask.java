@@ -1,11 +1,7 @@
 package poolingpeople.webapplication.business.entity;
 
-import org.neo4j.graphdb.Node;
-
-import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
-
 public interface ITask {
-
+	
 	String getId();
 
 	String getTitle();
@@ -20,11 +16,19 @@ public interface ITask {
 	 * @todo: Intercept nullables and return a defaulted injected value... if possible 
 	 */
 	TaskPriority getPriority();
+	
+	Integer getPriorityInteger();
+	
+	void setPriorityInteger(Integer priority);
 
 	void setPriority(TaskPriority priority);
 
 	TaskStatus getStatus();
+	
+	Integer getStatusInteger();
 
+	void setStatus(Integer status);
+	
 	void setStatus(TaskStatus status);
 
 	Long getStartDate();
@@ -40,3 +44,20 @@ public interface ITask {
 	void setProgress(int progress);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

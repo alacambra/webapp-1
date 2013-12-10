@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.RelationshipType;
 
 import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
@@ -34,7 +33,7 @@ public class PersistedTask implements ITask {
 		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), NODE_TYPE);
 
 	}
-	
+
 	/*
 	 * Needed for json serialization. It will be called bz jax-rs (jackson) and therefore no instance of manager will be availabe
 	 * Exist som jackson provider interface? 
@@ -42,7 +41,7 @@ public class PersistedTask implements ITask {
 	public PersistedTask(){
 		this(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
 	}
-	
+
 	public PersistedTask(NeoManager manager, Node node) {
 
 		String nodeType = manager.getStringProperty(node, NodesPropertiesNames.TYPE.name());
@@ -58,7 +57,7 @@ public class PersistedTask implements ITask {
 	public PoolingpeopleObjectType getNodeType() {
 		return NODE_TYPE;
 	}
-	
+
 	public Node getNode() {
 		return underlyingNode;
 	}
@@ -78,13 +77,13 @@ public class PersistedTask implements ITask {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.TITLE.name(), title);
 	}
 
-	
+
 	@Override
 	public String getDescription() {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.DESCRIPTION.name());
 	}
 
-	
+
 	@Override
 	public void setDescription(String description) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.DESCRIPTION.name(), description);
@@ -93,63 +92,71 @@ public class PersistedTask implements ITask {
 	/*
 	 * @todo: Intercept nullables and return a defaulted injected value... if possible 
 	 */
-	
+
 	@Override
 	@JsonIgnore
 	public TaskPriority getPriority() {
-		return TaskPriority.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name()));
+		try {
+			return TaskPriority.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name()));
+		} catch (NullPointerException e) {
+			return TaskPriority.LOW;
+		}
 	}
 
-	
+
 	@Override
 	public void setPriority(TaskPriority priority) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name(), priority.name());
 	}
 
-	
+
 	@Override
 	@JsonIgnore
 	public TaskStatus getStatus() {
-		return TaskStatus.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.STATUS.name()));
+		try {
+			return TaskStatus.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.STATUS.name()));
+		} catch (NullPointerException e) {
+			return TaskStatus.NEW;
+		}
 	}
 
-	
+
 	@Override
 	public void setStatus(TaskStatus status) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.STATUS.name(), status.name());
 	}
 
-	
+
 	@Override
 	public Long getStartDate() {
 		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.START_DATE.name());
 	}
 
-	
+
 	@Override
 	public void setStartDate(Long startDate) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.START_DATE.name(), startDate);
 	}
 
-	
+
 	@Override
 	public Long getEndDate() {
 		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.END_DATE.name());
 	}
 
-	
+
 	@Override
 	public void setEndDate(Long endDate) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.END_DATE.name(), endDate);
 	}
 
-	
+
 	@Override
 	public Integer getProgress() {
 		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name());
 	}
 
-	
+
 	@Override
 	public void setProgress(int progress) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name(), progress);
@@ -163,12 +170,32 @@ public class PersistedTask implements ITask {
 	public int hashCode() {
 		return underlyingNode.hashCode();
 	}
-	
+
 	public void addSubtask(ITask child) {
 		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE, ((PersistedTask) child).getNodeType());
 		manager.createRelationshipTo(underlyingNode, ((PersistedTask) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
-	
+
+	@Override
+	public Integer getPriorityInteger() {
+		return getPriority().getNumber();
+	}
+
+	@Override
+	public void setPriorityInteger(Integer priority) {
+		setPriority(TaskPriority.getPriority(priority));
+	}
+
+	@Override
+	public Integer getStatusInteger() {
+		return getStatus().getNumber();
+	}
+
+	@Override
+	public void setStatus(Integer status) {
+		setStatus(TaskStatus.getStatus(status));
+	}
+
 }
 
 
