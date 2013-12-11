@@ -28,10 +28,6 @@ import org.neo4j.kernel.impl.util.StringLogger;
 @ApplicationScoped
 public class NeoManager {
 
-	public static final String TYPE_KEY = "type"; 
-	public static final String TYPE_CAT = "CAT";
-	public static final String CAT_KEY = "cat";
-
 	@Inject
 	GraphDatabaseService graphDb;
 

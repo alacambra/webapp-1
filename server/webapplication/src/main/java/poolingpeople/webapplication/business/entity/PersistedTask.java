@@ -31,7 +31,6 @@ public class PersistedTask implements ITask {
 		this.manager = manager;
 		HashMap<String, Object> props = new HashMap<String, Object>();
 		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), NODE_TYPE);
-
 	}
 
 	/*
@@ -109,7 +108,6 @@ public class PersistedTask implements ITask {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name(), priority.name());
 	}
 
-
 	@Override
 	@JsonIgnore
 	public TaskStatus getStatus() {
@@ -119,7 +117,6 @@ public class PersistedTask implements ITask {
 			return TaskStatus.NEW;
 		}
 	}
-
 
 	@Override
 	public void setStatus(TaskStatus status) {

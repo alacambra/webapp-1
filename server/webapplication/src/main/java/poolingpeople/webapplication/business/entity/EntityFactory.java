@@ -19,8 +19,10 @@ public class EntityFactory {
 	@Inject
 	private NeoManager manager;
 
-	public EntityFactory(){
-		
+	public EntityFactory(){}
+	
+	public EntityFactory(NeoManager manager){
+		this.manager = manager;
 	}
 	
 	
