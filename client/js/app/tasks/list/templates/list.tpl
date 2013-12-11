@@ -13,6 +13,6 @@
 
 <div id="js-task-list-items"></div>
 
-<button class="btn btn-sm top-space js-create">
+<a class="btn btn-sm btn-default top-space js-create">
     <span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span> New Task
-</button>
+</a>

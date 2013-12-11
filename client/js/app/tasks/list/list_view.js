@@ -44,12 +44,14 @@ function(App, list_tpl, list_item_tpl) {
             },
 
 
-            show: function() {
+            show: function(event) {
+                event.stopPropagation();
                 this.trigger('task:show', this.model);
             },
 
 
-            edit: function() {
+            edit: function(event) {
+                event.stopPropagation();
                 this.trigger('task:edit', this.model);
             },
 
@@ -69,7 +71,8 @@ function(App, list_tpl, list_item_tpl) {
             itemViewContainer: '#js-task-list-items',
 
             events: {
-                'click .js-create': function() {
+                'click .js-create': function(event) {
+                    event.stopPropagation();
                     this.trigger('task:create');
                 }
             }

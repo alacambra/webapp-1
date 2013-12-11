@@ -5,6 +5,8 @@ function(App, View){
             list_tasks: function() {
                 var tasks = new App.Entities.TaskCollection();
 
+                tasks.add(new App.Entities.Task({ id: 1, title: 'test' }));
+
                 tasks.fetch({
                     success: function() {
                         console.log('fetch success');
@@ -33,22 +35,22 @@ function(App, View){
                 // list view handler functions
                 function create() {
                     require(['app/tasks/edit/edit_controller'], function (EditController) {
-                        var task = new App.Entities.Task();
-                        tasks.add(task); // TODO: check if this is here necessary or should be done after save
-                        EditController.edit_task(task);
+                        EditController.edit_task();
+                        App.navigate('tasks/new');
                     });
-
                 }
 
                 function show(child_view, model) {
                     require(['app/tasks/show/show_controller'], function (ShowController) {
                         ShowController.show_task(model);
+                        App.navigate('tasks/' + model.get('id'));
                     });
                 }
 
                 function edit(child_view, model) {
                     require(['app/tasks/edit/edit_controller'], function (EditController) {
                         EditController.edit_task(model);
+                        App.navigate('tasks/' + model.get('id') + '/edit');
                     });
                 }
 

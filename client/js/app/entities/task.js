@@ -1,6 +1,8 @@
 define(['app'], function(App) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         Entities.Task = Backbone.Model.extend({
+            urlRoot: 'tasks',
+
             defaults: {
                 title: null,
                 description: null,
