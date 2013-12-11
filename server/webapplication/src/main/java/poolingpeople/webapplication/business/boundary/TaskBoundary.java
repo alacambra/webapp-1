@@ -1,9 +1,7 @@
 package poolingpeople.webapplication.business.boundary;
 
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.swing.text.StyledEditorKit.ItalicAction;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -17,8 +15,6 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
-import org.mockito.cglib.proxy.Mixin;
-import org.neo4j.graphdb.GraphDatabaseService;
 
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.entity.ITask;
@@ -29,12 +25,10 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 
 @Path("task")
 @Stateful
+//@RequestScoped
 //@Stateless
 @Neo4jTransaction
 //@AuthValidator
-/*
- * What is a @managedBean, @Stateful Why they van not be together?
- */
 public class TaskBoundary {
 
 	private final ObjectMapper mapper = new ObjectMapper();
@@ -92,6 +86,24 @@ public class TaskBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveTask(String json) {
+
+		try {
+
+			ITask persistedTask = mapper.readValue(json, PersistedTask.class);
+			String r = mapper.writeValueAsString(persistedTask);
+			return Response.ok().entity(r).build();
+
+		}catch(Throwable e) {
+			System.err.println(e);
+			throw new WebApplicationException(e);
+		}
+	}
+	
+	@PUT
+	@Path("{id:[\\w\\d-]+}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateTask(String json) {
 
 		try {
 

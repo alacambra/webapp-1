@@ -3,6 +3,7 @@ package poolingpeople.webapplication.business.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -13,7 +14,7 @@ import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 
 @ApplicationScoped
-public class EntityFactory {
+public class EntityFactory { 
 	
 	@Inject
 	private NeoManager manager;
@@ -21,6 +22,7 @@ public class EntityFactory {
 	public EntityFactory(){
 		
 	}
+	
 	
 //	@Inject
 //	public EntityFactory(NeoManager manager){

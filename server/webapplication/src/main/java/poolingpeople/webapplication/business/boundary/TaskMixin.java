@@ -8,6 +8,7 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.entity.ITask;
 import poolingpeople.webapplication.business.entity.TaskPriority;
 import poolingpeople.webapplication.business.entity.TaskStatus;
+import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 
 public class TaskMixin implements ITask{
 
@@ -19,6 +20,11 @@ public class TaskMixin implements ITask{
 	
 	@JsonIgnore
 	public Node getNode() {
+		return null;
+	}
+	
+	@JsonIgnore
+	public PoolingpeopleObjectType getNodeType() {
 		return null;
 	}
 
