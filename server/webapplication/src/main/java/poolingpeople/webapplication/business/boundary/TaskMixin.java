@@ -13,7 +13,7 @@ import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 public class TaskMixin implements ITask{
 
 	@Override
-	@JsonView(View.SampleView.class)
+//	@JsonView(View.SampleView.class)
 	public String getId() {
 		return null;
 	}
@@ -29,7 +29,7 @@ public class TaskMixin implements ITask{
 	}
 
 	@Override
-	@JsonView(View.NoSend.class)
+//	@JsonView(View.NoSend.class)
 	public String getTitle() {
 		return null;
 	}

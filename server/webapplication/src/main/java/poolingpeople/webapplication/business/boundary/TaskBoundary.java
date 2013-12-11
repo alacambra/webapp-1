@@ -16,9 +16,11 @@ import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
 
+import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.entity.ITask;
 import poolingpeople.webapplication.business.entity.PersistedTask;
+import poolingpeople.webapplication.business.entity.TaskDTO;
 import poolingpeople.webapplication.business.entity.TaskPriority;
 import poolingpeople.webapplication.business.entity.TaskStatus;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
@@ -35,9 +37,18 @@ public class TaskBoundary {
 
 	@Inject
 	private EntityFactory entityFactory;
+	
+	@Inject 
+	private DTOConverter dtoConverter;
 
 	public TaskBoundary() {
 		mapper.registerModule(new TaskMixinModule());
+	}
+	
+	public TaskBoundary(EntityFactory entityFactory, DTOConverter dtoConverter) {
+		this();
+		this.entityFactory = entityFactory;
+		this.dtoConverter = dtoConverter;
 	}
 
 	public class TaskMixinModule extends SimpleModule
@@ -107,8 +118,9 @@ public class TaskBoundary {
 
 		try {
 
-			ITask persistedTask = mapper.readValue(json, PersistedTask.class);
-			String r = mapper.writeValueAsString(persistedTask);
+			ITask dtoTask = mapper.readValue(json, TaskDTO.class);
+			ITask task = dtoConverter.fromDTOtoPersitedBean(dtoTask, entityFactory.createTask());
+			String r = mapper.writeValueAsString(task);
 			return Response.ok().entity(r).build();
 
 		}catch(Throwable e) {
