@@ -43,10 +43,20 @@ function(App, edit_tpl) {
 
             onSaveSuccessful: function() {
                 setTimeout(function() {
-                    $('#js-task-form-save').fadeOut(300, function() {
+                    $('#js-task-save-inidcator').fadeOut(300, function() {
                         $('.js-submit').removeClass('disabled')
                     });
                 }, 100);
+            },
+
+
+            onSaveError: function() {
+                setTimeout(function() {
+                    $('#js-task-save-inidcator').fadeOut(300, function() {
+                        $('.js-submit').removeClass('disabled')
+                    });
+                }, 100);
+                console.log('save error');
             },
 
 
@@ -54,7 +64,7 @@ function(App, edit_tpl) {
                 e.preventDefault();
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', data);
-                this.$('#js-task-form-save').fadeIn(300);
+                this.$('#js-task-save-inidcator').fadeIn(300);
                 this.$('.js-submit').addClass('disabled');
             }
         });

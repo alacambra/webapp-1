@@ -66,7 +66,13 @@ function(App, list_tpl, list_item_tpl) {
             id: 'tasks',
             template: list_tpl,
             itemView: List.Task,
-            itemViewContainer: '#js-task-list-items'
+            itemViewContainer: '#js-task-list-items',
+
+            events: {
+                'click .js-create': function() {
+                    this.trigger('task:create');
+                }
+            }
         })
     });
 

@@ -40,17 +40,17 @@
     </div>
 
     <div class="form-group">
-        <input type="text" name="duration" value="<%= duration %>" placeholder="duration" class="form-control">
+        <input type="text" name="duration" value="<%= duration %>" placeholder="Duration" class="form-control">
     </div>
 
     <div class="form-group">
         <input type="text" class="form-control" name="progress" value="<%= progress %>" placeholder="Progress" class="form-control">
     </div>
 
-    <button class="btn js-submit">
-        <span class="glyphicon glyphicon-send" style="margin-right: 10px"></span> Save
+    <button class="btn btn-sm js-submit">
+        <span class="glyphicon glyphicon-ok" style="margin-right: 5px"></span> Save
     </button>
 
-    <img id="js-task-form-save" src="img/load_indicator.gif" style="margin-left: 10px; display: none;">
+    <img id="js-task-save-inidcator" src="img/load_indicator.gif" style="margin-left: 10px; display: none;">
 </form>
 

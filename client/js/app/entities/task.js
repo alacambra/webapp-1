@@ -19,7 +19,7 @@ define(['app'], function(App) {
                     errors.title = 'can\'t be blank';
                 }
 
-                if (attrs.end > attrs.start) {
+                if (attrs.end < attrs.start) {
                     errors.end = 'must be later than start';
                 }
 
@@ -32,6 +32,7 @@ define(['app'], function(App) {
 
         Entities.TaskCollection = Backbone.Collection.extend({
             model: Entities.Task,
+            url: '/tasks',
             comparator: 'priority'
         });
 

@@ -12,9 +12,11 @@ function (App, Task, View) {
 
 
                 edit_view.on('form:submit', function(data) {
-                    console.log(data);
-                    //task.save(data);
-                    edit_view.triggerMethod('save:successful');
+                    if (task.save(data)) {
+                        edit_view.triggerMethod('save:successful');
+                    } else {
+                        edit_view.triggerMethod('save:error');
+                    }
                 })
             }
         }

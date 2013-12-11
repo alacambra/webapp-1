@@ -3,38 +3,16 @@ function(App, View){
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _){
         List.Controller = {
             list_tasks: function() {
-                var tasks = new App.Entities.TaskCollection([
-                    new App.Entities.Task({
-                        title: 'foo',
-                        description: 'lorem ipsum',
-                        status: 3,
-                        priority: 2,
-                        start: 1386720000,
-                        end: 1386892800,
-                        duration: 120,
-                        progress: 0.5
-                    }),
-                    new App.Entities.Task({
-                        title: 'bar',
-                        description: '',
-                        status: 2,
-                        priority: 1,
-                        start: 1386547200,
-                        end: 1387670400,
-                        duration: 75,
-                        progress: 0.2
-                    }),
-                    new App.Entities.Task({
-                        title: 'Hurz',
-                        description: 'bli bla blub',
-                        status: 0,
-                        priority: null,
-                        start: 1388534400,
-                        end: 1392508800,
-                        duration: 1600,
-                        progress: 0
-                    })
-                ]);
+                var tasks = new App.Entities.TaskCollection();
+
+                tasks.fetch({
+                    success: function() {
+                        console.log('fetch success');
+                    },
+                    error: function() {
+                        console.log('fetch error');
+                    }
+                });
 
 
                 var list_view = new List.Tasks({
@@ -46,12 +24,22 @@ function(App, View){
 
 
                 // list view handlers
+                list_view.on('task:create', create);
                 list_view.on('itemview:task:show', show);
                 list_view.on('itemview:task:edit', edit);
                 list_view.on('itemview:task:delete', destroy);
 
 
                 // list view handler functions
+                function create() {
+                    require(['app/tasks/edit/edit_controller'], function (EditController) {
+                        var task = new App.Entities.Task();
+                        tasks.add(task); // TODO: check if this is here necessary or should be done after save
+                        EditController.edit_task(task);
+                    });
+
+                }
+
                 function show(child_view, model) {
                     require(['app/tasks/show/show_controller'], function (ShowController) {
                         ShowController.show_task(model);
@@ -65,8 +53,7 @@ function(App, View){
                 }
 
                 function destroy(child_view, model) {
-                    tasks.remove(model);
-                    //model.destroy();
+                    model.destroy();
                 }
             }
         }
