@@ -2,7 +2,7 @@ define(['app',
         'tpl!app/tasks/show/templates/show.tpl'],
 function(App, show_tpl) {
     App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
-        Show.Task = Marionette.ItemView.extend({
+        Show.View = Marionette.ItemView.extend({
             template: show_tpl,
 
 

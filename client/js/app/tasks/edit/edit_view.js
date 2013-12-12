@@ -3,7 +3,7 @@ define(['app',
         'backbone_syphon'],
 function(App, edit_tpl) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
-        Edit.Task = Marionette.ItemView.extend({
+        Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
 
 

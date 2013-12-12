@@ -3,16 +3,18 @@ function (App, Task, View) {
     App.module('Tasks.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             show_task: function (task_id) {
-                var task = new App.Entities.Task({ id: task_id });
-                task.fetch({
-                    success: function() {
-                        var show_view = new Show.Task({
+                var fetching_task = App.request('task:entity', task_id);
+                $.when(fetching_task).done(function(task) {
+                    var view;
+                    if (task !== undefined) {
+                        view = new Show.View({
                             model: task
                         });
-
-
-                        App.main_region.show(show_view);
+                    } else {
+                        console.log('task not found');
                     }
+
+                    App.main_region.show(view);
                 });
             }
         }

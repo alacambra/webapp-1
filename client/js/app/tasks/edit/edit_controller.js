@@ -3,29 +3,26 @@ function (App, Task, View) {
     App.module('Tasks.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             edit_task: function (task_id) {
-                var task = new App.Entities.Task({ id: task_id });
-                task.fetch({
-                    success: function() {
-                        if (task === undefined) {
-                            task = new App.Entities.Task();
-                            console.log('new');
-                        }
-
-                        var edit_view = new Edit.Task({
+                var fetching_task = App.request('task:entity', task_id);
+                $.when(fetching_task).done(function(task) {
+                    var view;
+                    if (task !== undefined) {
+                        view = new Edit.View({
                             model: task
                         });
 
-
-                        App.main_region.show(edit_view);
-
-                        edit_view.on('form:submit', function(data) {
+                        view.on('form:submit', function(data) {
                             if (task.save(data)) {
-                                edit_view.triggerMethod('save:successful');
+                                view.triggerMethod('save:successful');
                             } else {
-                                edit_view.triggerMethod('save:error');
+                                view.triggerMethod('save:error');
                             }
-                        })
+                        });
+                    } else {
+                        console.log('task not found');
                     }
+
+                    App.main_region.show(view);
                 });
             }
         }
