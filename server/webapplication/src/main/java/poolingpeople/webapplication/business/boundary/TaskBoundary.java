@@ -45,11 +45,11 @@ public class TaskBoundary {
 	private Logger logger = Logger.getLogger(this.getClass());
 	private final ObjectMapper mapper = new ObjectMapper();
 
-	//	@Inject
+	@Inject
 	private EntityFactory entityFactory;
 
-	//	@Inject 
-	private DTOConverter dtoConverter = new DTOConverter();
+	@Inject 
+	private DTOConverter dtoConverter;
 
 	public TaskBoundary() {
 		entityFactory = new EntityFactory(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
@@ -118,14 +118,13 @@ public class TaskBoundary {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
 	public Response saveTask(String json) {
 
 		try {
 
 			ITask persistedTask = mapper.readValue(json, PersistedTask.class);
-			String r = mapper.writeValueAsString(persistedTask);
-			return Response.ok().entity(r).build();
+			return Response.ok().entity(persistedTask.getId()).build();
 
 		} catch (JsonGenerationException e) {
 			throw new WebApplicationException(e, 
@@ -191,25 +190,23 @@ public class TaskBoundary {
 	@Path("fakeit")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response fakeTask() {
-		throw new WebApplicationException( 
-				Response.status(Status.NOT_FOUND).entity("lalalala").build());
-//		try {
-//
-//			ITask persistedTask = entityFactory.createTask();
-//			persistedTask.setDescription("desc");
-//			persistedTask.setEndDate(1L);
-//			persistedTask.setStartDate(2L);
-//			persistedTask.setPriority(TaskPriority.HIGH);
-//			persistedTask.setProgress((float) 0.25);
-//			persistedTask.setTitle("title");
-//			persistedTask.setDuration(34);
-//			persistedTask.setStatus(TaskStatus.ARCHIVED);
-//			String r = mapper.writeValueAsString(persistedTask);
-//			return Response.ok().entity(r).build();
-//
-//		}catch(Throwable e) {
-//			logger.error("", e);
-//			throw new WebApplicationException(e);
-//		}
+				try {
+		
+					ITask persistedTask = entityFactory.createTask();
+					persistedTask.setDescription("desc");
+					persistedTask.setEndDate(1L);
+					persistedTask.setStartDate(2L);
+					persistedTask.setPriority(TaskPriority.HIGH);
+					persistedTask.setProgress((float) 0.25);
+					persistedTask.setTitle("title");
+					persistedTask.setDuration(34);
+					persistedTask.setStatus(TaskStatus.ARCHIVED);
+					String r = mapper.writeValueAsString(persistedTask);
+					return Response.ok().entity(r).build();
+		
+				}catch(Throwable e) {
+					logger.error("", e);
+					throw new WebApplicationException(e);
+				}
 	}
 }
