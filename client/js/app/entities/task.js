@@ -2,14 +2,15 @@ define(['app'], function(App) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         Entities.Task = Backbone.Model.extend({
             urlRoot: '/api/tasks',
+            //urlRoot: '/api/webapplication/rest/task',
 
             defaults: {
                 title: null,
                 description: null,
                 status: null,
                 priority: null,
-                start: null,
-                end: null,
+                startDate: null,
+                endDate: null,
                 duration: null,
                 progress: null
             },
@@ -21,9 +22,9 @@ define(['app'], function(App) {
                     errors.title = 'can\'t be blank';
                 }
 
-                if (attrs.end < attrs.start) {
-                    errors.start = 'must be earlier than end';
-                    errors.end = 'must be later than start';
+                if (attrs.endDate < attrs.startDate) {
+                    errors.startDate = 'must be earlier than end';
+                    errors.endDate = 'must be later than start';
                 }
 
                 if (!_.isEmpty(errors)) {
@@ -36,6 +37,7 @@ define(['app'], function(App) {
         Entities.TaskCollection = Backbone.Collection.extend({
             model: Entities.Task,
             url: '/api/tasks',
+            //url: '/api/webapplication/rest/task',
             comparator: 'priority'
         });
 

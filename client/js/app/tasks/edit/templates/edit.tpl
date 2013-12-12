@@ -32,11 +32,11 @@
     </div>
 
     <div class="form-group">
-        <input type="text" name="start" value="<%= start %>" placeholder="Start date" class="form-control">
+        <input type="text" name="startDate" value="<%= startDate %>" placeholder="Start date" class="form-control">
     </div>
 
     <div class="form-group">
-        <input type="text" name="end" value="<%= end %>" placeholder="End date" class="form-control">
+        <input type="text" name="endDate" value="<%= endDate %>" placeholder="End date" class="form-control">
     </div>
 
     <div class="form-group">
