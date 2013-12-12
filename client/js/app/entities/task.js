@@ -7,7 +7,8 @@ define(['app'], function(App) {
 
         var base_url = base_urls[document.location.host.substr(0,3)];
 
-        Entities.View = Backbone.Model.extend({
+
+        Entities.Task = Backbone.Model.extend({
             urlRoot: base_url,
 
             defaults: {
@@ -41,18 +42,18 @@ define(['app'], function(App) {
 
 
         Entities.TaskCollection = Backbone.Collection.extend({
-            model: Entities.View,
+            model: Entities.Task,
             url: base_url,
             comparator: 'priority'
         });
 
 
         var API = {
-            get_task_entities: function(){
+            get_task_entities: function() {
                 var tasks = new Entities.TaskCollection();
                 var defer = $.Deferred();
                 tasks.fetch({
-                    success: function(data){
+                    success: function(data) {
                         defer.resolve(data);
                     },
                     error: function(data) {
@@ -62,17 +63,22 @@ define(['app'], function(App) {
                 return defer.promise();
             },
 
-            get_task_entity: function(task_id){
-                var contact = new Entities.View({id: task_id});
+            get_task_entity: function(task_id) {
+                var task = new Entities.Task({ id: task_id });
                 var defer = $.Deferred();
-                contact.fetch({
-                    success: function(data){
-                        defer.resolve(data);
-                    },
-                    error: function(data){
-                        defer.resolve(undefined);
-                    }
-                });
+
+                if (task_id !== undefined) {
+                    task.fetch({
+                        success: function(data) {
+                            defer.resolve(data);
+                        },
+                        error: function(data) {
+                            defer.resolve(undefined);
+                        }
+                    });
+                } else {
+                    defer.resolve(task);
+                }
                 return defer.promise();
             }
         };

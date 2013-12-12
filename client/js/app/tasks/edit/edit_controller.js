@@ -12,10 +12,17 @@ function (App, Task, View) {
                         });
 
                         view.on('form:submit', function(data) {
-                            if (task.save(data)) {
-                                view.triggerMethod('save:successful');
+                            if (task.save(data, {
+                                success: function() {
+                                    console.log('success'); // save completed
+                                },
+                                error: function() {
+                                    console.log('error'); // save failed
+                                }
+                            })) {
+                                view.triggerMethod('save:successful'); // validation passed
                             } else {
-                                view.triggerMethod('save:error');
+                                view.triggerMethod('save:error'); // validation failed
                             }
                         });
                     } else {
