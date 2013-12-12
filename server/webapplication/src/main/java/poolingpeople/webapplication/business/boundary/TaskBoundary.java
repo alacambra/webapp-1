@@ -191,24 +191,25 @@ public class TaskBoundary {
 	@Path("fakeit")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response fakeTask() {
-
-		try {
-
-			ITask persistedTask = entityFactory.createTask();
-			persistedTask.setDescription("desc");
-			persistedTask.setEndDate(1L);
-			persistedTask.setStartDate(2L);
-			persistedTask.setPriority(TaskPriority.HIGH);
-			persistedTask.setProgress((float) 0.25);
-			persistedTask.setTitle("title");
-			persistedTask.setDuration(34);
-			persistedTask.setStatus(TaskStatus.ARCHIVED);
-			String r = mapper.writeValueAsString(persistedTask);
-			return Response.ok().entity(r).build();
-
-		}catch(Throwable e) {
-			logger.error("", e);
-			throw new WebApplicationException(e);
-		}
+		throw new WebApplicationException( 
+				Response.status(Status.NOT_FOUND).entity("lalalala").build());
+//		try {
+//
+//			ITask persistedTask = entityFactory.createTask();
+//			persistedTask.setDescription("desc");
+//			persistedTask.setEndDate(1L);
+//			persistedTask.setStartDate(2L);
+//			persistedTask.setPriority(TaskPriority.HIGH);
+//			persistedTask.setProgress((float) 0.25);
+//			persistedTask.setTitle("title");
+//			persistedTask.setDuration(34);
+//			persistedTask.setStatus(TaskStatus.ARCHIVED);
+//			String r = mapper.writeValueAsString(persistedTask);
+//			return Response.ok().entity(r).build();
+//
+//		}catch(Throwable e) {
+//			logger.error("", e);
+//			throw new WebApplicationException(e);
+//		}
 	}
 }

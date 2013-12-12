@@ -78,12 +78,13 @@ public class NeoManager {
 		return indexHits;
 	}
 
-	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) throws NodeExistsException {
+	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
+			throws NodeExistsException {
 
 		Node node = null;
 
 		if (uniqueNodeExist(indexContainer))
-			throw new RuntimeException("Node " + indexContainer.getValue() + " already exists and can not be created again");
+			throw new NodeExistsException("Node " + indexContainer.getValue() + " already exists and can not be created again");
 
 
 		node = graphDb.createNode();

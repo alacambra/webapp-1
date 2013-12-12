@@ -57,7 +57,7 @@ public class NeoManagerTest {
 		assertFalse(target.uniqueNodeExist(container));
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test(expected = NodeExistsException.class)
 	public void testNodeExistException() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
@@ -99,7 +99,7 @@ public class NeoManagerTest {
 
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test(expected = NodeExistsException.class)
 	public void testCreateNodeException() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		target.createNode(new HashMap<String,Object>(), container, PoolingpeopleObjectType.TASK);
