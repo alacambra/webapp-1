@@ -5,8 +5,6 @@ function(App, View){
             list_tasks: function() {
                 var tasks = new App.Entities.TaskCollection();
 
-                tasks.add(new App.Entities.Task({ id: 1, title: 'test' }));
-
                 tasks.fetch({
                     success: function() {
                         console.log('fetch success');
@@ -40,17 +38,17 @@ function(App, View){
                     });
                 }
 
-                function show(child_view, model) {
+                function show(child_view, model_id) {
                     require(['app/tasks/show/show_controller'], function (ShowController) {
-                        ShowController.show_task(model);
-                        App.navigate('tasks/' + model.get('id'));
+                        ShowController.show_task(model_id);
+                        App.navigate('tasks/' + model_id);
                     });
                 }
 
-                function edit(child_view, model) {
+                function edit(child_view, model_id) {
                     require(['app/tasks/edit/edit_controller'], function (EditController) {
-                        EditController.edit_task(model);
-                        App.navigate('tasks/' + model.get('id') + '/edit');
+                        EditController.edit_task(model_id);
+                        App.navigate('tasks/' + model_id + '/edit');
                     });
                 }
 

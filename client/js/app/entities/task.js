@@ -1,7 +1,7 @@
 define(['app'], function(App) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         Entities.Task = Backbone.Model.extend({
-            urlRoot: 'tasks',
+            urlRoot: '/api/tasks',
 
             defaults: {
                 title: null,
@@ -22,6 +22,7 @@ define(['app'], function(App) {
                 }
 
                 if (attrs.end < attrs.start) {
+                    errors.start = 'must be earlier than end';
                     errors.end = 'must be later than start';
                 }
 
@@ -34,7 +35,7 @@ define(['app'], function(App) {
 
         Entities.TaskCollection = Backbone.Collection.extend({
             model: Entities.Task,
-            url: '/tasks',
+            url: '/api/tasks',
             comparator: 'priority'
         });
 

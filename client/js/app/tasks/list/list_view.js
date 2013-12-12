@@ -46,13 +46,13 @@ function(App, list_tpl, list_item_tpl) {
 
             show: function(event) {
                 event.stopPropagation();
-                this.trigger('task:show', this.model);
+                this.trigger('task:show', this.model.get('id'));
             },
 
 
             edit: function(event) {
                 event.stopPropagation();
-                this.trigger('task:edit', this.model);
+                this.trigger('task:edit', this.model.get('id'));
             },
 
 
