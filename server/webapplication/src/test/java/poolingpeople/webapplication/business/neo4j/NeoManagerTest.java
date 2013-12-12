@@ -44,29 +44,29 @@ public class NeoManagerTest {
 	}
 
 	@Test
-	public void testNodeExistTrue() {
+	public void testNodeExistTrue() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
-		assertTrue(target.nodeExist(container));
+		assertTrue(target.uniqueNodeExist(container));
 	}
 
 	@Test
-	public void testNodeExistFalse() {
+	public void testNodeExistFalse() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(new UUIDIndexContainer(UUID.randomUUID().toString()));
-		assertFalse(target.nodeExist(container));
+		assertFalse(target.uniqueNodeExist(container));
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testNodeExistException() {
+	public void testNodeExistException() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
 		helper.addNode(container);
-		target.nodeExist(container);
+		target.uniqueNodeExist(container);
 	}
 
 	@Test
-	public void testGetUniqueNode() {
+	public void testGetUniqueNode() throws NotUniqueException, NodeNotFoundException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
 		assertNotNull(target.getUniqueNode(container));
@@ -88,7 +88,7 @@ public class NeoManagerTest {
 	}
 
 	@Test
-	public void testCreateNode() {
+	public void testCreateNode() throws NotUniqueException, NodeExistsException, NodeNotFoundException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		HashMap<String, Object> properties = new HashMap<>();
 		properties.put("key", "value");
@@ -100,7 +100,7 @@ public class NeoManagerTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testCreateNodeException() {
+	public void testCreateNodeException() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		target.createNode(new HashMap<String,Object>(), container, PoolingpeopleObjectType.TASK);
 		target.createNode(new HashMap<String,Object>(), container, PoolingpeopleObjectType.TASK);

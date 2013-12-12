@@ -39,9 +39,14 @@ public interface ITask {
 
 	void setEndDate(Long endDate);
 
-	Integer getProgress();
+	Float getProgress();
 
-	void setProgress(int progress);
+	void setProgress(Float progress);
+	
+	Integer getDuration();
+	void setDuration(Integer duration); 
+	
+	
 
 }
 

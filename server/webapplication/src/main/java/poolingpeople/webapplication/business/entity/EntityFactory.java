@@ -11,7 +11,11 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
+import poolingpeople.webapplication.business.neo4j.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
+import scala.annotation.meta.getter;
 
 @ApplicationScoped
 public class EntityFactory { 
@@ -25,17 +29,21 @@ public class EntityFactory {
 		this.manager = manager;
 	}
 	
+	public void deleteTask(String uuid) throws NotUniqueException, NodeNotFoundException {
+		manager.removeNode(getTask(uuid).getNode());
+	}
+	
 	
 //	@Inject
 //	public EntityFactory(NeoManager manager){
 //		this.manager = manager;
 //	}
 
-	public PersistedTask getTask(String uuid) {
+	public PersistedTask getTask(String uuid) throws NotUniqueException, NodeNotFoundException {
 		return new PersistedTask(manager, uuid);
 	}
 	
-	public PersistedTask createTask() {
+	public PersistedTask createTask() throws NodeExistsException {
 		return new PersistedTask(manager);
 	}
 

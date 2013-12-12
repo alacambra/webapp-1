@@ -28,7 +28,7 @@ public class TransactionInterceptor {
 			tx.failure();
 			throw e;
 		} finally {
-			tx.finish();
+			tx.close();
 		}
 	}
 }

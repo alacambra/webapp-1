@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.test.TestGraphDatabaseFactory;
-import org.parboiled.common.FileUtils;
 
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
@@ -26,13 +25,13 @@ public class TaskBoundaryTest {
 	private GraphDatabaseService graphDb;
 	private Transaction currentTx;
 	EntityFactory entityFactory;
-	TaskHelper taskHelper;
+//	TaskHelper taskHelper;
 
 	@Before
 	public void setUp() throws Exception {
 		graphDb = new TestGraphDatabaseFactory().newImpermanentDatabase();
 		entityFactory = new EntityFactory(new NeoManager(graphDb));
-		taskHelper = new TaskHelper(graphDb);
+//		taskHelper = new TaskHelper(graphDb);
 		target = new TaskBoundary(entityFactory ,new DTOConverter());
 		currentTx = graphDb.beginTx();
 	}
@@ -50,12 +49,12 @@ public class TaskBoundaryTest {
 		
 		target = new TaskBoundary(entityFactory ,new DTOConverter());
 		
-		taskHelper.addTask(loadJson("individualTask-gettest.json"));
+//		taskHelper.addTask(loadJson("individualTask-gettest.json"));
 		
 		Response response = target.getTask("28b6e993-0200-458f-a736-239a8e7f1d72");
 		//		assertEquals(response.getStatus(), Status.OK);
-		String expected = loadJson("individualTask-gettest.json");
-		System.out.println(expected);
+//		String expected = loadJson("individualTask-gettest.json");
+//		System.out.println(expected);
 		//		JSONAssert.assertEquals(expected, actual, strict);
 	}
 
@@ -79,11 +78,11 @@ public class TaskBoundaryTest {
 		fail("Not yet implemented");
 	}
 
-	private String loadJson(String jsonFile) {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input = classLoader.getResourceAsStream(this.getClass().getPackage().getName().replace(".", "/") + "/" + jsonFile);
-		return FileUtils.readAllText(input);
-	}
+//	private String loadJson(String jsonFile) {
+//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//		InputStream input = classLoader.getResourceAsStream(this.getClass().getPackage().getName().replace(".", "/") + "/" + jsonFile);
+//		return FileUtils.readAllText(input);
+//	}
 }
 
 

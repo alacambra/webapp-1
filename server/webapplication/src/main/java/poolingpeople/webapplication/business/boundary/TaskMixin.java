@@ -85,12 +85,12 @@ public class TaskMixin implements ITask{
 	}
 
 	@Override
-	public Integer getProgress() {
+	public Float getProgress() {
 		return null;
 	}
 
 	@Override
-	public void setProgress(int progress) {
+	public void setProgress(Float progress) {
 	}
 
 	@Override
@@ -117,6 +117,18 @@ public class TaskMixin implements ITask{
 	@Override
 	@JsonProperty(value="status")
 	public void setStatus(Integer status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Integer getDuration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDuration(Integer duration) {
 		// TODO Auto-generated method stub
 		
 	}

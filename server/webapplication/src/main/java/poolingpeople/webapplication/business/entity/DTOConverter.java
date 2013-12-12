@@ -1,6 +1,5 @@
 package poolingpeople.webapplication.business.entity;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.ejb.Stateless;
@@ -14,6 +13,10 @@ public class DTOConverter {
 		
 		for(int i = 0; i < methods.length; i++) {
 			Method dtoMethod = methods[i];
+			if(dtoMethod.isAnnotationPresent(IgnoreAttribute.class)) {
+				continue;
+			}
+			
 			Method beanMethod = getSetterMethod(dtoMethod.getName(), dtoMethod.getReturnType(), bean);
 			
 			if(beanMethod == null){
@@ -21,10 +24,14 @@ public class DTOConverter {
 			}
 			
 			try {
+				
+				if ( dtoMethod.invoke(dto) == null )
+					continue;
+				
 				beanMethod.invoke(bean, dtoMethod.invoke(dto));
-			} catch (IllegalAccessException e) {
-			} catch (IllegalArgumentException e) {
-			} catch (InvocationTargetException e) {
+				
+			} catch (Exception e) {
+				throw new RuntimeException("error for method " + dtoMethod.getName() + "|" + beanMethod.getName() + ":" + e.getMessage());
 			}
 			
 		}

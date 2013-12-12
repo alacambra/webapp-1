@@ -12,7 +12,8 @@ public class TaskDTO implements ITask {
 	private int status;
 	private Long startDate;
 	private Long endDate;
-	private int progress;
+	private Float progress;
+	private Integer duration;
 	
 	@IgnoreAttribute
 	public String getId() {
@@ -45,7 +46,7 @@ public class TaskDTO implements ITask {
 		return endDate;
 	}
 
-	public Integer getProgress() {
+	public Float getProgress() {
 		return progress;
 	}
 
@@ -75,7 +76,7 @@ public class TaskDTO implements ITask {
 		this.endDate = endDate;
 	}
 
-	public void setProgress(int progress) {
+	public void setProgress(Float progress) {
 		this.progress = progress;
 	}
 	
@@ -101,6 +102,16 @@ public class TaskDTO implements ITask {
 	@JsonProperty(value="status")
 	public void setStatus(Integer status) {
 		
+	}
+
+	@Override
+	public Integer getDuration() {
+		return duration;
+	}
+
+	@Override
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 	
 	

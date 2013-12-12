@@ -8,7 +8,10 @@ import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
+import poolingpeople.webapplication.business.neo4j.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
+import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
@@ -20,14 +23,14 @@ public class PersistedTask implements ITask {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 
-	public PersistedTask(NeoManager manager, String id){
+	public PersistedTask(NeoManager manager, String id) throws NotUniqueException, NodeNotFoundException{
 
 		this.manager = manager;
 		underlyingNode = manager.getUniqueNode(new UUIDIndexContainer(id));
 
 	}
 
-	public PersistedTask(NeoManager manager){
+	public PersistedTask(NeoManager manager) throws NodeExistsException{
 		this.manager = manager;
 		HashMap<String, Object> props = new HashMap<String, Object>();
 		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), NODE_TYPE);
@@ -37,7 +40,7 @@ public class PersistedTask implements ITask {
 	 * Needed for json serialization. It will be called bz jax-rs (jackson) and therefore no instance of manager will be availabe
 	 * Exist som jackson provider interface? 
 	 */
-	public PersistedTask(){
+	public PersistedTask() throws NodeExistsException{
 		this(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
 	}
 
@@ -149,13 +152,13 @@ public class PersistedTask implements ITask {
 
 
 	@Override
-	public Integer getProgress() {
-		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name());
+	public Float getProgress() {
+		return manager.getFloatProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name());
 	}
 
 
 	@Override
-	public void setProgress(int progress) {
+	public void setProgress(Float progress) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name(), progress);
 	}
 
@@ -191,6 +194,16 @@ public class PersistedTask implements ITask {
 	@Override
 	public void setStatus(Integer status) {
 		setStatus(TaskStatus.getStatus(status));
+	}
+
+	@Override
+	public Integer getDuration() {
+		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.DURATION.name());
+	}
+
+	@Override
+	public void setDuration(Integer duration) {
+		manager.setProperty(underlyingNode, NodesPropertiesNames.DURATION.name(), duration);
 	}
 
 }

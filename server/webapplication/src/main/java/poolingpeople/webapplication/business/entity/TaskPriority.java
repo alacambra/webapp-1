@@ -1,9 +1,9 @@
 package poolingpeople.webapplication.business.entity;
 
 public enum TaskPriority {
-	LOW(1),
-	NORMAL(2),
-	HIGH(3);
+	LOW(0),
+	NORMAL(1),
+	HIGH(2);
 	
 	private int priorityNumber;
 	
@@ -23,6 +23,20 @@ public enum TaskPriority {
 				return prios[i];
 		}
 		
-		return null;
+		throw new RuntimeException("valuue not found");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

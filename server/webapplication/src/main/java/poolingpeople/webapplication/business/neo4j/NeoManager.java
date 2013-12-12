@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -19,7 +18,6 @@ import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
@@ -32,15 +30,15 @@ public class NeoManager {
 	GraphDatabaseService graphDb;
 
 	public static final String FOUND = "found";
-	
+
 	protected NeoManager(){}
-	
+
 	public NeoManager(GraphDatabaseService graphDb){
 		this.graphDb = graphDb;
 	}
-	
 
-	public boolean nodeExist(IndexContainer indexContainer){
+
+	public boolean uniqueNodeExist(IndexContainer indexContainer) throws NodeExistsException{
 
 		IndexHits<Node> indexHits = graphDb.index()
 				.forNodes( indexContainer.getType() ).get( indexContainer.getKey(), indexContainer.getValue());
@@ -49,21 +47,23 @@ public class NeoManager {
 			indexHits.close();
 			return true;
 		} else if ( indexHits != null && indexHits.size() > 1 ) {
-			throw new RuntimeException("More than one node exists");
+			throw new NodeExistsException();
 		}
 
 		return false;
 	}
 
 
-	public Node getUniqueNode( UUIDIndexContainer indexContainer) {
+	public Node getUniqueNode( UUIDIndexContainer indexContainer) throws NotUniqueException, NodeNotFoundException {
 
 		IndexHits<Node> indexHits = this.getNodes(indexContainer);
-		
+
 		if ( indexHits.size() > 1 ) {
-			throw new RuntimeException("Node is not unique");
+			throw new NotUniqueException();
+			//			throw new RuntimeException("Node is not unique");	
 		} else if ( indexHits.size() == 0 ) {
-			throw new RuntimeException("Node not found");
+			throw new NodeNotFoundException();
+			//			throw new RuntimeException("Node not found");
 		} else {
 			return indexHits.getSingle();
 		}
@@ -78,11 +78,11 @@ public class NeoManager {
 		return indexHits;
 	}
 
-	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) {
+	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) throws NodeExistsException {
 
 		Node node = null;
 
-		if (nodeExist(indexContainer))
+		if (uniqueNodeExist(indexContainer))
 			throw new RuntimeException("Node " + indexContainer.getValue() + " already exists and can not be created again");
 
 
@@ -136,13 +136,7 @@ public class NeoManager {
 	public Object getProperty(Node node, String key) {
 
 		Object prop = null;
-
-		try {
-			prop = node.getProperty(key);
-		} catch ( NotFoundException e ) {
-			//			log.debug("property " + key + " not found");
-		}
-
+		prop = node.getProperty(key);
 		return prop;
 	}
 
@@ -153,6 +147,10 @@ public class NeoManager {
 
 	public Integer getIntegerProperty(Node node, String key) {
 		return (Integer) getProperty(node, key);
+	}
+
+	public Float getFloatProperty(Node node, String key) {
+		return (Float) getProperty(node, key);
 	}
 
 	public void setProperty(Node node, String key, Object value) {
