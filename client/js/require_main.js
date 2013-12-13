@@ -4,6 +4,7 @@ requirejs.config({
     paths: {
         backbone: 'lib/vendor/backbone',
         backbone_syphon: 'lib/vendor/backbone.syphon',
+        bootstrap: 'lib/vendor/bootstrap',
         jquery: 'lib/vendor/jquery',
         marionette: 'lib/vendor/backbone.marionette',
         moment: 'lib/vendor/moment',
@@ -15,17 +16,21 @@ requirejs.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: ['jquery', 'underscore'],
             exports: 'Backbone'
+        },
+        bootstrap: {
+            deps: ['jquery'],
+            exports: 'Bootstrap'
         },
         backbone_syphon: ['backbone'],
         marionette: {
             deps: ['backbone'],
             exports: 'Marionette'
+        },
+        underscore: {
+            exports: '_'
         },
 
         behaviour: {
@@ -36,6 +41,7 @@ requirejs.config({
 });
 
 require(['app',
+         'bootstrap',
          'moment',
          'advanced_string',
          'behaviour'],
