@@ -1,11 +1,11 @@
 define(['app'], function(App) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
-        var base_urls = {
-            dev: '/api/tasks',
-            tst: '/api/webapplication/rest/task'
-        };
+        var base_url;
 
-        var base_url = base_urls[document.location.host.substr(0,3)];
+        switch(document.location.host.substr(0,3)) {
+            case 'tst': base_url = '/api/webapplication/rest/task'; break;
+            default: base_url = '/api/tasks';
+        }
 
 
         Entities.Task = Backbone.Model.extend({
