@@ -1,11 +1,11 @@
 <h2>Edit Task <%= title %></h2>
-<form role="form">
+<form role="form" class="row col-md-3">
     <div class="form-group">
         <input type="text" name="title" value="<%= title %>" placeholder="Title" class="form-control">
     </div>
 
     <div class="form-group">
-        <textarea name="description" placeholder="Description" class="form-control"></textarea>
+        <textarea name="description" placeholder="Description" class="form-control"><%= description %></textarea>
     </div>
 
     <div class="form-group">
