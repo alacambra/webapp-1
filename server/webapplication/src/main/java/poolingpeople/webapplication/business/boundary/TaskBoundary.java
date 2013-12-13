@@ -37,6 +37,7 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.NotUniqueException;
+import scala.util.parsing.json.JSON;
 
 @Path("task")
 @Stateful
@@ -118,13 +119,13 @@ public class TaskBoundary {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveTask(String json) {
 
 		try {
 
-			ITask persistedTask = mapper.readValue(json, PersistedTask.class);
-			return Response.ok().entity(persistedTask.getId()).build();
+			ITask task = mapper.readValue(json, PersistedTask.class);
+			return Response.ok().entity(mapper.writeValueAsString(task)).build();
 
 		} catch (JsonGenerationException e) {
 			throw new WebApplicationException(e, 
@@ -146,7 +147,6 @@ public class TaskBoundary {
 	public Response updateTask(@PathParam("id") String uuid, String json){
 
 		try {
-
 			ITask dtoTask = mapper.readValue(json, TaskDTO.class);
 			ITask task = dtoConverter.fromDTOtoPersitedBean(dtoTask, entityFactory.getTask(uuid));
 			String r = mapper.writeValueAsString(task);

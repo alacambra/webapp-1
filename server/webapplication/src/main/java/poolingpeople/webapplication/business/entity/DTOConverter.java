@@ -51,8 +51,4 @@ public class DTOConverter {
 		}
 	}
 
-	public static void main(String[] args){
-		System.out.println("dgetSomething".replaceAll("^get([A-Z][\\w\\d]+)$", "set$1"));
-	}
-	
 }
