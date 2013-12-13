@@ -12,17 +12,19 @@ function (App, Task, View) {
                         });
 
                         view.on('form:submit', function(data) {
-                            if (task.save(data, {
+                            var valid = task.save(data, {
                                 success: function() {
                                     App.trigger('task:show', task.get('id'));
                                 },
                                 error: function() {
                                     view.triggerMethod('form:save:failed');
                                 }
-                            })) {
+                            });
+
+                            if (valid) {
                                 view.triggerMethod('form:data:valid');
                             } else {
-                                view.triggerMethod('form:data:invalid', task.validationError); // validation failed
+                                view.triggerMethod('form:data:invalid', task.validationError);
                             }
                         });
                     } else {
