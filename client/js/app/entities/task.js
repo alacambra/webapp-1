@@ -63,21 +63,21 @@ define(['app'], function(App) {
                 return defer.promise();
             },
 
-            get_task_entity: function(task_id, force_refresh) {
-                var task;
+            get_task_entity: function(task, force_refresh) {
+                var task_entity;
                 if (force_refresh === undefined) force_refresh = false;
 
                 var defer = $.Deferred();
 
-                if (force_refresh || typeof task_id !== 'object') {
-                    if (force_refresh && typeof task_id === 'object') {
-                        task_id = task_id.get('id'); // given "task_id" is a model, extract id (force_refresh flag is set)
+                if (force_refresh || typeof task !== 'object') {
+                    if (force_refresh && typeof task === 'object') {
+                        task = task.get('id'); // given "task_id" is a model, extract id (force_refresh flag is set)
                     }
 
-                    task = new Entities.Task({ id: task_id });
+                    task_entity = new Entities.Task({ id: task });
 
-                    if (task_id !== undefined) { // task id was set, load entity
-                        task.fetch({
+                    if (task !== undefined) { // task id was set, load entity
+                        task_entity.fetch({
                             success: function(data) {
                                 defer.resolve(data);
                             },
@@ -86,10 +86,9 @@ define(['app'], function(App) {
                             }
                         });
                     } else { // no task id was set, return new instance
-                        defer.resolve(task);
+                        defer.resolve(task_entity);
                     }
                 } else { // given "task_id" is a model, return unchanged
-                    task = task_id;
                     defer.resolve(task);
                 }
 
