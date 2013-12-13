@@ -45,14 +45,16 @@ function(App, list_tpl, list_item_tpl) {
 
 
             show: function(event) {
+                event.preventDefault();
                 event.stopPropagation();
-                this.trigger('task:show', this.model.get('id'));
+                App.trigger('task:show', this.model.get('id'));
             },
 
 
             edit: function(event) {
+                event.preventDefault();
                 event.stopPropagation();
-                this.trigger('task:edit', this.model.get('id'));
+                App.trigger('task:edit', this.model.get('id'));
             },
 
 
@@ -73,7 +75,7 @@ function(App, list_tpl, list_item_tpl) {
             events: {
                 'click .js-create': function(event) {
                     event.stopPropagation();
-                    this.trigger('task:create');
+                    App.trigger('task:new');
                 }
             }
         })

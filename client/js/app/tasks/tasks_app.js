@@ -3,48 +3,66 @@ define(['app'], function (App) {
     App.module('TasksApp', function (TasksApp, App, Backbone, Marionette, $, _) {
         TasksApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
-                'tasks': 'list_tasks',
-                'tasks/new': 'new_task',
-                'tasks/:id': 'show_task',
-                'tasks/:id/edit': 'edit_task'
+                'tasks': 'tasks_list',
+                'tasks/new': 'task_new',
+                'tasks/:id': 'task_show',
+                'tasks/:id/edit': 'task_edit'
             }
         });
 
+
         var API = {
-            list_tasks: function () {
+            tasks_list: function () {
                 require(['app/tasks/list/list_controller'], function (TasksController) {
-                    TasksController.list_tasks();
+                    TasksController.tasks_list();
                 });
             },
 
-            new_task: function () {
+            task_new: function () {
                 require(['app/tasks/edit/edit_controller'], function (EditController) {
-                    EditController.edit_task();
+                    EditController.task_edit();
                 });
             },
 
-            show_task: function (id) {
+            task_show: function (id) {
                 require(['app/tasks/show/show_controller'], function (ShowController) {
-                    ShowController.show_task(id);
+                    ShowController.task_show(id);
                 });
             },
 
-            edit_task: function (id) {
+            task_edit: function (id) {
                 require(['app/tasks/edit/edit_controller'], function (EditController) {
-                    EditController.edit_task(id);
+                    EditController.task_edit(id);
                 });
             }
         };
+
+
+        App.on('tasks:list', function() {
+            App.navigate('tasks');
+            API.tasks_list();
+        });
+
+        App.on('task:new', function() {
+            App.navigate('tasks/new');
+            API.task_edit();
+        });
+
+        App.on('task:show', function(id) {
+            App.navigate('tasks/' + id);
+            API.task_show(id);
+        });
+
+        App.on('task:edit', function(id) {
+            App.navigate('tasks/' + id + '/edit');
+            API.task_edit(id);
+        });
+
 
         App.addInitializer(function () {
             new TasksApp.Router({
                 controller: API
             });
-        });
-
-        App.on('tasks:list', function(){
-            App.navigate('tasks');
-            API.list_tasks();
         });
     });
 
