@@ -75,7 +75,7 @@ public class TaskBoundary {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveTask(String json) throws JsonParseException,
 			JsonMappingException, IOException {
 		Task persistedTask = mapper.readValue(json, PersistedTask.class);

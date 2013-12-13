@@ -4,3 +4,4 @@ target/
 .settings
 bin/
 visualee
+webapplication/neo4j/
