@@ -24,6 +24,16 @@ define(['moment', 'advanced_string'], function(moment){
         format_progress: function(progress) {
             if (progress == null || progress === undefined) return '';
             return progress * 100 + '%';
-        }
+        },
+
+        unformat: function(data) {
+            data.status = parseInt(data.status);
+            data.priority = parseInt(data.priority);
+            data.startDate = moment(data.startDate, 'DD.MM.YYYY').unix();
+            data.endDate = moment(data.endDate, 'DD.MM.YYYY').unix();
+            data.duration = moment.duration(data.duration, 'HH:mm').asMinutes();
+            data.progress = parseInt(data.progress) / 100;
+        return data;
     }
+}
 });

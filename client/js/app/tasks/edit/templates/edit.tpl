@@ -41,25 +41,25 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-startDate" type="text" name="startDate" value="<%= startDate %>" placeholder="Start date" class="form-control">
+            <input id="task-startDate" type="text" name="startDate" value="<%= format_date(startDate) %>" placeholder="Start date" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-endDate" type="text" name="endDate" value="<%= endDate %>" placeholder="End date" class="form-control">
+            <input id="task-endDate" type="text" name="endDate" value="<%= format_date(endDate) %>" placeholder="End date" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-duration" type="text" name="duration" value="<%= duration %>" placeholder="Duration" class="form-control">
+            <input id="task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Duration" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-progress" type="text" class="form-control" name="progress" value="<%= progress %>" placeholder="Progress" class="form-control">
+            <input id="task-progress" type="text" class="form-control" name="progress" value="<%= format_progress(progress) %>" placeholder="Progress" class="form-control">
         </div>
     </div>
 

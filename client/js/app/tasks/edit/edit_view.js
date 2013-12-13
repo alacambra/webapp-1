@@ -1,7 +1,8 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
+        'app/tasks/task_helper',
         'backbone_syphon'],
-function(App, edit_tpl) {
+function(App, edit_tpl, task_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -10,6 +11,9 @@ function(App, edit_tpl) {
             events: {
                 'click button.js-submit': 'submit'
             },
+
+
+            templateHelpers: task_helper,
 
 
             onFormDataValid: function() {
@@ -50,7 +54,7 @@ function(App, edit_tpl) {
                 this.$('#js-save-error').remove();
 
                 var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', data);
+                this.trigger('form:submit', task_helper.unformat(data));
             },
 
 
