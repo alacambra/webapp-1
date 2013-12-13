@@ -25,7 +25,7 @@ function(App, edit_tpl, task_helper) {
                 var $view = this.$el;
 
                 var mark_errors = function(value, key) {
-                    var $control_group = $view.find('#task-' + key).parent().parent();
+                    var $control_group = $view.find('#js-task-' + key).parent().parent();
                     var $error_msg = $('<span>', { class: 'help-block', text: value });
                     $control_group.append($error_msg).addClass('has-error');
                 };

@@ -2,19 +2,19 @@
 <form role="form" class="form-horizontal">
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-title" type="text" name="title" value="<%= title %>" placeholder="Title" class="form-control">
+            <input id="js-task-title" type="text" name="title" value="<%= title %>" placeholder="Title" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <textarea id="task-description" name="description" placeholder="Description" class="form-control"><%= description %></textarea>
+            <textarea id="js-task-description" name="description" placeholder="Description" class="form-control"><%= description %></textarea>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <select id="task-status" name="status" class="form-control">
+            <select id="js-task-status" name="status" class="form-control">
                 <option value="0" <%= status == 0 ? 'selected' : '' %>>- Status -</option>
                 <option value="1" <%= status == 1 ? 'selected' : '' %>>ToDo</option>
                 <option value="2" <%= status == 2 ? 'selected' : '' %>>New</option>
@@ -30,7 +30,7 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <select id="task-priority" name="priority" class="form-control">
+            <select id="js-task-priority" name="priority" class="form-control">
                 <option value="0" <%= priority == 0 ? 'selected' : '' %>>- Priority -</option>
                 <option value="1" <%= priority == 1 ? 'selected' : '' %>>Low</option>
                 <option value="2" <%= priority == 2 ? 'selected' : '' %>>Normal</option>
@@ -41,25 +41,25 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-startDate" type="text" name="startDate" value="<%= format_date(startDate) %>" placeholder="Start date" class="form-control">
+            <input id="js-task-startDate" type="text" name="startDate" value="<%= format_date(startDate) %>" placeholder="Start date" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-endDate" type="text" name="endDate" value="<%= format_date(endDate) %>" placeholder="End date" class="form-control">
+            <input id="js-task-endDate" type="text" name="endDate" value="<%= format_date(endDate) %>" placeholder="End date" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Duration" class="form-control">
+            <input id="js-task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Duration" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="task-progress" type="text" class="form-control" name="progress" value="<%= format_progress(progress) %>" placeholder="Progress" class="form-control">
+            <input id="js-task-progress" type="text" class="form-control" name="progress" value="<%= format_progress(progress) %>" placeholder="Progress" class="form-control">
         </div>
     </div>
 
