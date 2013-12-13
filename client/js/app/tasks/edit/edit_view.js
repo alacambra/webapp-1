@@ -41,31 +41,56 @@ function(App, edit_tpl) {
             },
 
 
-            onSaveSuccessful: function() {
-                setTimeout(function() {
-                    $('#js-task-save-inidcator').fadeOut(300, function() {
-                        $('.js-submit').removeClass('disabled')
-                    });
-                }, 100);
+            onFormDataValid: function() {
+                this.$('#js-task-save-inidcator').fadeIn(300);
+                this.$('.js-submit').addClass('disabled');
             },
 
+            onFormDataInvalid: function(errors) {
+                var $view = this.$el;
 
-            onSaveError: function() {
-                setTimeout(function() {
-                    $('#js-task-save-inidcator').fadeOut(300, function() {
-                        $('.js-submit').removeClass('disabled')
-                    });
-                }, 100);
-                console.log('save error');
+                var mark_errors = function(value, key) {
+                    var $control_group = $view.find('#task-' + key).parent().parent();
+                    var $error_msg = $('<span>', { class: 'help-block', text: value });
+                    $control_group.append($error_msg).addClass('has-error');
+                };
+
+                this.clear_form_errors($view);
+                _.each(errors, mark_errors);
+            },
+
+            onFormSaveFailed: function() {
+                var $view = this.$el;
+
+                $('#js-task-save-inidcator').fadeOut(300, function() {
+                    var $error_msg = $('<span>', { id: 'js-save-error', class: 'text-danger', text: 'save failed' });
+                    var $submit_btn = $view.find('.js-submit');
+                    $submit_btn.removeClass('disabled').addClass('btn-danger');
+                    $submit_btn.parent().append($error_msg);
+                });
             },
 
 
             submit: function(e) {
                 e.preventDefault();
+
+                this.clear_form_errors(this.$el);
+                this.$('.js-submit').removeClass('btn-danger');
+                this.$('#js-save-error').remove();
+
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', data);
-                this.$('#js-task-save-inidcator').fadeIn(300);
-                this.$('.js-submit').addClass('disabled');
+            },
+
+
+            clear_form_errors: function($view) {
+                var $form = $view.find('form');
+                $form.find('.help-block').each(function() {
+                    $(this).remove();
+                });
+                $form.find('.form-group.has-error').each(function() {
+                    $(this).removeClass('has-error');
+                });
             }
         });
     });
