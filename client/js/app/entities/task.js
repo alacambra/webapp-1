@@ -63,22 +63,36 @@ define(['app'], function(App) {
                 return defer.promise();
             },
 
-            get_task_entity: function(task_id) {
-                var task = new Entities.Task({ id: task_id });
+            get_task_entity: function(task_id, force_refresh) {
+                var task;
+                if (force_refresh === undefined) force_refresh = false;
+
                 var defer = $.Deferred();
 
-                if (task_id !== undefined) {
-                    task.fetch({
-                        success: function(data) {
-                            defer.resolve(data);
-                        },
-                        error: function(data) {
-                            defer.resolve(undefined);
-                        }
-                    });
-                } else {
+                if (force_refresh || typeof task_id !== 'object') {
+                    if (force_refresh && typeof task_id === 'object') {
+                        task_id = task_id.get('id'); // given "task_id" is a model, extract id (force_refresh flag is set)
+                    }
+
+                    task = new Entities.Task({ id: task_id });
+
+                    if (task_id !== undefined) { // task id was set, load entity
+                        task.fetch({
+                            success: function(data) {
+                                defer.resolve(data);
+                            },
+                            error: function(data) {
+                                defer.resolve(undefined);
+                            }
+                        });
+                    } else { // no task id was set, return new instance
+                        defer.resolve(task);
+                    }
+                } else { // given "task_id" is a model, return unchanged
+                    task = task_id;
                     defer.resolve(task);
                 }
+
                 return defer.promise();
             }
         };
@@ -89,8 +103,8 @@ define(['app'], function(App) {
         });
 
 
-        App.reqres.setHandler("task:entity", function(id){
-            return API.get_task_entity(id);
+        App.reqres.setHandler("task:entity", function(id, force_refresh){
+            return API.get_task_entity(id, force_refresh);
         });
     });
 });

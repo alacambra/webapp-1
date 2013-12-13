@@ -6,6 +6,12 @@ function(App, show_tpl) {
             template: show_tpl,
 
 
+            events: {
+                'click .js-edit': 'edit',
+                'click .js-delete': 'delete_item'
+            },
+
+
             templateHelpers: {
                 format_date: function(date) {
                     if (date == null || date === undefined) return '';
@@ -32,6 +38,18 @@ function(App, show_tpl) {
                     if (progress == null || progress === undefined) return '';
                     return progress * 100 + '%';
                 }
+            },
+
+
+            edit: function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                App.trigger('task:edit', this.model.get('id'));
+            },
+
+
+            delete_item: function() {
+                App.trigger('task:delete', this.model.get('id'), 'tasks:list');
             }
         });
     });

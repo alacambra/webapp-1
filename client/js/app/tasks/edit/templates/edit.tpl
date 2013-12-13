@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <button class="btn btn-sm js-submit" style="margin-right: 10px">
+    <button class="btn btn-default btn-sm js-submit" style="margin-right: 10px">
         <span class="glyphicon glyphicon-floppy-disk" style="margin-right: 5px"></span> Save
     </button>
 

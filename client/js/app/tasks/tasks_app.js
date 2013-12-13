@@ -34,6 +34,14 @@ define(['app'], function (App) {
                 require(['app/tasks/edit/edit_controller'], function (EditController) {
                     EditController.task_edit(id);
                 });
+            },
+
+            task_delete: function (task, redirect) {
+                if (confirm('Are you sure?')) {
+                    require(['app/tasks/list/list_controller'], function (ListController) {
+                        ListController.task_delete(task, redirect);
+                    });
+                }
             }
         };
 
@@ -56,6 +64,10 @@ define(['app'], function (App) {
         App.on('task:edit', function(id) {
             App.navigate('tasks/' + id + '/edit');
             API.task_edit(id);
+        });
+
+        App.on('task:delete', function(id, redirect) {
+            API.task_delete(id, redirect);
         });
 
 

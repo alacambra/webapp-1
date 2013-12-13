@@ -3,24 +3,23 @@ function(App, View){
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _){
         List.Controller = {
             tasks_list: function() {
-                var fetching_tasks = App.request("task:entities");
+                var fetching_tasks = App.request('task:entities');
                 $.when(fetching_tasks).done(function(tasks){
                     var list_view = new List.Tasks({
                         collection: tasks
                     });
 
-
                     App.main_region.show(list_view);
+                });
+            },
 
 
-                    // list view handlers
-                    list_view.on('itemview:task:delete', destroy);
+            task_delete: function(task, redirect) {
+                var fetching_task = App.request('task:entity', task);
 
-
-                    // list view handler functions
-                    function destroy(child_view, model) {
-                        model.destroy();
-                    }
+                $.when(fetching_task).done(function(task){
+                    task.destroy();
+                    if (redirect !== undefined) App.trigger(redirect);
                 });
             }
         }

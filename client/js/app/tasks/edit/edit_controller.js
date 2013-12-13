@@ -14,7 +14,7 @@ function (App, Task, View) {
                         view.on('form:submit', function(data) {
                             if (task.save(data, {
                                 success: function() {
-                                    App.trigger('task:edit', task.get('id'));
+                                    App.trigger('task:show', task.get('id'));
                                 },
                                 error: function() {
                                     view.triggerMethod('form:save:failed');

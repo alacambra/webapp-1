@@ -58,10 +58,10 @@ function(App, list_tpl, list_item_tpl) {
             },
 
 
-            delete_item: function() {
-                if (confirm('Are you sure?')) {
-                    this.trigger('task:delete', this.model);
-                }
+            delete_item: function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                App.trigger('task:delete', this.model);
             }
         });
 
