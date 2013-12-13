@@ -29,7 +29,7 @@ define(['app'], function(App) {
                     errors.title = 'can\'t be blank';
                 }
 
-                if (attrs.endDate < attrs.startDate) {
+                if (attrs.endDate && attrs.endDate < attrs.startDate) {
                     errors.startDate = 'must be earlier than end';
                     errors.endDate = 'must be later than start';
                 }
