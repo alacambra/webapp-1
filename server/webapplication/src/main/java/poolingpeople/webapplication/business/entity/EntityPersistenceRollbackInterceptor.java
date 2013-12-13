@@ -4,6 +4,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.neo4j.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.NotUniqueException;
@@ -17,11 +18,11 @@ public class EntityPersistenceRollbackInterceptor {
 		try {
 			return context.proceed();
 		} catch (NodeNotFoundException notFoundException) {
-			throw new RuntimeException();
+			throw new RootApplicationException(notFoundException);
 		} catch (NodeExistsException nodeExistsException) {
-			throw new RuntimeException();
+			throw new RootApplicationException(nodeExistsException);
 		} catch (NotUniqueException notUniqueException) {
-			throw new RuntimeException();
+			throw new RootApplicationException(notUniqueException);
 		}
 	}
 

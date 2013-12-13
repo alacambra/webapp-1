@@ -27,10 +27,10 @@ public class EntityFactory {
 	}
 	
 	public void deleteTask(String uuid)  {
-		manager.removeNode(getTask(uuid).getNode());
+		manager.removeNode(getTaskById(uuid).getNode());
 	}
 
-	public PersistedTask getTask(String uuid)  {
+	public PersistedTask getTaskById(String uuid)  {
 		return new PersistedTask(manager, uuid);
 	}
 	
