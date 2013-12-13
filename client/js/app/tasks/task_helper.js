@@ -1,4 +1,4 @@
-define(['moment', 'advanced_string'], function(moment){
+define(['moment', 'advanced_string'], function(moment) {
     return {
         format_date: function(date) {
             if (date == null || date === undefined) return '';
@@ -33,7 +33,7 @@ define(['moment', 'advanced_string'], function(moment){
             data.endDate = moment(data.endDate, 'DD.MM.YYYY').unix();
             data.duration = moment.duration(data.duration, 'HH:mm').asMinutes();
             data.progress = parseInt(data.progress) / 100;
-        return data;
+            return data;
+        }
     }
-}
 });
