@@ -17,9 +17,13 @@ function(App, View){
             task_delete: function(task, redirect) {
                 var fetching_task = App.request('task:entity', task);
 
-                $.when(fetching_task).done(function(task){
-                    task.destroy();
-                    if (redirect !== undefined) App.trigger(redirect);
+                $.when(fetching_task).done(function(task) {
+                    if (task !== undefined) {
+                        task.destroy();
+                        if (redirect !== undefined) App.trigger(redirect);
+                    } else {
+                        console.log('task does not exist');
+                    }
                 });
             }
         }
