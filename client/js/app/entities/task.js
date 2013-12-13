@@ -34,9 +34,7 @@ define(['app'], function(App) {
                     errors.endDate = 'must be later than start';
                 }
 
-                if (!_.isEmpty(errors)) {
-                    return errors;
-                }
+                return _.isEmpty(errors) ? false : errors;
             }
         });
 
