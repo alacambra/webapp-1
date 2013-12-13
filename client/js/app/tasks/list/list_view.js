@@ -1,7 +1,8 @@
 define(['app',
         'tpl!app/tasks/list/templates/list.tpl',
-        'tpl!app/tasks/list/templates/list_item.tpl'],
-function(App, list_tpl, list_item_tpl) {
+        'tpl!app/tasks/list/templates/list_item.tpl',
+        'app/tasks/task_helper'],
+function(App, list_tpl, list_item_tpl, task_helper) {
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
         List.View = Marionette.ItemView.extend({
             className: 'list-row',
@@ -15,33 +16,7 @@ function(App, list_tpl, list_item_tpl) {
             },
 
 
-            templateHelpers: {
-                format_date: function(date) {
-                    if (date == null || date === undefined) return '';
-                    return moment(date * 1000).format('DD.MM.YYYY');
-                },
-
-                status_text: function(status) {
-                    var texts = ['ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'];
-                    return texts[status] || '';
-                },
-
-                priority_text: function(priority) {
-                    var texts = ['Low', 'Normal', 'High'];
-                    return texts[priority] || '';
-                },
-
-                format_duration: function(duration) {
-                    if (duration == null || duration === undefined) return '';
-                    var duration = moment.duration(duration, 'minutes');
-                    return parseInt(duration.asHours()) + ':' + pad(duration.asMinutes() % 60);
-                },
-
-                format_progress: function(progress) {
-                    if (progress == null || progress === undefined) return '';
-                    return progress * 100 + '%';
-                }
-            },
+            templateHelpers: task_helper,
 
 
             show: function(event) {

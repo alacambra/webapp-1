@@ -40,12 +40,6 @@ requirejs.config({
     }
 });
 
-require(['app',
-         'bootstrap',
-         'moment',
-         'advanced_string',
-         'behaviour'],
-        function(TaskApp) {
-
-    TaskApp.start();
+require(['app', 'bootstrap', 'behaviour'], function(App) {
+    App.start();
 });
