@@ -14,28 +14,13 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <select id="js-task-status" name="status" class="form-control">
-                <option value="0" <%= status == 0 ? 'selected' : '' %>>- Status -</option>
-                <option value="1" <%= status == 1 ? 'selected' : '' %>>ToDo</option>
-                <option value="2" <%= status == 2 ? 'selected' : '' %>>New</option>
-                <option value="3" <%= status == 3 ? 'selected' : '' %>>Assigned</option>
-                <option value="4" <%= status == 4 ? 'selected' : '' %>>On hold</option>
-                <option value="5" <%= status == 5 ? 'selected' : '' %>>Completed</option>
-                <option value="6" <%= status == 6 ? 'selected' : '' %>>Archieved</option>
-                <option value="7" <%= status == 7 ? 'selected' : '' %>>Requested</option>
-                <option value="8" <%= status == 8 ? 'selected' : '' %>>Offered</option>
-            </select>
+            <%= select_for('task', 'status', { class: 'form-control', selected: status }) %>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <select id="js-task-priority" name="priority" class="form-control">
-                <option value="0" <%= priority == 0 ? 'selected' : '' %>>- Priority -</option>
-                <option value="1" <%= priority == 1 ? 'selected' : '' %>>Low</option>
-                <option value="2" <%= priority == 2 ? 'selected' : '' %>>Normal</option>
-                <option value="3" <%= priority == 3 ? 'selected="true"' : '' %>>High</option>
-            </select>
+            <%= select_for('task', 'priority', { class: 'form-control', selected: priority }) %>
        </div>
     </div>
 

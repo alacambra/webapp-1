@@ -1,18 +1,20 @@
 define(['moment', 'advanced_string'], function(moment) {
     return {
+        status_options: ['', 'ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'],
+        priority_options: ['', 'Low', 'Normal', 'High'],
+
+
         format_date: function(date) {
             if (!this.has_value(date)) return '';
             return moment(date * 1000).format('DD.MM.YYYY');
         },
 
         status_text: function(status) {
-            var texts = ['', 'ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'];
-            return texts[status] || '';
+            return this.status_options[status] || '';
         },
 
         priority_text: function(priority) {
-            var texts = ['', 'Low', 'Normal', 'High'];
-            return texts[priority] || '';
+            return this.priority_options[priority] || '';
         },
 
         format_duration: function(duration) {
@@ -24,6 +26,17 @@ define(['moment', 'advanced_string'], function(moment) {
         format_progress: function(progress) {
             if (!this.has_value(progress)) return '';
             return progress * 100 + '%';
+        },
+
+        select_for: function(model, attr, options) {
+            var select_options = options.options || this[attr + '_options'];
+
+            var select = $('<select>', { name: attr, id: 'js-' + model + '-' + attr, class: options.class });
+            _.each(select_options, function(item, idx) {
+                select.append($('<option>', { value: idx, text: item, selected: options.selected == idx }));
+            });
+
+            return select[0].outerHTML;
         },
 
         unformat: function(data) {
