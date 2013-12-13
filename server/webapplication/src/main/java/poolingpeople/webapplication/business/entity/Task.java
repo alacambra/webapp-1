@@ -1,6 +1,6 @@
 package poolingpeople.webapplication.business.entity;
 
-public interface ITask {
+public interface Task {
 	
 	String getId();
 

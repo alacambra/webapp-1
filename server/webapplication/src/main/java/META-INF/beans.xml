@@ -7,6 +7,7 @@ http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
 		<class>poolingpeople.webapplication.business.logging.boundary.LoggerInterceptor</class>
 		<class>poolingpeople.webapplication.business.neo4j.TransactionInterceptor</class>
 		<class>poolingpeople.webapplication.business.boundary.AuthenticationInterceptor</class>
+		<class>poolingpeople.webapplication.business.entity.EntityPersistenceRollbackInterceptor</class>
 	</interceptors>
 
 	<alternatives>

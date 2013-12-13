@@ -10,11 +10,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 
-import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -23,7 +23,7 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
-@ApplicationScoped
+@Singleton
 public class NeoManager {
 
 	@Inject
@@ -38,7 +38,7 @@ public class NeoManager {
 	}
 
 
-	public boolean uniqueNodeExist(IndexContainer indexContainer) throws NodeExistsException{
+	public boolean uniqueNodeExist(IndexContainer indexContainer) {
 
 		IndexHits<Node> indexHits = graphDb.index()
 				.forNodes( indexContainer.getType() ).get( indexContainer.getKey(), indexContainer.getValue());
@@ -54,7 +54,7 @@ public class NeoManager {
 	}
 
 
-	public Node getUniqueNode( UUIDIndexContainer indexContainer) throws NotUniqueException, NodeNotFoundException {
+	public Node getUniqueNode( UUIDIndexContainer indexContainer)  {
 
 		IndexHits<Node> indexHits = this.getNodes(indexContainer);
 
@@ -79,7 +79,7 @@ public class NeoManager {
 	}
 
 	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
-			throws NodeExistsException {
+			 {
 
 		Node node = null;
 
@@ -296,91 +296,3 @@ public class NeoManager {
 		return objects;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

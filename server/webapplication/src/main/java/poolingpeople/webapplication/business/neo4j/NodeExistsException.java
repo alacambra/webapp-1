@@ -1,6 +1,6 @@
 package poolingpeople.webapplication.business.neo4j;
 
-public class NodeExistsException extends Exception {
+public class NodeExistsException extends RuntimeException {
 
 	public NodeExistsException(){
 		super();

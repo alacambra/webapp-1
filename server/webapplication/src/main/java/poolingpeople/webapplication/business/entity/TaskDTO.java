@@ -3,7 +3,7 @@ package poolingpeople.webapplication.business.entity;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonValue;
 
-public class TaskDTO implements ITask {
+public class TaskDTO implements Task {
 
 	private String id;
 	private String title;

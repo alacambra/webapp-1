@@ -16,7 +16,7 @@ import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 
-public class PersistedTask implements ITask {
+public class PersistedTask implements Task {
 
 	private Node underlyingNode;
 	private NeoManager manager;
@@ -171,7 +171,7 @@ public class PersistedTask implements ITask {
 		return underlyingNode.hashCode();
 	}
 
-	public void addSubtask(ITask child) {
+	public void addSubtask(Task child) {
 		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE, ((PersistedTask) child).getNodeType());
 		manager.createRelationshipTo(underlyingNode, ((PersistedTask) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
@@ -207,55 +207,3 @@ public class PersistedTask implements ITask {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

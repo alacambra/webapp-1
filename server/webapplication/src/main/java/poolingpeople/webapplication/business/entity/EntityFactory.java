@@ -3,21 +3,17 @@ package poolingpeople.webapplication.business.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateful;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.NodeExistsException;
-import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
-import poolingpeople.webapplication.business.neo4j.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
-import scala.annotation.meta.getter;
 
-@ApplicationScoped
+@Singleton
+@EntityPersistenceRollback
 public class EntityFactory { 
 	
 	@Inject
@@ -25,25 +21,20 @@ public class EntityFactory {
 
 	public EntityFactory(){}
 	
+	//TODO who will call this?
 	public EntityFactory(NeoManager manager){
 		this.manager = manager;
 	}
 	
-	public void deleteTask(String uuid) throws NotUniqueException, NodeNotFoundException {
+	public void deleteTask(String uuid)  {
 		manager.removeNode(getTask(uuid).getNode());
 	}
-	
-	
-//	@Inject
-//	public EntityFactory(NeoManager manager){
-//		this.manager = manager;
-//	}
 
-	public PersistedTask getTask(String uuid) throws NotUniqueException, NodeNotFoundException {
+	public PersistedTask getTask(String uuid)  {
 		return new PersistedTask(manager, uuid);
 	}
 	
-	public PersistedTask createTask() throws NodeExistsException {
+	public PersistedTask createTask()  {
 		return new PersistedTask(manager);
 	}
 
