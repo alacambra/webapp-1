@@ -7,14 +7,14 @@ import javax.interceptor.InvocationContext;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
-//@Interceptor
-//@Neo4jTransaction
+@Interceptor
+@Neo4jTransaction
 public class TransactionInterceptor {
 
-//	@Inject
+	@Inject
 	GraphDatabaseService databaseService; 
 
-//	@AroundInvoke
+	@AroundInvoke
 	public Object logMethod(InvocationContext context) throws Exception {
 
 		Transaction tx = databaseService.beginTx();
