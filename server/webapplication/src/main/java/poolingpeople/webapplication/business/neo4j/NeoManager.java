@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import org.neo4j.cypher.javacompat.ExecutionEngine;
@@ -23,16 +22,17 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
-@Singleton
+//@Singleton
 public class NeoManager {
 
-	@Inject
+//	@Inject
 	GraphDatabaseService graphDb;
 
 	public static final String FOUND = "found";
 
 	protected NeoManager(){}
 
+	@Inject
 	public NeoManager(GraphDatabaseService graphDb){
 		this.graphDb = graphDb;
 	}
