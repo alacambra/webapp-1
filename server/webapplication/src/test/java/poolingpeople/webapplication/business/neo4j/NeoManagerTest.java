@@ -90,7 +90,7 @@ public class NeoManagerTest {
 	@Test
 	public void testCreateNode() throws NotUniqueException, NodeExistsException, NodeNotFoundException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
-		HashMap<String, Object> properties = new HashMap<>();
+		HashMap<String, Object> properties = new HashMap<String, Object>();
 		properties.put("key", "value");
 		target.createNode(properties, container, PoolingpeopleObjectType.TASK);
 		Node n = target.getUniqueNode(container);
