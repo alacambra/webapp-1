@@ -1,7 +1,12 @@
-package poolingpeople.webapplication.business.entity;
+package poolingpeople.webapplication.business.task.boundary;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonValue;
+
+import poolingpeople.webapplication.business.entity.IgnoreAttribute;
+import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.task.entity.TaskPriority;
+import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
 public class TaskDTO implements Task {
 

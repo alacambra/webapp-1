@@ -1,14 +1,14 @@
-package poolingpeople.webapplication.business.boundary;
+package poolingpeople.webapplication.business.task.boundary;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.webapplication.business.entity.Task;
-import poolingpeople.webapplication.business.entity.TaskPriority;
-import poolingpeople.webapplication.business.entity.TaskStatus;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.task.entity.TaskPriority;
+import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
 public class TaskMixin implements Task{
 

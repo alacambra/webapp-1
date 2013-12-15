@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.entity;
+package poolingpeople.webapplication.business.task.entity;
 
 import java.util.HashMap;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.boundary;
+package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
 
@@ -20,14 +20,17 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.SetMixinView;
+import poolingpeople.webapplication.business.boundary.View;
+import poolingpeople.webapplication.business.boundary.View.SampleView;
 import poolingpeople.webapplication.business.entity.DTOConverter;
-import poolingpeople.webapplication.business.entity.EntityFactory;
-import poolingpeople.webapplication.business.entity.PersistedTask;
-import poolingpeople.webapplication.business.entity.Task;
-import poolingpeople.webapplication.business.entity.TaskDTO;
-import poolingpeople.webapplication.business.entity.TaskPriority;
-import poolingpeople.webapplication.business.entity.TaskStatus;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
+import poolingpeople.webapplication.business.task.entity.EntityFactory;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.task.entity.TaskPriority;
+import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
 @Path("task")
 @Stateless

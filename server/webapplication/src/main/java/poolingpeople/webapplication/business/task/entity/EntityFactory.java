@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.entity;
+package poolingpeople.webapplication.business.task.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.webapplication.business.entity.EntityPersistenceRollback;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 
@@ -21,7 +22,7 @@ public class EntityFactory {
 
 	public EntityFactory(){}
 	
-	//TODO who will call this?
+	//TODO who will call this? A test which needs injection but use no CDI  (Albert)
 	public EntityFactory(NeoManager manager){
 		this.manager = manager;
 	}
