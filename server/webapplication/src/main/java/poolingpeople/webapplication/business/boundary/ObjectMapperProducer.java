@@ -40,7 +40,7 @@ public class ObjectMapperProducer {
 		AnnotatedField<SetMixinView> field = (AnnotatedField<SetMixinView>) point
 				.getAnnotated();
 		SetMixinView mixinView = field.getAnnotation(SetMixinView.class);
-		return (mixinView != null) ? mixinView.entity() : null;
+		return (mixinView != null) ? mixinView.mixin() : null;
 	}
 	
 	public class TaskMixinModule extends SimpleModule {
