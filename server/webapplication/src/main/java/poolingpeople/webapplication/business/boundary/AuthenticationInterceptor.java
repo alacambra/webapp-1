@@ -17,5 +17,8 @@ public class AuthenticationInterceptor {
 	public Object checkCallPermission(InvocationContext context) throws Exception {
 		System.out.println(sessionContext.getCallerPrincipal().getName());
 		return context.proceed();
+		
+		
+		
 	}
 }

@@ -8,12 +8,12 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 @ApplicationScoped
 public class GraphDatabaseServiceProducer{
-	private static final GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( "neo4j" );
+	private final GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( "neo4j" );
 	
 	public GraphDatabaseServiceProducer() {}
 	
 	@Produces
-	public static GraphDatabaseService getGraphDb() {
+	public GraphDatabaseService getGraphDb() {
 		return graphDb; 
 	}
 	

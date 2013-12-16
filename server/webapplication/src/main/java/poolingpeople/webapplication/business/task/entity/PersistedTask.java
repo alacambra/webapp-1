@@ -44,7 +44,7 @@ public class PersistedTask implements Task {
 	 * provider interface?
 	 */
 	public PersistedTask() throws NodeExistsException {
-		this(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
+//		this(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
 	}
 
 	public PersistedTask(NeoManager manager, Node node) {
