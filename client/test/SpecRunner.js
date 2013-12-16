@@ -66,6 +66,7 @@ require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
     specs.push('spec/app.spec');
     specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/tasks/task_helper.spec');
+    specs.push('spec/app/tasks/show/show_controller.spec.js');
 
     $(function () {
         require(specs, function () {
