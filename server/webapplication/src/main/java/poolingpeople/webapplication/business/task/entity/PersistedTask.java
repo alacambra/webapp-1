@@ -23,32 +23,37 @@ public class PersistedTask implements Task {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 
-	public PersistedTask(NeoManager manager, String id) throws NotUniqueException, NodeNotFoundException{
+	public PersistedTask(NeoManager manager, String id)
+			throws NotUniqueException, NodeNotFoundException {
 
 		this.manager = manager;
 		underlyingNode = manager.getUniqueNode(new UUIDIndexContainer(id));
 
 	}
 
-	public PersistedTask(NeoManager manager) throws NodeExistsException{
+	public PersistedTask(NeoManager manager) throws NodeExistsException {
 		this.manager = manager;
 		HashMap<String, Object> props = new HashMap<String, Object>();
-		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), NODE_TYPE);
+		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
+				.randomUUID().toString()), NODE_TYPE);
 	}
 
 	/*
-	 * Needed for json serialization. It will be called bz jax-rs (jackson) and therefore no instance of manager will be availabe
-	 * Exist som jackson provider interface? 
+	 * Needed for json serialization. It will be called bz jax-rs (jackson) and
+	 * therefore no instance of manager will be availabe Exist som jackson
+	 * provider interface?
 	 */
-	public PersistedTask() throws NodeExistsException{
+	public PersistedTask() throws NodeExistsException {
 		this(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
 	}
 
 	public PersistedTask(NeoManager manager, Node node) {
 
-		String nodeType = manager.getStringProperty(node, NodesPropertiesNames.TYPE.name());
-		if ( !PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE) ) {
-			throw new IllegalArgumentException("Node must be of type " + NODE_TYPE + ". " + nodeType + " found.");
+		String nodeType = manager.getStringProperty(node,
+				NodesPropertiesNames.TYPE.name());
+		if (!PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE)) {
+			throw new IllegalArgumentException("Node must be of type "
+					+ NODE_TYPE + ". " + nodeType + " found.");
 		}
 
 		underlyingNode = node;
@@ -66,56 +71,68 @@ public class PersistedTask implements Task {
 
 	@Override
 	public String getId() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.ID.name());
+		return manager.getStringProperty(underlyingNode,
+				NodesPropertiesNames.ID.name());
 	}
 
 	@Override
 	public String getTitle() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.TITLE.name());
+		return manager.getStringProperty(underlyingNode,
+				NodesPropertiesNames.TITLE.name());
 	}
 
 	@Override
 	public void setTitle(String title) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.TITLE.name(), title);
+		manager.setProperty(underlyingNode, NodesPropertiesNames.TITLE.name(),
+				title);
 	}
-
 
 	@Override
 	public String getDescription() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.DESCRIPTION.name());
+		return manager.getStringProperty(underlyingNode,
+				NodesPropertiesNames.DESCRIPTION.name());
 	}
-
 
 	@Override
 	public void setDescription(String description) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.DESCRIPTION.name(), description);
+		manager.setProperty(underlyingNode,
+				NodesPropertiesNames.DESCRIPTION.name(), description);
 	}
 
 	/*
-	 * @todo: Intercept nullables and return a defaulted injected value... if possible 
+	 * @todo: Intercept nullables and return a defaulted injected value... if
+	 * possible
 	 */
 
 	@Override
 	@JsonIgnore
 	public TaskPriority getPriority() {
 		try {
-			return TaskPriority.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name()));
+			return (manager.getStringProperty(underlyingNode,
+					NodesPropertiesNames.PRIORITY.name()).equals("")) ? TaskPriority.NORMAL
+					: TaskPriority.valueOf(manager.getStringProperty(
+							underlyingNode,
+							NodesPropertiesNames.PRIORITY.name()));
 		} catch (NullPointerException e) {
 			return TaskPriority.LOW;
 		}
 	}
 
-
 	@Override
 	public void setPriority(TaskPriority priority) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.PRIORITY.name(), priority.name());
+		manager.setProperty(underlyingNode,
+				NodesPropertiesNames.PRIORITY.name(), priority.name());
 	}
 
 	@Override
 	@JsonIgnore
 	public TaskStatus getStatus() {
 		try {
-			return TaskStatus.valueOf(manager.getStringProperty(underlyingNode, NodesPropertiesNames.STATUS.name()));
+			return (manager.getStringProperty(underlyingNode,
+					NodesPropertiesNames.STATUS.name()).equals("")) ? TaskStatus.NEW
+					: TaskStatus
+							.valueOf(manager.getStringProperty(underlyingNode,
+									NodesPropertiesNames.STATUS.name()));
 		} catch (NullPointerException e) {
 			return TaskStatus.NEW;
 		}
@@ -123,48 +140,49 @@ public class PersistedTask implements Task {
 
 	@Override
 	public void setStatus(TaskStatus status) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.STATUS.name(), status.name());
+		manager.setProperty(underlyingNode, NodesPropertiesNames.STATUS.name(),
+				status.name());
 	}
-
 
 	@Override
 	public Long getStartDate() {
-		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.START_DATE.name());
+		return manager.getLongProperty(underlyingNode,
+				NodesPropertiesNames.START_DATE.name());
 	}
-
 
 	@Override
 	public void setStartDate(Long startDate) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.START_DATE.name(), startDate);
+		manager.setProperty(underlyingNode,
+				NodesPropertiesNames.START_DATE.name(), startDate);
 	}
-
 
 	@Override
 	public Long getEndDate() {
-		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.END_DATE.name());
+		return manager.getLongProperty(underlyingNode,
+				NodesPropertiesNames.END_DATE.name());
 	}
-
 
 	@Override
 	public void setEndDate(Long endDate) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.END_DATE.name(), endDate);
+		manager.setProperty(underlyingNode,
+				NodesPropertiesNames.END_DATE.name(), endDate);
 	}
-
 
 	@Override
 	public Float getProgress() {
-		return manager.getFloatProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name());
+		return manager.getFloatProperty(underlyingNode,
+				NodesPropertiesNames.PROGRESS.name());
 	}
-
 
 	@Override
 	public void setProgress(Float progress) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.PROGRESS.name(), progress);
+		manager.setProperty(underlyingNode,
+				NodesPropertiesNames.PROGRESS.name(), progress);
 	}
 
 	public boolean equals(Object obj) {
-		return obj instanceof PersistedTask &&
-				((PersistedTask)obj).getNode().equals(underlyingNode);
+		return obj instanceof PersistedTask
+				&& ((PersistedTask) obj).getNode().equals(underlyingNode);
 	}
 
 	public int hashCode() {
@@ -172,8 +190,10 @@ public class PersistedTask implements Task {
 	}
 
 	public void addSubtask(Task child) {
-		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE, ((PersistedTask) child).getNodeType());
-		manager.createRelationshipTo(underlyingNode, ((PersistedTask) child).getNode(), Relations.IS_SUBPROJECT_OF);
+		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE,
+				((PersistedTask) child).getNodeType());
+		manager.createRelationshipTo(underlyingNode,
+				((PersistedTask) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
 
 	@Override
@@ -198,12 +218,14 @@ public class PersistedTask implements Task {
 
 	@Override
 	public Integer getDuration() {
-		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.DURATION.name());
+		return manager.getIntegerProperty(underlyingNode,
+				NodesPropertiesNames.DURATION.name());
 	}
 
 	@Override
 	public void setDuration(Integer duration) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.DURATION.name(), duration);
+		manager.setProperty(underlyingNode,
+				NodesPropertiesNames.DURATION.name(), duration);
 	}
 
 }
