@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import org.neo4j.cypher.javacompat.ExecutionEngine;
@@ -23,16 +22,17 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
-@Singleton
+//@Singleton
 public class NeoManager {
 
-	@Inject
+//	@Inject
 	GraphDatabaseService graphDb;
-
+	
 	public static final String FOUND = "found";
 
 	protected NeoManager(){}
 
+	@Inject
 	public NeoManager(GraphDatabaseService graphDb){
 		this.graphDb = graphDb;
 	}
@@ -143,15 +143,33 @@ public class NeoManager {
 
 
 	public String getStringProperty(Node node, String key) {
-		return (String) getProperty(node, key);
+		try {
+			return (String) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 
 	public Integer getIntegerProperty(Node node, String key) {
-		return (Integer) getProperty(node, key);
+		try {
+			return (Integer) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	public Float getFloatProperty(Node node, String key) {
-		return (Float) getProperty(node, key);
+		try {
+			return (Float) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			e.printStackTrace();
+			return 0F;
+		}
+		catch(java.lang.ClassCastException ex) {
+			return 0F;
+		}
 	}
 
 	public void setProperty(Node node, String key, Object value) {
@@ -267,7 +285,12 @@ public class NeoManager {
 	}
 
 	public Boolean getBooleanProperty(Node node, String key) {
-		return (Boolean) getProperty(node, key);
+		try {
+			return (Boolean) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public GraphDatabaseService getGraphDbService() {
@@ -275,7 +298,12 @@ public class NeoManager {
 	}
 
 	public Long getLongProperty(Node n, String key) {
-		return (Long) getProperty(n, key);
+		try {
+			return (Long) getProperty(n, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			e.printStackTrace();
+			return 0L;
+		}
 	}
 
 
