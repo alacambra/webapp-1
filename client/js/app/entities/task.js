@@ -104,4 +104,6 @@ define(['app'], function(App) {
             return API.get_task_entity(id, force_refresh);
         });
     });
+
+    return App.Entities;
 });
