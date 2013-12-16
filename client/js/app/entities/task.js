@@ -25,7 +25,9 @@ define(['app'], function(App) {
             validate: function(attrs, options) {
                 var errors = {};
 
-                if (!attrs.title) {
+                if (typeof attrs.title !== 'string') {
+                    errors.title = 'invalid input';
+                } else if (attrs.title.length === 0) {
                     errors.title = 'can\'t be blank';
                 }
 
