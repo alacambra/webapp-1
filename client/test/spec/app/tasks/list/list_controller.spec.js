@@ -16,7 +16,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/list/list_controller' ], functio
             App.request = temp;
         });
 
-        it('Should call show in main region with correct task collection.', function () {
+        it('Should call show in main region.', function () {
             spyOn(App.main_region, 'show');
 
             Ctrl.tasks_list();

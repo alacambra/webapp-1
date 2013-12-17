@@ -5,8 +5,7 @@ require.config({
         jquery: 'lib/vendor/jquery',
         underscore: 'lib/vendor/underscore',
         backbone: 'lib/vendor/backbone',
-        'backbone.marionette': 'lib/vendor/backbone.marionette',
-        'backbone.syphon': 'lib/vendor/backbone.syphon',
+        backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         marionette: 'lib/vendor/backbone.marionette',
         moment: 'lib/vendor/moment',
@@ -66,7 +65,8 @@ require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
     specs.push('spec/app.spec');
     specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/tasks/task_helper.spec');
-//    specs.push('spec/app/tasks/list/list_controller.spec.js');
+    specs.push('spec/app/tasks/edit/edit_controller.spec.js');
+    specs.push('spec/app/tasks/list/list_controller.spec.js');
     specs.push('spec/app/tasks/show/show_controller.spec.js');
 
     $(function () {

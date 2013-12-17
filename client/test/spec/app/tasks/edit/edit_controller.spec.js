@@ -1,6 +1,6 @@
-define([ 'app', 'app/entities/task', 'app/tasks/show/show_controller' ], function (App, Entities, Ctrl) {
+define([ 'app', 'app/entities/task', 'app/tasks/edit/edit_controller' ], function (App, Entities, Ctrl) {
 
-    return describe('Task :: Show', function () {
+    return describe('Task :: Edit', function () {
 
         var temp = null;
 
@@ -21,9 +21,9 @@ define([ 'app', 'app/entities/task', 'app/tasks/show/show_controller' ], functio
         it('Should call show in main region.', function () {
             spyOn(App.main_region, 'show');
 
-            Ctrl.task_show(6);
+            Ctrl.task_edit(5);
 
             expect(App.main_region.show).toHaveBeenCalled();
-        });
+        })
     });
 });
