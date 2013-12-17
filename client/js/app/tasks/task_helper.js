@@ -25,7 +25,7 @@ define(['moment', 'advanced_string'], function(moment) {
 
         format_progress: function(progress) {
             if (!this.has_value(progress)) return '';
-            return progress * 100 + '%';
+            return parseInt(progress * 100) + '%';
         },
 
         select_for: function(model, attr, options) {
@@ -45,7 +45,7 @@ define(['moment', 'advanced_string'], function(moment) {
             data.startDate = this.has_value(data.startDate) ? moment(data.startDate, 'DD.MM.YYYY').unix() : 0;
             data.endDate = this.has_value(data.endDate) ? moment(data.endDate, 'DD.MM.YYYY').unix() : 0;
             data.duration = moment.duration(data.duration, 'HH:mm').asMinutes();
-            data.progress = parseInt(data.progress) / 100 || 0;
+            data.progress = data.progress / 100 || 0;
             return data;
         },
 
