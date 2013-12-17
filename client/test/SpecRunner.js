@@ -75,6 +75,14 @@ require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
 
     $(function () {
         require(specs, function () {
+            var original_done = jasmineEnv.currentRunner_.finishCallback;
+            jasmineEnv.currentRunner_.finishCallback = function () {
+                original_done.call(this);
+                if (this.results().failedCount > 0) {
+                    alert('Test failed!');
+                }
+            };
+
             jasmineEnv.execute();
         });
     });
