@@ -293,35 +293,37 @@
 		<profile>
 			<id>dep</id>
 			<build>
-				<plugin>
-					<groupId>org.glassfish.maven.plugin</groupId>
-					<artifactId>maven-glassfish-plugin</artifactId>
-					<configuration>
-						<glassfishDirectory>/home/glassfish/glassfish4/glassfish</glassfishDirectory>
-						<user>admin</user>
-						<autoCreate>true</autoCreate>
-						<adminPassword>lacambra</adminPassword>
-						<debug>true</debug>
-						<echo>true</echo>
-						<terse>true</terse>
-						<skip>true</skip>
-						<domain>
-							<name>${project.artifactId}</name>
-							<adminPort>4848</adminPort>
-							<httpPort>8080</httpPort>
-							<httpsPort>8443</httpsPort>
-							<iiopPort>3700</iiopPort>
-							<jmsPort>7676</jmsPort>
-							<reuse>false</reuse>
-						</domain>
-						<components>
-							<component>
+				<plugins>
+					<plugin>
+						<groupId>org.glassfish.maven.plugin</groupId>
+						<artifactId>maven-glassfish-plugin</artifactId>
+						<configuration>
+							<glassfishDirectory>/home/glassfish/glassfish4/glassfish</glassfishDirectory>
+							<user>admin</user>
+							<autoCreate>true</autoCreate>
+							<adminPassword>lacambra</adminPassword>
+							<debug>true</debug>
+							<echo>true</echo>
+							<terse>true</terse>
+							<skip>true</skip>
+							<domain>
 								<name>${project.artifactId}</name>
-								<artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
-							</component>
-						</components>
-					</configuration>
-				</plugin>
+								<adminPort>4848</adminPort>
+								<httpPort>8080</httpPort>
+								<httpsPort>8443</httpsPort>
+								<iiopPort>3700</iiopPort>
+								<jmsPort>7676</jmsPort>
+								<reuse>false</reuse>
+							</domain>
+							<components>
+								<component>
+									<name>${project.artifactId}</name>
+									<artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+								</component>
+							</components>
+						</configuration>
+					</plugin>
+				</plugins>
 			</build>
 		</profile>
 	</profiles>
