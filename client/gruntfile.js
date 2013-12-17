@@ -10,38 +10,48 @@ module.exports = function(grunt) {
             }
         },
 
-        jasmine: {
-            specs: {
-                src: [
-                    'js/libs/underscore.min.js'
-                ],
+        watch: {
+            livereload: {
                 options: {
-                    specs: 'test/spec/*.spec.js',
-                    helpers: 'spec/*.helper.js'
-                }
+                    livereload: '<%= connect.options.livereload %>'
+                },
+                files: [ 'js/app/**/*.js' ]
             }
+//            specs: {
+//                files: ['test/spec/*.spec.js'],
+//                tasks: 'jasmine'
+//            },
+//            sass: {
+//                files: ['css/*.sass'],
+//                tasks: 'sass'
+//            }
         },
 
-        watch: {
-            specs: {
-                files: ['test/spec/*.spec.js'],
-                tasks: 'jasmine'
-            }/*,
-            sass: {
-                files: ['css/*.sass'],
-                tasks: 'sass'
-            }*/
+        connect: {
+            options: {
+                port: 9000,
+                // Change this to '0.0.0.0' to access the server from outside.
+                hostname: 'localhost',
+                livereload: 35729
+            },
+            livereload: {
+                options: {
+                    open: 'http://localhost:9000/test/SpecRunner.html'
+                }
+            }
         }
     });
 
     // Load plugins here
     grunt.loadNpmTasks('grunt-contrib');
     grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // Default task.
     grunt.registerTask('default', 'watch');
 
-    // Test task.
-    grunt.registerTask('test', 'jasmine');
+    // SpecRunner task.
+    grunt.registerTask('specrunner', [ 'connect:livereload', 'watch:livereload' ]);
 };
