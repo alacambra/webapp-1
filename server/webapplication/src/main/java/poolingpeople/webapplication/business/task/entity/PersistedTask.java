@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
@@ -40,7 +39,7 @@ public class PersistedTask implements Task {
 
 	/*
 	 * Needed for json serialization. It will be called bz jax-rs (jackson) and
-	 * therefore no instance of manager will be availabe Exist som jackson
+	 * therefore no instance of manager will be availabe. Exist som jackson
 	 * provider interface?
 	 */
 	public PersistedTask() throws NodeExistsException {
@@ -212,8 +211,8 @@ public class PersistedTask implements Task {
 	}
 
 	@Override
-	public void setStatus(Integer status) {
-		setStatus(TaskStatus.getStatus(status));
+	public void setStatusInteger(Integer status) {
+		setStatus(TaskStatus.getStatus(status));  
 	}
 
 	@Override

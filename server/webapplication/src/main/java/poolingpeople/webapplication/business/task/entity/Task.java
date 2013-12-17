@@ -27,7 +27,7 @@ public interface Task {
 	
 	Integer getStatusInteger();
 
-	void setStatus(Integer status);
+	void setStatusInteger(Integer status);
 	
 	void setStatus(TaskStatus status);
 

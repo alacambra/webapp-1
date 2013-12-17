@@ -82,7 +82,6 @@ public class TaskBoundary {
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
 				entityFactory.createTask());
-//		Task persistedTask = mapper.readValue(json, PersistedTask.class);
 		return Response.ok().entity(mapper.writeValueAsString(task)).build();
 	}
 

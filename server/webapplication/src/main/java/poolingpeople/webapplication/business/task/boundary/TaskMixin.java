@@ -116,7 +116,7 @@ public class TaskMixin implements Task{
 
 	@Override
 	@JsonProperty(value="status")
-	public void setStatus(Integer status) {
+	public void setStatusInteger(Integer status) {
 		// TODO Auto-generated method stub
 		
 	}

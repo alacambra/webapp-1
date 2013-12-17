@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import org.apache.log4j.Logger;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
@@ -22,11 +24,11 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
-//@Singleton
+@Singleton
 public class NeoManager {
 
 	GraphDatabaseService graphDb;
-	
+	Logger logger = Logger.getLogger(this.getClass());
 	public static final String FOUND = "found";
 
 	protected NeoManager(){}
@@ -78,7 +80,7 @@ public class NeoManager {
 	}
 
 	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
-			 {
+	{
 
 		Node node = null;
 
@@ -136,7 +138,12 @@ public class NeoManager {
 	public Object getProperty(Node node, String key) {
 
 		Object prop = null;
-		prop = node.getProperty(key);
+		try {
+			prop = node.getProperty(key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.error("property not found", e);
+			return null;
+		}
 		return prop;
 	}
 
@@ -145,7 +152,7 @@ public class NeoManager {
 		try {
 			return (String) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			e.printStackTrace();
+			logger.error("property not found", e);
 			return "";
 		}
 	}
@@ -154,7 +161,7 @@ public class NeoManager {
 		try {
 			return (Integer) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			e.printStackTrace();
+			logger.error("property not found", e);
 			return 0;
 		}
 	}
@@ -163,7 +170,7 @@ public class NeoManager {
 		try {
 			return (Float) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			e.printStackTrace();
+			logger.error("property not found", e);
 			return 0F;
 		}
 		catch(java.lang.ClassCastException ex) {
@@ -287,7 +294,7 @@ public class NeoManager {
 		try {
 			return (Boolean) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			e.printStackTrace();
+			logger.error("property not found", e);
 			return false;
 		}
 	}
@@ -300,7 +307,7 @@ public class NeoManager {
 		try {
 			return (Long) getProperty(n, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			e.printStackTrace();
+			logger.error("property not found", e);
 			return 0L;
 		}
 	}

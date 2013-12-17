@@ -1,9 +1,10 @@
 package poolingpeople.webapplication.business.task.entity;
 
 public enum TaskPriority {
-	LOW(0),
-	NORMAL(1),
-	HIGH(2);
+	NONE(0),
+	LOW(1),
+	NORMAL(2),
+	HIGH(3);
 	
 	private int priorityNumber;
 	

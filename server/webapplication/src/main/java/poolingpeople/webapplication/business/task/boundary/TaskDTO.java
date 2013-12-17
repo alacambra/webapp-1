@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.task.boundary;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonValue;
 
@@ -67,9 +68,12 @@ public class TaskDTO implements Task {
 		this.description = description;
 	}
 
+	@IgnoreAttribute
+	@JsonIgnore
 	public void setPriority(TaskPriority priority) {
 	}
 
+	@IgnoreAttribute
 	public void setStatus(TaskStatus status) {
 	}
 
@@ -94,19 +98,18 @@ public class TaskDTO implements Task {
 	@Override
 	@JsonProperty(value="priority")
 	public void setPriorityInteger(Integer priority) {
-		
+		this.priority = priority;
 	}
 	
 	@Override
 	@JsonProperty(value="status")
 	public Integer getStatusInteger() {
-		return null;
+		return status;
 	}
 	
 	@Override
-	@JsonProperty(value="status")
-	public void setStatus(Integer status) {
-		
+	public void setStatusInteger(Integer status) {
+		this.status = status;
 	}
 
 	@Override
