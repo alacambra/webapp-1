@@ -302,19 +302,23 @@
 							<user>admin</user>
 							<autoCreate>true</autoCreate>
 							<adminPassword>lacambra</adminPassword>
-							<debug>true</debug>
-							<echo>true</echo>
-							<terse>true</terse>
-							<skip>true</skip>
-							<domain>
-								<name>${project.artifactId}</name>
-								<adminPort>4848</adminPort>
-								<httpPort>8080</httpPort>
-								<httpsPort>8443</httpsPort>
-								<iiopPort>3700</iiopPort>
-								<jmsPort>7676</jmsPort>
-								<reuse>false</reuse>
-							</domain>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>alheim</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.glassfish.maven.plugin</groupId>
+						<artifactId>maven-glassfish-plugin</artifactId>
+						<configuration>
+							<glassfishDirectory>/home/albert/glassfish4/glassfish</glassfishDirectory>
+							<user>admin</user>
+							<autoCreate>true</autoCreate>
+							<adminPassword>lacambra</adminPassword>
 							<components>
 								<component>
 									<name>${project.artifactId}</name>
