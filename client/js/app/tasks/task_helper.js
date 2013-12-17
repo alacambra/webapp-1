@@ -1,7 +1,7 @@
 define(['moment', 'advanced_string'], function(moment) {
     return {
-        status_options: ['', 'ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'],
-        priority_options: ['', 'Low', 'Normal', 'High'],
+        status_options: ['ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'],
+        priority_options: ['Low', 'Normal', 'High'],
 
 
         format_date: function(date) {

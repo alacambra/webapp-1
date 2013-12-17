@@ -15,8 +15,8 @@ define(['app'], function(App) {
             defaults: {
                 title: null,
                 description: null,
-                status: null,
-                priority: null,
+                status: 1,
+                priority: 1,
                 startDate: null,
                 endDate: null,
                 duration: null,
@@ -35,6 +35,12 @@ define(['app'], function(App) {
                 if (attrs.endDate && attrs.endDate < attrs.startDate) {
                     errors.startDate = 'must be earlier than end';
                     errors.endDate = 'must be later than start';
+                }
+
+                if (attrs.progress < 0) {
+                    errors.progress = 'can\'t be lesser than 0';
+                } else if (attrs.progress > 1) {
+                    errors.progress = 'can\'t be greater than 100';
                 }
 
                 return _.isEmpty(errors) ? false : errors;
