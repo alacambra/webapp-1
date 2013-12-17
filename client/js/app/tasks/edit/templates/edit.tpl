@@ -1,4 +1,4 @@
-<h2>Edit Task <%= title %></h2>
+<h2><%= Backbone.history.location.hash.match(/new/) ? 'New' : 'Edit' %> Task <%= title %></h2>
 <form role="form" class="form-horizontal">
     <div class="form-group">
         <div class="col-lg-3">
