@@ -25,7 +25,6 @@ import org.neo4j.kernel.impl.util.StringLogger;
 //@Singleton
 public class NeoManager {
 
-//	@Inject
 	GraphDatabaseService graphDb;
 	
 	public static final String FOUND = "found";
