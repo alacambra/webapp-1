@@ -4,7 +4,8 @@ define(['app'], function(App) {
 
         switch(document.location.host.substr(0,3)) {
             case 'tst': base_url = '/api/webapplication/rest/task'; break;
-            default: base_url = '/api/tasks';
+            case 'dev': base_url = '/api/tasks';
+            default: '/rest/task';
         }
 
 
