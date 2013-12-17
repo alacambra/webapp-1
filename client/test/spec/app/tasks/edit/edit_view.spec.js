@@ -1,8 +1,8 @@
-define([ 'app', 'app/entities/task', 'app/tasks/edit/edit_view' ], function(App, Entities, Edit) {
+define([ 'app', 'app/entities/task', 'app/tasks/edit/edit_view' ], function (App, Entities, Edit) {
 
     var $sandbox = $('#sandbox');
 
-    describe('Task :: Edit View', function () {
+    describe('Task :: Edit :: View', function () {
 
         var view = null,
             task = new Entities.Task({

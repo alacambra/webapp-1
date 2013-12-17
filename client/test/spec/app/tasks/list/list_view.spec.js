@@ -2,7 +2,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/list/list_view' ], function (App
 
     var $sandbox = $('#sandbox');
 
-    describe('Task :: List View', function () {
+    describe('Task :: List :: View', function () {
 
         var listView = null,
             itemView = null,

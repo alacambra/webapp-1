@@ -2,7 +2,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/show/show_view' ], function (App
 
     var $sandbox = $('#sandbox');
 
-    describe('Task :: Show View', function () {
+    describe('Task :: Show :: View', function () {
 
         var view = null,
             task = new Entities.Task({

@@ -1,6 +1,6 @@
 define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, Entities) {
 
-    return describe('Task Helper', function () {
+    return describe('Task :: Helper', function () {
         it('Date should be returned in the format \'DD.MM.YYYY\'.', function () {
             expect(task_helper.format_date(1387206224)).toBe('16.12.2013');
         });
