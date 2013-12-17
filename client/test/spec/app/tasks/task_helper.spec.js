@@ -27,7 +27,7 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
             expect(task_helper.priority_text(true)).toBe('');
         });
 
-        it('Should return a correct duration.', function () {
+        xit('Should return a correct duration.', function () {
             expect(task_helper.format_duration(0)).toBe('0:00');
             expect(task_helper.format_duration(2)).toBe('0:02');
             expect(task_helper.format_duration(15)).toBe('0:15');
@@ -38,7 +38,7 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
             expect(task_helper.format_duration(610)).toBe('10:10');
         });
 
-        it('Should return correct progress.', function () {
+        xit('Should return correct progress.', function () {
             expect(task_helper.format_progress(0)).toBe('0%');
             expect(task_helper.format_progress(0.01)).toBe('1%');
             expect(task_helper.format_progress(0.25)).toBe('25%');

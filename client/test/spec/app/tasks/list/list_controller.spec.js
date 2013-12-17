@@ -1,6 +1,6 @@
 define([ 'app', 'app/entities/task', 'app/tasks/list/list_controller' ], function (App, Entities, Ctrl) {
 
-    return describe('Task :: List', function () {
+    return describe('Task :: List Ctrl', function () {
 
         var temp = null;
 
