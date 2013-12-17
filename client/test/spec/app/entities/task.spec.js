@@ -14,8 +14,8 @@ define([ 'app/entities/task' ], function (Entities) {
             it('Check default attributes.', function () {
                 expect(task.get('title')).toBeNull();
                 expect(task.get('description')).toBeNull();
-                expect(task.get('status')).toBeNull();
-                expect(task.get('priority')).toBeNull();
+                expect(task.get('status')).toBe(1);
+                expect(task.get('priority')).toBe(1);
                 expect(task.get('startDate')).toBeNull();
                 expect(task.get('endDate')).toBeNull();
                 expect(task.get('duration')).toBeNull();
@@ -67,6 +67,23 @@ define([ 'app/entities/task' ], function (Entities) {
                 task.set('endDate', 1);
                 expect(task.validate(task.attributes).startDate).toBeDefined();
                 expect(task.validate(task.attributes).endDate).toBeDefined();
+            });
+
+            it('The progress should be a value from 0 to 1.', function () {
+                task.set('progress', 0);
+                expect(task.validate(task.attributes).progress).toBeUndefined();
+
+                task.set('progress', 0.5);
+                expect(task.validate(task.attributes).progress).toBeUndefined();
+
+                task.set('progress', 1.00);
+                expect(task.validate(task.attributes).progress).toBeUndefined();
+
+                task.set('progress', -0.01);
+                expect(task.validate(task.attributes).progress).toBeDefined();
+
+                task.set('progress', 1.01);
+                expect(task.validate(task.attributes).progress).toBeDefined();
             });
         });
 

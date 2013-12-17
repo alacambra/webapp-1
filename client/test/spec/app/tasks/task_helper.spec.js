@@ -6,9 +6,8 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
         });
 
         it('Should return the correct status text.', function () {
-            expect(task_helper.status_text(0)).toBe('');
-            expect(task_helper.status_text(2)).toBe('New');
-            expect(task_helper.status_text(5)).toBe('Completed');
+            expect(task_helper.status_text(1)).toBe('New');
+            expect(task_helper.status_text(4)).toBe('Completed');
             expect(task_helper.status_text(-1)).toBe('');
             expect(task_helper.status_text(2.4)).toBe('');
             expect(task_helper.status_text('New')).toBe('');
@@ -17,10 +16,9 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
         });
 
         it('Should return the correct priority text.', function () {
-            expect(task_helper.priority_text(0)).toBe('');
-            expect(task_helper.priority_text(1)).toBe('Low');
-            expect(task_helper.priority_text(2)).toBe('Normal');
-            expect(task_helper.priority_text(3)).toBe('High');
+            expect(task_helper.priority_text(0)).toBe('Low');
+            expect(task_helper.priority_text(1)).toBe('Normal');
+            expect(task_helper.priority_text(2)).toBe('High');
             expect(task_helper.priority_text(-1)).toBe('');
             expect(task_helper.priority_text(1.2)).toBe('');
             expect(task_helper.priority_text('High')).toBe('');
