@@ -53,5 +53,5 @@ module.exports = function(grunt) {
     grunt.registerTask('default', 'watch');
 
     // SpecRunner task.
-    grunt.registerTask('specrunner', [ 'connect:livereload', 'watch:livereload' ]);
+    grunt.registerTask('unittest', [ 'connect:livereload', 'watch:livereload' ]);
 };
