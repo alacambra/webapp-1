@@ -1,7 +1,8 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
         'app/tasks/task_helper',
-        'backbone_syphon'],
+        'backbone_syphon',
+        'jquery_ui'],
 function(App, edit_tpl, task_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
@@ -14,6 +15,13 @@ function(App, edit_tpl, task_helper) {
 
 
             templateHelpers: task_helper,
+
+            initialize: function () {
+                this.on('render', function () {
+                    this.$('#js-task-startDate').datepicker({ dateFormat: 'dd.mm.yy' });
+                    this.$('#js-task-endDate').datepicker({ dateFormat: 'dd.mm.yy' });
+                });
+            },
 
 
             onFormDataValid: function() {

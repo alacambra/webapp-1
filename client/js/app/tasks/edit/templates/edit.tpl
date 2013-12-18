@@ -26,13 +26,13 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-startDate" type="date" name="startDate" value="<%= format_date(startDate) %>" placeholder="Start date" class="form-control">
+            <input id="js-task-startDate" type="text" name="startDate" value="<%= format_date(startDate) %>" placeholder="Start date" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-endDate" type="date" name="endDate" value="<%= format_date(endDate) %>" placeholder="End date" class="form-control">
+            <input id="js-task-endDate" type="text" name="endDate" value="<%= format_date(endDate) %>" placeholder="End date" class="form-control">
         </div>
     </div>
 

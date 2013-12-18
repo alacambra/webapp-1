@@ -8,6 +8,7 @@ require.config({
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         marionette: 'lib/vendor/backbone.marionette',
+        jquery_ui: 'lib/vendor/jquery-ui',
         moment: 'lib/vendor/moment',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',

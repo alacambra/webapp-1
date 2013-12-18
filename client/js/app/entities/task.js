@@ -116,7 +116,7 @@ define(['app', 'backbone_faux_server'], function(App, Faux) {
         // FAUX SERVER!!!
 
         var tasks = [
-            { id: 1, title: 'Task1', description: 'bla bla' },
+            { id: 1, title: 'Task1', description: 'bla bla', startDate: 1387206224 },
             { id: 2, title: 'Task2', description: 'bla bla bla bla' },
             { id: 3, title: 'Task3', description: 'bla bla bla bla bla bla', progress: 1 },
             { id: 4, title: 'Task4', description: 'bla bla bla bla bla bla bla bla', progress: 0.2 },
