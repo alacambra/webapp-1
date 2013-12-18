@@ -137,7 +137,7 @@ define(['app', 'backbone_faux_server'], function(App, Faux) {
             return task;
         });
 
-        Faux.enable(true);
+        Faux.enable(false);
     });
 
     return App.Entities;
