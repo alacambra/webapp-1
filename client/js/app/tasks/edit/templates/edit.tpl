@@ -52,6 +52,6 @@
         <span class="glyphicon glyphicon-floppy-disk" style="margin-right: 5px"></span> Save
     </button>
 
-    <img id="js-task-save-inidcator" src="img/load_indicator.gif" style="display: none;">
+    <img id="js-task-save-indicator" src="img/load_indicator.gif" style="display: none;">
 </form>
 

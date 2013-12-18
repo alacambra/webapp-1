@@ -17,7 +17,7 @@ function(App, edit_tpl, task_helper) {
 
 
             onFormDataValid: function() {
-                this.$('#js-task-save-inidcator').fadeIn(300);
+                this.$('#js-task-save-indicator').fadeIn(300);
                 this.$('.js-submit').addClass('disabled');
             },
 
@@ -37,7 +37,7 @@ function(App, edit_tpl, task_helper) {
             onFormSaveFailed: function() {
                 var $view = this.$el;
 
-                $('#js-task-save-inidcator').fadeOut(300, function() {
+                $('#js-task-save-indicator').fadeOut(300, function() {
                     var $error_msg = $('<span>', { id: 'js-save-error', class: 'text-danger', text: 'save failed' });
                     var $submit_btn = $view.find('.js-submit');
                     $submit_btn.removeClass('disabled').addClass('btn-danger');
