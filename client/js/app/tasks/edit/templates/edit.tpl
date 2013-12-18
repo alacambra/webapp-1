@@ -44,7 +44,7 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-progress" type="text" class="form-control" name="progress" value="<%= format_progress(progress) %>" placeholder="Progress" class="form-control">
+            <input id="js-task-progress" type="number" class="form-control" name="progress" value="<%= format_progress(progress) %>" min="0" max="100" class="form-control">
         </div>
     </div>
 

@@ -42,15 +42,15 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
             expect(task_helper.format_duration(610)).toBe('10:10');
         });
 
-        xit('Should return correct progress.', function () {
-            expect(task_helper.format_progress(0)).toBe('0%');
-            expect(task_helper.format_progress(0.01)).toBe('1%');
-            expect(task_helper.format_progress(0.25)).toBe('25%');
-            expect(task_helper.format_progress(0.525)).toBe('52.5%');
-            expect(task_helper.format_progress(0.8)).toBe('80%');
-            expect(task_helper.format_progress(1)).toBe('100%');
-            expect(task_helper.format_progress(1.11111)).toBe('111.111%');
-            expect(task_helper.format_progress(2)).toBe('200%');
+        it('Should return a correct progress between 0 and 100.', function () {
+            expect(task_helper.format_progress(-0.01)).toBe(0);
+            expect(task_helper.format_progress(-25)).toBe(0);
+            expect(task_helper.format_progress(0)).toBe(0);
+            expect(task_helper.format_progress(0.525)).toBe(52);
+            expect(task_helper.format_progress(0.8)).toBe(80);
+            expect(task_helper.format_progress(1)).toBe(100);
+            expect(task_helper.format_progress(1.11111)).toBe(100);
+            expect(task_helper.format_progress(2)).toBe(100);
         });
 
         it('Should unformat correctly.', function () {

@@ -20,7 +20,7 @@ define(['app', 'backbone_faux_server'], function(App, Faux) {
                 startDate: null,
                 endDate: null,
                 duration: null,
-                progress: null
+                progress: 0
             },
 
             validate: function(attrs, options) {
@@ -112,34 +112,33 @@ define(['app', 'backbone_faux_server'], function(App, Faux) {
         App.reqres.setHandler("task:entity", function(id, force_refresh){
             return API.get_task_entity(id, force_refresh);
         });
-    });
 
-    Faux.addRoute('getTasks', '/webapplication/rest/task', 'GET', function (context) {
-        var data = [
+        // FAUX SERVER!!!
+
+        var tasks = [
             { id: 1, title: 'Task1', description: 'bla bla' },
             { id: 2, title: 'Task2', description: 'bla bla bla bla' },
-            { id: 3, title: 'Task3', description: 'bla bla bla bla bla bla' },
-            { id: 4, title: 'Task4', description: 'bla bla bla bla bla bla bla bla' },
-            { id: 5, title: 'Task5', description: 'bla bla bla bla bla bla bla bla bla bla' }
+            { id: 3, title: 'Task3', description: 'bla bla bla bla bla bla', progress: 1 },
+            { id: 4, title: 'Task4', description: 'bla bla bla bla bla bla bla bla', progress: 0.2 },
+            { id: 5, title: 'Task5', description: 'bla bla bla bla bla bla bla bla bla bla', progress: 0.5 }
         ];
-        return data;
+
+        Faux.addRoute('getTasks', '/webapplication/rest/task', 'GET', function (context) {
+            return tasks;
+        });
+
+        Faux.addRoute('getTask', '/webapplication/rest/task/:id', 'GET', function(context, id) {
+            var task;
+            _.forEach(tasks, function (t) {
+                if (t.id === parseInt(id)) {
+                    task = t;
+                }
+            });
+            return task;
+        });
+
+        Faux.enable(true);
     });
-
-    Faux.addRoute('getTask', '/webapplication/rest/task/:id', 'GET', function(context, id) {
-        var data = {
-            id: id,
-            title: 'Task' + id,
-            description: ''
-        };
-
-        for (var i = 0; i < id; i++) {
-            data.description += 'bla bla ';
-        }
-
-        return data;
-    });
-
-    Faux.enable(true);
 
     return App.Entities;
 });

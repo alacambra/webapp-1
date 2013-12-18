@@ -23,7 +23,7 @@ define([ 'app/entities/task' ], function (Entities) {
                 expect(task.get('startDate')).toBeNull();
                 expect(task.get('endDate')).toBeNull();
                 expect(task.get('duration')).toBeNull();
-                expect(task.get('progress')).toBeNull();
+                expect(task.get('progress')).toBe(0);
             });
 
             it('Default Task Model should always return an error object on validate.', function () {

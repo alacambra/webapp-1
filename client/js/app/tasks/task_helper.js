@@ -31,8 +31,12 @@ define(['moment', 'advanced_string'], function(moment) {
         },
 
         format_progress: function(progress) {
-            if (!this.has_value(progress)) return '';
-            return parseInt(progress * 100) + '%';
+            if (progress < 0) {
+                return 0;
+            } else if (progress > 1) {
+                return 100;
+            }
+            return parseInt(progress * 100);
         },
 
         select_for: function(model, attr, options) {
