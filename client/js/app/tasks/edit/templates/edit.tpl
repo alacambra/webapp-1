@@ -8,7 +8,7 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <textarea id="js-task-description" name="description" placeholder="Description" class="form-control"><%= description %></textarea>
+            <textarea id="js-task-description" name="description" placeholder="Description" class="form-control" maxlength="5000"><%= description %></textarea>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Duration" class="form-control">
+            <input id="js-task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Estimated Duration" class="form-control">
         </div>
     </div>
 
