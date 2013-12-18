@@ -1,10 +1,10 @@
-define(['app'], function(App) {
+define(['app', 'backbone_faux_server'], function(App, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url;
 
         switch(document.location.host.substr(0,3)) {
             case 'tst': base_url = '/api/webapplication/rest/task'; break;
-            case 'dev': base_url = '/api/tasks';
+            case 'dev': base_url = '/api/tasks'; break;
             default: base_url = '/webapplication/rest/task';
         }
 
@@ -20,7 +20,7 @@ define(['app'], function(App) {
                 startDate: null,
                 endDate: null,
                 duration: null,
-                progress: null
+                progress: 0
             },
 
             validate: function(attrs, options) {
@@ -112,6 +112,32 @@ define(['app'], function(App) {
         App.reqres.setHandler("task:entity", function(id, force_refresh){
             return API.get_task_entity(id, force_refresh);
         });
+
+        // FAUX SERVER!!!
+
+        var tasks = [
+            { id: 1, title: 'Task1', description: 'bla bla', startDate: 1387206224 },
+            { id: 2, title: 'Task2', description: 'bla bla bla bla' },
+            { id: 3, title: 'Task3', description: 'bla bla bla bla bla bla', progress: 1 },
+            { id: 4, title: 'Task4', description: 'bla bla bla bla bla bla bla bla', progress: 0.2 },
+            { id: 5, title: 'Task5', description: 'bla bla bla bla bla bla bla bla bla bla', progress: 0.5 }
+        ];
+
+        Faux.addRoute('getTasks', '/webapplication/rest/task', 'GET', function (context) {
+            return tasks;
+        });
+
+        Faux.addRoute('getTask', '/webapplication/rest/task/:id', 'GET', function(context, id) {
+            var task;
+            _.forEach(tasks, function (t) {
+                if (t.id === parseInt(id)) {
+                    task = t;
+                }
+            });
+            return task;
+        });
+
+        Faux.enable(true);
     });
 
     return App.Entities;

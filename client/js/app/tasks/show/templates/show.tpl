@@ -6,7 +6,7 @@
 <p>Priority: <%= priority_text(priority) %>&nbsp;</p>
 <p>Start: <%= format_date(startDate) %>&nbsp;</p>
 <p>End: <%= format_date(endDate) %>&nbsp;</p>
-<p>Duration: <%= format_duration(duration) %>&nbsp;</p>
+<p>Estimated Duration: <%= format_duration(duration) %>&nbsp;</p>
 <p>Progress: <%= format_progress(progress) %>&nbsp;</p>
 
 <a href="#tasks/<%= id %>/edit" class="btn btn-default btn-sm js-edit" style="margin-right: 10px">

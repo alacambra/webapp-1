@@ -11,6 +11,10 @@ define([ 'app/entities/task' ], function (Entities) {
         });
 
         describe('Model', function () {
+            it('Should have a urlRoot that contains \'task\'.', function() {
+                expect(Entities.Task.prototype.urlRoot).toContain('task');
+            });
+
             it('Check default attributes.', function () {
                 expect(task.get('title')).toBeNull();
                 expect(task.get('description')).toBeNull();
@@ -19,7 +23,7 @@ define([ 'app/entities/task' ], function (Entities) {
                 expect(task.get('startDate')).toBeNull();
                 expect(task.get('endDate')).toBeNull();
                 expect(task.get('duration')).toBeNull();
-                expect(task.get('progress')).toBeNull();
+                expect(task.get('progress')).toBe(0);
             });
 
             it('Default Task Model should always return an error object on validate.', function () {
@@ -88,6 +92,10 @@ define([ 'app/entities/task' ], function (Entities) {
         });
 
         describe('Collection', function () {
+            it('Should have a url that contains \'task\'.', function() {
+                expect(Entities.TaskCollection.prototype.url).toContain('task');
+            });
+
             it('Should order the Collection by the attribute \'priority\'.', function () {
                 var priority = -1;
 

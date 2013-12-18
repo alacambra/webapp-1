@@ -1,4 +1,4 @@
-define([ 'app', 'app/tasks/tasks_app' ], function (App, TasksApp) {
+define([ 'app', 'app/tasks/tasks_app', 'app/entities/task' ], function (App, TasksApp, Entities) {
 
     describe('Task :: App', function () {
 
@@ -39,12 +39,15 @@ define([ 'app', 'app/tasks/tasks_app' ], function (App, TasksApp) {
         });
 
         it('Confirm to delete task.', function () {
-            var id = 1,
+            var task = new Entities.Task({
+                    id: 1,
+                    title: 'Task1'
+                }),
                 redirect = 'redirect';
 
             spyOn(window, 'confirm');
 
-            App.trigger('task:delete', id, redirect);
+            App.trigger('task:delete', task, redirect);
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
         });

@@ -8,7 +8,7 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <textarea id="js-task-description" name="description" placeholder="Description" class="form-control"><%= description %></textarea>
+            <textarea id="js-task-description" name="description" placeholder="Description" class="form-control" maxlength="5000"><%= description %></textarea>
         </div>
     </div>
 
@@ -38,13 +38,13 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Duration" class="form-control">
+            <input id="js-task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Estimated Duration" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-progress" type="text" class="form-control" name="progress" value="<%= format_progress(progress) %>" placeholder="Progress" class="form-control">
+            <input id="js-task-progress" type="number" class="form-control" name="progress" value="<%= format_progress(progress) %>" min="0" max="100" class="form-control">
         </div>
     </div>
 
@@ -52,6 +52,6 @@
         <span class="glyphicon glyphicon-floppy-disk" style="margin-right: 5px"></span> Save
     </button>
 
-    <img id="js-task-save-inidcator" src="img/load_indicator.gif" style="display: none;">
+    <img id="js-task-save-indicator" src="img/load_indicator.gif" style="display: none;">
 </form>
 

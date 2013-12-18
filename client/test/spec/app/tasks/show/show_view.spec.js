@@ -54,7 +54,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/show/show_view' ], function (App
 
             $sandbox.find('.js-delete').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('task:delete', task.get('id'), 'tasks:list');
+            expect(App.trigger).toHaveBeenCalledWith('task:delete', task, 'tasks:list');
         });
     });
 });

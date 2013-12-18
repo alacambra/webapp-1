@@ -1,7 +1,8 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
         'app/tasks/task_helper',
-        'backbone_syphon'],
+        'backbone_syphon',
+        'jquery_ui'],
 function(App, edit_tpl, task_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
@@ -15,9 +16,16 @@ function(App, edit_tpl, task_helper) {
 
             templateHelpers: task_helper,
 
+            initialize: function () {
+                this.on('render', function () {
+                    this.$('#js-task-startDate').datepicker({ dateFormat: 'dd.mm.yy' });
+                    this.$('#js-task-endDate').datepicker({ dateFormat: 'dd.mm.yy' });
+                });
+            },
+
 
             onFormDataValid: function() {
-                this.$('#js-task-save-inidcator').fadeIn(300);
+                this.$('#js-task-save-indicator').fadeIn(300);
                 this.$('.js-submit').addClass('disabled');
             },
 
@@ -37,7 +45,7 @@ function(App, edit_tpl, task_helper) {
             onFormSaveFailed: function() {
                 var $view = this.$el;
 
-                $('#js-task-save-inidcator').fadeOut(300, function() {
+                $('#js-task-save-indicator').fadeOut(300, function() {
                     var $error_msg = $('<span>', { id: 'js-save-error', class: 'text-danger', text: 'save failed' });
                     var $submit_btn = $view.find('.js-submit');
                     $submit_btn.removeClass('disabled').addClass('btn-danger');

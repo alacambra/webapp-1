@@ -8,13 +8,15 @@ require.config({
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         marionette: 'lib/vendor/backbone.marionette',
+        jquery_ui: 'lib/vendor/jquery-ui',
         moment: 'lib/vendor/moment',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
         jasmine: '../test/lib/jasmine/jasmine',
         'jasmine-html': '../test/lib/jasmine/jasmine-html',
-        spec: '../test/spec'
+        spec: '../test/spec',
+        backbone_faux_server: 'lib/vendor/backbone-faux-server'
     },
     shim: {
         underscore: {
@@ -25,6 +27,10 @@ require.config({
             exports: 'Backbone'
         },
         backbone_syphon: [ 'backbone' ],
+        backbone_faux_server: {
+            deps: ['backbone', 'underscore'],
+            exports: 'Faux'
+        },
         bootstrap: {
             deps: [ 'jquery' ],
             exports: 'Bootstrap'

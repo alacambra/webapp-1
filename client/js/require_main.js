@@ -6,13 +6,16 @@ requirejs.config({
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         jquery: 'lib/vendor/jquery',
+        jquery_ui: 'lib/vendor/jquery-ui',
         marionette: 'lib/vendor/backbone.marionette',
         moment: 'lib/vendor/moment',
         tpl: 'lib/vendor/tpl',
         underscore: 'lib/vendor/underscore',
 
         advanced_string: 'lib/advanced_string',
-        behaviour: 'lib/behaviour'
+        behaviour: 'lib/behaviour',
+
+        backbone_faux_server: 'lib/vendor/backbone-faux-server'
     },
 
     shim: {
@@ -25,9 +28,19 @@ requirejs.config({
             exports: 'Bootstrap'
         },
         backbone_syphon: ['backbone'],
+        backbone_faux_server: {
+            deps: ['backbone', 'underscore'],
+            exports: 'Faux'
+        },
         marionette: {
             deps: ['backbone'],
             exports: 'Marionette'
+        },
+        jquery: {
+            exports: 'jQuery'
+        },
+        jquery_ui: {
+            deps: ['jquery']
         },
         underscore: {
             exports: '_'

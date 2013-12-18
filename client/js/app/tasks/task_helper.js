@@ -3,6 +3,13 @@ define(['moment', 'advanced_string'], function(moment) {
         status_options: ['ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'],
         priority_options: ['Low', 'Normal', 'High'],
 
+        short_text: function(text, length) {
+            if (!text || length === 0) {
+                return '';
+            }
+
+            return text.length <= length ? text : text.substr(0, length) + '...';
+        },
 
         format_date: function(date) {
             if (!this.has_value(date)) return '';
@@ -24,8 +31,12 @@ define(['moment', 'advanced_string'], function(moment) {
         },
 
         format_progress: function(progress) {
-            if (!this.has_value(progress)) return '';
-            return parseInt(progress * 100) + '%';
+            if (progress < 0) {
+                return 0;
+            } else if (progress > 1) {
+                return 100;
+            }
+            return parseInt(progress * 100);
         },
 
         select_for: function(model, attr, options) {
