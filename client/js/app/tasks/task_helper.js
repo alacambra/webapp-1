@@ -3,6 +3,13 @@ define(['moment', 'advanced_string'], function(moment) {
         status_options: ['ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'],
         priority_options: ['Low', 'Normal', 'High'],
 
+        short_text: function(text, length) {
+            if (!text || length === 0) {
+                return '';
+            }
+
+            return text.length <= length ? text : text.substr(0, length) + '...';
+        },
 
         format_date: function(date) {
             if (!this.has_value(date)) return '';
