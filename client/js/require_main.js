@@ -6,6 +6,7 @@ requirejs.config({
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         jquery: 'lib/vendor/jquery',
+        jquery_elastic: 'lib/vendor/jquery-elastic',
         jquery_ui: 'lib/vendor/jquery-ui',
         marionette: 'lib/vendor/backbone.marionette',
         moment: 'lib/vendor/moment',
@@ -38,6 +39,9 @@ requirejs.config({
         },
         jquery: {
             exports: 'jQuery'
+        },
+        jquery_elastic: {
+            deps: ['jquery']
         },
         jquery_ui: {
             deps: ['jquery']
