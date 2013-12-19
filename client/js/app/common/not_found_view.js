@@ -1,4 +1,4 @@
-app(['app',
+define(['app',
      'tpl!app/common/templates/not_found.tpl'],
 function (App, not_found_tpl) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
@@ -6,4 +6,6 @@ function (App, not_found_tpl) {
             template: not_found_tpl
         });
     });
+
+    return App.Common.NotFoundView;
 });

@@ -1,5 +1,5 @@
-define(['app', 'app/entities/task', 'app/tasks/show/show_view'],
-function (App, Task, View) {
+define(['app', 'app/entities/task', 'app/tasks/show/show_view', 'app/common/not_found_view'],
+function (App, Task, View, NotFoundView) {
     App.module('Tasks.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             task_show: function (task_id) {
@@ -11,7 +11,7 @@ function (App, Task, View) {
                             model: task
                         });
                     } else {
-                        console.log('task not found');
+                        view = new NotFoundView();
                     }
 
                     App.main_region.show(view);

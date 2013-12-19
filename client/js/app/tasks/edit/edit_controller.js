@@ -1,5 +1,5 @@
-define(['app', 'app/entities/task', 'app/tasks/edit/edit_view'],
-function (App, Task, View) {
+define(['app', 'app/entities/task', 'app/tasks/edit/edit_view', 'app/common/not_found_view'],
+function (App, Task, View, NotFoundView) {
     App.module('Tasks.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             task_edit: function (task_id) {
@@ -28,7 +28,7 @@ function (App, Task, View) {
                             }
                         });
                     } else {
-                        console.log('task not found');
+                        view = new NotFoundView();
                     }
 
                     App.main_region.show(view);

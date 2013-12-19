@@ -122,7 +122,7 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
                     task = t;
                 }
             });
-            return task;
+            return task || 'HTTP/1.1 404 Not Found';
         });
 
         Faux.enable(CONFIG.rest.faux_enable);
