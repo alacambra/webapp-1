@@ -15,7 +15,11 @@ module.exports = function(grunt) {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 },
-                files: [ 'js/app/**/*.js' ]
+                files: [
+                    'js/*.js',
+                    'js/app/**/*.js',
+                    'js/app/**/*.tpl'
+                ]
             }
 //            specs: {
 //                files: ['test/spec/*.spec.js'],
@@ -53,5 +57,5 @@ module.exports = function(grunt) {
     grunt.registerTask('default', 'watch');
 
     // SpecRunner task.
-    grunt.registerTask('unittest', [ 'connect:livereload', 'watch:livereload' ]);
+    grunt.registerTask('unittest', ['connect:livereload', 'watch:livereload']);
 };
