@@ -20,6 +20,7 @@ public class Configurator {
 				put("test", "asdf");
 				put("debug","false");
 				put("isLogging","true");
+				put("invalidJson","Invalid JSON provided, thus deserializing is not possible!");
 			}
 		};
 	}
