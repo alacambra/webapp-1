@@ -30,19 +30,37 @@ function(App, edit_tpl, task_helper) {
 
             templateHelpers: task_helper,
 
-            onRender: function () {
-                var that = this;
 
+            onRender: function () {
+                this.init_description_elastic_textarea();
+                this.init_datepicker();
+                this.init_progress_slider();
+                this.init_duration_slider();
+            },
+
+
+            /*
+             * onRender helpers
+             */
+
+            init_description_elastic_textarea: function() {
                 this.ui.description.focus(function() {
                     var $this = $(this);
                     if (!$this.data('elastic-enabled')) {
                         $this.elastic().data('elastic-enabled', true);
                     }
                 });
-                
+            },
+
+
+            init_datepicker: function() {
                 this.ui.start_date.datepicker({ dateFormat: 'dd.mm.yy' });
                 this.ui.end_date.datepicker({ dateFormat: 'dd.mm.yy' });
+            },
 
+
+            init_progress_slider: function() {
+                var that = this;
                 var progress = task_helper.format_progress(this.model.get('progress'));
 
                 this.ui.progress.val(progress);
@@ -56,10 +74,14 @@ function(App, edit_tpl, task_helper) {
                         that.ui.progress.val(ui.value);
                     }
                 });
+            },
 
-                var duration = duration || 0;
 
-                this.ui.duration.val(duration);
+            init_duration_slider: function() {
+                var that = this;
+                var duration = this.model.get('duration') || 0;
+
+                this.ui.duration.val(task_helper.format_duration(duration));
                 this.ui.duration_slider.slider({
                     range: 'min',
                     value: duration,
@@ -70,6 +92,22 @@ function(App, edit_tpl, task_helper) {
                         that.ui.duration.val(task_helper.format_duration(ui.value));
                     }
                 });
+            },
+
+
+            /*
+             * view event handlers
+             */
+
+            submit: function(e) {
+                e.preventDefault();
+
+                this.clear_form_errors(this.$el);
+                this.$('.js-submit').removeClass('btn-danger');
+                this.$('#js-save-error').remove();
+
+                var data = Backbone.Syphon.serialize(this);
+                this.trigger('form:submit', task_helper.unformat(data));
             },
 
 
@@ -85,16 +123,23 @@ function(App, edit_tpl, task_helper) {
                 this.ui.progress.val(progress);
             },
 
+
             update_duration: function (event) {
                 var duration = task_helper.unformat_duration(this.ui.duration.val());
 
                 this.ui.duration_slider.slider('option', 'value', duration);
             },
 
+
+            /*
+             * controller event handlers
+             */
+
             onFormDataValid: function() {
                 this.$('#js-task-save-indicator').fadeIn(300);
                 this.$('.js-submit').addClass('disabled');
             },
+
 
             onFormDataInvalid: function(errors) {
                 var $view = this.$el;
@@ -109,6 +154,7 @@ function(App, edit_tpl, task_helper) {
                 _.each(errors, mark_errors);
             },
 
+
             onFormSaveFailed: function() {
                 var $view = this.$el;
 
@@ -121,17 +167,9 @@ function(App, edit_tpl, task_helper) {
             },
 
 
-            submit: function(e) {
-                e.preventDefault();
-
-                this.clear_form_errors(this.$el);
-                this.$('.js-submit').removeClass('btn-danger');
-                this.$('#js-save-error').remove();
-
-                var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', task_helper.unformat(data));
-            },
-
+            /*
+             * private helpers
+             */
 
             clear_form_errors: function($view) {
                 var $form = $view.find('form');
