@@ -28,6 +28,10 @@ public class CatchWebExceptionInterceptor {
 	@Configurable("invalidJson")
 	private String invalidJson;
 
+	@Inject
+	@Configurable("doesNotExist")
+	private String doesNotExist;
+	
 	@AroundInvoke
 	public Object catchRootException(InvocationContext context) {
 		try {
@@ -68,9 +72,9 @@ public class CatchWebExceptionInterceptor {
 		Response response = null;
 		Throwable specificException = e.getCause();
 
-		if(specificException instanceof NodeNotFoundException) response = Response.status(Status.NOT_FOUND).entity("The given Item is not existing").build();
-		else if (specificException instanceof NodeExistsException) response = Response.status(Status.NOT_FOUND).entity("The given Item is not existing").build();
-		else if (specificException instanceof NotUniqueException) response = Response.status(Status.BAD_REQUEST).entity("The given Item is not unique").build();
+		if(specificException instanceof NodeNotFoundException) response = Response.status(Status.NOT_FOUND).entity(doesNotExist).build();
+		else if (specificException instanceof NodeExistsException) response = Response.status(Status.NOT_FOUND).entity(doesNotExist).build();
+		else if (specificException instanceof NotUniqueException) response = Response.status(Status.BAD_REQUEST).entity(doesNotExist).build();
 		
 		return new WebApplicationException(e, response);
 	}
