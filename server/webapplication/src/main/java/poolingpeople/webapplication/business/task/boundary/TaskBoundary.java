@@ -49,7 +49,6 @@ public class TaskBoundary {
 	public TaskBoundary() {
 	}
 
-	// TODO unnecessary: remove overloaded constructor
 	public TaskBoundary(EntityFactory entityFactory, DTOConverter dtoConverter) {
 		this.entityFactory = entityFactory;
 		this.dtoConverter = dtoConverter;

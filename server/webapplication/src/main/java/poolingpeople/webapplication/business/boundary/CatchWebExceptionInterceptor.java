@@ -19,6 +19,7 @@ import poolingpeople.webapplication.business.neo4j.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.NotUniqueException;
 
+//TODO: test this interceptor via CDI Bean testing concept (in Sprint 1)
 @Interceptor
 @CatchWebAppException
 public class CatchWebExceptionInterceptor {
