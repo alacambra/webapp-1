@@ -8,6 +8,7 @@ function(App, edit_tpl, task_helper) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
 
+            className: 'edit',
 
             events: {
                 'click button.js-submit': 'submit'
@@ -18,8 +19,25 @@ function(App, edit_tpl, task_helper) {
 
             initialize: function () {
                 this.on('render', function () {
+                    var progress = task_helper.format_progress(this.model.get('progress'));
+                    var $progress = this.$('#js-task-progress');
+
                     this.$('#js-task-startDate').datepicker({ dateFormat: 'dd.mm.yy' });
                     this.$('#js-task-endDate').datepicker({ dateFormat: 'dd.mm.yy' });
+
+                    console.log(progress);
+
+                    this.$('#js-task-progress-slider').slider({
+                        range: 'min',
+                        value: progress,
+                        min: 0,
+                        max: 100,
+                        step: 5,
+                        slide: function(event, ui) {
+                            $progress.val(ui.value);
+                        }
+                    });
+                    $progress.val(progress);
                 });
             },
 

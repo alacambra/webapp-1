@@ -50,9 +50,11 @@
     </div>
 
     <div class="form-group">
-        <div class="col-lg-3">
-            <label for="js-task-progress">Progress (%)</label>
-            <input id="js-task-progress" type="number" class="form-control" name="progress" value="<%= format_progress(progress) %>" min="0" max="100" class="form-control">
+        <div class="col-lg-3 task-progress">
+            <label for="js-task-progress">Progress:</label>
+            <input id="js-task-progress" type="text" name="progress">
+            <span>%</span>
+            <div id="js-task-progress-slider"></div>
         </div>
     </div>
 
