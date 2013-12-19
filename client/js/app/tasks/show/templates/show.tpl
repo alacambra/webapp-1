@@ -9,9 +9,9 @@
 <p>Estimated Duration: <%= format_duration(duration) %>&nbsp;</p>
 <p>Progress: <%= format_progress(progress) %>&nbsp;</p>
 
-<a href="#tasks/<%= id %>/edit" class="btn btn-default btn-sm js-edit" style="margin-right: 10px">
-    <span class="glyphicon glyphicon-pencil" style="margin-right: 5px"></span> Edit
+<a href="#tasks/<%= id %>/edit" class="btn btn-default btn-sm btn-text right-space js-edit">
+    <span class="glyphicon glyphicon-pencil"></span> Edit
 </a>
-<button type="button" class="btn btn-default btn-sm js-delete">
-    <span class="glyphicon glyphicon-trash" style="margin-right: 5px"></span> Delete
+<button type="button" class="btn btn-default btn-sm btn-text js-delete">
+    <span class="glyphicon glyphicon-trash"></span> Delete
 </button>

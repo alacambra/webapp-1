@@ -46,5 +46,9 @@ a:hover {
       visibility: hidden;
       border-color: silver; }
 
-a.top-space {
+button.btn-text span, a.btn-text span {
+  margin-right: 5px; }
+button.top-space, a.top-space {
   margin-top: 20px; }
+button.right-space, a.right-space {
+  margin-right: 10px; }

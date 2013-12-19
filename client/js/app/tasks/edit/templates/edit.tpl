@@ -44,12 +44,12 @@
 
     <div class="form-group">
         <div class="col-lg-3">
-            <input id="js-task-progress" type="number" class="form-control" name="progress" value="<%= format_progress(progress) %>" min="0" max="100" class="form-control">
+            <input id="js-task-progress" type="number" name="progress" value="<%= format_progress(progress) %>" min="0" max="100" class="form-control">
         </div>
     </div>
 
-    <button class="btn btn-default btn-sm js-submit" style="margin-right: 10px">
-        <span class="glyphicon glyphicon-floppy-disk" style="margin-right: 5px"></span> Save
+    <button class="btn btn-default btn-sm btn-text right-space js-submit">
+        <span class="glyphicon glyphicon-floppy-disk"></span> Save
     </button>
 
     <img id="js-task-save-indicator" src="img/load_indicator.gif" style="display: none;">
