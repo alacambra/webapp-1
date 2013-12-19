@@ -50,12 +50,16 @@ define(['moment', 'advanced_string'], function(moment) {
             return select[0].outerHTML;
         },
 
+        unformat_duration: function (duration) {
+            return moment.duration(duration, 'HH:mm').asMinutes();
+        },
+
         unformat: function(data) {
             data.status = parseInt(data.status);
             data.priority = parseInt(data.priority);
             data.startDate = this.has_value(data.startDate) ? moment(data.startDate, 'DD.MM.YYYY').unix() : 0;
             data.endDate = this.has_value(data.endDate) ? moment(data.endDate, 'DD.MM.YYYY').unix() : 0;
-            data.duration = moment.duration(data.duration, 'HH:mm').asMinutes();
+            data.duration = this.unformat_duration(data.duration);
             data.progress = parseFloat(data.progress) / 100 || 0;
             return data;
         },

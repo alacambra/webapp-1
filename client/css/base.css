@@ -52,3 +52,13 @@ button.top-space, a.top-space {
   margin-top: 20px; }
 button.right-space, a.right-space {
   margin-right: 10px; }
+
+.edit .task-slider-group input {
+  border: 0;
+  color: #f6931f;
+  font-weight: bold;
+  width: 50px;
+  text-align: right; }
+.edit .task-slider-group span {
+  color: #f6931f;
+  font-weight: bold; }
