@@ -14,12 +14,15 @@ function(App, edit_tpl, task_helper) {
                 start_date: '#js-task-startDate',
                 end_date: '#js-task-endDate',
                 progress: '#js-task-progress',
-                progress_slider: '#js-task-progress-slider'
+                progress_slider: '#js-task-progress-slider',
+                duration: '#js-task-duration',
+                duration_slider: '#js-task-duration-slider'
             },
 
             events: {
                 'click button.js-submit': 'submit',
-                'blur input#js-task-progress': 'update_progress'
+                'blur input#js-task-progress': 'update_progress',
+                'blur input#js-task-duration': 'update_duration'
             },
 
 
@@ -28,9 +31,12 @@ function(App, edit_tpl, task_helper) {
             onRender: function () {
                 var that = this;
                 var progress = task_helper.format_progress(this.model.get('progress'));
+                var duration = duration || 0;
 
                 this.ui.start_date.datepicker({ dateFormat: 'dd.mm.yy' });
                 this.ui.end_date.datepicker({ dateFormat: 'dd.mm.yy' });
+
+                this.ui.progress.val(progress);
                 this.ui.progress_slider.slider({
                     range: 'min',
                     value: progress,
@@ -41,7 +47,18 @@ function(App, edit_tpl, task_helper) {
                         that.ui.progress.val(ui.value);
                     }
                 });
-                this.ui.progress.val(progress);
+
+                this.ui.duration.val(duration);
+                this.ui.duration_slider.slider({
+                    range: 'min',
+                    value: duration,
+                    min: 0,
+                    max: 24 * 4 * 15,
+                    step: 15,
+                    slide: function(event, ui) {
+                        that.ui.duration.val(task_helper.format_duration(ui.value));
+                    }
+                });
             },
 
 
@@ -55,6 +72,12 @@ function(App, edit_tpl, task_helper) {
 
                 this.ui.progress_slider.slider('option', 'value', progress);
                 this.ui.progress.val(progress);
+            },
+
+            update_duration: function (event) {
+                var duration = task_helper.unformat_duration(this.ui.duration.val());
+
+                this.ui.duration_slider.slider('option', 'value', duration);
             },
 
             onFormDataValid: function() {

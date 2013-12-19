@@ -43,14 +43,16 @@
     </div>
 
     <div class="form-group">
-        <div class="col-lg-3">
-            <label for="js-task-duration">Estimated Duration</label>
-            <input id="js-task-duration" type="text" name="duration" value="<%= format_duration(duration) %>" placeholder="Estimated Duration" class="form-control">
+        <div class="col-lg-3 task-slider-group">
+            <label for="js-task-duration">Estimated Duration:</label>
+            <input id="js-task-duration" type="text" name="duration">
+            <span>h</span>
+            <div id="js-task-duration-slider"></div>
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-lg-3 task-progress">
+        <div class="col-lg-3 task-slider-group">
             <label for="js-task-progress">Progress:</label>
             <input id="js-task-progress" type="text" name="progress">
             <span>%</span>

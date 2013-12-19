@@ -49,12 +49,12 @@ a:hover {
 a.top-space {
   margin-top: 20px; }
 
-.edit .task-progress #js-task-progress {
+.edit .task-slider-group input {
   border: 0;
   color: #f6931f;
   font-weight: bold;
-  width: 25px;
+  width: 50px;
   text-align: right; }
-.edit .task-progress span {
+.edit .task-slider-group span {
   color: #f6931f;
   font-weight: bold; }
