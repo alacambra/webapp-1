@@ -12,7 +12,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
         Backbone.history.navigate(route, options);
     };
 
-    App.getCurrentRoute = function(){
+    App.current_route = function(){
         return Backbone.history.fragment;
     };
 
@@ -32,7 +32,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
             require(['app/tasks/tasks_app'], function () {
                 Backbone.history.start();
 
-                if (App.getCurrentRoute() === '') {
+                if (App.current_route() === '') {
                     App.trigger('tasks:list');
                 }
             });
