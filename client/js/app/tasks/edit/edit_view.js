@@ -10,37 +10,52 @@ function(App, edit_tpl, task_helper) {
 
             className: 'edit',
 
+            ui: {
+                start_date: '#js-task-startDate',
+                end_date: '#js-task-endDate',
+                progress: '#js-task-progress',
+                progress_slider: '#js-task-progress-slider'
+            },
+
             events: {
-                'click button.js-submit': 'submit'
+                'click button.js-submit': 'submit',
+                'blur input#js-task-progress': 'update_progress'
             },
 
 
             templateHelpers: task_helper,
 
-            initialize: function () {
-                this.on('render', function () {
-                    var progress = task_helper.format_progress(this.model.get('progress'));
-                    var $progress = this.$('#js-task-progress');
+            onRender: function () {
+                var that = this;
+                var progress = task_helper.format_progress(this.model.get('progress'));
 
-                    this.$('#js-task-startDate').datepicker({ dateFormat: 'dd.mm.yy' });
-                    this.$('#js-task-endDate').datepicker({ dateFormat: 'dd.mm.yy' });
-
-                    console.log(progress);
-
-                    this.$('#js-task-progress-slider').slider({
-                        range: 'min',
-                        value: progress,
-                        min: 0,
-                        max: 100,
-                        step: 5,
-                        slide: function(event, ui) {
-                            $progress.val(ui.value);
-                        }
-                    });
-                    $progress.val(progress);
+                this.ui.start_date.datepicker({ dateFormat: 'dd.mm.yy' });
+                this.ui.end_date.datepicker({ dateFormat: 'dd.mm.yy' });
+                this.ui.progress_slider.slider({
+                    range: 'min',
+                    value: progress,
+                    min: 0,
+                    max: 100,
+                    step: 5,
+                    slide: function(event, ui) {
+                        that.ui.progress.val(ui.value);
+                    }
                 });
+                this.ui.progress.val(progress);
             },
 
+
+            update_progress: function (event) {
+                var progress = parseInt(this.ui.progress.val());
+                if (isNaN(progress)) {
+                    progress = 0;
+                } else {
+                    progress = task_helper.format_progress(progress / 100);
+                }
+
+                this.ui.progress_slider.slider('option', 'value', progress);
+                this.ui.progress.val(progress);
+            },
 
             onFormDataValid: function() {
                 this.$('#js-task-save-indicator').fadeIn(300);
