@@ -38,7 +38,7 @@ define(['app', 'backbone_faux_server'], function(App, Faux) {
                 }
 
                 if (attrs.progress < 0) {
-                    errors.progress = 'can\'t be lesser than 0';
+                    errors.progress = 'can\'t be less than 0';
                 } else if (attrs.progress > 1) {
                     errors.progress = 'can\'t be greater than 100';
                 }
