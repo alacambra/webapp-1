@@ -81,7 +81,7 @@ function(App, edit_tpl, task_helper) {
                 var that = this;
                 var duration = this.model.get('duration') || 0;
 
-                this.ui.duration.val(task_helper.format_duration(duration));
+                this.ui.duration.val(task_helper.format_duration(duration) || 0);
                 this.ui.duration_slider.slider({
                     range: 'min',
                     value: duration,
@@ -89,7 +89,7 @@ function(App, edit_tpl, task_helper) {
                     max: 24 * 4 * 15,
                     step: 15,
                     slide: function(event, ui) {
-                        that.ui.duration.val(task_helper.format_duration(ui.value));
+                        that.ui.duration.val(task_helper.format_duration(ui.value) || 0);
                     }
                 });
             },
