@@ -1,0 +1,16 @@
+define({
+    rest: {
+        base_url: {
+            default: {
+                url: '/api',
+                pluralized: false
+            },
+            // optional rest server url, will be switched by subdomain (if enabled below)
+            dev: {
+                url: '/api'
+            }
+        },
+        base_url_switch_by_subdomain: false, // enable/disable subdomain switch for rest server urls
+        faux_enable: false // enable/disble faux server
+    }
+});

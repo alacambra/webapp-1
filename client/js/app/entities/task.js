@@ -1,12 +1,6 @@
-define(['app', 'backbone_faux_server'], function(App, Faux) {
+define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
-        var base_url;
-
-        switch(document.location.host.substr(0,3)) {
-            case 'tst': base_url = '/api/webapplication/rest/task'; break;
-            case 'dev': base_url = '/api/tasks'; break;
-            default: base_url = '/webapplication/rest/task';
-        }
+        var base_url = App.model_base_url('task');
 
 
         Entities.Task = Backbone.Model.extend({
@@ -137,7 +131,7 @@ define(['app', 'backbone_faux_server'], function(App, Faux) {
             return task;
         });
 
-        Faux.enable(false);
+        Faux.enable(CONFIG.rest.faux_enable);
     });
 
     return App.Entities;
