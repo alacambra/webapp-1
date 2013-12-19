@@ -9,6 +9,7 @@ require.config({
         bootstrap: 'lib/vendor/bootstrap',
         marionette: 'lib/vendor/backbone.marionette',
         jquery_ui: 'lib/vendor/jquery-ui',
+        jquery_elastic: 'lib/vendor/jquery-elastic',
         moment: 'lib/vendor/moment',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
