@@ -2,7 +2,9 @@ requirejs.config({
     baseUrl: 'js',
 
     paths: {
+        // vendor
         backbone: 'lib/vendor/backbone',
+        backbone_faux_server: 'lib/vendor/backbone-faux-server',
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         i18n: 'lib/vendor/i18n',
@@ -11,16 +13,17 @@ requirejs.config({
         jquery_ui: 'lib/vendor/jquery-ui',
         marionette: 'lib/vendor/backbone.marionette',
         moment: 'lib/vendor/moment',
+        textile: 'lib/vendor/textile',
         tpl: 'lib/vendor/tpl',
         underscore: 'lib/vendor/underscore',
 
+        // custom libs
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
 
+        // locales
         locale_de: 'locales/de',
-        locale_en: 'locales/en',
-
-        backbone_faux_server: 'lib/vendor/backbone-faux-server'
+        locale_en: 'locales/en'
     },
 
     shim: {

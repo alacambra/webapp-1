@@ -1,6 +1,7 @@
 define(['app',
         'tpl!app/tasks/show/templates/show.tpl',
-        'app/tasks/task_helper'],
+        'app/tasks/task_helper',
+        'lib/vendor/textile'],
 function(App, show_tpl, task_helper) {
     App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.ItemView.extend({

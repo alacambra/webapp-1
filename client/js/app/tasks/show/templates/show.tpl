@@ -1,5 +1,5 @@
 <h2><%= title %></h2>
-<p><%= description %></p>
+<%= textile(description) %>
 <br />
 <p><%= I18n.t('task.label.status') %>: <%= status_text(status) %></p>
 <p><%= I18n.t('task.label.priority') %>: <%= priority_text(priority) %>&nbsp;</p>

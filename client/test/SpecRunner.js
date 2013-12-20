@@ -12,6 +12,7 @@ require.config({
         jquery_ui: 'lib/vendor/jquery-ui',
         jquery_elastic: 'lib/vendor/jquery-elastic',
         moment: 'lib/vendor/moment',
+        textile: 'lib/vendor/textile',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
