@@ -5,7 +5,7 @@
 <div class="col-md-1"><%= format_date(startDate) %>&nbsp;</div>
 <div class="col-md-1"><%= format_date(endDate) %>&nbsp;</div>
 <div class="col-md-1 right"><%= format_duration(duration) %>&nbsp;</div>
-<div class="col-md-1 right"><%= format_progress(progress) %>&nbsp;</div>
+<div class="col-md-1 right"><%= format_progress(progress) %> %&nbsp;</div>
 <div class="col-md-1 buttons">
     <a href="#tasks/<%= id %>/edit" class="btn btn-default btn-xs js-edit">
         <span class="glyphicon glyphicon-pencil"></span>
