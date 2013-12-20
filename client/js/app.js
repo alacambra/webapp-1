@@ -24,7 +24,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
 
         // TODO: move this into titlebar view js
         $(function() {
-            $('#js-locale-current').text(localStorage.getItem('locale').toUpperCase());
+            $('#js-locale-current').text(I18n.locale.toUpperCase());
 
             $('#js-locale').find('a').click(function(event) {
                 event.preventDefault(); event.stopPropagation();
