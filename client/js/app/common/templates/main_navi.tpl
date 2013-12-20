@@ -6,20 +6,20 @@
 
         <div class="collapse navbar-collapse">
             <ul id="js-main-navi-items" class="nav navbar-nav">
-                <li><a href="#">Pools</a></li>
-                <li><a href="#">People</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Messages</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#tasks">Tasks</a></li>
-                <li><a href="#">Calendar</a></li>
+                <li><a href="#"><%= I18n.t('main_navi.pools') %></a></li>
+                <li><a href="#"><%= I18n.t('main_navi.people') %></a></li>
+                <li><a href="#"><%= I18n.t('main_navi.services') %></a></li>
+                <li><a href="#"><%= I18n.t('main_navi.messages') %></a></li>
+                <li><a href="#"><%= I18n.t('main_navi.projects') %></a></li>
+                <li><a href="#tasks"><%= I18n.t('main_navi.tasks') %></a></li>
+                <li><a href="#"><%= I18n.t('main_navi.calendar') %></a></li>
             </ul>
 
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="<%= I18n.t('main_navi.search') %>">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default"><%= I18n.t('submit') %></button>
             </form>
 
             <div class="navbar-form navbar-left">
@@ -36,7 +36,7 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Logout</a></li>
+                <li><a href="#"><%= I18n.t('main_navi.logout') %></a></li>
             </ul>
         </div>
     </div>

@@ -4,6 +4,19 @@ I18n.translations['de'] = {
     date_format: 'DD.MM.YYYY',
     date_format_picker: 'dd.mm.yy',
 
+    main_navi: {
+        pools: 'Pools',
+        people: 'People',
+        services: 'Dienste',
+        messages: 'Nachrichten',
+        projects: 'Projekte',
+        tasks: 'Aufgaben',
+        calendar: 'Kalender',
+        search: 'Suche',
+        login: 'Anmelden',
+        logout: 'Abmelden'
+    },
+
     task: {
         header: 'Aufgaben',
         label: {
@@ -49,6 +62,7 @@ I18n.translations['de'] = {
     delete_confirm: 'Diesen Eintrag wirklich löschen?\n\n"{{name}}"',
 
     save: 'Speichern',
+    submit: 'Absenden',
     edit: 'Bearbeiten',
     delete: 'Löschen'
 };

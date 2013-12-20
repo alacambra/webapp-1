@@ -4,6 +4,19 @@ I18n.translations['en'] = {
     date_format: 'YYYY-MM-DD',
     date_format_picker: 'yy-mm-dd',
 
+    main_navi: {
+        pools: 'Pools',
+        people: 'People',
+        services: 'Services',
+        messages: 'Messages',
+        projects: 'Projects',
+        tasks: 'Tasks',
+        calendar: 'Calendar',
+        search: 'Search',
+        login: 'Login',
+        logout: 'Logout'
+    },
+
     task: {
         header: 'Tasks',
         label: {
@@ -49,6 +62,7 @@ I18n.translations['en'] = {
     delete_confirm: 'Really delete this entity?\n\n"{{name}}"',
 
     save: 'Save',
+    submit: 'Submit',
     edit: 'Edit',
     delete: 'Delete'
 };
