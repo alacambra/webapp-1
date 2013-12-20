@@ -1,11 +1,19 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+
+    function exclude_sass_files(file) {
+        return !file.match(/.sass$/);
+    }
+
+    function exclude_example_files(file) {
+        return !file.match(/.example$/);
+    }
 
     // Project configuration.
     grunt.initConfig({
         sass: {
             dist: {
                 files: {
-                    'css/base.css' : 'css/base.sass'
+                    'dist/css/base.css': 'css/base.sass'    // 'destination path': 'source path'
                 }
             }
         },
@@ -45,19 +53,49 @@ module.exports = function(grunt) {
                     open: 'http://localhost:9000/test/SpecRunner.html'
                 }
             }
+        },
+
+        clean: {
+            dist: {
+                files: {
+                    src: [
+                        'dist/'
+                    ]
+                }
+            }
+        },
+
+        copy: {
+            dist: {
+                files: [
+                    { expand: true, src: [ 'index.html' ], dest: 'dist/' },
+                    { expand: true, src: [ 'css/**' ], dest: 'dist/', filter: exclude_sass_files },
+                    { expand: true, src: [ 'fonts/**' ], dest: 'dist/' },
+                    { expand: true, src: [ 'img/**' ], dest: 'dist/' },
+                    { expand: true, src: [ 'js/**' ], dest: 'dist/', filter: exclude_example_files}
+                ]
+            }
         }
     });
 
     // Load plugins here
     grunt.loadNpmTasks('grunt-contrib');
     grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Default task.
     grunt.registerTask('default', 'watch');
 
     // SpecRunner task.
     grunt.registerTask('unittest', ['connect:livereload', 'watch:livereload']);
+
+    // Build task.
+    grunt.registerTask('build', [
+        'clean:dist',
+        'sass:dist',
+        'copy:dist' ]);
 };
