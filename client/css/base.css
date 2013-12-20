@@ -62,3 +62,5 @@ button.right-space, a.right-space {
 .edit .task-slider-group span {
   color: #f6931f;
   font-weight: bold; }
+.edit .has-error .help-block {
+  padding-top: 24px; }
