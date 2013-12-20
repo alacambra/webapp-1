@@ -18,8 +18,10 @@ echo $base_path
 
 cd  $base_path/webapp
 
-git pull origin $deployment_branch
+git branch $deployment_branch
 git checkout $deployment_branch
+git merge $client_tag
+git merge $server_tag
 
 cp -Rf $base_path/webapp/server/ $deployment_folder
 cp -Rf $base_path/webapp/client/* $deployment_folder/server/webapplication/src/main/webapp/
