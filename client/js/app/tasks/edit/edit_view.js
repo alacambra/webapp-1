@@ -54,8 +54,8 @@ function(App, edit_tpl, task_helper) {
 
 
             init_datepicker: function() {
-                this.ui.start_date.datepicker({ dateFormat: 'dd.mm.yy' });
-                this.ui.end_date.datepicker({ dateFormat: 'dd.mm.yy' });
+                this.ui.start_date.datepicker({ dateFormat: I18n.t('date_format_picker') });
+                this.ui.end_date.datepicker({ dateFormat: I18n.t('date_format_picker') });
             },
 
 

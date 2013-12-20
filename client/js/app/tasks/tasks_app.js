@@ -38,7 +38,7 @@ define(['app'], function (App) {
 
             task_delete: function (task, redirect) {
                 console.log(task);
-                if (confirm('Delete Task "' + task.get('title') + '"!\nAre you sure?')) {
+                if (confirm(I18n.t('delete_confirm', { name: task.get('title') }))) {
                     require(['app/tasks/list/list_controller'], function (ListController) {
                         ListController.task_delete(task, redirect);
                     });
