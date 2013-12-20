@@ -10,7 +10,7 @@ function(App, list_tpl, list_item_tpl, task_helper) {
 
 
             events: {
-                'click .js-title': 'show',
+                'click .js-show': 'show',
                 'click .js-edit': 'edit',
                 'click .js-delete': 'delete_item'
             },

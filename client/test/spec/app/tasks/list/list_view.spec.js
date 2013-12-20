@@ -66,7 +66,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/list/list_view' ], function (App
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-title').click();
+            $sandbox.find('.js-show').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:show', task1.get('id'));
         });

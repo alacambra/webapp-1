@@ -1,4 +1,4 @@
-<div class="col-md-3 js-title"><a href="#tasks/<%= id %>"><%= title %></a></div>
+<div class="col-md-3 js-show"><a href="#tasks/<%= id %>"><%= title %></a></div>
 <div class="col-md-2"><%= short_text(description, 20) %>&nbsp;</div>
 <div class="col-md-1"><%= status_text(status) %>&nbsp;</div>
 <div class="col-md-1"><%= priority_text(priority) %>&nbsp;</div>
