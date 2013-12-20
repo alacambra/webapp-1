@@ -5,6 +5,7 @@ requirejs.config({
         backbone: 'lib/vendor/backbone',
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
+        i18n: 'lib/vendor/i18n',
         jquery: 'lib/vendor/jquery',
         jquery_elastic: 'lib/vendor/jquery-elastic',
         jquery_ui: 'lib/vendor/jquery-ui',
@@ -15,6 +16,9 @@ requirejs.config({
 
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
+
+        locale_de: 'locales/de',
+        locale_en: 'locales/en',
 
         backbone_faux_server: 'lib/vendor/backbone-faux-server'
     },
@@ -37,26 +41,19 @@ requirejs.config({
             deps: ['backbone'],
             exports: 'Marionette'
         },
-        jquery: {
-            exports: 'jQuery'
-        },
-        jquery_elastic: {
-            deps: ['jquery']
-        },
-        jquery_ui: {
-            deps: ['jquery']
-        },
-        underscore: {
-            exports: '_'
-        },
+        i18n: { exports: 'I18n' },
+        jquery: { exports: 'jQuery' },
+        jquery_elastic: { deps: ['jquery'] },
+        jquery_ui: { deps: ['jquery'] },
+        underscore: { exports: '_' },
 
-        behaviour: {
-            deps: ['jquery'],
-            exports: 'advanced_string'
-        }
+        behaviour: { deps: ['jquery'] },
+
+        locale_de: { deps: ['i18n'] },
+        locale_en: { deps: ['i18n'] }
     }
 });
 
-require(['app', 'bootstrap', 'behaviour'], function(App) {
+require(['app', 'underscore', 'bootstrap', 'behaviour', 'i18n'], function(App) {
     App.start();
 });

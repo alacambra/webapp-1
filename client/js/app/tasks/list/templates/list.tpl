@@ -1,18 +1,18 @@
-<h2>Tasks</h2>
+<h2><%= I18n.t('task.header') %></h2>
 
 <div class="list-row header">
-    <div class="col-md-3">Title</div>
-    <div class="col-md-2">Description</div>
-    <div class="col-md-1">Status</div>
-    <div class="col-md-1">Priority</div>
-    <div class="col-md-1">Start</div>
-    <div class="col-md-1">End</div>
-    <div class="col-md-1">Duration</div>
-    <div class="col-md-1">Progress</div>
+    <div class="col-md-3"><%= I18n.t('task.label.title') %></div>
+    <div class="col-md-2"><%= I18n.t('task.label.description') %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.status') %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.priority') %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.start_date') %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.end_date') %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.duration_short') %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.progress') %></div>
 </div>
 
 <div id="js-task-list-items"></div>
 
 <a class="btn btn-default btn-sm btn-text top-space js-create">
-    <span class="glyphicon glyphicon-plus"></span> New Task
+    <span class="glyphicon glyphicon-plus"></span> <%= I18n.t('task.new') %>
 </a>
