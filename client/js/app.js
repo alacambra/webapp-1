@@ -44,16 +44,6 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
     };
 
     App.on('initialize:after', function(){
-        if (Backbone.history) {
-            require(['app/tasks/tasks_app'], function () {
-                Backbone.history.start();
-
-                if (App.current_route() === '') {
-                    App.trigger('tasks:list');
-                }
-            });
-        }
-
         App.init_i18n();
 
         require(['app/common/main_navi_view'], function (MainNaviView) {
@@ -64,6 +54,15 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
             App.navi_region.show(navi_view);
         });
 
+        if (Backbone.history) {
+            require(['app/tasks/tasks_app'], function () {
+                Backbone.history.start();
+
+                if (App.current_route() === '') {
+                    App.trigger('tasks:list');
+                }
+            });
+        }
     });
 
 

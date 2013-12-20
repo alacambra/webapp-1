@@ -5,13 +5,13 @@
         </div>
 
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
+            <ul id="js-main-navi-items" class="nav navbar-nav">
                 <li><a href="#">Pools</a></li>
                 <li><a href="#">People</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Messages</a></li>
                 <li><a href="#">Projects</a></li>
-                <li class="active"><a href="#tasks">Tasks</a></li>
+                <li><a href="#tasks">Tasks</a></li>
                 <li><a href="#">Calendar</a></li>
             </ul>
 

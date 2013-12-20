@@ -15,24 +15,28 @@ define(['app'], function (App) {
             tasks_list: function () {
                 require(['app/tasks/list/list_controller'], function (TasksController) {
                     TasksController.tasks_list();
+                    highlight_navi();
                 });
             },
 
             task_new: function () {
                 require(['app/tasks/edit/edit_controller'], function (EditController) {
                     EditController.task_edit();
+                    highlight_navi();
                 });
             },
 
             task_show: function (id) {
                 require(['app/tasks/show/show_controller'], function (ShowController) {
                     ShowController.task_show(id);
+                    highlight_navi();
                 });
             },
 
             task_edit: function (id) {
                 require(['app/tasks/edit/edit_controller'], function (EditController) {
                     EditController.task_edit(id);
+                    highlight_navi();
                 });
             },
 
@@ -77,6 +81,11 @@ define(['app'], function (App) {
                 controller: API
             });
         });
+
+
+        function highlight_navi() {
+            App.trigger('main_navi:highlight:item', 'tasks');
+        }
     });
 
     return App.TasksApp;

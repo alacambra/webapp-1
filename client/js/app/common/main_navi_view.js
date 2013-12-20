@@ -1,6 +1,7 @@
 define(['app',
-        'tpl!app/common/templates/main_navi.tpl'],
-function (App, main_navi_tpl) {
+        'tpl!app/common/templates/main_navi.tpl',
+        'app/common/not_found_view'],
+function (App, main_navi_tpl, NotFoundView) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
         Common.MainNaviView = Marionette.ItemView.extend({
             template: main_navi_tpl,
@@ -8,6 +9,11 @@ function (App, main_navi_tpl) {
 
             initialize: function(options) {
                 this.available_locales = options.available_locales;
+
+                var that = this;
+                App.on('main_navi:highlight:item', function(item) {
+                    that.highlight_navi($('#js-main-navi-items').find('a[href="#' + item + '"]').parent());
+                })
             },
 
 
@@ -19,15 +25,37 @@ function (App, main_navi_tpl) {
 
 
             events: {
+                'click #js-main-navi-items a': 'main_navi_item_clicked',
                 'click #js-locale a': 'switch_locale'
             },
 
 
+            main_navi_item_clicked: function(event) {
+                event.preventDefault();
+
+                var item = $(event.target).attr('href').replace('#', '');
+
+                switch(item) {
+                    case 'tasks': App.trigger('tasks:list'); break;
+                    default:
+                        App.main_region.show(new NotFoundView);
+                        App.navigate();
+                        this.highlight_navi($(event.target).parent());
+                }
+            },
+
+
             switch_locale: function(event) {
-                event.preventDefault(); event.stopPropagation();
+                event.preventDefault();
                 var locale = $(event.target).attr('href').replace('#', '');
                 localStorage.setItem('locale', locale);
                 document.location.reload(); // TODO: rerender current view instead of reloading
+            },
+
+
+            highlight_navi: function($elem) {
+                $('#js-main-navi-items').find('li').removeClass('active');
+                $elem.addClass('active');
             }
         });
     });
