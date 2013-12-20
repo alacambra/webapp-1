@@ -37,6 +37,11 @@ I18n.translations['en'] = {
         edit: 'Task bearbeiten'
     },
 
+    locale: { // must not be translated
+        en: 'English',
+        de: 'Deutsch'
+    },
+
     errors: {
         page_not_found: 'The page could not be found.'
     },

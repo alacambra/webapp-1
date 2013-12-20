@@ -3,6 +3,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
 
 
     App.addRegions({
+        navi_region: '#navi-region',
         main_region: '#main-region'
     });
 
@@ -11,28 +12,14 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
         I18n.defaultLocale = CONFIG.i18n.default_locale;
 
         // set locale by session or browser default if no session is available
-        if (localStorage.getItem('locale')) {
-            I18n.locale = localStorage.getItem('locale');
-        } else {
-            I18n.locale = window.navigator.language.split('-')[0].toLowerCase(); // user browser accepted language
-        }
+        var stored_locale = localStorage.getItem('locale');
+        var browser_locale = window.navigator.language.split('-')[0].toLowerCase();
+        I18n.locale = stored_locale || browser_locale;
 
         // use default language if unknown language is requested
         if (_.indexOf(CONFIG.i18n.available_locales, I18n.locale) == -1) I18n.locale = I18n.defaultLocale;
 
         require(['locales/' + I18n.locale]); // load translation file
-
-        // TODO: move this into titlebar view js
-        $(function() {
-            $('#js-locale-current').text(I18n.locale.toUpperCase());
-
-            $('#js-locale').find('a').click(function(event) {
-                event.preventDefault(); event.stopPropagation();
-                var locale = $(this).attr('id').replace('js-locale-', '');
-                localStorage.setItem('locale', locale);
-                document.location.reload(); // TODO: rerender current view instead of reloading
-            });
-        })
     };
 
 
@@ -68,6 +55,15 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
         }
 
         App.init_i18n();
+
+        require(['app/common/main_navi_view'], function (MainNaviView) {
+            var navi_view = new MainNaviView({
+                available_locales: CONFIG.i18n.available_locales
+            });
+
+            App.navi_region.show(navi_view);
+        });
+
     });
 
 
