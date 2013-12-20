@@ -65,3 +65,6 @@ button.right-space, a.right-space {
   font-weight: bold; }
 .edit .has-error .help-block {
   padding-top: 24px; }
+
+.ui-datepicker {
+  z-index: 4 !important; }
