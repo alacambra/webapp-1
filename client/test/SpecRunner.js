@@ -8,12 +8,15 @@ require.config({
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         marionette: 'lib/vendor/backbone.marionette',
+        i18n: 'lib/vendor/i18n',
         jquery_ui: 'lib/vendor/jquery-ui',
         jquery_elastic: 'lib/vendor/jquery-elastic',
         moment: 'lib/vendor/moment',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
+        locale_de: 'locales/de',
+        locale_en: 'locales/en',
         jasmine: '../test/lib/jasmine/jasmine',
         'jasmine-html': '../test/lib/jasmine/jasmine-html',
         spec: '../test/spec',
@@ -44,17 +47,23 @@ require.config({
             deps: [ 'jquery' ],
             exports: 'advanced_string'
         },
+        i18n: { exports: 'I18n' },
         jasmine: {
             exports: 'jasmine'
         },
         'jasmine-html': {
             deps: [ 'jasmine' ],
             exports: 'jasmine'
-        }
+        },
+
+        locale_de: { deps: ['i18n'] },
+        locale_en: { deps: ['i18n'] }
+
     }
 });
 
-require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
+require(['jasmine-html', 'underscore', 'jquery', 'i18n', 'locale_en'], function (jasmine, _, $) {
+    I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;

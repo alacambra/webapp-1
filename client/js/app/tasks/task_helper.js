@@ -17,11 +17,13 @@ define(['moment', 'advanced_string'], function(moment) {
         },
 
         status_text: function(status) {
-            return I18n.t('task.status_options.' + this.status_options[status]) || '';
+            if (!this.status_options[status]) return '';
+            return I18n.t('task.status_options.' + this.status_options[status]);
         },
 
         priority_text: function(priority) {
-            return I18n.t('task.priority_options.' + this.priority_options[priority]) || '';
+            if (!this.priority_options[priority]) return '';
+            return I18n.t('task.priority_options.' + this.priority_options[priority]);
         },
 
         format_duration: function(duration) {
