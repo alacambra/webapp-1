@@ -10,7 +10,7 @@ public enum TaskStatus {
 	REQUESTED(6),
 	OFFERED(7);
 	
-	private int statusNumber;
+	private final int statusNumber;
 	
 	private TaskStatus(Integer num) {
 		this.statusNumber = num;
@@ -24,11 +24,12 @@ public enum TaskStatus {
 		TaskStatus[] status = TaskStatus.values();
 		
 		for (int i = 0; i < status.length; i++ ){
-			if (num == status[i].getNumber())
-				return status[i];
+			if (num == status[i].getNumber()) {
+                            return status[i];
+                        }
 		}
 		
-		return null;
+		throw new RuntimeException("Taskstatus does not exist");
 	}
 	
 }

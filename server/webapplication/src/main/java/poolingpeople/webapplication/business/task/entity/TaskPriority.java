@@ -20,11 +20,12 @@ public enum TaskPriority {
 		TaskPriority[] prios = TaskPriority.values();
 		
 		for (int i = 0; i < prios.length; i++ ){
-			if (num == prios[i].getNumber())
-				return prios[i];
+			if (num == prios[i].getNumber()) {
+                            return prios[i];
+                        }
 		}
 		
-		throw new RuntimeException("value not found");
+		throw new RuntimeException("TaskPriority does not exist");
 	}
 }
 
