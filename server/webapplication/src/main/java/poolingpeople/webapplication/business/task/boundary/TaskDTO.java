@@ -22,36 +22,44 @@ public class TaskDTO implements Task {
 	private Integer duration;
 	
 	@IgnoreAttribute
+        @Override
 	public String getId() {
 		return id;
 	}
 
+        @Override
 	public String getTitle() {
 		return title;
 	}
 
+        @Override
 	public String getDescription() {
 		return description;
 	}
 
 	@IgnoreAttribute
+        @Override
 	public TaskPriority getPriority() {
 		return null;
 	}
 
 	@IgnoreAttribute
+        @Override
 	public TaskStatus getStatus() {
 		return null;
 	}
 
+        @Override
 	public Long getStartDate() {
 		return startDate;
 	}
 
+        @Override
 	public Long getEndDate() {
 		return endDate;
 	}
 
+        @Override
 	public Float getProgress() {
 		return progress;
 	}
@@ -60,31 +68,38 @@ public class TaskDTO implements Task {
 		this.id = id;
 	}
 
+        @Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+        @Override
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	@IgnoreAttribute
 	@JsonIgnore
+        @Override
 	public void setPriority(TaskPriority priority) {
 	}
 
 	@IgnoreAttribute
+        @Override
 	public void setStatus(TaskStatus status) {
 	}
 
+        @Override
 	public void setStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
+        @Override
 	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
 	}
 
+        @Override
 	public void setProgress(Float progress) {
 		this.progress = progress;
 	}
