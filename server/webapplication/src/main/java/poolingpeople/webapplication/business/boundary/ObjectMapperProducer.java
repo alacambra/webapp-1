@@ -16,8 +16,7 @@ public class ObjectMapperProducer {
 	}
 
 	private boolean hasFieldAnnotation(InjectionPoint point) {
-		return (point.getAnnotated() == null || !(point.getAnnotated() instanceof AnnotatedField)) ? false
-				: true;
+		return (point.getAnnotated() != null && point.getAnnotated() instanceof AnnotatedField);
 	}
 
 	private ObjectMapper createObjectMapper(InjectionPoint injectionPoint) {
