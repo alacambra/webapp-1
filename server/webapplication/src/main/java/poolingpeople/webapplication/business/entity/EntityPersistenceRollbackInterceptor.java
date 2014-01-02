@@ -18,7 +18,7 @@ public class EntityPersistenceRollbackInterceptor {
 		try {
 			return context.proceed();
 		} catch (    NodeNotFoundException | NodeExistsException | NotUniqueException ex) {
-			throw new RootApplicationException(ex);
+			throw ex;
 		}
 	}
 

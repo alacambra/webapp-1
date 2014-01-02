@@ -1,6 +1,8 @@
 package poolingpeople.webapplication.business.boundary;
 
-public class RootApplicationException extends RuntimeException {
+import javax.ws.rs.core.Response;
+
+public abstract class RootApplicationException extends RuntimeException {
 
 	private static final long serialVersionUID = -7160582417322246076L;
 
@@ -30,4 +32,5 @@ public class RootApplicationException extends RuntimeException {
 		// TODO Auto-generated constructor stub
 	}
 
+        public abstract Response getSpecificWebResponse();
 }
