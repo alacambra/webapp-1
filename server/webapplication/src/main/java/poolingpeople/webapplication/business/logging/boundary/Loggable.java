@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 import javax.interceptor.InterceptorBinding;
 
 /**
- * @Loggable allows Methods, or at class level (all methods) to be logged
- * LoggerInterceptor contains the logging functionals
+ * Allows Methods, or at class level (all methods included) to be logged
+ * LoggerInterceptor contains the logging functionality
  * @see LoggerInterceptor 
  */
 @InterceptorBinding
