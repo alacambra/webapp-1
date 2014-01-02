@@ -60,7 +60,7 @@ I18n.translations['de'] = {
         page_not_found: 'Die Seite wurde nicht gefunden.'
     },
 
-    delete_confirm: 'Diesen Eintrag wirklich löschen?\n\n"{{name}}"',
+    delete_confirm: '"{{name}}"\n\nDiesen Eintrag wirklich löschen?',
 
     save: 'Speichern',
     submit: 'Absenden',

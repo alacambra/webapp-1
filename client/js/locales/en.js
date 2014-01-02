@@ -60,7 +60,7 @@ I18n.translations['en'] = {
         page_not_found: 'The page could not be found.'
     },
 
-    delete_confirm: 'Really delete this entity?\n\n"{{name}}"',
+    delete_confirm: '"{{name}}\n\n"Really delete this entity?',
 
     save: 'Save',
     submit: 'Submit',
