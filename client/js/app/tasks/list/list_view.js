@@ -1,8 +1,9 @@
 define(['app',
         'tpl!app/tasks/list/templates/list.tpl',
         'tpl!app/tasks/list/templates/list_item.tpl',
+        'app/app_helper',
         'app/tasks/task_helper'],
-function(App, list_tpl, list_item_tpl, task_helper) {
+function(App, list_tpl, list_item_tpl, app_helper, task_helper) {
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
         List.View = Marionette.ItemView.extend({
             className: 'list-row',
@@ -16,7 +17,7 @@ function(App, list_tpl, list_item_tpl, task_helper) {
             },
 
 
-            templateHelpers: task_helper,
+            templateHelpers: $.extend({}, app_helper, task_helper),
 
 
             show: function(event) {

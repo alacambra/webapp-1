@@ -8,7 +8,7 @@
 <p><%= I18n.t('task.label.duration') %>: <%= format_duration(duration) %>&nbsp;</p>
 <p><%= I18n.t('task.label.progress') %>: <%= format_progress(progress) %> %&nbsp;</p>
 
-<a href="#tasks/<%= id %>/edit" class="btn btn-default btn-sm btn-text right-space js-edit">
+<a href="<%= url_for('tasks', 'edit', id) %>" class="btn btn-default btn-sm btn-text right-space js-edit">
     <span class="glyphicon glyphicon-pencil"></span> <%= I18n.t('edit') %>
 </a>
 <button type="button" class="btn btn-default btn-sm btn-text js-delete">

@@ -1,10 +1,14 @@
 define(['app',
         'tpl!app/common/templates/main_navi.tpl',
-        'app/common/not_found_view'],
-function (App, main_navi_tpl, NotFoundView) {
+        'app/common/not_found_view',
+        'app/app_helper'],
+function (App, main_navi_tpl, NotFoundView, app_helper) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
         Common.MainNaviView = Marionette.ItemView.extend({
             template: main_navi_tpl,
+
+
+            templateHelpers: app_helper,
 
 
             initialize: function(options) {
