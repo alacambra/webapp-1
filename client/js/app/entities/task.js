@@ -1,6 +1,6 @@
 define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
-        var base_url = App.model_base_url('task');
+        var base_url = App.model_base_url('tasks');
 
 
         Entities.Task = Backbone.Model.extend({
