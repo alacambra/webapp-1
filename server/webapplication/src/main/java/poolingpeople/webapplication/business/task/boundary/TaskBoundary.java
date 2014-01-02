@@ -45,14 +45,7 @@ public class TaskBoundary {
 
 	@Inject
 	DTOConverter dtoConverter;
-
-	public TaskBoundary() {
-	}
-
-	public TaskBoundary(EntityFactory entityFactory, DTOConverter dtoConverter) {
-		this.entityFactory = entityFactory;
-		this.dtoConverter = dtoConverter;
-	}
+	
 
 	@GET
 	@Path("{id:[\\w\\d-]+}")
