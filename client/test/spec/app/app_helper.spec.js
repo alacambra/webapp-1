@@ -1,6 +1,6 @@
 define(['app/app_helper'], function (app_helper) {
     return describe('App :: Helper', function () {
-        return describe('url_for', function () {
+        describe('url_for', function () {
             it('should generate restful URLs', function () {
                 expect(app_helper.url_for('tasks')).toBe('#tasks');
                 expect(app_helper.url_for('tasks', 1)).toBe('#tasks/1');
