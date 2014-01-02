@@ -6,7 +6,7 @@ public enum TaskPriority {
 	NORMAL(2),
 	HIGH(3);
 	
-	private int priorityNumber;
+	private final int priorityNumber;
 	
 	private TaskPriority(int num) {
 		this.priorityNumber = num;
@@ -24,7 +24,7 @@ public enum TaskPriority {
 				return prios[i];
 		}
 		
-		throw new RuntimeException("valuue not found");
+		throw new RuntimeException("value not found");
 	}
 }
 

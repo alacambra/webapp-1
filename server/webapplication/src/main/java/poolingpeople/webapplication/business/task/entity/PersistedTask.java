@@ -179,11 +179,13 @@ public class PersistedTask implements Task {
 				NodesPropertiesNames.PROGRESS.name(), progress);
 	}
 
+        @Override
 	public boolean equals(Object obj) {
 		return obj instanceof PersistedTask
 				&& ((PersistedTask) obj).getNode().equals(underlyingNode);
 	}
 
+        @Override
 	public int hashCode() {
 		return underlyingNode.hashCode();
 	}
