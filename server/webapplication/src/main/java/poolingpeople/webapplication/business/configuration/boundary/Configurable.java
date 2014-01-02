@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Configurable saves the key name of a configuration
+ *  Saves the key name of a configuration
  */
 
 @Retention(RetentionPolicy.RUNTIME)
