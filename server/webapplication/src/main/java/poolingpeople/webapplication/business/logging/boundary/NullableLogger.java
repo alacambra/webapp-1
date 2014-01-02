@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.enterprise.inject.Alternative;
 
 @Alternative
-public class NullableLogger implements WhateverLogger {
+public class NullableLogger implements PPLogger {
 
 	@Override
 	public void log(Level logLevel, String message, Object[] args) {

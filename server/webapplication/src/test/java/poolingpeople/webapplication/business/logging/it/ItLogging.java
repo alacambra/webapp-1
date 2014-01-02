@@ -18,19 +18,19 @@ import poolingpeople.webapplication.business.configuration.control.Configurator;
 import poolingpeople.webapplication.business.logging.boundary.LoggerProducer;
 import poolingpeople.webapplication.business.logging.boundary.NullableLogger;
 import poolingpeople.webapplication.business.logging.boundary.SimpleLogger;
-import poolingpeople.webapplication.business.logging.boundary.WhateverLogger;
+import poolingpeople.webapplication.business.logging.boundary.PPLogger;
 
 @RunWith(Arquillian.class)
 public class ItLogging {
 
 	@Inject
-	WhateverLogger whateverLogger;
+	PPLogger whateverLogger;
 
 	@Deployment
 	public static JavaArchive createDeployment() {
 		return ShrinkWrap
 				.create(JavaArchive.class)
-				.addClasses(WhateverLogger.class, NullableLogger.class,
+				.addClasses(PPLogger.class, NullableLogger.class,
 						SimpleLogger.class, LoggerProducer.class,
 						ConfigurationProducer.class,Configurable.class,
 						Configurator.class)

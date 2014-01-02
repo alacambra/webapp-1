@@ -17,7 +17,7 @@ public class LoggerProducer {
 	private boolean isLogging;
 	
 	@Produces 
-	public WhateverLogger produceLoggerInstance(InjectionPoint point) {
+	public PPLogger produceLoggerInstance(InjectionPoint point) {
 		String className = point.getMember().getDeclaringClass().getName();
 		return (isLogging) ? new SimpleLogger(className) : new NullableLogger(); 
 	}

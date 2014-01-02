@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.enterprise.inject.Alternative;
 
 @Alternative
-public class SimpleLogger implements WhateverLogger {
+public class SimpleLogger implements PPLogger {
 	private Logger logger;
 
 	public SimpleLogger() {
