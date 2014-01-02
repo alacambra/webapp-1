@@ -2,9 +2,10 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
 
     return describe('Task :: Helper', function () {
         it('Text should be shorten correctly.', function () {
-            expect(task_helper.short_text('haus', 4)).toBe('haus');
-            expect(task_helper.short_text('haus', 3)).toBe('hau...');
-            expect(task_helper.short_text('haus', 0)).toBe('');
+            expect(task_helper.short_text('house', 9)).toBe('house');
+            expect(task_helper.short_text('house', 5)).toBe('house');
+            expect(task_helper.short_text('house', 3)).toBe('hou &hellip;');
+            expect(task_helper.short_text('house', 0)).toBe('');
         });
 
         it('Date should be returned in the format \'YYYY-MM-DD\'.', function () {

@@ -8,7 +8,7 @@ define(['moment', 'advanced_string'], function(moment) {
                 return '';
             }
 
-            return text.length <= length ? text : text.substr(0, length) + '...';
+            return text.length <= length ? text : text.substr(0, length) + ' &hellip;';
         },
 
         format_date: function(date) {
