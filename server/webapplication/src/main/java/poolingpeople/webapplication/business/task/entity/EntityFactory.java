@@ -17,17 +17,9 @@ import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 @EntityPersistenceRollback
 public class EntityFactory { 
 	
-//	@Inject
-	private NeoManager manager;
-
-	public EntityFactory(){}
-	
-	//TODO who will call this? A test which needs injection but use no CDI  (Albert)
 	@Inject
-	public EntityFactory(NeoManager manager){
-		this.manager = manager;
-	}
-	
+	private NeoManager manager;
+ 
 	public void deleteTask(String uuid)  {
 		manager.removeNode(getTaskById(uuid).getNode());
 	}
