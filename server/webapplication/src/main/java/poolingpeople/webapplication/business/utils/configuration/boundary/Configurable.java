@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.configuration.boundary;
+package poolingpeople.webapplication.business.utils.configuration.boundary;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

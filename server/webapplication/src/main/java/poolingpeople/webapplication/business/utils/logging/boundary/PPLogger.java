@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.logging.boundary;
+package poolingpeople.webapplication.business.utils.logging.boundary;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -12,13 +12,13 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import poolingpeople.webapplication.business.configuration.boundary.Configurable;
-import poolingpeople.webapplication.business.configuration.boundary.ConfigurationProducer;
-import poolingpeople.webapplication.business.configuration.control.Configurator;
-import poolingpeople.webapplication.business.logging.boundary.LoggerProducer;
-import poolingpeople.webapplication.business.logging.boundary.NullableLogger;
-import poolingpeople.webapplication.business.logging.boundary.SimpleLogger;
-import poolingpeople.webapplication.business.logging.boundary.PPLogger;
+import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
+import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
+import poolingpeople.webapplication.business.utils.configuration.boundary.Configurator;
+import poolingpeople.webapplication.business.utils.logging.boundary.LoggerProducer;
+import poolingpeople.webapplication.business.utils.logging.boundary.NullableLogger;
+import poolingpeople.webapplication.business.utils.logging.boundary.SimpleLogger;
+import poolingpeople.webapplication.business.utils.logging.boundary.PPLogger;
 
 @RunWith(Arquillian.class)
 public class ItLogging {

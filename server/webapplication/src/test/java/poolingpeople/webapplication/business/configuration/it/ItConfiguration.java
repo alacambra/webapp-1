@@ -12,8 +12,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import poolingpeople.webapplication.business.configuration.boundary.ConfigurationProducer;
-import poolingpeople.webapplication.business.configuration.control.Configurator;
+import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
+import poolingpeople.webapplication.business.utils.configuration.boundary.Configurator;
 
 @RunWith(Arquillian.class)
 public class ItConfiguration {

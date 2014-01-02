@@ -1,11 +1,10 @@
-package poolingpeople.webapplication.business.configuration.boundary;
+package poolingpeople.webapplication.business.utils.configuration.boundary;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.AnnotatedField;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
-import poolingpeople.webapplication.business.configuration.control.Configurator;
 
 public class ConfigurationProducer {
 	@Inject

@@ -2,7 +2,7 @@ package poolingpeople.webapplication.business.configuration.it;
 
 import javax.inject.Inject;
 
-import poolingpeople.webapplication.business.configuration.boundary.Configurable;
+import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 
 public class ItConfigurable {
 

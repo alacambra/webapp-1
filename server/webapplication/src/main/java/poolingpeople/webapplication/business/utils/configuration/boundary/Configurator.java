@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.configuration.control;
+package poolingpeople.webapplication.business.utils.configuration.boundary;
 
 import java.util.HashMap;
 import java.util.Map;

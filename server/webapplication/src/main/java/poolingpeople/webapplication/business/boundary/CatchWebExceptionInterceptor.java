@@ -14,7 +14,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 
-import poolingpeople.webapplication.business.configuration.boundary.Configurable;
+import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 import poolingpeople.webapplication.business.neo4j.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.NotUniqueException;

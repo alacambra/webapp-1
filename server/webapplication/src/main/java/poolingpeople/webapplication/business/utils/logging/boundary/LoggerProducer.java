@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.logging.boundary;
+package poolingpeople.webapplication.business.utils.logging.boundary;
 
 import java.util.logging.Logger;
 
@@ -6,7 +6,7 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
-import poolingpeople.webapplication.business.configuration.boundary.Configurable;
+import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 
 /**
  * LoggerProduces creates depending on the isLogging flag a WhateverLogger for an injected instance 
