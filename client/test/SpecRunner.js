@@ -79,6 +79,7 @@ require(['jasmine_html', 'underscore', 'jquery', 'i18n', 'locale_en'], function 
     var specs = [];
 
     specs.push('spec/app/entities/task.spec');
+    specs.push('spec/app/app_helper.spec');
     specs.push('spec/app/tasks/tasks_app.spec');
     specs.push('spec/app/tasks/task_helper.spec');
     specs.push('spec/app/tasks/edit/edit_controller.spec.js');
