@@ -30,7 +30,7 @@ import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
-@Path("task")
+@Path("tasks")
 @Stateless
 @Neo4jTransaction
 @CatchWebAppException
