@@ -19,7 +19,7 @@ require.config({
         locale_de: 'locales/de',
         locale_en: 'locales/en',
         jasmine: '../test/lib/jasmine/jasmine',
-        'jasmine-html': '../test/lib/jasmine/jasmine-html',
+        jasmine_html: '../test/lib/jasmine/jasmine-html',
         spec: '../test/spec',
         backbone_faux_server: 'lib/vendor/backbone-faux-server'
     },
@@ -28,42 +28,41 @@ require.config({
             exports: '_'
         },
         backbone: {
-            deps: [ 'underscore', 'jquery' ],
+            deps: ['underscore', 'jquery'],
             exports: 'Backbone'
         },
-        backbone_syphon: [ 'backbone' ],
+        backbone_syphon: ['backbone'],
         backbone_faux_server: {
             deps: ['backbone', 'underscore'],
             exports: 'Faux'
         },
         bootstrap: {
-            deps: [ 'jquery' ],
+            deps: ['jquery'],
             exports: 'Bootstrap'
         },
         marionette: {
-            deps: [ 'backbone' ],
+            deps: ['backbone'],
             exports: 'Marionette'
         },
         behaviour: {
-            deps: [ 'jquery' ],
+            deps: ['jquery'],
             exports: 'advanced_string'
         },
         i18n: { exports: 'I18n' },
         jasmine: {
             exports: 'jasmine'
         },
-        'jasmine-html': {
-            deps: [ 'jasmine' ],
+        jasmine_html: {
+            deps: ['jasmine'],
             exports: 'jasmine'
         },
 
         locale_de: { deps: ['i18n'] },
         locale_en: { deps: ['i18n'] }
-
     }
 });
 
-require(['jasmine-html', 'underscore', 'jquery', 'i18n', 'locale_en'], function (jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'i18n', 'locale_en'], function (jasmine, _, $) {
     I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
@@ -79,7 +78,6 @@ require(['jasmine-html', 'underscore', 'jquery', 'i18n', 'locale_en'], function 
 
     var specs = [];
 
-    specs.push('spec/app.spec');
     specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/tasks/tasks_app.spec');
     specs.push('spec/app/tasks/task_helper.spec');
