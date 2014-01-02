@@ -20,6 +20,7 @@ requirejs.config({
         // custom libs
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
+        tools: 'lib/tools',
 
         // locales
         locale_de: 'locales/de',
@@ -57,6 +58,6 @@ requirejs.config({
     }
 });
 
-require(['app', 'underscore', 'bootstrap', 'behaviour', 'i18n'], function(App) {
+require(['app', 'underscore', 'bootstrap', 'behaviour', 'tools', 'i18n'], function(App) {
     App.start();
 });

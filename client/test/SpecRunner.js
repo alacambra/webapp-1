@@ -16,6 +16,7 @@ require.config({
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
+        tools: 'lib/tools',
         locale_de: 'locales/de',
         locale_en: 'locales/en',
         jasmine: '../test/lib/jasmine/jasmine',
@@ -62,7 +63,7 @@ require.config({
     }
 });
 
-require(['jasmine_html', 'underscore', 'jquery', 'i18n', 'locale_en'], function (jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], function (jasmine, _, $) {
     I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
@@ -78,6 +79,7 @@ require(['jasmine_html', 'underscore', 'jquery', 'i18n', 'locale_en'], function 
 
     var specs = [];
 
+    specs.push('spec/lib/tools.spec.js');
     specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/app_helper.spec');
     specs.push('spec/app/tasks/tasks_app.spec');
