@@ -12,8 +12,9 @@ import javax.ejb.Startup;
 public class Configurator {
 
     private Map<String, String> config;
+    private final String notFoundMessage = "There is no value associated with the given key";
 
-    @SuppressWarnings("serial")
+    @SuppressWarnings("Will be called via PostConstruct invocation from the bean container")
     @PostConstruct
     private void loadConfiguration() {
         config = new HashMap<String, String>() {
@@ -28,22 +29,28 @@ public class Configurator {
     }
 
     public String getStringValue(String key) {
-        return (containsKey(key)) ? config.get(key) : "";
+        containsKey(key);
+        return config.get(key);
     }
 
     public long getLongValue(String key) {
-        return (containsKey(key)) ? Long.parseLong(config.get(key)) : 0l;
+        containsKey(key);
+        return Long.parseLong(config.get(key));
     }
 
     public int getIntValue(String key) {
-        return (containsKey(key)) ? Integer.parseInt(config.get(key)) : 0x0;
+        containsKey(key);
+        return Integer.parseInt(config.get(key));
     }
 
     public boolean getBooleanValue(String key) {
-        return (containsKey(key)) ? Boolean.parseBoolean(config.get(key)) : false;
+        containsKey(key);
+        return Boolean.parseBoolean(config.get(key));
     }
 
-    private boolean containsKey(String key) {
-        return (config.containsKey(key));
+    private void containsKey(String key) {
+        if (!config.containsKey(key)) {
+            throw new RuntimeException(notFoundMessage);
+        }
     }
 }
