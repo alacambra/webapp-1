@@ -12,7 +12,8 @@ I18n.translations['de'] = {
         projects: 'Projekte',
         tasks: 'Aufgaben',
         calendar: 'Kalender',
-        search: 'Suche',
+        search_placeholder: 'Pool, Person, usw.',
+        search_button: 'Suchen',
         login: 'Anmelden',
         logout: 'Abmelden'
     },

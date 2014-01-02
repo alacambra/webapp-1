@@ -17,9 +17,9 @@
 
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="<%= I18n.t('main_navi.search') %>">
+                    <input type="text" class="form-control" placeholder="<%= I18n.t('main_navi.search_placeholder') %>">
                 </div>
-                <button type="submit" class="btn btn-default"><%= I18n.t('submit') %></button>
+                <button type="submit" class="btn btn-default"><%= I18n.t('main_navi.search_button') %></button>
             </form>
 
             <div class="navbar-form navbar-left">
