@@ -69,7 +69,7 @@ define(['moment', 'advanced_string'], function(moment) {
         },
 
         has_value: function(val) {
-            return !(val === null || val === undefined || val === 0 || (typeof val === 'string' && val.replace(/ /g, '').length == 0));
+            return !(val === 0 || is_blank(val));
         }
     }
 });
