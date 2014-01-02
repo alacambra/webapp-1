@@ -2,8 +2,7 @@ define({
     rest: {
         base_url: {
             default: {
-                url: '/api',
-                pluralized: false
+                url: '/api/webapplication/rest'
             },
             // optional rest server url, will be switched by subdomain (if enabled below)
             dev: {
