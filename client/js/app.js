@@ -23,14 +23,27 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
     };
 
 
+    App.show_main_navi= function() {
+        require(['app/common/main_navi_view'], function (MainNaviView) {
+            var navi_view = new MainNaviView({
+                available_locales: CONFIG.i18n.available_locales
+            });
+
+            App.navi_region.show(navi_view);
+        });
+    };
+
+
     App.navigate = function(route,  options){
         options || (options = {});
         Backbone.history.navigate(route, options);
     };
 
+
     App.current_route = function(){
         return Backbone.history.fragment;
     };
+
 
     App.model_base_url = function(model) {
         var cfg = CONFIG.rest.base_url.default;
@@ -43,26 +56,18 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
         return cfg.url + '/' + model + (cfg.pluralized !== false ? 's' : '');
     };
 
+
     App.on('initialize:after', function(){
         App.init_i18n();
+        App.show_main_navi();
 
-        require(['app/common/main_navi_view'], function (MainNaviView) {
-            var navi_view = new MainNaviView({
-                available_locales: CONFIG.i18n.available_locales
-            });
+        require(['app/tasks/tasks_app'], function () {
+            Backbone.history.start();
 
-            App.navi_region.show(navi_view);
+            if (App.current_route() === '') {
+                App.trigger('tasks:list');
+            }
         });
-
-        if (Backbone.history) {
-            require(['app/tasks/tasks_app'], function () {
-                Backbone.history.start();
-
-                if (App.current_route() === '') {
-                    App.trigger('tasks:list');
-                }
-            });
-        }
     });
 
 
