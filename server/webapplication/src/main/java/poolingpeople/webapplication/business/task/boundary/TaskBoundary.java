@@ -57,7 +57,7 @@ public class TaskBoundary {
 	@GET
 	@Path("{id:[\\w\\d-]+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTask(@PathParam("id") String id)
+	public Response getTaskById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		String r = mapper.writerWithView(TaskMixin.class).writeValueAsString(
 				entityFactory.getTaskById(id));
