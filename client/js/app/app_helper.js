@@ -1,3 +1,5 @@
+/** @module app_helper */
+
 define({
     /**
      * Creates a backbone REST URL for a given resource.

@@ -1,7 +1,9 @@
+/** @module tools */
+
 /**
  * Checks if an object contains empty data.
  *
- * @param data
+ * @param data {string|object} - Array, Object or String to be checked, any type is supported.
  * @returns {boolean} - True if object is empty.
  */
 function is_empty(data) {
@@ -18,9 +20,9 @@ function is_empty(data) {
 
 
 /**
- * Checks if a string only contains whitespace. Behaves like is_empty() for non-string objects.
+ * Checks if a string only contains whitespace. Behaves like {@link is_empty} for non-string objects.
  *
- * @param data
+ * @param data {string|object} - String, Array or Object to be checked, any type is supported.
  * @returns {boolean} - True if only whitespace or empty object.
  */
 function is_blank(data) {

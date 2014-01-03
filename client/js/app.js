@@ -55,7 +55,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
             cfg = CONFIG.rest.base_url[subdomain] || cfg;
         }
 
-        return cfg.url + '/' + model;
+        return cfg + '/' + model;
     };
 
 

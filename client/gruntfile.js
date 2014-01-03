@@ -42,7 +42,8 @@ module.exports = function (grunt) {
         clean: {
             files: {
                 src: [
-                    'dist/'
+                    'dist/',
+                    'doc/'
                 ]
             }
         },
@@ -99,6 +100,20 @@ module.exports = function (grunt) {
                     dest: 'dist/js/locales'
                 }]
             }
+        },
+
+        jsdoc : {
+            dist : {
+                src: [
+                    'js/app.js',
+                    'js/config.example.js',
+                    'js/app/**/*.js',
+                    'js/lib/*.js'
+                ],
+                options: {
+                    destination: 'doc'
+                }
+            }
         }
     });
 
@@ -112,6 +127,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-requirejs');
 
@@ -126,6 +142,7 @@ module.exports = function (grunt) {
         'processhtml',
         'requirejs:compile',
         'uglify',
-        'copy:dist'
+        'copy:dist',
+        'jsdoc'
     ]);
 };
