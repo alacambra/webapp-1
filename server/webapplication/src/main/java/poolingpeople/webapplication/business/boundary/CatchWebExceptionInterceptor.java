@@ -30,11 +30,7 @@ public class CatchWebExceptionInterceptor {
         try {
             return context.proceed();
         } catch (RootApplicationException e) {
-            if (hasInnerException(e)) {
-                throw getSpecificDomainException(e);
-            } else {
-                throw new WebApplicationException(e);
-            }
+            throw getSpecificDomainException(e);
         } catch (JsonGenerationException | JsonParseException generationException) {
             throw new WebApplicationException(generationException, Response
                     .status(Status.BAD_REQUEST).entity(invalidJson).build());
@@ -52,11 +48,7 @@ public class CatchWebExceptionInterceptor {
                     .entity(e.getMessage()).build());
         }
     }
-
-    private boolean hasInnerException(RootApplicationException e) {
-        return e.getCause() != null;
-    }
-
+    
     private WebApplicationException getSpecificDomainException(
             RootApplicationException exception) {
         return new WebApplicationException(exception, exception.getSpecificWebResponse());
