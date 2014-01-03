@@ -1,15 +1,9 @@
 module.exports = function (grunt) {
-
-    function exclude_sass_files(file) {
-        return !file.match(/.sass$/);
-    }
-
-    // Project configuration.
     grunt.initConfig({
         sass: {
             dist: {
                 files: {
-                    'dist/css/base.css': 'css/base.sass'    // 'destination path': 'source path'
+                    'dist/css/style.css': 'css/base.sass' // will be overwritten during ccsmin:combine
                 }
             }
         },
@@ -29,14 +23,6 @@ module.exports = function (grunt) {
                     'test/spec/**/*.spec.js'
                 ]
             }
-//            specs: {
-//                files: ['test/spec/*.spec.js'],
-//                tasks: 'jasmine'
-//            },
-//            sass: {
-//                files: ['css/*.sass'],
-//                tasks: 'sass'
-//            }
         },
 
         connect: {
@@ -66,7 +52,7 @@ module.exports = function (grunt) {
         copy: {
             dist: {
                 files: [
-                    { expand: true, src: [ 'css/**' ], dest: 'dist/', filter: exclude_sass_files },
+                    { expand: true, src: [ 'css/images/*' ], dest: 'dist' },
                     { expand: true, src: [ 'fonts/**' ], dest: 'dist/' },
                     { expand: true, src: [ 'img/**' ], dest: 'dist/' },
                     { expand: true, src: [ 'js/locales/*.*' ], dest: 'dist/' }
@@ -94,6 +80,15 @@ module.exports = function (grunt) {
                     findNestedDependencies: true
                 }
             }
+        },
+
+        cssmin: {
+            combine: {
+                files: {
+                    // include and overwrite compiled base.sass (compiled to dist/css/style.css by sass:dist)
+                    'dist/css/style.css': ['css/*.css', 'dist/css/style.css']
+                }
+            }
         }
     });
 
@@ -107,6 +102,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Default task.
     grunt.registerTask('default', 'watch');
@@ -118,7 +114,9 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'sass:dist',
+        'cssmin:combine',
         'processhtml',
         'requirejs:compile',
-        'copy:dist' ]);
+        'copy:dist'
+    ]);
 };
