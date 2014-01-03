@@ -4,10 +4,6 @@ module.exports = function (grunt) {
         return !file.match(/.sass$/);
     }
 
-    function exclude_example_files(file) {
-        return !file.match(/.example$/);
-    }
-
     // Project configuration.
     grunt.initConfig({
         sass: {
@@ -70,12 +66,33 @@ module.exports = function (grunt) {
         copy: {
             dist: {
                 files: [
-                    { expand: true, src: [ 'index.html' ], dest: 'dist/' },
                     { expand: true, src: [ 'css/**' ], dest: 'dist/', filter: exclude_sass_files },
                     { expand: true, src: [ 'fonts/**' ], dest: 'dist/' },
                     { expand: true, src: [ 'img/**' ], dest: 'dist/' },
-                    { expand: true, src: [ 'js/**' ], dest: 'dist/', filter: exclude_example_files}
+                    { expand: true, src: [ 'js/locales/*.*' ], dest: 'dist/' }
                 ]
+            }
+        },
+
+        processhtml: {
+            dev: {
+                files: {
+                    'dist/index.html': ['index.html']
+                }
+            }
+        },
+
+
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: 'js',
+                    name: 'lib/vendor/require',
+                    include: 'require_main',
+                    mainConfigFile: 'js/require_main.js',
+                    out: 'dist/js/application.js',
+                    findNestedDependencies: true
+                }
             }
         }
     });
@@ -88,6 +105,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-requirejs');
 
     // Default task.
     grunt.registerTask('default', 'watch');
@@ -99,5 +118,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'sass:dist',
+        'processhtml',
+        'requirejs:compile',
         'copy:dist' ]);
 };
