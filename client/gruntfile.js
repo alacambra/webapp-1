@@ -40,12 +40,10 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            dist: {
-                files: {
-                    src: [
-                        'dist/'
-                    ]
-                }
+            files: {
+                src: [
+                    'dist/'
+                ]
             }
         },
 
@@ -54,8 +52,7 @@ module.exports = function (grunt) {
                 files: [
                     { expand: true, src: [ 'css/images/*' ], dest: 'dist' },
                     { expand: true, src: [ 'fonts/**' ], dest: 'dist/' },
-                    { expand: true, src: [ 'img/**' ], dest: 'dist/' },
-                    { expand: true, src: [ 'js/locales/*.*' ], dest: 'dist/' }
+                    { expand: true, src: [ 'img/**' ], dest: 'dist/' }
                 ]
             }
         },
@@ -67,7 +64,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-
 
         requirejs: {
             compile: {
@@ -85,38 +81,51 @@ module.exports = function (grunt) {
         cssmin: {
             combine: {
                 files: {
-                    // include and overwrite compiled base.sass (compiled to dist/css/style.css by sass:dist)
-                    'dist/css/style.css': ['css/*.css', 'dist/css/style.css']
+                    'dist/css/style.css': [
+                        'css/bootstrap.css',
+                        'css/jquery-ui.css',
+                        'dist/css/style.css' // include and overwrite compiled base.sass (compiled to dist/css/style.css by sass:dist)
+                    ]
                 }
+            }
+        },
+
+        uglify: {
+            main: {
+                files: [{
+                    expand: true,
+                    cwd: 'js/locales',
+                    src: '*.js',
+                    dest: 'dist/js/locales'
+                }]
             }
         }
     });
 
     // Load plugins here
     grunt.loadNpmTasks('grunt-contrib');
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-requirejs');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Default task.
-    grunt.registerTask('default', 'watch');
-
-    // SpecRunner task.
-    grunt.registerTask('unittest', ['connect:livereload', 'watch:livereload']);
+    grunt.registerTask('default', ['connect:livereload', 'watch:livereload']);
 
     // Build task.
     grunt.registerTask('build', [
-        'clean:dist',
+        'clean',
         'sass:dist',
         'cssmin:combine',
         'processhtml',
         'requirejs:compile',
+        'uglify',
         'copy:dist'
     ]);
 };
