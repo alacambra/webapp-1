@@ -8,7 +8,9 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
     });
 
 
-    App.init_i18n = function() {
+    App.init_i18n = function(callback) {
+        if (callback === undefined) callback = function() {};
+
         I18n.defaultLocale = CONFIG.i18n.default_locale;
 
         // set locale by session or browser default if no session is available
@@ -19,7 +21,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
         // use default language if unknown language is requested
         if (_.indexOf(CONFIG.i18n.available_locales, I18n.locale) == -1) I18n.locale = I18n.defaultLocale;
 
-        require(['locales/' + I18n.locale]); // load translation file
+        require(['locales/' + I18n.locale], callback); // load translation file, run callback afterwards
     };
 
 
@@ -58,15 +60,16 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
 
 
     App.on('initialize:after', function(){
-        App.init_i18n();
-        App.show_main_navi();
+        App.init_i18n(function() {
+            App.show_main_navi();
 
-        require(['app/tasks/tasks_app'], function () {
-            Backbone.history.start();
+            require(['app/tasks/tasks_app'], function () {
+                Backbone.history.start();
 
-            if (App.current_route() === '') {
-                App.trigger('tasks:list');
-            }
+                if (App.current_route() === '') {
+                    App.trigger('tasks:list');
+                }
+            });
         });
     });
 
