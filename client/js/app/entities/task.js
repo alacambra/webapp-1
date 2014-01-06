@@ -1,6 +1,7 @@
 define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
+        console.log(base_url);
 
 
         Entities.Task = Backbone.Model.extend({
@@ -111,11 +112,11 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
             { id: 5, title: 'Task5', description: 'bla bla bla bla bla bla bla bla bla bla', progress: 0.5 }
         ];
 
-        Faux.addRoute('getTasks', '/webapplication/rest/task', 'GET', function (context) {
+        Faux.addRoute('getTasks', base_url, 'GET', function (context) {
             return tasks;
         });
 
-        Faux.addRoute('getTask', '/webapplication/rest/task/:id', 'GET', function(context, id) {
+        Faux.addRoute('getTask', base_url + '/:id', 'GET', function(context, id) {
             var task;
             _.forEach(tasks, function (t) {
                 if (t.id === parseInt(id)) {
