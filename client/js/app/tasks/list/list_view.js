@@ -45,6 +45,7 @@ function(App, list_tpl, list_item_tpl, app_helper, task_helper) {
         List.Tasks = Marionette.CompositeView.extend({
             id: 'tasks',
             template: list_tpl,
+            templateHelpers: app_helper,
             itemView: List.View,
             itemViewContainer: '#js-task-list-items',
 

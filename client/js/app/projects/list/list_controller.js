@@ -1,16 +1,14 @@
 define(['app',
         'app/entities/project',
-        'app/app_helper',
         'app/projects/list/list_view'],
-function(App, View, app_helper){
-    App.module('Projects.List', function(List, App, Backbone, Marionette, $, _){
+function(App){
+    App.module('Projects.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             projects_list: function() {
                 var fetching_projects = App.request('project:entities');
                 $.when(fetching_projects).done(function(projects){
                     var list_view = new List.Projects({
-                        collection: projects,
-                        templateHelpers: app_helper
+                        collection: projects
                     });
 
                     App.main_region.show(list_view);
