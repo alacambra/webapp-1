@@ -18,7 +18,7 @@ public abstract class PersistedModel {
 	protected Node underlyingNode;
 	protected NeoManager manager;
 
-	public final PoolingpeopleObjectType NODE_TYPE;
+	private final PoolingpeopleObjectType NODE_TYPE;
 	
 	
 	public PersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
