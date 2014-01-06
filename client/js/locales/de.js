@@ -19,7 +19,11 @@ I18n.translations['de'] = {
     },
 
     project: {
-        header: 'Projekte',
+        header: {
+            list: 'Projekte',
+            new: 'Neues Projekt',
+            edit: 'Projekt bearbeiten'
+        },
         label: {
             title: 'Titel',
             description: 'Beschreibung',
@@ -37,13 +41,17 @@ I18n.translations['de'] = {
             requested: 'Angefragt',
             offered: 'Angeboten'
         },
-
-        new: 'Neues Projekt',
-        edit: 'Projekt bearbeiten'
+        button: {
+            new: 'Neues Projekt'
+        }
     },
 
     task: {
-        header: 'Aufgaben',
+        header: {
+            list: 'Aufgaben',
+            new: 'Neuer Task',
+            edit: 'Task bearbeiten'
+        },
         label: {
             title: 'Titel',
             description: 'Beschreibung',
@@ -70,9 +78,9 @@ I18n.translations['de'] = {
             normal: 'Normal',
             high: 'Hoch'
         },
-
-        new: 'Neuer Task',
-        edit: 'Task bearbeiten'
+        button: {
+            new: 'Neuer Task'
+        }
     },
 
     locale: { // must not be translated

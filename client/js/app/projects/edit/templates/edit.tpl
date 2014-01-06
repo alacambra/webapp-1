@@ -1,4 +1,4 @@
-<h2><%= I18n.t('project.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></h2>
+<h2><%= I18n.t('project.header.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></h2>
 
 <form role="form" class="form-horizontal">
     <div class="form-group">
