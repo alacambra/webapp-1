@@ -18,6 +18,30 @@ I18n.translations['en'] = {
         logout: 'Logout'
     },
 
+    project: {
+        header: 'Projects',
+        label: {
+            title: 'Title',
+            description: 'Description',
+            status: 'Status',
+            start_date: 'Start',
+            end_date: 'End'
+        },
+        status_options: {
+            todo: 'ToDo',
+            new: 'New',
+            assigned: 'Assigned',
+            on_hold: 'On hold',
+            completed: 'Completed',
+            archieved: 'Archieved',
+            requested: 'Requested',
+            offered: 'Offered'
+        },
+
+        new: 'New Project',
+        edit: 'Edit Project'
+    },
+
     task: {
         header: 'Tasks',
         label: {
@@ -48,7 +72,7 @@ I18n.translations['en'] = {
         },
 
         new: 'New Task',
-        edit: 'Task bearbeiten'
+        edit: 'Edit Task'
     },
 
     locale: { // must not be translated

@@ -40,6 +40,7 @@ function (App, main_navi_tpl, NotFoundView, app_helper) {
                 var item = $(event.target).attr('href').replace('#', '');
 
                 switch(item) {
+                    case 'projects': App.trigger('projects:list'); break;
                     case 'tasks': App.trigger('tasks:list'); break;
                     default:
                         App.main_region.show(new NotFoundView);

@@ -18,6 +18,30 @@ I18n.translations['de'] = {
         logout: 'Abmelden'
     },
 
+    project: {
+        header: 'Projekte',
+        label: {
+            title: 'Titel',
+            description: 'Beschreibung',
+            status: 'Status',
+            start_date: 'Start',
+            end_date: 'Ende'
+        },
+        status_options: {
+            todo: 'ToDo',
+            new: 'Neu',
+            assigned: 'Zugewiesen',
+            on_hold: 'Wartend',
+            completed: 'Fertig',
+            archieved: 'Archiviert',
+            requested: 'Angefragt',
+            offered: 'Angeboten'
+        },
+
+        new: 'Neues Projekt',
+        edit: 'Projekt bearbeiten'
+    },
+
     task: {
         header: 'Aufgaben',
         label: {
