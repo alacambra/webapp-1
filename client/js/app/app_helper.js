@@ -32,5 +32,17 @@ define({
         if (action !== null) link += '/' + action;
 
         return link;
+    },
+
+    /**
+     * Default datepicker object, use $.extend to customize your datepicker object.
+     *
+     * @example
+     * // using other date format 'YY/MM/DD'
+     * $.extend({}, app_helper.datepicker_default, { dateFormat: 'YY/MM/DD' });
+     */
+    datepicker_default: {
+        dateFormat: I18n.t('date_format_picker'),
+        firstDay: 1
     }
 });

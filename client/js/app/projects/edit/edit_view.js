@@ -1,10 +1,11 @@
 define(['app',
         'tpl!app/projects/edit/templates/edit.tpl',
         'app/projects/project_helper',
+        'app/app_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, project_helper) {
+function(App, edit_tpl, project_helper, app_helper) {
     App.module('Projects.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -46,8 +47,8 @@ function(App, edit_tpl, project_helper) {
 
 
             init_datepicker: function() {
-                this.ui.start_date.datepicker({ dateFormat: I18n.t('date_format_picker') });
-                this.ui.end_date.datepicker({ dateFormat: I18n.t('date_format_picker') });
+                this.ui.start_date.datepicker(app_helper.datepicker_default);
+                this.ui.end_date.datepicker(app_helper.datepicker_default);
             },
 
 
