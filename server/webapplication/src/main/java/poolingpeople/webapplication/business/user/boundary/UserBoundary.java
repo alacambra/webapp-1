@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.boundary;
+package poolingpeople.webapplication.business.user.boundary;
 
 import java.io.IOException;
 
@@ -30,14 +30,14 @@ import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
-@Path("tasks")
+@Path("users")
 @Stateless
 @Neo4jTransaction
 @CatchWebAppException
-public class TaskBoundary {
+public class UserBoundary {
 
 	@Inject
-	@SetMixinView(entity = Task.class, mixin = TaskMixin.class)
+	@SetMixinView(entity = Task.class, mixin = UserMixin.class)
 	ObjectMapper mapper;
 
 	@Inject
@@ -52,7 +52,7 @@ public class TaskBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTaskById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writerWithView(TaskMixin.class).writeValueAsString(
+		String r = mapper.writerWithView(UserMixin.class).writeValueAsString(
 				entityFactory.getTaskById(id));
 		return Response.ok().entity(r).build();
 	}
@@ -71,7 +71,7 @@ public class TaskBoundary {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveTask(String json) throws JsonParseException,
 			JsonMappingException, IOException {
-		Task dtoTask = mapper.readValue(json, TaskDTO.class);
+		Task dtoTask = mapper.readValue(json, UserDTO.class);
 		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
 				entityFactory.createTask());
 		return Response.ok().entity(mapper.writeValueAsString(task)).build();
@@ -83,7 +83,7 @@ public class TaskBoundary {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateTask(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
-		Task dtoTask = mapper.readValue(json, TaskDTO.class);
+		Task dtoTask = mapper.readValue(json, UserDTO.class);
 		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
 				entityFactory.getTaskById(uuid));
 		String r = mapper.writeValueAsString(task);

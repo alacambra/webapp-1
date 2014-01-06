@@ -3,21 +3,28 @@ package poolingpeople.webapplication.business.task.boundary;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ejb.embeddable.EJBContainer;
 import javax.ws.rs.core.Response;
+
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.*;
+
 import org.mockito.MockitoAnnotations;
+
 import poolingpeople.webapplication.business.boundary.View;
 import poolingpeople.webapplication.business.entity.DTOConverter;
-import poolingpeople.webapplication.business.task.entity.EntityFactory;
+import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 
 public class TaskBoundaryTest {

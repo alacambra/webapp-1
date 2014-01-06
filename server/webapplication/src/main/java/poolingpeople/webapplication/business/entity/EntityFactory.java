@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.entity;
+package poolingpeople.webapplication.business.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,11 @@ import javax.inject.Inject;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
-import poolingpeople.webapplication.business.entity.EntityPersistenceRollback;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
+import poolingpeople.webapplication.business.project.entity.PersistedProject;
+import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
 
 @Singleton
 @EntityPersistenceRollback
@@ -41,5 +43,29 @@ public class EntityFactory {
 		}
 		
 		return tasks;
+	}
+
+	public PersistedProject createProject() {
+		return new PersistedProject(manager);
+	}
+
+	public PersistedProject getProjectById(
+			String uuid) {
+		return new PersistedProject(manager, uuid);
+	}
+
+	public List<PersistedProject> getAllProject() {
+		IndexHits<Node> nodes = manager.getNodes(new TypeIndexContainer(PersistedProject.NODE_TYPE));
+		List<PersistedProject> projects = new ArrayList<PersistedProject>();
+		
+		for(Node n : nodes){
+			projects.add(new PersistedProject(manager, n));
+		}
+		
+		return projects;
+	}
+
+	public void deleteProject(String uuid) {
+		manager.removeNode(getProjectById(uuid).getNode());
 	}
 }
