@@ -1,6 +1,6 @@
 <h2><%= I18n.t('project.header.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></h2>
 
-<form role="form" class="form-horizontal">
+<form class="form-horizontal" role="form">
     <div class="form-group">
         <div class="col-lg-4">
             <label class="control-label" for="js-project-title"><%= I18n.t('project.label.title') %></label>
@@ -36,9 +36,11 @@
         </div>
     </div>
 
-    <button class="btn btn-default btn-sm btn-text right-space js-submit">
+    <button id="js-project-submit" class="btn btn-default btn-sm btn-text right-space js-submit">
         <span class="glyphicon glyphicon-floppy-disk"></span> <%= I18n.t('save') %>
     </button>
+
+    <span id="js-project-submit-error-msg" class="text-danger" style="display: none"></span>
 
     <img id="js-project-save-indicator" src="img/load_indicator.gif" style="display: none;">
 </form>

@@ -1,16 +1,19 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
+        'app/form_helper',
         'app/tasks/task_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, task_helper) {
+function(App, edit_tpl, form_helper, task_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
 
             className: 'edit',
 
+            cssPrefix: '#js-task-',
+            
             ui: {
                 description: '#js-task-description',
                 start_date: '#js-task-startDate',
@@ -18,7 +21,11 @@ function(App, edit_tpl, task_helper) {
                 progress: '#js-task-progress',
                 progress_slider: '#js-task-progress-slider',
                 duration: '#js-task-duration',
-                duration_slider: '#js-task-duration-slider'
+                duration_slider: '#js-task-duration-slider',
+
+                submit_button: '#js-task-submit',
+                submit_error_msg: '#js-task-submit-error-msg',
+                save_indicator: '#js-task-save-indicator'
             },
 
             events: {
@@ -102,9 +109,7 @@ function(App, edit_tpl, task_helper) {
             submit: function(e) {
                 e.preventDefault();
 
-                this.clear_form_errors(this.$el);
-                this.$('.js-submit').removeClass('btn-danger');
-                this.$('#js-save-error').remove();
+                form_helper.clear_errors(this);
 
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', task_helper.unformat(data));
@@ -136,49 +141,17 @@ function(App, edit_tpl, task_helper) {
              */
 
             onFormDataValid: function() {
-                this.$('#js-task-save-indicator').fadeIn(300);
-                this.$('.js-submit').addClass('disabled');
+                form_helper.show_load_indicator(this);
             },
 
 
             onFormDataInvalid: function(errors) {
-                var $view = this.$el;
-
-                var mark_errors = function(value, key) {
-                    var $control_group = $view.find('#js-task-' + key).parent().parent();
-                    var $error_msg = $('<span>', { class: 'help-block', text: value });
-                    $control_group.append($error_msg).addClass('has-error');
-                };
-
-                this.clear_form_errors($view);
-                _.each(errors, mark_errors);
+                form_helper.mark_errors(this, errors);
             },
 
 
             onFormSaveFailed: function() {
-                var $view = this.$el;
-
-                $('#js-task-save-indicator').fadeOut(300, function() {
-                    var $error_msg = $('<span>', { id: 'js-save-error', class: 'text-danger', text: I18n.t('errors.save_failed') });
-                    var $submit_btn = $view.find('.js-submit');
-                    $submit_btn.removeClass('disabled').addClass('btn-danger');
-                    $submit_btn.parent().append($error_msg);
-                });
-            },
-
-
-            /*
-             * private helpers
-             */
-
-            clear_form_errors: function($view) {
-                var $form = $view.find('form');
-                $form.find('.help-block').each(function() {
-                    $(this).remove();
-                });
-                $form.find('.form-group.has-error').each(function() {
-                    $(this).removeClass('has-error');
-                });
+                form_helper.show_save_error(this);
             }
         });
     });
