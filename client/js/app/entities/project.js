@@ -18,14 +18,14 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
                 var errors = {};
 
                 if (typeof attrs.title !== 'string') {
-                    errors.title = 'invalid input';
-                } else if (attrs.title.length === 0) {
-                    errors.title = 'can\'t be blank';
+                    errors.title = I18n.t('errors.validation.invalid');
+                } else if (is_blank(attrs.title)) {
+                    errors.title = I18n.t('errors.validation.empty');
                 }
 
                 if (attrs.endDate && attrs.endDate < attrs.startDate) {
-                    errors.startDate = 'must be earlier than end';
-                    errors.endDate = 'must be later than start';
+                    errors.startDate = I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.end_date') });
+                    errors.endDate = I18n.t('errors.validation.date_later_than', { attr: I18n.t('project.label.start_date') });
                 }
 
                 return _.isEmpty(errors) ? false : errors;
@@ -89,12 +89,12 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
         };
 
 
-        App.reqres.setHandler("project:entities", function(){
+        App.reqres.setHandler('project:entities', function() {
             return API.get_project_entities();
         });
 
 
-        App.reqres.setHandler("project:entity", function(id, force_refresh){
+        App.reqres.setHandler('project:entity', function(id, force_refresh) {
             return API.get_project_entity(id, force_refresh);
         });
 

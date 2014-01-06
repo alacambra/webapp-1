@@ -95,7 +95,7 @@ function(App, edit_tpl, project_helper) {
                 var $view = this.$el;
 
                 $('#js-project-save-indicator').fadeOut(300, function() {
-                    var $error_msg = $('<span>', { id: 'js-save-error', class: 'text-danger', text: 'save failed' });
+                    var $error_msg = $('<span>', { id: 'js-save-error', class: 'text-danger', text: I18n.t('errors.save_failed') });
                     var $submit_btn = $view.find('.js-submit');
                     $submit_btn.removeClass('disabled').addClass('btn-danger');
                     $submit_btn.parent().append($error_msg);
