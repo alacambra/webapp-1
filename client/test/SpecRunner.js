@@ -80,8 +80,19 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], 
     var specs = [];
 
     specs.push('spec/lib/tools.spec.js');
-    specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/app_helper.spec');
+
+    specs.push('spec/app/entities/project.spec');
+    specs.push('spec/app/projects/projects_app.spec');
+    specs.push('spec/app/projects/project_helper.spec');
+    specs.push('spec/app/projects/edit/edit_controller.spec.js');
+    specs.push('spec/app/projects/edit/edit_view.spec.js');
+    specs.push('spec/app/projects/list/list_controller.spec.js');
+    specs.push('spec/app/projects/list/list_view.spec.js');
+    specs.push('spec/app/projects/show/show_controller.spec.js');
+    specs.push('spec/app/projects/show/show_view.spec.js');
+
+    specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/tasks/tasks_app.spec');
     specs.push('spec/app/tasks/task_helper.spec');
     specs.push('spec/app/tasks/edit/edit_controller.spec.js');

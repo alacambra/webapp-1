@@ -10,7 +10,7 @@
                 <li><a href="#"><%= I18n.t('main_navi.people') %></a></li>
                 <li><a href="#"><%= I18n.t('main_navi.services') %></a></li>
                 <li><a href="#"><%= I18n.t('main_navi.messages') %></a></li>
-                <li><a href="#"><%= I18n.t('main_navi.projects') %></a></li>
+                <li><a href="<%= url_for('projects') %>"><%= I18n.t('main_navi.projects') %></a></li>
                 <li><a href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
                 <li><a href="#"><%= I18n.t('main_navi.calendar') %></a></li>
             </ul>

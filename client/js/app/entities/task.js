@@ -1,7 +1,6 @@
 define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
-        console.log(base_url);
 
 
         Entities.Task = Backbone.Model.extend({
@@ -22,14 +21,14 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
                 var errors = {};
 
                 if (typeof attrs.title !== 'string') {
-                    errors.title = 'invalid input';
-                } else if (attrs.title.length === 0) {
-                    errors.title = 'can\'t be blank';
+                    errors.title = I18n.t('errors.validation.invalid');
+                } else if (is_blank(attrs.title)) {
+                    errors.title = I18n.t('errors.validation.empty');
                 }
 
                 if (attrs.endDate && attrs.endDate < attrs.startDate) {
-                    errors.startDate = 'must be earlier than end';
-                    errors.endDate = 'must be later than start';
+                    errors.startDate = I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('task.label.end_date') });
+                    errors.endDate = I18n.t('errors.validation.date_later_than', { attr: I18n.t('task.label.start_date') });
                 }
 
                 return _.isEmpty(errors) ? false : errors;
@@ -93,12 +92,12 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
         };
 
 
-        App.reqres.setHandler("task:entities", function(){
+        App.reqres.setHandler('task:entities', function() {
             return API.get_task_entities();
         });
 
 
-        App.reqres.setHandler("task:entity", function(id, force_refresh){
+        App.reqres.setHandler('task:entity', function(id, force_refresh) {
             return API.get_task_entity(id, force_refresh);
         });
 

@@ -18,8 +18,40 @@ I18n.translations['de'] = {
         logout: 'Abmelden'
     },
 
+    project: {
+        header: {
+            list: 'Projekte',
+            new: 'Neues Projekt',
+            edit: 'Projekt bearbeiten'
+        },
+        label: {
+            title: 'Titel',
+            description: 'Beschreibung',
+            status: 'Status',
+            start_date: 'Start',
+            end_date: 'Ende'
+        },
+        status_options: {
+            todo: 'ToDo',
+            new: 'Neu',
+            assigned: 'Zugewiesen',
+            on_hold: 'Wartend',
+            completed: 'Fertig',
+            archieved: 'Archiviert',
+            requested: 'Angefragt',
+            offered: 'Angeboten'
+        },
+        button: {
+            new: 'Neues Projekt'
+        }
+    },
+
     task: {
-        header: 'Aufgaben',
+        header: {
+            list: 'Aufgaben',
+            new: 'Neuer Task',
+            edit: 'Task bearbeiten'
+        },
         label: {
             title: 'Titel',
             description: 'Beschreibung',
@@ -46,9 +78,9 @@ I18n.translations['de'] = {
             normal: 'Normal',
             high: 'Hoch'
         },
-
-        new: 'Neuer Task',
-        edit: 'Task bearbeiten'
+        button: {
+            new: 'Neuer Task'
+        }
     },
 
     locale: { // must not be translated
@@ -57,7 +89,14 @@ I18n.translations['de'] = {
     },
 
     errors: {
-        page_not_found: 'Die Seite wurde nicht gefunden.'
+        validation: {
+            invalid: 'ist nicht gültig',
+            empty: 'muss ausgefüllt werden',
+            date_later_than: 'muss früher sein als {{attr}}',
+            date_earlier_than: 'muss später sein als {{attr}}'
+        },
+        page_not_found: 'Die Seite wurde nicht gefunden.',
+        save_failed: 'Serverfehler: Speichern fehlgeschlagen'
     },
 
     delete_confirm: '"{{name}}"\n\nDiesen Eintrag wirklich löschen?',

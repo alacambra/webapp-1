@@ -18,8 +18,40 @@ I18n.translations['en'] = {
         logout: 'Logout'
     },
 
+    project: {
+        header: {
+            list: 'Projects',
+            new: 'New Project',
+            edit: 'Edit Project'
+        },
+        label: {
+            title: 'Title',
+            description: 'Description',
+            status: 'Status',
+            start_date: 'Start',
+            end_date: 'End'
+        },
+        status_options: {
+            todo: 'ToDo',
+            new: 'New',
+            assigned: 'Assigned',
+            on_hold: 'On hold',
+            completed: 'Completed',
+            archieved: 'Archieved',
+            requested: 'Requested',
+            offered: 'Offered'
+        },
+        button: {
+            new: 'New Project'
+        }
+    },
+
     task: {
-        header: 'Tasks',
+        header: {
+            list: 'Tasks',
+            new: 'New Task',
+            edit: 'Edit Task'
+        },
         label: {
             title: 'Title',
             description: 'Description',
@@ -46,9 +78,9 @@ I18n.translations['en'] = {
             normal: 'Normal',
             high: 'High'
         },
-
-        new: 'New Task',
-        edit: 'Task bearbeiten'
+        button: {
+            new: 'New Task'
+        }
     },
 
     locale: { // must not be translated
@@ -57,7 +89,14 @@ I18n.translations['en'] = {
     },
 
     errors: {
-        page_not_found: 'The page could not be found.'
+        validation: {
+            invalid: 'is invalid',
+            empty: 'must be filled',
+            date_later_than: 'must be earlier than {{attr}}',
+            date_earlier_than: 'must be later than {{attr}}'
+        },
+        page_not_found: 'The page could not be found.',
+        save_failed: 'Server error: Save failed'
     },
 
     delete_confirm: '"{{name}}\n\n"Really delete this entity?',

@@ -63,7 +63,10 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
         App.init_i18n(function() {
             App.show_main_navi();
 
-            require(['app/tasks/tasks_app'], function () {
+            require([
+                'app/projects/projects_app',
+                'app/tasks/tasks_app'
+            ], function () {
                 Backbone.history.start();
 
                 if (App.current_route() === '') {

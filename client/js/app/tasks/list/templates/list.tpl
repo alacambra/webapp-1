@@ -1,4 +1,4 @@
-<h2><%= I18n.t('task.header') %></h2>
+<h2><%= I18n.t('task.header.list') %></h2>
 
 <div class="list-row header">
     <div class="col-md-3"><%= I18n.t('task.label.title') %></div>
@@ -14,5 +14,5 @@
 <div id="js-task-list-items"></div>
 
 <a href="<%= url_for('tasks', 'new') %>" class="btn btn-default btn-sm btn-text top-space js-create">
-    <span class="glyphicon glyphicon-plus"></span> <%= I18n.t('task.new') %>
+    <span class="glyphicon glyphicon-plus"></span> <%= I18n.t('task.button.new') %>
 </a>
