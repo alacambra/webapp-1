@@ -34,6 +34,25 @@ define({
         return link;
     },
 
+
+    /**
+     * Truncates a given text after a given length if text is longer than length.
+     * The last characters will be replaced with the omission for a total length not exceeding length (including omission).
+     *
+     * @param text {string} - The text which should be shortened.
+     * @param [length=100] {number} - The maximum length of the resulting string.
+     * @param [omission=' …'] {string} - The characters replacing the removed text.
+     * @returns {string} - Truncated text.
+     */
+    truncate: function(text, length, omission) {
+        if (typeof text !== 'string') return '';
+        if (length === undefined) length = 100;
+        if (omission === undefined) omission = ' …';
+
+        return text.length <= length ? text : text.substr(0, length - omission.length) + omission;
+    },
+
+
     /**
      * Default datepicker object, use $.extend to customize your datepicker object.
      *

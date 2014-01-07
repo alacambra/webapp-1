@@ -2,14 +2,6 @@ define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
     return {
         status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
 
-        short_text: function(text, length) {
-            if (!text || length === 0) {
-                return '';
-            }
-
-            return text.length <= length ? text : text.substr(0, length) + ' &hellip;';
-        },
-
         format_date: function(date) {
             if (!this.has_value(date)) return '';
             return moment(date * 1000).format(I18n.t('date_format'));

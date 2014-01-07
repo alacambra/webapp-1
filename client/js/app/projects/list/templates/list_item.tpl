@@ -1,5 +1,5 @@
 <div class="col-md-3 js-show"><a href="<%= url_for('projects', id) %>"><%= title %></a></div>
-<div class="col-md-5"><%= short_text(description, 20) %>&nbsp;</div>
+<div class="col-md-5"><%= truncate(description, 20) %>&nbsp;</div>
 <div class="col-md-1"><%= status_text(status) %>&nbsp;</div>
 <div class="col-md-1"><%= format_date(startDate) %>&nbsp;</div>
 <div class="col-md-1"><%= format_date(endDate) %>&nbsp;</div>
