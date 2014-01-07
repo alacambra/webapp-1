@@ -13,7 +13,7 @@ I18n.translations['en'] = {
         tasks: 'Tasks',
         calendar: 'Calendar',
         search_placeholder: 'Pool, Person, etc.',
-        search_button: 'Search',
+        search_button_title: 'Search',
         login: 'Login',
         logout: 'Logout'
     },
