@@ -42,7 +42,9 @@ public class CatchWebExceptionInterceptor {
             throw new WebApplicationException(ioException, Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(ioException.getMessage()).build());
+
         } catch (Exception e) {
+        	System.err.println(e);
             throw new WebApplicationException(e, Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage()).build());

@@ -24,6 +24,8 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
+
 @Singleton
 public class NeoManager {
 
@@ -66,7 +68,9 @@ public class NeoManager {
 			throw new NodeNotFoundException();
 			//			throw new RuntimeException("Node not found");
 		} else {
-			return indexHits.getSingle();
+			Node single = indexHits.getSingle();
+			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
+			return single;
 		}
 	}
 
@@ -286,8 +290,14 @@ public class NeoManager {
 		return node.hasProperty(key);
 	}
 
+	/**
+	 * Remove also the index in new function
+	 * @param n
+	 */
 	public void removeNode(Node n) {
-		n.delete();
+		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
+		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
+//		n.delete();
 	}
 
 	public Boolean getBooleanProperty(Node node, String key) {

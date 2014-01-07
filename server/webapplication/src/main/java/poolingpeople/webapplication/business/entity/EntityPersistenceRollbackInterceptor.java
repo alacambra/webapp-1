@@ -5,6 +5,7 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
+import poolingpeople.webapplication.business.neo4j.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.NotUniqueException;
@@ -17,7 +18,7 @@ public class EntityPersistenceRollbackInterceptor {
 	public Object handleException(InvocationContext context) throws Exception {
 		try {
 			return context.proceed();
-		} catch (    NodeNotFoundException | NodeExistsException | NotUniqueException ex) {
+		} catch (    NodeNotFoundException | NodeExistsException | NotUniqueException | ConsistenceException ex) {
 			throw ex;
 		}
 	}
