@@ -1,4 +1,4 @@
-define(['moment', 'advanced_string'], function(moment) {
+define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
     return {
         status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
 
@@ -21,16 +21,10 @@ define(['moment', 'advanced_string'], function(moment) {
         },
 
         select_for: function(model, attr, options) {
-            var select_options = options.options || this[attr + '_options'];
+            var default_options = { options: this[attr + '_options'] };
+            options = _.extend(default_options, options);
 
-            var text;
-            var select = $('<select>', { name: attr, id: 'js-' + model + '-' + attr, class: options.class });
-            _.each(select_options, function(item, idx) {
-                text = I18n.t(model + '.' + attr + '_options' + '.' + item);
-                select.append($('<option>', { value: idx, text: text, selected: options.selected == idx }));
-            });
-
-            return select[0].outerHTML;
+            return form_helper.select_for(model, attr, options);
         },
 
         unformat: function(data) {

@@ -1,6 +1,18 @@
 /** @module form_helper */
 
 define({
+    select_for: function(model, attr, options) {
+        var text;
+        var select = $('<select>', { name: attr, id: 'js-' + model + '-' + attr, class: options.class });
+        _.each(options.options, function(item, idx) {
+            text = I18n.t(model + '.' + attr + '_options' + '.' + item);
+            select.append($('<option>', { value: idx, text: text, selected: options.selected == idx }));
+        });
+
+        return select[0].outerHTML;
+    },
+
+
     mark_errors: function(view, errors) {
         var $view = view.$el;
 
