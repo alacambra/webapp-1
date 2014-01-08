@@ -1,6 +1,17 @@
-/** @module model_helper */
+/** @module validation_helper */
 
 define({
+    /**
+     * Validates presence of text for given attribute(s).
+     *
+     * Sets error message "invalid", if attribute is no string.
+     * Sets error message "empty", if attribute is empty.
+     *
+     * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
+     * @param attrs {object} - Object containing model attributes, given by backbone validate().
+     * @param errors {object} - Object containing already existing error messages.
+     * @returns {object} - Extended version of given errors object.
+     */
     validates_presence_of: function(attributes, attrs, errors) {
         if (typeof attributes === 'string') attributes = [attributes];
 
@@ -17,7 +28,16 @@ define({
         return errors;
     },
 
-
+    /**
+     * Validates length of text for given attribute.
+     *
+     * @param attr {string} - Name of the attribute to be checked.
+     * @param min_length {number} - Minimum length of text to be valid.
+     * @param max_length {number} - Maximum length of text to be valid.
+     * @param attrs {object} - Object containing model attributes, given by backbone validate().
+     * @param errors {object} - Object containing already existing error messages.
+     * @returns {object} - Extended version of given errors object.
+     */
     validates_length_of: function(attr, min_length, max_length, attrs, errors) {
         if (errors[attr] !== undefined) return errors;
 
@@ -34,7 +54,17 @@ define({
         return errors;
     },
 
-
+    /**
+     * Validates length of text for given attribute.
+     *
+     * @param attr {string} - Name of the attribute to be checked.
+     * @param format {regex} - Regular expression attribute should match.
+     * @param attrs {object} - Object containing model attributes, given by backbone validate().
+     * @param errors {object} - Object containing already existing error messages.
+     * @param [options] {object} - Options to override default options.
+     * @param [options.allow_blank] {boolean} - Empty attribute will be accepted as valid.
+     * @returns {object} - Extended version of given errors object.
+     */
     validates_format_of: function(attr, format, attrs, errors, options) {
         if (errors[attr] !== undefined) return errors;
 
@@ -53,7 +83,16 @@ define({
         return errors;
     },
 
-
+    /**
+     * Validates attribute and its confirmation input to be identical.
+     *
+     * The confirmation attribute is expected to be named with a apprended "Confirmation", i.e. password and passwordConfirmation.
+     *
+     * @param attr {string} - Name of the attribute to be checked.
+     * @param attrs {object} - Object containing model attributes, given by backbone validate().
+     * @param errors {object} - Object containing already existing error messages.
+     * @returns {object} - Extended version of given errors object.
+     */
     validates_confirmation_of: function(attr, attrs, errors) {
         if (errors[attr] !== undefined) return errors;
 
@@ -66,7 +105,17 @@ define({
         return errors;
     },
 
-
+    /**
+     * Validates attribute not to be a specific value.
+     *
+     * @param attr {string} - Name of the attribute to be checked.
+     * @param val {string} - Value which should not be accepted as valid.
+     * @param attrs {object} - Object containing model attributes, given by backbone validate().
+     * @param errors {object} - Object containing already existing error messages.
+     * @param [options] {object} - Options to override default options.
+     * @param [options.allow_blank] {boolean} - Empty attribute will be accepted as valid.
+     * @returns {object} - Extended version of given errors object.
+     */
     validates_exclusion_of: function(attr, val, attrs, errors, options) {
         if (errors[attr] !== undefined) return errors;
 
@@ -85,7 +134,19 @@ define({
         return errors;
     },
 
-
+    /**
+     * Validates attribute to be in a specific range.
+     *
+     * @param attr {string} - Name of the attribute to be checked.
+     * @param min {number} - Minimum value which should be accepted as valid.
+     * @param max {number} - Maximum value which should be accepted as valid.
+     * @param attrs {object} - Object containing model attributes, given by backbone validate().
+     * @param errors {object} - Object containing already existing error messages.
+     * @param [options] {object} - Options to override default options.
+     * @param [options.allow_blank] {boolean} - Empty attribute will be accepted as valid.
+     * @param [options.message] {string} - Error message to be used.
+     * @returns {object} - Extended version of given errors object.
+     */
     validates_inclusion_of: function(attr, min, max, attrs, errors, options) {
         if (errors[attr] !== undefined) return errors;
 
