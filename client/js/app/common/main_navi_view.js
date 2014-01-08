@@ -42,6 +42,7 @@ function (App, main_navi_tpl, NotFoundView, app_helper) {
                 switch(item) {
                     case 'projects': App.trigger('projects:list'); break;
                     case 'tasks': App.trigger('tasks:list'); break;
+                    case 'users': App.trigger('users:list'); break;
                     default:
                         App.main_region.show(new NotFoundView);
                         App.navigate();

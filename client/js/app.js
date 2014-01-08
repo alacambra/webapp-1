@@ -65,7 +65,8 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
 
             require([
                 'app/projects/projects_app',
-                'app/tasks/tasks_app'
+                'app/tasks/tasks_app',
+                'app/users/users_app'
             ], function () {
                 Backbone.history.start();
 

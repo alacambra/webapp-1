@@ -83,6 +83,26 @@ I18n.translations['de'] = {
         }
     },
 
+    user: {
+        header: {
+            list: 'People',
+            new: 'Neue Person',
+            edit: 'Person bearbeiten'
+        },
+        label: {
+            full_name: 'Name',
+            first_name: 'Vorname',
+            last_name: 'Nachname',
+            birth_date: 'Geburtsdatum',
+            email: 'E-Mail',
+            password: 'Passwort',
+            password_confirmation: 'Passwort Wiederholung'
+        },
+        button: {
+            new: 'Neue Person'
+        }
+    },
+
     locale: { // must not be translated
         en: 'English',
         de: 'Deutsch'
@@ -92,6 +112,10 @@ I18n.translations['de'] = {
         validation: {
             invalid: 'ist nicht gültig',
             empty: 'muss ausgefüllt werden',
+            confirmation: 'stimmt nicht mit der Wiederholung überein',
+            too_long: 'ist zu lang (nicht mehr als {{count}} Zeichen)',
+            too_short: 'ist zu kurz (nicht weniger als {{count}} Zeichen)',
+            wrong_length: 'hat die falsche Länge (muss genau {{count}} Zeichen haben)',
             date_later_than: 'muss früher sein als {{attr}}',
             date_earlier_than: 'muss später sein als {{attr}}'
         },

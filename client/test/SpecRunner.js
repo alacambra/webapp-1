@@ -82,6 +82,7 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], 
     specs.push('spec/lib/tools.spec.js');
     specs.push('spec/app/app_helper.spec');
 
+    // project
     specs.push('spec/app/entities/project.spec');
     specs.push('spec/app/projects/projects_app.spec');
     specs.push('spec/app/projects/project_helper.spec');
@@ -92,6 +93,7 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], 
     specs.push('spec/app/projects/show/show_controller.spec.js');
     specs.push('spec/app/projects/show/show_view.spec.js');
 
+    // task
     specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/tasks/tasks_app.spec');
     specs.push('spec/app/tasks/task_helper.spec');
@@ -101,6 +103,17 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], 
     specs.push('spec/app/tasks/list/list_view.spec.js');
     specs.push('spec/app/tasks/show/show_controller.spec.js');
     specs.push('spec/app/tasks/show/show_view.spec.js');
+
+    // user
+    specs.push('spec/app/entities/user.spec');
+    specs.push('spec/app/users/users_app.spec');
+    specs.push('spec/app/users/user_helper.spec');
+    specs.push('spec/app/users/edit/edit_controller.spec.js');
+    specs.push('spec/app/users/edit/edit_view.spec.js');
+    specs.push('spec/app/users/list/list_controller.spec.js');
+    specs.push('spec/app/users/list/list_view.spec.js');
+    specs.push('spec/app/users/show/show_controller.spec.js');
+    specs.push('spec/app/users/show/show_view.spec.js');
 
     $(function () {
         require(specs, function () {

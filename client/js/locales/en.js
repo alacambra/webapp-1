@@ -83,6 +83,26 @@ I18n.translations['en'] = {
         }
     },
 
+    user: {
+        header: {
+            list: 'People',
+            new: 'New Person',
+            edit: 'Edit person'
+        },
+        label: {
+            full_name: 'Name',
+            first_name: 'First name',
+            last_name: 'Last name',
+            birth_date: 'Birth date',
+            email: 'E-Mail',
+            password: 'Password',
+            password_confirmation: 'Password confirmation'
+        },
+        button: {
+            new: 'New Person'
+        }
+    },
+
     locale: { // must not be translated
         en: 'English',
         de: 'Deutsch'
@@ -92,6 +112,10 @@ I18n.translations['en'] = {
         validation: {
             invalid: 'is invalid',
             empty: 'must be filled',
+            confirmation: 'does not match confirmation',
+            too_long: 'is too long (not more than {{count}} characters)',
+            too_short: 'is too short (not less than {{count}} characters)',
+            wrong_length: 'has wrong length (must have exactly {{count}} characters)',
             date_later_than: 'must be earlier than {{attr}}',
             date_earlier_than: 'must be later than {{attr}}'
         },
