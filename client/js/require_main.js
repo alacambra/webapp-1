@@ -4,6 +4,7 @@ requirejs.config({
     paths: {
         // vendor
         backbone: 'lib/vendor/backbone',
+        backbone_basicauth: 'lib/backbone.basicauth',
         backbone_faux_server: 'lib/vendor/backbone-faux-server',
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
@@ -36,11 +37,12 @@ requirejs.config({
             deps: ['jquery'],
             exports: 'Bootstrap'
         },
-        backbone_syphon: ['backbone'],
+        backbone_basicauth: ['backbone'],
         backbone_faux_server: {
             deps: ['backbone', 'underscore'],
             exports: 'Faux'
         },
+        backbone_syphon: ['backbone'],
         marionette: {
             deps: ['backbone'],
             exports: 'Marionette'
@@ -58,6 +60,6 @@ requirejs.config({
     }
 });
 
-require(['app', 'underscore', 'bootstrap', 'behaviour', 'tools', 'i18n'], function(App) {
+require(['app', 'underscore', 'bootstrap', 'behaviour', 'tools', 'i18n', 'backbone_basicauth'], function(App) {
     App.start();
 });
