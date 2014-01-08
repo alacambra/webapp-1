@@ -66,7 +66,7 @@ define([ 'app/entities/project' ], function (Entities) {
 
                 project.set('startDate', 2);
                 project.set('endDate', 1);
-                expect(project.validate(project.attributes).startDate).toBeDefined();
+                expect(project.validate(project.attributes).startDate).toBeUndefined();
                 expect(project.validate(project.attributes).endDate).toBeDefined();
             });
         });
