@@ -1,4 +1,4 @@
-define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
+define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, validation_helper, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
@@ -20,15 +20,12 @@ define(['app', 'config', 'backbone_faux_server'], function(App, CONFIG, Faux) {
             validate: function(attrs, options) {
                 var errors = {};
 
-                if (typeof attrs.title !== 'string') {
-                    errors.title = I18n.t('errors.validation.invalid');
-                } else if (is_blank(attrs.title)) {
-                    errors.title = I18n.t('errors.validation.empty');
-                }
+                errors = validation_helper.validates_presence_of('title', attrs, errors);
 
-                if (attrs.endDate && attrs.endDate < attrs.startDate) {
-                    errors.startDate = I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('task.label.end_date') });
-                    errors.endDate = I18n.t('errors.validation.date_later_than', { attr: I18n.t('task.label.start_date') });
+                if (attrs.startDate != 0 && attrs.endDate != 0) {
+                    errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
+                        message : I18n.t('errors.validation.date_later_than', { attr: I18n.t('project.label.start_date') })
+                    });
                 }
 
                 return _.isEmpty(errors) ? false : errors;

@@ -69,7 +69,7 @@ define([ 'app/entities/task' ], function (Entities) {
 
                 task.set('startDate', 2);
                 task.set('endDate', 1);
-                expect(task.validate(task.attributes).startDate).toBeDefined();
+                expect(task.validate(task.attributes).startDate).toBeUndefined();
                 expect(task.validate(task.attributes).endDate).toBeDefined();
             });
         });
