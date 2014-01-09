@@ -18,6 +18,22 @@ I18n.translations['en'] = {
         logout: 'Logout'
     },
 
+    effort: {
+        header: {
+            list: 'Efforts',
+            new: 'New effort',
+            edit: 'Edit effort'
+        },
+        label: {
+            date: 'Date',
+            time: 'Duration',
+            comment: 'Comment'
+        },
+        button: {
+            new: 'New effort'
+        }
+    },
+
     project: {
         header: {
             list: 'Projects',

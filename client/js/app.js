@@ -64,6 +64,7 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
             App.show_main_navi();
 
             require([
+                'app/efforts/efforts_app',
                 'app/projects/projects_app',
                 'app/tasks/tasks_app',
                 'app/users/users_app'
