@@ -4,11 +4,11 @@ http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
 	version="1.1" bean-discovery-mode="all">
 
 	<interceptors>
+		<class>poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor</class>
+		<class>poolingpeople.webapplication.business.entity.EntityPersistenceRollbackInterceptor</class>
 		<class>poolingpeople.webapplication.business.utils.logging.boundary.LoggerInterceptor</class>
 		<class>poolingpeople.webapplication.business.neo4j.TransactionInterceptor</class>
 		<class>poolingpeople.webapplication.business.boundary.AuthenticationInterceptor</class>
-		<class>poolingpeople.webapplication.business.entity.EntityPersistenceRollbackInterceptor</class>
-		<class>poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor</class>
 	</interceptors>
 
 	<alternatives>

@@ -44,7 +44,13 @@ public class CatchWebExceptionInterceptor {
                     .entity(ioException.getMessage()).build());
 
         } catch (Exception e) {
-        	System.err.println(e);
+        	
+        	RootApplicationException rootApplicationException = tryToFindRootApplicationException(e);
+        	
+        	if( rootApplicationException != null ) {
+        		throw getSpecificDomainException(rootApplicationException);
+        	}
+        	
             throw new WebApplicationException(e, Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage()).build());
@@ -54,5 +60,20 @@ public class CatchWebExceptionInterceptor {
     private WebApplicationException getSpecificDomainException(
             RootApplicationException exception) {
         return new WebApplicationException(exception, exception.getSpecificWebResponse());
+    }
+    
+    private RootApplicationException tryToFindRootApplicationException(Throwable e){
+
+    	while(e.getCause() != null) {
+    		
+    		e = e.getCause();
+    		
+    		if(e instanceof RootApplicationException) {
+    			return (RootApplicationException) e;
+    		}
+    	}
+    	
+    	return null;
+    	
     }
 }
