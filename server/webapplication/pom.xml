@@ -336,5 +336,29 @@
                 </plugins>
             </build>
         </profile>
+	 <profile>
+                        <id>alwork</id>
+                        <build>
+                                <plugins>
+                                        <plugin>
+                                                <groupId>org.glassfish.maven.plugin</groupId>
+                                                <artifactId>maven-glassfish-plugin</artifactId>
+                                                <configuration>
+                                                        <glassfishDirectory>/home/albert/glassfish4/glassfish</glassfishDirectory>
+                                                        <user>albert</user>
+                                                        <autoCreate>true</autoCreate>
+                                                        <adminPassword>lacambra</adminPassword>
+                                                        <components>
+                                                                <component>
+                                                                        <name>${project.artifactId}</name>
+                                                                        <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+                                                                </component>
+                                                        </components>
+                                                </configuration>
+                                        </plugin>
+                                </plugins>
+                        </build>
+                </profile>
+
     </profiles>
 </project>
