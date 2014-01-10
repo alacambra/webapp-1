@@ -20,6 +20,7 @@ requirejs.config({
         // custom libs
         advanced_string: 'lib/advanced_string',
         backbone_basicauth: 'lib/backbone.basicauth',
+        backbone_patch_as_put: 'lib/backbone.patch_as_put',
         behaviour: 'lib/behaviour',
         tools: 'lib/tools',
 
@@ -38,6 +39,7 @@ requirejs.config({
             exports: 'Bootstrap'
         },
         backbone_basicauth: ['backbone'],
+        backbone_patch_as_put: ['backbone'],
         backbone_faux_server: {
             deps: ['backbone', 'underscore'],
             exports: 'Faux'
@@ -60,6 +62,15 @@ requirejs.config({
     }
 });
 
-require(['app', 'underscore', 'bootstrap', 'behaviour', 'tools', 'i18n', 'backbone_basicauth'], function(App) {
+require([
+    'app',
+    'underscore',
+    'bootstrap',
+    'behaviour',
+    'tools',
+    'i18n',
+    'backbone_basicauth',
+    'backbone_patch_as_put'
+], function(App) {
     App.start();
 });
