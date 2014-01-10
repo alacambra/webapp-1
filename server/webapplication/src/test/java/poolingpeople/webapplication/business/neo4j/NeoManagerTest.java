@@ -37,7 +37,7 @@ public class NeoManagerTest {
 	public void setUp() throws Exception {
 		graphDb = new TestGraphDatabaseFactory().newImpermanentDatabase();
 		helper = new NeoManagerHelper(graphDb);
-		target = new NeoManager(graphDb); 
+		target = new NeoManager(graphDb);
 		currentTx = graphDb.beginTx();
 	}
 

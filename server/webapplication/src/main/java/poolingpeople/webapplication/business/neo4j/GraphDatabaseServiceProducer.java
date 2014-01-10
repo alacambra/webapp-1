@@ -8,7 +8,9 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 @ApplicationScoped
 public class GraphDatabaseServiceProducer{
-	private final GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( "neo4j" );
+	//neo4j
+	private final static String db_uri = "neo4j";
+	private final GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( db_uri );
 	
 	public GraphDatabaseServiceProducer() {}
 	
@@ -20,7 +22,6 @@ public class GraphDatabaseServiceProducer{
 	@PreDestroy
 	public void shutdownDb(){
 		graphDb.shutdown(); 
-		
 	}
 }
 
