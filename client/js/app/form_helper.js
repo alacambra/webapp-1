@@ -43,10 +43,12 @@ define({
     },
 
 
-    show_save_error: function(view) {
+    show_save_error: function(view, message) {
+        message = message || I18n.t('errors.save_failed');
+
         view.ui.save_indicator.fadeOut(300, function() {
             view.ui.submit_button.removeClass('disabled').addClass('btn-danger');
-            view.ui.submit_error_msg.text(I18n.t('errors.save_failed')).show();
+            view.ui.submit_error_msg.text(message).show();
         });
     }
 });
