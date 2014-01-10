@@ -37,7 +37,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         Entities.UserCollection = Backbone.Collection.extend({
             model: Entities.User,
             url: base_url,
-            comparator: 'priority'
+            comparator: 'firstName'
         });
 
 

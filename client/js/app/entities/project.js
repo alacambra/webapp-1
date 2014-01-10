@@ -33,7 +33,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         Entities.ProjectCollection = Backbone.Collection.extend({
             model: Entities.Project,
             url: base_url,
-            comparator: 'priority'
+            comparator: 'title'
         });
 
 
