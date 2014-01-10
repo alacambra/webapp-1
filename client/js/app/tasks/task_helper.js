@@ -1,11 +1,10 @@
-define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
+define(['app/view_helper', 'app/form_helper', 'moment', 'advanced_string'], function(view_helper, form_helper) {
     return {
         status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
         priority_options: ['low', 'normal', 'high'],
 
         format_date: function(date) {
-            if (!this.has_value(date)) return '';
-            return moment(date * 1000).format(I18n.t('date_format'));
+            return this.has_value(date) ? view_helper.format_date(date) : '';
         },
 
         status_text: function(status) {
@@ -19,9 +18,7 @@ define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
         },
 
         format_duration: function(duration) {
-            if (!this.has_value(duration)) return '';
-            duration = moment.duration(duration, 'minutes');
-            return parseInt(duration.asHours()) + ':' + pad(duration.asMinutes() % 60);
+            return this.has_value(duration) ? view_helper.format_time(duration) : '';
         },
 
         format_progress: function(progress) {
@@ -41,14 +38,14 @@ define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
         },
 
         unformat_duration: function (duration) {
-            return moment.duration(duration, 'HH:mm').asMinutes();
+            return view_helper.unformat_time(duration);
         },
 
         unformat: function(data) {
             data.status = parseInt(data.status);
             data.priority = parseInt(data.priority);
-            data.startDate = this.has_value(data.startDate) ? moment(data.startDate, I18n.t('date_format')).unix() : 0;
-            data.endDate = this.has_value(data.endDate) ? moment(data.endDate, I18n.t('date_format')).unix() : 0;
+            data.startDate = this.has_value(data.startDate) ? view_helper.unformat_date(data.startDate) : 0;
+            data.endDate = this.has_value(data.endDate) ? view_helper.unformat_date(data.endDate) : 0;
             data.duration = this.unformat_duration(data.duration);
             data.progress = parseFloat(data.progress) / 100 || 0;
             return data;

@@ -1,5 +1,5 @@
 <p><%= I18n.t('effort.label.date') %>: <%= format_date(date) %></p>
-<p><%= I18n.t('effort.label.time') %>: <%= time %></p>
+<p><%= I18n.t('effort.label.time') %>: <%= format_time(time) %></p>
 <p><%= I18n.t('effort.label.comment') %>: <%= comment %></p>
 
 <a href="<%= url_for('efforts', 'edit', id) %>" class="btn btn-default btn-sm btn-text right-space js-edit">

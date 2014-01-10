@@ -1,5 +1,5 @@
 <div class="col-md-3 js-show"><a href="<%= url_for('efforts', id) %>"><%= format_date(date) %></a></div>
-<div class="col-md-3"><%= time %>&nbsp;</div>
+<div class="col-md-3"><%= format_time(time) %>&nbsp;</div>
 <div class="col-md-5"><%= comment %>&nbsp;</div>
 
 <div class="col-md-1 buttons">

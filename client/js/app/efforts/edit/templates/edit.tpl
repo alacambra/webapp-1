@@ -9,9 +9,11 @@
     </div>
 
     <div class="form-group">
-        <div class="col-lg-4">
+        <div class="col-lg-4 effort-slider-group">
             <label class="control-label" for="js-effort-time"><%= I18n.t('effort.label.time') %></label>
-            <input id="js-effort-time" type="text" name="time" value="<%= time %>" class="form-control">
+            <input id="js-effort-time" type="text" name="time">
+            <span>h</span>
+            <div id="js-effort-time-slider"></div>
         </div>
     </div>
 

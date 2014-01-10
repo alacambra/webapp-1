@@ -25,8 +25,8 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
             expect(task_helper.priority_text(true)).toBe('');
         });
 
-        xit('Should return a correct duration.', function () {
-            expect(task_helper.format_duration(0)).toBe('0:00');
+        it('Should return a correct duration.', function () {
+            expect(task_helper.format_duration(0)).toBe('');
             expect(task_helper.format_duration(2)).toBe('0:02');
             expect(task_helper.format_duration(15)).toBe('0:15');
             expect(task_helper.format_duration(30)).toBe('0:30');

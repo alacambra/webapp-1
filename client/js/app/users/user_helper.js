@@ -1,8 +1,7 @@
-define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
+define(['app/view_helper', 'moment', 'advanced_string'], function(view_helper) {
     return {
         format_date: function(date) {
-            if (!this.has_value(date)) return '';
-            return moment(date * 1000).format(I18n.t('date_format'));
+            return this.has_value(date) ? view_helper.format_date(date) : '';
         },
 
         full_name: function(first_name, last_name) {
@@ -10,7 +9,7 @@ define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
         },
 
         unformat: function(data) {
-            data.birthDate = this.has_value(data.birthDate) ? moment(data.birthDate, I18n.t('date_format')).unix() : 0;
+            data.birthDate = this.has_value(data.birthDate) ? view_helper.unformat_date(data.birthDate) : 0;
             if (is_blank(data.password)) delete data.password; // do not send/save an unfilled password
             return data;
         },
