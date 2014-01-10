@@ -11,6 +11,7 @@ function (App, response_handler) {
 
                         edit_view.on('form:submit', function(data) {
                             var model_validated = user.save(data, {
+                                patch: true,
                                 success: function() {
                                     App.trigger('user:show', user.get('id'));
                                 },

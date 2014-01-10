@@ -11,6 +11,7 @@ define(['app/form_helper', 'moment', 'advanced_string'], function(form_helper) {
 
         unformat: function(data) {
             data.birthDate = this.has_value(data.birthDate) ? moment(data.birthDate, I18n.t('date_format')).unix() : 0;
+            if (is_blank(data.password)) delete data.password; // do not send/save an unfilled password
             return data;
         },
 
