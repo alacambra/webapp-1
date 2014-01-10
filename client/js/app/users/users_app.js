@@ -2,8 +2,6 @@ define(['app'], function (App) {
     App.module('UsersApp', function (UsersApp, App, Backbone, Marionette, $, _) {
         UsersApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
-                'login': 'login',
-                'logout': 'logout',
                 'users': 'users_list',
                 'users/new': 'user_new',
                 'users/:id': 'user_show',
@@ -13,14 +11,6 @@ define(['app'], function (App) {
 
 
         var API = {
-            login: function() {
-                App.set_credentials('foo', 'bar');
-            },
-
-            logout: function() {
-                App.set_credentials(false);
-            },
-
             users_list: function () {
                 require(['app/users/list/list_controller'], function (UsersController) {
                     UsersController.users_list();
@@ -58,16 +48,6 @@ define(['app'], function (App) {
             }
         };
 
-
-        App.on('users:login', function() {
-            App.navigate('login');
-            API.login();
-        });
-
-        App.on('users:logout', function() {
-            App.navigate('logout');
-            API.logout();
-        });
 
         App.on('users:list', function() {
             App.navigate('users');

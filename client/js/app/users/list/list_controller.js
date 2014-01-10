@@ -1,30 +1,27 @@
-define(['app',
-        'app/entities/user',
-        'app/users/list/list_view'],
-function(App){
+define(['app', 'lib/response_handler', 'app/entities/user', 'app/users/list/list_view'],
+function(App, response_handler) {
     App.module('Users.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             users_list: function() {
-                var fetching_users = App.request('user:entities');
-                $.when(fetching_users).done(function(users){
-                    var list_view = new List.Users({
-                        collection: users
-                    });
+                $.when(App.request('user:entities')).done(function(users, response) {
+                    if (users) {
+                        var list_view = new List.Users({
+                            collection: users
+                        });
 
-                    App.main_region.show(list_view);
+                        App.main_region.show(list_view);
+                    } else {
+                        response_handler.handle(response);
+                    }
                 });
             },
 
 
             user_delete: function(user, redirect) {
-                var fetching_user = App.request('user:entity', user);
-
-                $.when(fetching_user).done(function(user) {
-                    if (user !== undefined) {
+                $.when(App.request('user:entity', user)).done(function(user, response) {
+                    if (user) {
                         user.destroy();
                         if (redirect !== undefined) App.trigger(redirect);
-                    } else {
-                        console.log('user does not exist');
                     }
                 });
             }

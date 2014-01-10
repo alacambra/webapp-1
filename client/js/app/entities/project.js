@@ -41,44 +41,42 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             get_project_entities: function() {
                 var projects = new Entities.ProjectCollection();
                 var defer = $.Deferred();
+
                 projects.fetch({
-                    success: function(data) {
-                        defer.resolve(data);
+                    success: function(model, response) {
+                        defer.resolve(model, response);
                     },
-                    error: function(data) {
+                    error: function(model, response) {
                         console.log('fetch collection error');
+                        defer.resolve(false, response);
                     }
                 });
+
                 return defer.promise();
             },
 
-            get_project_entity: function(project, force_refresh) {
+            get_project_entity: function(project_id) {
                 var project_entity;
-                if (force_refresh === undefined) force_refresh = false;
-
                 var defer = $.Deferred();
 
-                if (force_refresh || typeof project !== 'object') {
-                    if (force_refresh && typeof project === 'object') {
-                        project = project.get('id'); // given "project_id" is a model, extract id (force_refresh flag is set)
-                    }
+                if (typeof project_id !== 'object') {
+                    project_entity = new Entities.Project({ id: project_id });
 
-                    project_entity = new Entities.Project({ id: project });
-
-                    if (project !== undefined) { // project id was set, load entity
+                    if (project_id !== undefined) { // project id was set, load entity
                         project_entity.fetch({
-                            success: function(data) {
-                                defer.resolve(data);
+                            success: function(model, response) {
+                                defer.resolve(model, response);
                             },
-                            error: function(data) {
-                                defer.resolve(undefined);
+                            error: function(model, response) {
+                                console.log('fetch entity error');
+                                defer.resolve(false, response);
                             }
                         });
                     } else { // no project id was set, return new instance
                         defer.resolve(project_entity);
                     }
                 } else { // given "project_id" is a model, return unchanged
-                    defer.resolve(project);
+                    defer.resolve(project_id);
                 }
 
                 return defer.promise();
@@ -91,9 +89,10 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         });
 
 
-        App.reqres.setHandler('project:entity', function(id, force_refresh) {
-            return API.get_project_entity(id, force_refresh);
+        App.reqres.setHandler('project:entity', function(id) {
+            return API.get_project_entity(id);
         });
+        
 
         // FAUX SERVER!!!
 

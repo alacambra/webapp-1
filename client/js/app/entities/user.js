@@ -45,44 +45,42 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             get_user_entities: function() {
                 var users = new Entities.UserCollection();
                 var defer = $.Deferred();
+
                 users.fetch({
-                    success: function(data) {
-                        defer.resolve(data);
+                    success: function(model, response) {
+                        defer.resolve(model, response);
                     },
-                    error: function(data) {
+                    error: function(model, response) {
                         console.log('fetch collection error');
+                        defer.resolve(false, response);
                     }
                 });
+
                 return defer.promise();
             },
 
-            get_user_entity: function(user, force_refresh) {
+            get_user_entity: function(user_id) {
                 var user_entity;
-                if (force_refresh === undefined) force_refresh = false;
-
                 var defer = $.Deferred();
 
-                if (force_refresh || typeof user !== 'object') {
-                    if (force_refresh && typeof user === 'object') {
-                        user = user.get('id'); // given "user_id" is a model, extract id (force_refresh flag is set)
-                    }
+                if (typeof user_id !== 'object') {
+                    user_entity = new Entities.User({ id: user_id });
 
-                    user_entity = new Entities.User({ id: user });
-
-                    if (user !== undefined) { // user id was set, load entity
+                    if (user_id !== undefined) { // user id was set, load entity
                         user_entity.fetch({
-                            success: function(data) {
-                                defer.resolve(data);
+                            success: function(model, response) {
+                                defer.resolve(model, response);
                             },
-                            error: function(data) {
-                                defer.resolve(undefined);
+                            error: function(model, response) {
+                                console.log('fetch entity error');
+                                defer.resolve(false, response);
                             }
                         });
                     } else { // no user id was set, return new instance
                         defer.resolve(user_entity);
                     }
                 } else { // given "user_id" is a model, return unchanged
-                    defer.resolve(user);
+                    defer.resolve(user_id);
                 }
 
                 return defer.promise();
@@ -95,9 +93,10 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         });
 
 
-        App.reqres.setHandler('user:entity', function(id, force_refresh) {
-            return API.get_user_entity(id, force_refresh);
+        App.reqres.setHandler('user:entity', function(id) {
+            return API.get_user_entity(id);
         });
+        
 
         // FAUX SERVER!!!
 

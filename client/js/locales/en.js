@@ -119,6 +119,20 @@ I18n.translations['en'] = {
         }
     },
 
+    user_session: {
+        header: {
+            login: 'Login'
+        },
+        label: {
+            username: 'Username',
+            password: 'Password'
+        },
+        auth_error: 'Login failed',
+        button: {
+            login: 'Send'
+        }
+    },
+
     locale: { // must not be translated
         en: 'English',
         de: 'Deutsch'

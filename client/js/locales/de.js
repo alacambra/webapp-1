@@ -119,6 +119,20 @@ I18n.translations['de'] = {
         }
     },
 
+    user_session: {
+        header: {
+            login: 'Anmelden'
+        },
+        label: {
+            username: 'Benutzer',
+            password: 'Passwort'
+        },
+        auth_error: 'Anmeldung fehlgeschlagen',
+        button: {
+            login: 'Absenden'
+        }
+    },
+
     locale: { // must not be translated
         en: 'English',
         de: 'Deutsch'

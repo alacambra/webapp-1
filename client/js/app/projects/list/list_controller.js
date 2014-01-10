@@ -1,30 +1,27 @@
-define(['app',
-        'app/entities/project',
-        'app/projects/list/list_view'],
-function(App){
+define(['app', 'lib/response_handler', 'app/entities/project', 'app/projects/list/list_view'],
+function(App, response_handler) {
     App.module('Projects.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             projects_list: function() {
-                var fetching_projects = App.request('project:entities');
-                $.when(fetching_projects).done(function(projects){
-                    var list_view = new List.Projects({
-                        collection: projects
-                    });
+                $.when(App.request('project:entities')).done(function(projects, response) {
+                    if (projects) {
+                        var list_view = new List.Projects({
+                            collection: projects
+                        });
 
-                    App.main_region.show(list_view);
+                        App.main_region.show(list_view);
+                    } else {
+                        response_handler.handle(response);
+                    }
                 });
             },
 
 
             project_delete: function(project, redirect) {
-                var fetching_project = App.request('project:entity', project);
-
-                $.when(fetching_project).done(function(project) {
-                    if (project !== undefined) {
+                $.when(App.request('project:entity', project)).done(function(project, response) {
+                    if (project) {
                         project.destroy();
                         if (redirect !== undefined) App.trigger(redirect);
-                    } else {
-                        console.log('project does not exist');
                     }
                 });
             }

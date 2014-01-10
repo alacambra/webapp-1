@@ -39,44 +39,42 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             get_effort_entities: function() {
                 var efforts = new Entities.EffortCollection();
                 var defer = $.Deferred();
+
                 efforts.fetch({
-                    success: function(data) {
-                        defer.resolve(data);
+                    success: function(model, response) {
+                        defer.resolve(model, response);
                     },
-                    error: function(data) {
+                    error: function(model, response) {
                         console.log('fetch collection error');
+                        defer.resolve(false, response);
                     }
                 });
+
                 return defer.promise();
             },
 
-            get_effort_entity: function(effort, force_refresh) {
+            get_effort_entity: function(effort_id) {
                 var effort_entity;
-                if (force_refresh === undefined) force_refresh = false;
-
                 var defer = $.Deferred();
 
-                if (force_refresh || typeof effort !== 'object') {
-                    if (force_refresh && typeof effort === 'object') {
-                        effort = effort.get('id'); // given "effort_id" is a model, extract id (force_refresh flag is set)
-                    }
+                if (typeof effort_id !== 'object') {
+                    effort_entity = new Entities.Effort({ id: effort_id });
 
-                    effort_entity = new Entities.Effort({ id: effort });
-
-                    if (effort !== undefined) { // effort id was set, load entity
+                    if (effort_id !== undefined) { // effort id was set, load entity
                         effort_entity.fetch({
-                            success: function(data) {
-                                defer.resolve(data);
+                            success: function(model, response) {
+                                defer.resolve(model, response);
                             },
-                            error: function(data) {
-                                defer.resolve(undefined);
+                            error: function(model, response) {
+                                console.log('fetch entity error');
+                                defer.resolve(false, response);
                             }
                         });
                     } else { // no effort id was set, return new instance
                         defer.resolve(effort_entity);
                     }
                 } else { // given "effort_id" is a model, return unchanged
-                    defer.resolve(effort);
+                    defer.resolve(effort_id);
                 }
 
                 return defer.promise();
@@ -89,9 +87,10 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         });
 
 
-        App.reqres.setHandler('effort:entity', function(id, force_refresh) {
-            return API.get_effort_entity(id, force_refresh);
+        App.reqres.setHandler('effort:entity', function(id) {
+            return API.get_effort_entity(id);
         });
+        
 
         // FAUX SERVER!!!
 

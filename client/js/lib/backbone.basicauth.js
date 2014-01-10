@@ -1,17 +1,25 @@
-define(['app'], function(App) {
-    App.set_credentials = function(username, password) {
-        if (!username) {
-            App.credentials = undefined;
-        } else {
-            App.credentials = btoa(unescape(encodeURIComponent([username, password].join(':'))));
-        }
+define(['app', 'lib/storage'], function(App, Storage) {
+    var storage = new Storage;
 
+
+    App.generate_credentials = function(username, password) {
+        return btoa(unescape(encodeURIComponent([username, password].join(':'))))
+    };
+
+
+    App.set_credentials = function(credentials) {
+        storage.set('credentials', credentials);
         App.triggerMethod('main_navi:log' + (App.logged_in() ? 'in' : 'out'));
     };
 
 
+    App.get_credentials = function() {
+        return storage.get('credentials');
+    };
+
+
     App.logged_in = function() {
-        return App.credentials !== undefined;
+        return App.get_credentials() !== undefined;
     };
 
 
@@ -23,7 +31,7 @@ define(['app'], function(App) {
 
         if (App.logged_in()) {
             options.headers = options.headers || {};
-            _.extend(options.headers, { 'Authorization': 'Basic ' + App.credentials });
+            _.extend(options.headers, { 'Authorization': 'Basic ' + App.get_credentials() });
         }
 
         // Perform the sync

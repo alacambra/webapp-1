@@ -1,37 +1,37 @@
-define(['app', 'app/entities/project', 'app/projects/edit/edit_view', 'app/common/not_found_view'],
-function (App, Project, View, NotFoundView) {
+define(['app', 'lib/response_handler', 'app/entities/project', 'app/projects/edit/edit_view'],
+function (App, response_handler) {
     App.module('Projects.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             project_edit: function (project_id) {
-                var fetching_project = App.request('project:entity', project_id);
-                $.when(fetching_project).done(function(project) {
-                    var view;
-                    if (project !== undefined) {
-                        view = new Edit.View({
+                $.when(App.request('project:entity', project_id)).done(function(project, response) {
+                    if (project) {
+                        var edit_view = new Edit.View({
                             model: project
                         });
 
-                        view.on('form:submit', function(data) {
-                            var valid = project.save(data, {
+                        edit_view.on('form:submit', function(data) {
+                            var model_validated = project.save(data, {
                                 success: function() {
                                     App.trigger('project:show', project.get('id'));
                                 },
-                                error: function() {
-                                    view.triggerMethod('form:save:failed');
+                                error: function(model, response) {
+                                    response_handler.handle(response, {
+                                        503: function() { edit_view.triggerMethod('form:save:failed'); }
+                                    });
                                 }
                             });
 
-                            if (valid) {
-                                view.triggerMethod('form:data:valid');
+                            if (model_validated) {
+                                edit_view.triggerMethod('form:data:valid');
                             } else {
-                                view.triggerMethod('form:data:invalid', project.validationError);
+                                edit_view.triggerMethod('form:data:invalid', project.validationError);
                             }
                         });
-                    } else {
-                        view = new NotFoundView();
-                    }
 
-                    App.main_region.show(view);
+                        App.main_region.show(edit_view);
+                    } else {
+                        response_handler.handle(response);
+                    }
                 });
             }
         }

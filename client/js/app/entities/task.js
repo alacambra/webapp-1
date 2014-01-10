@@ -44,44 +44,42 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             get_task_entities: function() {
                 var tasks = new Entities.TaskCollection();
                 var defer = $.Deferred();
+
                 tasks.fetch({
-                    success: function(data) {
-                        defer.resolve(data);
+                    success: function(model, response) {
+                        defer.resolve(model, response);
                     },
-                    error: function(data) {
+                    error: function(model, response) {
                         console.log('fetch collection error');
+                        defer.resolve(false, response);
                     }
                 });
+
                 return defer.promise();
             },
 
-            get_task_entity: function(task, force_refresh) {
+            get_task_entity: function(task_id) {
                 var task_entity;
-                if (force_refresh === undefined) force_refresh = false;
-
                 var defer = $.Deferred();
 
-                if (force_refresh || typeof task !== 'object') {
-                    if (force_refresh && typeof task === 'object') {
-                        task = task.get('id'); // given "task_id" is a model, extract id (force_refresh flag is set)
-                    }
+                if (typeof task_id !== 'object') {
+                    task_entity = new Entities.Task({ id: task_id });
 
-                    task_entity = new Entities.Task({ id: task });
-
-                    if (task !== undefined) { // task id was set, load entity
+                    if (task_id !== undefined) { // task id was set, load entity
                         task_entity.fetch({
-                            success: function(data) {
-                                defer.resolve(data);
+                            success: function(model, response) {
+                                defer.resolve(model, response);
                             },
-                            error: function(data) {
-                                defer.resolve(undefined);
+                            error: function(model, response) {
+                                console.log('fetch entity error');
+                                defer.resolve(false, response);
                             }
                         });
                     } else { // no task id was set, return new instance
                         defer.resolve(task_entity);
                     }
                 } else { // given "task_id" is a model, return unchanged
-                    defer.resolve(task);
+                    defer.resolve(task_id);
                 }
 
                 return defer.promise();
@@ -94,9 +92,10 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         });
 
 
-        App.reqres.setHandler('task:entity', function(id, force_refresh) {
-            return API.get_task_entity(id, force_refresh);
+        App.reqres.setHandler('task:entity', function(id) {
+            return API.get_task_entity(id);
         });
+
 
         // FAUX SERVER!!!
 

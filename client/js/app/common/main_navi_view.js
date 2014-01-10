@@ -57,8 +57,8 @@ function (App, main_navi_tpl, NotFoundView, app_helper) {
                 var item = $(event.target).attr('href').replace('#', '');
 
                 switch(item) {
-                    case 'login': App.trigger('users:login'); break;
-                    case 'logout': App.trigger('users:logout'); break;
+                    case 'login': App.trigger('user_session:login'); break;
+                    case 'logout': App.trigger('user_session:logout'); break;
                     case 'projects': App.trigger('projects:list'); break;
                     case 'tasks': App.trigger('tasks:list'); break;
                     case 'users': App.trigger('users:list'); break;

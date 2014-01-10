@@ -1,20 +1,18 @@
-define(['app', 'app/entities/task', 'app/tasks/show/show_view', 'app/common/not_found_view'],
-function (App, Task, View, NotFoundView) {
+define(['app', 'lib/response_handler', 'app/entities/task', 'app/tasks/show/show_view'],
+function (App, response_handler) {
     App.module('Tasks.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             task_show: function (task_id) {
-                var fetching_task = App.request('task:entity', task_id);
-                $.when(fetching_task).done(function(task) {
-                    var view;
-                    if (task !== undefined) {
-                        view = new Show.View({
+                $.when(App.request('task:entity', task_id)).done(function(task, response) {
+                    if (task) {
+                        var show_view = new Show.View({
                             model: task
                         });
-                    } else {
-                        view = new NotFoundView();
-                    }
 
-                    App.main_region.show(view);
+                        App.main_region.show(show_view);
+                    } else {
+                        response_handler.handle(response);
+                    }
                 });
             }
         }
