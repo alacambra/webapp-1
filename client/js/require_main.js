@@ -4,7 +4,6 @@ requirejs.config({
     paths: {
         // vendor
         backbone: 'lib/vendor/backbone',
-        backbone_basicauth: 'lib/backbone.basicauth',
         backbone_faux_server: 'lib/vendor/backbone-faux-server',
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
@@ -20,6 +19,7 @@ requirejs.config({
 
         // custom libs
         advanced_string: 'lib/advanced_string',
+        backbone_basicauth: 'lib/backbone.basicauth',
         behaviour: 'lib/behaviour',
         tools: 'lib/tools',
 
