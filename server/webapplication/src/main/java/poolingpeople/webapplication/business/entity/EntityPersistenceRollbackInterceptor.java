@@ -4,10 +4,10 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-import poolingpeople.webapplication.business.neo4j.ConsistenceException;
-import poolingpeople.webapplication.business.neo4j.NodeExistsException;
-import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
-import poolingpeople.webapplication.business.neo4j.NotUniqueException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
 @Interceptor
 @EntityPersistenceRollback
@@ -21,5 +21,20 @@ public class EntityPersistenceRollbackInterceptor {
 			throw ex;
 		}
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

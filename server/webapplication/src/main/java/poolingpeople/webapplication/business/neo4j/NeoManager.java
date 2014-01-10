@@ -25,6 +25,10 @@ import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
+import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
 @Singleton
 public class NeoManager {

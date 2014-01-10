@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.neo4j;
+package poolingpeople.webapplication.business.neo4j.exceptions;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
@@ -6,24 +6,15 @@ import javax.ws.rs.core.Response.Status;
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 
-public class NodeExistsException extends RootApplicationException {
+public class NodeNotFoundException extends RootApplicationException {
 
     @Inject
     @Configurable("doesNotExist")
     private String doesNotExist;
-
     /**
      *
      */
-    private static final long serialVersionUID = -2956832836211447594L;
-
-    public NodeExistsException() {
-        super();
-    }
-
-    public NodeExistsException(String text) {
-        super(text);
-    }
+    private static final long serialVersionUID = -4979887816239892239L;
 
     @Override
     public Response getSpecificWebResponse() {

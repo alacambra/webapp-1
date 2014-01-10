@@ -6,12 +6,12 @@ import java.util.UUID;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.NodeExistsException;
-import poolingpeople.webapplication.business.neo4j.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
-import poolingpeople.webapplication.business.neo4j.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
 public abstract class PersistedModel {
 

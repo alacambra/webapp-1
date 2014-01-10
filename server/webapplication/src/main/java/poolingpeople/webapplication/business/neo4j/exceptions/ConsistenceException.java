@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.neo4j;
+package poolingpeople.webapplication.business.neo4j.exceptions;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;

@@ -19,6 +19,10 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.test.TestGraphDatabaseFactory;
 
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+
 public class NeoManagerTest {
 
 	NeoManager target = new NeoManager();
