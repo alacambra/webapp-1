@@ -1,8 +1,8 @@
 define(['app',
         'tpl!app/common/templates/main_navi.tpl',
-        'app/common/not_found_view',
+        'app/common/message_view',
         'app/app_helper'],
-function (App, main_navi_tpl, NotFoundView, app_helper) {
+function (App, main_navi_tpl, MessageView, app_helper) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
         Common.MainNaviView = Marionette.ItemView.extend({
             template: main_navi_tpl,
@@ -63,7 +63,7 @@ function (App, main_navi_tpl, NotFoundView, app_helper) {
                     case 'tasks': App.trigger('tasks:list'); break;
                     case 'users': App.trigger('users:list'); break;
                     default:
-                        App.main_region.show(new NotFoundView);
+                        App.main_region.show(new MessageView);
                         App.navigate();
                         this.highlight_navi($(event.target).parent());
                 }

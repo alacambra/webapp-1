@@ -1,4 +1,4 @@
-define(['app', 'app/common/not_found_view'], function(App, NotFoundView) {
+define(['app', 'app/common/message_view'], function(App, MessageView) {
     return {
         handle: function (response, actions, default_callback) {
             actions = actions || {};
@@ -17,10 +17,10 @@ define(['app', 'app/common/not_found_view'], function(App, NotFoundView) {
                         App.trigger('user_session:login');
                         break;
                     case 404:
-                        App.main_region.show(new NotFoundView());
+                        App.main_region.show(new MessageView({ message: 'errors.page_not_found', type: 'danger' }));
                         break;
                     case 503:
-                        console.log('service unavailable');
+                        App.main_region.show(new MessageView({ message: 'errors.server_unreachable', type: 'warning' }));
                         break;
                     default: default_callback();
                 }

@@ -150,7 +150,8 @@ I18n.translations['en'] = {
             date_earlier_than: 'must be later than {{attr}}'
         },
         page_not_found: 'The page could not be found.',
-        save_failed: 'Server error: Save failed'
+        save_failed: 'Server error: Save failed',
+        server_unreachable : 'The server did not respond. Please try again.'
     },
 
     delete_confirm: '"{{name}}\n\n"Really delete this entity?',

@@ -47,7 +47,6 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                         defer.resolve(model, response);
                     },
                     error: function(model, response) {
-                        console.log('fetch collection error');
                         defer.resolve(false, response);
                     }
                 });
@@ -68,7 +67,6 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                                 defer.resolve(model, response);
                             },
                             error: function(model, response) {
-                                console.log('fetch entity error');
                                 defer.resolve(false, response);
                             }
                         });
