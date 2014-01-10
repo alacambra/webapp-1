@@ -15,13 +15,12 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             validate: function(attrs, options) {
                 var errors = {};
 
-                /*errors = validation_helper.validates_presence_of('title', attrs, errors);
+                errors = validation_helper.validates_exclusion_of('date', 0, attrs, errors, { message: I18n.t('errors.validation.empty') });
+                errors = validation_helper.validates_exclusion_of('time', 0, attrs, errors, { message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
 
-                if (attrs.startDate != 0 && attrs.endDate != 0) {
-                    errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
-                        message : I18n.t('errors.validation.date_later_than', { attr: I18n.t('effort.label.start_date') })
-                    });
-                }*/
+                // date between 01.01.1914 (100 years ago) and now?
+                // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
+                errors = validation_helper.validates_inclusion_of('date', -1767229200, moment().add('y', 100).unix(), attrs, errors);
 
                 return _.isEmpty(errors) ? false : errors;
             }

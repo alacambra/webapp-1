@@ -29,18 +29,18 @@ define(['app/entities/user'], function (Entities) {
                 expect(user.validate(user.attributes).firstName).toBeUndefined();
 
                 user.set('firstName', 0);
-                expect(user.validate(user.attributes).firstName).toBeDefined();
+                expect(user.validate(user.attributes).firstName).toBeUndefined();
 
                 user.set('firstName', 1000);
-                expect(user.validate(user.attributes).firstName).toBeDefined();
+                expect(user.validate(user.attributes).firstName).toBeUndefined();
+
+                user.set('firstName', true);
+                expect(user.validate(user.attributes).firstName).toBeUndefined();
 
                 user.set('firstName', {});
                 expect(user.validate(user.attributes).firstName).toBeDefined();
 
                 user.set('firstName', []);
-                expect(user.validate(user.attributes).firstName).toBeDefined();
-
-                user.set('firstName', true);
                 expect(user.validate(user.attributes).firstName).toBeDefined();
 
                 user.set('firstName', false);

@@ -35,18 +35,18 @@ define([ 'app/entities/project' ], function (Entities) {
                 expect(project.validate(project.attributes).title).toBeUndefined();
 
                 project.set('title', 0);
-                expect(project.validate(project.attributes).title).toBeDefined();
+                expect(project.validate(project.attributes).title).toBeUndefined();
 
                 project.set('title', 1000);
-                expect(project.validate(project.attributes).title).toBeDefined();
+                expect(project.validate(project.attributes).title).toBeUndefined();
+
+                project.set('title', true);
+                expect(project.validate(project.attributes).title).toBeUndefined();
 
                 project.set('title', {});
                 expect(project.validate(project.attributes).title).toBeDefined();
 
                 project.set('title', []);
-                expect(project.validate(project.attributes).title).toBeDefined();
-
-                project.set('title', true);
                 expect(project.validate(project.attributes).title).toBeDefined();
 
                 project.set('title', false);

@@ -38,18 +38,18 @@ define([ 'app/entities/task' ], function (Entities) {
                 expect(task.validate(task.attributes).title).toBeUndefined();
 
                 task.set('title', 0);
-                expect(task.validate(task.attributes).title).toBeDefined();
+                expect(task.validate(task.attributes).title).toBeUndefined();
 
                 task.set('title', 1000);
-                expect(task.validate(task.attributes).title).toBeDefined();
+                expect(task.validate(task.attributes).title).toBeUndefined();
+
+                task.set('title', true);
+                expect(task.validate(task.attributes).title).toBeUndefined();
 
                 task.set('title', {});
                 expect(task.validate(task.attributes).title).toBeDefined();
 
                 task.set('title', []);
-                expect(task.validate(task.attributes).title).toBeDefined();
-
-                task.set('title', true);
                 expect(task.validate(task.attributes).title).toBeDefined();
 
                 task.set('title', false);

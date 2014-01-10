@@ -18,9 +18,7 @@ define({
         _.each(attributes, function(attr) {
             if (errors[attr] !== undefined) return; // skip if an error was set already
 
-            if (typeof attrs[attr] !== 'string') {
-                errors[attr] = I18n.t('errors.validation.invalid');
-            } else if (is_blank(attrs[attr])) {
+            if (is_blank(attrs[attr])) {
                 errors[attr] = I18n.t('errors.validation.empty');
             }
         });
@@ -106,30 +104,36 @@ define({
     },
 
     /**
-     * Validates attribute not to be a specific value.
+     * Validates attribute(s) not to be a specific value.
      *
-     * @param attr {string} - Name of the attribute to be checked.
+     * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
      * @param val {string} - Value which should not be accepted as valid.
      * @param attrs {object} - Object containing model attributes, given by backbone validate().
      * @param errors {object} - Object containing already existing error messages.
      * @param [options] {object} - Options to override default options.
      * @param [options.allow_blank] {boolean} - Empty attribute will be accepted as valid.
+     * @param [options.message] {string} - Error message to be used.
      * @returns {object} - Extended version of given errors object.
      */
-    validates_exclusion_of: function(attr, val, attrs, errors, options) {
-        if (errors[attr] !== undefined) return errors;
+    validates_exclusion_of: function(attributes, val, attrs, errors, options) {
+        if (typeof attributes === 'string') attributes = [attributes];
 
-        var default_options = {
-            allow_blank: false
-        };
+        _.each(attributes, function(attr) {
+            if (errors[attr] !== undefined) return errors;
 
-        options = _.extend(default_options, options || {});
+            var default_options = {
+                allow_blank: false,
+                message: I18n.t('errors.validation.invalid')
+            };
 
-        if (options.allow_blank && is_blank(attrs[attr])) return errors;
+            options = _.extend(default_options, options || {});
 
-        if (attrs[attr] == val) {
-            errors[attr] = I18n.t('errors.validation.invalid');
-        }
+            if (options.allow_blank && is_blank(attrs[attr])) return errors;
+
+            if (attrs[attr] == val) {
+                errors[attr] = options.message;
+            }
+        });
 
         return errors;
     },
