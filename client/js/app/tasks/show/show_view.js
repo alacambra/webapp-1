@@ -22,7 +22,6 @@ function(App, show_tpl, app_helper, task_helper) {
 
             edit: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('task:edit', this.model.get('id'));
             },
 
@@ -34,14 +33,12 @@ function(App, show_tpl, app_helper, task_helper) {
 
             list_efforts: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('efforts:list', this.model.get('id'));
             },
 
 
             effort_create: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('effort:new', this.model.get('id'));
             }
         });
