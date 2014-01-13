@@ -2,7 +2,6 @@ package poolingpeople.webapplication.business.task.boundary;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonValue;
 
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.task.entity.Task;
@@ -20,46 +19,46 @@ public class TaskDTO implements Task {
 	private Long endDate;
 	private Float progress;
 	private Integer duration;
-	
+
 	@IgnoreAttribute
-        @Override
+	@Override
 	public String getId() {
 		return id;
 	}
 
-        @Override
+	@Override
 	public String getTitle() {
 		return title;
 	}
 
-        @Override
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
 	@IgnoreAttribute
-        @Override
+	@Override
 	public TaskPriority getPriority() {
 		return null;
 	}
 
 	@IgnoreAttribute
-        @Override
+	@Override
 	public TaskStatus getStatus() {
 		return null;
 	}
 
-        @Override
+	@Override
 	public Long getStartDate() {
 		return startDate;
 	}
 
-        @Override
+	@Override
 	public Long getEndDate() {
 		return endDate;
 	}
 
-        @Override
+	@Override
 	public Float getProgress() {
 		return progress;
 	}
@@ -68,60 +67,60 @@ public class TaskDTO implements Task {
 		this.id = id;
 	}
 
-        @Override
+	@Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-        @Override
+	@Override
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	@IgnoreAttribute
 	@JsonIgnore
-        @Override
+	@Override
 	public void setPriority(TaskPriority priority) {
 	}
 
 	@IgnoreAttribute
-        @Override
+	@Override
 	public void setStatus(TaskStatus status) {
 	}
 
-        @Override
+	@Override
 	public void setStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
-        @Override
+	@Override
 	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
 	}
 
-        @Override
+	@Override
 	public void setProgress(Float progress) {
 		this.progress = progress;
 	}
-	
+
 	@Override
 	@JsonProperty(value="priority")
 	public Integer getPriorityInteger() {
 		return priority;
 	}
-	
+
 	@Override
 	@JsonProperty(value="priority")
 	public void setPriorityInteger(Integer priority) {
 		this.priority = priority;
 	}
-	
+
 	@Override
 	@JsonProperty(value="status")
 	public Integer getStatusInteger() {
 		return status;
 	}
-	
+
 	@Override
 	public void setStatusInteger(Integer status) {
 		this.status = status;
@@ -136,6 +135,6 @@ public class TaskDTO implements Task {
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	
-	
+
+
 }

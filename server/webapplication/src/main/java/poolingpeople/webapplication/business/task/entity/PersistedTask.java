@@ -1,40 +1,29 @@
 package poolingpeople.webapplication.business.task.entity;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
-import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedTask implements Task {
-
-	private Node underlyingNode;
-	private NeoManager manager;
+public class PersistedTask extends PersistedModel implements Task {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 
 	public PersistedTask(NeoManager manager, String id)
 			throws NotUniqueException, NodeNotFoundException {
-
-		this.manager = manager;
-		underlyingNode = manager.getUniqueNode(new UUIDIndexContainer(id));
-
+		super(manager, id, NODE_TYPE);
 	}
 
 	public PersistedTask(NeoManager manager) throws NodeExistsException {
+		super(manager, NODE_TYPE);
 		this.manager = manager;
-		HashMap<String, Object> props = new HashMap<String, Object>();
-		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
-				.randomUUID().toString()), NODE_TYPE);
 	}
 
 	/*
@@ -43,35 +32,11 @@ public class PersistedTask implements Task {
 	 * provider interface?
 	 */
 	public PersistedTask() throws NodeExistsException {
-//		this(new NeoManager(GraphDatabaseServiceProducer.getGraphDb()));
+		super(NODE_TYPE);
 	}
 
 	public PersistedTask(NeoManager manager, Node node) {
-
-		String nodeType = manager.getStringProperty(node,
-				NodesPropertiesNames.TYPE.name());
-		if (!PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE)) {
-			throw new IllegalArgumentException("Node must be of type "
-					+ NODE_TYPE + ". " + nodeType + " found.");
-		}
-
-		underlyingNode = node;
-		this.manager = manager;
-
-	}
-
-	public PoolingpeopleObjectType getNodeType() {
-		return NODE_TYPE;
-	}
-
-	public Node getNode() {
-		return underlyingNode;
-	}
-
-	@Override
-	public String getId() {
-		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.ID.name());
+		super(manager, node, NODE_TYPE);
 	}
 
 	@Override

@@ -12,8 +12,9 @@ import org.neo4j.graphdb.index.IndexHits;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
-import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.user.entity.PersistedUser;
+import poolingpeople.webapplication.business.user.entity.User;
 
 @Singleton
 @EntityPersistenceRollback
@@ -67,5 +68,30 @@ public class EntityFactory {
 
 	public void deleteProject(String uuid) {
 		manager.removeNode(getProjectById(uuid).getNode());
+	}
+
+	public User getUserById(String uuid) {
+		return new PersistedUser(manager, uuid);
+	}
+
+	public void deleteUser(String uuid) {
+		manager.removeNode(getTaskById(uuid).getNode());
+		
+	}
+
+	public List<PersistedUser> getAllUsers() {
+		
+		IndexHits<Node> nodes = manager.getNodes(new TypeIndexContainer(PersistedUser.NODE_TYPE));
+		List<PersistedUser> users = new ArrayList<PersistedUser>();
+		
+		for(Node n : nodes){
+			users.add(new PersistedUser(manager, n));
+		}
+		
+		return users;
+	}
+
+	public User createUser() {
+		return new PersistedUser(manager);
 	}
 }

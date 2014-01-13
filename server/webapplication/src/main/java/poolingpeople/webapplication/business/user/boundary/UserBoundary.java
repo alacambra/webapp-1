@@ -27,8 +27,7 @@ import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.task.entity.TaskPriority;
-import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("users")
 @Stateless
@@ -37,7 +36,7 @@ import poolingpeople.webapplication.business.task.entity.TaskStatus;
 public class UserBoundary {
 
 	@Inject
-	@SetMixinView(entity = Task.class, mixin = UserMixin.class)
+	@SetMixinView(entity = User.class, mixin = UserMixin.class)
 	ObjectMapper mapper;
 
 	@Inject
@@ -46,72 +45,146 @@ public class UserBoundary {
 	@Inject
 	DTOConverter dtoConverter;
 	
-
 	@GET
 	@Path("{id:[\\w\\d-]+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTaskById(@PathParam("id") String id)
+	public Response getUserById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		String r = mapper.writerWithView(UserMixin.class).writeValueAsString(
-				entityFactory.getTaskById(id));
+				entityFactory.getUserById(id));
 		return Response.ok().entity(r).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllTask() throws JsonGenerationException,
+	public Response getAllUsers() throws JsonGenerationException,
 			JsonMappingException, IOException {
 		String r = mapper.writerWithView(View.SampleView.class)
-				.writeValueAsString(entityFactory.getAllTask());
+				.writeValueAsString(entityFactory.getAllUsers());
 		return Response.ok().entity(r).build();
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveTask(String json) throws JsonParseException,
+	public Response saveUser(String json) throws JsonParseException,
 			JsonMappingException, IOException {
-		Task dtoTask = mapper.readValue(json, UserDTO.class);
-		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
-				entityFactory.createTask());
-		return Response.ok().entity(mapper.writeValueAsString(task)).build();
+		User dtoUser = mapper.readValue(json, UserDTO.class);
+		User user = dtoConverter.fromDTOtoPersitedBean(dtoUser, entityFactory.createUser());
+		return Response.ok().entity(mapper.writeValueAsString(user)).build();
 	}
 
 	@PUT
 	@Path("{id:[\\w\\d-]+}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateTask(@PathParam("id") String uuid, String json)
+	public Response updateUser(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
-		Task dtoTask = mapper.readValue(json, UserDTO.class);
-		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
-				entityFactory.getTaskById(uuid));
-		String r = mapper.writeValueAsString(task);
+		User dtoUser = mapper.readValue(json, UserDTO.class);
+		User user = dtoConverter.fromDTOtoPersitedBean(dtoUser,
+				entityFactory.getUserById(uuid));
+		String r = mapper.writeValueAsString(user);
 		return Response.ok().entity(r).build();
 	}
 
 	@DELETE
 	@Path("{id:[\\w\\d-]+}")
-	public Response deleteTask(@PathParam("id") String uuid) {
-		entityFactory.deleteTask(uuid);
+	public Response deleteUser(@PathParam("id") String uuid) {
+		entityFactory.deleteUser(uuid);
 		return Response.ok().build();
 	}
 
 	@GET
 	@Path("fakeit")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response fakeTask() throws JsonGenerationException,
-			JsonMappingException, IOException {
-		Task persistedTask = entityFactory.createTask();
-		persistedTask.setDescription("desc");
-		persistedTask.setEndDate(1L);
-		persistedTask.setStartDate(2L);
-		persistedTask.setPriority(TaskPriority.HIGH);
-		persistedTask.setProgress((float) 0.25);
-		persistedTask.setTitle("title");
-		persistedTask.setDuration(34);
-		persistedTask.setStatus(TaskStatus.ARCHIVED);
-		String r = mapper.writeValueAsString(persistedTask);
+	public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
+		
+		User persistedUser = entityFactory.createUser();
+		
+		persistedUser.setEmail("al@al.com");
+		persistedUser.setFirstName("al");
+		persistedUser.setPassword("abc");
+		persistedUser.setLastName("ipsum");
+		
+		String r = mapper.writeValueAsString(persistedUser);
 		return Response.ok().entity(r).build();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

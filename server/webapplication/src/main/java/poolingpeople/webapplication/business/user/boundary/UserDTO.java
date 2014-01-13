@@ -1,141 +1,56 @@
 package poolingpeople.webapplication.business.user.boundary;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonValue;
-
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.task.entity.TaskPriority;
-import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
-public class UserDTO implements Task {
+public class UserDTO implements User {
 
 	private String id;
-	private String title;
-	private String description;
-	private int priority;
-	private int status;
-	private Long startDate;
-	private Long endDate;
-	private Float progress;
-	private Integer duration;
-	
+	private String email;
+	private String firstName;
+	private String lastName;
+	private String password;
+
 	@IgnoreAttribute
-        @Override
+	@Override
 	public String getId() {
 		return id;
 	}
 
-        @Override
-	public String getTitle() {
-		return title;
+	public String getEmail() {
+		return email;
 	}
 
-        @Override
-	public String getDescription() {
-		return description;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	@IgnoreAttribute
-        @Override
-	public TaskPriority getPriority() {
-		return null;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	@IgnoreAttribute
-        @Override
-	public TaskStatus getStatus() {
-		return null;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-        @Override
-	public Long getStartDate() {
-		return startDate;
+	public String getLastName() {
+		return lastName;
 	}
 
-        @Override
-	public Long getEndDate() {
-		return endDate;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-        @Override
-	public Float getProgress() {
-		return progress;
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-        @Override
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-        @Override
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@IgnoreAttribute
-	@JsonIgnore
-        @Override
-	public void setPriority(TaskPriority priority) {
-	}
-
-	@IgnoreAttribute
-        @Override
-	public void setStatus(TaskStatus status) {
-	}
-
-        @Override
-	public void setStartDate(Long startDate) {
-		this.startDate = startDate;
-	}
-
-        @Override
-	public void setEndDate(Long endDate) {
-		this.endDate = endDate;
-	}
-
-        @Override
-	public void setProgress(Float progress) {
-		this.progress = progress;
-	}
-	
-	@Override
-	@JsonProperty(value="priority")
-	public Integer getPriorityInteger() {
-		return priority;
-	}
-	
-	@Override
-	@JsonProperty(value="priority")
-	public void setPriorityInteger(Integer priority) {
-		this.priority = priority;
-	}
-	
-	@Override
-	@JsonProperty(value="status")
-	public Integer getStatusInteger() {
-		return status;
-	}
-	
-	@Override
-	public void setStatusInteger(Integer status) {
-		this.status = status;
-	}
-
-	@Override
-	public Integer getDuration() {
-		return duration;
-	}
-
-	@Override
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
-	
-	
 }

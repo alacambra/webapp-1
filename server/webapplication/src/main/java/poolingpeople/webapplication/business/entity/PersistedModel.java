@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.project.entity;
+package poolingpeople.webapplication.business.entity;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -72,4 +72,104 @@ public abstract class PersistedModel {
 		return manager.getStringProperty(underlyingNode,
 				NodesPropertiesNames.ID.name());
 	}
+	
+	@Override
+	public int hashCode() {
+		return underlyingNode.hashCode();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

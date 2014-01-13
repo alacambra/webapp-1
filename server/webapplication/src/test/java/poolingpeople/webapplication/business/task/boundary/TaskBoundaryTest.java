@@ -1,13 +1,10 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.embeddable.EJBContainer;
 import javax.ws.rs.core.Response;
 
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.junit.After;

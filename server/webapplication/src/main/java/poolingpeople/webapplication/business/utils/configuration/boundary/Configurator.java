@@ -14,7 +14,11 @@ public class Configurator {
     private Map<String, String> config;
     private final String notFoundMessage = "There is no value associated with the given key";
 
-    @SuppressWarnings("Will be called via PostConstruct invocation from the bean container")
+    /*
+     * @todo for qaiser: What???
+     * --- Will be called via PostConstruct invocation from the bean container" ---
+     */
+    @SuppressWarnings({"serial" })
     @PostConstruct
     private void loadConfiguration() {
         config = new HashMap<String, String>() {

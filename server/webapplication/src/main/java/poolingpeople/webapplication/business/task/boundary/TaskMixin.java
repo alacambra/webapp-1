@@ -2,7 +2,6 @@ package poolingpeople.webapplication.business.task.boundary;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;

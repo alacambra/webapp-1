@@ -1,22 +1,13 @@
 package poolingpeople.webapplication.business.user.boundary;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.task.entity.TaskPriority;
-import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
-public class UserMixin implements Task{
+public class UserMixin implements User{
 
-	@Override
-//	@JsonView(View.SampleView.class)
-	public String getId() {
-		return null;
-	}
 	
 	@JsonIgnore
 	public Node getNode() {
@@ -29,107 +20,40 @@ public class UserMixin implements Task{
 	}
 
 	@Override
-//	@JsonView(View.NoSend.class)
-	public String getTitle() {
+	public String getId() {
 		return null;
 	}
 
 	@Override
-	public void setTitle(String title) {
-	}
-
-	@Override
-	public String getDescription() {
+	public String getEmail() {
 		return null;
 	}
 
 	@Override
-	public void setDescription(String description) {
-	}
+	public void setEmail(String email) {}
 
 	@Override
-	public TaskPriority getPriority() {
+	public String getFirstName() {
 		return null;
 	}
 
 	@Override
-	public void setPriority(TaskPriority priority) {
-	}
+	public void setFirstName(String firstName) {}
 
 	@Override
-	public TaskStatus getStatus() {
+	public String getLastName() {
 		return null;
 	}
 
 	@Override
-	public void setStatus(TaskStatus status) {
-	}
+	public void setLastName(String lastname) {}
 
 	@Override
-	public Long getStartDate() {
+	public String getPassword() {
 		return null;
 	}
 
 	@Override
-	public void setStartDate(Long startDate) {
-	}
+	public void setPassword(String password) {}
 
-	@Override
-	public Long getEndDate() {
-		return null;
-	}
-
-	@Override
-	public void setEndDate(Long endDate) {
-
-	}
-
-	@Override
-	public Float getProgress() {
-		return null;
-	}
-
-	@Override
-	public void setProgress(Float progress) {
-	}
-
-	@Override
-	@JsonProperty(value="priority")
-	public Integer getPriorityInteger() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@JsonProperty(value="priority")
-	public void setPriorityInteger(Integer priority) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	@JsonProperty(value="status")
-	public Integer getStatusInteger() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@JsonProperty(value="status")
-	public void setStatusInteger(Integer status) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Integer getDuration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setDuration(Integer duration) {
-		// TODO Auto-generated method stub
-		
-	}
 }

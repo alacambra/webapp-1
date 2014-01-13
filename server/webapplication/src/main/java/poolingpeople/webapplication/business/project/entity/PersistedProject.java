@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.project.entity;
 
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;

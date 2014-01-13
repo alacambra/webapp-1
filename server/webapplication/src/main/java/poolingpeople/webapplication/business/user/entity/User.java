@@ -4,38 +4,21 @@ public interface User {
 	
 	String getId();
 
-	String getTitle();
+	String getEmail();
 
-	void setTitle(String title);
+	void setEmail(String email);
 
-	String getDescription();
-
-	void setDescription(String description);
-
-	Integer getPriorityInteger();
+	String getFirstName();
 	
-	void setPriorityInteger(Integer priority);
-
-	Integer getStatusInteger();
-
-	void setStatusInteger(Integer status);
+	void setFirstName(String firstName);
 	
-	Long getStartDate();
+	String getLastName();
 
-	void setStartDate(Long startDate);
+	void setLastName(String lastname);
 
-	Long getEndDate();
+	String getPassword();
 
-	void setEndDate(Long endDate);
-
-	Float getProgress();
-
-	void setProgress(Float progress);
-	
-	Integer getDuration();
-	void setDuration(Integer duration); 
-	
-	
+	void setPassword(String password);
 
 }
 
