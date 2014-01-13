@@ -1,9 +1,13 @@
 package poolingpeople.webapplication.business.task.boundary;
 
+import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
+import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
@@ -134,6 +138,24 @@ public class TaskDTO implements Task {
 	@Override
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+	@Override
+	@JsonIgnore
+	public void addEffort(Effort effort) {
+		throw new RootApplicationException("Inaccessible method");
+		
+	}
+
+	@Override
+	@JsonIgnore
+	public Collection<Effort> getEfforts() {
+		throw new RootApplicationException("Inaccessible method");
+	}
+
+	@Override
+	public void deleteEffort(String uuid) {
+		throw new RootApplicationException("Inaccessible method");		
 	}
 
 

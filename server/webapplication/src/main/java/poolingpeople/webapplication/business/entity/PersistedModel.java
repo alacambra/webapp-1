@@ -9,9 +9,12 @@ import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
 
 public abstract class PersistedModel {
 
@@ -76,6 +79,16 @@ public abstract class PersistedModel {
 	@Override
 	public int hashCode() {
 		return underlyingNode.hashCode();
+	}
+	
+	protected void createRelationTo(Relations relation, PersistedModel to, boolean mustBeUnique) {
+		
+		if(mustBeUnique && manager.relationExists(underlyingNode, to.getNode(), relation)) {
+			throw new RelationAlreadyExistsException();
+		}
+		
+		relation.relationIsPossibleOrException(NODE_TYPE, to.getNodeType());
+		manager.createRelationshipTo(underlyingNode, to.getNode(), relation);
 	}
 }
 

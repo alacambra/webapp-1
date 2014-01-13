@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.neo4j;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,9 @@ import org.neo4j.test.TestGraphDatabaseFactory;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.task.entity.PersistedEffort;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public class NeoManagerTest {
 
@@ -411,6 +415,66 @@ public class NeoManagerTest {
 	public void testGetPersistedObjects() {
 
 	}
+	
+	@Test
+	public void testRelationExists() {
+		
+		Node from = helper.addNode();
+		Node to = helper.addNode();
+		
+		RelationshipType r = new RelationshipType() {
+			
+			@Override
+			public String name() {
+				return "nothing";
+			}
+		};
+		
+		assertFalse(target.relationExists(from, to, r));
+		from.createRelationshipTo(to, r);
+		assertTrue(target.relationExists(from, to, r));
+	}
 
+	@Test
+	public void testGetPersistedObjectsWithInt() {
+		PersistedTask persistedTask = new PersistedTask(target);
+		
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		ArrayList<Task> tasks = new ArrayList<Task>(); 
+		tasks.add(persistedTask);
+		
+		target.getPersistedObjects(nodes, tasks, PersistedTask.class, Task.class);
+		
+		assertEquals(1, tasks.size());
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

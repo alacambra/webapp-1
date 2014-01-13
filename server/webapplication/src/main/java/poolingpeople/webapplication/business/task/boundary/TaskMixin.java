@@ -1,10 +1,13 @@
 package poolingpeople.webapplication.business.task.boundary;
 
+import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
@@ -128,6 +131,25 @@ public class TaskMixin implements Task{
 
 	@Override
 	public void setDuration(Integer duration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEffort(Effort effort) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@JsonIgnore
+	public Collection<Effort> getEfforts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteEffort(String uuid) {
 		// TODO Auto-generated method stub
 		
 	}

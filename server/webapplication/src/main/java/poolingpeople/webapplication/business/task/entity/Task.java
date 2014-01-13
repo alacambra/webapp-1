@@ -1,5 +1,7 @@
 package poolingpeople.webapplication.business.task.entity;
 
+import java.util.Collection;
+
 public interface Task {
 	
 	String getId();
@@ -46,7 +48,10 @@ public interface Task {
 	Integer getDuration();
 	void setDuration(Integer duration); 
 	
-	
+	void addEffort(Effort effort);
+	Collection<Effort> getEfforts();
+
+	void deleteEffort(String uuid);
 
 }
 

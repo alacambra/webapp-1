@@ -2,7 +2,7 @@ package poolingpeople.webapplication.business.boundary;
 
 import javax.ws.rs.core.Response;
 
-public abstract class RootApplicationException extends RuntimeException implements DomainExceptionHTTPResponse {
+public class RootApplicationException extends RuntimeException implements DomainExceptionHTTPResponse {
 
     private static final long serialVersionUID = -7160582417322246076L;
 

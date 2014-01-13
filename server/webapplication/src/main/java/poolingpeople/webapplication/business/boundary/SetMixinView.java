@@ -7,10 +7,12 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
+/*
+ * @Todo support for array pairs to handle several mixins
+ */
 public @interface SetMixinView {
 
 	Class<?> entity();
-
 	Class<?> mixin();
 
 }

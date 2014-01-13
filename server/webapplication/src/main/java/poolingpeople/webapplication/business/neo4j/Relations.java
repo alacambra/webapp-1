@@ -74,6 +74,11 @@ public enum Relations implements RelationshipType {
 		})),
 		
 	/**
+	 * A task has an effort booked by a user
+	 */
+	HAS_EFFORT(PoolingpeopleObjectType.TASK, PoolingpeopleObjectType.EFFORT),
+		
+	/**
 	 * Message FROM subject to subject ABOUT object 
 	 */
 	FROM(ArrayUtils.toMap(new PoolingpeopleObjectType[][]{

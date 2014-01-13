@@ -24,6 +24,7 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
@@ -66,10 +67,8 @@ public class NeoManager {
 
 		if ( indexHits.size() > 1 ) {
 			throw new NotUniqueException();
-			//			throw new RuntimeException("Node is not unique");	
 		} else if ( indexHits.size() == 0 ) {
 			throw new NodeNotFoundException();
-			//			throw new RuntimeException("Node not found");
 		} else {
 			Node single = indexHits.getSingle();
 			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
@@ -223,6 +222,21 @@ public class NeoManager {
 
 		return null;
 	}
+	
+	public boolean relationExists(Node from, Node to, RelationshipType relation){
+		
+		Iterator<Relationship> iterator = from.getRelationships(relation, Direction.OUTGOING).iterator();
+		while (iterator.hasNext()) {
+			
+			Relationship relationship = iterator.next();
+			
+			if (relationship.getStartNode().equals(from) && relationship.getEndNode().equals(to)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 
 	public ExecutionResult runCypherQuery(String query, Map<String, Object> params) {
@@ -300,7 +314,6 @@ public class NeoManager {
 	public void removeNode(Node n) {
 		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
-//		n.delete();
 	}
 
 	public Boolean getBooleanProperty(Node node, String key) {
@@ -337,6 +350,30 @@ public class NeoManager {
 
 			} catch (Exception e) {
 				//				log.error(e);
+			}
+		}
+
+		return objects;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <IM, IN> AbstractCollection<IN> getPersistedObjects( 
+			Collection<Node> nodes, AbstractCollection<IN> objects, Class<IM> implementationClass,  Class<IN> interfaceClass ) {
+		
+		if(!interfaceClass.isAssignableFrom(implementationClass)){
+			throw new RootApplicationException(implementationClass.getCanonicalName() 
+					+ " is not an implementation of " + interfaceClass.getCanonicalName());
+		}
+
+		for ( Node n : nodes ) {
+
+			try {
+
+				Constructor<IM> c = implementationClass.getConstructor(NeoManager.class, Node.class);
+				objects.add((IN) c.newInstance(this, n));
+
+			} catch (Exception e) {
+				throw new RootApplicationException(e);
 			}
 		}
 

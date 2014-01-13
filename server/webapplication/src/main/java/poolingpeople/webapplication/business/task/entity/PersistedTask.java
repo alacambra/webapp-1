@@ -1,7 +1,12 @@
 package poolingpeople.webapplication.business.task.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
@@ -9,6 +14,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsExceptio
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
+import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
@@ -74,9 +80,9 @@ public class PersistedTask extends PersistedModel implements Task {
 		try {
 			return (manager.getStringProperty(underlyingNode,
 					NodesPropertiesNames.PRIORITY.name()).equals("")) ? TaskPriority.NORMAL
-					: TaskPriority.valueOf(manager.getStringProperty(
-							underlyingNode,
-							NodesPropertiesNames.PRIORITY.name()));
+							: TaskPriority.valueOf(manager.getStringProperty(
+									underlyingNode,
+									NodesPropertiesNames.PRIORITY.name()));
 		} catch (NullPointerException e) {
 			return TaskPriority.LOW;
 		}
@@ -94,7 +100,7 @@ public class PersistedTask extends PersistedModel implements Task {
 		try {
 			return (manager.getStringProperty(underlyingNode,
 					NodesPropertiesNames.STATUS.name()).equals("")) ? TaskStatus.NEW
-					: TaskStatus
+							: TaskStatus
 							.valueOf(manager.getStringProperty(underlyingNode,
 									NodesPropertiesNames.STATUS.name()));
 		} catch (NullPointerException e) {
@@ -144,22 +150,19 @@ public class PersistedTask extends PersistedModel implements Task {
 				NodesPropertiesNames.PROGRESS.name(), progress);
 	}
 
-        @Override
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof PersistedTask
 				&& ((PersistedTask) obj).getNode().equals(underlyingNode);
 	}
 
-        @Override
+	@Override
 	public int hashCode() {
 		return underlyingNode.hashCode();
 	}
 
-	public void addSubtask(Task child) {
-		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE,
-				((PersistedTask) child).getNodeType());
-		manager.createRelationshipTo(underlyingNode,
-				((PersistedTask) child).getNode(), Relations.IS_SUBPROJECT_OF);
+	public void addSubtask(PersistedModel child) {
+		createRelationTo(Relations.IS_SUBPROJECT_OF, child, true);
 	}
 
 	@Override
@@ -192,6 +195,24 @@ public class PersistedTask extends PersistedModel implements Task {
 	public void setDuration(Integer duration) {
 		manager.setProperty(underlyingNode,
 				NodesPropertiesNames.DURATION.name(), duration);
+	}
+
+	@Override
+	public void addEffort(Effort effort) {
+		createRelationTo(Relations.HAS_EFFORT, (PersistedModel) effort, true);
+	}
+
+	@Override
+	public Collection<Effort> getEfforts() {
+
+		Collection<Node> nodes = manager.getRelatedNodes(underlyingNode, Relations.HAS_EFFORT);
+		return manager.getPersistedObjects(nodes, new ArrayList<Effort>(), PersistedEffort.class, Effort.class);
+		
+	}
+
+	@Override
+	public void deleteEffort(String uuid) {
+		manager.removeNode(manager.getUniqueNode(new UUIDIndexContainer(uuid)));
 	}
 
 }
