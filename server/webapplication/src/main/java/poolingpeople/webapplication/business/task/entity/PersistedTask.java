@@ -235,7 +235,12 @@ public class PersistedTask extends PersistedModel implements Task {
 
 	@Override
 	public Integer getEffort() {
-		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.EFFORT.name());
+		Integer totalEffort = manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.EFFORT.name());
+		
+		if ( totalEffort == null) 
+			totalEffort = 0;
+		
+		return totalEffort;
 	}
 }
 
