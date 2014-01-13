@@ -10,7 +10,7 @@
 <p>
     <%= I18n.t('task.label.effort') %>:
     <% if (effort != 0) { %>
-        <a href="#tasks/<%= id %>/efforts" class="js-list-efforts">
+        <a href="<%= url_for('tasks', id, 'efforts') %>" class="js-list-efforts">
             <%= format_duration(effort) %>
         </a>
     <% } else { %>

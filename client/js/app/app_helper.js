@@ -12,24 +12,40 @@ define({
      * // returns #tasks/23/edit
      * url_for('tasks', 'edit', 23)
      *
+     * @example
+     * // returns #tasks/23/efforts
+     * url_for('tasks', 23, 'efforts')
+     *
+     * @example
+     * // returns #tasks/23/efforts/new
+     * url_for('tasks', 23, 'efforts', 'new')
+     *
      * @param name {string} - Resource or model name.
      * @param action_or_id {string|number} - REST action or ID of the resource if action is omitted.
-     * @param [id] {number} - ID of the resource, only if action is set explicit.
+     * @param [id_or_action] {number} - ID or action of the resource, only if action is set explicit.
+     * @param [sub_action] {string} - Action of the nested resource.
      * @returns {string} - REST URL.
      */
-    url_for: function(name, action_or_id, id) {
+    url_for: function(name, action_or_id, id_or_action, sub_action) {
         var action = null;
+        var id = id_or_action;
 
-        if (id === undefined) {
+        if (id_or_action === undefined) {
             id = action_or_id;
         } else {
-            action = action_or_id;
+            if (_.isNumber(id_or_action)) {
+                action = action_or_id;
+            } else {
+                id = action_or_id;
+                action = id_or_action;
+            }
         }
 
         var link = '#' + name;
 
         if (id !== undefined) link += '/' + id;
         if (action !== null) link += '/' + action;
+        if (sub_action !== undefined) link += '/' + sub_action;
 
         return link;
     },
