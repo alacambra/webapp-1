@@ -153,4 +153,10 @@ public class TaskMixin implements Task{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Integer getEffort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -29,6 +29,8 @@ public class Configurator {
                 put("invalidJson", "Invalid JSON provided, thus deserializing is not possible!");
                 put("doesNotExist", "The given Item does not exist");
                 put("alreadyExists", "These relation already exists and must be unique");
+                put("relationNotFound", "The relation between two objects does not exist");
+                
             }
         };
     }

@@ -52,6 +52,8 @@ public interface Task {
 	Collection<Effort> getEfforts();
 
 	void deleteEffort(Effort effort);
+	
+	Integer getEffort();
 
 }
 

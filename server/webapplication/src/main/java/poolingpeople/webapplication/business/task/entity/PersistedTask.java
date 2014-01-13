@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Node;
+
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
@@ -13,6 +14,7 @@ import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
 
 public class PersistedTask extends PersistedModel implements Task {
 
@@ -195,7 +197,11 @@ public class PersistedTask extends PersistedModel implements Task {
 
 	@Override
 	public void addEffort(Effort effort) {
+		
+		Integer totalEffort = getEffort() + effort.getTime();
+		manager.setProperty(underlyingNode, NodesPropertiesNames.EFFORT.name(), totalEffort);
 		createRelationTo(Relations.HAS_EFFORT, (PersistedModel) effort, true);
+		
 	}
 
 	@Override
@@ -208,6 +214,14 @@ public class PersistedTask extends PersistedModel implements Task {
 
 	@Override
 	public void deleteEffort(Effort effort) {
+		
+		if (!manager.relationExists(underlyingNode, ((PersistedModel) effort).getNode(), Relations.HAS_EFFORT)) {
+			throw new RelationNotFoundException();
+		}
+		
+		Integer totalEffort = getEffort() - effort.getTime();
+		manager.setProperty(underlyingNode, NodesPropertiesNames.EFFORT.name(), totalEffort);
+		
 		manager.removeNode(((PersistedModel) effort).getNode());
 	}
 	
@@ -218,4 +232,65 @@ public class PersistedTask extends PersistedModel implements Task {
 			deleteEffort(effort);
 		}
 	}
+
+	@Override
+	public Integer getEffort() {
+		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.EFFORT.name());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

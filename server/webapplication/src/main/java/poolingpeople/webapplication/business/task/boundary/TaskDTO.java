@@ -158,5 +158,11 @@ public class TaskDTO implements Task {
 		throw new RootApplicationException("Inaccessible method");		
 	}
 
+	@Override
+	public Integer getEffort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
