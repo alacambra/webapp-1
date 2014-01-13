@@ -26,7 +26,7 @@ function(App, show_tpl, app_helper, effort_helper) {
 
 
             delete_item: function() {
-                App.trigger('effort:delete', this.model, 'efforts:list');
+                App.trigger('effort:delete', this.model, 'task:show', this.model.get('task_id'));
             }
         });
     });

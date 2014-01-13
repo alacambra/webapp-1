@@ -3,8 +3,8 @@ define(['app'], function (App) {
     App.module('EffortsApp', function (EffortsApp, App, Backbone, Marionette, $, _) {
         EffortsApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
-                'efforts': 'efforts_list',
-                'efforts/new': 'effort_new',
+                'tasks/:task_id/efforts': 'efforts_list',
+                'tasks/:task_id/efforts/new': 'effort_new',
                 'efforts/:id': 'effort_show',
                 'efforts/:id/edit': 'effort_edit'
             }
@@ -12,16 +12,16 @@ define(['app'], function (App) {
 
 
         var API = {
-            efforts_list: function () {
+            efforts_list: function (task_id) {
                 require(['app/efforts/list/list_controller'], function (EffortsController) {
-                    EffortsController.efforts_list();
+                    EffortsController.efforts_list(task_id);
                     highlight_navi();
                 });
             },
 
-            effort_new: function () {
+            effort_new: function (task_id) {
                 require(['app/efforts/edit/edit_controller'], function (EditController) {
-                    EditController.effort_edit();
+                    EditController.effort_edit(undefined, task_id);
                     highlight_navi();
                 });
             },
@@ -33,31 +33,31 @@ define(['app'], function (App) {
                 });
             },
 
-            effort_edit: function (id) {
+            effort_edit: function (effort_id, task_id) {
                 require(['app/efforts/edit/edit_controller'], function (EditController) {
-                    EditController.effort_edit(id);
+                    EditController.effort_edit(effort_id, task_id);
                     highlight_navi();
                 });
             },
 
-            effort_delete: function (effort, redirect) {
+            effort_delete: function (effort, redirect, task_id) {
                 if (confirm(I18n.t('delete_confirm', { name: effort.get('comment') }))) {
                     require(['app/efforts/list/list_controller'], function (ListController) {
-                        ListController.effort_delete(effort, redirect);
+                        ListController.effort_delete(effort, redirect, task_id);
                     });
                 }
             }
         };
 
 
-        App.on('efforts:list', function() {
-            App.navigate('efforts');
-            API.efforts_list();
+        App.on('efforts:list', function(task_id) {
+            App.navigate('tasks/' + task_id + '/efforts');
+            API.efforts_list(task_id);
         });
 
-        App.on('effort:new', function() {
-            App.navigate('efforts/new');
-            API.effort_edit();
+        App.on('effort:new', function(task_id) {
+            App.navigate('tasks/' + task_id + '/efforts/new');
+            API.effort_edit(undefined, task_id);
         });
 
         App.on('effort:show', function(id) {
@@ -70,8 +70,8 @@ define(['app'], function (App) {
             API.effort_edit(id);
         });
 
-        App.on('effort:delete', function(id, redirect) {
-            API.effort_delete(id, redirect);
+        App.on('effort:delete', function(id, redirect, task_id) {
+            API.effort_delete(id, redirect, task_id);
         });
 
 
@@ -83,7 +83,7 @@ define(['app'], function (App) {
 
 
         function highlight_navi() {
-            App.trigger('main_navi:highlight:item', 'efforts');
+            App.trigger('main_navi:highlight:item', 'tasks');
         }
     });
 

@@ -2,8 +2,8 @@ define(['app', 'lib/response_handler', 'app/entities/effort', 'app/efforts/edit/
 function (App, response_handler) {
     App.module('Efforts.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
-            effort_edit: function (effort_id) {
-                $.when(App.request('effort:entity', effort_id)).done(function(effort, response) {
+            effort_edit: function (effort_id, task_id) {
+                $.when(App.request('effort:entity', effort_id, task_id)).done(function(effort, response) {
                     if (effort) {
                         var edit_view = new Edit.View({
                             model: effort
@@ -12,7 +12,7 @@ function (App, response_handler) {
                         edit_view.on('form:submit', function(data) {
                             var model_validated = effort.save(data, {
                                 success: function() {
-                                    App.trigger('effort:show', effort.get('id'));
+                                    App.trigger('task:show', effort.get('task_id'));
                                 },
                                 error: function(model, response) {
                                     response_handler.handle(response, {

@@ -11,7 +11,8 @@ function(App, show_tpl, app_helper, task_helper) {
 
             events: {
                 'click .js-edit': 'edit',
-                'click .js-delete': 'delete_item'
+                'click .js-delete': 'delete_item',
+                'click .js-list-efforts': 'list_efforts'
             },
 
 
@@ -27,6 +28,13 @@ function(App, show_tpl, app_helper, task_helper) {
 
             delete_item: function() {
                 App.trigger('task:delete', this.model, 'tasks:list');
+            },
+
+
+            list_efforts: function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                App.trigger('efforts:list', this.model.get('id'));
             }
         });
     });

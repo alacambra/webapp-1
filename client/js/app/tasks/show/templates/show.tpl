@@ -20,6 +20,13 @@
     </div>
 </div>
 
+<p>
+    <%= I18n.t('task.label.effort') %>:
+    <a href="#tasks/<%= id %>/efforts" class="js-list-efforts">
+        <%= format_duration(effort, false) %>
+    </a>
+</p>
+
 <a href="<%= url_for('tasks', 'edit', id) %>" class="btn btn-default btn-sm btn-text right-space js-edit">
     <span class="glyphicon glyphicon-pencil"></span> <%= I18n.t('edit') %>
 </a>

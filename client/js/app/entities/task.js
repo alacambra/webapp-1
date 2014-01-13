@@ -1,4 +1,4 @@
-define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, validation_helper, Faux) {
+define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, Entities, validation_helper, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
@@ -14,7 +14,14 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 startDate: null,
                 endDate: null,
                 duration: null,
-                progress: 0
+                progress: 0,
+                effort: 0
+            },
+
+            initialize: function (data) {
+                if (!this.isNew()) {
+                    this.efforts = new Entities.EffortCollection({ task_id: this.id });
+                }
             },
 
             validate: function(attrs, options) {

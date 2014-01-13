@@ -4,9 +4,15 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
 
         Entities.Effort = Backbone.Model.extend({
-            urlRoot: base_url,
+            urlRoot: function () {
+                if (this.isNew()) {
+                    return App.model_base_url('tasks') + '/' + this.get('task_id') + '/efforts';
+                }
+                return base_url;
+            },
 
             defaults: {
+                task_id: null,
                 date: null,
                 time: null,
                 comment: null
@@ -29,14 +35,25 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
         Entities.EffortCollection = Backbone.Collection.extend({
             model: Entities.Effort,
-            url: base_url,
-            comparator: 'date'
+
+            url: function () {
+                return App.model_base_url('tasks') + '/' + this.task_id + '/efforts'
+            },
+
+            comparator: 'date',
+
+            initialize: function (data) {
+                if (_.isUndefined(data) || _.isUndefined(data.task_id)) {
+                    throw 'Error: Effort Collection needs a task id.'
+                }
+                this.task_id = data.task_id;
+            }
         });
 
 
         var API = {
-            get_effort_entities: function() {
-                var efforts = new Entities.EffortCollection();
+            get_effort_entities: function(task_id) {
+                var efforts = new Entities.EffortCollection({ task_id: task_id });
                 var defer = $.Deferred();
 
                 efforts.fetch({
@@ -51,12 +68,12 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 return defer.promise();
             },
 
-            get_effort_entity: function(effort_id) {
+            get_effort_entity: function(effort_id, task_id) {
                 var effort_entity;
                 var defer = $.Deferred();
 
                 if (typeof effort_id !== 'object') {
-                    effort_entity = new Entities.Effort({ id: effort_id });
+                    effort_entity = new Entities.Effort({ id: effort_id, task_id: task_id });
 
                     if (effort_id !== undefined) { // effort id was set, load entity
                         effort_entity.fetch({
@@ -79,30 +96,36 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         };
 
 
-        App.reqres.setHandler('effort:entities', function() {
-            return API.get_effort_entities();
+        App.reqres.setHandler('effort:entities', function(task_id) {
+            return API.get_effort_entities(task_id);
         });
 
 
-        App.reqres.setHandler('effort:entity', function(id) {
-            return API.get_effort_entity(id);
+        App.reqres.setHandler('effort:entity', function(effort_id, task_id) {
+            return API.get_effort_entity(effort_id, task_id);
         });
         
 
         // FAUX SERVER!!!
 
+        function log_url(context) {
+            console.log(context.url + ' - ' + context.httpMethod);
+        }
+
         var efforts = [
-            { id: 1, date: 1387206224, time: 60, comment: 'Effort1' },
-            { id: 2, date: 1387206224, time: 90, comment: 'Effort2' },
-            { id: 3, date: 1387206224, time: 15, comment: 'Effort3' },
-            { id: 4, date: 1387206224, time: 180, comment: 'Effort4' }
+            { id: 1, task_id: 1, date: 1387206224, time: 60, comment: 'Effort1' },
+            { id: 2, task_id: 1, date: 1387206224, time: 90, comment: 'Effort2' },
+            { id: 3, task_id: 2, date: 1387206224, time: 15, comment: 'Effort3' },
+            { id: 4, task_id: 2, date: 1387206224, time: 180, comment: 'Effort4' }
         ];
 
-        Faux.addRoute('getEfforts', base_url, 'GET', function (context) {
-            return efforts;
+        Faux.addRoute('getEfforts', App.model_base_url('tasks') + '/:id/efforts', 'GET', function (context, task_id) {
+            log_url(context);
+            return _.filter(efforts, function(effort) { return effort.task_id == task_id });
         });
 
         Faux.addRoute('getEffort', base_url + '/:id', 'GET', function(context, id) {
+            log_url(context);
             var effort;
             _.forEach(efforts, function (t) {
                 if (t.id === parseInt(id)) {
@@ -110,6 +133,22 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 }
             });
             return effort || 'HTTP/1.1 404 Not Found';
+        });
+
+        Faux.addRoute('updateEffort', base_url + '/:id', 'PUT', function (context) {
+            log_url(context);
+            return context.data;
+        });
+
+        Faux.addRoute('newEffort', App.model_base_url('tasks') + '/:task_id/efforts', 'POST', function (context, task_id) {
+            log_url(context);
+            context.data.id = 1;
+            return context.data;
+        });
+
+        Faux.addRoute('deleteEffort', base_url + '/:id', 'DELETE', function (context) {
+            log_url(context);
+            return context.data;
         });
 
         Faux.enable(CONFIG.rest.faux_enable);

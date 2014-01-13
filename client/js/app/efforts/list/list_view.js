@@ -49,10 +49,16 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             itemView: List.View,
             itemViewContainer: '#js-effort-list-items',
 
+            serializeData: function() {
+                return {
+                    task_id: this.collection.task_id
+                }
+            },
+
             events: {
                 'click .js-create': function(event) {
                     event.stopPropagation();
-                    App.trigger('effort:new');
+                    App.trigger('effort:new', this.collection.task_id);
                 }
             }
         })
