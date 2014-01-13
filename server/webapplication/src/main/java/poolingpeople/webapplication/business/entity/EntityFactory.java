@@ -12,7 +12,9 @@ import org.neo4j.graphdb.index.IndexHits;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
+import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
@@ -94,4 +96,42 @@ public class EntityFactory {
 	public User createUser() {
 		return new PersistedUser(manager);
 	}
+
+	public Effort getEffortById(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Effort getAllEfforts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Effort createEffort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
