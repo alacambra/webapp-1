@@ -17,9 +17,8 @@ define(['app/view_helper', 'app/form_helper', 'moment', 'advanced_string'], func
             return I18n.t('task.priority_options.' + this.priority_options[priority]);
         },
 
-        format_duration: function(duration, hide_empty) {
-            if (_.isUndefined(hide_empty)) hide_empty = true;
-            return !hide_empty || this.has_value(duration) ? view_helper.format_time(duration) : '';
+        format_duration: function(duration) {
+            return this.has_value(duration) ? view_helper.format_time(duration) : '';
         },
 
         format_progress: function(progress) {
