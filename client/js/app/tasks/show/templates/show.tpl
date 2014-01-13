@@ -30,6 +30,10 @@
     </div>
 </div>
 
+<a href="<%= url_for('tasks', id, 'efforts', 'new') %>" class="btn btn-default btn-sm btn-text right-space js-effort-create">
+    <span class="glyphicon glyphicon-time"></span> <%= I18n.t('effort.button.new') %>
+</a>
+
 <a href="<%= url_for('tasks', 'edit', id) %>" class="btn btn-default btn-sm btn-text right-space js-edit">
     <span class="glyphicon glyphicon-pencil"></span> <%= I18n.t('edit') %>
 </a>

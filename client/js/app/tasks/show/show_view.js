@@ -12,7 +12,8 @@ function(App, show_tpl, app_helper, task_helper) {
             events: {
                 'click .js-edit': 'edit',
                 'click .js-delete': 'delete_item',
-                'click .js-list-efforts': 'list_efforts'
+                'click .js-list-efforts': 'list_efforts',
+                'click .js-effort-create': 'effort_create'
             },
 
 
@@ -35,6 +36,13 @@ function(App, show_tpl, app_helper, task_helper) {
                 event.preventDefault();
                 event.stopPropagation();
                 App.trigger('efforts:list', this.model.get('id'));
+            },
+
+
+            effort_create: function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                App.trigger('effort:new', this.model.get('id'));
             }
         });
     });
