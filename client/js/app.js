@@ -47,7 +47,8 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
     };
 
 
-    App.model_base_url = function(model) {
+    App.model_base_url = function(model, parent_model, parent_id) {
+        var parent_base_url = '';
         var cfg = CONFIG.rest.base_url.default;
 
         if (CONFIG.rest.base_url_switch_by_subdomain) {
@@ -55,7 +56,11 @@ define(['marionette', 'config'], function(Marionette, CONFIG){
             cfg = CONFIG.rest.base_url[subdomain] || cfg;
         }
 
-        return cfg + '/' + model;
+        if (parent_model !== undefined) {
+            parent_base_url = parent_model + '/' + parent_id + '/';
+        }
+
+        return cfg + '/' + parent_base_url + model;
     };
 
 
