@@ -14,7 +14,6 @@ import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
 
 public abstract class PersistedModel {
 

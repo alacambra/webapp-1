@@ -1,14 +1,12 @@
 package poolingpeople.webapplication.business.project.entity;
 
 public enum ProjectStatus {
-	TODO(0),
-	NEW(1),
-	ASSIGNED(2),
-	HOLD(3),
-	COMPLETED(4),
-	ARCHIVED(5),
-	REQUESTED(6),
-	OFFERED(7);
+	NEW(0),
+	ASSIGNED(1),
+	HOLD(2),
+	COMPLETED(3),
+	ARCHIVED(4),
+	OFFERES(5);
 	
 	private final int statusNumber;
 	
