@@ -1,8 +1,10 @@
-define(['app', 'lib/response_handler', 'app/entities/effort', 'app/efforts/list/list_view'],
-function(App, response_handler) {
+define(['app', 'lib/response_handler', 'app/entities/effort', 'app/common/loading_view', 'app/efforts/list/list_view'],
+function(App, response_handler, Entities, LoadingView) {
     App.module('Efforts.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             efforts_list: function(task_id) {
+                App.main_region.show(new LoadingView);
+
                 $.when(App.request('effort:entities', task_id)).done(function(efforts, response) {
                     if (efforts) {
                         var list_view = new List.Efforts({

@@ -1,8 +1,10 @@
-define(['app', 'lib/response_handler', 'app/entities/user', 'app/users/edit/edit_view'],
-function (App, response_handler) {
+define(['app', 'lib/response_handler', 'app/entities/user', 'app/common/loading_view', 'app/users/edit/edit_view'],
+function (App, response_handler, Entities, LoadingView) {
     App.module('Users.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             user_edit: function (user_id) {
+                App.main_region.show(new LoadingView);
+
                 $.when(App.request('user:entity', user_id)).done(function(user, response) {
                     if (user) {
                         var edit_view = new Edit.View({

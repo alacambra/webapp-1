@@ -1,8 +1,10 @@
-define(['app', 'lib/response_handler', 'app/entities/task', 'app/tasks/edit/edit_view'],
-function (App, response_handler) {
+define(['app', 'lib/response_handler', 'app/entities/task', 'app/common/loading_view', 'app/tasks/edit/edit_view'],
+function (App, response_handler, Entities, LoadingView) {
     App.module('Tasks.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             task_edit: function (task_id) {
+                App.main_region.show(new LoadingView);
+
                 $.when(App.request('task:entity', task_id)).done(function(task, response) {
                     if (task) {
                         var edit_view = new Edit.View({

@@ -1,8 +1,10 @@
-define(['app', 'lib/response_handler', 'app/entities/user', 'app/users/list/list_view'],
-function(App, response_handler) {
+define(['app', 'lib/response_handler', 'app/entities/user', 'app/common/loading_view', 'app/users/list/list_view'],
+function(App, response_handler, Entities, LoadingView) {
     App.module('Users.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             users_list: function() {
+                App.main_region.show(new LoadingView);
+
                 $.when(App.request('user:entities')).done(function(users, response) {
                     if (users) {
                         var list_view = new List.Users({
