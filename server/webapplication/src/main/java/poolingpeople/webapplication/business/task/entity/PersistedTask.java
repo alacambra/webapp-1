@@ -4,17 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.RelationshipType;
-
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
-import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
@@ -211,8 +207,15 @@ public class PersistedTask extends PersistedModel implements Task {
 	}
 
 	@Override
-	public void deleteEffort(String uuid) {
-		manager.removeNode(manager.getUniqueNode(new UUIDIndexContainer(uuid)));
+	public void deleteEffort(Effort effort) {
+		manager.removeNode(((PersistedModel) effort).getNode());
 	}
-
+	
+	@Override
+	public void runDeletePreconditions() {
+		
+		for(Effort effort : getEfforts()) {
+			deleteEffort(effort);
+		}
+	}
 }

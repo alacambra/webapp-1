@@ -51,7 +51,7 @@ public interface Task {
 	void addEffort(Effort effort);
 	Collection<Effort> getEfforts();
 
-	void deleteEffort(String uuid);
+	void deleteEffort(Effort effort);
 
 }
 

@@ -154,7 +154,7 @@ public class TaskDTO implements Task {
 	}
 
 	@Override
-	public void deleteEffort(String uuid) {
+	public void deleteEffort(Effort effort) {
 		throw new RootApplicationException("Inaccessible method");		
 	}
 

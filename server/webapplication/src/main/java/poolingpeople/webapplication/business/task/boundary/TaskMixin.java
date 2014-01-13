@@ -149,7 +149,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	public void deleteEffort(String uuid) {
+	public void deleteEffort(Effort effort) {
 		// TODO Auto-generated method stub
 		
 	}

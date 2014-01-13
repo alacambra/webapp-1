@@ -97,7 +97,7 @@ public class EffortBoundry {
 	public Response deleteTask(@PathParam("taskId") String taskId, @PathParam("id") String uuid) {
 		
 		Task task = entityFactory.getTaskById(taskId);
-		task.deleteEffort(uuid);
+		task.deleteEffort(entityFactory.getEffortById(uuid));
 		
 		return Response.ok().build();
 	}

@@ -90,6 +90,10 @@ public abstract class PersistedModel {
 		relation.relationIsPossibleOrException(NODE_TYPE, to.getNodeType());
 		manager.createRelationshipTo(underlyingNode, to.getNode(), relation);
 	}
+	
+	public void runDeletePreconditions(){
+		
+	}
 }
 
 

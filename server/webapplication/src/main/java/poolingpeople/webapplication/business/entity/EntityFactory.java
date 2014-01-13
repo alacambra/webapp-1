@@ -15,7 +15,6 @@ import poolingpeople.webapplication.business.project.entity.PersistedProject;
 import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.PersistedEffort;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
@@ -27,7 +26,10 @@ public class EntityFactory {
 	private NeoManager manager;
  
 	public void deleteTask(String uuid)  {
-		manager.removeNode(getTaskById(uuid).getNode());
+		
+		PersistedTask task = getTaskById(uuid);
+		task.runDeletePreconditions();
+		manager.removeNode(task.getNode());
 	}
 
 	public PersistedTask getTaskById(String uuid)  {
