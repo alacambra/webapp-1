@@ -18,9 +18,9 @@ public class TestEJBInjection {
         beanHelper = new BeanManagerHelper();
     }
     
-    @Test
-    public void shouldInject(){
-        MyEjbService ejbService = beanHelper.createInstance(MyEjbService.class);
-        
-    }
+//    @Test
+//    public void shouldInject(){
+//        MyEjbService ejbService = beanHelper.createInstance(MyEjbService.class);
+//        
+//    }
 }
