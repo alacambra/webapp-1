@@ -18,7 +18,7 @@
     <div class="form-group">
         <div class="col-lg-4">
             <label class="control-label" for="js-user-birthDate"><%= I18n.t('user.label.birth_date') %></label>
-            <input id="js-user-birthDate" type="text" name="birthDate" value="<%= format_date(birthDate) %>" class="form-control">
+            <input id="js-user-birthDate" type="text" name="birthDate" value="<%= format_date(birthDate) %>" placeholder="<%= format_date(454111200) %>" class="form-control">
         </div>
     </div>
 
