@@ -100,20 +100,5 @@ define([], function() {
                 expect(is_empty({ a: null })).toBeFalsy();
             });
         });
-
-        describe('is_array', function() {
-            it('should detect arrays', function() {
-                expect(is_array([])).toBeTruthy();
-                expect(is_array([1])).toBeTruthy();
-                expect(is_array([1, 2])).toBeTruthy();
-            });
-            it('should detect non-arrays', function() {
-                expect(is_array()).toBeFalsy();
-                expect(is_array({})).toBeFalsy();
-                expect(is_array(1)).toBeFalsy();
-                expect(is_array('')).toBeFalsy();
-                expect(is_array(null)).toBeFalsy();
-            });
-        });
     });
 });
