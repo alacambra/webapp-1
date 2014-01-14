@@ -80,10 +80,11 @@ I18n.translations['de'] = {
             priority: 'Priorität',
             start_date: 'Start',
             end_date: 'Ende',
-            duration: 'Geschätzte Dauer',
-            duration_short: 'Dauer',
+            duration: 'Geschätzter Aufwand',
+            duration_short: 'Aufwand',
             progress: 'Fortschritt',
-            effort: 'Aufwand'
+            effort: 'Aufgewendete Zeit',
+            effort_short: 'Zeit'
         },
         status_options: {
             todo: 'ToDo',

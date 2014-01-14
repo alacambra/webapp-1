@@ -8,6 +8,14 @@ define(['app/view_helper', 'moment', 'advanced_string'], function(view_helper) {
             return this.has_value(time) ? view_helper.format_time(time) : '';
         },
 
+        confirm_text: function(effort) {
+            if (is_blank(effort.get('comment'))) {
+                return this.format_date(effort.get('date')) + ', ' + this.format_time(effort.get('time'));
+            } else {
+                return effort.get('comment');
+            }
+        },
+
         unformat_time: function (time) {
             return view_helper.unformat_time(time);
         },

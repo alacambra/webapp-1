@@ -20,7 +20,6 @@ function(App, show_tpl, app_helper, effort_helper) {
 
             edit: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('effort:edit', this.model.get('id'));
             },
 

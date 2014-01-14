@@ -20,7 +20,6 @@ function(App, show_tpl, app_helper, user_helper) {
 
             edit: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('user:edit', this.model.get('id'));
             },
 

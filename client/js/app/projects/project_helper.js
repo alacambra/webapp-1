@@ -1,6 +1,6 @@
 define(['app/view_helper', 'app/form_helper', 'moment', 'advanced_string'], function(view_helper, form_helper) {
     return {
-        status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
+        status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'offered'],
 
         format_date: function(date) {
             return this.has_value(date) ? view_helper.format_date(date) : '';

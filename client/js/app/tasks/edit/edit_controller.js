@@ -3,6 +3,8 @@ function (App, response_handler) {
     App.module('Tasks.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             task_edit: function (task_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
                 $.when(App.request('task:entity', task_id)).done(function(task, response) {
                     if (task) {
                         var edit_view = new Edit.View({

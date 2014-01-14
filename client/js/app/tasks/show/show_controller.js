@@ -3,6 +3,8 @@ function (App, response_handler) {
     App.module('Tasks.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             task_show: function (task_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
                 $.when(App.request('task:entity', task_id)).done(function(task, response) {
                     if (task) {
                         var show_view = new Show.View({

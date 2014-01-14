@@ -22,21 +22,18 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
 
             show: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('effort:show', this.model.get('id'));
             },
 
 
             edit: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('effort:edit', this.model.get('id'));
             },
 
 
             delete_item: function(event) {
                 event.preventDefault();
-                event.stopPropagation();
                 App.trigger('effort:delete', this.model);
             }
         });
@@ -57,7 +54,7 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
 
             events: {
                 'click .js-create': function(event) {
-                    event.stopPropagation();
+                    event.preventDefault();
                     App.trigger('effort:new', this.collection.task_id);
                 }
             }

@@ -83,7 +83,8 @@ I18n.translations['en'] = {
             duration: 'Estimated Duration',
             duration_short: 'Duration',
             progress: 'Progress',
-            effort: 'Effort'
+            effort: 'Time',
+            effort_short: 'Spent Time'
         },
         status_options: {
             todo: 'ToDo',

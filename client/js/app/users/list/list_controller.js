@@ -3,6 +3,8 @@ function(App, response_handler) {
     App.module('Users.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             users_list: function() {
+                App.main_region.show(new App.Common.LoadingView);
+
                 $.when(App.request('user:entities')).done(function(users, response) {
                     if (users) {
                         var list_view = new List.Users({

@@ -2,11 +2,10 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('efforts');
 
-
         Entities.Effort = Backbone.Model.extend({
             urlRoot: function () {
                 if (this.isNew()) {
-                    return App.model_base_url('tasks') + '/' + this.get('task_id') + '/efforts';
+                    return App.model_base_url('efforts', 'tasks', this.get('task_id'));
                 }
                 return base_url;
             },
@@ -37,7 +36,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             model: Entities.Effort,
 
             url: function () {
-                return App.model_base_url('tasks') + '/' + this.task_id + '/efforts'
+                return App.model_base_url('efforts', 'tasks', this.task_id);
             },
 
             comparator: 'date',
@@ -119,7 +118,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             { id: 4, task_id: 2, date: 1387206224, time: 180, comment: 'Effort4' }
         ];
 
-        Faux.addRoute('getEfforts', App.model_base_url('tasks') + '/:id/efforts', 'GET', function (context, task_id) {
+        Faux.addRoute('getEfforts', App.model_base_url('efforts', 'tasks', ':id'), 'GET', function (context, task_id) {
             log_url(context);
             return _.filter(efforts, function(effort) { return effort.task_id == task_id });
         });
@@ -140,7 +139,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             return context.data;
         });
 
-        Faux.addRoute('newEffort', App.model_base_url('tasks') + '/:task_id/efforts', 'POST', function (context, task_id) {
+        Faux.addRoute('newEffort', App.model_base_url('efforts', 'tasks', ':id'), 'POST', function (context, task_id) {
             log_url(context);
             context.data.id = 1;
             return context.data;

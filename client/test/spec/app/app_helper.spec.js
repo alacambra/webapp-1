@@ -7,6 +7,9 @@ define(['app/app_helper'], function (app_helper) {
                 expect(app_helper.url_for('tasks', 23)).toBe('#tasks/23');
                 expect(app_helper.url_for('tasks', 'new')).toBe('#tasks/new');
                 expect(app_helper.url_for('tasks', 'edit', 23)).toBe('#tasks/23/edit');
+
+                expect(app_helper.url_for('tasks', 23, 'efforts')).toBe('#tasks/23/efforts');
+                expect(app_helper.url_for('tasks', 23, 'efforts', 'new')).toBe('#tasks/23/efforts/new');
             });
         });
 
