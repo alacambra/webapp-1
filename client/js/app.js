@@ -1,4 +1,4 @@
-define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
+define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
     var App = new Marionette.Application();
 
 
@@ -26,7 +26,7 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
 
 
     App.show_main_navi= function() {
-        require(['app/common/main_navi_view'], function (MainNaviView) {
+        require(['app/common/main_navi_view'], function(MainNaviView) {
             var navi_view = new MainNaviView({
                 available_locales: CONFIG.i18n.available_locales
             });
@@ -36,13 +36,13 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
     };
 
 
-    App.navigate = function(route,  options){
+    App.navigate = function(route,  options) {
         options || (options = {});
         Backbone.history.navigate(route, options);
     };
 
 
-    App.current_route = function(){
+    App.current_route = function() {
         return Backbone.history.fragment;
     };
 
@@ -64,7 +64,7 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
     };
 
 
-    App.on('initialize:after', function(){
+    App.on('initialize:after', function() {
         App.init_i18n(function() {
             App.show_main_navi();
 
@@ -75,7 +75,7 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
                 'app/tasks/tasks_app',
                 'app/users/users_app',
                 'app/common/loading_view'
-            ], function () {
+            ], function() {
                 Backbone.history.start();
 
                 if (App.current_route() === '') {
