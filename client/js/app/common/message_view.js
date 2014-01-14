@@ -2,7 +2,7 @@ define(['app',
         'tpl!app/common/templates/message.tpl'],
 function (App, message_tpl) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
-        Common.LoadingView = Marionette.ItemView.extend({
+        Common.MessageView = Marionette.ItemView.extend({
             template: message_tpl,
 
             initialize: function(options) {
@@ -21,5 +21,5 @@ function (App, message_tpl) {
         });
     });
 
-    return App.Common.LoadingView;
+    return App.Common.MessageView;
 });
