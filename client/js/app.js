@@ -1,4 +1,4 @@
-define(['marionette', 'config'], function(Marionette, CONFIG){
+define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
     var App = new Marionette.Application();
 
 
