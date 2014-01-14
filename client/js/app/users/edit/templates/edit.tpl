@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a href="">Home</a></li>
-    <li><a href="#users">Users</a></li>
+    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
+    <li><a href="#users"><%= I18n.t('main_navi.people') %></a></li>
     <li><a href="#users/<%= id %>"><%= full_name(firstName, lastName) %></a></li>
     <li class="active"><%= I18n.t('user.header.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></li>
 </ol>

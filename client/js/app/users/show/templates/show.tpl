@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a href="">Home</a></li>
-    <li><a href="#users">Users</a></li>
+    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
+    <li><a href="#users"><%= I18n.t('main_navi.people') %></a></li>
     <li class="active"><%= full_name(firstName, lastName) %></li>
 </ol>
 
