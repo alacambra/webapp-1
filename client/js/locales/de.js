@@ -5,12 +5,16 @@ I18n.translations['de'] = {
     date_format_picker: 'dd.mm.yy',
 
     main_navi: {
+        home: 'Start',
         pools: 'Pools',
         people: 'People',
         services: 'Dienste',
+        message: 'Nachricht',
         messages: 'Nachrichten',
         projects: 'Projekte',
+        task: 'Aufgabe',
         tasks: 'Aufgaben',
+        efforts: 'Aufwände',
         calendar: 'Kalender',
         search_placeholder: 'Pool, Person, usw.',
         search_button_title: 'Suchen',
