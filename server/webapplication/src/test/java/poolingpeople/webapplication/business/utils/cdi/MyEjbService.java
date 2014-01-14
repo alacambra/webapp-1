@@ -8,6 +8,7 @@ package poolingpeople.webapplication.business.utils.cdi;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class MyEjbService {
     
-    @EJB
+    @Inject
     OtherService otherService;
     
     
