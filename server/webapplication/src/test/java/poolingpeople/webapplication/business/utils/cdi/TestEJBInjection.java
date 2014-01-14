@@ -1,9 +1,7 @@
 package poolingpeople.webapplication.business.utils.cdi;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 
 /**
  *
@@ -18,9 +16,9 @@ public class TestEJBInjection {
         beanHelper = new BeanManagerHelper();
     }
     
-//    @Test
-//    public void shouldInject(){
-//        MyEjbService ejbService = beanHelper.createInstance(MyEjbService.class);
-//        
-//    }
+    @Test 
+    public void shouldInject(){
+        MyEjbService ejbService = beanHelper.createInstance(MyEjbService.class);
+        ejbService.business();
+    }
 }
