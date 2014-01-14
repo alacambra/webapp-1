@@ -1,5 +1,8 @@
-define([ 'app', 'app/entities/task', 'app/tasks/list/list_view' ], function (App, Entities, List) {
-
+define(['app',
+        'app/entities/task',
+        'app/tasks/list/list_view',
+        'app/app_helper'],
+function (App, Entities, List, app_helper) {
     var $sandbox = $('#sandbox');
 
     describe('Task :: List :: View', function () {
@@ -19,7 +22,8 @@ define([ 'app', 'app/entities/task', 'app/tasks/list/list_view' ], function (App
 
         beforeEach(function () {
             listView = new List.Tasks({
-                collection: tasks
+                collection: tasks,
+                templateHelpers: app_helper
             });
             itemView = new List.View({
                 model: task1
@@ -66,7 +70,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/list/list_view' ], function (App
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-title').click();
+            $sandbox.find('.js-show').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:show', task1.get('id'));
         });

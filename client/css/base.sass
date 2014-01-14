@@ -1,9 +1,14 @@
+/*!!
+ * ion2s custom style
+ */
+
 $list-row-border: #C0C0C0
 $list-row-bg-hover: #EDF5F7
 
 
 body
   padding-top: 80px
+  margin-bottom: 40px
 
 
 a:hover
@@ -66,5 +71,43 @@ a:hover
       border-color: $list-row-border
 
 
-a.top-space
-  margin-top: 20px
+button, a
+  &.btn-text span
+    margin-right: 5px
+
+  &.top-space
+    margin-top: 20px
+
+  &.right-space
+    margin-right: 10px
+
+
+.form-horizontal
+  .effort-slider-group, .task-slider-group
+    margin-bottom: 14px
+
+    input
+      border: 0
+      color: #f6931f
+      font-weight: bold
+      width: 50px
+      text-align: right
+
+    span
+      color: #f6931f
+      font-weight: bold
+
+    .ui-slider
+      margin-top: 8px
+
+  .has-error .help-block
+    padding-top: 24px
+
+
+.ui-datepicker
+  z-index: 4!important
+
+
+.message-view
+  margin-top: 60px
+  text-align: center

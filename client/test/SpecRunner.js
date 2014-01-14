@@ -8,13 +8,19 @@ require.config({
         backbone_syphon: 'lib/vendor/backbone.syphon',
         bootstrap: 'lib/vendor/bootstrap',
         marionette: 'lib/vendor/backbone.marionette',
+        i18n: 'lib/vendor/i18n',
         jquery_ui: 'lib/vendor/jquery-ui',
+        jquery_elastic: 'lib/vendor/jquery-elastic',
         moment: 'lib/vendor/moment',
+        textile: 'lib/vendor/textile',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
         behaviour: 'lib/behaviour',
+        tools: 'lib/tools',
+        locale_de: 'locales/de',
+        locale_en: 'locales/en',
         jasmine: '../test/lib/jasmine/jasmine',
-        'jasmine-html': '../test/lib/jasmine/jasmine-html',
+        jasmine_html: '../test/lib/jasmine/jasmine-html',
         spec: '../test/spec',
         backbone_faux_server: 'lib/vendor/backbone-faux-server'
     },
@@ -23,37 +29,42 @@ require.config({
             exports: '_'
         },
         backbone: {
-            deps: [ 'underscore', 'jquery' ],
+            deps: ['underscore', 'jquery'],
             exports: 'Backbone'
         },
-        backbone_syphon: [ 'backbone' ],
+        backbone_syphon: ['backbone'],
         backbone_faux_server: {
             deps: ['backbone', 'underscore'],
             exports: 'Faux'
         },
         bootstrap: {
-            deps: [ 'jquery' ],
+            deps: ['jquery'],
             exports: 'Bootstrap'
         },
         marionette: {
-            deps: [ 'backbone' ],
+            deps: ['backbone'],
             exports: 'Marionette'
         },
         behaviour: {
-            deps: [ 'jquery' ],
+            deps: ['jquery'],
             exports: 'advanced_string'
         },
+        i18n: { exports: 'I18n' },
         jasmine: {
             exports: 'jasmine'
         },
-        'jasmine-html': {
-            deps: [ 'jasmine' ],
+        jasmine_html: {
+            deps: ['jasmine'],
             exports: 'jasmine'
-        }
+        },
+
+        locale_de: { deps: ['i18n'] },
+        locale_en: { deps: ['i18n'] }
     }
 });
 
-require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], function (jasmine, _, $) {
+    I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
     jasmineEnv.updateInterval = 1000;
@@ -68,7 +79,21 @@ require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
 
     var specs = [];
 
-    specs.push('spec/app.spec');
+    specs.push('spec/lib/tools.spec.js');
+    specs.push('spec/app/app_helper.spec');
+
+    // project
+    specs.push('spec/app/entities/project.spec');
+    specs.push('spec/app/projects/projects_app.spec');
+    specs.push('spec/app/projects/project_helper.spec');
+    specs.push('spec/app/projects/edit/edit_controller.spec.js');
+    specs.push('spec/app/projects/edit/edit_view.spec.js');
+    specs.push('spec/app/projects/list/list_controller.spec.js');
+    specs.push('spec/app/projects/list/list_view.spec.js');
+    specs.push('spec/app/projects/show/show_controller.spec.js');
+    specs.push('spec/app/projects/show/show_view.spec.js');
+
+    // task
     specs.push('spec/app/entities/task.spec');
     specs.push('spec/app/tasks/tasks_app.spec');
     specs.push('spec/app/tasks/task_helper.spec');
@@ -78,6 +103,17 @@ require([ 'jasmine-html', 'underscore', 'jquery' ], function (jasmine, _, $) {
     specs.push('spec/app/tasks/list/list_view.spec.js');
     specs.push('spec/app/tasks/show/show_controller.spec.js');
     specs.push('spec/app/tasks/show/show_view.spec.js');
+
+    // user
+    specs.push('spec/app/entities/user.spec');
+    specs.push('spec/app/users/users_app.spec');
+    specs.push('spec/app/users/user_helper.spec');
+    specs.push('spec/app/users/edit/edit_controller.spec.js');
+    specs.push('spec/app/users/edit/edit_view.spec.js');
+    specs.push('spec/app/users/list/list_controller.spec.js');
+    specs.push('spec/app/users/list/list_view.spec.js');
+    specs.push('spec/app/users/show/show_controller.spec.js');
+    specs.push('spec/app/users/show/show_view.spec.js');
 
     $(function () {
         require(specs, function () {

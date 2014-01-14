@@ -1,17 +1,43 @@
 <h2><%= title %></h2>
-<p>Description:</p>
-<p><%= description %></p>
-<br />
-<p>Status: <%= status_text(status) %></p>
-<p>Priority: <%= priority_text(priority) %>&nbsp;</p>
-<p>Start: <%= format_date(startDate) %>&nbsp;</p>
-<p>End: <%= format_date(endDate) %>&nbsp;</p>
-<p>Estimated Duration: <%= format_duration(duration) %>&nbsp;</p>
-<p>Progress: <%= format_progress(progress) %>&nbsp;</p>
 
-<a href="#tasks/<%= id %>/edit" class="btn btn-default btn-sm js-edit" style="margin-right: 10px">
-    <span class="glyphicon glyphicon-pencil" style="margin-right: 5px"></span> Edit
+<div><%= textile(description) %></div>
+
+<p><%= I18n.t('task.label.status') %>: <%= status_text(status) %></p>
+<p><%= I18n.t('task.label.priority') %>: <%= priority_text(priority) %></p>
+<p><%= I18n.t('task.label.start_date') %>: <%= format_date(startDate) %></p>
+<p><%= I18n.t('task.label.end_date') %>: <%= format_date(endDate) %></p>
+<p><%= I18n.t('task.label.duration') %>: <%= format_duration(duration) %></p>
+<p>
+    <%= I18n.t('task.label.effort') %>:
+    <% if (effort != 0) { %>
+        <a href="<%= url_for('tasks', id, 'efforts') %>" class="js-list-efforts">
+            <%= format_duration(effort) %>
+        </a>
+    <% } else { %>
+        0:00
+    <% } %>
+</p>
+<p><%= I18n.t('task.label.progress') %>: <%= format_progress(progress) %> %</p>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="<%= format_progress(progress) %>" aria-valuemin="0" aria-valuemax="100"
+                 style="width: <%= format_progress(progress) %>%;">
+             </div>
+        </div>
+    </div>
+</div>
+
+<a href="<%= url_for('tasks', id, 'efforts', 'new') %>" class="btn btn-default btn-sm btn-text right-space js-effort-create">
+    <span class="glyphicon glyphicon-time"></span> <%= I18n.t('effort.button.new') %>
 </a>
-<button type="button" class="btn btn-default btn-sm js-delete">
-    <span class="glyphicon glyphicon-trash" style="margin-right: 5px"></span> Delete
+
+<a href="<%= url_for('tasks', 'edit', id) %>" class="btn btn-default btn-sm btn-text right-space js-edit">
+    <span class="glyphicon glyphicon-pencil"></span> <%= I18n.t('edit') %>
+</a>
+
+<button type="button" class="btn btn-default btn-sm btn-text js-delete">
+    <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
 </button>

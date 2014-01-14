@@ -1,33 +1,24 @@
-define(['moment', 'advanced_string'], function(moment) {
+define(['app/view_helper', 'app/form_helper', 'moment', 'advanced_string'], function(view_helper, form_helper) {
     return {
-        status_options: ['ToDo', 'New', 'Assigned', 'On hold', 'Completed', 'Archieved', 'Requested', 'Offered'],
-        priority_options: ['Low', 'Normal', 'High'],
-
-        short_text: function(text, length) {
-            if (!text || length === 0) {
-                return '';
-            }
-
-            return text.length <= length ? text : text.substr(0, length) + '...';
-        },
+        status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
+        priority_options: ['low', 'normal', 'high'],
 
         format_date: function(date) {
-            if (!this.has_value(date)) return '';
-            return moment(date * 1000).format('DD.MM.YYYY');
+            return this.has_value(date) ? view_helper.format_date(date) : '';
         },
 
         status_text: function(status) {
-            return this.status_options[status] || '';
+            if (!this.status_options[status]) return '';
+            return I18n.t('task.status_options.' + this.status_options[status]);
         },
 
         priority_text: function(priority) {
-            return this.priority_options[priority] || '';
+            if (!this.priority_options[priority]) return '';
+            return I18n.t('task.priority_options.' + this.priority_options[priority]);
         },
 
         format_duration: function(duration) {
-            if (!this.has_value(duration)) return '';
-            duration = moment.duration(duration, 'minutes');
-            return parseInt(duration.asHours()) + ':' + pad(duration.asMinutes() % 60);
+            return this.has_value(duration) ? view_helper.format_time(duration) : '';
         },
 
         format_progress: function(progress) {
@@ -40,28 +31,28 @@ define(['moment', 'advanced_string'], function(moment) {
         },
 
         select_for: function(model, attr, options) {
-            var select_options = options.options || this[attr + '_options'];
+            var default_options = { options: this[attr + '_options'] };
+            options = _.extend(default_options, options);
 
-            var select = $('<select>', { name: attr, id: 'js-' + model + '-' + attr, class: options.class });
-            _.each(select_options, function(item, idx) {
-                select.append($('<option>', { value: idx, text: item, selected: options.selected == idx }));
-            });
+            return form_helper.select_for(model, attr, options);
+        },
 
-            return select[0].outerHTML;
+        unformat_duration: function (duration) {
+            return view_helper.unformat_time(duration);
         },
 
         unformat: function(data) {
             data.status = parseInt(data.status);
             data.priority = parseInt(data.priority);
-            data.startDate = this.has_value(data.startDate) ? moment(data.startDate, 'DD.MM.YYYY').unix() : 0;
-            data.endDate = this.has_value(data.endDate) ? moment(data.endDate, 'DD.MM.YYYY').unix() : 0;
-            data.duration = moment.duration(data.duration, 'HH:mm').asMinutes();
+            data.startDate = this.has_value(data.startDate) ? view_helper.unformat_date(data.startDate) : 0;
+            data.endDate = this.has_value(data.endDate) ? view_helper.unformat_date(data.endDate) : 0;
+            data.duration = this.unformat_duration(data.duration);
             data.progress = parseFloat(data.progress) / 100 || 0;
             return data;
         },
 
         has_value: function(val) {
-            return !(val === null || val === undefined || val === 0 || (typeof val === 'string' && val.replace(/ /g, '').length == 0));
+            return !(val === 0 || is_blank(val));
         }
     }
 });

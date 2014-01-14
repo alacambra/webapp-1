@@ -1,14 +1,8 @@
 define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, Entities) {
 
     return describe('Task :: Helper', function () {
-        it('Text should be shorten correctly.', function () {
-            expect(task_helper.short_text('haus', 4)).toBe('haus');
-            expect(task_helper.short_text('haus', 3)).toBe('hau...');
-            expect(task_helper.short_text('haus', 0)).toBe('');
-        });
-
-        it('Date should be returned in the format \'DD.MM.YYYY\'.', function () {
-            expect(task_helper.format_date(1387206224)).toBe('16.12.2013');
+        it('Date should be returned in the format \'YYYY-MM-DD\'.', function () {
+            expect(task_helper.format_date(1387206224)).toBe('2013-12-16');
         });
 
         it('Should return the correct status text.', function () {
@@ -31,8 +25,8 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
             expect(task_helper.priority_text(true)).toBe('');
         });
 
-        xit('Should return a correct duration.', function () {
-            expect(task_helper.format_duration(0)).toBe('0:00');
+        it('Should return a correct duration.', function () {
+            expect(task_helper.format_duration(0)).toBe('');
             expect(task_helper.format_duration(2)).toBe('0:02');
             expect(task_helper.format_duration(15)).toBe('0:15');
             expect(task_helper.format_duration(30)).toBe('0:30');
@@ -57,11 +51,11 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
             var data = {
                 status: '3',
                 priority: '2',
-                startDate: '15.12.2013',
-                endDate: '16.12.2013',
+                startDate: '2013-12-15',
+                endDate: '2013-12-16',
                 duration: '5:30',
                 progress: '85%'
-            }
+            };
 
             expect(task_helper.unformat(data)).toEqual({
                 status: 3,
@@ -71,10 +65,6 @@ define([ 'app/tasks/task_helper', 'app/entities/task' ], function (task_helper, 
                 duration: 330,
                 progress: 0.85
             });
-        });
-
-        xit('Should return true if it is a value.', function () {
-            // TODO: Funktionsweise ist mir nicht ganz klar.
         });
     });
 });
