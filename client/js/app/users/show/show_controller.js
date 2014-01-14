@@ -1,9 +1,9 @@
-define(['app', 'lib/response_handler', 'app/entities/user', 'app/common/loading_view', 'app/users/show/show_view'],
-function (App, response_handler, Entities, LoadingView) {
+define(['app', 'lib/response_handler', 'app/entities/user', 'app/users/show/show_view'],
+function (App, response_handler) {
     App.module('Users.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             user_show: function (user_id) {
-                App.main_region.show(new LoadingView);
+                App.main_region.show(new App.Common.LoadingView);
 
                 $.when(App.request('user:entity', user_id)).done(function(user, response) {
                     if (user) {

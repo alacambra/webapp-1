@@ -73,7 +73,8 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG){
                 'app/efforts/efforts_app',
                 'app/projects/projects_app',
                 'app/tasks/tasks_app',
-                'app/users/users_app'
+                'app/users/users_app',
+                'app/common/loading_view'
             ], function () {
                 Backbone.history.start();
 
