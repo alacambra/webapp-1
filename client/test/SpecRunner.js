@@ -49,7 +49,6 @@ require.config({
             deps: ['jquery'],
             exports: 'advanced_string'
         },
-        i18n: { exports: 'I18n' },
         jasmine: {
             exports: 'jasmine'
         },
@@ -63,7 +62,7 @@ require.config({
     }
 });
 
-require(['jasmine_html', 'underscore', 'jquery', 'tools', 'i18n', 'locale_en'], function (jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/common/loading_view'], function (jasmine, _, $) {
     I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
