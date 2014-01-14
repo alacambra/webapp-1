@@ -1,4 +1,8 @@
-<h2><%= I18n.t('effort.header.list') %></h2>
+<ol class="breadcrumb">
+    <li><a href="">Home</a></li>
+    <li><a href="#tasks/<%= task_id %>">Task</a></li>
+    <li class="active"><%= I18n.t('effort.header.list') %></li>
+</ol>
 
 <div class="list-row header">
     <div class="col-md-3"><%= I18n.t('effort.label.date') %></div>

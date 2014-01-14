@@ -1,4 +1,9 @@
-<h2><%= I18n.t('task.header.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></h2>
+<ol class="breadcrumb">
+    <li><a href="">Home</a></li>
+    <li><a href="#tasks">Tasks</a></li>
+    <li><a href="#tasks/<%= id %>"><%= title %></a></li>
+    <li class="active"><%= I18n.t('task.header.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></li>
+</ol>
 
 <form class="form-horizontal" role="form">
     <div class="form-group">

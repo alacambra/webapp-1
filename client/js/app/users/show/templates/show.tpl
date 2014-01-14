@@ -1,4 +1,8 @@
-<h2><%= full_name(firstName, lastName) %></h2>
+<ol class="breadcrumb">
+    <li><a href="">Home</a></li>
+    <li><a href="#users">Users</a></li>
+    <li class="active"><%= full_name(firstName, lastName) %></li>
+</ol>
 
 <p><%= I18n.t('user.label.first_name') %>: <%= firstName %></p>
 <p><%= I18n.t('user.label.last_name') %>: <%= lastName %></p>

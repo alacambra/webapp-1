@@ -1,4 +1,7 @@
-<h2><%= I18n.t('user.header.list') %></h2>
+<ol class="breadcrumb">
+    <li><a href="">Home</a></li>
+    <li class="active"><%= I18n.t('user.header.list') %></li>
+</ol>
 
 <div class="list-row header">
     <div class="col-md-3"><%= I18n.t('user.label.full_name') %></div>

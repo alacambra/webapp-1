@@ -1,4 +1,8 @@
-<h2><%= title %></h2>
+<ol class="breadcrumb">
+    <li><a href="">Home</a></li>
+    <li><a href="#tasks">Tasks</a></li>
+    <li class="active"><%= title %></li>
+</ol>
 
 <div><%= textile(description) %></div>
 

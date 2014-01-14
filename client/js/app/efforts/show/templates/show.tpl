@@ -1,3 +1,10 @@
+<ol class="breadcrumb">
+    <li><a href="">Home</a></li>
+    <li><a href="#tasks/<%= task_id %>">Task</a></li>
+    <li><a href="#tasks/<%= task_id %>/efforts">Efforts</a></li>
+    <li class="active">Show Effort</li>
+</ol>
+
 <p><%= I18n.t('effort.label.date') %>: <%= format_date(date) %></p>
 <p><%= I18n.t('effort.label.time') %>: <%= format_time(time) %></p>
 <p><%= I18n.t('effort.label.comment') %>: <%= comment %></p>
