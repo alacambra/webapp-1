@@ -26,7 +26,8 @@ I18n.translations['en'] = {
         header: {
             list: 'Efforts',
             new: 'New effort',
-            edit: 'Edit effort'
+            edit: 'Edit effort',
+            show: 'Show Effort'
         },
         label: {
             date: 'Date',
