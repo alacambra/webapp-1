@@ -1,4 +1,8 @@
-<h2><%= title %></h2>
+<ol class="breadcrumb">
+    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
+    <li><a href="#tasks"><%= I18n.t('main_navi.tasks') %></a></li>
+    <li class="active"><%= title %></li>
+</ol>
 
 <div><%= textile(description) %></div>
 

@@ -5,12 +5,16 @@ I18n.translations['en'] = {
     date_format_picker: 'yy-mm-dd',
 
     main_navi: {
+        home: 'Home',
         pools: 'Pools',
         people: 'People',
         services: 'Services',
+        message: 'Message',
         messages: 'Messages',
         projects: 'Projects',
+        task: 'Task',
         tasks: 'Tasks',
+        efforts: 'Efforts',
         calendar: 'Calendar',
         search_placeholder: 'Pool, Person, etc.',
         search_button_title: 'Search',
@@ -22,7 +26,8 @@ I18n.translations['en'] = {
         header: {
             list: 'Efforts',
             new: 'New effort',
-            edit: 'Edit effort'
+            edit: 'Edit effort',
+            show: 'Show Effort'
         },
         label: {
             date: 'Date',
