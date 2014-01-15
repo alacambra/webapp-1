@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
     <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
-    <li class="active"><%= I18n.t('user.header.list') %></li>
+    <li class="active"><%= I18n.t('main_navi.people') %></li>
 </ol>
 
 <div class="list-row header">
