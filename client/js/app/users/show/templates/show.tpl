@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="#"><%= I18n.t('main_navi.home') %></a></li>
-    <li><a class="js-users" href="#users"><%= I18n.t('main_navi.people') %></a></li>
+    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
+    <li><a class="js-users" href="<%= url_for('users') %>"><%= I18n.t('main_navi.people') %></a></li>
     <li class="active"><%= full_name(firstName, lastName) %></li>
 </ol>
 

@@ -1,8 +1,9 @@
 define(['app',
         'tpl!app/user_sessions/login.tpl',
+        'app/app_helper',
         'app/form_helper',
         'backbone_syphon'],
-function(App, login_tpl, form_helper) {
+function(App, login_tpl, app_helper, form_helper) {
     App.module('UserSessions.Login', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.ItemView.extend({
             template: login_tpl,
@@ -23,6 +24,9 @@ function(App, login_tpl, form_helper) {
                 'click #js-user-session-submit': 'login',
                 'click a.js-home': 'go_to_home'
             },
+
+
+            templateHelpers: $.extend({}, app_helper),
 
 
             /*

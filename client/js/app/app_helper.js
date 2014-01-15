@@ -3,7 +3,7 @@
 define(['i18n'], function() {
     return {
         /**
-         * Creates a backbone REST URL for a given resource.
+         * Creates a backbone history URL.
          *
          * @example
          * // returns #tasks/17
@@ -25,7 +25,7 @@ define(['i18n'], function() {
          * @param action_or_id {string|number} - REST action or ID of the resource if action is omitted.
          * @param [id_or_action] {number} - ID or action of the resource, only if action is set explicit.
          * @param [sub_action] {string} - Action of the nested resource.
-         * @returns {string} - REST URL.
+         * @returns {string} - history URL.
          */
         url_for: function(name, action_or_id, id_or_action, sub_action) {
             var action = null;

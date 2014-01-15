@@ -35,7 +35,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
             },
 
 
-            templateHelpers: effort_helper,
+            templateHelpers: $.extend({}, effort_helper, app_helper),
 
 
             onRender: function () {

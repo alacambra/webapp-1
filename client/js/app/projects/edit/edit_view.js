@@ -33,7 +33,7 @@ function(App, edit_tpl, app_helper, form_helper, project_helper) {
             },
 
 
-            templateHelpers: project_helper,
+            templateHelpers: $.extend({}, project_helper, app_helper),
 
 
             onRender: function () {

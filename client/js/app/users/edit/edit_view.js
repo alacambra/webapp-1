@@ -27,7 +27,7 @@ function(App, edit_tpl, app_helper, form_helper, user_helper) {
             },
 
 
-            templateHelpers: user_helper,
+            templateHelpers: $.extend({}, user_helper, app_helper),
 
 
             /*

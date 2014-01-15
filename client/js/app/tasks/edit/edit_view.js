@@ -39,7 +39,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
             },
 
 
-            templateHelpers: task_helper,
+            templateHelpers: $.extend({}, task_helper, app_helper),
 
 
             onRender: function () {
