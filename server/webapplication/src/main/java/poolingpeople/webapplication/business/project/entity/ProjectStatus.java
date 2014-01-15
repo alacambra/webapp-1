@@ -1,5 +1,7 @@
 package poolingpeople.webapplication.business.project.entity;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
+
 public enum ProjectStatus {
 	NEW(0),
 	ASSIGNED(1),
@@ -27,7 +29,7 @@ public enum ProjectStatus {
                         }
 		}
 		
-		throw new RuntimeException("Project status does not exist");
+		throw new RootApplicationException("Project status does not exist");
 	}
 	
 }
