@@ -7,6 +7,7 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
             urlRoot: base_url,
 
             defaults: {
+                id: null,
                 title: null,
                 description: null,
                 status: 1,
@@ -18,7 +19,7 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
                 effort: 0
             },
 
-            initialize: function (data) {
+            initialize: function () {
                 if (!this.isNew()) {
                     this.efforts = new Entities.EffortCollection({ task_id: this.id });
                 }
