@@ -21,7 +21,7 @@ define(['app/entities/user'], function (Entities) {
             });
 
             it('Default User Model should always return an error object on validate.', function () {
-                expect(user.validate(user.attributes)).toBeTruthy();
+                expect(user.validate(user.attributes)).toBeDefined();
             });
 
             it('The title of a User Model has to be a string and not empty.', function () {
