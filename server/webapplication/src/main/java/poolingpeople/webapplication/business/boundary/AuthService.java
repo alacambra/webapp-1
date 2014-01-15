@@ -1,10 +1,8 @@
-package poolingpeople.webapplication.business.task.boundary;
+package poolingpeople.webapplication.business.boundary;
 
-import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 
-@Stateless
 public class AuthService {
 
     public void printCredentials(HttpServletRequest request) {

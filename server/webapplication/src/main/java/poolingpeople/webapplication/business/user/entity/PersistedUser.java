@@ -5,9 +5,11 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.IndexContainer;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
+import poolingpeople.webapplication.business.neo4j.UserIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
@@ -19,8 +21,9 @@ public class PersistedUser extends PersistedModel implements User {
 		super(manager, id, NODE_TYPE);
 	}
 
-	public PersistedUser(NeoManager manager) throws NodeExistsException {
+	public PersistedUser(NeoManager manager, String email, String password) throws NodeExistsException {
 		super(manager, NODE_TYPE);
+		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
 	}
 
 	public PersistedUser() throws NodeExistsException {

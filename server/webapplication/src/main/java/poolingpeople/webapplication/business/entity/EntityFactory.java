@@ -97,7 +97,7 @@ public class EntityFactory {
 	}
 
 	public User createUser() {
-		return new PersistedUser(manager);
+		return new PersistedUser(manager, "", "");
 	}
 
 	public Effort getEffortById(String uuid) {

@@ -23,6 +23,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.webapplication.business.boundary.AuthService;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.SetMixinView;
 import poolingpeople.webapplication.business.boundary.View;
@@ -39,7 +40,7 @@ import poolingpeople.webapplication.business.task.entity.TaskStatus;
 @CatchWebAppException
 public class TaskBoundary {
 
-    @Context
+    @Inject
     HttpServletRequest request;
 
     @Inject
