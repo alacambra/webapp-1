@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
-    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
-    <li><a href="#tasks"><%= I18n.t('main_navi.tasks') %></a></li>
+    <li><a class="js-home" href="#"><%= I18n.t('main_navi.home') %></a></li>
+    <li><a class="js-tasks" href="#tasks"><%= I18n.t('main_navi.tasks') %></a></li>
     <% if (Backbone.history.location.hash.indexOf('new') < 0) {  %>
-    <li><a href="#tasks/<%= id %>"><%= title %></a></li>
+    <li><a class="js-task" href="#tasks/<%= id %>"><%= title %></a></li>
     <% } %>
     <li class="active"><%= I18n.t(Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit') %></li>
 </ol>

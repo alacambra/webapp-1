@@ -64,6 +64,12 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
     };
 
 
+    App.on('home', function () {
+        App.navigate('#');
+        App.main_region.show(new App.Common.HomeView());
+    });
+
+
     App.on('initialize:after', function() {
         App.init_i18n(function() {
             App.show_main_navi();
@@ -74,12 +80,13 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
                 'app/projects/projects_app',
                 'app/tasks/tasks_app',
                 'app/users/users_app',
-                'app/common/loading_view'
+                'app/common/loading_view',
+                'app/common/home_view'
             ], function() {
                 Backbone.history.start();
 
                 if (App.current_route() === '') {
-                    App.trigger('tasks:list');
+                    App.trigger('home');
                 }
             });
         });

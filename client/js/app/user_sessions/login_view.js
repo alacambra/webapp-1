@@ -20,7 +20,8 @@ function(App, login_tpl, form_helper) {
             },
 
             events: {
-                'click #js-user-session-submit': 'login'
+                'click #js-user-session-submit': 'login',
+                'click a.js-home': 'go_to_home'
             },
 
 
@@ -35,6 +36,12 @@ function(App, login_tpl, form_helper) {
 
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', data);
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
             },
 
 

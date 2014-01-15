@@ -11,7 +11,11 @@ function(App, show_tpl, app_helper, effort_helper) {
 
             events: {
                 'click .js-edit': 'edit',
-                'click .js-delete': 'delete_item'
+                'click .js-delete': 'delete_item',
+                'click a.js-home': 'go_to_home',
+                'click a.js-tasks': 'go_to_tasks',
+                'click a.js-task': 'go_to_task',
+                'click a.js-efforts': 'go_to_efforts'
             },
 
 
@@ -26,6 +30,27 @@ function(App, show_tpl, app_helper, effort_helper) {
 
             delete_item: function() {
                 App.trigger('effort:delete', this.model, 'task:show', this.model.get('task_id'));
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
+            },
+
+            go_to_tasks: function (event) {
+                event.preventDefault();
+                App.trigger('tasks:list');
+            },
+
+            go_to_task: function (event) {
+                event.preventDefault();
+                App.trigger('task:show', this.model.get('task_id'));
+            },
+
+            go_to_efforts: function (event) {
+                event.preventDefault();
+                App.trigger('efforts:list', this.model.get('task_id'));
             }
         });
     });

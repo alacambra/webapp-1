@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
-    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
-    <li><a href="#users"><%= I18n.t('main_navi.people') %></a></li>
+    <li><a class="js-home" href="#"><%= I18n.t('main_navi.home') %></a></li>
+    <li><a class="js-users" href="#users"><%= I18n.t('main_navi.people') %></a></li>
     <% if (Backbone.history.location.hash.indexOf('new') < 0) {  %>
-    <li><a href="#users/<%= id %>"><%= full_name(firstName, lastName) %></a></li>
+    <li><a class="js-user" href="#users/<%= id %>"><%= full_name(firstName, lastName) %></a></li>
     <% } %>
     <li class="active"><%= I18n.t(Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit') %></li>
 </ol>
