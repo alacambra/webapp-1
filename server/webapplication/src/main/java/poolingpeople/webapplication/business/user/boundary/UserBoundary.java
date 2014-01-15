@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
@@ -29,7 +30,6 @@ import poolingpeople.webapplication.business.boundary.View;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("users")
@@ -76,14 +76,16 @@ public class UserBoundary {
     public Response saveUser(String json) throws JsonParseException,
             JsonMappingException, IOException {
         User dtoUser = mapper.readValue(json, UserDTO.class);
+        
         StringBuilder sb = new StringBuilder();
+        
         Set<ConstraintViolation<User>> violations = validator.validate(dtoUser);
         if (violations.size() > 0) {
             for (ConstraintViolation<User> constraintViolation : violations) {
                 System.out.println(constraintViolation.getPropertyPath() + " " + constraintViolation.getMessage());
                 sb.append(constraintViolation.getMessage());
             }
-            return Response.serverError().entity(sb.toString()).build();
+            return Response.status(Status.BAD_REQUEST).entity(sb.toString()).build();
 
         } else {
             User user = dtoConverter.fromDTOtoPersitedBean(dtoUser, entityFactory.createUser());

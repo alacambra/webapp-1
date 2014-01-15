@@ -147,7 +147,7 @@ public class NeoManager {
 		try {
 			prop = node.getProperty(key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found", e);
 			return null;
 		}
 		return prop;
@@ -158,7 +158,7 @@ public class NeoManager {
 		try {
 			return (String) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found", e);
 			return "";
 		}
 	}
@@ -167,7 +167,7 @@ public class NeoManager {
 		try {
 			return (Integer) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found", e);
 			return 0;
 		}
 	}
@@ -176,7 +176,7 @@ public class NeoManager {
 		try {
 			return (Float) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found", e);
 			return 0F;
 		}
 		catch(java.lang.ClassCastException ex) {
