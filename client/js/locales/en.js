@@ -14,6 +14,7 @@ I18n.translations['en'] = {
         projects: 'Projects',
         task: 'Task',
         tasks: 'Tasks',
+        effort: 'Effort',
         efforts: 'Efforts',
         calendar: 'Calendar',
         search_placeholder: 'Pool, Person, etc.',
@@ -23,12 +24,6 @@ I18n.translations['en'] = {
     },
 
     effort: {
-        header: {
-            list: 'Efforts',
-            new: 'New effort',
-            edit: 'Edit effort',
-            show: 'Show Effort'
-        },
         label: {
             date: 'Date',
             time: 'Duration',
@@ -40,11 +35,6 @@ I18n.translations['en'] = {
     },
 
     project: {
-        header: {
-            list: 'Projects',
-            new: 'New Project',
-            edit: 'Edit Project'
-        },
         label: {
             title: 'Title',
             description: 'Description',
@@ -68,11 +58,6 @@ I18n.translations['en'] = {
     },
 
     task: {
-        header: {
-            list: 'Tasks',
-            new: 'New Task',
-            edit: 'Edit Task'
-        },
         label: {
             title: 'Title',
             description: 'Description',
@@ -107,11 +92,6 @@ I18n.translations['en'] = {
     },
 
     user: {
-        header: {
-            list: 'People',
-            new: 'New Person',
-            edit: 'Edit person'
-        },
         label: {
             full_name: 'Name',
             first_name: 'First name',
@@ -127,9 +107,6 @@ I18n.translations['en'] = {
     },
 
     user_session: {
-        header: {
-            login: 'Login'
-        },
         label: {
             username: 'Username',
             password: 'Password'
@@ -167,5 +144,6 @@ I18n.translations['en'] = {
     save: 'Save',
     submit: 'Submit',
     edit: 'Edit',
-    delete: 'Delete'
+    delete: 'Delete',
+    new: 'New'
 };

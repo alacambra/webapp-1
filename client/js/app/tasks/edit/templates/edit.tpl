@@ -1,8 +1,10 @@
 <ol class="breadcrumb">
     <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
     <li><a href="#tasks"><%= I18n.t('main_navi.tasks') %></a></li>
+    <% if (Backbone.history.location.hash.indexOf('new') < 0) {  %>
     <li><a href="#tasks/<%= id %>"><%= title %></a></li>
-    <li class="active"><%= I18n.t('task.header.' + (Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit')) %></li>
+    <% } %>
+    <li class="active"><%= I18n.t(Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit') %></li>
 </ol>
 
 <form class="form-horizontal" role="form">
