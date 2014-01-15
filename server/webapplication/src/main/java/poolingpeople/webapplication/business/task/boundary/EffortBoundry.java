@@ -23,7 +23,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.SetMixinView;
-import poolingpeople.webapplication.business.boundary.View;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
@@ -60,7 +59,7 @@ public class EffortBoundry {
 	public Response getEfforts(@PathParam("taskId") String taskId) throws JsonGenerationException, JsonMappingException, IOException {
 
 		Task task = entityFactory.getTaskById(taskId);
-		String r = mapper.writerWithView(View.SampleView.class).writeValueAsString(task.getEfforts());
+		String r = mapper.writeValueAsString(task.getEfforts());
 		return Response.ok().entity(r).build();
 	}
 

@@ -78,6 +78,12 @@ public class EntityFactory {
 	public User getUserById(String uuid) {
 		return new PersistedUser(manager, uuid);
 	}
+	
+	public User getUserByCredentials(String email, String password) {
+		PersistedUser persistedUser = new PersistedUser(manager);
+		persistedUser.loadByCredentials(email, password);
+		return persistedUser;
+	}
 
 	public void deleteUser(String uuid) {
 		manager.removeNode(getTaskById(uuid).getNode());
@@ -96,8 +102,8 @@ public class EntityFactory {
 		return users;
 	}
 
-	public User createUser() {
-		return new PersistedUser(manager, "", "");
+	public User createUser(String email, String password) {
+		return new PersistedUser(manager, email, password);
 	}
 
 	public Effort getEffortById(String uuid) {

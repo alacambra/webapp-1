@@ -1,15 +1,17 @@
 package poolingpeople.webapplication.business.user.entity;
 
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
-import poolingpeople.webapplication.business.neo4j.IndexContainer;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UserIndexContainer;
+import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
@@ -30,15 +32,43 @@ public class PersistedUser extends PersistedModel implements User {
 		super(NODE_TYPE);
 	}
 
+	public PersistedUser(NeoManager manager) throws NodeExistsException {
+		super(NODE_TYPE);
+		this.manager = manager;
+	}
+
 	public PersistedUser(NeoManager manager, Node node) {
 		super(manager, node, NODE_TYPE);
+	}
+
+	public void loadByCredentials(String email, String password) {
+
+		if (underlyingNode != null) {
+			throw new RootApplicationException("Node already loaded");
+		}
+
+		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
+
+		if ( indexHits.size() == 0 ) {
+			throw new NodeNotFoundException();
+		}
+
+		if ( indexHits.size() > 1 ) {
+			throw new RootApplicationException("Too many nodes with the same email/passwords");
+		}
+
+		underlyingNode = indexHits.getSingle();
+
+		if (underlyingNode == null){
+			throw new ConsistenceException("Index found but not its entity."); 
+		}
 	}
 
 	@Override
 	public String getId() {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.ID.name());
 	}
-	
+
 	@Override
 	public String getFirstName() {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.FIRSTNAME.name());
@@ -47,7 +77,7 @@ public class PersistedUser extends PersistedModel implements User {
 	@Override
 	public void setFirstName(String firstName) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.FIRSTNAME.name(), firstName);
-		
+
 	}
 
 	@Override

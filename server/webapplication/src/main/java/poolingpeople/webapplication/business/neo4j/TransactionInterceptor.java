@@ -32,7 +32,6 @@ public class TransactionInterceptor {
 			tx.success();
 			return o;
 		} catch (Exception e) {
-			System.err.println(e);
 			tx.failure();
 			throw e;
 		} finally {

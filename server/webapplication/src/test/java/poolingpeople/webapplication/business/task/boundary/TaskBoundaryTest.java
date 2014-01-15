@@ -19,7 +19,6 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.MockitoAnnotations;
 
-import poolingpeople.webapplication.business.boundary.View;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
@@ -78,11 +77,11 @@ public class TaskBoundaryTest {
     @Test
     public void testGetAllTask() throws Exception {
         when(entityFactoryMock.getAllTask()).thenReturn(persistedTaskListMock);
-        when(objectMapperMock.writerWithView(View.SampleView.class)).thenReturn(objectWritterMock);
+//        when(objectMapperMock.thenReturn(objectWritterMock);
         when(objectWritterMock.writeValueAsString(persistedTaskListMock)).thenReturn("{}");
         assertEquals(Response.Status.OK, cut.getAllTask().getStatusInfo());
         verify(entityFactoryMock, times(1)).getAllTask();
-        verify(objectMapperMock, times(1)).writerWithView(View.SampleView.class);
+//        verify(objectMapperMock, times(1)).writerWithView(View.SampleView.class);
         verify(objectWritterMock, times(1)).writeValueAsString(persistedTaskListMock);
     }
 

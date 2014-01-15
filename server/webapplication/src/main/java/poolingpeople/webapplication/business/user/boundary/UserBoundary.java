@@ -26,7 +26,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.SetMixinView;
-import poolingpeople.webapplication.business.boundary.View;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
@@ -65,8 +64,7 @@ public class UserBoundary {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() throws JsonGenerationException,
             JsonMappingException, IOException {
-        String r = mapper.writerWithView(View.SampleView.class)
-                .writeValueAsString(entityFactory.getAllUsers());
+        String r = mapper.writeValueAsString(entityFactory.getAllUsers());
         return Response.ok().entity(r).build();
     }
 
@@ -80,6 +78,7 @@ public class UserBoundary {
         StringBuilder sb = new StringBuilder();
         
         Set<ConstraintViolation<User>> violations = validator.validate(dtoUser);
+        
         if (violations.size() > 0) {
             for (ConstraintViolation<User> constraintViolation : violations) {
                 System.out.println(constraintViolation.getPropertyPath() + " " + constraintViolation.getMessage());
@@ -88,7 +87,7 @@ public class UserBoundary {
             return Response.status(Status.BAD_REQUEST).entity(sb.toString()).build();
 
         } else {
-            User user = dtoConverter.fromDTOtoPersitedBean(dtoUser, entityFactory.createUser());
+            User user = dtoConverter.fromDTOtoPersitedBean(dtoUser, entityFactory.createUser(dtoUser.getEmail(), dtoUser.getPassword()));
             return Response.ok().entity(mapper.writeValueAsString(user)).build();
         }
     }
@@ -122,13 +121,13 @@ public class UserBoundary {
         entityFactory.deleteUser(uuid);
         return Response.ok().build();
     }
-
+    
     @GET
     @Path("fakeit")
     @Produces(MediaType.APPLICATION_JSON)
     public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
 
-        User persistedUser = entityFactory.createUser();
+        User persistedUser = entityFactory.createUser("al@al.com", "a");
 
         persistedUser.setEmail("al@al.com");
         persistedUser.setFirstName("al");
