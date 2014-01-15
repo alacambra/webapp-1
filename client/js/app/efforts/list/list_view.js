@@ -47,6 +47,7 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             itemViewContainer: '#js-effort-list-items',
 
             serializeData: function() {
+                console.log(this.collection.task_id);
                 return {
                     task_id: this.collection.task_id
                 }
@@ -75,7 +76,7 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
 
             go_to_task: function (event) {
                 event.preventDefault();
-                App.trigger('task:show', this.task_id);
+                App.trigger('task:show', this.collection.task_id);
             }
         })
     });
