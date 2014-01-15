@@ -19,7 +19,7 @@ define(['app', 'lib/storage'], function(App, Storage) {
 
 
     App.logged_in = function() {
-        return App.get_credentials() !== undefined;
+        return !is_empty(App.get_credentials());
     };
 
 
