@@ -33,6 +33,9 @@ public class PersistedUser extends PersistedModel implements User {
 		}
 		
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
+		setLoginEmail(email);
+		setPassword(password);
+		
 	}
 
 	public PersistedUser() throws NodeExistsException {
@@ -92,10 +95,8 @@ public class PersistedUser extends PersistedModel implements User {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.EMAIL.name());
 	}
 
-	@Override
-	public void setEmail(String title) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.EMAIL.name(),
-				title);
+	private void setLoginEmail(String email) {
+		manager.setProperty(underlyingNode, NodesPropertiesNames.EMAIL.name(), email);
 	}
 
 	@Override

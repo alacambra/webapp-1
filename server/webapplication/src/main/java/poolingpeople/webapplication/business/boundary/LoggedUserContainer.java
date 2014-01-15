@@ -42,29 +42,12 @@ public class LoggedUserContainer {
 
 	}
 
-	private boolean isNodeNotFoundException(Throwable e){
-
-		if (e instanceof NodeNotFoundException){
-			return true;
-		}
-
-		Throwable ex = e.getCause();
-
-		while(ex != null) {
-
-			if(ex instanceof NodeNotFoundException) {
-				return true;
-			}
-
-			ex = ex.getCause();
-		}
-
-		return false;
-
-	}
-
 	public User getUser() {
 		return user;
+	}
+	
+	public boolean userIsSuccessfullyLogged() {
+		return user != null;
 	}
 }
 

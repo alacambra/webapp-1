@@ -28,21 +28,34 @@ public class CatchWebExceptionInterceptor {
     @AroundInvoke
     public Object catchRootException(InvocationContext context) {
         try {
+        	
             return context.proceed();
+            
         } catch (RootApplicationException e) {
-            throw getSpecificDomainException(e);
+            
+        	throw getSpecificDomainException(e);
+            
         } catch (JsonGenerationException | JsonParseException generationException) {
-            throw new WebApplicationException(generationException, Response
+            
+        	throw new WebApplicationException(generationException, Response
                     .status(Status.BAD_REQUEST).entity(invalidJson).build());
+        	
         } catch (JsonMappingException jsonMappingException) {
-            throw new WebApplicationException(jsonMappingException, Response
+            
+        	throw new WebApplicationException(jsonMappingException, Response
                     .status(Status.BAD_REQUEST)
                     .entity(jsonMappingException.getMessage()).build());
+        	
         } catch (IOException ioException) {
-            throw new WebApplicationException(ioException, Response
+            
+        	throw new WebApplicationException(ioException, Response
                     .status(Status.INTERNAL_SERVER_ERROR)
                     .entity(ioException.getMessage()).build());
 
+        } catch (WebApplicationException e) {
+        	
+        	throw e;
+        	
         } catch (Exception e) {
         	
         	RootApplicationException rootApplicationException = tryToFindRootApplicationException(e);
