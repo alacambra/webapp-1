@@ -45,7 +45,7 @@ public class PersistedUser extends PersistedModel implements User {
 
 		if (underlyingNode != null) {
 			throw new RootApplicationException("Node already loaded");
-		}
+		} 
 
 		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
 
@@ -127,5 +127,59 @@ public class PersistedUser extends PersistedModel implements User {
 		manager.createRelationshipTo(underlyingNode,
 				((PersistedUser) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

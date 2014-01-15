@@ -16,38 +16,14 @@ public class AuthenticationInterceptor {
 
 	@Inject
 	private LoggedUserContainer loggedUserContainer;
-	
+
 	Logger logger = Logger.getLogger(this.getClass());
-	
+
 	@AroundInvoke
 	public Object checkCallPermission(InvocationContext context) throws Exception {
-		
-		try {
-			loggedUserContainer.validateCredentials();
-		} catch(Exception e) {
-			if (!isNodeNotFoundException(e)){
-				throw e;
-			}
-		}
-		return context.proceed();
-	}
-	
-	private boolean isNodeNotFoundException(Throwable e){
 
-		if (e instanceof NodeNotFoundException){
-			return true;
-		}
-		
-    	while(e.getCause() != null) {
-    		
-    		e = e.getCause();
-    		
-    		if(e instanceof NodeNotFoundException) {
-    			return true;
-    		}
-    	}
-    	
-    	return false;
-    	
-    }
+		loggedUserContainer.validateCredentials();
+		return context.proceed();
+
+	}
 }
