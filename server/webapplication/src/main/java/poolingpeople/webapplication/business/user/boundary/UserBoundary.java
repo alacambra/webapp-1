@@ -73,6 +73,7 @@ public class UserBoundary {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response saveUser(String json) throws JsonParseException,
             JsonMappingException, IOException {
+    	
         User dtoUser = mapper.readValue(json, UserDTO.class);
         
         StringBuilder sb = new StringBuilder();
@@ -133,6 +134,7 @@ public class UserBoundary {
         persistedUser.setFirstName("al");
         persistedUser.setPassword("abc");
         persistedUser.setLastName("ipsum");
+        persistedUser.setPassword("a");
 
         String r = mapper.writeValueAsString(persistedUser);
         return Response.ok().entity(r).build();

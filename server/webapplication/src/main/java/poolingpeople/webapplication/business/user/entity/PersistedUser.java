@@ -25,6 +25,13 @@ public class PersistedUser extends PersistedModel implements User {
 
 	public PersistedUser(NeoManager manager, String email, String password) throws NodeExistsException {
 		super(manager, NODE_TYPE);
+		
+		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
+
+		if ( indexHits.size() != 0 ) {
+			throw new NotUniqueException("Too many nodes with the same email/passwords");
+		}
+		
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
 	}
 

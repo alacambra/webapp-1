@@ -25,7 +25,7 @@ public class CredentialsException extends RootApplicationException {
     
     @Override
     public Response getSpecificWebResponse() {
-        return Response.status(Status.NOT_FOUND).entity(msg).build();
+        return Response.status(Status.UNAUTHORIZED).entity(msg).build();
     }
 
 }
