@@ -1,10 +1,7 @@
 package poolingpeople.webapplication.business.utils.cdi;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 
 /**
  *
