@@ -47,7 +47,8 @@ function (App, main_navi_tpl, MessageView, app_helper) {
 
             events: {
                 'click #js-main-navi-items a': 'main_navi_item_clicked',
-                'click #js-locale a': 'switch_locale'
+                'click #js-locale a': 'switch_locale',
+                'click a.js-home': 'go_to_home'
             },
 
 
@@ -75,6 +76,12 @@ function (App, main_navi_tpl, MessageView, app_helper) {
                 var locale = $(event.target).attr('href').replace('#', '');
                 localStorage.setItem('locale', locale);
                 document.location.reload(); // TODO: rerender current view instead of reloading
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
             },
 
 

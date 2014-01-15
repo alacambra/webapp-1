@@ -50,7 +50,14 @@ function(App, list_tpl, list_item_tpl, app_helper, project_helper) {
                 'click .js-create': function(event) {
                     event.preventDefault();
                     App.trigger('project:new');
-                }
+                },
+                'click a.js-home': 'go_to_home'
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
             }
         })
     });

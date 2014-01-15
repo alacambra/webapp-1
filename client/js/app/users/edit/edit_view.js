@@ -20,11 +20,14 @@ function(App, edit_tpl, app_helper, form_helper, user_helper) {
             },
 
             events: {
-                'click button.js-submit': 'submit'
+                'click button.js-submit': 'submit',
+                'click a.js-home': 'go_to_home',
+                'click a.js-users': 'go_to_users',
+                'click a.js-user': 'go_to_user'
             },
 
 
-            templateHelpers: user_helper,
+            templateHelpers: $.extend({}, user_helper, app_helper),
 
 
             /*
@@ -38,6 +41,22 @@ function(App, edit_tpl, app_helper, form_helper, user_helper) {
 
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', user_helper.unformat(data));
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
+            },
+
+            go_to_users: function (event) {
+                event.preventDefault();
+                App.trigger('users:list');
+            },
+
+            go_to_user: function (event) {
+                event.preventDefault();
+                App.trigger('user:show', this.model.get('id'));
             },
 
 

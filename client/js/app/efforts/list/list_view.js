@@ -56,7 +56,26 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
                 'click .js-create': function(event) {
                     event.preventDefault();
                     App.trigger('effort:new', this.collection.task_id);
-                }
+                },
+                'click a.js-home': 'go_to_home',
+                'click a.js-tasks': 'go_to_tasks',
+                'click a.js-task': 'go_to_task'
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
+            },
+
+            go_to_tasks: function (event) {
+                event.preventDefault();
+                App.trigger('tasks:list');
+            },
+
+            go_to_task: function (event) {
+                event.preventDefault();
+                App.trigger('task:show', this.task_id);
             }
         })
     });

@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
-    <li><a href="#projects"><%= I18n.t('main_navi.projects') %></a></li>
+    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
+    <li><a class="js-projects" href="<%= url_for('projects') %>"><%= I18n.t('main_navi.projects') %></a></li>
     <li class="active"><%= title %></a></li>
 
 </ol>
