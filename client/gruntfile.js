@@ -142,7 +142,6 @@ module.exports = function (grunt) {
         'processhtml',
         'requirejs:compile',
         'uglify',
-        'copy:dist',
-        'jsdoc'
+        'copy:dist'
     ]);
 };

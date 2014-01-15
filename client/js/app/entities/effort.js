@@ -11,6 +11,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             },
 
             defaults: {
+                id: null,
                 task_id: null,
                 date: null,
                 time: null,
@@ -27,6 +28,8 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
                 errors = validation_helper.validates_inclusion_of('date', -1767229200, moment().add('y', 100).unix(), attrs, errors);
 
+                errors = validation_helper.validates_inclusion_of('time', 0, 60 * 24 * 365, attrs, errors);
+
                 return _.isEmpty(errors) ? false : errors;
             }
         });
@@ -41,11 +44,12 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
             comparator: 'date',
 
-            initialize: function (data) {
-                if (_.isUndefined(data) || _.isUndefined(data.task_id)) {
+            initialize: function(models, options) {
+                if (_.isUndefined(options) || !_.isArray(models)) options = models; // only one param, which is no array -> it must be options
+                if (_.isUndefined(options) || _.isUndefined(options.task_id)) {
                     throw 'Error: Effort Collection needs a task id.'
                 }
-                this.task_id = data.task_id;
+                this.task_id = options.task_id;
             }
         });
 

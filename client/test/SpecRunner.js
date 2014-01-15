@@ -62,7 +62,7 @@ require.config({
     }
 });
 
-require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/common/loading_view'], function (jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/common/loading_view'], function(jasmine, _, $) {
     I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
@@ -72,7 +72,7 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/comm
 
     jasmineEnv.addReporter(htmlReporter);
 
-    jasmineEnv.specFilter = function (spec) {
+    jasmineEnv.specFilter = function(spec) {
         return htmlReporter.specFilter(spec);
     };
 
@@ -80,6 +80,17 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/comm
 
     specs.push('spec/lib/tools.spec.js');
     specs.push('spec/app/app_helper.spec');
+
+    // effort
+    specs.push('spec/app/entities/effort.spec');
+    specs.push('spec/app/efforts/efforts_app.spec');
+    specs.push('spec/app/efforts/effort_helper.spec');
+    specs.push('spec/app/efforts/edit/edit_controller.spec.js');
+    specs.push('spec/app/efforts/edit/edit_view.spec.js');
+    specs.push('spec/app/efforts/list/list_controller.spec.js');
+    specs.push('spec/app/efforts/list/list_view.spec.js');
+    specs.push('spec/app/efforts/show/show_controller.spec.js');
+    specs.push('spec/app/efforts/show/show_view.spec.js');
 
     // project
     specs.push('spec/app/entities/project.spec');
@@ -114,10 +125,10 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/comm
     specs.push('spec/app/users/show/show_controller.spec.js');
     specs.push('spec/app/users/show/show_view.spec.js');
 
-    $(function () {
-        require(specs, function () {
+    $(function() {
+        require(specs, function() {
             var original_done = jasmineEnv.currentRunner_.finishCallback;
-            jasmineEnv.currentRunner_.finishCallback = function () {
+            jasmineEnv.currentRunner_.finishCallback = function() {
                 original_done.call(this);
                 if (this.results().failedCount > 0) {
                     alert('Test failed!');

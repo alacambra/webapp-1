@@ -7,6 +7,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             urlRoot: base_url,
 
             defaults: {
+                id: null,
                 firstName: null,
                 lastName: null,
                 birthDate: null,

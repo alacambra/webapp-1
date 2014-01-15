@@ -27,7 +27,7 @@ define([ 'app/entities/task' ], function (Entities) {
             });
 
             it('Default Task Model should always return an error object on validate.', function () {
-                expect(task.validate(task.attributes)).toBeTruthy();
+                expect(task.validate(task.attributes)).toBeDefined();
             });
 
             it('The title of a Task Model has to be a string and not empty.', function () {
