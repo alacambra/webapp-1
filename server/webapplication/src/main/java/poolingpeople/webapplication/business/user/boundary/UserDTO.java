@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.user.boundary;
 
+import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.user.entity.User;
 
@@ -17,6 +18,7 @@ public class UserDTO implements User {
 		return id;
 	}
 
+        @EmailValidation
 	public String getEmail() {
 		return email;
 	}
