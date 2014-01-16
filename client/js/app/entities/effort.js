@@ -4,10 +4,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
         Entities.Effort = Backbone.Model.extend({
             urlRoot: function () {
-                if (this.isNew()) {
-                    return App.model_base_url('efforts', 'tasks', this.get('task_id'));
-                }
-                return base_url;
+                return App.model_base_url('efforts', 'tasks', this.get('task_id'));
             },
 
             defaults: {
@@ -71,7 +68,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 return defer.promise();
             },
 
-            get_effort_entity: function(effort_id, task_id) {
+            get_effort_entity: function(task_id, effort_id) {
                 var effort_entity;
                 var defer = $.Deferred();
 
@@ -104,8 +101,8 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         });
 
 
-        App.reqres.setHandler('effort:entity', function(effort_id, task_id) {
-            return API.get_effort_entity(effort_id, task_id);
+        App.reqres.setHandler('effort:entity', function(task_id, effort_id) {
+            return API.get_effort_entity(task_id, effort_id);
         });
         
 
@@ -127,7 +124,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             return _.filter(efforts, function(effort) { return effort.task_id == task_id });
         });
 
-        Faux.addRoute('getEffort', base_url + '/:id', 'GET', function(context, id) {
+        Faux.addRoute('getEffort', App.model_base_url('efforts', 'tasks', ':id') + '/:id', 'GET', function(context, id) {
             log_url(context);
             var effort;
             _.forEach(efforts, function (t) {
@@ -138,7 +135,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             return effort || 'HTTP/1.1 404 Not Found';
         });
 
-        Faux.addRoute('updateEffort', base_url + '/:id', 'PUT', function (context) {
+        Faux.addRoute('updateEffort', App.model_base_url('efforts', 'tasks', ':id') + '/:id', 'PUT', function (context) {
             log_url(context);
             return context.data;
         });
@@ -149,7 +146,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             return context.data;
         });
 
-        Faux.addRoute('deleteEffort', base_url + '/:id', 'DELETE', function (context) {
+        Faux.addRoute('deleteEffort', App.model_base_url('efforts', 'tasks', ':id') + '/:id', 'DELETE', function (context) {
             log_url(context);
             return context.data;
         });

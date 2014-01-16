@@ -24,12 +24,12 @@ function(App, show_tpl, app_helper, effort_helper) {
 
             edit: function(event) {
                 event.preventDefault();
-                App.trigger('effort:edit', this.model.get('id'));
+                App.trigger('effort:edit', this.model.get('task_id'), this.model.get('id'));
             },
 
 
             delete_item: function() {
-                App.trigger('effort:delete', this.model, 'task:show', this.model.get('task_id'));
+                App.trigger('effort:delete', this.model.get('task_id'), this.model, 'task:show');
             },
 
 
