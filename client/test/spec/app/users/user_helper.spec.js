@@ -2,9 +2,6 @@ define(['app/users/user_helper', 'app/entities/user'], function(user_helper, Ent
     return describe('User :: Helper', function() {
         beforeEach(function() {
             I18n.locale = 'en';
-
-            user = new Entities.User();
-            users = new Entities.UserCollection();
         });
 
 
@@ -15,13 +12,15 @@ define(['app/users/user_helper', 'app/entities/user'], function(user_helper, Ent
             I18n.locale = 'de';
             expect(user_helper.format_date(1387062000)).toEqual('15.12.2013');
         });
-        
+
+
         it('must format full name correctly', function() {
             expect(user_helper.full_name('Alice')).toEqual('Alice');
             expect(user_helper.full_name('Alice', undefined)).toEqual('Alice');
             expect(user_helper.full_name(undefined, 'Riddell')).toEqual('Riddell');
             expect(user_helper.full_name('Alice', 'Riddell')).toEqual('Alice Riddell');
         });
+
 
         it('must unformat correctly', function() {
             expect(user_helper.unformat({
