@@ -1,31 +1,31 @@
-define(['app/entities/user'], function (Entities) {
-    return describe('User :: Entities', function () {
+define(['app/entities/user'], function(Entities) {
+    return describe('User :: Entities', function() {
         var user = null,
             users = null;
 
-        beforeEach(function () {
+        beforeEach(function() {
             user = new Entities.User();
             users = new Entities.UserCollection();
         });
 
-        describe('Model', function () {
+        describe('Model', function() {
             it('must have a urlRoot that contains "user"', function() {
                 expect(Entities.User.prototype.urlRoot).toContain('user');
             });
 
-            it('must have default attributes', function () {
+            it('must have default attributes', function() {
                 expect(user.get('firstName')).toBeNull();
                 expect(user.get('lastName')).toBeNull();
                 expect(user.get('birthDate')).toBeNull();
                 expect(user.get('email')).toBeNull();
             });
 
-            describe('Validation', function () {
-                it('must fail with default attributes', function () {
+            describe('Validation', function() {
+                it('must fail with default attributes', function() {
                     expect(user.validate(user.attributes)).toBeDefined();
                 });
 
-                describe('first name', function () {
+                describe('first name', function() {
                     it('must be set', function() {
                         user.set('firstName', 'Alice');
                         expect(user.validate(user.attributes).firstName).toBeUndefined();
@@ -41,7 +41,7 @@ define(['app/entities/user'], function (Entities) {
                     });
                 });
 
-                describe('last name', function () {
+                describe('last name', function() {
                     it('must be set', function() {
                         user.set('lastName', 'Riddell');
                         expect(user.validate(user.attributes).lastName).toBeUndefined();
@@ -57,7 +57,7 @@ define(['app/entities/user'], function (Entities) {
                     });
                 });
 
-                describe('email', function () {
+                describe('email', function() {
                     it('must be well formatted', function() {
                         user.set('email', 'alice@riddell.com');
                         expect(user.validate(user.attributes).email).toBeUndefined();
@@ -91,9 +91,9 @@ define(['app/entities/user'], function (Entities) {
                 });
 
 
-                describe('password', function () {
-                    describe('for new users', function () {
-                        beforeEach(function () {
+                describe('password', function() {
+                    describe('for new users', function() {
+                        beforeEach(function() {
                             user.set('id', 23); // user considered as existing
                         });
 
@@ -127,9 +127,9 @@ define(['app/entities/user'], function (Entities) {
                 });
 
 
-                describe('password', function () {
-                    describe('for existing users', function () {
-                        beforeEach(function () {
+                describe('password', function() {
+                    describe('for existing users', function() {
+                        beforeEach(function() {
                             user.set('id', 23); // user considered as existing
                         });
 
@@ -163,7 +163,7 @@ define(['app/entities/user'], function (Entities) {
                 });
 
 
-                describe('birth date', function () {
+                describe('birth date', function() {
                     it('may be empty', function() {
                         user.set('birthDate', '');
                         expect(user.validate(user.attributes).birthDate).toBeUndefined();
@@ -200,7 +200,7 @@ define(['app/entities/user'], function (Entities) {
             });
         });
 
-        describe('Collection', function () {
+        describe('Collection', function() {
             it('must have a url that contains "user"', function() {
                 expect(Entities.UserCollection.prototype.url).toContain('user');
             });

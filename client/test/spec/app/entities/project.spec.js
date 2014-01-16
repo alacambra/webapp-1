@@ -1,21 +1,19 @@
-define([ 'app/entities/project' ], function (Entities) {
-
-    return describe('Project :: Entities', function () {
-
+define(['app/entities/project'], function(Entities) {
+    return describe('Project :: Entities', function() {
         var project = null,
             projects = null;
 
-        beforeEach(function () {
+        beforeEach(function() {
             project = new Entities.Project();
             projects = new Entities.ProjectCollection();
         });
 
-        describe('Model', function () {
-            it('Should have a urlRoot that contains \'project\'.', function() {
+        describe('Model', function() {
+            it('must have a urlRoot that contains "project"', function() {
                 expect(Entities.Project.prototype.urlRoot).toContain('project');
             });
 
-            it('Check default attributes.', function () {
+            it('must have default attributes', function() {
                 expect(project.get('title')).toBeNull();
                 expect(project.get('description')).toBeNull();
                 expect(project.get('status')).toBe(1);
@@ -23,56 +21,79 @@ define([ 'app/entities/project' ], function (Entities) {
                 expect(project.get('endDate')).toBeNull();
             });
 
-            it('Default Project Model should always return an error object on validate.', function () {
-                expect(project.validate(project.attributes)).toBeDefined();
-            });
+            describe('Validation', function() {
+                it('must fail with default attributes', function() {
+                    expect(project.validate(project.attributes)).toBeDefined();
+                });
 
-            it('The title of a Project Model has to be a string and not empty.', function () {
-                project.set('title', 'Example 1');
-                expect(project.validate(project.attributes).title).toBeUndefined();
+                describe('Validation', function() {
+                    it('must fail with default attributes', function() {
+                        expect(project.validate(project.attributes)).toBeDefined();
+                    });
 
-                project.set('title', '2. Example III');
-                expect(project.validate(project.attributes).title).toBeUndefined();
+                    describe('title', function() {
+                        it('must be set', function() {
+                            project.set('title', 'Alice');
+                            expect(project.validate(project.attributes).title).toBeUndefined();
+                        });
 
-                project.set('title', 0);
-                expect(project.validate(project.attributes).title).toBeUndefined();
 
-                project.set('title', 1000);
-                expect(project.validate(project.attributes).title).toBeUndefined();
+                        it('must not be empty', function() {
+                            project.set('title', '');
+                            expect(project.validate(project.attributes).title).toBeDefined();
 
-                project.set('title', true);
-                expect(project.validate(project.attributes).title).toBeUndefined();
+                            project.set('title', ' ');
+                            expect(project.validate(project.attributes).title).toBeDefined();
+                        });
+                    });
 
-                project.set('title', {});
-                expect(project.validate(project.attributes).title).toBeDefined();
+                    describe('start date', function() {
+                        it('may be empty', function() {
+                            project.set('startDate', 0);
+                            expect(project.validate(project.attributes).startDate).toBeUndefined();
+                            expect(project.validate(project.attributes).endDate).toBeUndefined();
+                        });
 
-                project.set('title', []);
-                expect(project.validate(project.attributes).title).toBeDefined();
+                        it('may be empty, even if end date is set', function() {
+                            project.set('startDate', 0);
+                            project.set('endDate', -10);
+                            expect(project.validate(project.attributes).startDate).toBeUndefined();
+                            expect(project.validate(project.attributes).endDate).toBeUndefined();
+                        });
 
-                project.set('title', false);
-                expect(project.validate(project.attributes).title).toBeDefined();
-            });
+                        it('must be before or equal end date', function() {
+                            project.set('startDate', 1);
+                            project.set('endDate', 2);
+                            expect(project.validate(project.attributes).startDate).toBeUndefined();
+                            expect(project.validate(project.attributes).endDate).toBeUndefined();
 
-            it('The start date of a project must be earlier than the end date or equal.', function () {
-                project.set('startDate', 1);
-                project.set('endDate', 2);
-                expect(project.validate(project.attributes).startDate).toBeUndefined();
-                expect(project.validate(project.attributes).endDate).toBeUndefined();
+                            project.set('startDate', 2);
+                            project.set('endDate', 2);
+                            expect(project.validate(project.attributes).startDate).toBeUndefined();
+                            expect(project.validate(project.attributes).endDate).toBeUndefined();
+                        });
 
-                project.set('startDate', 2);
-                project.set('endDate', 2);
-                expect(project.validate(project.attributes).startDate).toBeUndefined();
-                expect(project.validate(project.attributes).endDate).toBeUndefined();
+                        it('must not be after end date', function() {
+                            project.set('startDate', 2);
+                            project.set('endDate', 1);
+                            expect(project.validate(project.attributes).startDate).toBeUndefined();
+                            expect(project.validate(project.attributes).endDate).toBeDefined();
+                        });
+                    });
 
-                project.set('startDate', 2);
-                project.set('endDate', 1);
-                expect(project.validate(project.attributes).startDate).toBeUndefined();
-                expect(project.validate(project.attributes).endDate).toBeDefined();
+                    describe('end date', function() {
+                        it('may be empty', function() {
+                            project.set('endDate', 2);
+                            expect(project.validate(project.attributes).startDate).toBeUndefined();
+                            expect(project.validate(project.attributes).endDate).toBeUndefined();
+                        });
+                    });
+                });
             });
         });
 
-        describe('Collection', function () {
-            it('Should have a url that contains \'project\'.', function() {
+        describe('Collection', function() {
+            it('must have a url that contains "project"', function() {
                 expect(Entities.ProjectCollection.prototype.url).toContain('project');
             });
         });

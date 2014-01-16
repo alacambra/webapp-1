@@ -1,7 +1,5 @@
-define([ 'app', 'app/entities/project', 'app/projects/list/list_controller' ], function (App, Entities, Ctrl) {
-
+define(['app', 'app/entities/project', 'app/projects/list/list_controller'], function (App, Entities, Ctrl) {
     return describe('Project :: List :: Controller', function () {
-
         var temp = null;
 
         beforeEach(function () {
@@ -16,7 +14,7 @@ define([ 'app', 'app/entities/project', 'app/projects/list/list_controller' ], f
             App.request = temp;
         });
 
-        it('Should call show in main region.', function () {
+        it('Should call show in main region', function () {
             spyOn(App.main_region, 'show');
 
             Ctrl.projects_list();

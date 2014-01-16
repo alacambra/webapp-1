@@ -1,8 +1,6 @@
-define([ 'app', 'app/projects/projects_app', 'app/entities/project' ], function (App, ProjectsApp, Entities) {
-
-    describe('Project :: App', function () {
-
-        it('Navigate to projects list.', function () {
+define(['app', 'app/projects/projects_app', 'app/entities/project'], function(App, ProjectsApp, Entities) {
+    describe('Project :: App', function() {
+        it('Navigate to projects list', function() {
             spyOn(App, 'navigate');
 
             App.trigger('projects:list');
@@ -10,7 +8,7 @@ define([ 'app', 'app/projects/projects_app', 'app/entities/project' ], function 
             expect(App.navigate).toHaveBeenCalledWith('projects');
         });
 
-        it('Navigate to new project.', function () {
+        it('Navigate to new project', function() {
             spyOn(App, 'navigate');
 
             App.trigger('project:new');
@@ -18,7 +16,7 @@ define([ 'app', 'app/projects/projects_app', 'app/entities/project' ], function 
             expect(App.navigate).toHaveBeenCalledWith('projects/new');
         });
 
-        it('Navigate to show project.', function () {
+        it('Navigate to show project', function() {
             var id = 1;
 
             spyOn(App, 'navigate');
@@ -28,7 +26,7 @@ define([ 'app', 'app/projects/projects_app', 'app/entities/project' ], function 
             expect(App.navigate).toHaveBeenCalledWith('projects/' + id);
         });
 
-        it('Navigate to edit project.', function () {
+        it('Navigate to edit project', function() {
             var id = 1;
 
             spyOn(App, 'navigate');
@@ -38,7 +36,7 @@ define([ 'app', 'app/projects/projects_app', 'app/entities/project' ], function 
             expect(App.navigate).toHaveBeenCalledWith('projects/' + id + '/edit');
         });
 
-        it('Confirm to delete project.', function () {
+        it('Confirm to delete project', function() {
             var project = new Entities.Project({
                     id: 1,
                     title: 'Project1'
