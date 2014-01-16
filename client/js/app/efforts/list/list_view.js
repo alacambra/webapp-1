@@ -47,7 +47,6 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             itemViewContainer: '#js-effort-list-items',
 
             serializeData: function() {
-                console.log(this.collection.task_id);
                 return {
                     task_id: this.collection.task_id
                 }
