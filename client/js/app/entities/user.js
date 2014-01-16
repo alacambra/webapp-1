@@ -7,6 +7,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             urlRoot: base_url,
 
             defaults: {
+                id: null,
                 firstName: null,
                 lastName: null,
                 birthDate: null,
@@ -94,31 +95,6 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         App.reqres.setHandler('user:entity', function(id) {
             return API.get_user_entity(id);
         });
-        
-
-        // FAUX SERVER!!!
-
-        var users = [
-            { id: 1, firstName: 'User1', lastName: 'Last1', birthDate: 1387206224, email: 'lorem@ipsum.de' },
-            { id: 2, firstName: 'User2', lastName: 'Last2', email: 'user@last.com' },
-            { id: 5, firstName: 'User5', lastName: 'Last3', email: 'foo@bar.org' }
-        ];
-
-        Faux.addRoute('getUsers', base_url, 'GET', function (context) {
-            return users;
-        });
-
-        Faux.addRoute('getUser', base_url + '/:id', 'GET', function(context, id) {
-            var user;
-            _.forEach(users, function (t) {
-                if (t.id === parseInt(id)) {
-                    user = t;
-                }
-            });
-            return user || 'HTTP/1.1 404 Not Found';
-        });
-
-        Faux.enable(CONFIG.rest.faux_enable);
     });
 
     return App.Entities;

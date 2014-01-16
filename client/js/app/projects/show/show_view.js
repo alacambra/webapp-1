@@ -11,7 +11,9 @@ function(App, show_tpl, app_helper, project_helper) {
 
             events: {
                 'click .js-edit': 'edit',
-                'click .js-delete': 'delete_item'
+                'click .js-delete': 'delete_item',
+                'click a.js-home': 'go_to_home',
+                'click a.js-projects': 'go_to_projects'
             },
 
 
@@ -26,6 +28,18 @@ function(App, show_tpl, app_helper, project_helper) {
 
             delete_item: function() {
                 App.trigger('project:delete', this.model, 'projects:list');
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
+            },
+
+
+            go_to_projects: function (event) {
+                event.preventDefault();
+                App.trigger('projects:list');
             }
         });
     });

@@ -32,11 +32,14 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
             events: {
                 'click button.js-submit': 'submit',
                 'blur input#js-task-progress': 'update_progress',
-                'blur input#js-task-duration': 'update_duration'
+                'blur input#js-task-duration': 'update_duration',
+                'click a.js-home': 'go_to_home',
+                'click a.js-tasks': 'go_to_tasks',
+                'click a.js-task': 'go_to_task'
             },
 
 
-            templateHelpers: task_helper,
+            templateHelpers: $.extend({}, task_helper, app_helper),
 
 
             onRender: function () {
@@ -131,9 +134,36 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
 
 
             update_duration: function (event) {
-                var duration = task_helper.unformat_duration(this.ui.duration.val());
+                var duration = this.ui.duration.val();
+
+                if (duration.search(':') < 0) {
+                    duration += ':00';
+                    this.ui.duration.val(duration);
+                }
+
+                duration = task_helper.unformat_duration(this.ui.duration.val());
+
+                if (duration === 0) {
+                    this.ui.duration.val('0:00');
+                }
 
                 this.ui.duration_slider.slider('option', 'value', duration);
+            },
+
+
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
+            },
+
+            go_to_tasks: function (event) {
+                event.preventDefault();
+                App.trigger('tasks:list');
+            },
+
+            go_to_task: function (event) {
+                event.preventDefault();
+                App.trigger('task:show', this.model.get('id'));
             },
 
 

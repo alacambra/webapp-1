@@ -4,13 +4,11 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
         Entities.Effort = Backbone.Model.extend({
             urlRoot: function () {
-                if (this.isNew()) {
-                    return App.model_base_url('efforts', 'tasks', this.get('task_id'));
-                }
-                return base_url;
+                return App.model_base_url('efforts', 'tasks', this.get('task_id'));
             },
 
             defaults: {
+                id: null,
                 task_id: null,
                 date: null,
                 time: null,
@@ -27,6 +25,8 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
                 errors = validation_helper.validates_inclusion_of('date', -1767229200, moment().add('y', 100).unix(), attrs, errors);
 
+                errors = validation_helper.validates_inclusion_of('time', 0, 60 * 24 * 365, attrs, errors);
+
                 return _.isEmpty(errors) ? false : errors;
             }
         });
@@ -41,11 +41,12 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
             comparator: 'date',
 
-            initialize: function (data) {
-                if (_.isUndefined(data) || _.isUndefined(data.task_id)) {
+            initialize: function(models, options) {
+                if (_.isUndefined(options) || !_.isArray(models)) options = models; // only one param, which is no array -> it must be options
+                if (_.isUndefined(options) || _.isUndefined(options.task_id)) {
                     throw 'Error: Effort Collection needs a task id.'
                 }
-                this.task_id = data.task_id;
+                this.task_id = options.task_id;
             }
         });
 
@@ -67,7 +68,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 return defer.promise();
             },
 
-            get_effort_entity: function(effort_id, task_id) {
+            get_effort_entity: function(task_id, effort_id) {
                 var effort_entity;
                 var defer = $.Deferred();
 
@@ -100,57 +101,9 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         });
 
 
-        App.reqres.setHandler('effort:entity', function(effort_id, task_id) {
-            return API.get_effort_entity(effort_id, task_id);
+        App.reqres.setHandler('effort:entity', function(task_id, effort_id) {
+            return API.get_effort_entity(task_id, effort_id);
         });
-        
-
-        // FAUX SERVER!!!
-
-        function log_url(context) {
-            console.log(context.url + ' - ' + context.httpMethod);
-        }
-
-        var efforts = [
-            { id: 1, task_id: 1, date: 1387206224, time: 60, comment: 'Effort1' },
-            { id: 2, task_id: 1, date: 1387206224, time: 90, comment: 'Effort2' },
-            { id: 3, task_id: 2, date: 1387206224, time: 15, comment: 'Effort3' },
-            { id: 4, task_id: 2, date: 1387206224, time: 180, comment: 'Effort4' }
-        ];
-
-        Faux.addRoute('getEfforts', App.model_base_url('efforts', 'tasks', ':id'), 'GET', function (context, task_id) {
-            log_url(context);
-            return _.filter(efforts, function(effort) { return effort.task_id == task_id });
-        });
-
-        Faux.addRoute('getEffort', base_url + '/:id', 'GET', function(context, id) {
-            log_url(context);
-            var effort;
-            _.forEach(efforts, function (t) {
-                if (t.id === parseInt(id)) {
-                    effort = t;
-                }
-            });
-            return effort || 'HTTP/1.1 404 Not Found';
-        });
-
-        Faux.addRoute('updateEffort', base_url + '/:id', 'PUT', function (context) {
-            log_url(context);
-            return context.data;
-        });
-
-        Faux.addRoute('newEffort', App.model_base_url('efforts', 'tasks', ':id'), 'POST', function (context, task_id) {
-            log_url(context);
-            context.data.id = 1;
-            return context.data;
-        });
-
-        Faux.addRoute('deleteEffort', base_url + '/:id', 'DELETE', function (context) {
-            log_url(context);
-            return context.data;
-        });
-
-        Faux.enable(CONFIG.rest.faux_enable);
     });
 
     return App.Entities;

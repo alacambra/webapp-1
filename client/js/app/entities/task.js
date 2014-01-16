@@ -7,6 +7,7 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
             urlRoot: base_url,
 
             defaults: {
+                id: null,
                 title: null,
                 description: null,
                 status: 1,
@@ -18,7 +19,7 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
                 effort: 0
             },
 
-            initialize: function (data) {
+            initialize: function () {
                 if (!this.isNew()) {
                     this.efforts = new Entities.EffortCollection({ task_id: this.id });
                 }
@@ -100,33 +101,6 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
         App.reqres.setHandler('task:entity', function(id) {
             return API.get_task_entity(id);
         });
-
-
-        // FAUX SERVER!!!
-
-        var tasks = [
-            { id: 1, title: 'Task1', description: 'bla bla', startDate: 1387206224, effort: 150 },
-            { id: 2, title: 'Task2', description: 'bla bla bla bla', effort: 195 },
-            { id: 3, title: 'Task3', description: 'bla bla bla bla bla bla', progress: 1 },
-            { id: 4, title: 'Task4', description: 'bla bla bla bla bla bla bla bla', progress: 0.2 },
-            { id: 5, title: 'Task5', description: 'bla bla bla bla bla bla bla bla bla bla', progress: 0.5 }
-        ];
-
-        Faux.addRoute('getTasks', base_url, 'GET', function (context) {
-            return tasks;
-        });
-
-        Faux.addRoute('getTask', base_url + '/:id', 'GET', function(context, id) {
-            var task;
-            _.forEach(tasks, function (t) {
-                if (t.id === parseInt(id)) {
-                    task = t;
-                }
-            });
-            return task || 'HTTP/1.1 404 Not Found';
-        });
-
-        Faux.enable(CONFIG.rest.faux_enable);
     });
 
     return App.Entities;
