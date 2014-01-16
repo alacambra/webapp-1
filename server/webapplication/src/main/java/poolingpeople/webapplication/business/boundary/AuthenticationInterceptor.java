@@ -25,11 +25,11 @@ public class AuthenticationInterceptor {
 	@AroundInvoke
 	public Object checkCallPermission(InvocationContext context) throws Exception {
 
-		loggedUserContainer.validateCredentials();
-		
-		if (!loggedUserContainer.userIsSuccessfullyLogged() && context.getMethod().getAnnotation(AuthNotRequired.class) == null) {
-			throw new WebApplicationException(Status.UNAUTHORIZED);
-		}
+//		loggedUserContainer.validateCredentials();
+//		
+//		if (!loggedUserContainer.userIsSuccessfullyLogged() && context.getMethod().getAnnotation(AuthNotRequired.class) == null) {
+//			throw new WebApplicationException(Status.UNAUTHORIZED);
+//		}
 		
 		return context.proceed();
 
