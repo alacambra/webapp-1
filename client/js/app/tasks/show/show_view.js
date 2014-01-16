@@ -29,7 +29,7 @@ function(App, show_tpl, app_helper, task_helper) {
 
 
             delete_item: function() {
-                App.trigger('task:delete', this.model.get('task_id'), this.model, 'tasks:list');
+                App.trigger('task:delete', this.model, 'tasks:list');
             },
 
 

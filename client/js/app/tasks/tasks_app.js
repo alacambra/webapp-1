@@ -41,6 +41,7 @@ define(['app'], function (App) {
             },
 
             task_delete: function (task, redirect) {
+                console.log('TASK:', task, redirect);
                 if (confirm(I18n.t('delete_confirm', { name: task.get('title') }))) {
                     require(['app/tasks/list/list_controller'], function (ListController) {
                         ListController.task_delete(task, redirect);
