@@ -74,7 +74,11 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
         App.init_i18n(function() {
             App.show_main_navi();
 
+            var faux_require = '';
+            if (CONFIG.rest.faux_enable) faux_require = 'app_faux_server';
+
             require([
+                faux_require,
                 'app/user_sessions/user_sessions_app',
                 'app/efforts/efforts_app',
                 'app/projects/projects_app',
