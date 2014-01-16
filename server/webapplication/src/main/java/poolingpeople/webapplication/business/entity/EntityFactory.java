@@ -149,6 +149,9 @@ public class EntityFactory {
 		return new PersistedEffort(manager, uuid);
 	}
 
+	/*
+	 * Creating a persisted effort from a transient effort
+	 */
 	public Effort createEffort(Effort effort) {
 		return new PersistedEffort(manager, effort);
 	}
