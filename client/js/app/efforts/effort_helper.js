@@ -16,7 +16,7 @@ define(['app/view_helper', 'moment', 'advanced_string'], function(view_helper) {
             }
         },
 
-        unformat_time: function (time) {
+        unformat_time: function(time) {
             return view_helper.unformat_time(time);
         },
 

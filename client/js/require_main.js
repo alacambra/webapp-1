@@ -68,7 +68,8 @@ require([
     'behaviour',
     'tools',
     'backbone_basicauth',
-    'backbone_patch_as_put'
+    'backbone_patch_as_put',
+    'app_faux_server'
 ], function(App) {
     App.start();
 });

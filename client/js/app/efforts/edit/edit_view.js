@@ -26,11 +26,16 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
 
             events: {
                 'click button.js-submit': 'submit',
+                'click a.js-home': 'go_to_home',
+                'click a.js-tasks': 'go_to_tasks',
+                'click a.js-task': 'go_to_task',
+                'click a.js-efforts': 'go_to_efforts',
+                'click a.js-effort': 'go_to_effort',
                 'blur input#js-effort-time': 'update_time'
             },
 
 
-            templateHelpers: effort_helper,
+            templateHelpers: $.extend({}, effort_helper, app_helper),
 
 
             onRender: function () {
@@ -82,8 +87,45 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
             },
 
 
+            go_to_home: function (event) {
+                event.preventDefault();
+                App.trigger('home');
+            },
+
+            go_to_tasks: function (event) {
+                event.preventDefault();
+                App.trigger('tasks:list');
+            },
+
+            go_to_task: function (event) {
+                event.preventDefault();
+                App.trigger('task:show', this.model.get('task_id'));
+            },
+
+            go_to_efforts: function (event) {
+                event.preventDefault();
+                App.trigger('efforts:list', this.model.get('task_id'));
+            },
+
+            go_to_effort: function (event) {
+                event.preventDefault();
+                App.trigger('effort:show', this.model.get('task_id'), this.model.get('id'));
+            },
+
+
             update_time: function (event) {
-                var time = effort_helper.unformat_time(this.ui.time.val());
+                var time = this.ui.time.val();
+
+                if (time.search(':') < 0) {
+                    time += ':00';
+                    this.ui.time.val(time);
+                }
+
+                time = effort_helper.unformat_time(time);
+
+                if (time === 0) {
+                    this.ui.time.val('0:00');
+                }
 
                 this.ui.time_slider.slider('option', 'value', time);
             },

@@ -1,22 +1,21 @@
-define([ 'app', 'app/entities/user', 'app/users/list/list_controller' ], function (App, Entities, Ctrl) {
-
-    return describe('User :: List :: Controller', function () {
+define(['app', 'app/entities/user', 'app/users/list/list_controller'], function(App, Entities, Ctrl) {
+    return describe('User :: List :: Controller', function() {
 
         var temp = null;
 
-        beforeEach(function () {
+        beforeEach(function() {
             temp = App.request;
 
-            App.request = function (event_type) {
+            App.request = function(event_type) {
                 return new Entities.UserCollection();
             }
         });
 
-        afterEach(function () {
+        afterEach(function() {
             App.request = temp;
         });
 
-        it('Should call show in main region.', function () {
+        it('Should call show in main region', function() {
             spyOn(App.main_region, 'show');
 
             Ctrl.users_list();

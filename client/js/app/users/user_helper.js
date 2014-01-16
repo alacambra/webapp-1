@@ -5,7 +5,7 @@ define(['app/view_helper', 'moment', 'advanced_string'], function(view_helper) {
         },
 
         full_name: function(first_name, last_name) {
-            return [first_name, last_name].join(' ');
+            return _.compact([first_name, last_name]).join(' ');
         },
 
         unformat: function(data) {

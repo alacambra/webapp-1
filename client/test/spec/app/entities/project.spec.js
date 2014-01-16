@@ -24,7 +24,7 @@ define([ 'app/entities/project' ], function (Entities) {
             });
 
             it('Default Project Model should always return an error object on validate.', function () {
-                expect(project.validate(project.attributes)).toBeTruthy();
+                expect(project.validate(project.attributes)).toBeDefined();
             });
 
             it('The title of a Project Model has to be a string and not empty.', function () {
