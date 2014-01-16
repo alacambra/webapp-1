@@ -86,7 +86,7 @@ public class EffortBoundry {
 
 		Effort dtoEffort = mapper.readValue(json, EffortDto.class);
 		Task task = entityFactory.getTaskById(taskId);
-		Effort effort = dtoConverter.fromDTOtoPersitedBean(dtoEffort, entityFactory.createEffort());
+		Effort effort = entityFactory.createEffort(dtoEffort);
 		task.addEffort(effort);
 
 		return Response.ok().entity(mapper.writeValueAsString(effort)).build();
@@ -129,13 +129,14 @@ public class EffortBoundry {
 
 	//TODO: destroy it. Its just for development time....
 	private Effort generateEffort() {
-		Effort effort = entityFactory.createEffort();
-
+		Effort effort = new EffortDto();
 		effort.setComment("some comment");
 		effort.setDate(new Date().getTime());
 		effort.setTime(2);
+		
+		Effort peffort = entityFactory.createEffort(effort);
 
-		return effort;
+		return peffort;
 	}		
 }
 

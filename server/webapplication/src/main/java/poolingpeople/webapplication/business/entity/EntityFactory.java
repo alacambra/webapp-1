@@ -149,8 +149,8 @@ public class EntityFactory {
 		return new PersistedEffort(manager, uuid);
 	}
 
-	public Effort createEffort() {
-		return new PersistedEffort(manager);
+	public Effort createEffort(Effort effort) {
+		return new PersistedEffort(manager, effort);
 	}
 
 }

@@ -3,6 +3,7 @@ package poolingpeople.webapplication.business.entity;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
@@ -19,7 +20,8 @@ public abstract class PersistedModel {
 
 	protected Node underlyingNode;
 	protected NeoManager manager;
-
+	protected Logger logger = Logger.getLogger(this.getClass());
+	
 	private final PoolingpeopleObjectType NODE_TYPE;
 	
 	
