@@ -147,7 +147,7 @@ public class NeoManager {
 		try {
 			prop = node.getProperty(key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
 			return null;
 		}
 		return prop;
@@ -158,7 +158,7 @@ public class NeoManager {
 		try {
 			return (String) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
 			return "";
 		}
 	}
@@ -167,7 +167,7 @@ public class NeoManager {
 		try {
 			return (Integer) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
 			return 0;
 		}
 	}
@@ -176,10 +176,7 @@ public class NeoManager {
 		try {
 			return (Float) getProperty(node, key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.error("property not found", e);
-			return 0F;
-		}
-		catch(java.lang.ClassCastException ex) {
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
 			return 0F;
 		}
 	}
@@ -222,19 +219,19 @@ public class NeoManager {
 
 		return null;
 	}
-	
+
 	public boolean relationExists(Node from, Node to, RelationshipType relation){
-		
+
 		Iterator<Relationship> iterator = from.getRelationships(relation, Direction.OUTGOING).iterator();
 		while (iterator.hasNext()) {
-			
+
 			Relationship relationship = iterator.next();
-			
+
 			if (relationship.getStartNode().equals(from) && relationship.getEndNode().equals(to)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -355,11 +352,11 @@ public class NeoManager {
 
 		return objects;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <IM, IN> AbstractCollection<IN> getPersistedObjects( 
 			Collection<Node> nodes, AbstractCollection<IN> objects, Class<IM> implementationClass,  Class<IN> interfaceClass ) {
-		
+
 		if(!interfaceClass.isAssignableFrom(implementationClass)){
 			throw new RootApplicationException(implementationClass.getCanonicalName() 
 					+ " is not an implementation of " + interfaceClass.getCanonicalName());
