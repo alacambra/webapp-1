@@ -109,7 +109,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
 
             go_to_effort: function (event) {
                 event.preventDefault();
-                App.trigger('effort:show', this.model.get('id'));
+                App.trigger('effort:show', this.model.get('task_id'), this.model.get('id'));
             },
 
 

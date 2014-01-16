@@ -4,7 +4,7 @@
     <li><a class="js-task" href="<%= url_for('tasks', task_id) %>"><%= I18n.t('main_navi.task') %></a></li>
     <li><a class="js-efforts" href="<%= url_for('tasks', task_id, 'efforts') %>"><%= I18n.t('main_navi.efforts') %></a></li>
     <% if (Backbone.history.location.hash.indexOf('new') < 0) { %>
-    <li><a class="js-effort" href="<%= url_for('efforts', id) %>"><%= I18n.t('main_navi.effort') %></a></li>
+    <li><a class="js-effort" href="<%= url_for('tasks', task_id,'efforts', id) %>"><%= I18n.t('main_navi.effort') %></a></li>
     <% } %>
     <li class="active"><%= I18n.t(Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit') %></li>
 </ol>
