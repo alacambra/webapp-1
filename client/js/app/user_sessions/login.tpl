@@ -1,4 +1,7 @@
-<h2><%= I18n.t('user_session.header.login') %></h2>
+<ol class="breadcrumb">
+    <li><a href=""><%= I18n.t('main_navi.home') %></a></li>
+    <li class="active"><%= I18n.t('user_session.header.login') %></li>
+</ol>
 
 <form class="form-horizontal" role="form">
     <div class="form-group">

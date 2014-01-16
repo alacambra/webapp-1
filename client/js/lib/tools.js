@@ -13,7 +13,7 @@ function is_empty(data) {
     if (type === 'boolean') return !data; // false is empty, true is not empty
     if (type === 'number') return false; // any number is no empty
     if (type === 'object') {
-        return is_array(data) ? !data.length : !Object.keys(data).length; // check array size and object key count
+        return _.isArray(data) ? !data.length : !Object.keys(data).length; // check array size and object key count
     }
     return false;
 }
@@ -28,15 +28,4 @@ function is_empty(data) {
 function is_blank(data) {
     if (typeof data === 'string') return !/\S/.test(data); // check for non-whitespace characters
     return is_empty(data); // fallback
-}
-
-
-/**
- * Checks if a given object is an array.
- *
- * @param a {object} - The object to be checked.
- * @returns {boolean} - If the object is an array.
- */
-function is_array(a) {
-    return Object.prototype.toString.apply(a) === '[object Array]';
 }

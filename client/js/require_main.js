@@ -49,7 +49,6 @@ requirejs.config({
             deps: ['backbone'],
             exports: 'Marionette'
         },
-        i18n: { exports: 'I18n' },
         jquery: { exports: 'jQuery' },
         jquery_elastic: { deps: ['jquery'] },
         jquery_ui: { deps: ['jquery'] },
@@ -68,7 +67,6 @@ require([
     'bootstrap',
     'behaviour',
     'tools',
-    'i18n',
     'backbone_basicauth',
     'backbone_patch_as_put'
 ], function(App) {

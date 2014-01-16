@@ -1,9 +1,9 @@
-define(['app', 'lib/response_handler', 'app/entities/effort', 'app/common/loading_view', 'app/efforts/show/show_view'],
-function (App, response_handler, Entities, LoadingView) {
+define(['app', 'lib/response_handler', 'app/entities/effort', 'app/efforts/show/show_view'],
+function (App, response_handler) {
     App.module('Efforts.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             effort_show: function (effort_id) {
-                App.main_region.show(new LoadingView);
+                App.main_region.show(new App.Common.LoadingView);
 
                 $.when(App.request('effort:entity', effort_id)).done(function(effort, response) {
                     if (effort) {
