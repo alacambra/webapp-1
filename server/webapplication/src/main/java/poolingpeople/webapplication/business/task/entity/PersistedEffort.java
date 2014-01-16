@@ -61,12 +61,13 @@ public class PersistedEffort extends PersistedModel implements Effort{
 	@Override
 	public void setTime(Integer time) {
 	
+		manager.setProperty(underlyingNode, NodesPropertiesNames.TIME.name(), time);
+		
 		PersistedTask persistedTask = 
 				new PersistedTask(manager, manager.getRelatedNode(underlyingNode, Relations.HAS_EFFORT));
 		
+		persistedTask.updateEfforts();
 		
-		
-		manager.setProperty(underlyingNode, NodesPropertiesNames.TIME.name(), time);
 	}
 
 
