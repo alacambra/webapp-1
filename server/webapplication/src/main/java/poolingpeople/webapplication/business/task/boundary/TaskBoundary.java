@@ -35,7 +35,7 @@ import poolingpeople.webapplication.business.task.entity.TaskStatus;
 @Path("tasks")
 @Stateless
 @Neo4jTransaction
-//@AuthValidator
+@AuthValidator
 @CatchWebAppException
 public class TaskBoundary {
 

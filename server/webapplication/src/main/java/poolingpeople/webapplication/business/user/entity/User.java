@@ -6,7 +6,7 @@ public interface User {
 
 	String getEmail();
 
-	void setEmail(String email);
+//	void setEmail(String email);
 
 	String getFirstName();
 	

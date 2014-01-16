@@ -312,7 +312,7 @@ public class NeoManager {
 		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
 	}
-
+	
 	public Boolean getBooleanProperty(Node node, String key) {
 		try {
 			return (Boolean) getProperty(node, key);
