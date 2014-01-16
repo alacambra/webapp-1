@@ -28,6 +28,7 @@ public class LoggerInterceptor {
 
 	private Object logMethodInvocation(InvocationContext context)
 			throws Exception {
+		
 		logger.info("Entering: " +
 				context.getMethod().getDeclaringClass().getCanonicalName()+"#"+ 
 				context.getMethod().getName() + stringifyParameters(context.getParameters()));

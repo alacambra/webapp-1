@@ -49,6 +49,7 @@ public class EffortBoundry {
 
 	@GET
 	@Path("{id:[\\w\\d-]+}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getEffort(@PathParam("id") String uuid) throws JsonGenerationException, JsonMappingException, IOException{
 		String r = mapper.writerWithView(EffortMixin.class).writeValueAsString(entityFactory.getEffortById(uuid));
 		return Response.ok().entity(r).build();

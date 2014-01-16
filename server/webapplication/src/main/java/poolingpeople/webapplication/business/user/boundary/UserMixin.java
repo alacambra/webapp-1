@@ -29,8 +29,8 @@ public class UserMixin implements User{
 		return null;
 	}
 
-	@Override
-	public void setEmail(String email) {}
+//	@Override
+//	public void setEmail(String email) {}
 
 	@Override
 	public String getFirstName() {
@@ -57,3 +57,68 @@ public class UserMixin implements User{
 	public void setPassword(String password) {}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

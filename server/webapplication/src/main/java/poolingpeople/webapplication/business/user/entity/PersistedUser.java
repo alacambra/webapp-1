@@ -25,7 +25,17 @@ public class PersistedUser extends PersistedModel implements User {
 
 	public PersistedUser(NeoManager manager, String email, String password) throws NodeExistsException {
 		super(manager, NODE_TYPE);
+		
+		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
+
+		if ( indexHits.size() != 0 ) {
+			throw new NotUniqueException("Too many nodes with the same email/passwords");
+		}
+		
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
+		setLoginEmail(email);
+		setPassword(password);
+		
 	}
 
 	public PersistedUser() throws NodeExistsException {
@@ -45,7 +55,7 @@ public class PersistedUser extends PersistedModel implements User {
 
 		if (underlyingNode != null) {
 			throw new RootApplicationException("Node already loaded");
-		}
+		} 
 
 		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
 
@@ -85,10 +95,8 @@ public class PersistedUser extends PersistedModel implements User {
 		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.EMAIL.name());
 	}
 
-	@Override
-	public void setEmail(String title) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.EMAIL.name(),
-				title);
+	private void setLoginEmail(String email) {
+		manager.setProperty(underlyingNode, NodesPropertiesNames.EMAIL.name(), email);
 	}
 
 	@Override
@@ -127,5 +135,59 @@ public class PersistedUser extends PersistedModel implements User {
 		manager.createRelationshipTo(underlyingNode,
 				((PersistedUser) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
