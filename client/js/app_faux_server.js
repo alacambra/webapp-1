@@ -1,7 +1,6 @@
 define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
 
 //    Faux.setLatency(200, 400);
-    Faux.enable(CONFIG.rest.faux_enable);
 
     function logRest(context) {
         console.log(context.url + ' - ' + context.httpMethod);
