@@ -62,7 +62,7 @@ require.config({
     }
 });
 
-require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'app/common/loading_view'], function(jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'locale_de', 'app/common/loading_view'], function(jasmine, _, $) {
     I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();

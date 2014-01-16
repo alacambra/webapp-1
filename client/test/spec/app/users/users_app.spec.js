@@ -1,6 +1,6 @@
-define(['app', 'app/users/users_app', 'app/entities/user'], function (App, UsersApp, Entities) {
-    describe('User :: App', function () {
-        it('Navigate to users list.', function () {
+define(['app', 'app/users/users_app', 'app/entities/user'], function(App, UsersApp, Entities) {
+    describe('User :: App', function() {
+        it('Navigate to users list', function() {
             spyOn(App, 'navigate');
 
             App.trigger('users:list');
@@ -8,7 +8,7 @@ define(['app', 'app/users/users_app', 'app/entities/user'], function (App, Users
             expect(App.navigate).toHaveBeenCalledWith('users');
         });
 
-        it('Navigate to new user.', function () {
+        it('Navigate to new user', function() {
             spyOn(App, 'navigate');
 
             App.trigger('user:new');
@@ -16,7 +16,7 @@ define(['app', 'app/users/users_app', 'app/entities/user'], function (App, Users
             expect(App.navigate).toHaveBeenCalledWith('users/new');
         });
 
-        it('Navigate to show user.', function () {
+        it('Navigate to show user', function() {
             var id = 1;
 
             spyOn(App, 'navigate');
@@ -26,7 +26,7 @@ define(['app', 'app/users/users_app', 'app/entities/user'], function (App, Users
             expect(App.navigate).toHaveBeenCalledWith('users/' + id);
         });
 
-        it('Navigate to edit user.', function () {
+        it('Navigate to edit user', function() {
             var id = 1;
 
             spyOn(App, 'navigate');
@@ -36,7 +36,7 @@ define(['app', 'app/users/users_app', 'app/entities/user'], function (App, Users
             expect(App.navigate).toHaveBeenCalledWith('users/' + id + '/edit');
         });
 
-        it('Confirm to delete user.', function () {
+        it('Confirm to delete user', function() {
             var user = new Entities.User({
                     id: 1,
                     title: 'User1'
