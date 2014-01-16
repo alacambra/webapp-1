@@ -91,33 +91,6 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
         App.reqres.setHandler('project:entity', function(id) {
             return API.get_project_entity(id);
         });
-        
-
-        // FAUX SERVER!!!
-
-        var projects = [
-            { id: 1, title: 'Project1', description: 'bla bla', startDate: 1387206224 },
-            { id: 2, title: 'Project2', description: 'bla bla bla bla' },
-            { id: 3, title: 'Project3', description: 'bla bla bla bla bla bla', status: 1 },
-            { id: 4, title: 'Project4', description: 'bla bla bla bla bla bla bla bla', status: 2},
-            { id: 5, title: 'Project5', description: 'bla bla bla bla bla bla bla bla bla bla' }
-        ];
-
-        Faux.addRoute('getProjects', base_url, 'GET', function (context) {
-            return projects;
-        });
-
-        Faux.addRoute('getProject', base_url + '/:id', 'GET', function(context, id) {
-            var project;
-            _.forEach(projects, function (t) {
-                if (t.id === parseInt(id)) {
-                    project = t;
-                }
-            });
-            return project || 'HTTP/1.1 404 Not Found';
-        });
-
-        Faux.enable(CONFIG.rest.faux_enable);
     });
 
     return App.Entities;
