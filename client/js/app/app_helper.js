@@ -53,6 +53,26 @@ define(['i18n'], function() {
 
 
         /**
+         * Builds an url with the specified arguments in order and set '#' at the beginning.
+         * Also checks if a argument is undefined and throws an error.
+         *
+         * @returns {string} - url beginning with a '#' and appended arguments seperate by '/'
+         */
+        build_url: function () {
+            // convert arguments (is a object) to an array.
+            arguments = Array.prototype.slice.call(arguments);
+
+            _.each(arguments, function (argument) {
+                if (_.isUndefined(argument)) {
+                    throw new Error('\'build_url()\' has an undefined argument!');
+                }
+            });
+
+            return '#' + arguments.join('/');
+        },
+
+
+        /**
          * Truncates a given text after a given length if text is longer than length.
          * The last characters will be replaced with the omission for a total length not exceeding length (including omission).
          *

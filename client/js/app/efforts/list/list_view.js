@@ -22,19 +22,19 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
 
             show: function(event) {
                 event.preventDefault();
-                App.trigger('effort:show', this.model.get('id'));
+                App.trigger('effort:show', this.model.get('task_id'), this.model.get('id'));
             },
 
 
             edit: function(event) {
                 event.preventDefault();
-                App.trigger('effort:edit', this.model.get('id'));
+                App.trigger('effort:edit', this.model.get('task_id'), this.model.get('id'));
             },
 
 
             delete_item: function(event) {
                 event.preventDefault();
-                App.trigger('effort:delete', this.model);
+                App.trigger('effort:delete', this.model.get('task_id'), this.model);
             }
         });
 

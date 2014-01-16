@@ -109,12 +109,23 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
 
             go_to_effort: function (event) {
                 event.preventDefault();
-                App.trigger('effort:show', this.model.get('id'));
+                App.trigger('effort:show', this.model.get('task_id'), this.model.get('id'));
             },
 
 
             update_time: function (event) {
-                var time = effort_helper.unformat_time(this.ui.time.val());
+                var time = this.ui.time.val();
+
+                if (time.search(':') < 0) {
+                    time += ':00';
+                    this.ui.time.val(time);
+                }
+
+                time = effort_helper.unformat_time(time);
+
+                if (time === 0) {
+                    this.ui.time.val('0:00');
+                }
 
                 this.ui.time_slider.slider('option', 'value', time);
             },

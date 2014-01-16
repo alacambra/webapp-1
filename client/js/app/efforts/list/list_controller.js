@@ -19,8 +19,8 @@ function(App, response_handler) {
             },
 
 
-            effort_delete: function(effort, redirect, task_id) {
-                $.when(App.request('effort:entity', effort)).done(function(effort, response) {
+            effort_delete: function(task_id, effort, redirect) {
+                $.when(App.request('effort:entity', task_id, effort)).done(function(effort, response) {
                     if (effort) {
                         effort.destroy();
                         if (redirect !== undefined) App.trigger(redirect, task_id);
