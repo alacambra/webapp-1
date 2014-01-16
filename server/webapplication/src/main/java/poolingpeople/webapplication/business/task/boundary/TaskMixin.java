@@ -3,6 +3,7 @@ package poolingpeople.webapplication.business.task.boundary;
 import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.neo4j.graphdb.Node;
 
@@ -12,6 +13,7 @@ import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskMixin implements Task{
 
 	@Override

@@ -1,11 +1,13 @@
 package poolingpeople.webapplication.business.user.boundary;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.user.entity.User;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserMixin implements User{
 
 	
