@@ -93,10 +93,6 @@ define(['app/entities/user'], function(Entities) {
 
                 describe('password', function() {
                     describe('for new users', function() {
-                        beforeEach(function() {
-                            user.set('id', 23); // user considered as existing
-                        });
-
                         it('must be confirmed', function() {
                             user.set({ password: 'password', passwordConfirmation: 'password' });
                             expect(user.validate(user.attributes).password).toBeUndefined();
@@ -104,7 +100,7 @@ define(['app/entities/user'], function(Entities) {
 
                         it('must not be empty', function() {
                             user.set({ password: '', passwordConfirmation: '' });
-                            expect(user.validate(user.attributes).password).toBeUndefined();
+                            expect(user.validate(user.attributes).password).toBeDefined();
                         });
 
                         it('must not be unconfirmed', function() {
