@@ -14,7 +14,7 @@ define(['app/entities/effort'], function(Entities) {
             });
 
             it('Check default attributes', function() {
-                expect(effort.get('task_id')).toBeNull();
+                expect(effort.task_id).toBeNull();
                 expect(effort.get('date')).toBeNull();
                 expect(effort.get('time')).toBeNull();
                 expect(effort.get('comment')).toBeNull();

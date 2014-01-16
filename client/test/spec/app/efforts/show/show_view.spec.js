@@ -45,7 +45,7 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
 
             $sandbox.find('.js-edit').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort.get('task_id'), effort.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort.task_id, effort.get('id'));
         });
 
         it('Check the delete functionality', function() {
@@ -53,7 +53,7 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
 
             $sandbox.find('.js-delete').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:delete', effort.get('task_id'), effort, 'task:show');
+            expect(App.trigger).toHaveBeenCalledWith('effort:delete', effort.task_id, effort, 'task:show');
         });
     });
 });

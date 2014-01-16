@@ -5,7 +5,7 @@ function (App, response_handler) {
             effort_edit: function (task_id, effort_id) {
                 App.main_region.show(new App.Common.LoadingView);
 
-                $.when(App.request('effort:entity', effort_id, task_id)).done(function(effort, response) {
+                $.when(App.request('effort:entity', task_id, effort_id)).done(function(effort, response) {
                     if (effort) {
                         var edit_view = new Edit.View({
                             model: effort
@@ -14,7 +14,7 @@ function (App, response_handler) {
                         edit_view.on('form:submit', function(data) {
                             var model_validated = effort.save(data, {
                                 success: function() {
-                                    App.trigger('task:show', effort.get('task_id'));
+                                    App.trigger('task:show', effort.task_id);
                                 },
                                 error: function(model, response) {
                                     response_handler.handle(response, {
