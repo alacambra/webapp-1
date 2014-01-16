@@ -4,14 +4,10 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
-
-import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
-import scala.noinline;
 
 @Interceptor
 @AuthValidator
