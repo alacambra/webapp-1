@@ -38,6 +38,13 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
             templateHelpers: $.extend({}, effort_helper, app_helper),
 
 
+            serializeData: function() {
+                return _.extend(this.model.attributes, {
+                    task_id: this.task_id
+                });
+            },
+
+
             onRender: function () {
                 this.init_datepicker();
                 this.init_time_slider();
@@ -99,17 +106,17 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
 
             go_to_task: function (event) {
                 event.preventDefault();
-                App.trigger('task:show', this.model.get('task_id'));
+                App.trigger('task:show', this.model.task_id);
             },
 
             go_to_efforts: function (event) {
                 event.preventDefault();
-                App.trigger('efforts:list', this.model.get('task_id'));
+                App.trigger('efforts:list', this.model.task_id);
             },
 
             go_to_effort: function (event) {
                 event.preventDefault();
-                App.trigger('effort:show', this.model.get('task_id'), this.model.get('id'));
+                App.trigger('effort:show', this.model.task_id, this.model.get('id'));
             },
 
 

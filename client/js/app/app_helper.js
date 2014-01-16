@@ -64,7 +64,7 @@ define(['i18n'], function() {
 
             _.each(arguments, function (argument) {
                 if (_.isUndefined(argument)) {
-                    throw new Error('\'build_url()\' has an undefined argument!');
+//                    throw new Error('\'build_url()\' has an undefined argument!');
                 }
             });
 

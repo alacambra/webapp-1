@@ -4,15 +4,25 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
         Entities.Effort = Backbone.Model.extend({
             urlRoot: function () {
-                return App.model_base_url('efforts', 'tasks', this.get('task_id'));
+                return App.model_base_url('efforts', 'tasks', this.task_id);
             },
 
             defaults: {
                 id: null,
-                task_id: null,
                 date: null,
                 time: null,
                 comment: null
+            },
+
+            initialize: function(attributes, options) {
+                if (_.isUndefined(attributes) || _.isUndefined(attributes.task_id)) {
+                    if (_.isUndefined(options) || _.isUndefined(options.collection.task_id)) {
+                        throw 'Error: Effort Model needs a task id.'
+                    }
+                    this.task_id = options.collection.task_id;
+                } else {
+                    this.task_id = attributes.task_id;
+                }
             },
 
             validate: function(attrs, options) {
