@@ -11,7 +11,7 @@ define({
      */
     rest: {
         base_url: {
-            default: '/api/webapplication/rest',
+            default: '/webapplication/rest',
             dev: '/api'
         },
         base_url_switch_by_subdomain: false,
