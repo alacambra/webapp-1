@@ -41,21 +41,11 @@ public class TaskBoundaryTest {
 
     @Test
     public void testGetAllTask() throws Exception {
-//<<<<<<< HEAD
-//        when(entityFactoryMock.getAllTask()).thenReturn(persistedTaskListMock);
-////        when(objectMapperMock.thenReturn(objectWritterMock);
-//        when(objectWritterMock.writeValueAsString(persistedTaskListMock)).thenReturn("{}");
-//        assertEquals(Response.Status.OK, cut.getAllTask().getStatusInfo());
-//        verify(entityFactoryMock, times(1)).getAllTask();
-////        verify(objectMapperMock, times(1)).writerWithView(View.SampleView.class);
-//        verify(objectWritterMock, times(1)).writeValueAsString(persistedTaskListMock);
-//=======
         final String createTask = "{\"title\":\"test\"}";
         cut.saveTask(createTask);
         Response allTask = cut.getAllTask();
         assertEquals(Response.Status.OK, allTask.getStatusInfo());
         assertNotNull(allTask.getEntity());
-//>>>>>>> 571d2d5ddbaf68691dda80210f12d948539309bd
     }
 
     @Test
