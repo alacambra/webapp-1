@@ -134,7 +134,18 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
 
 
             update_duration: function (event) {
-                var duration = task_helper.unformat_duration(this.ui.duration.val());
+                var duration = this.ui.duration.val();
+
+                if (duration.search(':') < 0) {
+                    duration += ':00';
+                    this.ui.duration.val(duration);
+                }
+
+                duration = task_helper.unformat_duration(this.ui.duration.val());
+
+                if (duration === 0) {
+                    this.ui.duration.val('0:00');
+                }
 
                 this.ui.duration_slider.slider('option', 'value', duration);
             },
