@@ -78,7 +78,6 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'locale_d
 
     var specs = [];
 
-    specs.push('spec/lib/tools.spec.js');
     specs.push('spec/app/app_helper.spec');
 
     // effort
@@ -125,13 +124,15 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'locale_d
     specs.push('spec/app/users/show/show_controller.spec.js');
     specs.push('spec/app/users/show/show_view.spec.js');
 
+    specs.push('spec/lib/tools.spec.js');
+
     $(function() {
         require(specs, function() {
             var original_done = jasmineEnv.currentRunner_.finishCallback;
             jasmineEnv.currentRunner_.finishCallback = function() {
                 original_done.call(this);
                 if (this.results().failedCount > 0) {
-                    alert('Test failed!');
+                    document.title = 'FAILED - ' + document.title;
                 }
             };
 
