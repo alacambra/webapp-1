@@ -199,9 +199,20 @@ public class PersistedTask extends PersistedModel implements Task {
 	public void addEffort(Effort effort) {
 		
 		Integer totalEffort = getEffort() + effort.getTime();
-		manager.setProperty(underlyingNode, NodesPropertiesNames.EFFORT.name(), totalEffort);
+		setEffort(totalEffort);
 		createRelationTo(Relations.HAS_EFFORT, (PersistedModel) effort, true);
 		
+	}
+	
+	public void updateEfforts() {
+		Collection<Effort> efforts = getEfforts();
+		int totalEffort = 0;
+		
+		for (Effort effort : efforts) {
+			totalEffort +=effort.getTime();
+		}
+		
+		setEffort(totalEffort);
 	}
 
 	@Override
@@ -220,7 +231,7 @@ public class PersistedTask extends PersistedModel implements Task {
 		}
 		
 		Integer totalEffort = getEffort() - effort.getTime();
-		manager.setProperty(underlyingNode, NodesPropertiesNames.EFFORT.name(), totalEffort);
+		setEffort(totalEffort);
 		
 		manager.removeNode(((PersistedModel) effort).getNode());
 	}
@@ -231,6 +242,10 @@ public class PersistedTask extends PersistedModel implements Task {
 		for(Effort effort : getEfforts()) {
 			deleteEffort(effort);
 		}
+	}
+	
+	private void setEffort(Integer totalEffort) {
+		manager.setProperty(underlyingNode, NodesPropertiesNames.EFFORT.name(), totalEffort);
 	}
 
 	@Override

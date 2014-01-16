@@ -6,6 +6,7 @@ import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
@@ -59,6 +60,12 @@ public class PersistedEffort extends PersistedModel implements Effort{
 
 	@Override
 	public void setTime(Integer time) {
+	
+		PersistedTask persistedTask = 
+				new PersistedTask(manager, manager.getRelatedNode(underlyingNode, Relations.HAS_EFFORT));
+		
+		
+		
 		manager.setProperty(underlyingNode, NodesPropertiesNames.TIME.name(), time);
 	}
 
