@@ -154,6 +154,12 @@
             <version>0.4</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jglue.cdi-unit</groupId>
+            <artifactId>cdi-unit</artifactId>
+            <version>2.2.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -368,29 +374,47 @@
                 </plugins>
             </build>
         </profile>
-	 <profile>
-                        <id>alwork</id>
-                        <build>
-                                <plugins>
-                                        <plugin>
-                                                <groupId>org.glassfish.maven.plugin</groupId>
-                                                <artifactId>maven-glassfish-plugin</artifactId>
-                                                <configuration>
-                                                        <glassfishDirectory>/home/albert/glassfish4/glassfish</glassfishDirectory>
-                                                        <user>albert</user>
-                                                        <autoCreate>true</autoCreate>
-                                                        <adminPassword>lacambra</adminPassword>
-                                                        <components>
-                                                                <component>
-                                                                        <name>${project.artifactId}</name>
-                                                                        <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
-                                                                </component>
-                                                        </components>
-                                                </configuration>
-                                        </plugin>
-                                </plugins>
-                        </build>
-                </profile>
+        <profile>
+            <id>alwork</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.glassfish.maven.plugin</groupId>
+                        <artifactId>maven-glassfish-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>gf-start</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>start-domain</goal>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>gf-stop</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>undeploy</goal>	
+                                    <goal>stop-domain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <glassfishDirectory>/home/albert/glassfish4/glassfish</glassfishDirectory>
+                            <user>albert</user>
+                            <autoCreate>true</autoCreate>
+                            <adminPassword>lacambra</adminPassword>
+                            <components>
+                                <component>
+                                    <name>${project.artifactId}</name>
+                                    <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+                                </component>
+                            </components>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
     </profiles>
 </project>

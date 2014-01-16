@@ -22,7 +22,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.SetMixinView;
-import poolingpeople.webapplication.business.boundary.View;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
@@ -60,8 +59,7 @@ public class ProjectBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllProject() throws JsonGenerationException,
 			JsonMappingException, IOException {
-		String r = mapper.writerWithView(View.SampleView.class)
-				.writeValueAsString(entityFactory.getAllProject());
+		String r = mapper.writeValueAsString(entityFactory.getAllProject());
 		return Response.ok().entity(r).build();
 	}
 
