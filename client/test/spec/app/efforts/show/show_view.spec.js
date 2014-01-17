@@ -33,6 +33,7 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
 
             view = new Show.View({
                 model: new Entities.Effort({
+                    task_id: 10,
                     title: 'test'
                 })
             });
