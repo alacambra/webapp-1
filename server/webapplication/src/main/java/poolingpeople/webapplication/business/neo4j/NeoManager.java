@@ -311,6 +311,14 @@ public class NeoManager {
 	public void removeNode(Node n) {
 		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
+		
+		Iterable<Relationship> rels = n.getRelationships();
+		
+		for (Relationship r : rels) {
+			r.delete();
+		}
+		
+		n.delete();
 	}
 	
 	public Boolean getBooleanProperty(Node node, String key) {
