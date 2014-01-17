@@ -6,20 +6,23 @@ define(['app/efforts/effort_helper', 'app/entities/effort'], function(effort_hel
 
         it('Should unformat correctly', function() {
             var data = {
+                task_id: 10,
                 date: '2013-12-15',
                 time: '1:30',
                 comment: 'foo bar'
             };
 
             expect(effort_helper.unformat(data)).toEqual({
+                task_id: 10,
                 date: 1387062000,
                 time: 90,
                 comment: 'foo bar'
             });
         });
 
-        it('Should shoud generate confirm text with comment', function() {
+        it('Should generate confirm text with comment', function() {
             var effort = new Entities.Effort({
+                task_id: 10,
                 date: 1387062000,
                 time: 90,
                 comment: 'foo bar'
@@ -28,8 +31,9 @@ define(['app/efforts/effort_helper', 'app/entities/effort'], function(effort_hel
             expect(effort_helper.confirm_text(effort)).toEqual('foo bar');
         });
 
-        it('Should shoud generate confirm text with date', function() {
+        it('Should generate confirm text with date', function() {
             var effort = new Entities.Effort({
+                task_id: 10,
                 date: 1387062000,
                 time: 90
             });

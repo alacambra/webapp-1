@@ -7,7 +7,8 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_controller'], funct
 
             App.request = function(event_type, effort_id) {
                 return new Entities.Effort({
-                    id: effort_id
+                    id: effort_id,
+                    task_id: 10
                 });
             }
         });

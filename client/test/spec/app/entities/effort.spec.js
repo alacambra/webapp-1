@@ -4,17 +4,18 @@ define(['app/entities/effort'], function(Entities) {
             efforts = null;
 
         beforeEach(function() {
-            effort = new Entities.Effort();
+            effort = new Entities.Effort({ task_id: 10 });
             efforts = new Entities.EffortCollection({ task_id: 23 });
         });
 
         describe('Model', function() {
-            it('Should have a urlRoot that contains \'effort\'', function() {
+            it('Should have a urlRoot that contains \'tasks\' and \'efforts\'', function() {
+                expect(effort.urlRoot()).toContain('tasks');
                 expect(effort.urlRoot()).toContain('effort');
             });
 
             it('Check default attributes', function() {
-                expect(effort.get('task_id')).toBeNull();
+                expect(effort.task_id).toBeDefined();
                 expect(effort.get('date')).toBeNull();
                 expect(effort.get('time')).toBeNull();
                 expect(effort.get('comment')).toBeNull();

@@ -2,10 +2,13 @@ package poolingpeople.webapplication.business.task.entity;
 
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.neo4j.Relations;
+import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
@@ -14,16 +17,25 @@ public class PersistedEffort extends PersistedModel implements Effort{
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	
+	/*
+	 * Used to know if the model is already built and consistent.
+	 */
+	private boolean isCreated = true;
+	
 	public PersistedEffort(NeoManager manager, Node node) {
 		super(manager, node, NODE_TYPE);
 	}
 
-	public PersistedEffort(NeoManager manager) throws NodeExistsException {
+	public PersistedEffort(NeoManager manager, Effort effort) throws NodeExistsException {
 		super(manager, NODE_TYPE);
+		isCreated = false;
+		DTOConverter converter = new DTOConverter();
+		converter.fromDTOtoPersitedBean(effort, this);
+		isCreated = true;
 	}
 
 	public PersistedEffort(NeoManager manager, String id) throws NotUniqueException,
-			NodeNotFoundException {
+	NodeNotFoundException {
 		super(manager, id, NODE_TYPE);
 	}
 
@@ -39,7 +51,7 @@ public class PersistedEffort extends PersistedModel implements Effort{
 	@Override
 	public void setDate(Long date) {
 		manager.setProperty(underlyingNode, NodesPropertiesNames.DATE.name(), date);
-		
+
 	}
 
 	@Override
@@ -59,7 +71,21 @@ public class PersistedEffort extends PersistedModel implements Effort{
 
 	@Override
 	public void setTime(Integer time) {
+
 		manager.setProperty(underlyingNode, NodesPropertiesNames.TIME.name(), time);
+		Node n = manager.getRelatedNode(underlyingNode, Relations.HAS_EFFORT);
+
+		if ( !isCreated ) {
+			return;
+		}
+		
+		if ( n == null ) {
+			throw new ConsistenceException("Effort " + getId() + " has no task");
+		}
+		
+		PersistedTask persistedTask = new PersistedTask(manager, n);
+		persistedTask.updateEfforts();
+
 	}
 
 

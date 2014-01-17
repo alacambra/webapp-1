@@ -73,7 +73,7 @@ function(App, Entities, List, app_helper) {
 
             $sandbox.find('.js-show').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:show', effort1.get('task_id'), effort1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('effort:show', effort1.task_id, effort1.get('id'));
         });
 
         it('Check the edit functionality of item view', function() {
@@ -83,7 +83,7 @@ function(App, Entities, List, app_helper) {
 
             $sandbox.find('.js-edit').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort1.get('task_id'), effort1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort1.task_id, effort1.get('id'));
         });
 
         it('Check the delete functionality of item view', function() {
@@ -93,7 +93,7 @@ function(App, Entities, List, app_helper) {
 
             $sandbox.find('.js-delete').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:delete', effort1.get('task_id'), effort1);
+            expect(App.trigger).toHaveBeenCalledWith('effort:delete', effort1.task_id, effort1);
         });
     });
 });

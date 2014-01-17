@@ -4,6 +4,7 @@ define(['app', 'app/entities/effort', 'app/efforts/edit/edit_view'], function(Ap
     describe('Effort :: Edit :: View', function() {
         var view = null,
             effort = new Entities.Effort({
+                task_id: 10,
                 id: 8
             });
 
@@ -32,6 +33,7 @@ define(['app', 'app/entities/effort', 'app/efforts/edit/edit_view'], function(Ap
 
             view = new Edit.View({
                 model: new Entities.Effort({
+                    task_id: 10,
                     title: 'test'
                 })
             });

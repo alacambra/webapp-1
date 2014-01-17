@@ -20,21 +20,28 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             templateHelpers: $.extend({}, app_helper, effort_helper),
 
 
+            serializeData: function() {
+                return _.extend(this.model.attributes, {
+                    task_id: this.model.task_id
+                });
+            },
+
+
             show: function(event) {
                 event.preventDefault();
-                App.trigger('effort:show', this.model.get('task_id'), this.model.get('id'));
+                App.trigger('effort:show', this.model.task_id, this.model.get('id'));
             },
 
 
             edit: function(event) {
                 event.preventDefault();
-                App.trigger('effort:edit', this.model.get('task_id'), this.model.get('id'));
+                App.trigger('effort:edit', this.model.task_id, this.model.get('id'));
             },
 
 
             delete_item: function(event) {
                 event.preventDefault();
-                App.trigger('effort:delete', this.model.get('task_id'), this.model);
+                App.trigger('effort:delete', this.model.task_id, this.model);
             }
         });
 
@@ -45,6 +52,10 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             templateHelpers: app_helper,
             itemView: List.View,
             itemViewContainer: '#js-effort-list-items',
+
+            initialize: function () {
+                console.log(this.collection);
+            },
 
             serializeData: function() {
                 return {

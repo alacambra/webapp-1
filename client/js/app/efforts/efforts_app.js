@@ -56,7 +56,7 @@ define(['app', 'app/efforts/effort_helper'], function (App, effort_helper) {
 
         App.on('effort:new', function(task_id) {
             App.navigate('tasks/' + task_id + '/efforts/new');
-            API.effort_edit(undefined, task_id);
+            API.effort_edit(task_id, undefined);
         });
 
         App.on('effort:show', function(task_id, id) {

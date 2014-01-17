@@ -31,7 +31,7 @@ public class DTOConverter {
 				beanMethod.invoke(bean, dtoMethod.invoke(dto));
 				
 			} catch (Exception e) {
-				throw new RuntimeException("error for method " + dtoMethod.getName() + "|" + beanMethod.getName() + ":" + e.getMessage());
+				throw new RuntimeException("error for method " + dtoMethod.getName() + "|" + beanMethod.getName() + ":" + e.getMessage(), e);
 			}
 			
 		}
