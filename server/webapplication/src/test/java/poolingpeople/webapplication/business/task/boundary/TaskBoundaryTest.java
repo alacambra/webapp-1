@@ -16,10 +16,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import org.junit.runner.RunWith;
+
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
 import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
+import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ObjectMapperProducer.class, GraphDatabaseServiceProducer.class, TransactionInterceptor.class})
@@ -31,8 +33,11 @@ public class TaskBoundaryTest {
 	@Inject
 	FileLoader fileLoader;
 
+	@Inject
+	RestObjectsHelper restObjectsHelper;
+	
 	ObjectMapper mapper = new ObjectMapper();
-
+	
 	@Before
 	public void setUp() {
 	}
@@ -42,74 +47,65 @@ public class TaskBoundaryTest {
 	}
 
 	@Test
-	public void testGetTaskById() throws Exception {
+	public void testGetTaskById_new() throws Exception {
 		
-		String sentTask = fileLoader.getText("task-create-request.json");
-		String receivedTask = fileLoader.getText("task-create-response.json");
+		Map<String,String> createdTaskdata = restObjectsHelper.insertTaskFromFile("task-create-request.json");
+		Map<String,String> expectedTaskdata = restObjectsHelper.convertJsonFileToMap("task-create-response.json");
+		expectedTaskdata.put("id", createdTaskdata.get("id"));
 		
-		/*
-		 * Save the task and receive the new id
-		 */
-		Map<String,String> sentTaskdata = mapper.readValue((String)target.saveTask(sentTask).getEntity(), Map.class);
-		
-		/*
-		 * serialize the expected received task and update its id
-		 */
-		Map<String,String> expectedTaskdata = mapper.readValue(receivedTask, Map.class);
-		expectedTaskdata.put("id", sentTaskdata.get("id"));
-		
-		/*
-		 * test
-		 */
-		Response response = target.getTaskById(sentTaskdata.get("id"));
+		Response response = target.getTaskById(createdTaskdata.get("id"));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		Map<String,String> receivedTaskdata = mapper.readValue((String)response.getEntity(), Map.class);
-		assertTrue(mapsAreEquals(expectedTaskdata, receivedTaskdata));
+		Map<String,String> receivedTaskdata = restObjectsHelper.convertJsonToMap((String)response.getEntity());
+		
+		assertTrue(restObjectsHelper.mapsAreEquals(expectedTaskdata, receivedTaskdata));
 
 	}
 
-
 	@Test
 	public void testGetAllTask() throws Exception {
+		
 		final String createTask = "{\"title\":\"test\"}";
 		target.saveTask(createTask);
 		Response allTask = target.getAllTask();
 		assertEquals(Response.Status.OK, allTask.getStatusInfo());
 		assertNotNull(allTask.getEntity());
+		
 	}
 
 	@Test
 	public void testSaveTask() throws Exception {
-		String sentTask = fileLoader.getText("task-create-request.json");
-		Response response = target.saveTask(sentTask);
+		
+		Map<String,String> expectedTaskdata = restObjectsHelper.convertJsonFileToMap("task-create-response.json");
+		
+		Response response = target.saveTask(FileLoader.getText("task-create-request.json"));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		assertNotNull(response.getEntity());
+		Map<String,String> actuall = restObjectsHelper.convertJsonToMap((String) response.getEntity());
+		expectedTaskdata.put("id", actuall.get("id"));
+		assertTrue(restObjectsHelper.mapsAreEquals(expectedTaskdata, actuall));
+		
 	}
 
-	@Test @Ignore
-	//cant determine which id should be provided
+	@Test 
 	public void testUpdateTask() throws Exception {
 	}
 
-	@Test @Ignore
-	//cant determine which id should be provided
+	@Test
 	public void testDeleteTask() throws Exception {
 
 	}
 	
-	private boolean mapsAreEquals(Map<?,?> m1, Map<?,?> m2) {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-		if ( m1.size() != m2.size())
-			return false;
-		
-		for(Object k1 : m1.keySet()) {
-			if (!m2.containsKey(k1) || !m1.get(k1).equals(m2.get(k1))){
-				return false;
-			}
-		}
-		
-		return true;
-	}
 	
 	
 	
@@ -122,6 +118,39 @@ public class TaskBoundaryTest {
 	
 	
 	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	

@@ -8,7 +8,7 @@ import org.apache.commons.io.IOUtils;
 
 public class FileLoader {
 
-	public String getText(String fileName) {
+	public static String getText(String fileName) {
 		
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
 
