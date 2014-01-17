@@ -19,6 +19,9 @@ public interface User {
 	String getPassword();
 
 	void setPassword(String password);
+	
+	Long getBirthDate();
+	void setBirthDate(Long birthDate);
 
 }
 

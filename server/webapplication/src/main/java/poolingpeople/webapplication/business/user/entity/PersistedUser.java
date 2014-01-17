@@ -135,6 +135,16 @@ public class PersistedUser extends PersistedModel implements User {
 		manager.createRelationshipTo(underlyingNode,
 				((PersistedUser) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
+	
+	@Override
+	public Long getBirthDate() {
+		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.BIRTHDATE.name());
+	}
+
+	@Override
+	public void setBirthDate(Long birthDate) {
+		manager.setProperty(underlyingNode, NodesPropertiesNames.BIRTHDATE.name(), birthDate);
+	}
 }
 
 
