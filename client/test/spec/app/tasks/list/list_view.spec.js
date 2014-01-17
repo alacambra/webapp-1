@@ -1,8 +1,9 @@
 define(['app',
         'app/entities/task',
         'app/tasks/list/list_view',
-        'app/app_helper'],
-function (App, Entities, List, app_helper) {
+        'app/app_helper',
+        'app/view_helper'],
+function (App, Entities, List, app_helper, view_helper) {
     var $sandbox = $('#sandbox');
 
     describe('Task :: List :: View', function () {
@@ -23,7 +24,7 @@ function (App, Entities, List, app_helper) {
         beforeEach(function () {
             listView = new List.Tasks({
                 collection: tasks,
-                templateHelpers: app_helper
+                templateHelpers: $.extend({}, app_helper, view_helper)
             });
             itemView = new List.View({
                 model: task1
@@ -60,7 +61,7 @@ function (App, Entities, List, app_helper) {
         it('Check the create functionality of list view.', function () {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-create').click();
+            $sandbox.find('a[href="#tasks/new"]').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:new');
         });
@@ -70,9 +71,9 @@ function (App, Entities, List, app_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-show').click();
+            $sandbox.find('a[href="#tasks/1"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('task:show', task1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('task:show', task1.get('id') + '');
         });
 
         it('Check the edit functionality of item view.', function () {
@@ -80,9 +81,9 @@ function (App, Entities, List, app_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[href="#tasks/1/edit"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('task:edit', task1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('task:edit', task1.get('id') + '');
         });
 
         it('Check the delete functionality of item view.', function () {

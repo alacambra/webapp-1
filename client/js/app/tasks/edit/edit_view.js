@@ -1,12 +1,13 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/form_helper',
         'app/tasks/task_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, task_helper) {
+function(App, edit_tpl, app_helper, view_helper, form_helper, task_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -32,14 +33,16 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
             events: {
                 'click button.js-submit': 'submit',
                 'blur input#js-task-progress': 'update_progress',
-                'blur input#js-task-duration': 'update_duration',
-                'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task'
+                'blur input#js-task-duration': 'update_duration'
             },
 
 
-            templateHelpers: $.extend({}, task_helper, app_helper),
+            initialize: function() {
+                this.events['click a[data-navigate]'] = App.handle_link;
+            },
+
+
+            templateHelpers: $.extend({}, app_helper, view_helper, task_helper),
 
 
             onRender: function () {
@@ -148,22 +151,6 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 }
 
                 this.ui.duration_slider.slider('option', 'value', duration);
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_tasks: function (event) {
-                event.preventDefault();
-                App.trigger('tasks:list');
-            },
-
-            go_to_task: function (event) {
-                event.preventDefault();
-                App.trigger('task:show', this.model.get('id'));
             },
 
 

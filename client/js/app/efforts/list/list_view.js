@@ -53,8 +53,8 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             itemView: List.View,
             itemViewContainer: '#js-effort-list-items',
 
-            initialize: function () {
-                console.log(this.collection);
+            initialize: function() {
+                this.events['click a[data-navigate]'] = App.handle_link;
             },
 
             serializeData: function() {
@@ -69,8 +69,8 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
                     App.trigger('effort:new', this.collection.task_id);
                 },
                 'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task'
+                'click a.js-tasks': 'go_to_tasks'//,
+                //'click a.js-task': 'go_to_task'
             },
 
 
@@ -82,12 +82,12 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             go_to_tasks: function (event) {
                 event.preventDefault();
                 App.trigger('tasks:list');
-            },
+            }/*,
 
             go_to_task: function (event) {
                 event.preventDefault();
                 App.trigger('task:show', this.collection.task_id);
-            }
+            }*/
         })
     });
 

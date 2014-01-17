@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
-    <li><a class="js-tasks" href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
-    <li><a class="js-task" href="<%= url_for('tasks', task_id) %>"><%= I18n.t('main_navi.task') %></a></li>
+    <li><a href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
+    <li><a href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
+    <li><a href="<%= url_for('tasks', task_id) %>" data-navigate="task:show,<%= task_id %>"><%= I18n.t('main_navi.task') %></a></li>
     <li class="active"><%= I18n.t('main_navi.efforts') %></li>
 </ol>
 

@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
+    <li><%= link_to('main_navi.home', home_path()) %></li>
     <li class="active"><%= I18n.t('main_navi.tasks') %></li>
 </ol>
 
@@ -17,6 +17,4 @@
 
 <div id="js-task-list-items"></div>
 
-<a href="<%= url_for('tasks', 'new') %>" class="btn btn-default btn-sm btn-text top-space js-create">
-    <span class="glyphicon glyphicon-plus"></span> <%= I18n.t('task.button.new') %>
-</a>
+<%= button_to('task.button.new', new_task_path(), { icon: 'plus', class: 'top-space' }) %>
