@@ -54,19 +54,39 @@ define(['i18n'], function() {
 
         /**
          * Builds an url with the specified arguments in order and set '#' at the beginning.
-         * Also checks if a argument is undefined and throws an error.
+         * Also checks if a argument is undefined and logs an error.
          *
-         * @returns {string} - url beginning with a '#' and appended arguments seperate by '/'
+         * @example
+         * // returns '#'
+         * build_url();
+         *
+         * @example
+         * // returns '#tasks'
+         * build_url('tasks');
+         *
+         * @example
+         * // returns '#tasks/11/efforts/5/edit'
+         * build_url('tasks', 11, 'efforts', 5, 'edit');
+         *
+         * @example
+         * // returns '#a/b/c/1/2/3'
+         * build_url('a', 'b', 'c', 1, 2, 3);
+         *
+         * @returns {string} - url beginning with a '#' and appended arguments separate by '/'
          */
         build_url: function () {
             // convert arguments (is a object) to an array.
             arguments = Array.prototype.slice.call(arguments);
 
+            var error = false;
             _.each(arguments, function (argument) {
                 if (_.isUndefined(argument)) {
-//                    throw new Error('\'build_url()\' has an undefined argument!');
+                    error = true;
                 }
             });
+            if (error) {
+                console.error('An undefined argument exist: "build_url(' + arguments.join(',') + ');"');
+            }
 
             return '#' + arguments.join('/');
         },
