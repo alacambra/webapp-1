@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -17,19 +16,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import org.junit.runner.RunWith;
-import org.skyscreamer.jsonassert.JSONAssert;
-
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
 import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
-import poolingpeople.webapplication.business.utils.cdi.FileLoader;
+import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({ObjectMapperProducer.class, GraphDatabaseServiceProducer.class, TransactionInterceptor.class})
 public class TaskBoundaryTest {
 
 	@Inject
-	TaskBoundary cut;
+	TaskBoundary target;
 
 	@Inject
 	FileLoader fileLoader;
@@ -53,7 +50,7 @@ public class TaskBoundaryTest {
 		/*
 		 * Save the task and receive the new id
 		 */
-		Map<String,String> sentTaskdata = mapper.readValue((String)cut.saveTask(sentTask).getEntity(), Map.class);
+		Map<String,String> sentTaskdata = mapper.readValue((String)target.saveTask(sentTask).getEntity(), Map.class);
 		
 		/*
 		 * serialize the expected received task and update its id
@@ -64,7 +61,7 @@ public class TaskBoundaryTest {
 		/*
 		 * test
 		 */
-		Response response = cut.getTaskById(sentTaskdata.get("id"));
+		Response response = target.getTaskById(sentTaskdata.get("id"));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		Map<String,String> receivedTaskdata = mapper.readValue((String)response.getEntity(), Map.class);
 		assertTrue(mapsAreEquals(expectedTaskdata, receivedTaskdata));
@@ -75,8 +72,8 @@ public class TaskBoundaryTest {
 	@Test
 	public void testGetAllTask() throws Exception {
 		final String createTask = "{\"title\":\"test\"}";
-		cut.saveTask(createTask);
-		Response allTask = cut.getAllTask();
+		target.saveTask(createTask);
+		Response allTask = target.getAllTask();
 		assertEquals(Response.Status.OK, allTask.getStatusInfo());
 		assertNotNull(allTask.getEntity());
 	}
@@ -84,7 +81,7 @@ public class TaskBoundaryTest {
 	@Test
 	public void testSaveTask() throws Exception {
 		String sentTask = fileLoader.getText("task-create-request.json");
-		Response response = cut.saveTask(sentTask);
+		Response response = target.saveTask(sentTask);
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		assertNotNull(response.getEntity());
 	}

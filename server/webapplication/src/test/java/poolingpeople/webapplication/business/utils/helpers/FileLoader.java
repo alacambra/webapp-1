@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.utils.cdi;
+package poolingpeople.webapplication.business.utils.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
