@@ -3,6 +3,11 @@
 define({
     /**
      * @desc Configures REST interface.
+     * @property version {string} - Defines the version numer, which will appear at bottom right of page if set.
+     */
+    version: '0.1.1',
+    /**
+     * @desc Configures REST interface.
      * @property base_url {object} - Paths to be prefixed for REST calls.
      * @property base_url.default {string} - Default path to be used if subdomain switch is disabled or could not select path.
      * @property [base_url.dev] {string} - Optional REST server url, will be switched by subdomain, i.e. dev.poolingpeople.de (if enabled). (Multiple definitions are possible)

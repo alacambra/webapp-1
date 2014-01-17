@@ -25,7 +25,14 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
     };
 
 
-    App.show_main_navi= function() {
+    App.show_version = function() {
+        if (!_.isUndefined(CONFIG.version)) {
+            $('body').append('<div id="version-footer">' + CONFIG.version + '</div>');
+        }
+    };
+
+
+    App.show_main_navi = function() {
         require(['app/common/main_navi_view'], function(MainNaviView) {
             var navi_view = new MainNaviView({
                 available_locales: CONFIG.i18n.available_locales
@@ -72,6 +79,7 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
 
     App.on('initialize:after', function() {
         App.init_i18n(function() {
+            App.show_version();
             App.show_main_navi();
 
             var faux_require = '';
