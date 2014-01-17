@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -17,8 +16,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import org.junit.runner.RunWith;
-import org.skyscreamer.jsonassert.JSONAssert;
-
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
 import poolingpeople.webapplication.business.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
