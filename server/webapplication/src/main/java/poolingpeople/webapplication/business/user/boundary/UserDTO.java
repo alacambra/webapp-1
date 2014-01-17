@@ -11,6 +11,7 @@ public class UserDTO implements User {
 	private String firstName;
 	private String lastName;
 	private String password;
+	private Long birthDate;
 
 	@IgnoreAttribute
 	@Override
@@ -55,4 +56,11 @@ public class UserDTO implements User {
 		this.id = id;
 	}
 
+	public Long getBirthDate() {
+		return birthDate;
+	}
+	
+	public void setBirthDate(Long birthDate) {
+		this.birthDate = birthDate;
+	}
 }

@@ -58,6 +58,16 @@ public class UserMixin implements User{
 	@Override
 	public void setPassword(String password) {}
 
+	@Override
+	public Long getBirthDate() {
+		return null;
+	}
+
+	@Override
+	public void setBirthDate(Long birthDate) {
+		
+	}
+
 }
 
 
