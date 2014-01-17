@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.neo4j;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,13 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.test.TestGraphDatabaseFactory;
 
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.task.entity.PersistedEffort;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.Task;
+
 public class NeoManagerTest {
 
 	NeoManager target = new NeoManager();
@@ -33,7 +41,7 @@ public class NeoManagerTest {
 	public void setUp() throws Exception {
 		graphDb = new TestGraphDatabaseFactory().newImpermanentDatabase();
 		helper = new NeoManagerHelper(graphDb);
-		target = new NeoManager(graphDb); 
+		target = new NeoManager(graphDb);
 		currentTx = graphDb.beginTx();
 	}
 
@@ -44,29 +52,29 @@ public class NeoManagerTest {
 	}
 
 	@Test
-	public void testNodeExistTrue() {
+	public void testNodeExistTrue() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
-		assertTrue(target.nodeExist(container));
+		assertTrue(target.uniqueNodeExist(container));
 	}
 
 	@Test
-	public void testNodeExistFalse() {
+	public void testNodeExistFalse() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(new UUIDIndexContainer(UUID.randomUUID().toString()));
-		assertFalse(target.nodeExist(container));
+		assertFalse(target.uniqueNodeExist(container));
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testNodeExistException() {
+	@Test(expected = NodeExistsException.class)
+	public void testNodeExistException() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
 		helper.addNode(container);
-		target.nodeExist(container);
+		target.uniqueNodeExist(container);
 	}
 
 	@Test
-	public void testGetUniqueNode() {
+	public void testGetUniqueNode() throws NotUniqueException, NodeNotFoundException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		helper.addNode(container);
 		assertNotNull(target.getUniqueNode(container));
@@ -88,9 +96,9 @@ public class NeoManagerTest {
 	}
 
 	@Test
-	public void testCreateNode() {
+	public void testCreateNode() throws NotUniqueException, NodeExistsException, NodeNotFoundException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
-		HashMap<String, Object> properties = new HashMap<>();
+		HashMap<String, Object> properties = new HashMap<String, Object>();
 		properties.put("key", "value");
 		target.createNode(properties, container, PoolingpeopleObjectType.TASK);
 		Node n = target.getUniqueNode(container);
@@ -99,8 +107,8 @@ public class NeoManagerTest {
 
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testCreateNodeException() {
+	@Test(expected = NodeExistsException.class)
+	public void testCreateNodeException() throws NodeExistsException {
 		UUIDIndexContainer container = new UUIDIndexContainer(UUID.randomUUID().toString());
 		target.createNode(new HashMap<String,Object>(), container, PoolingpeopleObjectType.TASK);
 		target.createNode(new HashMap<String,Object>(), container, PoolingpeopleObjectType.TASK);
@@ -407,6 +415,66 @@ public class NeoManagerTest {
 	public void testGetPersistedObjects() {
 
 	}
+	
+	@Test
+	public void testRelationExists() {
+		
+		Node from = helper.addNode();
+		Node to = helper.addNode();
+		
+		RelationshipType r = new RelationshipType() {
+			
+			@Override
+			public String name() {
+				return "nothing";
+			}
+		};
+		
+		assertFalse(target.relationExists(from, to, r));
+		from.createRelationshipTo(to, r);
+		assertTrue(target.relationExists(from, to, r));
+	}
 
+	@Test
+	public void testGetPersistedObjectsWithInt() {
+		PersistedTask persistedTask = new PersistedTask(target);
+		
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		ArrayList<Task> tasks = new ArrayList<Task>(); 
+		tasks.add(persistedTask);
+		
+		target.getPersistedObjects(nodes, tasks, PersistedTask.class, Task.class);
+		
+		assertEquals(1, tasks.size());
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

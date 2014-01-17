@@ -1,1 +1,10 @@
 .idea
+/.project
+/.settings
+.sass-cache
+npm-debug.log
+node_modules/*
+js/config.js
+css/base.css
+dist
+doc

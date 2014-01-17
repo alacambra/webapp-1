@@ -1,21 +1,33 @@
 package poolingpeople.webapplication.business.boundary;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
+
+import org.apache.log4j.Logger;
 
 @Interceptor
 @AuthValidator
 public class AuthenticationInterceptor {
 
-	@Resource
-	private SessionContext sessionContext;
-	
+	@Inject
+	private LoggedUserContainer loggedUserContainer;
+
+	Logger logger = Logger.getLogger(this.getClass());
+
 	@AroundInvoke
 	public Object checkCallPermission(InvocationContext context) throws Exception {
-		System.out.println(sessionContext.getCallerPrincipal().getName());
+
+		loggedUserContainer.validateCredentials();
+		
+		if (!loggedUserContainer.userIsSuccessfullyLogged() && context.getMethod().getAnnotation(AuthNotRequired.class) == null) {
+			throw new WebApplicationException(Status.UNAUTHORIZED);
+		}
+		
 		return context.proceed();
+
 	}
 }

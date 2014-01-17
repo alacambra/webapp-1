@@ -4,3 +4,7 @@ target/
 .settings
 bin/
 visualee
+/WebContent
+/target
+/logs
+

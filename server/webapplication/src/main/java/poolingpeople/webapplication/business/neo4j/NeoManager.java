@@ -10,41 +10,42 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.apache.log4j.Logger;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.impl.util.StringLogger;
 
-@ApplicationScoped
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
+import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+
+@Singleton
 public class NeoManager {
 
-	public static final String TYPE_KEY = "type"; 
-	public static final String TYPE_CAT = "CAT";
-	public static final String CAT_KEY = "cat";
+	GraphDatabaseService graphDb;
+	Logger logger = Logger.getLogger(this.getClass());
+	public static final String FOUND = "found";
+
+	protected NeoManager(){}
 
 	@Inject
-	GraphDatabaseService graphDb;
-
-	public static final String FOUND = "found";
-	
-	protected NeoManager(){}
-	
 	public NeoManager(GraphDatabaseService graphDb){
 		this.graphDb = graphDb;
 	}
-	
 
-	public boolean nodeExist(IndexContainer indexContainer){
+
+	public boolean uniqueNodeExist(IndexContainer indexContainer) {
 
 		IndexHits<Node> indexHits = graphDb.index()
 				.forNodes( indexContainer.getType() ).get( indexContainer.getKey(), indexContainer.getValue());
@@ -53,23 +54,25 @@ public class NeoManager {
 			indexHits.close();
 			return true;
 		} else if ( indexHits != null && indexHits.size() > 1 ) {
-			throw new RuntimeException("More than one node exists");
+			throw new NodeExistsException();
 		}
 
 		return false;
 	}
 
 
-	public Node getUniqueNode( UUIDIndexContainer indexContainer) {
+	public Node getUniqueNode( UUIDIndexContainer indexContainer)  {
 
 		IndexHits<Node> indexHits = this.getNodes(indexContainer);
-		
+
 		if ( indexHits.size() > 1 ) {
-			throw new RuntimeException("Node is not unique");
+			throw new NotUniqueException();
 		} else if ( indexHits.size() == 0 ) {
-			throw new RuntimeException("Node not found");
+			throw new NodeNotFoundException();
 		} else {
-			return indexHits.getSingle();
+			Node single = indexHits.getSingle();
+			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
+			return single;
 		}
 	}
 
@@ -82,12 +85,13 @@ public class NeoManager {
 		return indexHits;
 	}
 
-	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) {
+	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
+	{
 
 		Node node = null;
 
-		if (nodeExist(indexContainer))
-			throw new RuntimeException("Node " + indexContainer.getValue() + " already exists and can not be created again");
+		if (uniqueNodeExist(indexContainer))
+			throw new NodeExistsException("Node " + indexContainer.getValue() + " already exists and can not be created again");
 
 
 		node = graphDb.createNode();
@@ -140,23 +144,41 @@ public class NeoManager {
 	public Object getProperty(Node node, String key) {
 
 		Object prop = null;
-
 		try {
 			prop = node.getProperty(key);
-		} catch ( NotFoundException e ) {
-			//			log.debug("property " + key + " not found");
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
+			return null;
 		}
-
 		return prop;
 	}
 
 
 	public String getStringProperty(Node node, String key) {
-		return (String) getProperty(node, key);
+		try {
+			return (String) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
+			return "";
+		}
 	}
 
 	public Integer getIntegerProperty(Node node, String key) {
-		return (Integer) getProperty(node, key);
+		try {
+			return (Integer) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
+			return 0;
+		}
+	}
+
+	public Float getFloatProperty(Node node, String key) {
+		try {
+			return (Float) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
+			return 0F;
+		}
 	}
 
 	public void setProperty(Node node, String key, Object value) {
@@ -196,6 +218,21 @@ public class NeoManager {
 		}
 
 		return null;
+	}
+
+	public boolean relationExists(Node from, Node to, RelationshipType relation){
+
+		Iterator<Relationship> iterator = from.getRelationships(relation, Direction.OUTGOING).iterator();
+		while (iterator.hasNext()) {
+
+			Relationship relationship = iterator.next();
+
+			if (relationship.getStartNode().equals(from) && relationship.getEndNode().equals(to)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 
@@ -267,12 +304,30 @@ public class NeoManager {
 		return node.hasProperty(key);
 	}
 
+	/**
+	 * Remove also the index in new function
+	 * @param n
+	 */
 	public void removeNode(Node n) {
+		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
+		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
+		
+		Iterable<Relationship> rels = n.getRelationships();
+		
+		for (Relationship r : rels) {
+			r.delete();
+		}
+		
 		n.delete();
 	}
-
+	
 	public Boolean getBooleanProperty(Node node, String key) {
-		return (Boolean) getProperty(node, key);
+		try {
+			return (Boolean) getProperty(node, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.error("property not found", e);
+			return false;
+		}
 	}
 
 	public GraphDatabaseService getGraphDbService() {
@@ -280,7 +335,12 @@ public class NeoManager {
 	}
 
 	public Long getLongProperty(Node n, String key) {
-		return (Long) getProperty(n, key);
+		try {
+			return (Long) getProperty(n, key);
+		} catch (org.neo4j.graphdb.NotFoundException e) {
+			logger.error("property not found", e);
+			return 0L;
+		}
 	}
 
 
@@ -300,92 +360,28 @@ public class NeoManager {
 
 		return objects;
 	}
+
+	@SuppressWarnings("unchecked")
+	public <IM, IN> AbstractCollection<IN> getPersistedObjects( 
+			Collection<Node> nodes, AbstractCollection<IN> objects, Class<IM> implementationClass,  Class<IN> interfaceClass ) {
+
+		if(!interfaceClass.isAssignableFrom(implementationClass)){
+			throw new RootApplicationException(implementationClass.getCanonicalName() 
+					+ " is not an implementation of " + interfaceClass.getCanonicalName());
+		}
+
+		for ( Node n : nodes ) {
+
+			try {
+
+				Constructor<IM> c = implementationClass.getConstructor(NeoManager.class, Node.class);
+				objects.add((IN) c.newInstance(this, n));
+
+			} catch (Exception e) {
+				throw new RootApplicationException(e);
+			}
+		}
+
+		return objects;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
