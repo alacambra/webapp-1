@@ -32,7 +32,7 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
 
                 if (attrs.startDate != 0 && attrs.endDate != 0) {
                     errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
-                        message : I18n.t('errors.validation.date_later_than', { attr: I18n.t('project.label.start_date') })
+                        message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
                     });
                 }
 
