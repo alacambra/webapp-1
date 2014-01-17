@@ -63,7 +63,7 @@ function (App, Entities, List, app_helper, view_helper) {
 
             $sandbox.find('a[href="#tasks/new"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('task:new');
+            expect(App.trigger).toHaveBeenCalledWith('task:create');
         });
 
         it('Check the show functionality of item view.', function () {

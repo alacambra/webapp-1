@@ -1,15 +1,15 @@
 /** @module view_helper */
 
-define(['i18n'], function() {
+define(['app', 'i18n'], function(App) {
     return {
         link_to: function(text, target, options) {
-            options = _.extend({ i18n: true }, target, options);
+            options = _.extend({ i18n: true }, options);
             if (options.i18n) text = is_blank(text) ? '' : I18n.t(text);
 
             var anchor = $('<a>', {
                 text: text,
-                href: options.href,
-                'data-navigate': options.event,
+                href: target.href,
+                'data-navigate': target.event,
                 id: options.id,
                 class: options.class
             });
@@ -35,35 +35,9 @@ define(['i18n'], function() {
             return this.link_to(text, target, options);
         },
 
-
-        home_path: function() {
-            return { href: '/', event: 'home' };
-        },
-
-
-        tasks_path: function() {
-            return { href: '#tasks', event: 'tasks:list' };
-        },
-
-        new_task_path: function() {
-            return { href: '#tasks/new', event: 'task:new' };
-        },
-
-        task_path: function(task_id) {
-            return { href: '#tasks/' + task_id, event: 'task:show,' + task_id };
-        },
-
-        edit_task_path: function(task_id) {
-            return { href: '#tasks/' + task_id + '/edit', event: 'task:edit,' + task_id };
-        },
-
-
-        efforts_path: function(task_id) {
-            return { href: '#tasks/' + task_id + '/efforts', event: 'efforts:list,' + task_id };
-        },
-
-        new_effort_path: function(task_id) {
-            return { href: '#tasks/' + task_id + '/efforts/new', event: 'effort:new,' + task_id };
+        path: function(entity, action, id) {
+            if (_.isUndefined(action)) return App.path[entity]();
+            return App.path[entity][action](id);
         },
 
 

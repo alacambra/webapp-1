@@ -73,9 +73,13 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
 
     App.handle_link = function(event) {
         event.preventDefault();
+        event.stopPropagation();
+
         var target = $(event.currentTarget).attr('data-navigate').split(',');
         var params = target.slice(1); // all params, except of first
         target = target[0]; // first param
+
+        //console.log(target + ' - ' + params.join(', '));
 
         // Tries to keep the usual cases speedy (inspired by Backbone.triggerEvents)
         switch(params.length) {
@@ -86,6 +90,13 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
             default: App.trigger(target, params);
         }
     };
+
+
+    App.path = {};
+    App.path['home'] = function() { return {
+        href: '/',
+        event: 'home'
+    }};
 
 
     App.on('home', function () {

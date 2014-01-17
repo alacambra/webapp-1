@@ -10,6 +10,51 @@ define(['app'], function (App) {
         });
 
 
+        App.path['tasks'] = {
+            list: function() { return {
+                href: '#tasks',
+                event: 'tasks:list' };
+            },
+            create: function() { return {
+                href: '#tasks/new',
+                event: 'task:create' };
+            },
+            show: function(id) { return {
+                href: '#tasks/' + id,
+                event: 'task:show,' + id };
+            },
+            edit: function(id) { return {
+                href: '#tasks/' + id + '/edit',
+                event: 'task:edit,' + id };
+            }
+        };
+
+
+        App.on('tasks:list', function() {
+            App.navigate('tasks');
+            API.tasks_list();
+        });
+
+        App.on('task:create', function() {
+            App.navigate('tasks/new');
+            API.task_edit();
+        });
+
+        App.on('task:show', function(id) {
+            App.navigate('tasks/' + id);
+            API.task_show(id);
+        });
+
+        App.on('task:edit', function(id) {
+            App.navigate('tasks/' + id + '/edit');
+            API.task_edit(id);
+        });
+
+        App.on('task:delete', function(id, redirect) {
+            API.task_delete(id, redirect);
+        });
+
+
         var API = {
             tasks_list: function () {
                 require(['app/tasks/list/list_controller'], function (TasksController) {
@@ -47,31 +92,6 @@ define(['app'], function (App) {
                 }
             }
         };
-
-
-        App.on('tasks:list', function() {
-            App.navigate('tasks');
-            API.tasks_list();
-        });
-
-        App.on('task:new', function() {
-            App.navigate('tasks/new');
-            API.task_edit();
-        });
-
-        App.on('task:show', function(id) {
-            App.navigate('tasks/' + id);
-            API.task_show(id);
-        });
-
-        App.on('task:edit', function(id) {
-            App.navigate('tasks/' + id + '/edit');
-            API.task_edit(id);
-        });
-
-        App.on('task:delete', function(id, redirect) {
-            API.task_delete(id, redirect);
-        });
 
 
         App.addInitializer(function () {

@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
-    <li><%= link_to('main_navi.home', home_path()) %></li>
-    <li><%= link_to('main_navi.tasks', tasks_path()) %></li>
+    <li><%= link_to('main_navi.home', path('home')) %></li>
+    <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
     <% if (!is_new_action()) {  %>
-        <li><%= link_to(title, task_path(id), { i18n: false }) %></li>
+        <li><%= link_to(title, path('tasks', 'show', id), { i18n: false }) %></li>
     <% } %>
     <li class="active"><%= I18n.t(is_new_action() ? 'new' : 'edit') %></li>
 </ol>

@@ -10,6 +10,51 @@ define(['app', 'app/efforts/effort_helper'], function (App, effort_helper) {
         });
 
 
+        App.path['efforts'] = {
+            list: function(task_id) { return {
+                href: '#tasks/' + task_id + '/efforts',
+                event: 'efforts:list,' + task_id };
+            },
+            create: function(task_id) { return {
+                href: '#tasks/' + task_id + '/efforts/new',
+                event: 'effort:create,' + task_id };
+            },
+            show: function(task_id, id) { return {
+                href: '#tasks/' + task_id + '/efforts/' + id,
+                event: 'effort:show,' + [task_id, id].join(',') };
+            },
+            edit: function(task_id, id) { return {
+                href: '#tasks/' + task_id + '/efforts/' + id + '/edit',
+                event: 'efforts:edit,' + [task_id, id].join(',') };
+            }
+        };
+
+
+        App.on('efforts:list', function(task_id) {
+            App.navigate('tasks/' + task_id + '/efforts');
+            API.efforts_list(task_id);
+        });
+
+        App.on('effort:create', function(task_id) {
+            App.navigate('tasks/' + task_id + '/efforts/new');
+            API.effort_edit(task_id, undefined);
+        });
+
+        App.on('effort:show', function(task_id, id) {
+            App.navigate('tasks/' + task_id + '/efforts/' + id);
+            API.effort_show(task_id, id);
+        });
+
+        App.on('effort:edit', function(task_id, id) {
+            App.navigate('tasks/' + task_id + '/efforts/' + id + '/edit');
+            API.effort_edit(task_id, id);
+        });
+
+        App.on('effort:delete', function(task_id, effort, redirect) {
+            API.effort_delete(task_id, effort, redirect);
+        });
+
+
         var API = {
             efforts_list: function (task_id) {
                 require(['app/efforts/list/list_controller'], function (EffortsController) {
@@ -47,31 +92,6 @@ define(['app', 'app/efforts/effort_helper'], function (App, effort_helper) {
                 }
             }
         };
-
-
-        App.on('efforts:list', function(task_id) {
-            App.navigate('tasks/' + task_id + '/efforts');
-            API.efforts_list(task_id);
-        });
-
-        App.on('effort:new', function(task_id) {
-            App.navigate('tasks/' + task_id + '/efforts/new');
-            API.effort_edit(task_id, undefined);
-        });
-
-        App.on('effort:show', function(task_id, id) {
-            App.navigate('tasks/' + task_id + '/efforts/' + id);
-            API.effort_show(task_id, id);
-        });
-
-        App.on('effort:edit', function(task_id, id) {
-            App.navigate('tasks/' + task_id + '/efforts/' + id + '/edit');
-            API.effort_edit(task_id, id);
-        });
-
-        App.on('effort:delete', function(task_id, effort, redirect) {
-            API.effort_delete(task_id, effort, redirect);
-        });
 
 
         App.addInitializer(function () {

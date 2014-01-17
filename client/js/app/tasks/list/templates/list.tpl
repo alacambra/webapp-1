@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><%= link_to('main_navi.home', home_path()) %></li>
+    <li><%= link_to('main_navi.home', path('home')) %></li>
     <li class="active"><%= I18n.t('main_navi.tasks') %></li>
 </ol>
 
@@ -17,4 +17,4 @@
 
 <div id="js-task-list-items"></div>
 
-<%= button_to('task.button.new', new_task_path(), { icon: 'plus', class: 'top-space' }) %>
+<%= button_to('task.button.new', path('tasks', 'create'), { icon: 'plus', class: 'top-space' }) %>

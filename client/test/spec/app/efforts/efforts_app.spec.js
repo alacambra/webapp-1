@@ -11,7 +11,7 @@ define(['app', 'app/efforts/efforts_app', 'app/entities/effort'], function(App, 
         it('Navigate to new effort', function() {
             spyOn(App, 'navigate');
 
-            App.trigger('effort:new', 17);
+            App.trigger('effort:create', 17);
 
             expect(App.navigate).toHaveBeenCalledWith('tasks/17/efforts/new');
         });
