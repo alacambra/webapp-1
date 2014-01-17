@@ -15,6 +15,7 @@ require.config({
         textile: 'lib/vendor/textile',
         tpl: 'lib/vendor/tpl',
         advanced_string: 'lib/advanced_string',
+        backbone_basicauth: 'lib/backbone.basicauth',
         behaviour: 'lib/behaviour',
         tools: 'lib/tools',
         locale_de: 'locales/de',
@@ -33,6 +34,7 @@ require.config({
             exports: 'Backbone'
         },
         backbone_syphon: ['backbone'],
+        backbone_basicauth: ['backbone'],
         backbone_faux_server: {
             deps: ['backbone', 'underscore'],
             exports: 'Faux'
@@ -62,7 +64,7 @@ require.config({
     }
 });
 
-require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'locale_de', 'app/common/loading_view'], function(jasmine, _, $) {
+require(['jasmine_html', 'underscore', 'jquery', 'tools', 'backbone_basicauth', 'locale_en', 'locale_de', 'app/common/loading_view'], function(jasmine, _, $) {
     I18n.locale = 'en';
 
     var jasmineEnv = jasmine.getEnv();
@@ -123,6 +125,12 @@ require(['jasmine_html', 'underscore', 'jquery', 'tools', 'locale_en', 'locale_d
     specs.push('spec/app/users/list/list_view.spec.js');
     specs.push('spec/app/users/show/show_controller.spec.js');
     specs.push('spec/app/users/show/show_view.spec.js');
+
+    // user session
+    specs.push('spec/app/entities/user_session.spec');
+    specs.push('spec/app/user_sessions/user_sessions_app.spec');
+    specs.push('spec/app/user_sessions/user_sessions_controller.spec.js');
+    specs.push('spec/app/user_sessions/login_view.spec.js');
 
     specs.push('spec/lib/tools.spec.js');
 
