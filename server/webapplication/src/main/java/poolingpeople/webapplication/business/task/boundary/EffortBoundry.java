@@ -50,7 +50,8 @@ public class EffortBoundry {
 	@GET
 	@Path("{id:[\\w\\d-]+}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getEffort(@PathParam("id") String uuid) throws JsonGenerationException, JsonMappingException, IOException{
+	public Response getEffort(@PathParam("id") String uuid) 
+			throws JsonGenerationException, JsonMappingException, IOException{
 		String r = mapper.writerWithView(EffortMixin.class).writeValueAsString(entityFactory.getEffortById(uuid));
 		return Response.ok().entity(r).build();
 	}
@@ -74,7 +75,7 @@ public class EffortBoundry {
 		Effort dtoEffort = mapper.readValue(json, EffortDto.class);
 		Effort effort = dtoConverter.fromDTOtoPersitedBean(dtoEffort, entityFactory.getEffortById(uuid));
 		String r = mapper.writeValueAsString(effort);
-		return Response.ok().entity(r).build();
+		return Response.noContent().build();
 
 	}
 
@@ -94,12 +95,12 @@ public class EffortBoundry {
 	
 	@DELETE
 	@Path("{id:[\\w\\d-]+}")
-	public Response deleteTask(@PathParam("taskId") String taskId, @PathParam("id") String uuid) {
+	public Response deleteEffort(@PathParam("taskId") String taskId, @PathParam("id") String uuid) {
 		
 		Task task = entityFactory.getTaskById(taskId);
 		task.deleteEffort(entityFactory.getEffortById(uuid));
 		
-		return Response.ok().build();
+		return Response.noContent().build();
 	}
 
 	//TODO: destroy it. Its just for development time....

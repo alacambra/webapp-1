@@ -8,45 +8,19 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import org.junit.runner.RunWith;
-
-import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
-import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
-import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
-import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
-import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
+import poolingpeople.webapplication.business.entity.AbstractTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
-import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper;
 
-@RunWith(CdiRunner.class)
-@AdditionalClasses({
-	ObjectMapperProducer.class, 
-	GraphDatabaseServiceProducer.class, 
-	TransactionInterceptor.class, 
-	CatchWebExceptionInterceptor.class,
-	ConfigurationProducer.class
-})
-public class TaskBoundaryTest {
+public class TaskBoundaryTest extends AbstractTest{
 
 	@Inject
 	TaskBoundary target;
-
-	@Inject
-	FileLoader fileLoader;
-
-	@Inject
-	RestObjectsHelper restObjectsHelper;
-
-	ObjectMapper mapper = new ObjectMapper();
 
 	@Before
 	public void setUp() {

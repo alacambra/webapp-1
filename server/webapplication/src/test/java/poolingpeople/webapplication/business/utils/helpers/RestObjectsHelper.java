@@ -2,7 +2,6 @@ package poolingpeople.webapplication.business.utils.helpers;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,9 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.webapplication.business.task.boundary.EffortBoundry;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
+import scala.annotation.meta.getter;
 
 @Stateless
 public class RestObjectsHelper {
@@ -24,7 +25,40 @@ public class RestObjectsHelper {
 
 	@Inject
 	TaskBoundary taskBoundary;
+	
+	@Inject
+	EffortBoundry effortBoundary;
+	
 	ObjectMapper mapper = new ObjectMapper();
+	
+	
+	public <K,V> Map<K,V> getTask(String uuid) {
+
+		Response r;
+		
+		try {
+			r = taskBoundary.getTaskById(uuid);
+			Map<K,V> ret = convertJsonToMap((String)r.getEntity());
+			return ret;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
+	
+	public <K,V> Map<K,V> getEffort(String uuid) {
+
+		Response r;
+		
+		try {
+			r = effortBoundary.getEffort(uuid);
+			Map<K,V> ret = convertJsonToMap((String)r.getEntity());
+			return ret;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
 
 	public <K,V> Map<K,V> insertTaskFromFile(String filename) {
 
@@ -45,6 +79,61 @@ public class RestObjectsHelper {
 			throw new RuntimeException(e);
 		}
 
+	}
+	
+	public <K,V> EffortWithTaskContainer<K,V> insertEffortFromFile(String filename) {
+
+		String json = FileLoader.getText(filename);
+		return insertEffortFromJson(json);
+
+	}
+	
+	public <K,V> EffortWithTaskContainer<K,V> insertEffortFromJson(String json, Map<String,String> task) {
+
+		try {
+			Response r = effortBoundary.saveEffort(task.get("id"), json);
+			Map<K,V> ret = convertJsonToMap((String)r.getEntity());
+			return new EffortWithTaskContainer(task, ret);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	public <K,V> EffortWithTaskContainer<K,V> insertEffortFromJson(String json) {
+			Map<String,String> task = insertTaskFromFile("task-create-request.json");
+			return insertEffortFromJson(json, task);
+	}
+	
+	public static class EffortWithTaskContainer<K,V>{
+		
+		Map<K,V> task;
+		Map<K,V> effort;
+		List<Map<K,V>> efforts;
+		
+		public EffortWithTaskContainer(Map<K,V> task, Map<K,V> effort) {
+			this.task = task;
+			this.effort = effort;
+		}
+		
+		public EffortWithTaskContainer(Map<K,V> task, List<Map<K,V>> efforts) {
+			this.task = task;
+			this.efforts = efforts;
+		}
+		
+		public Map<K,V> getEffort() {
+			return effort;
+		}
+		
+		public Map<K,V> getTask() {
+			return task;
+		}
+		
+		public List<Map<K, V>> getEfforts() {
+			return efforts;
+		}
+		
 	}
 
 	public <K,V> Map<K,V> convertJsonToMap(String json) {
@@ -73,6 +162,25 @@ public class RestObjectsHelper {
 		}
 
 		return tasks;
+	}
+	
+	public <K,V> EffortWithTaskContainer<K,V> createEffortListFromEffortFile(String filename, int num) {
+
+		List<Map<K,V>> efforts = new ArrayList<Map<K,V>>();
+		
+		EffortWithTaskContainer<K, V> container = insertEffortFromFile(filename);
+		
+		Map<K,V> created = container.getEffort();
+		efforts.add(created);
+
+		for (int i = 0; i<num; i++ ) {
+			
+			container = insertEffortFromJson(FileLoader.getText(filename), (Map<String, String>) container.getTask());
+			created = container.getEffort();
+			efforts.add(created);
+		}
+
+		return new EffortWithTaskContainer(container.getTask(), efforts);
 	}
 	
 	public <K,V> String convertMapToJson(Map<K,V> map) {
