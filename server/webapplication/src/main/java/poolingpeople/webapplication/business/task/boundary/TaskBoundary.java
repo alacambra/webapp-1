@@ -101,7 +101,7 @@ public class TaskBoundary {
     @Path("{id:[\\w\\d-]+}")
     public Response deleteTask(@PathParam("id") String uuid) {
         entityFactory.deleteTask(uuid);
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @GET

@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.utils.helpers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
@@ -26,7 +29,7 @@ public class RestObjectsHelper {
 	public <K,V> Map<K,V> insertTaskFromFile(String filename) {
 
 		String json = FileLoader.getText(filename);
-		return insertTaskFromFile(json);
+		return insertTaskFromJson(json);
 
 	}
 
@@ -60,39 +63,30 @@ public class RestObjectsHelper {
 		return convertJsonToMap(json);
 	}
 
-	public <K,V> Map<String, Map<K,V>> createTaskListFromTaskFile(String filename, int num) {
+	public <K,V> List<Map<K,V>> createTaskListFromTaskFile(String filename, int num) {
 
-		Map<String, Map<K,V>> createdTasks = new HashMap<String, Map<K,V>>();
+		List<Map<K,V>> tasks = new ArrayList<Map<K,V>>();
 
 		for (int i = 0; i<num; i++ ) {
 			Map<K,V> created = insertTaskFromFile(filename);
-			createdTasks.put((String) created.get("id"), created);			
+			tasks.add(created);
 		}
 
-		return createdTasks;
+		return tasks;
 	}
-
-	public <K,V> Map<String, Map<K,V>> convertTaskListFromTaskFile(String json) {
-
-		Map<String, Map<K,V>> tasks = new HashMap<String, Map<K,V>>();
-//		Map<K,V> tmps = mapper.readValue(json, Map.class);
+	
+	public <K,V> String convertMapToJson(Map<K,V> map) {
 		
-//		for(K key : tmps.keySet()){
-//			tasks.put("id", value)
-//		}
-//
-//		for (int i = 0; i<num; i++ ) {
-//			Map<K,V> created = insertTaskFromFile(filename);
-//			createdTasks.put((String) created.get("id"), created);			
-//		}
-//
-//		return createdTasks;
+		try {
+			return mapper.writeValueAsString(map);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		
-		return null;
 	}
 
 
-	public boolean mapsAreEquals(Map<?,?> m1, Map<?,?> m2) {
+	public <K,V> boolean mapsAreEquals(Map<K,V> m1, Map<K,V> m2) {
 
 		if ( m1.size() != m2.size()) {
 			logger.info("Map size does not match.");
@@ -109,7 +103,25 @@ public class RestObjectsHelper {
 		return true;
 	}
 
+	public <K,V> boolean mapsListAreEquals(List<Map<K,V>> l1, List<Map<K,V>> l2) {
 
+		if (l1.size() != l2.size()) {
+			return false;
+		}
+		
+		int success = 0;
+		
+		for(Map<K,V> m1 : l1) {
+			for(Map<K,V> m2 : l2) {
+				if(mapsAreEquals(m1, m2)){
+					success++;
+					break;
+				}
+			}
+		}
+
+		return success == l1.size();
+	}
 }
 
 
