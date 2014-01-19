@@ -19,11 +19,13 @@ import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
 import poolingpeople.webapplication.business.task.boundary.EffortBoundry;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
+import poolingpeople.webapplication.business.user.boundary.UserBoundary;
 import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper.EffortWithTaskContainer;
+import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({
@@ -31,8 +33,12 @@ import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper.Eff
 	GraphDatabaseServiceProducer.class, 
 	TransactionInterceptor.class, 
 	CatchWebExceptionInterceptor.class,
-	ConfigurationProducer.class
+	ConfigurationProducer.class,
+	EmailValidation.class
 })
+/*
+ * dependency problem, probably because Validators
+ */
 public abstract class AbstractTest {
 
 	@Inject
@@ -56,6 +62,9 @@ public abstract class AbstractTest {
 	
 	@Inject
 	ProjectBoundary projectBoundary;
+	
+	@Inject 
+	UserBoundary userBoundary;
 
 
 	protected <K,V> Map<K,V> getTask(String uuid) {
@@ -96,6 +105,25 @@ public abstract class AbstractTest {
 		try {
 
 			Response r = projectBoundary.saveProject(json);
+			Map<K,V> ret = convertJsonToMap((String)r.getEntity());
+			return ret;
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+	
+	protected Map<String, Object> insertUserFromFile(String filename) {
+		String json = FileLoader.getText(filename);
+		return insertUserFromJson(json);
+	}
+	
+	protected <K,V> Map<K,V> insertUserFromJson(String json) {
+
+		try {
+
+			Response r = userBoundary.saveUser(json);
 			Map<K,V> ret = convertJsonToMap((String)r.getEntity());
 			return ret;
 
@@ -176,6 +204,17 @@ public abstract class AbstractTest {
 		}
 
 		return projects;
+	}
+	
+	protected List<Map<String, Object>> createUserListFromUserFile(String userRequestFile, int num) {
+		List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
+
+		for (int i = 0; i<num; i++ ) {
+			Map<String, Object> created = insertUserFromFile(userRequestFile);
+			users.add(created);
+		}
+
+		return users;
 	}
 
 	protected <K,V> List<Map<K,V>> createTaskListFromTaskFile(String filename, int num) {
