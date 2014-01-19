@@ -93,7 +93,7 @@ public class ProjectBoundary {
 	@Path("{id:[\\w\\d-]+}")
 	public Response deleteProject(@PathParam("id") String uuid) {
 		entityFactory.deleteProject(uuid);
-		return Response.ok().build();
+		return Response.noContent().build();
 	}
 
 	@GET

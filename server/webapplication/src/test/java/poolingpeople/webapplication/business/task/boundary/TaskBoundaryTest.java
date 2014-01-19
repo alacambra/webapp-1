@@ -31,7 +31,7 @@ public class TaskBoundaryTest extends AbstractTest{
 	}
 
 	@Test
-	public void testGetTaskById_new() throws Exception {
+	public void testGetTaskById() throws Exception {
 
 		Map<String,String> createdTaskdata = restObjectsHelper.insertTaskFromFile("task-create-request.json");
 		Map<String,String> expectedTaskdata = restObjectsHelper.convertJsonFileToMap("task-create-response.json");
