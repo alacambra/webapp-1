@@ -139,6 +139,10 @@ I18n.translations['de'] = {
         server_unreachable : 'Der Server antwortet nicht. Bitte versuchen Sie es erneut.'
     },
 
+    common: {
+        empty_list: 'Liste ist leer.'
+    },
+
     delete_confirm: '"{{name}}"\n\nDiesen Eintrag wirklich löschen?',
 
     save: 'Speichern',

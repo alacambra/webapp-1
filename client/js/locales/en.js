@@ -139,6 +139,10 @@ I18n.translations['en'] = {
         server_unreachable : 'The server did not respond. Please try again.'
     },
 
+    common: {
+        empty_list: 'Empty list.'
+    },
+
     delete_confirm: '"{{name}}\n\n"Really delete this entity?',
 
     save: 'Save',
