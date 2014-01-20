@@ -2,7 +2,7 @@
     <div class="container">
         <!-- pooling people logo -->
         <div class="navbar-header">
-            <a class="js-home" href="#"><img id="navi-logo" src="img/poolingpeople_logo.png"></a>
+            <a class="js-home" href="#"><img id="navi-logo" height="40px" width="40px" src="img/pp_logo.png"></a>
         </div>
 
         <div class="collapse navbar-collapse">
