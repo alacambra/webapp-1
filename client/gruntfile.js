@@ -170,7 +170,6 @@ module.exports = function (grunt) {
 
     // Build task. Builds the app into dist folder.
     grunt.registerTask('build', [
-        'test',
         'clean',
         'sass:dist',
         'cssmin:combine',
