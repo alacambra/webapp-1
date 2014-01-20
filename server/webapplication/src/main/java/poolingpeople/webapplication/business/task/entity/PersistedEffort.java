@@ -20,18 +20,14 @@ public class PersistedEffort extends PersistedModel implements Effort{
 	/*
 	 * Used to know if the model is already built and consistent.
 	 */
-	private boolean isCreated = true;
+	
 	
 	public PersistedEffort(NeoManager manager, Node node) {
 		super(manager, node, NODE_TYPE);
 	}
 
 	public PersistedEffort(NeoManager manager, Effort effort) throws NodeExistsException {
-		super(manager, NODE_TYPE);
-		isCreated = false;
-		DTOConverter converter = new DTOConverter();
-		converter.fromDTOtoPersitedBean(effort, this);
-		isCreated = true;
+		super(manager, NODE_TYPE, effort);
 	}
 
 	public PersistedEffort(NeoManager manager, String id) throws NotUniqueException,
