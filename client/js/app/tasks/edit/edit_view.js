@@ -2,11 +2,11 @@ define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
         'app/app_helper',
         'app/form_helper',
-        'app/tasks/task_helper',
+        'app/tasks/tasks_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, task_helper) {
+function(App, edit_tpl, app_helper, form_helper, tasks_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -39,7 +39,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
             },
 
 
-            templateHelpers: $.extend({}, task_helper, app_helper),
+            templateHelpers: $.extend({}, tasks_helper, app_helper),
 
 
             onRender: function () {
@@ -72,7 +72,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
 
             init_progress_slider: function() {
                 var that = this;
-                var progress = task_helper.format_progress(this.model.get('progress'));
+                var progress = tasks_helper.format_progress(this.model.get('progress'));
 
                 this.ui.progress.val(progress);
                 this.ui.progress_slider.slider({
@@ -92,7 +92,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 var that = this;
                 var duration = this.model.get('duration') || 0;
 
-                this.ui.duration.val(task_helper.format_duration(duration) || 0);
+                this.ui.duration.val(tasks_helper.format_duration(duration) || 0);
                 this.ui.duration_slider.slider({
                     range: 'min',
                     value: duration,
@@ -100,7 +100,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                     max: 24 * 4 * 15,
                     step: 15,
                     slide: function(event, ui) {
-                        that.ui.duration.val(task_helper.format_duration(ui.value) || 0);
+                        that.ui.duration.val(tasks_helper.format_duration(ui.value) || 0);
                     }
                 });
             },
@@ -116,7 +116,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 form_helper.clear_errors(this);
 
                 var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', task_helper.unformat(data));
+                this.trigger('form:submit', tasks_helper.unformat(data));
             },
 
 
@@ -125,7 +125,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 if (isNaN(progress)) {
                     progress = 0;
                 } else {
-                    progress = task_helper.format_progress(progress / 100);
+                    progress = tasks_helper.format_progress(progress / 100);
                 }
 
                 this.ui.progress_slider.slider('option', 'value', progress);
@@ -141,7 +141,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                     this.ui.duration.val(duration);
                 }
 
-                duration = task_helper.unformat_duration(this.ui.duration.val());
+                duration = tasks_helper.unformat_duration(this.ui.duration.val());
 
                 if (duration === 0) {
                     this.ui.duration.val('0:00');

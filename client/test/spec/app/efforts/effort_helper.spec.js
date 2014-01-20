@@ -1,7 +1,7 @@
-define(['app/efforts/effort_helper', 'app/entities/effort'], function(effort_helper, Entities) {
+define(['app/efforts/efforts_helper', 'app/entities/effort'], function(efforts_helper, Entities) {
     return describe('Effort :: Helper', function() {
         it('Date should be returned in the format \'YYYY-MM-DD\'', function() {
-            expect(effort_helper.format_date(1387206224)).toBe('2013-12-16');
+            expect(efforts_helper.format_date(1387206224)).toBe('2013-12-16');
         });
 
         it('Should unformat correctly', function() {
@@ -12,7 +12,7 @@ define(['app/efforts/effort_helper', 'app/entities/effort'], function(effort_hel
                 comment: 'foo bar'
             };
 
-            expect(effort_helper.unformat(data)).toEqual({
+            expect(efforts_helper.unformat(data)).toEqual({
                 task_id: 10,
                 date: 1387062000,
                 time: 90,
@@ -28,7 +28,7 @@ define(['app/efforts/effort_helper', 'app/entities/effort'], function(effort_hel
                 comment: 'foo bar'
             });
 
-            expect(effort_helper.confirm_text(effort)).toEqual('foo bar');
+            expect(efforts_helper.confirm_text(effort)).toEqual('foo bar');
         });
 
         it('Should generate confirm text with date', function() {
@@ -38,7 +38,7 @@ define(['app/efforts/effort_helper', 'app/entities/effort'], function(effort_hel
                 time: 90
             });
 
-            expect(effort_helper.confirm_text(effort)).toEqual('2013-12-15, 1:30');
+            expect(efforts_helper.confirm_text(effort)).toEqual('2013-12-15, 1:30');
         });
     });
 });

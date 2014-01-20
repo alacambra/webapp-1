@@ -2,10 +2,10 @@ define(['app',
         'tpl!app/efforts/edit/templates/edit.tpl',
         'app/app_helper',
         'app/form_helper',
-        'app/efforts/effort_helper',
+        'app/efforts/efforts_helper',
         'backbone_syphon',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, effort_helper) {
+function(App, edit_tpl, app_helper, form_helper, efforts_helper) {
     App.module('Efforts.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -35,7 +35,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
             },
 
 
-            templateHelpers: $.extend({}, effort_helper, app_helper),
+            templateHelpers: $.extend({}, efforts_helper, app_helper),
 
 
             serializeData: function() {
@@ -65,7 +65,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
                 var that = this;
                 var time = this.model.get('time') || 0;
 
-                this.ui.time.val(effort_helper.format_time(time) || 0);
+                this.ui.time.val(efforts_helper.format_time(time) || 0);
                 this.ui.time_slider.slider({
                     range: 'min',
                     value: time,
@@ -73,7 +73,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
                     max: 24 * 4 * 15,
                     step: 15,
                     slide: function(event, ui) {
-                        that.ui.time.val(effort_helper.format_time(ui.value) || 0);
+                        that.ui.time.val(efforts_helper.format_time(ui.value) || 0);
                     }
                 });
             },
@@ -90,7 +90,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
                 form_helper.clear_errors(this);
 
                 var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', effort_helper.unformat(data));
+                this.trigger('form:submit', efforts_helper.unformat(data));
             },
 
 
@@ -128,7 +128,7 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
                     this.ui.time.val(time);
                 }
 
-                time = effort_helper.unformat_time(time);
+                time = efforts_helper.unformat_time(time);
 
                 if (time === 0) {
                     this.ui.time.val('0:00');

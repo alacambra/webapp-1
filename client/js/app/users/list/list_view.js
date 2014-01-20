@@ -2,8 +2,8 @@ define(['app',
         'tpl!app/users/list/templates/list.tpl',
         'tpl!app/users/list/templates/list_item.tpl',
         'app/app_helper',
-        'app/users/user_helper'],
-function(App, list_tpl, list_item_tpl, app_helper, user_helper) {
+        'app/users/users_helper'],
+function(App, list_tpl, list_item_tpl, app_helper, users_helper) {
     App.module('Users.List', function(List, App, Backbone, Marionette, $, _) {
         List.View = Marionette.ItemView.extend({
             className: 'list-row',
@@ -17,7 +17,7 @@ function(App, list_tpl, list_item_tpl, app_helper, user_helper) {
             },
 
 
-            templateHelpers: $.extend({}, app_helper, user_helper),
+            templateHelpers: $.extend({}, app_helper, users_helper),
 
 
             show: function(event) {

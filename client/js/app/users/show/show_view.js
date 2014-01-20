@@ -1,9 +1,9 @@
 define(['app',
         'tpl!app/users/show/templates/show.tpl',
         'app/app_helper',
-        'app/users/user_helper',
+        'app/users/users_helper',
         'lib/vendor/textile'],
-function(App, show_tpl, app_helper, user_helper) {
+function(App, show_tpl, app_helper, users_helper) {
     App.module('Users.Show', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.ItemView.extend({
             template: show_tpl,
@@ -17,7 +17,7 @@ function(App, show_tpl, app_helper, user_helper) {
             },
 
 
-            templateHelpers: $.extend({}, app_helper, user_helper),
+            templateHelpers: $.extend({}, app_helper, users_helper),
 
 
             edit: function(event) {

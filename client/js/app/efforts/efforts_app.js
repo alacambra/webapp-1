@@ -1,4 +1,4 @@
-define(['app', 'app/efforts/effort_helper'], function (App, effort_helper) {
+define(['app', 'app/efforts/efforts_helper'], function (App, efforts_helper) {
     App.module('EffortsApp', function (EffortsApp, App, Backbone, Marionette, $, _) {
         EffortsApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
@@ -40,7 +40,7 @@ define(['app', 'app/efforts/effort_helper'], function (App, effort_helper) {
             },
 
             effort_delete: function (task_id, effort, redirect) {
-                if (confirm(I18n.t('delete_confirm', { name: effort_helper.confirm_text(effort) }))) {
+                if (confirm(I18n.t('delete_confirm', { name: efforts_helper.confirm_text(effort) }))) {
                     require(['app/efforts/list/list_controller'], function (ListController) {
                         ListController.effort_delete(task_id, effort, redirect);
                     });

@@ -2,8 +2,8 @@ define(['app',
         'tpl!app/efforts/list/templates/list.tpl',
         'tpl!app/efforts/list/templates/list_item.tpl',
         'app/app_helper',
-        'app/efforts/effort_helper'],
-function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
+        'app/efforts/efforts_helper'],
+function(App, list_tpl, list_item_tpl, app_helper, efforts_helper) {
     App.module('Efforts.List', function(List, App, Backbone, Marionette, $, _) {
         List.View = Marionette.ItemView.extend({
             className: 'list-row',
@@ -17,7 +17,7 @@ function(App, list_tpl, list_item_tpl, app_helper, effort_helper) {
             },
 
 
-            templateHelpers: $.extend({}, app_helper, effort_helper),
+            templateHelpers: $.extend({}, app_helper, efforts_helper),
 
 
             serializeData: function() {

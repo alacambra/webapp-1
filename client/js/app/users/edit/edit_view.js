@@ -2,9 +2,9 @@ define(['app',
         'tpl!app/users/edit/templates/edit.tpl',
         'app/app_helper',
         'app/form_helper',
-        'app/users/user_helper',
+        'app/users/users_helper',
         'backbone_syphon'],
-function(App, edit_tpl, app_helper, form_helper, user_helper) {
+function(App, edit_tpl, app_helper, form_helper, users_helper) {
     App.module('Users.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -27,7 +27,7 @@ function(App, edit_tpl, app_helper, form_helper, user_helper) {
             },
 
 
-            templateHelpers: $.extend({}, user_helper, app_helper),
+            templateHelpers: $.extend({}, users_helper, app_helper),
 
 
             /*
@@ -40,7 +40,7 @@ function(App, edit_tpl, app_helper, form_helper, user_helper) {
                 form_helper.clear_errors(this);
 
                 var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', user_helper.unformat(data));
+                this.trigger('form:submit', users_helper.unformat(data));
             },
 
 

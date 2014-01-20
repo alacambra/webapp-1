@@ -2,11 +2,11 @@ define(['app',
         'tpl!app/projects/edit/templates/edit.tpl',
         'app/app_helper',
         'app/form_helper',
-        'app/projects/project_helper',
+        'app/projects/projects_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, project_helper) {
+function(App, edit_tpl, app_helper, form_helper, projects_helper) {
     App.module('Projects.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
             template: edit_tpl,
@@ -33,7 +33,7 @@ function(App, edit_tpl, app_helper, form_helper, project_helper) {
             },
 
 
-            templateHelpers: $.extend({}, project_helper, app_helper),
+            templateHelpers: $.extend({}, projects_helper, app_helper),
 
 
             onRender: function () {
@@ -72,7 +72,7 @@ function(App, edit_tpl, app_helper, form_helper, project_helper) {
                 form_helper.clear_errors(this);
 
                 var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', project_helper.unformat(data));
+                this.trigger('form:submit', projects_helper.unformat(data));
             },
 
 

@@ -1,9 +1,9 @@
 define(['app',
         'tpl!app/efforts/show/templates/show.tpl',
         'app/app_helper',
-        'app/efforts/effort_helper',
+        'app/efforts/efforts_helper',
         'lib/vendor/textile'],
-function(App, show_tpl, app_helper, effort_helper) {
+function(App, show_tpl, app_helper, efforts_helper) {
     App.module('Efforts.Show', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.ItemView.extend({
             template: show_tpl,
@@ -19,7 +19,7 @@ function(App, show_tpl, app_helper, effort_helper) {
             },
 
 
-            templateHelpers: $.extend({}, app_helper, effort_helper),
+            templateHelpers: $.extend({}, app_helper, efforts_helper),
 
 
             serializeData: function() {
