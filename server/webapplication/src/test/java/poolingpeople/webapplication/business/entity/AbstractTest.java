@@ -17,7 +17,7 @@ import poolingpeople.webapplication.business.boundary.CatchWebExceptionIntercept
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
-import poolingpeople.webapplication.business.task.boundary.EffortBoundry;
+import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 import poolingpeople.webapplication.business.user.boundary.UserBoundary;
 import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
@@ -58,7 +58,7 @@ public abstract class AbstractTest {
 	TaskBoundary taskBoundary;
 
 	@Inject
-	EffortBoundry effortBoundary;
+	EffortBoundary effortBoundary;
 	
 	@Inject
 	ProjectBoundary projectBoundary;

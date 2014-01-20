@@ -43,7 +43,6 @@ public class TaskBoundary {
     HttpServletRequest request;
 
     @Inject
-    @SetMixinView(entity = Task.class, mixin = TaskMixin.class)
     ObjectMapper mapper;
 
     @Inject

@@ -38,7 +38,6 @@ import poolingpeople.webapplication.business.task.entity.TaskStatus;
 public class EffortBoundary {
 
 	@Inject
-	@SetMixinView(entity = Effort.class, mixin = EffortMixin.class)
 	ObjectMapper mapper;
 
 	@Inject

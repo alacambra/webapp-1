@@ -14,7 +14,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import poolingpeople.webapplication.business.task.boundary.EffortBoundry;
+import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 import scala.annotation.meta.getter;
 
@@ -27,7 +27,7 @@ public class RestObjectsHelper {
 	TaskBoundary taskBoundary;
 	
 	@Inject
-	EffortBoundry effortBoundary;
+	EffortBoundary effortBoundary;
 	
 	ObjectMapper mapper = new ObjectMapper();
 	

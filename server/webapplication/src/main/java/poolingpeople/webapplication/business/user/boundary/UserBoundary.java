@@ -46,7 +46,6 @@ public class UserBoundary {
 	Logger logger = Logger.getLogger(this.getClass());
 
 	@Inject
-	@SetMixinView(entity = User.class, mixin = UserMixin.class)
 	ObjectMapper mapper;
 
 	@Inject
