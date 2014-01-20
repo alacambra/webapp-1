@@ -109,7 +109,7 @@ public class EffortBoundary {
 	public Response fakeTask(@PathParam("quantity") int quantity) 
 			throws JsonGenerationException, JsonMappingException, IOException {
 
-		Task persistedTask = entityFactory.createTask();
+		Task persistedTask = entityFactory.createTask(new TaskDTO());
 		persistedTask.setDescription("faked task to use with efforts");
 		persistedTask.setEndDate(1L);
 		persistedTask.setStartDate(2L);

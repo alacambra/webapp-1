@@ -70,8 +70,7 @@ public class ProjectBoundary {
 	public Response saveProject(String json) throws JsonParseException,
 			JsonMappingException, IOException {
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		Project Project = dtoConverter.fromDTOtoPersitedBean(dtoProject,
-				entityFactory.createProject());
+		Project Project = entityFactory.createProject(dtoProject);
 		return Response.ok().entity(mapper.writeValueAsString(Project)).build();
 	}
 
@@ -100,7 +99,7 @@ public class ProjectBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response fakeProject() throws JsonGenerationException,
 			JsonMappingException, IOException {
-		Project persistedProject = entityFactory.createProject();
+		Project persistedProject = entityFactory.createProject(new ProjectDTO());
 		persistedProject.setDescription("desc");
 		persistedProject.setEndDate(1L);
 		persistedProject.setStartDate(2L);

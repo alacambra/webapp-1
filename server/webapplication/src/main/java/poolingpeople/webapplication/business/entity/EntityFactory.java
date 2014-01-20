@@ -13,9 +13,11 @@ import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
+import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.PersistedEffort;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
@@ -37,8 +39,8 @@ public class EntityFactory {
 		return new PersistedTask(manager, uuid);
 	}
 
-	public PersistedTask createTask()  {
-		return new PersistedTask(manager);
+	public PersistedTask createTask(Task task)  {
+		return new PersistedTask(manager, task);
 	}
 
 	public List<PersistedTask> getAllTask() {
@@ -52,8 +54,8 @@ public class EntityFactory {
 		return tasks;
 	}
 
-	public PersistedProject createProject() {
-		return new PersistedProject(manager);
+	public PersistedProject createProject(Project project) {
+		return new PersistedProject(manager, project);
 	}
 
 	public PersistedProject getProjectById(
@@ -141,8 +143,8 @@ public class EntityFactory {
 		return users;
 	}
 
-	public User createUser(String email, String password) {
-		return new PersistedUser(manager, email, password);
+	public User createUser(String email, String password, User user) {
+		return new PersistedUser(manager, email, password, user);
 	}
 
 	public Effort getEffortById(String uuid) {

@@ -15,7 +15,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceExcepti
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedUser extends PersistedModel implements User {
+public class PersistedUser extends PersistedModel<User> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 
@@ -23,8 +23,9 @@ public class PersistedUser extends PersistedModel implements User {
 		super(manager, id, NODE_TYPE);
 	}
 
-	public PersistedUser(NeoManager manager, String email, String password) throws NodeExistsException {
-		super(manager, NODE_TYPE);
+	public PersistedUser(NeoManager manager, String email, String password, User user) throws NodeExistsException {
+		super(manager, NODE_TYPE, user);
+		isCreated = false;
 		
 		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
 
@@ -35,6 +36,8 @@ public class PersistedUser extends PersistedModel implements User {
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
 		setLoginEmail(email);
 		setPassword(password);
+		
+		isCreated = true;
 		
 	}
 

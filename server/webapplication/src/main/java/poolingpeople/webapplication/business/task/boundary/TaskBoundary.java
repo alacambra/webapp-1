@@ -28,6 +28,7 @@ import poolingpeople.webapplication.business.boundary.SetMixinView;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
@@ -78,8 +79,7 @@ public class TaskBoundary {
     public Response saveTask(String json) throws JsonParseException,
             JsonMappingException, IOException {
         Task dtoTask = mapper.readValue(json, TaskDTO.class);
-        Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
-                entityFactory.createTask());
+        Task task = entityFactory.createTask(dtoTask);
         return Response.ok().entity(mapper.writeValueAsString(task)).build();
     }
 
@@ -108,7 +108,7 @@ public class TaskBoundary {
     @Produces(MediaType.APPLICATION_JSON)
     public Response fakeTask() throws JsonGenerationException,
             JsonMappingException, IOException {
-        Task persistedTask = entityFactory.createTask();
+        Task persistedTask = entityFactory.createTask(new PersistedTask());
         persistedTask.setDescription("desc");
         persistedTask.setEndDate(1L);
         persistedTask.setStartDate(2L);

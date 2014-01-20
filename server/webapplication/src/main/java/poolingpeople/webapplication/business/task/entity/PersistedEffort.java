@@ -13,7 +13,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsExceptio
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedEffort extends PersistedModel implements Effort{
+public class PersistedEffort extends PersistedModel<Effort> implements Effort{
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	

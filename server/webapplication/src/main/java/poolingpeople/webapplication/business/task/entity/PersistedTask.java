@@ -16,7 +16,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundExcept
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
 
-public class PersistedTask extends PersistedModel implements Task {
+public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 
@@ -25,9 +25,8 @@ public class PersistedTask extends PersistedModel implements Task {
 		super(manager, id, NODE_TYPE);
 	}
 
-	public PersistedTask(NeoManager manager) throws NodeExistsException {
-		super(manager, NODE_TYPE);
-		this.manager = manager;
+	public PersistedTask(NeoManager manager, Task task) throws NodeExistsException {
+		super(manager, NODE_TYPE, task);
 	}
 
 	/*
@@ -159,7 +158,7 @@ public class PersistedTask extends PersistedModel implements Task {
 		return underlyingNode.hashCode();
 	}
 
-	public void addSubtask(PersistedModel child) {
+	public void addSubtask(PersistedModel<?> child) {
 		createRelationTo(Relations.IS_SUBPROJECT_OF, child, true);
 	}
 
