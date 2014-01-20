@@ -25,6 +25,7 @@ import poolingpeople.webapplication.business.utils.configuration.boundary.Config
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper.EffortWithTaskContainer;
+import poolingpeople.webapplication.business.utils.helpers.ValidatorProducer;
 import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 
 @RunWith(CdiRunner.class)
@@ -34,11 +35,10 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	TransactionInterceptor.class, 
 	CatchWebExceptionInterceptor.class,
 	ConfigurationProducer.class,
-	EmailValidation.class
+	EmailValidation.class,
+        ValidatorProducer.class
 })
-/*
- * dependency problem, probably because Validators
- */
+
 public abstract class AbstractTest {
 
 	@Inject
