@@ -19,7 +19,16 @@ module.exports = function (grunt) {
                     'js/app/**/*.tpl',
                     'js/lib/**/*.js',
                     'test/SpecRunner.js',
-                    'test/spec/*.spec.js',
+                    'test/spec/**/*.spec.js'
+                ]
+            },
+            test: {
+                tasks: 'jasmine:test',
+                files: [
+                    'js/*.js',
+                    'js/app/**/*.js',
+                    'js/app/**/*.tpl',
+                    'js/lib/**/*.js',
                     'test/spec/**/*.spec.js'
                 ]
             }
@@ -34,7 +43,7 @@ module.exports = function (grunt) {
             },
             livereload: {
                 options: {
-                    open: 'http://localhost:9000/test/SpecRunner.html'
+                    open: 'http://localhost:9000'
                 }
             },
             test: {
@@ -51,7 +60,7 @@ module.exports = function (grunt) {
                     specs: 'test/spec/**/*.spec.js',
                     vendor: 'js/lib/vendor/i18n.js',
                     helpers: 'test/lib/test_helper.js',
-                    host: 'http://127.0.0.1:8000/',
+                    host: 'http://127.0.0.1:<%= connect.test.options.port %>/',
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
                         requireConfigFile: 'js/require_main.js'
@@ -153,11 +162,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-requirejs');
 
-    // Default task.
-    grunt.registerTask('default', ['connect:livereload', 'watch:livereload']);
+    // Default task. Starts a node js server that refreshes on app changes.
+    grunt.registerTask('default', [
+        'connect:livereload',
+        'watch:livereload'
+    ]);
 
-    // Build task.
+    // Build task. Builds the app into dist folder.
     grunt.registerTask('build', [
+        'test',
         'clean',
         'sass:dist',
         'cssmin:combine',
@@ -167,6 +180,15 @@ module.exports = function (grunt) {
         'copy:dist'
     ]);
 
-    // Test task.
-    grunt.registerTask('test', [ 'connect:test', 'jasmine:test' ]);
+    // Test task. A single test run.
+    grunt.registerTask('test', [
+        'connect:test',
+        'jasmine:test'
+    ]);
+
+    // Test task. Runs test on every app change.
+    grunt.registerTask('testing', [
+        'connect:test',
+        'watch:test'
+    ]);
 };
