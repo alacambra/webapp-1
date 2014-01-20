@@ -1,4 +1,4 @@
-define(['app/view_helper', 'app/form_helper', 'moment', 'advanced_string'], function(view_helper, form_helper) {
+define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_helper, form_helper) {
     return {
         status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
         priority_options: ['low', 'normal', 'high'],

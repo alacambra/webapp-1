@@ -36,6 +36,27 @@ module.exports = function (grunt) {
                 options: {
                     open: 'http://localhost:9000/test/SpecRunner.html'
                 }
+            },
+            test: {
+                options: {
+                    port: 8000
+                }
+            }
+        },
+
+        jasmine: {
+            test: {
+                src: 'js/app/**/*.js',
+                options: {
+                    specs: 'test/spec/**/*.spec.js',
+                    vendor: 'js/lib/vendor/i18n.js',
+                    helpers: 'test/lib/test_helper.js',
+                    host: 'http://127.0.0.1:8000/',
+                    template: require('grunt-template-jasmine-requirejs'),
+                    templateOptions: {
+                        requireConfigFile: 'js/require_main.js'
+                    }
+                }
             }
         },
 
@@ -93,17 +114,19 @@ module.exports = function (grunt) {
 
         uglify: {
             main: {
-                files: [{
-                    expand: true,
-                    cwd: 'js/locales',
-                    src: '*.js',
-                    dest: 'dist/js/locales'
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'js/locales',
+                        src: '*.js',
+                        dest: 'dist/js/locales'
+                    }
+                ]
             }
         },
 
-        jsdoc : {
-            dist : {
+        jsdoc: {
+            dist: {
                 src: [
                     'js/app.js',
                     'js/config.example.js',
@@ -118,6 +141,7 @@ module.exports = function (grunt) {
     });
 
     // Load plugins here
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -142,4 +166,7 @@ module.exports = function (grunt) {
         'uglify',
         'copy:dist'
     ]);
+
+    // Test task.
+    grunt.registerTask('test', [ 'connect:test', 'jasmine:test' ]);
 };

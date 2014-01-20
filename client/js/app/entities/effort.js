@@ -1,4 +1,4 @@
-define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, validation_helper, Faux) {
+define(['app', 'config', 'moment', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, moment, validation_helper, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('efforts');
 

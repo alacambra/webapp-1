@@ -1,6 +1,6 @@
 /** @module view_helper */
 
-define(['i18n'], function() {
+define(['i18n', 'moment'], function(i18n, moment) {
     return {
         format_date: function(date) {
             return moment(date * 1000).format(I18n.t('date_format'));
