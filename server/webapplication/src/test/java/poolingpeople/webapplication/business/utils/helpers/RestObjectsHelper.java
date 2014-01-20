@@ -1,6 +1,5 @@
 package poolingpeople.webapplication.business.utils.helpers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,13 +9,10 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.task.boundary.EffortBoundry;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
-import scala.annotation.meta.getter;
 
 @Stateless
 public class RestObjectsHelper {
