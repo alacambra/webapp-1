@@ -65,6 +65,19 @@ module.exports = function (grunt) {
                         requireConfigFile: 'js/require_main.js'
                     }
                 }
+            },
+            build: {
+                src: 'dist/js/application.js',
+                options: {
+                    specs: 'test/spec/**/*.spec.js',
+                    vendor: 'js/lib/vendor/i18n.js',
+                    helpers: 'test/lib/test_helper.js',
+                    host: 'http://127.0.0.1:<%= connect.test.options.port %>/',
+                    template: require('grunt-template-jasmine-requirejs'),
+                    templateOptions: {
+                        requireConfigFile: 'dist/js/application.js'
+                    }
+                }
             }
         },
 
@@ -176,6 +189,12 @@ module.exports = function (grunt) {
         'requirejs:compile',
         'uglify',
         'copy:dist'
+    ]);
+
+    grunt.registerTask('build:test', [
+        'build',
+        'connect:test',
+        'jasmine:build'
     ]);
 
     // Test task. A single test run.
