@@ -35,10 +35,9 @@ import poolingpeople.webapplication.business.task.entity.TaskStatus;
 @Stateless
 @Neo4jTransaction
 @CatchWebAppException
-public class EffortBoundry {
+public class EffortBoundary {
 
 	@Inject
-	@SetMixinView(entity = Effort.class, mixin = EffortMixin.class)
 	ObjectMapper mapper;
 
 	@Inject

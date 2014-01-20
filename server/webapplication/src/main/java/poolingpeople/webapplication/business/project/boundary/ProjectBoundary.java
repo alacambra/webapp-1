@@ -37,7 +37,6 @@ import poolingpeople.webapplication.business.project.entity.ProjectStatus;
 public class ProjectBoundary {
 
 	@Inject
-	@SetMixinView(entity = Project.class, mixin = ProjectMixin.class)
 	ObjectMapper mapper;
 
 	@Inject

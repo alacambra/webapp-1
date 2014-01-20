@@ -1,52 +1,48 @@
 package poolingpeople.webapplication.business.boundary;
 
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.AnnotatedField;
-import javax.enterprise.inject.spi.InjectionPoint;
 
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
+import poolingpeople.webapplication.business.project.boundary.ProjectMixin;
+import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.task.boundary.EffortMixin;
+import poolingpeople.webapplication.business.task.boundary.TaskMixin;
+import poolingpeople.webapplication.business.task.entity.Effort;
+import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.boundary.UserMixin;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public class ObjectMapperProducer {
 
-	@Produces
-	public ObjectMapper produceObjectMapper(InjectionPoint injectionPoint) {
-		return hasFieldAnnotation(injectionPoint) ? createObjectMapper(injectionPoint) : null;
-	}
+    @Produces
+    public ObjectMapper produceObjectMapper() {
+        return createObjectMapperWithMixinConfiguration();
+    }
 
-	private boolean hasFieldAnnotation(InjectionPoint point) {
-		return (point.getAnnotated() != null && point.getAnnotated() instanceof AnnotatedField);
-	}
+    private ObjectMapper createObjectMapperWithMixinConfiguration() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(
+                new MixinModule()
+                .addMixin(Task.class, TaskMixin.class)
+                .addMixin(Effort.class, EffortMixin.class)
+                .addMixin(Project.class, ProjectMixin.class)
+                .addMixin(User.class, UserMixin.class)
+        );
+        return mapper;
+    }
 
-	private ObjectMapper createObjectMapper(InjectionPoint injectionPoint) {
-		Class<?> entity = getEntityClassFromAnnotation(injectionPoint);
-		Class<?> mixin  = getMixinClassFromAnnotation(injectionPoint);
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new TaskMixinModule(mixin.getSimpleName(),
-				entity, mixin));
-		return mapper;
-	}
+    private static class MixinModule extends SimpleModule {
 
-	private Class<?> getEntityClassFromAnnotation(InjectionPoint point) {
-		AnnotatedField<SetMixinView> field = (AnnotatedField<SetMixinView>) point
-				.getAnnotated();
-		SetMixinView mixinView = field.getAnnotation(SetMixinView.class);
-		return (mixinView != null) ? mixinView.entity() : null;
-	}
+        public MixinModule() {
+            super("MixinModule", new Version(0, 0, 1, null));
+        }
 
-	private Class<?> getMixinClassFromAnnotation(InjectionPoint point) {
-		AnnotatedField<SetMixinView> field = (AnnotatedField<SetMixinView>) point
-				.getAnnotated();
-		SetMixinView mixinView = field.getAnnotation(SetMixinView.class);
-		return (mixinView != null) ? mixinView.mixin() : null;
-	}
-	
-	public class TaskMixinModule extends SimpleModule {
-		public TaskMixinModule(String mixinName, Class<?> entity, Class<?> mixin) {
-			super(mixinName, new Version(0, 0, 1, null));
-			setMixInAnnotation(entity, mixin);
-		}
-	}
+        public MixinModule addMixin(Class<?> entityClazz, Class<?> mixinClazz) {
+            setMixInAnnotation(entityClazz, mixinClazz);
+            return this;
+        }
+    }
 
 }

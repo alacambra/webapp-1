@@ -41,7 +41,7 @@ public class UserBoundaryTest extends AbstractTest{
 
 	@Test
 	public void testGetAllUsers() throws JsonGenerationException, JsonMappingException, IOException{
-		List<Map<String, Object>> expected = createUserListFromUserFile(userRequestFile, 3);
+		List<Map<String, Object>> expected = createUserListFromUserFile(userRequestFile, 1);
 		Response users = target.getAllUsers();
 		assertEquals(Response.Status.OK, users.getStatusInfo());
 
@@ -55,16 +55,14 @@ public class UserBoundaryTest extends AbstractTest{
 		Map<String,Object> expectedUser = convertJsonFileToMap(userResponseFile);
 		Response response = target.saveUser(FileLoader.getText(userRequestFile));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		Map<String,Object> actuall = convertJsonToMap((String) response.getEntity());
-		expectedUser.put("id", actuall.get("id"));
-		assertTrue(mapsAreEquals(expectedUser, actuall));
+		Map<String,Object> actual = convertJsonToMap((String) response.getEntity());
+		expectedUser.put("id", actual.get("id"));
+		assertTrue(mapsAreEquals(expectedUser, actual));
 	}
 
 	@Test
 	public void testUpdateUser() throws JsonGenerationException, JsonMappingException, IOException{
-		String title = "title under test";
 		Map<String,Object> createdUser = insertUserFromFile(userRequestFile);
-		createdUser.put("title", title);
 		String json = convertMapToJson(createdUser);
 		Response r = target.updateUser((String) createdUser.get("id"), json);
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
@@ -74,9 +72,7 @@ public class UserBoundaryTest extends AbstractTest{
 
 	@Test
 	public void testDeleteUser() throws JsonGenerationException, JsonMappingException, IOException{
-		String title = "title under test";
 		Map<String,Object> createdUser = insertUserFromFile(userRequestFile);
-		createdUser.put("title", title);
 		String json = convertMapToJson(createdUser);
 		Response r = target.updateUser((String) createdUser.get("id"), json);
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());

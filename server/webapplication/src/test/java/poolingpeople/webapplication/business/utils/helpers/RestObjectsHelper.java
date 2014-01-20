@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import poolingpeople.webapplication.business.task.boundary.EffortBoundry;
+import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 
 @Stateless
@@ -23,7 +23,7 @@ public class RestObjectsHelper {
 	TaskBoundary taskBoundary;
 	
 	@Inject
-	EffortBoundry effortBoundary;
+	EffortBoundary effortBoundary;
 	
 	ObjectMapper mapper = new ObjectMapper();
 	

@@ -24,7 +24,7 @@ import scala.annotation.meta.getter;
 public class EffortBoundryTest extends AbstractTest{
 
 	@Inject 
-	EffortBoundry target;
+	EffortBoundary target;
 
 	String effortRequestFile = "effort-task-create-request.json";
 	String effortResponseFile = "effort-task-create-response.json";
