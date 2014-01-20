@@ -18,7 +18,6 @@ module.exports = function (grunt) {
                     'js/app/**/*.js',
                     'js/app/**/*.tpl',
                     'js/lib/**/*.js',
-                    'test/SpecRunner.js',
                     'test/spec/**/*.spec.js'
                 ]
             },
