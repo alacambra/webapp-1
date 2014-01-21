@@ -115,7 +115,7 @@ define(['i18n'], function() {
          *
          * @example
          * // using other date format 'YY/MM/DD'
-         * $.extend({}, app_helper.datepicker_default, { dateFormat: 'YY/MM/DD' });
+         * _.extend({}, app_helper.datepicker_default, { dateFormat: 'YY/MM/DD' });
          */
         datepicker_default: {
             dateFormat: I18n.t('date_format_picker'),
