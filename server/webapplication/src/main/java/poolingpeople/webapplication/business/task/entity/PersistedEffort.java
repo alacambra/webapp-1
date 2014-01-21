@@ -13,25 +13,21 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsExceptio
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedEffort extends PersistedModel implements Effort{
+public class PersistedEffort extends PersistedModel<Effort> implements Effort{
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	
 	/*
 	 * Used to know if the model is already built and consistent.
 	 */
-	private boolean isCreated = true;
+	
 	
 	public PersistedEffort(NeoManager manager, Node node) {
 		super(manager, node, NODE_TYPE);
 	}
 
 	public PersistedEffort(NeoManager manager, Effort effort) throws NodeExistsException {
-		super(manager, NODE_TYPE);
-		isCreated = false;
-		DTOConverter converter = new DTOConverter();
-		converter.fromDTOtoPersitedBean(effort, this);
-		isCreated = true;
+		super(manager, NODE_TYPE, effort);
 	}
 
 	public PersistedEffort(NeoManager manager, String id) throws NotUniqueException,

@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.utils.cdi;
+package poolingpeople.webapplication.business.utils.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import org.apache.commons.io.IOUtils;
 
 public class FileLoader {
 
-	public String getText(String fileName) {
+	public static String getText(String fileName) {
 		
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
 
