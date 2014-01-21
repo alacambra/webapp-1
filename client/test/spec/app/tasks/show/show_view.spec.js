@@ -44,9 +44,9 @@ define([ 'app', 'app/entities/task', 'app/tasks/show/show_view' ], function (App
         it('Check the edit functionality.', function () {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[href="#tasks/8/edit"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('task:edit', task.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('task:edit', task.get('id') + '');
         });
 
         it('Check the delete functionality.', function () {

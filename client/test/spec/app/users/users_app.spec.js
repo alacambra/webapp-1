@@ -11,7 +11,7 @@ define(['app', 'app/users/users_app', 'app/entities/user'], function(App, UsersA
         it('Navigate to new user', function() {
             spyOn(App, 'navigate');
 
-            App.trigger('user:new');
+            App.trigger('user:create');
 
             expect(App.navigate).toHaveBeenCalledWith('users/new');
         });

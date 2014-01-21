@@ -1,34 +1,33 @@
 define(['app',
         'tpl!app/users/edit/templates/edit.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/form_helper',
         'app/users/users_helper',
         'backbone_syphon'],
-function(App, edit_tpl, app_helper, form_helper, users_helper) {
+function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
     App.module('Users.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
-            template: edit_tpl,
-
             className: 'edit',
+            template: edit_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, users_helper),
 
             cssPrefix: '#js-user-',
 
+            
             ui: {
                 submit_button: '#js-user-submit',
                 submit_error_msg: '#js-user-submit-error-msg',
                 save_indicator: '#js-user-save-indicator'
             },
 
+            
             events: {
-                'click button.js-submit': 'submit',
-                'click a.js-home': 'go_to_home',
-                'click a.js-users': 'go_to_users',
-                'click a.js-user': 'go_to_user'
+                'click a[data-navigate]': App.handle_link,
+                'click button.js-submit': 'submit'
             },
 
-
-            templateHelpers: $.extend({}, users_helper, app_helper),
-
+            
 
             /*
              * view event handlers

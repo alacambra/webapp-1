@@ -1,12 +1,12 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
-    <li><a class="js-tasks" href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
-    <li><a class="js-task" href="<%= url_for('tasks', task_id) %>"><%= I18n.t('main_navi.task') %></a></li>
-    <li><a class="js-efforts" href="<%= url_for('tasks', task_id, 'efforts') %>"><%= I18n.t('main_navi.efforts') %></a></li>
-    <% if (Backbone.history.location.hash.indexOf('new') < 0) { %>
-    <li><a class="js-effort" href="<%= url_for('tasks', task_id,'efforts', id) %>"><%= I18n.t('main_navi.effort') %></a></li>
+    <li><%= link_to('main_navi.home', path('home')) %></li>
+    <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
+    <li><%= link_to('main_navi.task', path('tasks', 'show', task_id)) %></li>
+    <li><%= link_to('main_navi.efforts', path('efforts', 'list', task_id)) %></li>
+    <% if (!is_new_action()) {  %>
+        <li><%= link_to('main_navi.effort', path('efforts', 'show', task_id, id)) %></li>
     <% } %>
-    <li class="active"><%= I18n.t(Backbone.history.location.hash.indexOf('new') > -1 ? 'new' : 'edit') %></li>
+    <li class="active"><%= I18n.t(is_new_action() ? 'new' : 'edit') %></li>
 </ol>
 
 <form class="form-horizontal" role="form">

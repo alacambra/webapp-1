@@ -71,6 +71,34 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
     };
 
 
+    App.handle_link = function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var target = $(event.currentTarget).attr('data-navigate').split(',');
+        var params = target.slice(1); // all params, except of first
+        target = target[0]; // first param
+
+        //console.log(target + ' - ' + params.join(', '));
+
+        // Tries to keep the usual cases speedy (inspired by Backbone.triggerEvents)
+        switch(params.length) {
+            case 0: App.trigger(target); break;
+            case 1: App.trigger(target, params[0]); break;
+            case 2: App.trigger(target, params[0], params[1]); break;
+            case 3: App.trigger(target, params[0], params[1], params[2]); break;
+            default: App.trigger(target, params);
+        }
+    };
+
+
+    App.path = {};
+    App.path['home'] = function() { return {
+        href: '/',
+        event: 'home'
+    }};
+
+
     App.on('home', function () {
         App.navigate('#');
         App.main_region.show(new App.Common.HomeView());
@@ -79,9 +107,6 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
 
     App.on('initialize:after', function() {
         App.init_i18n(function() {
-            App.show_version();
-            App.show_main_navi();
-
             var faux_require = '';
             if (CONFIG.rest.faux_enable) faux_require = 'app_faux_server';
 
@@ -95,6 +120,9 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
                 'app/common/loading_view',
                 'app/common/home_view'
             ], function() {
+                App.show_version();
+                App.show_main_navi();
+
                 Backbone.history.start();
 
                 if (App.current_route() === '') {

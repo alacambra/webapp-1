@@ -1,17 +1,18 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/form_helper',
         'app/tasks/tasks_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, tasks_helper) {
+function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
-            template: edit_tpl,
-
             className: 'edit',
+            template: edit_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
 
             cssPrefix: '#js-task-',
 
@@ -29,17 +30,13 @@ function(App, edit_tpl, app_helper, form_helper, tasks_helper) {
                 save_indicator: '#js-task-save-indicator'
             },
 
+            
             events: {
+                'click a[data-navigate]': App.handle_link,
                 'click button.js-submit': 'submit',
                 'blur input#js-task-progress': 'update_progress',
-                'blur input#js-task-duration': 'update_duration',
-                'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task'
+                'blur input#js-task-duration': 'update_duration'
             },
-
-
-            templateHelpers: $.extend({}, tasks_helper, app_helper),
 
 
             onRender: function () {
@@ -149,22 +146,6 @@ function(App, edit_tpl, app_helper, form_helper, tasks_helper) {
                 }
 
                 this.ui.duration_slider.slider('option', 'value', duration);
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_tasks: function (event) {
-                event.preventDefault();
-                App.trigger('tasks:list');
-            },
-
-            go_to_task: function (event) {
-                event.preventDefault();
-                App.trigger('task:show', this.model.get('id'));
             },
 
 

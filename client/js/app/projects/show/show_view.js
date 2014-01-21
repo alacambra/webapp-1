@@ -1,45 +1,24 @@
 define(['app',
         'tpl!app/projects/show/templates/show.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/projects/projects_helper',
         'lib/vendor/textile'],
-function(App, show_tpl, app_helper, projects_helper) {
+function(App, show_tpl, app_helper, view_helper, projects_helper) {
     App.module('Projects.Show', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.ItemView.extend({
             template: show_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, projects_helper),
 
 
             events: {
-                'click .js-edit': 'edit',
-                'click .js-delete': 'delete_item',
-                'click a.js-home': 'go_to_home',
-                'click a.js-projects': 'go_to_projects'
-            },
-
-
-            templateHelpers: $.extend({}, app_helper, projects_helper),
-
-
-            edit: function(event) {
-                event.preventDefault();
-                App.trigger('project:edit', this.model.get('id'));
+                'click a[data-navigate]': App.handle_link,
+                'click .js-delete': 'delete_item'
             },
 
 
             delete_item: function() {
                 App.trigger('project:delete', this.model, 'projects:list');
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-
-            go_to_projects: function (event) {
-                event.preventDefault();
-                App.trigger('projects:list');
             }
         });
     });

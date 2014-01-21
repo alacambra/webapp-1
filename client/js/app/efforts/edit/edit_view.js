@@ -1,19 +1,21 @@
 define(['app',
         'tpl!app/efforts/edit/templates/edit.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/form_helper',
         'app/efforts/efforts_helper',
         'backbone_syphon',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, efforts_helper) {
+function(App, edit_tpl, app_helper, view_helper, form_helper, efforts_helper) {
     App.module('Efforts.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
-            template: edit_tpl,
-
             className: 'edit',
+            template: edit_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, efforts_helper),
 
             cssPrefix: '#js-effort-',
 
+            
             ui: {
                 date: '#js-effort-date',
                 time: '#js-effort-time',
@@ -24,23 +26,17 @@ function(App, edit_tpl, app_helper, form_helper, efforts_helper) {
                 save_indicator: '#js-effort-save-indicator'
             },
 
+            
             events: {
+                'click a[data-navigate]': App.handle_link,
                 'click button.js-submit': 'submit',
-                'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task',
-                'click a.js-efforts': 'go_to_efforts',
-                'click a.js-effort': 'go_to_effort',
                 'blur input#js-effort-time': 'update_time'
             },
 
-
-            templateHelpers: $.extend({}, efforts_helper, app_helper),
-
-
+            
             serializeData: function() {
                 return _.extend({}, this.model.attributes, {
-                    task_id: this.task_id
+                    task_id: this.model.task_id
                 });
             },
 

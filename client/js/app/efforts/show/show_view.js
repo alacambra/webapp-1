@@ -1,25 +1,20 @@
 define(['app',
         'tpl!app/efforts/show/templates/show.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/efforts/efforts_helper',
         'lib/vendor/textile'],
-function(App, show_tpl, app_helper, efforts_helper) {
+function(App, show_tpl, app_helper, view_helper, efforts_helper) {
     App.module('Efforts.Show', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.ItemView.extend({
             template: show_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, efforts_helper),
 
 
             events: {
-                'click .js-edit': 'edit',
-                'click .js-delete': 'delete_item',
-                'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task',
-                'click a.js-efforts': 'go_to_efforts'
+                'click a[data-navigate]': App.handle_link,
+                'click .js-delete': 'delete_item'
             },
-
-
-            templateHelpers: $.extend({}, app_helper, efforts_helper),
 
 
             serializeData: function() {
@@ -29,35 +24,8 @@ function(App, show_tpl, app_helper, efforts_helper) {
             },
 
 
-            edit: function(event) {
-                event.preventDefault();
-                App.trigger('effort:edit', this.model.task_id, this.model.get('id'));
-            },
-
-
             delete_item: function() {
                 App.trigger('effort:delete', this.model.task_id, this.model, 'task:show');
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_tasks: function (event) {
-                event.preventDefault();
-                App.trigger('tasks:list');
-            },
-
-            go_to_task: function (event) {
-                event.preventDefault();
-                App.trigger('task:show', this.model.task_id);
-            },
-
-            go_to_efforts: function (event) {
-                event.preventDefault();
-                App.trigger('efforts:list', this.model.task_id);
             }
         });
     });

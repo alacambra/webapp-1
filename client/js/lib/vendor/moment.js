@@ -2301,10 +2301,10 @@
             global.moment = function () {
                 if (!warned && console && console.warn) {
                     warned = true;
-                    console.warn(
+                    /*console.warn(
                             "Accessing Moment through the global scope is " +
                             "deprecated, and will be removed in an upcoming " +
-                            "release.");
+                            "release.");*/
                 }
                 return local_moment.apply(null, arguments);
             };

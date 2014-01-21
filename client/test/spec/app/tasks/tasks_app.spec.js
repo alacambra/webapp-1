@@ -13,7 +13,7 @@ define([ 'app', 'app/tasks/tasks_app', 'app/entities/task' ], function (App, Tas
         it('Navigate to new task.', function () {
             spyOn(App, 'navigate');
 
-            App.trigger('task:new');
+            App.trigger('task:create');
 
             expect(App.navigate).toHaveBeenCalledWith('tasks/new');
         });

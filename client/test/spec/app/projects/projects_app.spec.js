@@ -11,7 +11,7 @@ define(['app', 'app/projects/projects_app', 'app/entities/project'], function(Ap
         it('Navigate to new project', function() {
             spyOn(App, 'navigate');
 
-            App.trigger('project:new');
+            App.trigger('project:create');
 
             expect(App.navigate).toHaveBeenCalledWith('projects/new');
         });
