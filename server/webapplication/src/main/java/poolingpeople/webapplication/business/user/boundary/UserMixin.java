@@ -51,7 +51,7 @@ public class UserMixin implements User{
 	public void setLastName(String lastname) {}
 
 	@Override
-	@JsonIgnore
+//	@JsonIgnore
 	public String getPassword() {
 		return null;
 	}
