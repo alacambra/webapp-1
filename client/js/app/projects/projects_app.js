@@ -1,5 +1,4 @@
 define(['app'], function (App) {
-
     App.module('ProjectsApp', function (ProjectsApp, App, Backbone, Marionette, $, _) {
         ProjectsApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
@@ -8,6 +7,51 @@ define(['app'], function (App) {
                 'projects/:id': 'project_show',
                 'projects/:id/edit': 'project_edit'
             }
+        });
+
+
+        App.path['projects'] = {
+            list: function() { return {
+                href: '#projects',
+                event: 'projects:list' };
+            },
+            create: function() { return {
+                href: '#projects/new',
+                event: 'project:create' };
+            },
+            show: function(id) { return {
+                href: '#projects/' + id,
+                event: 'project:show,' + id };
+            },
+            edit: function(id) { return {
+                href: '#projects/' + id + '/edit',
+                event: 'project:edit,' + id };
+            }
+        };
+
+
+        App.on('projects:list', function() {
+            App.navigate('projects');
+            API.projects_list();
+        });
+
+        App.on('project:create', function() {
+            App.navigate('projects/new');
+            API.project_edit();
+        });
+
+        App.on('project:show', function(id) {
+            App.navigate('projects/' + id);
+            API.project_show(id);
+        });
+
+        App.on('project:edit', function(id) {
+            App.navigate('projects/' + id + '/edit');
+            API.project_edit(id);
+        });
+
+        App.on('project:delete', function(id, redirect) {
+            API.project_delete(id, redirect);
         });
 
 
@@ -48,31 +92,6 @@ define(['app'], function (App) {
                 }
             }
         };
-
-
-        App.on('projects:list', function() {
-            App.navigate('projects');
-            API.projects_list();
-        });
-
-        App.on('project:new', function() {
-            App.navigate('projects/new');
-            API.project_edit();
-        });
-
-        App.on('project:show', function(id) {
-            App.navigate('projects/' + id);
-            API.project_show(id);
-        });
-
-        App.on('project:edit', function(id) {
-            App.navigate('projects/' + id + '/edit');
-            API.project_edit(id);
-        });
-
-        App.on('project:delete', function(id, redirect) {
-            API.project_delete(id, redirect);
-        });
 
 
         App.addInitializer(function () {

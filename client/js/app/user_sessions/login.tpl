@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
+    <li><%= link_to('main_navi.home', path('home')) %></li>
     <li class="active"><%= I18n.t('main_navi.login') %></li>
 </ol>
 

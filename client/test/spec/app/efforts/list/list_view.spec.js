@@ -1,8 +1,9 @@
 define(['app',
         'app/entities/effort',
         'app/efforts/list/list_view',
-        'app/app_helper'],
-function(App, Entities, List, app_helper) {
+        'app/app_helper',
+    'app/view_helper'],
+function(App, Entities, List, app_helper, view_helper) {
     var $sandbox = $('#sandbox');
 
     describe('Effort :: List :: View', function() {
@@ -24,7 +25,7 @@ function(App, Entities, List, app_helper) {
         beforeEach(function() {
             listView = new List.Efforts({
                 collection: efforts,
-                templateHelpers: app_helper
+                templateHelpers: _.extend({}, app_helper, view_helper)
             });
             itemView = new List.View({
                 model: effort1
@@ -61,9 +62,9 @@ function(App, Entities, List, app_helper) {
         it('Check the create functionality of list view', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-create').click();
+            $sandbox.find('a[data-navigate="effort:create,23"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:new', 23);
+            expect(App.trigger).toHaveBeenCalledWith('effort:create', 23 + '');
         });
 
         it('Check the show functionality of item view', function() {
@@ -71,9 +72,9 @@ function(App, Entities, List, app_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-show').click();
+            $sandbox.find('a[data-navigate="effort:show,' + effort1.task_id + ',' + effort1.get('id') + '"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:show', effort1.task_id, effort1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('effort:show', effort1.task_id + '', effort1.get('id') + '');
         });
 
         it('Check the edit functionality of item view', function() {
@@ -81,9 +82,9 @@ function(App, Entities, List, app_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[data-navigate="effort:edit,' + effort1.task_id + ',' + effort1.get('id') + '"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort1.task_id, effort1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort1.task_id + '', effort1.get('id') + '');
         });
 
         it('Check the delete functionality of item view', function() {

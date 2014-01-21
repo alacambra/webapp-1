@@ -61,7 +61,7 @@ function (App, Entities, List, app_helper, view_helper) {
         it('Check the create functionality of list view.', function () {
             spyOn(App, 'trigger');
 
-            $sandbox.find('a[href="#tasks/new"]').click();
+            $sandbox.find('a[data-navigate="task:create"]').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:create');
         });

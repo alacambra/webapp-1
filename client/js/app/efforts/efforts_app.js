@@ -25,7 +25,7 @@ define(['app', 'app/efforts/effort_helper'], function (App, effort_helper) {
             },
             edit: function(task_id, id) { return {
                 href: '#tasks/' + task_id + '/efforts/' + id + '/edit',
-                event: 'efforts:edit,' + [task_id, id].join(',') };
+                event: 'effort:edit,' + [task_id, id].join(',') };
             }
         };
 

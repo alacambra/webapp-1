@@ -1,8 +1,9 @@
 define(['app',
         'app/entities/user',
         'app/users/list/list_view',
-        'app/app_helper'],
-function(App, Entities, List, app_helper) {
+        'app/app_helper',
+        'app/view_helper'],
+function(App, Entities, List, app_helper, view_helper) {
     var $sandbox = $('#sandbox');
 
     describe('User :: List :: View', function() {
@@ -23,7 +24,7 @@ function(App, Entities, List, app_helper) {
         beforeEach(function() {
             listView = new List.Users({
                 collection: users,
-                templateHelpers: app_helper
+                templateHelpers: _.extend({}, app_helper, view_helper)
             });
             itemView = new List.View({
                 model: user1
@@ -60,9 +61,9 @@ function(App, Entities, List, app_helper) {
         it('Check the create functionality of list view', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-create').click();
+            $sandbox.find('a[data-navigate="user:create"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('user:new');
+            expect(App.trigger).toHaveBeenCalledWith('user:create');
         });
 
         it('Check the show functionality of item view', function() {
@@ -70,9 +71,9 @@ function(App, Entities, List, app_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-show').click();
+            $sandbox.find('a[data-navigate="user:show,' + user1.get('id') + '"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('user:show', user1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('user:show', user1.get('id') + '');
         });
 
         it('Check the edit functionality of item view', function() {
@@ -80,9 +81,9 @@ function(App, Entities, List, app_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[href="#users/1/edit"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('user:edit', user1.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('user:edit', '1');
         });
 
         it('Check the delete functionality of item view', function() {

@@ -2,33 +2,19 @@ define(['app',
         'tpl!app/projects/list/templates/list.tpl',
         'tpl!app/projects/list/templates/list_item.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/projects/project_helper'],
-function(App, list_tpl, list_item_tpl, app_helper, project_helper) {
+function(App, list_tpl, list_item_tpl, app_helper, view_helper, project_helper) {
     App.module('Projects.List', function(List, App, Backbone, Marionette, $, _) {
         List.View = Marionette.ItemView.extend({
             className: 'list-row',
             template: list_item_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, project_helper),
 
 
             events: {
-                'click .js-show': 'show',
-                'click .js-edit': 'edit',
+                'click a[data-navigate]': App.handle_link,
                 'click .js-delete': 'delete_item'
-            },
-
-
-            templateHelpers: $.extend({}, app_helper, project_helper),
-
-
-            show: function(event) {
-                event.preventDefault();
-                App.trigger('project:show', this.model.get('id'));
-            },
-
-
-            edit: function(event) {
-                event.preventDefault();
-                App.trigger('project:edit', this.model.get('id'));
             },
 
 
@@ -42,22 +28,12 @@ function(App, list_tpl, list_item_tpl, app_helper, project_helper) {
         List.Projects = Marionette.CompositeView.extend({
             id: 'projects',
             template: list_tpl,
-            templateHelpers: app_helper,
+            templateHelpers: _.extend({}, app_helper, view_helper),
             itemView: List.View,
             itemViewContainer: '#js-project-list-items',
 
             events: {
-                'click .js-create': function(event) {
-                    event.preventDefault();
-                    App.trigger('project:new');
-                },
-                'click a.js-home': 'go_to_home'
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
+                'click a[data-navigate]': App.handle_link
             }
         })
     });

@@ -35,9 +35,9 @@ define(['app', 'i18n'], function(App) {
             return this.link_to(text, target, options);
         },
 
-        path: function(entity, action, id) {
+        path: function(entity, action, id1, id2) {
             if (_.isUndefined(action)) return App.path[entity]();
-            return App.path[entity][action](id);
+            return App.path[entity][action](id1, id2);
         },
 
 

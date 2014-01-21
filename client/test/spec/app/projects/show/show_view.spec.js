@@ -42,9 +42,9 @@ define(['app', 'app/entities/project', 'app/projects/show/show_view'], function(
         it('Check the edit functionality', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[data-navigate="project:edit,' + project.get('id') + '"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('project:edit', project.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('project:edit', project.get('id') + '');
         });
 
         it('Check the delete functionality', function() {

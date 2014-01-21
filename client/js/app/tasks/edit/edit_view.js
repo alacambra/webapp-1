@@ -10,9 +10,9 @@ define(['app',
 function(App, edit_tpl, app_helper, view_helper, form_helper, task_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
-            template: edit_tpl,
-
             className: 'edit',
+            template: edit_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, task_helper),
 
             cssPrefix: '#js-task-',
 
@@ -30,19 +30,13 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, task_helper) {
                 save_indicator: '#js-task-save-indicator'
             },
 
+            
             events: {
+                'click a[data-navigate]': App.handle_link,
                 'click button.js-submit': 'submit',
                 'blur input#js-task-progress': 'update_progress',
                 'blur input#js-task-duration': 'update_duration'
             },
-
-
-            initialize: function() {
-                this.events['click a[data-navigate]'] = App.handle_link;
-            },
-
-
-            templateHelpers: $.extend({}, app_helper, view_helper, task_helper),
 
 
             onRender: function () {

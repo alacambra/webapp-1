@@ -107,9 +107,6 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
 
     App.on('initialize:after', function() {
         App.init_i18n(function() {
-            App.show_version();
-            App.show_main_navi();
-
             var faux_require = '';
             if (CONFIG.rest.faux_enable) faux_require = 'app_faux_server';
 
@@ -123,6 +120,9 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
                 'app/common/loading_view',
                 'app/common/home_view'
             ], function() {
+                App.show_version();
+                App.show_main_navi();
+
                 Backbone.history.start();
 
                 if (App.current_route() === '') {

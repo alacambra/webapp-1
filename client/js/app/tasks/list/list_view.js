@@ -9,19 +9,13 @@ function(App, list_tpl, list_item_tpl, app_helper, view_helper, task_helper) {
         List.View = Marionette.ItemView.extend({
             className: 'list-row',
             template: list_item_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, task_helper),
 
 
             events: {
+                'click a[data-navigate]': App.handle_link,
                 'click .js-delete': 'delete_item'
             },
-
-
-            initialize: function() {
-                this.events['click a[data-navigate]'] = App.handle_link;
-            },
-
-
-            templateHelpers: $.extend({}, app_helper, view_helper, task_helper),
 
 
             delete_item: function(event) {
@@ -34,13 +28,12 @@ function(App, list_tpl, list_item_tpl, app_helper, view_helper, task_helper) {
         List.Tasks = Marionette.CompositeView.extend({
             id: 'tasks',
             template: list_tpl,
-            templateHelpers: $.extend({}, app_helper, view_helper),
+            templateHelpers: _.extend({}, app_helper, view_helper),
             itemView: List.View,
             itemViewContainer: '#js-task-list-items',
 
-            initialize: function() {
-                this.events || (this.events = {});
-                this.events['click a[data-navigate]'] = App.handle_link;
+            events: {
+                'click a[data-navigate]': App.handle_link
             }
         })
     });

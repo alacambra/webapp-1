@@ -1,19 +1,21 @@
 define(['app',
         'tpl!app/efforts/edit/templates/edit.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/form_helper',
         'app/efforts/effort_helper',
         'backbone_syphon',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, effort_helper) {
+function(App, edit_tpl, app_helper, view_helper, form_helper, effort_helper) {
     App.module('Efforts.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
-            template: edit_tpl,
-
             className: 'edit',
+            template: edit_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, effort_helper),
 
             cssPrefix: '#js-effort-',
 
+            
             ui: {
                 date: '#js-effort-date',
                 time: '#js-effort-time',
@@ -24,23 +26,17 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
                 save_indicator: '#js-effort-save-indicator'
             },
 
+            
             events: {
+                'click a[data-navigate]': App.handle_link,
                 'click button.js-submit': 'submit',
-                'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task',
-                'click a.js-efforts': 'go_to_efforts',
-                'click a.js-effort': 'go_to_effort',
                 'blur input#js-effort-time': 'update_time'
             },
 
-
-            templateHelpers: $.extend({}, effort_helper, app_helper),
-
-
+            
             serializeData: function() {
                 return _.extend(this.model.attributes, {
-                    task_id: this.task_id
+                    task_id: this.model.task_id
                 });
             },
 
@@ -91,32 +87,6 @@ function(App, edit_tpl, app_helper, form_helper, effort_helper) {
 
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', effort_helper.unformat(data));
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_tasks: function (event) {
-                event.preventDefault();
-                App.trigger('tasks:list');
-            },
-
-            go_to_task: function (event) {
-                event.preventDefault();
-                App.trigger('task:show', this.model.task_id);
-            },
-
-            go_to_efforts: function (event) {
-                event.preventDefault();
-                App.trigger('efforts:list', this.model.task_id);
-            },
-
-            go_to_effort: function (event) {
-                event.preventDefault();
-                App.trigger('effort:show', this.model.task_id, this.model.get('id'));
             },
 
 
