@@ -22,7 +22,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, efforts_helper) {
 
 
             serializeData: function() {
-                return _.extend(this.model.attributes, {
+                return _.extend({}, this.model.attributes, {
                     task_id: this.model.task_id
                 });
             },

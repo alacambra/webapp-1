@@ -9,11 +9,13 @@ function(App, Entities, List, app_helper) {
         var listView = null,
             itemView = null,
             effort1 = new Entities.Effort({
-                id: 1,
+                id: 1
+            }, {
                 task_id: 2
             }),
             effort2 = new Entities.Effort({
-                id: 2,
+                id: 2
+            }, {
                 task_id: 3
             }),
             efforts = new Entities.EffortCollection([

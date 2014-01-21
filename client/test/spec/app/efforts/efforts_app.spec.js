@@ -41,8 +41,9 @@ define(['app', 'app/efforts/efforts_app', 'app/entities/effort'], function(App, 
         it('Confirm to delete effort', function() {
             var effort = new Entities.Effort({
                     id: 1,
-                    task_id: 2,
                     title: 'Effort1'
+                }, {
+                    task_id: 2
                 }),
                 redirect = 'redirect';
 

@@ -20,7 +20,7 @@ define(['app', 'app/efforts/efforts_helper'], function (App, efforts_helper) {
 
             effort_new: function (task_id) {
                 require(['app/efforts/edit/edit_controller'], function (EditController) {
-                    EditController.effort_edit(undefined, task_id);
+                    EditController.effort_edit(task_id, undefined);
                     highlight_navi();
                 });
             },
@@ -34,6 +34,7 @@ define(['app', 'app/efforts/efforts_helper'], function (App, efforts_helper) {
 
             effort_edit: function (task_id, id) {
                 require(['app/efforts/edit/edit_controller'], function (EditController) {
+                    console.log(task_id, id);
                     EditController.effort_edit(task_id, id);
                     highlight_navi();
                 });
@@ -56,7 +57,7 @@ define(['app', 'app/efforts/efforts_helper'], function (App, efforts_helper) {
 
         App.on('effort:new', function(task_id) {
             App.navigate('tasks/' + task_id + '/efforts/new');
-            API.effort_edit(task_id, undefined);
+            API.effort_new(task_id, undefined);
         });
 
         App.on('effort:show', function(task_id, id) {

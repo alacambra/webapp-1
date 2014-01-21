@@ -22,10 +22,11 @@ define(['app/efforts/efforts_helper', 'app/entities/effort'], function(efforts_h
 
         it('Should generate confirm text with comment', function() {
             var effort = new Entities.Effort({
-                task_id: 10,
                 date: 1387062000,
                 time: 90,
                 comment: 'foo bar'
+            }, {
+                task_id: 10
             });
 
             expect(efforts_helper.confirm_text(effort)).toEqual('foo bar');
@@ -33,9 +34,10 @@ define(['app/efforts/efforts_helper', 'app/entities/effort'], function(efforts_h
 
         it('Should generate confirm text with date', function() {
             var effort = new Entities.Effort({
-                task_id: 10,
                 date: 1387062000,
                 time: 90
+            }, {
+                task_id: 10
             });
 
             expect(efforts_helper.confirm_text(effort)).toEqual('2013-12-15, 1:30');

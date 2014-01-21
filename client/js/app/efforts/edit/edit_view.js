@@ -39,7 +39,7 @@ function(App, edit_tpl, app_helper, form_helper, efforts_helper) {
 
 
             serializeData: function() {
-                return _.extend(this.model.attributes, {
+                return _.extend({}, this.model.attributes, {
                     task_id: this.task_id
                 });
             },
