@@ -11,8 +11,7 @@ define(['app', 'config', 'moment', 'app/validation_helper', 'backbone_faux_serve
                 id: null,
                 date: null,
                 time: null,
-                comment: null,
-                abc: 'abc'
+                comment: null
             },
 
             initialize: function(attributes, options) {
