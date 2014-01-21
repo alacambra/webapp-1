@@ -59,6 +59,7 @@ function(App, edit_tpl, app_helper, form_helper, tasks_helper) {
                     var $this = $(this);
                     if (!$this.data('elastic-enabled')) {
                         $this.elastic().data('elastic-enabled', true);
+                        $this.unbind('blur');   // this removes the issue when clicking a button doesn't work while textarea is focused
                     }
                 });
             },
