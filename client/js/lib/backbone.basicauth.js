@@ -30,8 +30,7 @@ define(['app', 'lib/storage'], function(App, Storage) {
         options = options || {};
 
         if (App.logged_in()) {
-            options.headers = options.headers || {};
-            _.extend(options.headers, { 'Authorization': 'Basic ' + App.get_credentials() });
+            options.headers = _.extend({ 'Authorization': 'Basic ' + App.get_credentials() }, (options.headers || {}));
         }
 
         // Perform the sync
