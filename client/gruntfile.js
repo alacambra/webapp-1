@@ -49,6 +49,11 @@ module.exports = function (grunt) {
                 options: {
                     port: 8000
                 }
+            },
+            test_build: {
+                options: {
+                    port: 8001
+                }
             }
         },
 
@@ -72,6 +77,7 @@ module.exports = function (grunt) {
             build: {
                 src: 'dist/js/application.js',
                 options: {
+                    host: 'http://127.0.0.1:<%= connect.test_build.options.port %>/',
                     templateOptions: {
                         requireConfigFile: 'dist/js/application.js'
                     }
@@ -191,7 +197,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build:test', [
         'build',
-        'connect:test',
+        'connect:test_build',
         'jasmine:build'
     ]);
 
@@ -199,6 +205,12 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'connect:test',
         'jasmine:test'
+    ]);
+
+    // Test task for distribution version. A single test run.
+    grunt.registerTask('test:build', [
+        'connect:test_build',
+        'jasmine:build'
     ]);
 
     // Test task. Runs test on every app change.
