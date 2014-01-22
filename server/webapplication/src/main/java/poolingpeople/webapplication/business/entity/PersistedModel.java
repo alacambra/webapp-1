@@ -1,7 +1,11 @@
 package poolingpeople.webapplication.business.entity;
 
 import java.lang.reflect.Method;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -147,33 +151,59 @@ public abstract class PersistedModel<T>{
 			return null;
 		}
 	}
-	
+
 	protected void setProperty(NodesPropertiesNames property, Object value) {
 		manager.setProperty(underlyingNode, property.name(), value);
 	}
+
+	protected Integer getIntegerProperty(NodesPropertiesNames property) {
+		return manager.getIntegerProperty(underlyingNode, property.name());
+	}
+
 	protected String getStringProperty(NodesPropertiesNames property) {
 		return manager.getStringProperty(underlyingNode, property.name());
 	}
-	
+
 	protected Long getLongProperty(NodesPropertiesNames property) {
 		return manager.getLongProperty(underlyingNode, property.name());
 	}
-	
+
+	protected void createRelationshipTo(PersistedModel<?> to, Relations relation) {
+		manager.createRelationshipTo(underlyingNode, to.getNode(), relation);
+	}
+
+	protected void createRelationshipFrom(PersistedModel<?> from, Relations relation) {
+		manager.createRelationshipTo(from.getNode(), underlyingNode, relation);
+	}
+
 	protected void onCreate() {
-		
+
 	}
-	
+
 	protected void onDelete() {
-		
+
 	}
-	
+
 	protected final void finalDelete() {
 		onDelete();
 	}
-	
-	
-	
-	
+
+	protected <P> List<P> getRelatedNodes(Relations relation, Class<P> clazz){
+		ArrayList<P> list = new ArrayList<>();
+		return (List<P>) manager.getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation), list, clazz);
+	}
+
+	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass){
+		return (List<IN>) manager.getPersistedObjects(
+				manager.getRelatedNodes(underlyingNode, relation), 
+				new ArrayList<IN>(), 
+				implementationClass, 
+				interfaceClass);
+	}
+
+
+
+
 }
 
 

@@ -55,6 +55,8 @@ public interface Task{
 	
 	Integer getEffort();
 	
+	Integer getEstimationTime(); 
+	
 //	Collection<Task> getSubtasks();
 //	void addSubtask(Task task);
 

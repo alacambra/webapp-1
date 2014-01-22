@@ -256,6 +256,12 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		
 		return totalEffort;
 	}
+
+	@Override
+	public Integer getEstimationTime() {
+		
+		return null;
+	}
 }
 
 

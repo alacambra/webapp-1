@@ -22,7 +22,12 @@ public interface Project{
 	void removeTask(Task task);
 	Collection<Task> getTasks();
 	void addTask(Task task);
-	
+	Integer getEffort();
+	void updateEffort();
+	void updateProgress();
+	Float getProgress();
+	void updateDates();
+	void updateAll();
 
 }
 

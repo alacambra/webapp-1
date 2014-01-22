@@ -161,4 +161,10 @@ public class TaskMixin implements Task{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Integer getEstimationTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

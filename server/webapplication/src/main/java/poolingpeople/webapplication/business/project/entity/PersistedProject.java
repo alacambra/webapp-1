@@ -1,6 +1,8 @@
 package poolingpeople.webapplication.business.project.entity;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.neo4j.graphdb.Node;
 
@@ -14,12 +16,14 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundExcept
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
 
 public class PersistedProject extends PersistedModel<Project> implements Project {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
-	
+	private List<PersistedTask> relatedTasks;
+
 	public PersistedProject(NeoManager manager, String id)
 			throws NotUniqueException, NodeNotFoundException {
 		super(manager, id, NODE_TYPE);
@@ -27,15 +31,6 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	public PersistedProject(NeoManager manager, Project project) throws NodeExistsException {
 		super(manager, NODE_TYPE, project);
-	}
-
-	/*
-	 * Needed for json serialization. It will be called bz jax-rs (jackson) and
-	 * therefore no instance of manager will be availabe. Exist som jackson
-	 * provider interface?
-	 */
-	public PersistedProject() throws NodeExistsException {
-		super(NODE_TYPE);
 	}
 
 	public PersistedProject(NeoManager manager, Node node) {
@@ -99,7 +94,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		manager.createRelationshipTo(underlyingNode,
 				((PersistedProject) child).getNode(), Relations.IS_SUBPROJECT_OF);
 	}
-	
+
 	@Override
 	public Integer getStatusInteger() {
 		return getStatus().getNumber();
@@ -115,7 +110,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		try {
 			return (getStringProperty(NodesPropertiesNames.STATUS).equals("")) ? ProjectStatus.NEW
 					: ProjectStatus
-							.valueOf(getStringProperty(NodesPropertiesNames.STATUS));
+					.valueOf(getStringProperty(NodesPropertiesNames.STATUS));
 		} catch (NullPointerException e) {
 			return ProjectStatus.NEW;
 		}
@@ -128,25 +123,144 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void addTask(Task task) {
-		
+
 		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS)) {
 			throw new RelationAlreadyExistsException();
 		}
-		
-		manager.createRelationshipTo(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS);
-		
+
+		createRelationshipTo((PersistedModel<?>) task, Relations.HAS);
+
+		Long startDate = task.getStartDate();
+		Long endDate = task.getEndDate();
+
+		updateDates(startDate, endDate);
+
+		setEffort(getEffort() + task.getEffort());
+		calculateProgress();
+
+	}
+
+	private void calculateProgress() {
+		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS, PersistedTask.class);
+
+		Float totalProgress = (float) 0;
+		Integer totalEstimation = 0;
+
+		for(Task t : tasks) {
+			totalEstimation += t.getDuration();
+			totalProgress += t.getDuration() * t.getProgress();
+		}
+
+		setProgress(totalProgress / totalEstimation); 
 	}
 
 	@Override
 	public void removeTask(Task task) {
-		// TODO Auto-generated method stub
-		
+		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS)) {
+			throw new RelationNotFoundException();
+		}
+
 	}
 
 	@Override
 	public Collection<Task> getTasks() {
-		// TODO Auto-generated method stub
+		return getRelatedNodes(Relations.HAS, PersistedTask.class, Task.class);
+	}
+
+	private void startDateChanged(Long startDate) {
+
+	}
+
+	private void endDateChanged(Long endDate) {
+
+	}
+
+	@Override
+	public Integer getEffort() {
+
+		Integer effort = getIntegerProperty(NodesPropertiesNames.EFFORT);
+		return effort == null ? 0 : effort;
+	}
+
+	private void setEffort(int effort) {
+		setProperty(NodesPropertiesNames.EFFORT, effort);
+	}
+
+	@Override
+	public void updateEffort() {
+		
+		int effort = 0;
+
+		for (Task t : getRelatedTasks()) {
+			effort += t.getEffort();
+		}
+		
+		setEffort(effort);
+	}
+
+	@Override
+	public void updateProgress() {
+		calculateProgress();
+	}
+
+	@Override
+	public void updateDates() {
+		
+		long startDate = getStartDate();
+		long endDate = getEndDate();
+		
+		Iterator<PersistedTask> it = getRelatedTasks().iterator();
+		
+		for (Task t : getRelatedTasks()) {
+			
+			long sd = t.getStartDate();
+			long ed = t.getEndDate();
+			startDate = startDate > sd ? sd : startDate;
+			endDate = endDate < ed ? ed : endDate;  
+			
+		};
+		
+		updateDates(startDate , endDate);
+	}
+	
+	private void updateDates(long startDate, long endDate) {
+		if (getStartDate() > startDate) {
+			setStartDate(startDate);
+			startDateChanged(startDate);
+		}
+
+		if (getEndDate() < endDate) {
+			setEndDate(endDate);
+			endDateChanged(endDate);
+		}
+
+	}
+
+	@Override
+	public void updateAll() {
+		for (Task t : getRelatedTasks()) {
+
+
+
+		}
+	}
+
+	@Override
+	public Float getProgress() {
 		return null;
+	}
+
+	private void setProgress(Float progress) {
+		setProperty(NodesPropertiesNames.PROGRESS, progress);
+	}
+
+	private List<PersistedTask> getRelatedTasks(){
+
+		if (relatedTasks == null){
+			relatedTasks = getRelatedNodes(Relations.HAS, PersistedTask.class);
+		}
+
+		return relatedTasks;
 	}
 
 }

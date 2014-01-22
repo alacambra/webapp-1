@@ -114,4 +114,40 @@ public class ProjectMixin implements Project{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Integer getEffort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateEffort() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateProgress() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Float getProgress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateDates() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAll() {
+		// TODO Auto-generated method stub
+		
+	}
 }
