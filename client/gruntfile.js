@@ -191,7 +191,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build:test', [
-//        'build',
+        'build',
         'connect:test',
         'jasmine:build'
     ]);
