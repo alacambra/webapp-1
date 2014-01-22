@@ -35,6 +35,37 @@ function (App, response_handler) {
                         response_handler.handle(response);
                     }
                 });
+            },
+
+            create_project_task: function (project_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
+                $.when(App.request('project:task:create', project_id)).done(function (task, response) {
+                    var edit_view = new Edit.View({
+                        model: task
+                    });
+
+                    edit_view.on('form:submit', function (data) {
+                        var model_validated = task.save(data, {
+                            success: function() {
+                                App.trigger('project:show', project_id);
+                            },
+                            error: function(model, response) {
+                                response_handler.handle(response, {
+                                    503: function() { edit_view.triggerMethod('form:save:failed'); }
+                                });
+                            }
+                        });
+
+                        if (model_validated) {
+                            edit_view.triggerMethod('form:data:valid');
+                        } else {
+                            edit_view.triggerMethod('form:data:invalid', task.validationError);
+                        }
+                    });
+
+                    App.main_region.show(edit_view);
+                });
             }
         }
     });

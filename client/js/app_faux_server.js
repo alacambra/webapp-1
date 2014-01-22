@@ -5,7 +5,7 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     function logRest(context) {
         console.log(context.url + ' - ' + context.httpMethod);
         if (context.data) {
-//            console.log('data: ' + JSON.stringify(context.data));
+            console.log('data: ' + JSON.stringify(context.data));
         }
     }
 

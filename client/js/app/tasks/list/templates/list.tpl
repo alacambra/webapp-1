@@ -19,4 +19,8 @@
 
 <div id="js-task-list-items"></div>
 
+<% if (parent === 'project') { %>
+<%= button_to('task.button.new', path('projects', 'create_task', parent_id), { icon: 'plus', class: 'top-space' }) %>
+<% } else { %>
 <%= button_to('task.button.new', path('tasks', 'create'), { icon: 'plus', class: 'top-space' }) %>
+<% } %>

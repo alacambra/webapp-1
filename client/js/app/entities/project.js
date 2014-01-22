@@ -106,6 +106,14 @@ define(['app', 'config', 'app/entities/task', 'app/validation_helper', 'backbone
                 }
 
                 return defer.promise();
+            },
+
+            create_project_task_entity: function (project_id) {
+                return new Entities.Task({
+                    project: {
+                        id: project_id
+                    }
+                });
             }
         };
 
@@ -122,6 +130,10 @@ define(['app', 'config', 'app/entities/task', 'app/validation_helper', 'backbone
 
         App.reqres.setHandler('project:task:entities', function (project) {
             return API.get_project_task_entities(project);
+        });
+
+        App.reqres.setHandler('project:task:create', function (project_id) {
+            return API.create_project_task_entity(project_id);
         });
     });
 

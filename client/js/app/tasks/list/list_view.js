@@ -21,6 +21,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
 
             delete_item: function(event) {
                 event.preventDefault();
+                event.stopPropagation();
                 App.trigger('task:delete', this.model);
             }
         });
@@ -30,7 +31,9 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
             id: 'tasks',
             template: list_tpl,
             templateHelpers: _.extend({
-                bread_crumbs: true
+                bread_crumbs: true,
+                parent: null,
+                parent_id: null
             }, app_helper, view_helper),
             itemView: List.View,
             itemViewContainer: '#js-task-list-items',

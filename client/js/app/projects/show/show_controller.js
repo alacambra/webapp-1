@@ -15,7 +15,9 @@ function (App, response_handler) {
                             require(['app/tasks/list/list_view'], function (ListView) {
                                 show_view.project_tasks.show(new ListView.Tasks({
                                     collection: tasks,
-                                    bread_crumbs: false
+                                    bread_crumbs: false,
+                                    parent: 'project',
+                                    parent_id: project.get('id')
                                 }));
                             });
                         });
