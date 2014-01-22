@@ -29,15 +29,21 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
         List.Tasks = Marionette.CompositeView.extend({
             id: 'tasks',
             template: list_tpl,
-            templateHelpers: _.extend({}, app_helper, view_helper),
+            templateHelpers: _.extend({
+                bread_crumbs: true
+            }, app_helper, view_helper),
             itemView: List.View,
             itemViewContainer: '#js-task-list-items',
             emptyView: EmptyView,
 
             events: {
                 'click a[data-navigate]': App.handle_link
+            },
+
+            initialize: function (options) {
+                _.extend(this.templateHelpers, options);
             }
-        })
+        });
     });
 
     return App.Tasks.List;

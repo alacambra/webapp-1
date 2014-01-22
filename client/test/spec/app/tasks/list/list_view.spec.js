@@ -1,9 +1,7 @@
 define(['app',
         'app/entities/task',
-        'app/tasks/list/list_view',
-        'app/app_helper',
-        'app/view_helper'],
-function (App, Entities, List, app_helper, view_helper) {
+        'app/tasks/list/list_view'],
+function (App, Entities, List) {
     var $sandbox = $('#sandbox');
 
     describe('Task :: List :: View', function () {
@@ -23,8 +21,7 @@ function (App, Entities, List, app_helper, view_helper) {
 
         beforeEach(function () {
             listView = new List.Tasks({
-                collection: tasks,
-                templateHelpers: $.extend({}, app_helper, view_helper)
+                collection: tasks
             });
             itemView = new List.View({
                 model: task1

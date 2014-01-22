@@ -14,7 +14,8 @@ function (App, response_handler) {
                         $.when(App.request('project:task:entities', project)).done(function (tasks, response) {
                             require(['app/tasks/list/list_view'], function (ListView) {
                                 show_view.project_tasks.show(new ListView.Tasks({
-                                    collection: tasks
+                                    collection: tasks,
+                                    bread_crumbs: false
                                 }));
                             });
                         });

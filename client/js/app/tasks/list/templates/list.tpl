@@ -1,7 +1,9 @@
+<% if (bread_crumbs) { %>
 <ol class="breadcrumb">
     <li><%= link_to('main_navi.home', path('home')) %></li>
     <li class="active"><%= I18n.t('main_navi.tasks') %></li>
 </ol>
+<% } %>
 
 <div class="list-row header">
     <div class="col-md-2"><%= I18n.t('task.label.title') %></div>
