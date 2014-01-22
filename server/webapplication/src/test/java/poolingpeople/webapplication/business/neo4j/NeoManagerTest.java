@@ -23,6 +23,7 @@ import org.neo4j.test.TestGraphDatabaseFactory;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.task.boundary.TaskDTO;
 import poolingpeople.webapplication.business.task.entity.PersistedEffort;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
@@ -437,7 +438,7 @@ public class NeoManagerTest {
 
 	@Test
 	public void testGetPersistedObjectsWithInt() {
-		PersistedTask persistedTask = new PersistedTask(target);
+		PersistedTask persistedTask = new PersistedTask(target, new TaskDTO());
 		
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		ArrayList<Task> tasks = new ArrayList<Task>(); 

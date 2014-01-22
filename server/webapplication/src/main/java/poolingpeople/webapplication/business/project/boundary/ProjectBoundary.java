@@ -37,7 +37,6 @@ import poolingpeople.webapplication.business.project.entity.ProjectStatus;
 public class ProjectBoundary {
 
 	@Inject
-	@SetMixinView(entity = Project.class, mixin = ProjectMixin.class)
 	ObjectMapper mapper;
 
 	@Inject
@@ -71,8 +70,7 @@ public class ProjectBoundary {
 	public Response saveProject(String json) throws JsonParseException,
 			JsonMappingException, IOException {
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		Project Project = dtoConverter.fromDTOtoPersitedBean(dtoProject,
-				entityFactory.createProject());
+		Project Project = entityFactory.createProject(dtoProject);
 		return Response.ok().entity(mapper.writeValueAsString(Project)).build();
 	}
 
@@ -93,7 +91,7 @@ public class ProjectBoundary {
 	@Path("{id:[\\w\\d-]+}")
 	public Response deleteProject(@PathParam("id") String uuid) {
 		entityFactory.deleteProject(uuid);
-		return Response.ok().build();
+		return Response.noContent().build();
 	}
 
 	@GET
@@ -101,7 +99,7 @@ public class ProjectBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response fakeProject() throws JsonGenerationException,
 			JsonMappingException, IOException {
-		Project persistedProject = entityFactory.createProject();
+		Project persistedProject = entityFactory.createProject(new ProjectDTO());
 		persistedProject.setDescription("desc");
 		persistedProject.setEndDate(1L);
 		persistedProject.setStartDate(2L);

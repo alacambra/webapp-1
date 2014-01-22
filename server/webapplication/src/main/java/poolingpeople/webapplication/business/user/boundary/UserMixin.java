@@ -51,12 +51,23 @@ public class UserMixin implements User{
 	public void setLastName(String lastname) {}
 
 	@Override
+//	@JsonIgnore
 	public String getPassword() {
 		return null;
 	}
 
 	@Override
 	public void setPassword(String password) {}
+
+	@Override
+	public Long getBirthDate() {
+		return null;
+	}
+
+	@Override
+	public void setBirthDate(Long birthDate) {
+		
+	}
 
 }
 

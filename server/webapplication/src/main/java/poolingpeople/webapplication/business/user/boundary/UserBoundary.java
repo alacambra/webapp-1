@@ -30,10 +30,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import poolingpeople.webapplication.business.boundary.AuthNotRequired;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
-import poolingpeople.webapplication.business.boundary.SetMixinView;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
+import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("users")
@@ -46,7 +46,6 @@ public class UserBoundary {
 	Logger logger = Logger.getLogger(this.getClass());
 
 	@Inject
-	@SetMixinView(entity = User.class, mixin = UserMixin.class)
 	ObjectMapper mapper;
 
 	@Inject
@@ -84,7 +83,7 @@ public class UserBoundary {
 	JsonMappingException, IOException {
 
 		User dtoUser = deserializeAndValidate(json, UserDTO.class);
-		User user = dtoConverter.fromDTOtoPersitedBean(dtoUser, entityFactory.createUser(dtoUser.getEmail(), dtoUser.getPassword()));
+		User user = entityFactory.createUser(dtoUser.getEmail(), dtoUser.getPassword(), dtoUser);
 		return Response.ok().entity(mapper.writeValueAsString(user)).build();
 	}
 
@@ -114,7 +113,7 @@ public class UserBoundary {
 	@AuthNotRequired
 	public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
 
-		User persistedUser = entityFactory.createUser("al@al.com" + new Date().getTime(), "a");
+		User persistedUser = entityFactory.createUser("al@al.com" + new Date().getTime(), "a", new PersistedUser());
 
 //		persistedUser.setEmail("al@al.com" + new Date().getTime());
 		persistedUser.setFirstName("al");

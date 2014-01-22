@@ -11,7 +11,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsExceptio
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedProject extends PersistedModel implements Project {
+public class PersistedProject extends PersistedModel<Project> implements Project {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
 	
@@ -20,8 +20,8 @@ public class PersistedProject extends PersistedModel implements Project {
 		super(manager, id, NODE_TYPE);
 	}
 
-	public PersistedProject(NeoManager manager) throws NodeExistsException {
-		super(manager, NODE_TYPE);
+	public PersistedProject(NeoManager manager, Project project) throws NodeExistsException {
+		super(manager, NODE_TYPE, project);
 	}
 
 	/*
