@@ -2,7 +2,6 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
-
         Entities.Task = Backbone.Model.extend({
             urlRoot: base_url,
 
@@ -16,13 +15,21 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
                 endDate: null,
                 duration: null,
                 progress: 0,
-                effort: 0
+                effort: 0,
+                hasChilds: false
             },
+
+            // fields to be disabled, when task has children
+            child_disable_fields: ['status', 'priority', 'startDate', 'endDate', 'duration', 'progress'],
 
             initialize: function () {
                 if (!this.isNew()) {
                     this.efforts = new Entities.EffortCollection({ task_id: this.id });
                 }
+            },
+
+            disabled_fields: function() {
+                return this.get('hasChilds') ? this.child_disable_fields : [];
             },
 
             validate: function(attrs, options) {

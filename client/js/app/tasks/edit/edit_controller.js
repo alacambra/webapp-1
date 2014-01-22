@@ -13,6 +13,7 @@ function (App, response_handler) {
 
                         edit_view.on('form:submit', function(data) {
                             var model_validated = task.save(data, {
+                                patch: true,
                                 success: function() {
                                     App.trigger('task:show', task.get('id'));
                                 },
