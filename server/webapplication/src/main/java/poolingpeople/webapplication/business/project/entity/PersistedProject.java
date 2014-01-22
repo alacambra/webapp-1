@@ -1,5 +1,7 @@
 package poolingpeople.webapplication.business.project.entity;
 
+import java.util.Collection;
+
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.entity.PersistedModel;
@@ -10,6 +12,9 @@ import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
+import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public class PersistedProject extends PersistedModel<Project> implements Project {
 
@@ -39,50 +44,42 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public String getTitle() {
-		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.TITLE.name());
+		return getStringProperty(NodesPropertiesNames.TITLE);
 	}
 
 	@Override
 	public void setTitle(String title) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.TITLE.name(),
-				title);
+		setProperty(NodesPropertiesNames.TITLE, title);
 	}
 
 	@Override
 	public String getDescription() {
-		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.DESCRIPTION.name());
+		return getStringProperty(NodesPropertiesNames.DESCRIPTION);
 	}
 
 	@Override
 	public void setDescription(String description) {
-		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.DESCRIPTION.name(), description);
+		setProperty(NodesPropertiesNames.DESCRIPTION, description);
 	}
 
 	@Override
 	public Long getStartDate() {
-		return manager.getLongProperty(underlyingNode,
-				NodesPropertiesNames.START_DATE.name());
+		return getLongProperty(NodesPropertiesNames.START_DATE);
 	}
 
 	@Override
 	public void setStartDate(Long startDate) {
-		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.START_DATE.name(), startDate);
+		setProperty(NodesPropertiesNames.START_DATE, startDate);
 	}
 
 	@Override
 	public Long getEndDate() {
-		return manager.getLongProperty(underlyingNode,
-				NodesPropertiesNames.END_DATE.name());
+		return getLongProperty(NodesPropertiesNames.END_DATE);
 	}
 
 	@Override
 	public void setEndDate(Long endDate) {
-		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.END_DATE.name(), endDate);
+		setProperty(NodesPropertiesNames.END_DATE, endDate);
 	}
 
 	@Override
@@ -116,11 +113,9 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public ProjectStatus getStatus() {
 		try {
-			return (manager.getStringProperty(underlyingNode,
-					NodesPropertiesNames.STATUS.name()).equals("")) ? ProjectStatus.NEW
+			return (getStringProperty(NodesPropertiesNames.STATUS).equals("")) ? ProjectStatus.NEW
 					: ProjectStatus
-							.valueOf(manager.getStringProperty(underlyingNode,
-									NodesPropertiesNames.STATUS.name()));
+							.valueOf(getStringProperty(NodesPropertiesNames.STATUS));
 		} catch (NullPointerException e) {
 			return ProjectStatus.NEW;
 		}
@@ -128,8 +123,115 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void setStatus(ProjectStatus status) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.STATUS.name(),
-				status.name());		
+		setProperty(NodesPropertiesNames.STATUS, status.name());		
+	}
+
+	@Override
+	public void addTask(Task task) {
+		
+		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS)) {
+			throw new RelationAlreadyExistsException();
+		}
+		
+		manager.createRelationshipTo(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS);
+		
+	}
+
+	@Override
+	public void removeTask(Task task) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Collection<Task> getTasks() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

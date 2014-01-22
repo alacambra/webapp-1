@@ -2,7 +2,7 @@ package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
 
-public interface Task {
+public interface Task{
 	
 	String getId();
 
@@ -54,6 +54,9 @@ public interface Task {
 	void deleteEffort(Effort effort);
 	
 	Integer getEffort();
+	
+//	Collection<Task> getSubtasks();
+//	void addSubtask(Task task);
 
 }
 

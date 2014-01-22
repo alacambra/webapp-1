@@ -1,9 +1,13 @@
 package poolingpeople.webapplication.business.project.boundary;
 
+import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonProperty;
+
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public class ProjectDTO implements Project {
 
@@ -85,6 +89,23 @@ public class ProjectDTO implements Project {
 	@Override
 	public void setStatusInteger(Integer status) {
 		this.status = status;
+	}
+
+	@Override
+	public Collection<Task> getTasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeTask(Task task) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTask(Task task) {
+		
 	}
 }
 

@@ -33,6 +33,7 @@ public class EntityFactory {
 		PersistedTask task = getTaskById(uuid);
 		task.runDeletePreconditions();
 		manager.removeNode(task.getNode());
+		
 	}
 
 	public PersistedTask getTaskById(String uuid)  {

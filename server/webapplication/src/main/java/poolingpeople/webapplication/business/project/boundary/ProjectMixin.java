@@ -1,5 +1,7 @@
 package poolingpeople.webapplication.business.project.boundary;
 
+import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -8,6 +10,7 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectMixin implements Project{
@@ -92,5 +95,23 @@ public class ProjectMixin implements Project{
 	public Long getStartDate() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Collection<Task> getTasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeTask(Task task) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTask(Task task) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.entity;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,7 @@ import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
+import poolingpeople.webapplication.business.neo4j.IndexContainer;
 import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
@@ -23,6 +25,7 @@ public abstract class PersistedModel<T>{
 	protected NeoManager manager;
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;
+	protected Set<IndexContainer> indexContainers;
 
 	private final PoolingpeopleObjectType NODE_TYPE;
 
@@ -35,16 +38,6 @@ public abstract class PersistedModel<T>{
 		underlyingNode = manager.getUniqueNode(new UUIDIndexContainer(id));
 
 	}
-
-//	public  PersistedModel(NeoManager manager, PoolingpeopleObjectType objectType) throws NodeExistsException {
-//
-//		this(objectType);
-//
-//		this.manager = manager;
-//		HashMap<String, Object> props = new HashMap<String, Object>();
-//		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
-//				.randomUUID().toString()), NODE_TYPE);
-//	}
 
 	public PersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
 		this(objectType);
@@ -141,8 +134,6 @@ public abstract class PersistedModel<T>{
 			}
 
 		}
-
-
 	}
 
 	private Method getSetterMethod(String getterName, Class<?> param, Object target) {
@@ -156,6 +147,33 @@ public abstract class PersistedModel<T>{
 			return null;
 		}
 	}
+	
+	protected void setProperty(NodesPropertiesNames property, Object value) {
+		manager.setProperty(underlyingNode, property.name(), value);
+	}
+	protected String getStringProperty(NodesPropertiesNames property) {
+		return manager.getStringProperty(underlyingNode, property.name());
+	}
+	
+	protected Long getLongProperty(NodesPropertiesNames property) {
+		return manager.getLongProperty(underlyingNode, property.name());
+	}
+	
+	protected void onCreate() {
+		
+	}
+	
+	protected void onDelete() {
+		
+	}
+	
+	protected final void finalDelete() {
+		onDelete();
+	}
+	
+	
+	
+	
 }
 
 
