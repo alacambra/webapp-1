@@ -1,14 +1,13 @@
 define(['app',
         'tpl!app/common/templates/main_navi.tpl',
         'app/common/message_view',
-        'app/app_helper'],
-function (App, main_navi_tpl, MessageView, app_helper) {
+        'app/app_helper',
+        'app/view_helper'],
+function (App, main_navi_tpl, MessageView, app_helper, view_helper) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
         Common.MainNaviView = Marionette.ItemView.extend({
             template: main_navi_tpl,
-
-
-            templateHelpers: app_helper,
+            templateHelpers: _.extend(app_helper, view_helper),
 
 
             initialize: function(options) {
@@ -46,28 +45,18 @@ function (App, main_navi_tpl, MessageView, app_helper) {
 
 
             events: {
-                'click #js-main-navi-items a': 'main_navi_item_clicked',
-                'click #js-locale a': 'switch_locale',
-                'click a.js-home': 'go_to_home'
+                'click a[data-navigate]': App.handle_link,
+                'click a[href="#"]': 'empty_item_clicked',
+                'click #js-locale a': 'switch_locale'
             },
 
 
-            main_navi_item_clicked: function(event) {
+            empty_item_clicked: function(event) {
                 event.preventDefault();
 
-                var item = $(event.target).attr('href').replace('#', '');
-
-                switch(item) {
-                    case 'login': App.trigger('user_session:login'); break;
-                    case 'logout': App.trigger('user_session:logout'); break;
-                    case 'projects': App.trigger('projects:list'); break;
-                    case 'tasks': App.trigger('tasks:list'); break;
-                    case 'users': App.trigger('users:list'); break;
-                    default:
-                        App.main_region.show(new MessageView);
-                        App.navigate();
-                        this.highlight_navi($(event.target).parent());
-                }
+                App.main_region.show(new MessageView);
+                App.navigate();
+                this.highlight_navi($(event.target).parent());
             },
 
 
@@ -76,12 +65,6 @@ function (App, main_navi_tpl, MessageView, app_helper) {
                 var locale = $(event.target).attr('href').replace('#', '');
                 localStorage.setItem('locale', locale);
                 document.location.reload(); // TODO: rerender current view instead of reloading
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
             },
 
 

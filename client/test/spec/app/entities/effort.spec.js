@@ -4,7 +4,7 @@ define(['app/entities/effort'], function(Entities) {
             efforts = null;
 
         beforeEach(function() {
-            effort = new Entities.Effort({ task_id: 10 });
+            effort = new Entities.Effort({}, { task_id: 10 });
             efforts = new Entities.EffortCollection({ task_id: 23 });
         });
 

@@ -4,7 +4,8 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
     describe('Effort :: Show :: View', function() {
         var view = null,
             effort = new Entities.Effort({
-                id: 8,
+                id: 8
+            }, {
                 task_id: 17
             });
 
@@ -33,8 +34,9 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
 
             view = new Show.View({
                 model: new Entities.Effort({
-                    task_id: 10,
                     title: 'test'
+                }, {
+                    task_id: 10
                 })
             });
 
@@ -44,9 +46,9 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
         it('Check the edit functionality', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[data-navigate="effort:edit,' + effort.task_id + ',' + effort.get('id') + '"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort.task_id, effort.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('effort:edit', effort.task_id + '', effort.get('id') + '');
         });
 
         it('Check the delete functionality', function() {

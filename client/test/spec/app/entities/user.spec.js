@@ -1,4 +1,4 @@
-define(['app/entities/user'], function(Entities) {
+define(['app/entities/user', 'moment'], function(Entities, moment) {
     return describe('User :: Entities', function() {
         var user = null,
             users = null;

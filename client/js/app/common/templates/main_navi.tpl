@@ -2,18 +2,18 @@
     <div class="container">
         <!-- pooling people logo -->
         <div class="navbar-header">
-            <a class="js-home" href="#"><img id="navi-logo" src="img/poolingpeople_logo.png"></a>
+            <a class="js-home" href="#"><img id="navi-logo" height="40px" width="40px" src="img/pp_logo.png"></a>
         </div>
 
         <div class="collapse navbar-collapse">
             <!-- main navi -->
             <ul id="js-main-navi-items" class="nav navbar-nav">
                 <li><a href="#"><%= I18n.t('main_navi.pools') %></a></li>
-                <li><a href="<%= url_for('users') %>"><%= I18n.t('main_navi.people') %></a></li>
+                <li><%= link_to('main_navi.people', path('users', 'list')) %></li>
                 <li><a href="#"><%= I18n.t('main_navi.services') %></a></li>
                 <li><a href="#"><%= I18n.t('main_navi.messages') %></a></li>
-                <li><a href="<%= url_for('projects') %>"><%= I18n.t('main_navi.projects') %></a></li>
-                <li><a href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
+                <li><%= link_to('main_navi.projects', path('projects', 'list')) %></li>
+                <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
                 <li><a href="#"><%= I18n.t('main_navi.calendar') %></a></li>
             </ul>
 

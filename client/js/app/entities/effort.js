@@ -1,4 +1,4 @@
-define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, validation_helper, Faux) {
+define(['app', 'config', 'moment', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, moment, validation_helper, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('efforts');
 
@@ -15,14 +15,20 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
             },
 
             initialize: function(attributes, options) {
-                if (_.isUndefined(attributes) || _.isUndefined(attributes.task_id)) {
-                    if (_.isUndefined(options) || _.isUndefined(options.collection.task_id)) {
-                        throw 'Error: Effort Model needs a task id.'
+                var task_id;
+
+                if (!_.isUndefined(options)) {
+                    task_id = options.task_id;
+                    if (_.isUndefined(task_id)) {
+                        task_id = options.collection.task_id;
                     }
-                    this.task_id = options.collection.task_id;
-                } else {
-                    this.task_id = attributes.task_id;
                 }
+
+                if (_.isUndefined(task_id)) {
+                    throw new Error('Effort Model needs a task id.');
+                }
+
+                this.task_id = task_id;
             },
 
             validate: function(attrs, options) {
@@ -83,7 +89,7 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 var defer = $.Deferred();
 
                 if (typeof effort_id !== 'object') {
-                    effort_entity = new Entities.Effort({ id: effort_id, task_id: task_id });
+                    effort_entity = new Entities.Effort({ id: effort_id }, { task_id: task_id });
 
                     if (effort_id !== undefined) { // effort id was set, load entity
                         effort_entity.fetch({

@@ -18,8 +18,16 @@ module.exports = function (grunt) {
                     'js/app/**/*.js',
                     'js/app/**/*.tpl',
                     'js/lib/**/*.js',
-                    'test/SpecRunner.js',
-                    'test/spec/*.spec.js',
+                    'test/spec/**/*.spec.js'
+                ]
+            },
+            test: {
+                tasks: 'jasmine:test',
+                files: [
+                    'js/*.js',
+                    'js/app/**/*.js',
+                    'js/app/**/*.tpl',
+                    'js/lib/**/*.js',
                     'test/spec/**/*.spec.js'
                 ]
             }
@@ -34,7 +42,39 @@ module.exports = function (grunt) {
             },
             livereload: {
                 options: {
-                    open: 'http://localhost:9000/test/SpecRunner.html'
+                    open: 'http://localhost:9000'
+                }
+            },
+            test: {
+                options: {
+                    port: 8000
+                }
+            }
+        },
+
+        jasmine: {
+            options: {
+                specs: 'test/spec/**/*.spec.js',
+                vendor: 'js/lib/vendor/i18n.js',
+                helpers: 'test/lib/test_helper.js',
+                host: 'http://127.0.0.1:<%= connect.test.options.port %>/',
+                template: require('grunt-template-jasmine-requirejs')
+            },
+
+            test: {
+                src: 'js/app/**/*.js',
+                options: {
+                    templateOptions: {
+                        requireConfigFile: 'js/require_main.js'
+                    }
+                }
+            },
+            build: {
+                src: 'dist/js/application.js',
+                options: {
+                    templateOptions: {
+                        requireConfigFile: 'dist/js/application.js'
+                    }
                 }
             }
         },
@@ -93,17 +133,19 @@ module.exports = function (grunt) {
 
         uglify: {
             main: {
-                files: [{
-                    expand: true,
-                    cwd: 'js/locales',
-                    src: '*.js',
-                    dest: 'dist/js/locales'
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'js/locales',
+                        src: '*.js',
+                        dest: 'dist/js/locales'
+                    }
+                ]
             }
         },
 
-        jsdoc : {
-            dist : {
+        jsdoc: {
+            dist: {
                 src: [
                     'js/app.js',
                     'js/config.example.js',
@@ -118,6 +160,7 @@ module.exports = function (grunt) {
     });
 
     // Load plugins here
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -129,10 +172,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-requirejs');
 
-    // Default task.
-    grunt.registerTask('default', ['connect:livereload', 'watch:livereload']);
+    // Default task. Starts a node js server that refreshes on app changes.
+    grunt.registerTask('default', [
+        'connect:livereload',
+        'watch:livereload'
+    ]);
 
-    // Build task.
+    // Build task. Builds the app into dist folder.
     grunt.registerTask('build', [
         'clean',
         'sass:dist',
@@ -141,5 +187,23 @@ module.exports = function (grunt) {
         'requirejs:compile',
         'uglify',
         'copy:dist'
+    ]);
+
+    grunt.registerTask('build:test', [
+        'build',
+        'connect:test',
+        'jasmine:build'
+    ]);
+
+    // Test task. A single test run.
+    grunt.registerTask('test', [
+        'connect:test',
+        'jasmine:test'
+    ]);
+
+    // Test task. Runs test on every app change.
+    grunt.registerTask('testing', [
+        'connect:test',
+        'watch:test'
     ]);
 };

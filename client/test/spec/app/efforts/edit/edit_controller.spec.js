@@ -6,10 +6,7 @@ define(['app', 'app/entities/effort', 'app/efforts/edit/edit_controller'], funct
             temp = App.request;
 
             App.request = function(event_type, effort_id) {
-                return new Entities.Effort({
-                    id: effort_id,
-                    task_id: 10
-                });
+                return new Entities.Effort({ id: effort_id }, { task_id: 10 });
             }
         });
 

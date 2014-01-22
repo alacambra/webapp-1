@@ -10,6 +10,51 @@ define(['app'], function (App) {
         });
 
 
+        App.path['users'] = {
+            list: function() { return {
+                href: '#users',
+                event: 'users:list' };
+            },
+            create: function() { return {
+                href: '#users/new',
+                event: 'user:create' };
+            },
+            show: function(id) { return {
+                href: '#users/' + id,
+                event: 'user:show,' + id };
+            },
+            edit: function(id) { return {
+                href: '#users/' + id + '/edit',
+                event: 'user:edit,' + id };
+            }
+        };
+
+
+        App.on('users:list', function() {
+            App.navigate('users');
+            API.users_list();
+        });
+
+        App.on('user:create', function() {
+            App.navigate('users/new');
+            API.user_edit();
+        });
+
+        App.on('user:show', function(id) {
+            App.navigate('users/' + id);
+            API.user_show(id);
+        });
+
+        App.on('user:edit', function(id) {
+            App.navigate('users/' + id + '/edit');
+            API.user_edit(id);
+        });
+
+        App.on('user:delete', function(id, redirect) {
+            API.user_delete(id, redirect);
+        });
+        
+        
         var API = {
             users_list: function () {
                 require(['app/users/list/list_controller'], function (UsersController) {
@@ -47,31 +92,6 @@ define(['app'], function (App) {
                 }
             }
         };
-
-
-        App.on('users:list', function() {
-            App.navigate('users');
-            API.users_list();
-        });
-
-        App.on('user:new', function() {
-            App.navigate('users/new');
-            API.user_edit();
-        });
-
-        App.on('user:show', function(id) {
-            App.navigate('users/' + id);
-            API.user_show(id);
-        });
-
-        App.on('user:edit', function(id) {
-            App.navigate('users/' + id + '/edit');
-            API.user_edit(id);
-        });
-
-        App.on('user:delete', function(id, redirect) {
-            API.user_delete(id, redirect);
-        });
 
 
         App.addInitializer(function () {

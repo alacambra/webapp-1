@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
-    <li><a class="js-tasks" href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
+    <li><%= link_to('main_navi.home', path('home')) %></li>
+    <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
     <li class="active"><%= title %></li>
 </ol>
 
@@ -14,9 +14,7 @@
 <p>
     <%= I18n.t('task.label.effort') %>:
     <% if (effort != 0) { %>
-        <a href="<%= url_for('tasks', id, 'efforts') %>" class="js-list-efforts">
-            <%= format_duration(effort) %>
-        </a>
+        <%= link_to(format_duration(effort), path('efforts', 'list', id), { i18n: false }) %>
     <% } else { %>
         0:00
     <% } %>
@@ -34,13 +32,8 @@
     </div>
 </div>
 
-<a href="<%= url_for('tasks', id, 'efforts', 'new') %>" class="btn btn-default btn-sm btn-text right-space js-effort-create">
-    <span class="glyphicon glyphicon-time"></span> <%= I18n.t('effort.button.new') %>
-</a>
-
-<a href="<%= url_for('tasks', 'edit', id) %>" class="btn btn-default btn-sm btn-text right-space js-edit">
-    <span class="glyphicon glyphicon-pencil"></span> <%= I18n.t('edit') %>
-</a>
+<%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
+<%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
 <button type="button" class="btn btn-default btn-sm btn-text js-delete">
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>

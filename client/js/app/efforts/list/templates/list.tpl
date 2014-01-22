@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
-    <li><a class="js-home" href="<%= url_for('') %>"><%= I18n.t('main_navi.home') %></a></li>
-    <li><a class="js-tasks" href="<%= url_for('tasks') %>"><%= I18n.t('main_navi.tasks') %></a></li>
-    <li><a class="js-task" href="<%= url_for('tasks', task_id) %>"><%= I18n.t('main_navi.task') %></a></li>
+    <li><%= link_to('main_navi.home', path('home')) %></li>
+    <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
+    <li><%= link_to('main_navi.task', path('tasks', 'show', task_id)) %></li>
     <li class="active"><%= I18n.t('main_navi.efforts') %></li>
 </ol>
 
@@ -13,6 +13,4 @@
 
 <div id="js-effort-list-items"></div>
 
-<a href="<%= url_for('tasks', task_id, 'efforts', 'new') %>" class="btn btn-default btn-sm btn-text top-space js-create">
-    <span class="glyphicon glyphicon-plus"></span> <%= I18n.t('effort.button.new') %>
-</a>
+<%= button_to('effort.button.new', path('efforts', 'create', task_id), { icon: 'plus', class: 'top-space' }) %>

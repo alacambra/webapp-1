@@ -3,5 +3,5 @@
 </ol>
 
 <div class="page-header">
-    <h1><img class="home-logo" src="img/poolingpeople_logo.png"> Pooling People</h1>
+    <h1 class="home-title"><img class="home-logo" src="img/pp_logo.png">poolingpeople</h1>
 </div>

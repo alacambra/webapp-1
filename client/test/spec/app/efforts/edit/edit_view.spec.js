@@ -3,10 +3,7 @@ define(['app', 'app/entities/effort', 'app/efforts/edit/edit_view'], function(Ap
 
     describe('Effort :: Edit :: View', function() {
         var view = null,
-            effort = new Entities.Effort({
-                task_id: 10,
-                id: 8
-            });
+            effort = new Entities.Effort({ id: 8 }, { task_id: 10 });
 
         beforeEach(function() {
             view = new Edit.View({
@@ -32,10 +29,7 @@ define(['app', 'app/entities/effort', 'app/efforts/edit/edit_view'], function(Ap
             expect(view.model.get('title')).toBeFalsy();
 
             view = new Edit.View({
-                model: new Entities.Effort({
-                    task_id: 10,
-                    title: 'test'
-                })
+                model: new Entities.Effort({ title: 'test' }, { task_id: 10 })
             });
 
             expect(view.model.get('title')).toBe('test');

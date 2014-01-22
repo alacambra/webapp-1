@@ -1,4 +1,4 @@
-define(['app/view_helper', 'moment', 'advanced_string'], function(view_helper) {
+define(['app/view_helper', 'advanced_string'], function(view_helper) {
     return {
         format_date: function(date) {
             return this.has_value(date) ? view_helper.format_date(date) : '';

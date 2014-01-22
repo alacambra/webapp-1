@@ -1,17 +1,18 @@
 define(['app',
         'tpl!app/tasks/edit/templates/edit.tpl',
         'app/app_helper',
+        'app/view_helper',
         'app/form_helper',
-        'app/tasks/task_helper',
+        'app/tasks/tasks_helper',
         'backbone_syphon',
         'jquery_elastic',
         'jquery_ui'],
-function(App, edit_tpl, app_helper, form_helper, task_helper) {
+function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
     App.module('Tasks.Edit', function(Edit, App, Backbone, Marionette, $, _) {
         Edit.View = Marionette.ItemView.extend({
-            template: edit_tpl,
-
             className: 'edit',
+            template: edit_tpl,
+            templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
 
             cssPrefix: '#js-task-',
 
@@ -29,17 +30,13 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 save_indicator: '#js-task-save-indicator'
             },
 
+            
             events: {
+                'click a[data-navigate]': App.handle_link,
                 'click button.js-submit': 'submit',
                 'blur input#js-task-progress': 'update_progress',
-                'blur input#js-task-duration': 'update_duration',
-                'click a.js-home': 'go_to_home',
-                'click a.js-tasks': 'go_to_tasks',
-                'click a.js-task': 'go_to_task'
+                'blur input#js-task-duration': 'update_duration'
             },
-
-
-            templateHelpers: $.extend({}, task_helper, app_helper),
 
 
             onRender: function () {
@@ -59,6 +56,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                     var $this = $(this);
                     if (!$this.data('elastic-enabled')) {
                         $this.elastic().data('elastic-enabled', true);
+                        $this.unbind('blur');   // this removes the issue when clicking a button doesn't work while textarea is focused
                     }
                 });
             },
@@ -72,7 +70,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
 
             init_progress_slider: function() {
                 var that = this;
-                var progress = task_helper.format_progress(this.model.get('progress'));
+                var progress = tasks_helper.format_progress(this.model.get('progress'));
 
                 this.ui.progress.val(progress);
                 this.ui.progress_slider.slider({
@@ -92,7 +90,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 var that = this;
                 var duration = this.model.get('duration') || 0;
 
-                this.ui.duration.val(task_helper.format_duration(duration) || 0);
+                this.ui.duration.val(tasks_helper.format_duration(duration) || 0);
                 this.ui.duration_slider.slider({
                     range: 'min',
                     value: duration,
@@ -100,7 +98,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                     max: 24 * 4 * 15,
                     step: 15,
                     slide: function(event, ui) {
-                        that.ui.duration.val(task_helper.format_duration(ui.value) || 0);
+                        that.ui.duration.val(tasks_helper.format_duration(ui.value) || 0);
                     }
                 });
             },
@@ -116,7 +114,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 form_helper.clear_errors(this);
 
                 var data = Backbone.Syphon.serialize(this);
-                this.trigger('form:submit', task_helper.unformat(data));
+                this.trigger('form:submit', tasks_helper.unformat(data));
             },
 
 
@@ -125,7 +123,7 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                 if (isNaN(progress)) {
                     progress = 0;
                 } else {
-                    progress = task_helper.format_progress(progress / 100);
+                    progress = tasks_helper.format_progress(progress / 100);
                 }
 
                 this.ui.progress_slider.slider('option', 'value', progress);
@@ -141,29 +139,13 @@ function(App, edit_tpl, app_helper, form_helper, task_helper) {
                     this.ui.duration.val(duration);
                 }
 
-                duration = task_helper.unformat_duration(this.ui.duration.val());
+                duration = tasks_helper.unformat_duration(this.ui.duration.val());
 
                 if (duration === 0) {
                     this.ui.duration.val('0:00');
                 }
 
                 this.ui.duration_slider.slider('option', 'value', duration);
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_tasks: function (event) {
-                event.preventDefault();
-                App.trigger('tasks:list');
-            },
-
-            go_to_task: function (event) {
-                event.preventDefault();
-                App.trigger('task:show', this.model.get('id'));
             },
 
 

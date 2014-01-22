@@ -42,9 +42,9 @@ define(['app', 'app/entities/user', 'app/users/show/show_view'], function(App, E
         it('Check the edit functionality', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-edit').click();
+            $sandbox.find('a[data-navigate="user:edit,' + user.get('id') + '"]').click();
 
-            expect(App.trigger).toHaveBeenCalledWith('user:edit', user.get('id'));
+            expect(App.trigger).toHaveBeenCalledWith('user:edit', user.get('id') + '');
         });
 
         it('Check the delete functionality', function() {
