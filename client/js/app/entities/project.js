@@ -1,4 +1,4 @@
-define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, validation_helper, Faux) {
+define(['app', 'config', 'app/entities/task', 'app/validation_helper', 'backbone_faux_server'], function(App, EntitiesTask, CONFIG, validation_helper, Faux) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('projects');
 
@@ -13,6 +13,16 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 status: 1,
                 startDate: null,
                 endDate: null
+            },
+
+            initialize: function (attributes, options) {
+                if (options && _.isArray(options.tasks)) {
+                    this.tasks = new Entities.TaskCollection(options.tasks);
+                } else {
+                    this.tasks = new Entities.TaskCollection();
+                }
+
+                this.tasks.url = App.model_base_url('tasks', 'projects', this.get('id'));
             },
 
             validate: function(attrs, options) {
@@ -79,6 +89,23 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 }
 
                 return defer.promise();
+            },
+
+            get_project_task_entities: function (project) {
+                var defer = $.Deferred();
+
+                if (_.isObject(project)) {
+                    project.tasks.fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(false, response);
+                        }
+                    });
+                }
+
+                return defer.promise();
             }
         };
 
@@ -90,6 +117,11 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
 
         App.reqres.setHandler('project:entity', function(id) {
             return API.get_project_entity(id);
+        });
+
+
+        App.reqres.setHandler('project:task:entities', function (project) {
+            return API.get_project_task_entities(project);
         });
     });
 
