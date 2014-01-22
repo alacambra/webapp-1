@@ -11,6 +11,7 @@ function (App, response_handler) {
 
                         edit_view.on('form:submit', function(data) {
                             var model_validated = project.save(data, {
+                                patch: true,
                                 success: function() {
                                     App.trigger('project:show', project.get('id'));
                                 },

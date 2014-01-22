@@ -19,9 +19,9 @@ define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_
         },
 
         unformat: function(data) {
-            data.status = parseInt(data.status);
-            data.startDate = this.has_value(data.startDate) ? view_helper.unformat_date(data.startDate) : 0;
-            data.endDate = this.has_value(data.endDate) ? view_helper.unformat_date(data.endDate) : 0;
+            if (!_.isUndefined(data.status))    data.status = parseInt(data.status);
+            if (!_.isUndefined(data.startDate)) data.startDate = this.has_value(data.startDate) ? view_helper.unformat_date(data.startDate) : 0;
+            if (!_.isUndefined(data.endDate))   data.endDate = this.has_value(data.endDate) ? view_helper.unformat_date(data.endDate) : 0;
             return data;
         },
 

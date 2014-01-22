@@ -12,7 +12,15 @@ define(['app', 'config', 'app/validation_helper', 'backbone_faux_server'], funct
                 description: null,
                 status: 1,
                 startDate: null,
-                endDate: null
+                endDate: null,
+                hasChilds: false
+            },
+
+            // fields to be disabled, when task has children
+            child_disable_fields: ['status', 'startDate', 'endDate'],
+
+            disabled_fields: function() {
+                return this.get('hasChilds') ? this.child_disable_fields : [];
             },
 
             validate: function(attrs, options) {
