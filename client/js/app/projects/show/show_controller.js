@@ -10,6 +10,14 @@ function (App, response_handler) {
                         });
 
                         App.main_region.show(show_view);
+
+                        $.when(App.request('project:task:entities', project)).done(function (tasks, response) {
+                            require(['app/tasks/list/list_view'], function (ListView) {
+                                show_view.project_tasks.show(new ListView.Tasks({
+                                    collection: tasks
+                                }));
+                            });
+                        });
                     } else {
                         response_handler.handle(response);
                     }
