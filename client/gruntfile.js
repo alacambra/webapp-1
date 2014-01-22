@@ -55,8 +55,6 @@ module.exports = function (grunt) {
         jasmine: {
             options: {
                 specs: 'test/spec/**/*.spec.js',
-                vendor: 'js/lib/vendor/i18n.js',
-                helpers: 'test/lib/test_helper.js',
                 host: 'http://127.0.0.1:<%= connect.test.options.port %>/',
                 template: require('grunt-template-jasmine-requirejs')
             },
@@ -64,6 +62,8 @@ module.exports = function (grunt) {
             test: {
                 src: 'js/app/**/*.js',
                 options: {
+                    vendor: 'js/lib/vendor/i18n.js',
+                    helpers: 'test/lib/test_helper.js',
                     templateOptions: {
                         requireConfigFile: 'js/require_main.js'
                     }
@@ -72,6 +72,7 @@ module.exports = function (grunt) {
             build: {
                 src: 'dist/js/application.js',
                 options: {
+                    helpers: [ 'test/lib/test_helper.js', 'dist/js/application.js' ],
                     templateOptions: {
                         requireConfigFile: 'dist/js/application.js'
                     }
@@ -190,7 +191,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build:test', [
-        'build',
+//        'build',
         'connect:test',
         'jasmine:build'
     ]);
