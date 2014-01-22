@@ -96,10 +96,10 @@ define(['app', 'config', 'app/entities/task', 'app/validation_helper', 'backbone
 
                 if (_.isObject(project)) {
                     project.tasks.fetch({
-                        success: function (model, response) {
-                            defer.resolve(model, response);
+                        success: function (collection, response) {
+                            defer.resolve(collection, response);
                         },
-                        error: function (model, response) {
+                        error: function (collection, response) {
                             defer.resolve(false, response);
                         }
                     });

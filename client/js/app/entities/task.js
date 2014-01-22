@@ -26,14 +26,6 @@ define(['app', 'config', 'app/entities/effort', 'app/entities/project', 'app/val
                 }
             },
 
-            parse: function (response) {
-                if (response.project) {
-                    response.project = new Entities.Project(response.project);
-                }
-
-                return response;
-            },
-
             validate: function(attrs, options) {
                 var errors = {};
 
