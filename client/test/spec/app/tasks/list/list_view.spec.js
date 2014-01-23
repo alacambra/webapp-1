@@ -92,6 +92,26 @@ function (App, Entities, List) {
 
             expect(App.trigger).toHaveBeenCalledWith('task:delete', task1);
         });
+
+        it('Check the create functionality of list view that is rendered with flag \'parent: "project"\'.', function () {
+            var project_id = '8';
+
+            listView = new List.Tasks({
+                collection: tasks,
+                flags: {
+                    parent: 'project',
+                    parent_id: parseInt(project_id)
+                }
+            });
+
+            $sandbox.html(listView.render().$el);
+
+            spyOn(App, 'trigger');
+
+            $sandbox.find('a[data-navigate="project:task:new,' + project_id + '"]').click();
+
+            expect(App.trigger).toHaveBeenCalledWith('project:task:new', project_id);
+        });
     });
 });
 
