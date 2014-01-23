@@ -1,8 +1,14 @@
-<% if (bread_crumbs) { %>
-<ol class="breadcrumb">
-    <li><%= link_to('main_navi.home', path('home')) %></li>
-    <li class="active"><%= I18n.t('main_navi.tasks') %></li>
-</ol>
+<% if (breadcrumbs) { %>
+    <ol class="breadcrumb">
+        <li><%= link_to('main_navi.home', path('home')) %></li>
+        <li class="active"><%= I18n.t('main_navi.tasks') %></li>
+    </ol>
+<% } %>
+
+<% if (title) { %>
+    <div class="page-header">
+        <h3><%= title %></h3>
+    </div>
 <% } %>
 
 <div class="list-row header">

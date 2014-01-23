@@ -98,10 +98,8 @@ function (App, Entities, List) {
 
             listView = new List.Tasks({
                 collection: tasks,
-                flags: {
-                    parent: 'project',
-                    parent_id: parseInt(project_id)
-                }
+                parent: 'project',
+                parent_id: parseInt(project_id)
             });
 
             $sandbox.html(listView.render().$el);

@@ -88,7 +88,7 @@ I18n.translations['de'] = {
             high: 'Hoch'
         },
         button: {
-            new: 'Neuer Task'
+            new: 'Neue Aufgabe'
         }
     },
 
