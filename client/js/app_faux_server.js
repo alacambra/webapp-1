@@ -2,17 +2,11 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
 
 //    Faux.setLatency(200, 400);
 
-    function logRest(context) {
+    function log_rest(context) {
         console.log(context.url + ' - ' + context.httpMethod);
         if (context.data) {
             console.log('data: ' + JSON.stringify(context.data));
         }
-    }
-
-    function asArray(obj) {
-        return $.map(obj, function(value, index) {
-            return [value];
-        });
     }
 
     var id = 100;
@@ -173,21 +167,21 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/tasks';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(tasks)
+        log_rest(context);
+        return _.toArray(tasks)
     });
 
     url = '/tasks/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         return tasks[id];
     });
 
     url = '/tasks';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         context.data.id = generateId();
         tasks[context.data.id] = context.data;
         return tasks[context.data.id];
@@ -196,14 +190,14 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/tasks/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         delete tasks[id];
     });
 
     url = '/tasks/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         tasks[id] = context.data;
         return tasks[id];
     });
@@ -213,21 +207,21 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/tasks/:id/efforts';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
-        logRest(context);
-        return asArray(efforts);
+        log_rest(context);
+        return _.toArray(efforts);
     });
 
     url = '/tasks/:id/efforts/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id, id) {
-        logRest(context);
+        log_rest(context);
         return efforts[id];
     });
 
     url = '/tasks/:id/efforts';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
-        logRest(context);
+        log_rest(context);
         context.data.id = generateId();
         efforts[context.data.id] = context.data;
         return efforts[context.data.id];
@@ -236,14 +230,14 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/tasks/:id/efforts/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id, id) {
-        logRest(context);
+        log_rest(context);
         delete efforts[id];
     });
 
     url = '/tasks/:id/efforts/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id, id) {
-        logRest(context);
+        log_rest(context);
         efforts[id] = context.data;
         return efforts[id];
     });
@@ -253,21 +247,21 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/projects';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(projects);
+        log_rest(context);
+        return _.toArray(projects);
     });
 
     url = '/projects/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         return projects[id];
     });
 
     url = '/projects';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         context.data.id = generateId();
         projects[context.data.id] = context.data;
         return projects[context.data.id];
@@ -276,14 +270,14 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/projects/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         delete projects[id];
     });
 
     url = '/projects/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         projects[id] = context.data;
         return projects[id];
     });
@@ -293,21 +287,21 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/users';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(users);
+        log_rest(context);
+        return _.toArray(users);
     });
 
     url = '/users/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         return users[id];
     });
 
     url = '/users';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         context.data.id = generateId();
         users[context.data.id] = context.data;
         return users[context.data.id];
@@ -316,14 +310,14 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/users/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         delete users[id];
     });
 
     url = '/users/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         users[id] = context.data;
         return users[id];
     });
@@ -333,28 +327,28 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/projects/:id/members';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/members/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/members/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/members/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
@@ -363,28 +357,28 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/projects/:id/tasks';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(tasks);
+        log_rest(context);
+        return _.toArray(tasks);
     });
 
     url = '/projects/:id/tasks/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/tasks/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/tasks/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
@@ -393,28 +387,28 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/users/:id/contacts';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/users/:id/contacts/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/users/:id/contacts/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
     url = '/users/:id/contacts/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
+        log_rest(context);
         return NOT_IMPLEMENTED;
     });
 
