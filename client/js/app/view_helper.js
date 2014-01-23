@@ -1,6 +1,9 @@
 /** @module view_helper */
 
-define(['app', 'i18n', 'moment'], function(App, i18n, moment) {
+define(['app',
+        'i18n',
+        'moment'],
+function(App, i18n, moment) {
     return {
         link_to: function(text, target, options) {
             options = _.extend({ i18n: true }, options);

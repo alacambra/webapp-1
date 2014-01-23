@@ -1,6 +1,7 @@
 /** @module form_helper */
 
-define(['i18n'], function() {
+define(['i18n'],
+function() {
     return {
 
         /**

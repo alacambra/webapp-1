@@ -1,6 +1,7 @@
 /** @module app_helper */
 
-define(['i18n'], function() {
+define(['i18n'],
+function() {
     return {
         /**
          * Truncates a given text after a given length if text is longer than length.

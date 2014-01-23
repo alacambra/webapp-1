@@ -1,4 +1,7 @@
-define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
+define(['app',
+        'config',
+        'backbone_faux_server'],
+function (App, CONFIG, Faux) {
 
 //    Faux.setLatency(200, 400);
 
