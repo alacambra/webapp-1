@@ -39,7 +39,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
         log_rest(context);
-        return _.toArray(efforts);
+        return _.filter(_.toArray(efforts), function(effort) { return effort.task_id == task_id });
     });
 
     url = '/tasks/:id/efforts/:id';
@@ -119,9 +119,9 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     url = '/projects/:id/tasks';
     verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
         log_rest(context);
-        return _.toArray(tasks);
+        return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == id });
     });
 
 
