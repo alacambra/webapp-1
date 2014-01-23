@@ -1,4 +1,6 @@
-define(['app', 'app/entities/user_session', 'app/user_sessions/login_view'],
+define(['app',
+        'app/entities/user_session',
+        'app/user_sessions/login_view'],
 function (App, Entities) {
     App.module('UserSessions.Login', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
