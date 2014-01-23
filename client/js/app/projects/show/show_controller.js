@@ -14,9 +14,11 @@ function (App, response_handler, ListView) {
                         $.when(App.request('project:task:entities', project)).done(function (tasks, response) {
                                 show_view.project_tasks.show(new ListView.Tasks({
                                     collection: tasks,
-                                    bread_crumbs: false,
-                                    parent: 'project',
-                                    parent_id: project.get('id')
+                                    flags: {
+                                        bread_crumbs: false,
+                                        parent: 'project',
+                                        parent_id: project.get('id')
+                                    }
                                 }));
                         });
                     } else {

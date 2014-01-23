@@ -30,11 +30,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
         List.Tasks = Marionette.CompositeView.extend({
             id: 'tasks',
             template: list_tpl,
-            templateHelpers: _.extend({
-                bread_crumbs: true,
-                parent: null,
-                parent_id: null
-            }, app_helper, view_helper),
+            templateHelpers: _.extend({}, app_helper, view_helper),
             itemView: List.View,
             itemViewContainer: '#js-task-list-items',
             emptyView: EmptyView,
@@ -44,7 +40,17 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
             },
 
             initialize: function (options) {
-                _.extend(this.templateHelpers, options);
+                var flags = {
+                    bread_crumbs: true,
+                    parent: null,
+                    parent_id: null
+                };
+
+                if (options && !_.isUndefined(options.flags)) {
+                    _.extend(flags, options.flags);
+                }
+
+                _.extend(this.templateHelpers, flags);
             }
         });
     });
