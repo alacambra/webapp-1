@@ -21,6 +21,7 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     }
 
     var NOT_FOUND = 'HTTP/1.1 404 Not Found';
+    var NOT_IMPLEMENTED = 'HTTP/1.1 400 Not Implemented';
 
     var base_url = App.model_base_url('');
     base_url = base_url.substr(0, base_url.length - 1); // cut the last '/' character in base_url
@@ -34,13 +35,21 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
             description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
             startDate: 1387206224,
             progress: 0.8,
-            effort: 88
+            effort: 88,
+            project: {
+                id: 0,
+                title: 'Project0'
+            }
         },
         1: {
             id: 1,
             title: 'Task1',
             description: 'Lorem ipsum',
-            startDate: 1387206224
+            startDate: 1387206224,
+            project: {
+                id: 0,
+                title: 'Project0'
+            }
         },
         2: {
             id: 2,
@@ -163,7 +172,6 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
 
     url = '/tasks';
     verb = 'GET';
-    console.log(base_url + url);
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
         return asArray(tasks)
@@ -326,28 +334,28 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/members/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/members/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/members/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     /* -------- project tasks -------- */
@@ -356,28 +364,28 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return asArray(tasks);
     });
 
     url = '/projects/:id/tasks/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/tasks/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/projects/:id/tasks/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     /* -------- contacts -------- */
@@ -386,28 +394,28 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/users/:id/contacts/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/users/:id/contacts/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
     url = '/users/:id/contacts/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         logRest(context);
-        return null;
+        return NOT_IMPLEMENTED;
     });
 
 });

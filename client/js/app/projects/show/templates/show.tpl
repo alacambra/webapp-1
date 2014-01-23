@@ -10,6 +10,10 @@
 <p><%= I18n.t('project.label.start_date') %>: <%= format_date(startDate) %></p>
 <p><%= I18n.t('project.label.end_date') %>: <%= format_date(endDate) %></p>
 
+<hr />
+<div id="project_tasks"></div>
+<hr />
+
 <%= button_to('edit', path('projects', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
 <button type="button" class="btn btn-default btn-sm btn-text js-delete">

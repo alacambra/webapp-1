@@ -32,6 +32,17 @@
     </div>
 </div>
 
+
+
+<p>
+    <%= I18n.t('task.label.project') %>:
+    <% if (project) { %>
+        <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
+    <% } else { %>
+        &ndash;
+    <% } %>
+</p>
+
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
 <%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 

@@ -1,5 +1,10 @@
 define(['app/efforts/efforts_helper', 'app/entities/effort'], function(efforts_helper, Entities) {
     return describe('Effort :: Helper', function() {
+
+        beforeEach(function() {
+            I18n.locale = 'en';
+        });
+
         it('Date should be returned in the format \'YYYY-MM-DD\'', function() {
             expect(efforts_helper.format_date(1387206224)).toBe('2013-12-16');
         });

@@ -5,7 +5,8 @@ define(['app'], function (App) {
                 'projects': 'projects_list',
                 'projects/new': 'project_new',
                 'projects/:id': 'project_show',
-                'projects/:id/edit': 'project_edit'
+                'projects/:id/edit': 'project_edit',
+                'projects/:id/tasks/new': 'project_task_new'
             }
         });
 
@@ -26,6 +27,12 @@ define(['app'], function (App) {
             edit: function(id) { return {
                 href: '#projects/' + id + '/edit',
                 event: 'project:edit,' + id };
+            },
+            create_task: function (id) {
+                return {
+                    href: '#projects/' + id + '/tasks/new',
+                    event: 'project:task:new,' + id
+                };
             }
         };
 
@@ -52,6 +59,11 @@ define(['app'], function (App) {
 
         App.on('project:delete', function(id, redirect) {
             API.project_delete(id, redirect);
+        });
+
+        App.on('project:task:new', function (id) {
+            App.navigate('projects/' + id + '/tasks/new');
+            API.project_task_new(id);
         });
 
 
@@ -90,6 +102,13 @@ define(['app'], function (App) {
                         ListController.project_delete(project, redirect);
                     });
                 }
+            },
+
+            project_task_new: function (id) {
+                require(['app/tasks/edit/edit_controller'], function (EditController) {
+                    EditController.create_project_task(id);
+                    highlight_navi();
+                });
             }
         };
 

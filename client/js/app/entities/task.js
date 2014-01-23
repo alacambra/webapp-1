@@ -1,4 +1,8 @@
-define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, Entities, validation_helper, Faux) {
+define(['app',
+        'app/validation_helper',
+        'app/entities/effort',
+        'app/entities/project'],
+function(App, validation_helper) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
@@ -15,8 +19,9 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
                 endDate: null,
                 duration: null,
                 progress: 0,
+                hasChilds: false,
                 effort: 0,
-                hasChilds: false
+                project: null
             },
 
             // fields to be disabled, when task has children
