@@ -39,18 +39,15 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
                 'click a[data-navigate]': App.handle_link
             },
 
-            initialize: function (options) {
-                var flags = {
-                    bread_crumbs: true,
+            initialize: function(options) {
+                var default_options = {
+                    breadcrumbs: true,
+                    title: false,
                     parent: null,
                     parent_id: null
                 };
 
-                if (options && !_.isUndefined(options.flags)) {
-                    _.extend(flags, options.flags);
-                }
-
-                _.extend(this.templateHelpers, flags);
+                _.extend(this.templateHelpers, default_options, options);
             }
         });
     });

@@ -72,6 +72,8 @@ function() {
             };
 
             _.each(errors, mark_errors);
+
+            view.ui.submit_button.addClass('btn-danger');
         },
 
 

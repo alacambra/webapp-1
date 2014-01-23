@@ -19,14 +19,22 @@ function(App, validation_helper) {
                 endDate: null,
                 duration: null,
                 progress: 0,
+                hasChilds: false,
                 effort: 0,
                 project: null
             },
 
-            initialize: function (attributes, options) {
+            // fields to be disabled, when task has children
+            child_disable_fields: ['status', 'priority', 'startDate', 'endDate', 'duration', 'progress'],
+
+            initialize: function () {
                 if (!this.isNew()) {
                     this.efforts = new Entities.EffortCollection({ task_id: this.id });
                 }
+            },
+
+            disabled_fields: function() {
+                return this.get('hasChilds') ? this.child_disable_fields : [];
             },
 
             validate: function(attrs, options) {

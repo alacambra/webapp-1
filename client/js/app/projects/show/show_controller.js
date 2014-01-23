@@ -16,14 +16,13 @@ function (App, response_handler, TaskList) {
                         App.main_region.show(show_view);
 
                         $.when(App.request('project:task:entities', project)).done(function (tasks, response) {
-                                show_view.project_tasks.show(new TaskList.View({
-                                    collection: tasks,
-                                    flags: {
-                                        bread_crumbs: false,
-                                        parent: 'project',
-                                        parent_id: project.get('id')
-                                    }
-                                }));
+                            show_view.project_tasks.show(new TaskList.View({
+                                collection: tasks,
+                                breadcrumbs: false,
+                                title: I18n.t('main_navi.tasks'),
+                                parent: 'project',
+                                parent_id: project.get('id')
+                            }));
                         });
                     } else {
                         response_handler.handle(response);
