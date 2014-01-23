@@ -1,5 +1,9 @@
 <ol class="breadcrumb">
     <li><%= link_to('main_navi.home', path('home')) %></li>
+    <% if (project) { %>
+        <li><%= link_to('main_navi.projects', path('projects', 'list')) %></li>
+        <li><%= link_to('task.label.project', path('projects', 'show', project.id)) %></li>
+    <% } %>
     <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
     <li class="active"><%= title %></li>
 </ol>

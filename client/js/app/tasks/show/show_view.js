@@ -21,7 +21,14 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper) {
 
 
             delete_item: function() {
-                App.trigger('task:delete', this.model, 'tasks:list');
+                var redirect = 'tasks:list';
+                if (this.model.get('project')) {
+                    redirect = {
+                        event: 'project:show',
+                        id: this.model.get('project').id
+                    }
+                }
+                App.trigger('task:delete', this.model, redirect);
             }
         });
     });
