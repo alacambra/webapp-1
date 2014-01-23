@@ -1,5 +1,8 @@
-define(['app', 'config', 'moment', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, moment, validation_helper, Faux) {
-    App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
+define(['app',
+        'moment',
+        'app/validation_helper'],
+function(App, moment, validation_helper) {
+    App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('efforts');
 
         Entities.Effort = Backbone.Model.extend({

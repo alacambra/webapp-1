@@ -4,7 +4,7 @@
 
 <div class="col-md-1 buttons">
     <%= button_to('', path('efforts', 'edit', task_id, id), { icon: 'pencil', class: 'btn-xs' }) %>
-    <button type="button" class="btn btn-default btn-xs js-delete">
+    <button type="button" class="btn btn-default btn-xs js-delete-effort">
         <span class="glyphicon glyphicon-trash"></span>
     </button>
 </div>

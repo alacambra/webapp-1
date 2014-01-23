@@ -3,7 +3,7 @@
 <div class="col-md-6"><a href="mailto:<%= email %>"><%= email %></a>&nbsp;</div>
 <div class="col-md-1 buttons">
     <%= button_to('', path('users', 'edit', id), { icon: 'pencil', class: 'btn-xs' }) %>
-    <button type="button" class="btn btn-default btn-xs js-delete">
+    <button type="button" class="btn btn-default btn-xs js-delete-user">
         <span class="glyphicon glyphicon-trash"></span>
     </button>
 </div>

@@ -1,6 +1,7 @@
 /** @module validation_helper */
 
-define(['i18n'], function() {
+define(['i18n'],
+function() {
     return {
         /**
          * Validates presence of text for given attribute(s).

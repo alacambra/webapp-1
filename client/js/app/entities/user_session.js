@@ -1,5 +1,7 @@
-define(['app', 'config', 'app/validation_helper'], function(App, CONFIG, validation_helper) {
-    App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
+define(['app',
+    'app/validation_helper'],
+function(App, validation_helper) {
+    App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('user_sessions');
 
         Entities.UserSession = Backbone.Model.extend({

@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/effort', 'app/efforts/show/show_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/effort',
+        'app/efforts/show/show_view'],
 function (App, response_handler) {
     App.module('Efforts.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {

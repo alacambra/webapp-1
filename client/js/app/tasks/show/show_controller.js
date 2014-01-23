@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/task', 'app/tasks/show/show_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/task',
+        'app/tasks/show/show_view'],
 function (App, response_handler) {
     App.module('Tasks.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {

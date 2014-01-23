@@ -3,7 +3,7 @@ define(['app',
         'app/entities/effort',
         'app/entities/project'],
 function(App, validation_helper) {
-    App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
+    App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
         Entities.Task = Backbone.Model.extend({

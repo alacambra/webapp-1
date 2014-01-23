@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/task', 'app/tasks/edit/edit_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/task',
+        'app/tasks/edit/edit_view'],
 function (App, response_handler) {
     App.module('Tasks.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {

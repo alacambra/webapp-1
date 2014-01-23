@@ -19,7 +19,7 @@
 <div class="col-md-1 right"><%= format_progress(progress) %> %&nbsp;</div>
 <div class="col-md-1 buttons">
     <%= button_to('', path('tasks', 'edit', id), { icon: 'pencil', class: 'btn-xs' }) %>
-    <button type="button" class="btn btn-default btn-xs js-delete">
+    <button type="button" class="btn btn-default btn-xs js-delete-task">
         <span class="glyphicon glyphicon-trash"></span>
     </button>
 </div>

@@ -13,7 +13,7 @@ function(App, show_tpl, app_helper, view_helper, efforts_helper) {
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete': 'delete_item'
+                'click .js-delete-effort': 'delete_item'
             },
 
 
