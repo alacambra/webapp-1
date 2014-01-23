@@ -9,7 +9,8 @@ define({
         project: {
             id: 0,
             title: 'Project0'
-        }
+        },
+        subtaskCount: 2
     },
     1: {
         id: 1,
@@ -38,12 +39,31 @@ define({
         title: 'Task3',
         description: 'Lirum larum',
         startDate: 1387206224,
-        progress: 0.2
+        progress: 0.2,
+        parent_task: {
+            id: 0,
+            title: 'Task0'
+        },
+        subtaskCount: 1
     },
     4: {
         id: 4,
         title: 'Task4',
         startDate: 1387206224,
-        progress: 0.5
+        progress: 0.5,
+        parent_task: {
+            id: 0,
+            title: 'Task0'
+        }
+    },
+    5: {
+        id: 5,
+        title: 'Task5',
+        startDate: 1387206224,
+        progress: 0.8,
+        parent_task: {
+            id: 3,
+            title: 'Task3'
+        }
     }
 });

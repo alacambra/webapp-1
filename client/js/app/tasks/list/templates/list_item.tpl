@@ -1,4 +1,7 @@
-<div class="col-md-2"><%= link_to(truncate(title, 25), path('tasks', 'show', id), { i18n: false }) %></div>
+<div class="col-md-2">
+    <%= link_to(truncate(title, 25), path('tasks', 'show', id), { i18n: false }) %>
+    <span title="<%= I18n.t('task.label.subtask') %>"><%= subtaskCount > 0 ? '[' + subtaskCount + ']' : '' %></span>
+</div>
 
 <div class="col-md-2">
     <% if (parent !== 'project') { %>

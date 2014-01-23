@@ -6,10 +6,13 @@ define(['app',
         'lib/vendor/textile'],
 function(App, show_tpl, app_helper, view_helper, tasks_helper) {
     App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
-        Show.View = Marionette.ItemView.extend({
+        Show.View = Marionette.Layout.extend({
             template: show_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
 
+            regions: {
+                subtasks: '#js-subtasks'
+            },
 
             events: {
                 'click a[data-navigate]': App.handle_link,

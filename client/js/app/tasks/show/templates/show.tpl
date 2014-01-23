@@ -51,3 +51,5 @@
 <button type="button" class="btn btn-default btn-sm btn-text js-delete-task">
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
 </button>
+
+<div id="js-subtasks"></div>

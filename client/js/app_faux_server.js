@@ -125,13 +125,23 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     });
 
 
+    /* -------- subtasks -------- */
+
+    url = '/tasks/:id/subtasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return task.parent_task && task.parent_task.id == id });
+    });
+
+
     /* -------- tasks -------- */
 
     url = '/tasks';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         log_rest(context);
-        return _.toArray(tasks)
+        return _.filter(_.toArray(tasks), function(task) { return !task.parent_task });
     });
 
     url = '/tasks/:id';
