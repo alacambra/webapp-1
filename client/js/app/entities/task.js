@@ -19,7 +19,7 @@ function(App, validation_helper) {
                 endDate: null,
                 duration: null,
                 progress: 0,
-                hasChilds: false,
+
                 effort: 0,
                 project: null,
                 parent_task: null,
@@ -44,7 +44,7 @@ function(App, validation_helper) {
             },
 
             disabled_fields: function() {
-                return this.get('hasChilds') ? this.child_disable_fields : [];
+                return this.get('subtaskCount') > 0 ? this.child_disable_fields : [];
             },
 
             validate: function(attrs, options) {

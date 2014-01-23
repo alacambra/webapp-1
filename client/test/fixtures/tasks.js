@@ -5,6 +5,7 @@ define({
         description: "Lorem ipsum dolor sit amet, _consetetur sadipscing_ elitr.\n\nSed diam *nonumy eirmod tempor* invidunt ut\n\n# labore et dolore\n# magna aliquyam erat\n# sed diam voluptua\n\nAt vero eos et\n\n* accusam et justo\n* duo dolores et ea\n\nRebum stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
         startDate: 1387206224,
         progress: 0.8,
+
         effort: 45,
         project: {
             id: 0,
@@ -17,6 +18,7 @@ define({
         title: 'Task1',
         description: 'Lorem ipsum',
         startDate: 1387206224,
+
         effort: 315,
         project: {
             id: 0,
@@ -28,6 +30,7 @@ define({
         title: 'Task2',
         startDate: 1387206224,
         progress: 1,
+
         effort: 120,
         project: {
             id: 1,
@@ -40,6 +43,7 @@ define({
         description: 'Lirum larum',
         startDate: 1387206224,
         progress: 0.2,
+
         parent_task: {
             id: 0,
             title: 'Task0'
@@ -51,6 +55,7 @@ define({
         title: 'Task4',
         startDate: 1387206224,
         progress: 0.5,
+
         parent_task: {
             id: 0,
             title: 'Task0'
@@ -61,6 +66,7 @@ define({
         title: 'Task5',
         startDate: 1387206224,
         progress: 0.8,
+
         parent_task: {
             id: 3,
             title: 'Task3'
