@@ -81,7 +81,6 @@ function (App, efforts_helper) {
 
             effort_edit: function (task_id, id) {
                 require(['app/efforts/edit/edit_controller'], function (EditController) {
-                    console.log(task_id, id);
                     EditController.effort_edit(task_id, id);
                     highlight_navi();
                 });

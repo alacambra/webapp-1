@@ -62,6 +62,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         log_rest(context);
         context.data.id = generate_id();
         efforts[context.data.id] = context.data;
+        efforts[context.data.id]['task_id'] = task_id;
         return efforts[context.data.id];
     });
 
