@@ -38,8 +38,6 @@
     <%= I18n.t('task.label.project') %>:
     <% if (project) { %>
         <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
-    <% } else { %>
-        &ndash;
     <% } %>
 </p>
 
