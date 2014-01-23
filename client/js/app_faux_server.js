@@ -121,6 +121,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         return projects[id];
     });
 
+    url = '/projects/:id';
+    verb = 'PATCH';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        _.extend(projects[id], context.data);
+        return projects[id];
+    });
+
 
     /* -------- project tasks -------- */
 
@@ -182,6 +190,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         return tasks[id];
     });
 
+    url = '/tasks/:id';
+    verb = 'PATCH';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        _.extend(tasks[id], context.data);
+        return tasks[id];
+    });
+
 
     /* -------- users -------- */
 
@@ -220,6 +236,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
         log_rest(context);
         users[id] = context.data;
+        return users[id];
+    });
+
+    url = '/users/:id';
+    verb = 'PATCH';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        _.extend(users[id], context.data);
         return users[id];
     });
 });
