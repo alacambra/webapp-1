@@ -1,4 +1,8 @@
-define(['app', 'config', 'app/entities/effort', 'app/entities/project', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, Entities, EntitiesProject, validation_helper, Faux) {
+define(['app',
+        'app/validation_helper',
+        'app/entities/effort',
+        'app/entities/project'],
+function(App, validation_helper) {
     App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
