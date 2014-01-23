@@ -32,6 +32,10 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     var verb ;
 
 
+    Faux.setDefaultHandler(function(context) {
+        console.error(context.url + ' - ' + context.httpMethod + ' => not defined!');
+    });
+
 
     /* -------- efforts -------- */
 
