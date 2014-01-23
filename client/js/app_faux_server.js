@@ -54,6 +54,7 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
         3: {
             id: 3,
             title: 'Task3',
+            description: 'Lirum larum',
             startDate: 1387206224,
             progress: 0.2
         },

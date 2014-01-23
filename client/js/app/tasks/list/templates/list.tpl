@@ -13,7 +13,7 @@
 
 <div class="list-row header">
     <div class="col-md-2"><%= I18n.t('task.label.title') %></div>
-    <div class="col-md-2"><%= I18n.t('task.label.description') %></div>
+    <div class="col-md-2"><%= I18n.t('task.label.' + (parent !== 'project' ? 'project' : 'description')) %></div>
     <div class="col-md-1"><%= I18n.t('task.label.status') %></div>
     <div class="col-md-1"><%= I18n.t('task.label.priority') %></div>
     <div class="col-md-1"><%= I18n.t('task.label.start_date') %></div>
@@ -24,6 +24,8 @@
 </div>
 
 <div id="js-task-list-items"></div>
+
+<br class="clear" />
 
 <% if (parent === 'project') { %>
     <%= button_to('task.button.new', path('projects', 'create_task', parent_id), { icon: 'plus', class: 'top-space' }) %>

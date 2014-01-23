@@ -1,5 +1,15 @@
 <div class="col-md-2"><%= link_to(truncate(title, 25), path('tasks', 'show', id), { i18n: false }) %></div>
-<div class="col-md-2"><%= truncate(description, 25) %>&nbsp;</div>
+
+<div class="col-md-2">
+    <% if (parent !== 'project') { %>
+        <% if (project) { %>
+            <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
+        <% } %>
+    <% } else { %>
+        <%= truncate(description, 25) %>&nbsp;
+    <% } %>
+</div>
+
 <div class="col-md-1"><%= status_text(status) %>&nbsp;</div>
 <div class="col-md-1"><%= priority_text(priority) %>&nbsp;</div>
 <div class="col-md-1"><%= format_date(startDate) %>&nbsp;</div>
