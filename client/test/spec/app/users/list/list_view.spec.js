@@ -22,11 +22,11 @@ function(App, Entities, List, app_helper, view_helper) {
            ]);
 
         beforeEach(function() {
-            listView = new List.Users({
+            listView = new List.View({
                 collection: users,
                 templateHelpers: _.extend({}, app_helper, view_helper)
             });
-            itemView = new List.View({
+            itemView = new List.ItemView({
                 model: user1
             });
             $sandbox.html(listView.render().$el);

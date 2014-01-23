@@ -1,4 +1,5 @@
-define(['app'], function (App) {
+define(['app'],
+function (App) {
     App.module('UsersApp', function (UsersApp, App, Backbone, Marionette, $, _) {
         UsersApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
