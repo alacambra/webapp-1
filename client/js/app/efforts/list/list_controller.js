@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/effort', 'app/efforts/list/list_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/effort',
+        'app/efforts/list/list_view'],
 function(App, response_handler) {
     App.module('Efforts.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
@@ -7,7 +10,7 @@ function(App, response_handler) {
 
                 $.when(App.request('effort:entities', task_id)).done(function(efforts, response) {
                     if (efforts) {
-                        var list_view = new List.Efforts({
+                        var list_view = new List.View({
                             collection: efforts
                         });
 

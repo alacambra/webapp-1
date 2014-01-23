@@ -1,4 +1,6 @@
-define(['app', 'app/efforts/efforts_helper'], function (App, efforts_helper) {
+define(['app',
+        'app/efforts/efforts_helper'],
+function (App, efforts_helper) {
     App.module('EffortsApp', function (EffortsApp, App, Backbone, Marionette, $, _) {
         EffortsApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
