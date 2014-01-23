@@ -36,6 +36,10 @@ function (App, CONFIG, Faux) {
             project: {
                 id: 0,
                 title: 'Project0'
+            },
+            parent_task: {
+                id: 4,
+                title: 'Task4'
             }
         },
         1: {
@@ -46,13 +50,21 @@ function (App, CONFIG, Faux) {
             project: {
                 id: 0,
                 title: 'Project0'
+            },
+            parent_task: {
+                id: 0,
+                title: 'Task0'
             }
         },
         2: {
             id: 2,
             title: 'Task2',
             startDate: 1387206224,
-            progress: 1
+            progress: 1,
+            parent_task: {
+                id: 0,
+                title: 'Task0'
+            }
         },
         3: {
             id: 3,
@@ -208,6 +220,14 @@ function (App, CONFIG, Faux) {
         log_rest(context);
         tasks[id] = context.data;
         return tasks[id];
+    });
+
+    /* -------- subtasks -------- */
+    url = '/tasks/:id/subtasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
+        log_rest(context);
+        return _.toArray(tasks);
     });
 
     /* -------- efforts -------- */

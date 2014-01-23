@@ -17,5 +17,5 @@
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
 </button>
 
-<div id="project_tasks"></div>
+<div id="js-project-tasks"></div>
 

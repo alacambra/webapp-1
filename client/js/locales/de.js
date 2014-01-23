@@ -71,7 +71,8 @@ I18n.translations['de'] = {
             progress: 'Fortschritt',
             effort: 'Aufgewendete Zeit',
             effort_short: 'Zeit',
-            project: 'Projekt'
+            project: 'Projekt',
+            subtask: 'Unteraufgaben'
         },
         status_options: {
             todo: 'ToDo',

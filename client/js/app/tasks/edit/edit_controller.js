@@ -70,6 +70,37 @@ function (App, response_handler) {
 
                     App.main_region.show(edit_view);
                 });
+            },
+
+            create_subtask: function (parent_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
+                $.when(App.request('task:subtasks:create', parent_id)).done(function (task, response) {
+                    var edit_view = new Edit.View({
+                        model: task
+                    });
+
+                    edit_view.on('form:submit', function (data) {
+                        var model_validated = task.save(data, {
+                            success: function() {
+                                App.trigger('task:show', parent_id);
+                            },
+                            error: function(model, response) {
+                                response_handler.handle(response, {
+                                    503: function() { edit_view.triggerMethod('form:save:failed'); }
+                                });
+                            }
+                        });
+
+                        if (model_validated) {
+                            edit_view.triggerMethod('form:data:valid');
+                        } else {
+                            edit_view.triggerMethod('form:data:invalid', task.validationError);
+                        }
+                    });
+
+                    App.main_region.show(edit_view);
+                });
             }
         }
     });

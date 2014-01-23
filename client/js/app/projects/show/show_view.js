@@ -11,7 +11,7 @@ function(App, show_tpl, app_helper, view_helper, projects_helper) {
             templateHelpers: _.extend({}, app_helper, view_helper, projects_helper),
 
             regions: {
-                project_tasks: '#project_tasks'
+                project_tasks: '#js-project-tasks'
             },
 
             events: {
