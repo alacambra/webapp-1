@@ -17,7 +17,9 @@ import org.apache.log4j.Logger;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
@@ -104,7 +106,9 @@ public class NeoManager {
 		node.setProperty(NodePropertyName.TYPE.name(), type.name());
 
 		addToIndex(node, indexContainer);
-		addToIndex(node, new TypeIndexContainer(type));
+		Label label = DynamicLabel.label(type.name());
+		node.addLabel(label);
+//		addToIndex(node, new TypeIndexContainer(type));
 		return node;
 	}
 
