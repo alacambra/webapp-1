@@ -1,4 +1,5 @@
-define(['app'], function (App) {
+define(['app'],
+function (App) {
     App.module('TasksApp', function (TasksApp, App, Backbone, Marionette, $, _) {
         TasksApp.Router = Marionette.AppRouter.extend({
             appRoutes: {

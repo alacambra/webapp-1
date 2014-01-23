@@ -20,10 +20,10 @@ function (App, Entities, List) {
             ]);
 
         beforeEach(function () {
-            listView = new List.Tasks({
+            listView = new List.View({
                 collection: tasks
             });
-            itemView = new List.View({
+            itemView = new List.ItemView({
                 model: task1
             });
             $sandbox.html(listView.render().$el);
@@ -96,7 +96,7 @@ function (App, Entities, List) {
         it('Check the create functionality of list view that is rendered with flag \'parent: "project"\'.', function () {
             var project_id = '8';
 
-            listView = new List.Tasks({
+            listView = new List.View({
                 collection: tasks,
                 flags: {
                     parent: 'project',
