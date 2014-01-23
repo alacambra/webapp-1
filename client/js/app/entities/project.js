@@ -12,18 +12,18 @@ function(App, validation_helper) {
                 id: null,
                 title: null,
                 description: null,
-                taskCount: 0,
                 status: 1,
                 startDate: null,
                 endDate: null,
-                hasChilds: false
+
+                taskCount: 0
             },
 
             // fields to be disabled, when task has children
             child_disable_fields: ['status', 'startDate', 'endDate'],
 
             disabled_fields: function() {
-                return this.get('hasChilds') ? this.child_disable_fields : [];
+                return this.get('taskCount') > 0 ? this.child_disable_fields : [];
             },
 
             initialize: function (attributes, options) {

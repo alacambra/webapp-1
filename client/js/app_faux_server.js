@@ -11,7 +11,10 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 //    Faux.setLatency(200, 400);
 
     function log_rest(context) {
+        if (!CONFIG.rest.faux.log_rest) return;
+
         console.log(context.url + ' - ' + context.httpMethod);
+
         if (context.data) {
             console.log('data: ' + JSON.stringify(context.data));
         }
