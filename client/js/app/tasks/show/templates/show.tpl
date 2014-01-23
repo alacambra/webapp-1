@@ -46,6 +46,6 @@
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
 <%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
-<button type="button" class="btn btn-default btn-sm btn-text js-delete">
+<button type="button" class="btn btn-default btn-sm btn-text js-delete-task">
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
 </button>

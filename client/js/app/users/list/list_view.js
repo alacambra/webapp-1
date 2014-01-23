@@ -15,7 +15,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, users
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete': 'delete_item'
+                'click .js-delete-user': 'delete_item'
             },
 
             

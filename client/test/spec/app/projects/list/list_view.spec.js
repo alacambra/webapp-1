@@ -90,7 +90,7 @@ function(App, Entities, List, app_helper, view_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-project').click();
 
             expect(App.trigger).toHaveBeenCalledWith('project:delete', project1);
         });

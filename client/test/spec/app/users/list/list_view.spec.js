@@ -91,7 +91,7 @@ function(App, Entities, List, app_helper, view_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-user').click();
 
             expect(App.trigger).toHaveBeenCalledWith('user:delete', user1);
         });

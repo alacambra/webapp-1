@@ -54,7 +54,7 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
         it('Check the delete functionality', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-effort').click();
 
             expect(App.trigger).toHaveBeenCalledWith('effort:delete', effort.task_id, effort, 'task:show');
         });

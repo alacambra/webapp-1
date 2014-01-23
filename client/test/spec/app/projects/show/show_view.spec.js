@@ -50,7 +50,7 @@ define(['app', 'app/entities/project', 'app/projects/show/show_view'], function(
         it('Check the delete functionality', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-project').click();
 
             expect(App.trigger).toHaveBeenCalledWith('project:delete', project, 'projects:list');
         });

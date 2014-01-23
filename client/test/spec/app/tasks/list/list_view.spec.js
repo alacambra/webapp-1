@@ -88,7 +88,7 @@ function (App, Entities, List) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-task').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:delete', task1);
         });

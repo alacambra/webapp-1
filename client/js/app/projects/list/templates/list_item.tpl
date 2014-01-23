@@ -5,7 +5,7 @@
 <div class="col-md-1"><%= format_date(endDate) %>&nbsp;</div>
 <div class="col-md-1 buttons">
     <%= button_to('', path('projects', 'edit', id), { icon: 'pencil', class: 'btn-xs' }) %>
-    <button type="button" class="btn btn-default btn-xs js-delete">
+    <button type="button" class="btn btn-default btn-xs js-delete-project">
         <span class="glyphicon glyphicon-trash"></span>
     </button>
 </div>
