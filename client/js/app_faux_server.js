@@ -125,6 +125,16 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     });
 
 
+    /* -------- subtasks -------- */
+
+    url = '/tasks/:id/subtasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+        log_rest(context);
+        return _.toArray(tasks);
+    });
+
+
     /* -------- tasks -------- */
 
     url = '/tasks';

@@ -22,7 +22,8 @@ function(App, validation_helper) {
                 hasChilds: false,
                 effort: 0,
                 project: null,
-                parent_task: null
+                parent_task: null,
+                subtaskCount: 0
             },
 
             // fields to be disabled, when task has children
