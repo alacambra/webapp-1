@@ -26,7 +26,7 @@ public class NeoManagerHelper {
 		node = graphDb.createNode();
 
 		for(int i = 0; i<indexContainer.length; i++) {
-			node.setProperty(NodesPropertiesNames.ID.name(), indexContainer[i].getValue());
+			node.setProperty(NodePropertyName.ID.name(), indexContainer[i].getValue());
 			graphDb.index().forNodes(indexContainer[i].getType()).add(node, indexContainer[i].getKey(), indexContainer[i].getValue());
 		}
 		

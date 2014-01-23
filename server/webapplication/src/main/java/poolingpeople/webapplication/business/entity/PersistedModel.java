@@ -15,7 +15,7 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.IndexContainer;
-import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
@@ -67,7 +67,7 @@ public abstract class PersistedModel<T>{
 		this(objectType);
 
 		String nodeType = manager.getStringProperty(node,
-				NodesPropertiesNames.TYPE.name());
+				NodePropertyName.TYPE.name());
 		if (!PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE)) {
 			throw new IllegalArgumentException("Node must be of type "
 					+ NODE_TYPE + ". " + nodeType + " found.");
@@ -88,7 +88,7 @@ public abstract class PersistedModel<T>{
 
 	public String getId() {
 		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.ID.name());
+				NodePropertyName.ID.name());
 	}
 
 	@Override
@@ -152,19 +152,23 @@ public abstract class PersistedModel<T>{
 		}
 	}
 
-	protected void setProperty(NodesPropertiesNames property, Object value) {
+	protected void setProperty(NodePropertyName property, Object value) {
 		manager.setProperty(underlyingNode, property.name(), value);
 	}
 
-	protected Integer getIntegerProperty(NodesPropertiesNames property) {
+	protected Integer getIntegerProperty(NodePropertyName property) {
 		return manager.getIntegerProperty(underlyingNode, property.name());
 	}
+	
+	protected Float getFloatProperty(NodePropertyName property) {
+		return manager.getFloatProperty(underlyingNode, property.name());
+	}
 
-	protected String getStringProperty(NodesPropertiesNames property) {
+	protected String getStringProperty(NodePropertyName property) {
 		return manager.getStringProperty(underlyingNode, property.name());
 	}
 
-	protected Long getLongProperty(NodesPropertiesNames property) {
+	protected Long getLongProperty(NodePropertyName property) {
 		return manager.getLongProperty(underlyingNode, property.name());
 	}
 

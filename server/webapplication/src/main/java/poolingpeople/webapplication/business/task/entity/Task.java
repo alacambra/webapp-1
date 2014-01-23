@@ -4,6 +4,10 @@ import java.util.Collection;
 
 public interface Task{
 	
+	/**
+	 * UUID of a node. 
+	 * @return
+	 */
 	String getId();
 
 	String getTitle();
@@ -45,9 +49,17 @@ public interface Task{
 
 	void setProgress(Float progress);
 	
+	/**
+	 * Estimated duration of the task
+	 * @return
+	 */
 	Integer getDuration();
 	void setDuration(Integer duration); 
 	
+	/**
+	 * Number of ours used to develop some aspect of the task
+	 * @param effort
+	 */
 	void addEffort(Effort effort);
 	Collection<Effort> getEfforts();
 
@@ -55,11 +67,6 @@ public interface Task{
 	
 	Integer getEffort();
 	
-	Integer getEstimationTime(); 
-	
-//	Collection<Task> getSubtasks();
-//	void addSubtask(Task task);
-
 }
 
 

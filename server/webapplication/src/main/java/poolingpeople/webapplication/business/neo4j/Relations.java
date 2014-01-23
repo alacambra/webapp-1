@@ -69,9 +69,10 @@ public enum Relations implements RelationshipType {
 	 * ASK: "HAS" is not clear enough. Should not be better IS_SUBPROJECT_OF/PARENT_OF and _TODO?
 	 * TODO: ATTENTION!!!
 	 */
-	HAS(ArrayUtils.toMap(new Object[][]{
-			{PoolingpeopleObjectType.PROJECT, Arrays.asList(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.TASK)}
-		})),
+	HAS_TASK_ASSIGNED(PoolingpeopleObjectType.PROJECT,  PoolingpeopleObjectType.TASK),
+	
+	HAS_SUBPROJECT(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.PROJECT),
+	
 		
 	/**
 	 * A task has an effort booked by a user

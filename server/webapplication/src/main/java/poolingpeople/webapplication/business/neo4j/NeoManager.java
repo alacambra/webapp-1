@@ -100,8 +100,8 @@ public class NeoManager {
 			node.setProperty(prop.getKey(), prop.getValue());
 		}
 
-		node.setProperty(NodesPropertiesNames.ID.name(), indexContainer.getValue());
-		node.setProperty(NodesPropertiesNames.TYPE.name(), type.name());
+		node.setProperty(NodePropertyName.ID.name(), indexContainer.getValue());
+		node.setProperty(NodePropertyName.TYPE.name(), type.name());
 
 		addToIndex(node, indexContainer);
 		addToIndex(node, new TypeIndexContainer(type));
@@ -309,7 +309,7 @@ public class NeoManager {
 	 * @param n
 	 */
 	public void removeNode(Node n) {
-		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
+		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodePropertyName.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
 		
 		Iterable<Relationship> rels = n.getRelationships();

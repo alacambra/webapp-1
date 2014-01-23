@@ -5,7 +5,7 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
@@ -41,34 +41,34 @@ public class PersistedEffort extends PersistedModel<Effort> implements Effort{
 
 	@Override
 	public Long getDate() {
-		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.DATE.name());
+		return manager.getLongProperty(underlyingNode, NodePropertyName.DATE.name());
 	}
 
 	@Override
 	public void setDate(Long date) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.DATE.name(), date);
+		manager.setProperty(underlyingNode, NodePropertyName.DATE.name(), date);
 
 	}
 
 	@Override
 	public String getComment() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.COMMENT.name());
+		return manager.getStringProperty(underlyingNode, NodePropertyName.COMMENT.name());
 	}
 
 	@Override
 	public void setComment(String comment) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.COMMENT.name(), comment);
+		manager.setProperty(underlyingNode, NodePropertyName.COMMENT.name(), comment);
 	}
 
 	@Override
 	public Integer getTime() {
-		return manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.TIME.name());
+		return manager.getIntegerProperty(underlyingNode, NodePropertyName.TIME.name());
 	}
 
 	@Override
 	public void setTime(Integer time) {
 
-		manager.setProperty(underlyingNode, NodesPropertiesNames.TIME.name(), time);
+		manager.setProperty(underlyingNode, NodePropertyName.TIME.name(), time);
 		Node n = manager.getRelatedNode(underlyingNode, Relations.HAS_EFFORT);
 
 		if ( !isCreated ) {

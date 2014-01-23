@@ -7,7 +7,7 @@ import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
-import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UserIndexContainer;
@@ -79,51 +79,51 @@ public class PersistedUser extends PersistedModel<User> implements User {
 
 	@Override
 	public String getId() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.ID.name());
+		return manager.getStringProperty(underlyingNode, NodePropertyName.ID.name());
 	}
 
 	@Override
 	public String getFirstName() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.FIRSTNAME.name());
+		return manager.getStringProperty(underlyingNode, NodePropertyName.FIRSTNAME.name());
 	}
 
 	@Override
 	public void setFirstName(String firstName) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.FIRSTNAME.name(), firstName);
+		manager.setProperty(underlyingNode, NodePropertyName.FIRSTNAME.name(), firstName);
 
 	}
 
 	@Override
 	public String getEmail() {
-		return manager.getStringProperty(underlyingNode, NodesPropertiesNames.EMAIL.name());
+		return manager.getStringProperty(underlyingNode, NodePropertyName.EMAIL.name());
 	}
 
 	private void setLoginEmail(String email) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.EMAIL.name(), email);
+		manager.setProperty(underlyingNode, NodePropertyName.EMAIL.name(), email);
 	}
 
 	@Override
 	public String getLastName() {
 		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.LASTNAME.name());
+				NodePropertyName.LASTNAME.name());
 	}
 
 	@Override
 	public void setLastName(String description) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.LASTNAME.name(), description);
+				NodePropertyName.LASTNAME.name(), description);
 	}
 
 	@Override
 	public String getPassword() {
 		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.PASSWORD.name());
+				NodePropertyName.PASSWORD.name());
 	}
 
 	@Override
 	public void setPassword(String password) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.PASSWORD.name(), password);
+				NodePropertyName.PASSWORD.name(), password);
 	}
 
 	@Override
@@ -141,12 +141,12 @@ public class PersistedUser extends PersistedModel<User> implements User {
 	
 	@Override
 	public Long getBirthDate() {
-		return manager.getLongProperty(underlyingNode, NodesPropertiesNames.BIRTHDATE.name());
+		return manager.getLongProperty(underlyingNode, NodePropertyName.BIRTHDATE.name());
 	}
 
 	@Override
 	public void setBirthDate(Long birthDate) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.BIRTHDATE.name(), birthDate);
+		manager.setProperty(underlyingNode, NodePropertyName.BIRTHDATE.name(), birthDate);
 	}
 }
 

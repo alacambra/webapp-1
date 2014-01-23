@@ -1,14 +1,13 @@
 package poolingpeople.webapplication.business.project.entity;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
@@ -39,42 +38,42 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public String getTitle() {
-		return getStringProperty(NodesPropertiesNames.TITLE);
+		return getStringProperty(NodePropertyName.TITLE);
 	}
 
 	@Override
 	public void setTitle(String title) {
-		setProperty(NodesPropertiesNames.TITLE, title);
+		setProperty(NodePropertyName.TITLE, title);
 	}
 
 	@Override
 	public String getDescription() {
-		return getStringProperty(NodesPropertiesNames.DESCRIPTION);
+		return getStringProperty(NodePropertyName.DESCRIPTION);
 	}
 
 	@Override
 	public void setDescription(String description) {
-		setProperty(NodesPropertiesNames.DESCRIPTION, description);
+		setProperty(NodePropertyName.DESCRIPTION, description);
 	}
 
 	@Override
 	public Long getStartDate() {
-		return getLongProperty(NodesPropertiesNames.START_DATE);
+		return getLongProperty(NodePropertyName.START_DATE);
 	}
 
 	@Override
 	public void setStartDate(Long startDate) {
-		setProperty(NodesPropertiesNames.START_DATE, startDate);
+		setProperty(NodePropertyName.START_DATE, startDate);
 	}
 
 	@Override
 	public Long getEndDate() {
-		return getLongProperty(NodesPropertiesNames.END_DATE);
+		return getLongProperty(NodePropertyName.END_DATE);
 	}
 
 	@Override
 	public void setEndDate(Long endDate) {
-		setProperty(NodesPropertiesNames.END_DATE, endDate);
+		setProperty(NodePropertyName.END_DATE, endDate);
 	}
 
 	@Override
@@ -108,9 +107,9 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public ProjectStatus getStatus() {
 		try {
-			return (getStringProperty(NodesPropertiesNames.STATUS).equals("")) ? ProjectStatus.NEW
+			return (getStringProperty(NodePropertyName.STATUS).equals("")) ? ProjectStatus.NEW
 					: ProjectStatus
-					.valueOf(getStringProperty(NodesPropertiesNames.STATUS));
+					.valueOf(getStringProperty(NodePropertyName.STATUS));
 		} catch (NullPointerException e) {
 			return ProjectStatus.NEW;
 		}
@@ -118,17 +117,17 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void setStatus(ProjectStatus status) {
-		setProperty(NodesPropertiesNames.STATUS, status.name());		
+		setProperty(NodePropertyName.STATUS, status.name());		
 	}
 
 	@Override
 	public void addTask(Task task) {
 
-		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS)) {
+		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS_TASK_ASSIGNED)) {
 			throw new RelationAlreadyExistsException();
 		}
 
-		createRelationshipTo((PersistedModel<?>) task, Relations.HAS);
+		createRelationshipTo((PersistedModel<?>) task, Relations.HAS_TASK_ASSIGNED);
 
 		Long startDate = task.getStartDate();
 		Long endDate = task.getEndDate();
@@ -141,7 +140,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	}
 
 	private void calculateProgress() {
-		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS, PersistedTask.class);
+		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
 
 		Float totalProgress = (float) 0;
 		Integer totalEstimation = 0;
@@ -156,7 +155,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void removeTask(Task task) {
-		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS)) {
+		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS_TASK_ASSIGNED)) {
 			throw new RelationNotFoundException();
 		}
 
@@ -164,26 +163,26 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public Collection<Task> getTasks() {
-		return getRelatedNodes(Relations.HAS, PersistedTask.class, Task.class);
+		return getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class, Task.class);
 	}
 
 	private void startDateChanged(Long startDate) {
-
+		
 	}
 
 	private void endDateChanged(Long endDate) {
-
+		
 	}
 
 	@Override
 	public Integer getEffort() {
 
-		Integer effort = getIntegerProperty(NodesPropertiesNames.EFFORT);
+		Integer effort = getIntegerProperty(NodePropertyName.EFFORT);
 		return effort == null ? 0 : effort;
 	}
 
 	private void setEffort(int effort) {
-		setProperty(NodesPropertiesNames.EFFORT, effort);
+		setProperty(NodePropertyName.EFFORT, effort);
 	}
 
 	@Override
@@ -209,14 +208,12 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		long startDate = getStartDate();
 		long endDate = getEndDate();
 		
-		Iterator<PersistedTask> it = getRelatedTasks().iterator();
-		
 		for (Task t : getRelatedTasks()) {
 			
 			long sd = t.getStartDate();
 			long ed = t.getEndDate();
 			startDate = startDate > sd ? sd : startDate;
-			endDate = endDate < ed ? ed : endDate;  
+			endDate = endDate < ed ? ed : endDate;
 			
 		};
 		
@@ -238,26 +235,21 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void updateAll() {
-		for (Task t : getRelatedTasks()) {
-
-
-
-		}
 	}
 
 	@Override
 	public Float getProgress() {
-		return null;
+		return getFloatProperty(NodePropertyName.PROGRESS);
 	}
 
 	private void setProgress(Float progress) {
-		setProperty(NodesPropertiesNames.PROGRESS, progress);
+		setProperty(NodePropertyName.PROGRESS, progress);
 	}
 
 	private List<PersistedTask> getRelatedTasks(){
 
 		if (relatedTasks == null){
-			relatedTasks = getRelatedNodes(Relations.HAS, PersistedTask.class);
+			relatedTasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
 		}
 
 		return relatedTasks;

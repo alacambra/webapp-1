@@ -9,7 +9,7 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
-import poolingpeople.webapplication.business.neo4j.NodesPropertiesNames;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
@@ -45,25 +45,25 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public String getTitle() {
 		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.TITLE.name());
+				NodePropertyName.TITLE.name());
 	}
 
 	@Override
 	public void setTitle(String title) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.TITLE.name(),
+		manager.setProperty(underlyingNode, NodePropertyName.TITLE.name(),
 				title);
 	}
 
 	@Override
 	public String getDescription() {
 		return manager.getStringProperty(underlyingNode,
-				NodesPropertiesNames.DESCRIPTION.name());
+				NodePropertyName.DESCRIPTION.name());
 	}
 
 	@Override
 	public void setDescription(String description) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.DESCRIPTION.name(), description);
+				NodePropertyName.DESCRIPTION.name(), description);
 	}
 
 	/*
@@ -76,10 +76,10 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	public TaskPriority getPriority() {
 		try {
 			return (manager.getStringProperty(underlyingNode,
-					NodesPropertiesNames.PRIORITY.name()).equals("")) ? TaskPriority.NORMAL
+					NodePropertyName.PRIORITY.name()).equals("")) ? TaskPriority.NORMAL
 							: TaskPriority.valueOf(manager.getStringProperty(
 									underlyingNode,
-									NodesPropertiesNames.PRIORITY.name()));
+									NodePropertyName.PRIORITY.name()));
 		} catch (NullPointerException e) {
 			return TaskPriority.LOW;
 		}
@@ -88,7 +88,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public void setPriority(TaskPriority priority) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.PRIORITY.name(), priority.name());
+				NodePropertyName.PRIORITY.name(), priority.name());
 	}
 
 	@Override
@@ -96,10 +96,10 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	public TaskStatus getStatus() {
 		try {
 			return (manager.getStringProperty(underlyingNode,
-					NodesPropertiesNames.STATUS.name()).equals("")) ? TaskStatus.NEW
+					NodePropertyName.STATUS.name()).equals("")) ? TaskStatus.NEW
 							: TaskStatus
 							.valueOf(manager.getStringProperty(underlyingNode,
-									NodesPropertiesNames.STATUS.name()));
+									NodePropertyName.STATUS.name()));
 		} catch (NullPointerException e) {
 			return TaskStatus.NEW;
 		}
@@ -107,44 +107,44 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public void setStatus(TaskStatus status) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.STATUS.name(),
+		manager.setProperty(underlyingNode, NodePropertyName.STATUS.name(),
 				status.name());
 	}
 
 	@Override
 	public Long getStartDate() {
 		return manager.getLongProperty(underlyingNode,
-				NodesPropertiesNames.START_DATE.name());
+				NodePropertyName.START_DATE.name());
 	}
 
 	@Override
 	public void setStartDate(Long startDate) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.START_DATE.name(), startDate);
+				NodePropertyName.START_DATE.name(), startDate);
 	}
 
 	@Override
 	public Long getEndDate() {
 		return manager.getLongProperty(underlyingNode,
-				NodesPropertiesNames.END_DATE.name());
+				NodePropertyName.END_DATE.name());
 	}
 
 	@Override
 	public void setEndDate(Long endDate) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.END_DATE.name(), endDate);
+				NodePropertyName.END_DATE.name(), endDate);
 	}
 
 	@Override
 	public Float getProgress() {
 		return manager.getFloatProperty(underlyingNode,
-				NodesPropertiesNames.PROGRESS.name());
+				NodePropertyName.PROGRESS.name());
 	}
 
 	@Override
 	public void setProgress(Float progress) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.PROGRESS.name(), progress);
+				NodePropertyName.PROGRESS.name(), progress);
 	}
 
 	@Override
@@ -185,13 +185,13 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public Integer getDuration() {
 		return manager.getIntegerProperty(underlyingNode,
-				NodesPropertiesNames.DURATION.name());
+				NodePropertyName.DURATION.name());
 	}
 
 	@Override
 	public void setDuration(Integer duration) {
 		manager.setProperty(underlyingNode,
-				NodesPropertiesNames.DURATION.name(), duration);
+				NodePropertyName.DURATION.name(), duration);
 	}
 
 	@Override
@@ -244,12 +244,12 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	}
 	
 	private void setEffort(Integer totalEffort) {
-		manager.setProperty(underlyingNode, NodesPropertiesNames.EFFORT.name(), totalEffort);
+		manager.setProperty(underlyingNode, NodePropertyName.EFFORT.name(), totalEffort);
 	}
 
 	@Override
 	public Integer getEffort() {
-		Integer totalEffort = manager.getIntegerProperty(underlyingNode, NodesPropertiesNames.EFFORT.name());
+		Integer totalEffort = manager.getIntegerProperty(underlyingNode, NodePropertyName.EFFORT.name());
 		
 		if ( totalEffort == null) 
 			totalEffort = 0;
@@ -257,11 +257,6 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		return totalEffort;
 	}
 
-	@Override
-	public Integer getEstimationTime() {
-		
-		return null;
-	}
 }
 
 
