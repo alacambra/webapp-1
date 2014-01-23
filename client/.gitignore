@@ -1,5 +1,6 @@
 .grunt
 .idea
+_SpecRunner.html
 /.project
 /.settings
 .sass-cache
