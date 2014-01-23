@@ -26,7 +26,13 @@ function(App, response_handler) {
                 $.when(App.request('task:entity', task)).done(function(task, response) {
                     if (task) {
                         task.destroy();
-                        if (redirect !== undefined) App.trigger(redirect);
+                        if (!_.isUndefined(redirect)) {
+                            if (_.isObject(redirect)) {
+                                App.trigger(redirect.event, redirect.id);
+                            } else {
+                                App.trigger(redirect);
+                            }
+                        }
                     }
                 });
             }
