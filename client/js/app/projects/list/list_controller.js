@@ -1,11 +1,14 @@
-define(['app', 'lib/response_handler', 'app/entities/project', 'app/projects/list/list_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/project',
+        'app/projects/list/list_view'],
 function(App, response_handler) {
     App.module('Projects.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             projects_list: function() {
                 $.when(App.request('project:entities')).done(function(projects, response) {
                     if (projects) {
-                        var list_view = new List.Projects({
+                        var list_view = new List.View({
                             collection: projects
                         });
 

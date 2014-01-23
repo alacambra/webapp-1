@@ -21,11 +21,11 @@ function(App, Entities, List, app_helper, view_helper) {
            ]);
 
         beforeEach(function() {
-            listView = new List.Projects({
+            listView = new List.View({
                 collection: projects,
                 templateHelpers: _.extend({}, app_helper, view_helper)
             });
-            itemView = new List.View({
+            itemView = new List.ItemView({
                 model: project1
             });
             $sandbox.html(listView.render().$el);
