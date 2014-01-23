@@ -1,7 +1,12 @@
 define(['app',
         'config',
-        'backbone_faux_server'],
-function (App, CONFIG, Faux) {
+        'backbone_faux_server',
+        '../test/fixtures/efforts',
+        '../test/fixtures/projects',
+        '../test/fixtures/tasks',
+        '../test/fixtures/users'
+],
+function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
 //    Faux.setLatency(200, 400);
 
@@ -13,7 +18,7 @@ function (App, CONFIG, Faux) {
     }
 
     var id = 100;
-    function generateId() {
+    function generate_id() {
         return id++;
     }
 
@@ -22,193 +27,11 @@ function (App, CONFIG, Faux) {
 
     var base_url = App.model_base_url('');
     base_url = base_url.substr(0, base_url.length - 1); // cut the last '/' character in base_url
-    var url = '';
-    var verb = '';
 
-    var tasks = {
-        0: {
-            id: 0,
-            title: 'Task0',
-            description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-            startDate: 1387206224,
-            progress: 0.8,
-            effort: 88,
-            project: {
-                id: 0,
-                title: 'Project0'
-            }
-        },
-        1: {
-            id: 1,
-            title: 'Task1',
-            description: 'Lorem ipsum',
-            startDate: 1387206224,
-            project: {
-                id: 0,
-                title: 'Project0'
-            }
-        },
-        2: {
-            id: 2,
-            title: 'Task2',
-            startDate: 1387206224,
-            progress: 1
-        },
-        3: {
-            id: 3,
-            title: 'Task3',
-            description: 'Lirum larum',
-            startDate: 1387206224,
-            progress: 0.2
-        },
-        4: {
-            id: 4,
-            title: 'Task4',
-            startDate: 1387206224,
-            progress: 0.5
-        }
-    };
+    var url;
+    var verb ;
 
-    var projects = {
-        0: {
-            id: 0,
-            title: 'Project0',
-            description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-            startDate: 1387206224,
-            status: 2,
-            taskCount: 5
-        },
-        1: {
-            id: 1,
-            title: 'Project1',
-            startDate: 1387206224,
-            taskCount: 2
-        },
-        2: {
-            id: 2,
-            title: 'Project2',
-            description: 'Lorem ipsum',
-            taskCount: 0
-        },
-        3: {
-            id: 3,
-            title: 'Project3',
-            status: 1
-        },
-        4: {
-            id: 4,
-            title: 'Project4',
-            status: 2,
-            taskCount: 0
-        }
-    };
 
-    var users = {
-        0: {
-            id: 0,
-            firstName: 'Anna',
-            lastName: 'Atlas',
-            birthDate: 1387206224,
-            email: 'anna@atlas.com'
-        },
-        1: {
-            id: 1,
-            firstName: 'Bob',
-            lastName: 'Bubble',
-            birthDate: 1387206224,
-            email: 'bob@bubble.com'
-        },
-        2: {
-            id: 2,
-            firstName: 'Charlie',
-            lastName: 'Chaos',
-            email: 'charlie@chaos.com'
-        },
-        3: {
-            id: 3,
-            firstName: 'Django',
-            lastName: 'Delta',
-            birthDate: 1387206224
-        },
-        4: {
-            id: 4,
-            firstName: 'Erik',
-            lastName: 'Electric'
-        }
-    };
-
-    var efforts = {
-        0: {
-            id: 0,
-            date: 1387206224,
-            time: 20,
-            comment: 'Comment of Effort 0'
-        },
-        1: {
-            id: 1,
-            date: 1387206224,
-            time: 25,
-            comment: 'Comment of Effort 1'
-        },
-        2: {
-            id: 2,
-            date: 1387206224,
-            time: 75,
-            comment: 'Comment of Effort 2'
-        },
-        3: {
-            id: 3,
-            date: 1387206224,
-            time: 240,
-            comment: 'Comment of Effort 3'
-        },
-        4: {
-            id: 4,
-            date: 1387206224,
-            time: 120,
-            comment: 'Comment of Effort 4'
-        }
-    };
-
-    /* -------- tasks -------- */
-
-    url = '/tasks';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return _.toArray(tasks)
-    });
-
-    url = '/tasks/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        log_rest(context);
-        return tasks[id];
-    });
-
-    url = '/tasks';
-    verb = 'POST';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        context.data.id = generateId();
-        tasks[context.data.id] = context.data;
-        return tasks[context.data.id];
-    });
-
-    url = '/tasks/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        log_rest(context);
-        delete tasks[id];
-    });
-
-    url = '/tasks/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        log_rest(context);
-        tasks[id] = context.data;
-        return tasks[id];
-    });
 
     /* -------- efforts -------- */
 
@@ -230,7 +53,7 @@ function (App, CONFIG, Faux) {
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
         log_rest(context);
-        context.data.id = generateId();
+        context.data.id = generate_id();
         efforts[context.data.id] = context.data;
         return efforts[context.data.id];
     });
@@ -249,6 +72,7 @@ function (App, CONFIG, Faux) {
         efforts[id] = context.data;
         return efforts[id];
     });
+
 
     /* -------- projects -------- */
 
@@ -270,7 +94,7 @@ function (App, CONFIG, Faux) {
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         log_rest(context);
-        context.data.id = generateId();
+        context.data.id = generate_id();
         projects[context.data.id] = context.data;
         return projects[context.data.id];
     });
@@ -289,6 +113,58 @@ function (App, CONFIG, Faux) {
         projects[id] = context.data;
         return projects[id];
     });
+
+
+    /* -------- project tasks -------- */
+
+    url = '/projects/:id/tasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+        log_rest(context);
+        return _.toArray(tasks);
+    });
+
+
+    /* -------- tasks -------- */
+
+    url = '/tasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+        log_rest(context);
+        return _.toArray(tasks)
+    });
+
+    url = '/tasks/:id';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        return tasks[id];
+    });
+
+    url = '/tasks';
+    verb = 'POST';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+        log_rest(context);
+        context.data.id = generate_id();
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
+
+    url = '/tasks/:id';
+    verb = 'DELETE';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        delete tasks[id];
+    });
+
+    url = '/tasks/:id';
+    verb = 'PUT';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        tasks[id] = context.data;
+        return tasks[id];
+    });
+
 
     /* -------- users -------- */
 
@@ -310,7 +186,7 @@ function (App, CONFIG, Faux) {
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
         log_rest(context);
-        context.data.id = generateId();
+        context.data.id = generate_id();
         users[context.data.id] = context.data;
         return users[context.data.id];
     });
@@ -329,95 +205,4 @@ function (App, CONFIG, Faux) {
         users[id] = context.data;
         return users[id];
     });
-
-    /* -------- project members -------- */
-
-    url = '/projects/:id/members';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/projects/:id/members/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/projects/:id/members/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/projects/:id/members/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    /* -------- project tasks -------- */
-
-    url = '/projects/:id/tasks';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return _.toArray(tasks);
-    });
-
-    url = '/projects/:id/tasks/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/projects/:id/tasks/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/projects/:id/tasks/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    /* -------- contacts -------- */
-
-    url = '/users/:id/contacts';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/users/:id/contacts/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/users/:id/contacts/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
-    url = '/users/:id/contacts/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        log_rest(context);
-        return NOT_IMPLEMENTED;
-    });
-
 });
