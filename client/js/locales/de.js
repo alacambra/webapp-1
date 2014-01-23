@@ -38,6 +38,7 @@ I18n.translations['de'] = {
         label: {
             title: 'Titel',
             description: 'Beschreibung',
+            task_count: 'Aufgaben',
             status: 'Status',
             start_date: 'Start',
             end_date: 'Ende'

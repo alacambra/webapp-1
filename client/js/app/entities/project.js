@@ -12,6 +12,7 @@ function(App, validation_helper) {
                 id: null,
                 title: null,
                 description: null,
+                taskCount: 0,
                 status: 1,
                 startDate: null,
                 endDate: null,
