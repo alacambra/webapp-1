@@ -97,14 +97,16 @@ function(Marionette, CONFIG) {
 
     App.path = {};
     App.path['home'] = function() { return {
-        href: '/',
+        href: '#',
         event: 'home'
     }};
 
 
     App.on('home', function () {
         App.navigate('#');
-        App.main_region.show(new App.Common.HomeView());
+        require(['app/common/home_view'], function (HomeView) {
+            App.main_region.show(new HomeView());
+        });
     });
 
 
