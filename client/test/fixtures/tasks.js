@@ -12,7 +12,12 @@ define({
             "id": 0,
             "title": "Project0"
         },
-        "subtaskCount": 2
+        "subtaskCount": 2,
+        "assignee": {
+            "id": 0,
+            "firstName": "Anna",
+            "lastName": "Atlas"
+        }
     },
     "1": {
         "id": 1,
@@ -25,6 +30,11 @@ define({
         "project": {
             "id": 0,
             "title": "Project0"
+        },
+        "assignee": {
+            "id": 2,
+            "firstName": "Charlie",
+            "lastName": "Chaos"
         }
     },
     "2": {
@@ -48,7 +58,7 @@ define({
         "endDate": 1388206224,
         "progress": 0.2,
 
-        "parent_task": {
+        "parentTask": {
             "id": 0,
             "title": "Task0"
         },
@@ -61,7 +71,7 @@ define({
         "endDate": 1388206224,
         "progress": 0.5,
 
-        "parent_task": {
+        "parentTask": {
             "id": 0,
             "title": "Task0"
         }
@@ -73,7 +83,7 @@ define({
         "endDate": 1388206224,
         "progress": 0.8,
 
-        "parent_task": {
+        "parentTask": {
             "id": 3,
             "title": "Task3"
         }

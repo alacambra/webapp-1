@@ -120,7 +120,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.get(base_url + 'tasks', function (context) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return !task.parent_task });
+        return _.filter(_.toArray(tasks), function(task) { return !task.parentTask });
     });
 
     Faux.get(base_url + 'tasks/:id', function (context, id) {
@@ -157,7 +157,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return task.parent_task && task.parent_task.id == task_id });
+        return _.filter(_.toArray(tasks), function(task) { return task.parentTask && task.parentTask.id == task_id });
     });
 
 

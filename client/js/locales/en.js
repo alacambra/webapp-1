@@ -72,7 +72,9 @@ I18n.translations['en'] = {
             effort: 'Time',
             effort_short: 'Spent Time',
             project: 'Project',
-            subtask: 'Subtasks'
+            subtask: 'Subtasks',
+            parent_task: 'Superior Task',
+            assigned_to: 'Assigned to'
         },
         status_options: {
             todo: 'ToDo',
