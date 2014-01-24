@@ -1,9 +1,7 @@
 define(['app',
         'app/entities/task',
-        'app/tasks/list/list_view',
-        'app/app_helper',
-        'app/view_helper'],
-function (App, Entities, List, app_helper, view_helper) {
+        'app/tasks/list/list_view'],
+function (App, Entities, List) {
     var $sandbox = $('#sandbox');
 
     describe('Task :: List :: View', function () {
@@ -22,11 +20,10 @@ function (App, Entities, List, app_helper, view_helper) {
             ]);
 
         beforeEach(function () {
-            listView = new List.Tasks({
-                collection: tasks,
-                templateHelpers: $.extend({}, app_helper, view_helper)
+            listView = new List.View({
+                collection: tasks
             });
-            itemView = new List.View({
+            itemView = new List.ItemView({
                 model: task1
             });
             $sandbox.html(listView.render().$el);
@@ -91,9 +88,27 @@ function (App, Entities, List, app_helper, view_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-task').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:delete', task1);
+        });
+
+        it('Check the create functionality of list view that is rendered with flag \'parent: "project"\'.', function () {
+            var project_id = '8';
+
+            listView = new List.View({
+                collection: tasks,
+                parent: 'project',
+                parent_id: parseInt(project_id)
+            });
+
+            $sandbox.html(listView.render().$el);
+
+            spyOn(App, 'trigger');
+
+            $sandbox.find('a[data-navigate="project:task:new,' + project_id + '"]').click();
+
+            expect(App.trigger).toHaveBeenCalledWith('project:task:new', project_id);
         });
     });
 });

@@ -7,7 +7,7 @@ define(['app',
         'app/users/users_helper'],
 function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, users_helper) {
     App.module('Users.List', function(List, App, Backbone, Marionette, $, _) {
-        List.View = Marionette.ItemView.extend({
+        List.ItemView = Marionette.ItemView.extend({
             className: 'list-row',
             template: list_item_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper, users_helper),
@@ -15,7 +15,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, users
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete': 'delete_item'
+                'click .js-delete-user': 'delete_item'
             },
 
             
@@ -26,11 +26,11 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, users
         });
 
 
-        List.Users = Marionette.CompositeView.extend({
+        List.View = Marionette.CompositeView.extend({
             id: 'users',
             template: list_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper),
-            itemView: List.View,
+            itemView: List.ItemView,
             itemViewContainer: '#js-user-list-items',
             emptyView: EmptyView,
 

@@ -1,6 +1,11 @@
 <ol class="breadcrumb">
     <li><%= link_to('main_navi.home', path('home')) %></li>
-    <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
+    <% if (project) { %>
+        <li><%= link_to('main_navi.projects', path('projects', 'list')) %></li>
+        <li><%= link_to('task.label.project', path('projects', 'show', project.id)) %></li>
+    <% } else { %>
+        <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>
+    <% } %>
     <li class="active"><%= title %></li>
 </ol>
 
@@ -32,9 +37,20 @@
     </div>
 </div>
 
+
+
+<p>
+    <%= I18n.t('task.label.project') %>:
+    <% if (project) { %>
+        <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
+    <% } %>
+</p>
+
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
 <%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
-<button type="button" class="btn btn-default btn-sm btn-text js-delete">
+<button type="button" class="btn btn-default btn-sm btn-text js-delete-task">
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
 </button>
+
+<div id="js-subtasks"></div>

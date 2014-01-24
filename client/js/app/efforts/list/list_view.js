@@ -7,7 +7,7 @@ define(['app',
         'app/efforts/efforts_helper'],
 function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, efforts_helper) {
     App.module('Efforts.List', function(List, App, Backbone, Marionette, $, _) {
-        List.View = Marionette.ItemView.extend({
+        List.ItemView = Marionette.ItemView.extend({
             className: 'list-row',
             template: list_item_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper, efforts_helper),
@@ -15,7 +15,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, effor
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete': 'delete_item'
+                'click .js-delete-effort': 'delete_item'
             },
 
 
@@ -33,11 +33,11 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, effor
         });
 
 
-        List.Efforts = Marionette.CompositeView.extend({
+        List.View = Marionette.CompositeView.extend({
             id: 'efforts',
             template: list_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper),
-            itemView: List.View,
+            itemView: List.ItemView,
             itemViewContainer: '#js-effort-list-items',
             emptyView: EmptyView,
 
@@ -50,7 +50,7 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, effor
                     task_id: this.collection.task_id
                 }
             }            
-        })
+        });
     });
 
     return App.Efforts.List;

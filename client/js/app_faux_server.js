@@ -1,266 +1,108 @@
-define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
+define(['app',
+        'config',
+        'backbone_faux_server',
+        '../test/fixtures/efforts',
+        '../test/fixtures/projects',
+        '../test/fixtures/tasks',
+        '../test/fixtures/users'
+],
+function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
 //    Faux.setLatency(200, 400);
 
-    function logRest(context) {
+    function log_rest(context) {
+        if (!CONFIG.rest.faux.log_rest) return;
+
         console.log(context.url + ' - ' + context.httpMethod);
+
         if (context.data) {
             console.log('data: ' + JSON.stringify(context.data));
         }
     }
 
-    function asArray(obj) {
-        return $.map(obj, function(value, index) {
-            return [value];
-        });
-    }
-
     var id = 100;
-    function generateId() {
+    function generate_id() {
         return id++;
     }
 
     var NOT_FOUND = 'HTTP/1.1 404 Not Found';
+    var NOT_IMPLEMENTED = 'HTTP/1.1 400 Not Implemented';
 
     var base_url = App.model_base_url('');
     base_url = base_url.substr(0, base_url.length - 1); // cut the last '/' character in base_url
-    var url = '';
-    var verb = '';
 
-    var tasks = {
-        0: {
-            id: 0,
-            title: 'Task0',
-            description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-            startDate: 1387206224,
-            progress: 0.8,
-            effort: 88
-        },
-        1: {
-            id: 1,
-            title: 'Task1',
-            description: 'Lorem ipsum',
-            startDate: 1387206224
-        },
-        2: {
-            id: 2,
-            title: 'Task2',
-            startDate: 1387206224,
-            progress: 1
-        },
-        3: {
-            id: 3,
-            title: 'Task3',
-            startDate: 1387206224,
-            progress: 0.2
-        },
-        4: {
-            id: 4,
-            title: 'Task4',
-            startDate: 1387206224,
-            progress: 0.5
-        }
-    };
+    var url;
+    var verb ;
 
-    var projects = {
-        0: {
-            id: 0,
-            title: 'Project0',
-            description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-            startDate: 1387206224,
-            status: 2
-        },
-        1: {
-            id: 1,
-            title: 'Project1',
-            startDate: 1387206224
-        },
-        2: {
-            id: 2,
-            title: 'Project2',
-            description: 'Lorem ipsum'
-        },
-        3: {
-            id: 3,
-            title: 'Project3',
-            status: 1
-        },
-        4: {
-            id: 4,
-            title: 'Project4',
-            status: 2
-        }
-    };
 
-    var users = {
-        0: {
-            id: 0,
-            firstName: 'Anna',
-            lastName: 'Atlas',
-            birthDate: 1387206224,
-            email: 'anna@atlas.com'
-        },
-        1: {
-            id: 1,
-            firstName: 'Bob',
-            lastName: 'Bubble',
-            birthDate: 1387206224,
-            email: 'bob@bubble.com'
-        },
-        2: {
-            id: 2,
-            firstName: 'Charlie',
-            lastName: 'Chaos',
-            email: 'charlie@chaos.com'
-        },
-        3: {
-            id: 3,
-            firstName: 'Django',
-            lastName: 'Delta',
-            birthDate: 1387206224
-        },
-        4: {
-            id: 4,
-            firstName: 'Erik',
-            lastName: 'Electric'
-        }
-    };
-
-    var efforts = {
-        0: {
-            id: 0,
-            date: 1387206224,
-            time: 20,
-            comment: 'Comment of Effort 0'
-        },
-        1: {
-            id: 1,
-            date: 1387206224,
-            time: 25,
-            comment: 'Comment of Effort 1'
-        },
-        2: {
-            id: 2,
-            date: 1387206224,
-            time: 75,
-            comment: 'Comment of Effort 2'
-        },
-        3: {
-            id: 3,
-            date: 1387206224,
-            time: 240,
-            comment: 'Comment of Effort 3'
-        },
-        4: {
-            id: 4,
-            date: 1387206224,
-            time: 120,
-            comment: 'Comment of Effort 4'
-        }
-    };
-
-    /* -------- tasks -------- */
-
-    url = '/tasks';
-    verb = 'GET';
-    console.log(base_url + url);
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(tasks)
+    Faux.setDefaultHandler(function(context) {
+        console.error(context.url + ' - ' + context.httpMethod + ' => not defined!');
     });
 
-    url = '/tasks/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
-        return tasks[id];
-    });
-
-    url = '/tasks';
-    verb = 'POST';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        context.data.id = generateId();
-        tasks[context.data.id] = context.data;
-        return tasks[context.data.id];
-    });
-
-    url = '/tasks/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
-        delete tasks[id];
-    });
-
-    url = '/tasks/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
-        tasks[id] = context.data;
-        return tasks[id];
-    });
 
     /* -------- efforts -------- */
 
     url = '/tasks/:id/efforts';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
-        logRest(context);
-        return asArray(efforts);
+        log_rest(context);
+        return _.filter(_.toArray(efforts), function(effort) { return effort.task_id == task_id });
     });
 
     url = '/tasks/:id/efforts/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id, id) {
-        logRest(context);
+        log_rest(context);
         return efforts[id];
     });
 
     url = '/tasks/:id/efforts';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id) {
-        logRest(context);
-        context.data.id = generateId();
+        log_rest(context);
+        context.data.id = generate_id();
         efforts[context.data.id] = context.data;
+        efforts[context.data.id]['task_id'] = task_id;
         return efforts[context.data.id];
     });
 
     url = '/tasks/:id/efforts/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id, id) {
-        logRest(context);
+        log_rest(context);
         delete efforts[id];
     });
 
     url = '/tasks/:id/efforts/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, task_id, id) {
-        logRest(context);
+        log_rest(context);
         efforts[id] = context.data;
         return efforts[id];
     });
+
 
     /* -------- projects -------- */
 
     url = '/projects';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(projects);
+        log_rest(context);
+        return _.toArray(projects);
     });
 
     url = '/projects/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         return projects[id];
     });
 
     url = '/projects';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        context.data.id = generateId();
+        log_rest(context);
+        context.data.id = generate_id();
         projects[context.data.id] = context.data;
         return projects[context.data.id];
     });
@@ -268,39 +110,117 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/projects/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         delete projects[id];
     });
 
     url = '/projects/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         projects[id] = context.data;
         return projects[id];
     });
+
+    url = '/projects/:id';
+    verb = 'PATCH';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        _.extend(projects[id], context.data);
+        return projects[id];
+    });
+
+
+    /* -------- project tasks -------- */
+
+    url = '/projects/:id/tasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == id });
+    });
+
+
+    /* -------- subtasks -------- */
+
+    url = '/tasks/:id/subtasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return task.parent_task && task.parent_task.id == id });
+    });
+
+
+    /* -------- tasks -------- */
+
+    url = '/tasks';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return !task.parent_task });
+    });
+
+    url = '/tasks/:id';
+    verb = 'GET';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        return tasks[id];
+    });
+
+    url = '/tasks';
+    verb = 'POST';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
+        log_rest(context);
+        context.data.id = generate_id();
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
+
+    url = '/tasks/:id';
+    verb = 'DELETE';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        delete tasks[id];
+    });
+
+    url = '/tasks/:id';
+    verb = 'PUT';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        tasks[id] = context.data;
+        return tasks[id];
+    });
+
+    url = '/tasks/:id';
+    verb = 'PATCH';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        _.extend(tasks[id], context.data);
+        return tasks[id];
+    });
+
 
     /* -------- users -------- */
 
     url = '/users';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return asArray(users);
+        log_rest(context);
+        return _.toArray(users);
     });
 
     url = '/users/:id';
     verb = 'GET';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         return users[id];
     });
 
     url = '/users';
     verb = 'POST';
     Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        context.data.id = generateId();
+        log_rest(context);
+        context.data.id = generate_id();
         users[context.data.id] = context.data;
         return users[context.data.id];
     });
@@ -308,106 +228,23 @@ define(['app', 'config', 'backbone_faux_server'], function (App, CONFIG, Faux) {
     url = '/users/:id';
     verb = 'DELETE';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         delete users[id];
     });
 
     url = '/users/:id';
     verb = 'PUT';
     Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
-        logRest(context);
+        log_rest(context);
         users[id] = context.data;
         return users[id];
     });
 
-    /* -------- project members -------- */
-
-    url = '/projects/:id/members';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
+    url = '/users/:id';
+    verb = 'PATCH';
+    Faux.addRoute(verb + url, base_url + url, verb, function (context, id) {
+        log_rest(context);
+        _.extend(users[id], context.data);
+        return users[id];
     });
-
-    url = '/projects/:id/members/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/projects/:id/members/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/projects/:id/members/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    /* -------- project tasks -------- */
-
-    url = '/projects/:id/tasks';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/projects/:id/tasks/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/projects/:id/tasks/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/projects/:id/tasks/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    /* -------- contacts -------- */
-
-    url = '/users/:id/contacts';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/users/:id/contacts/:id';
-    verb = 'GET';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/users/:id/contacts/:id';
-    verb = 'PUT';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
-    url = '/users/:id/contacts/:id';
-    verb = 'DELETE';
-    Faux.addRoute(verb + url, base_url + url, verb, function (context) {
-        logRest(context);
-        return null;
-    });
-
 });

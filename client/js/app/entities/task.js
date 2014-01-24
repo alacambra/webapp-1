@@ -1,7 +1,10 @@
-define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbone_faux_server'], function(App, CONFIG, Entities, validation_helper, Faux) {
-    App.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _) {
+define(['app',
+        'app/validation_helper',
+        'app/entities/effort',
+        'app/entities/project'],
+function(App, validation_helper) {
+    App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
-
 
         Entities.Task = Backbone.Model.extend({
             urlRoot: base_url,
@@ -16,13 +19,32 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
                 endDate: null,
                 duration: null,
                 progress: 0,
-                effort: 0
+
+                effort: 0,
+                project: null,
+                parent_task: null,
+                subtaskCount: 0
             },
 
-            initialize: function () {
+            // fields to be disabled, when task has children
+            child_disable_fields: ['status', 'priority', 'startDate', 'endDate', 'duration', 'progress'],
+
+            initialize: function (attributes, options) {
                 if (!this.isNew()) {
                     this.efforts = new Entities.EffortCollection({ task_id: this.id });
                 }
+
+                if (options && _.isArray(options.subtasks)) {
+                    this.subtasks = new Entities.TaskCollection(options.tasks);
+                } else {
+                    this.subtasks = new Entities.TaskCollection();
+                }
+
+                this.subtasks.url = App.model_base_url('subtasks', 'tasks', this.get('id'));
+            },
+
+            disabled_fields: function() {
+                return this.get('subtaskCount') > 0 ? this.child_disable_fields : [];
             },
 
             validate: function(attrs, options) {
@@ -89,6 +111,31 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
                 }
 
                 return defer.promise();
+            },
+
+            get_task_subtasks_entities: function (task) {
+                var defer = $.Deferred();
+
+                if (_.isObject(task)) {
+                    task.subtasks.fetch({
+                        success: function (collection, response) {
+                            defer.resolve(collection, response);
+                        },
+                        error: function (collection, response) {
+                            defer.resolve(false, response);
+                        }
+                    });
+                }
+
+                return defer.promise();
+            },
+
+            create_task_subtask_entity: function (parent_id) {
+                return new Entities.Task({
+                    parent_task: {
+                        id: parent_id
+                    }
+                });
             }
         };
 
@@ -100,6 +147,16 @@ define(['app', 'config', 'app/entities/effort', 'app/validation_helper', 'backbo
 
         App.reqres.setHandler('task:entity', function(id) {
             return API.get_task_entity(id);
+        });
+
+
+        App.reqres.setHandler('task:subtasks:entities', function (task) {
+            return API.get_task_subtasks_entities(task);
+        });
+
+
+        App.reqres.setHandler('task:subtasks:create', function (parent_id) {
+            return API.create_task_subtask_entity(parent_id);
         });
     });
 

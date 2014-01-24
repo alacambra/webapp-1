@@ -6,9 +6,13 @@ define(['app', 'app/entities/project', 'app/projects/show/show_controller'], fun
             temp = App.request;
 
             App.request = function(event_type, project_id) {
-                return new Entities.Project({
+                var defer = $.Deferred();
+
+                defer.resolve(new Entities.Project({
                     id: project_id
-                });
+                }));
+
+                return defer.promise();
             }
         });
 
@@ -19,7 +23,7 @@ define(['app', 'app/entities/project', 'app/projects/show/show_controller'], fun
         it('Should call show in main region', function() {
             spyOn(App.main_region, 'show');
 
-            Ctrl.project_show(6);
+            Ctrl.project_show(1);
 
             expect(App.main_region.show).toHaveBeenCalled();
         });

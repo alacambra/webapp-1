@@ -6,19 +6,29 @@ define(['app',
         'lib/vendor/textile'],
 function(App, show_tpl, app_helper, view_helper, tasks_helper) {
     App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
-        Show.View = Marionette.ItemView.extend({
+        Show.View = Marionette.Layout.extend({
             template: show_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
 
+            regions: {
+                subtasks: '#js-subtasks'
+            },
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete': 'delete_item'
+                'click .js-delete-task': 'delete_item'
             },
 
 
             delete_item: function() {
-                App.trigger('task:delete', this.model, 'tasks:list');
+                var redirect = 'tasks:list';
+                if (this.model.get('project')) {
+                    redirect = {
+                        event: 'project:show',
+                        id: this.model.get('project').id
+                    }
+                }
+                App.trigger('task:delete', this.model, redirect);
             }
         });
     });

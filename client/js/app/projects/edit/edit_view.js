@@ -19,6 +19,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
             
             ui: {
                 description: '#js-project-description',
+                status: '#js-project-status',
                 start_date: '#js-project-startDate',
                 end_date: '#js-project-endDate',
 
@@ -35,8 +36,17 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
 
 
             onRender: function () {
+                var disable_fields = _.map(this.model.disabled_fields(), function(item) {
+                    return item.underscore();
+                });
+
                 this.init_description_elastic_textarea();
-                this.init_datepicker();
+
+                if (!_.include(disable_fields, 'start_date')) this.ui.start_date.datepicker(app_helper.datepicker_default);
+                if (!_.include(disable_fields, 'end_date'))   this.ui.end_date.datepicker(app_helper.datepicker_default);
+
+                var that = this;
+                _.each(disable_fields, function(field) { that.ui[field].attr('disabled', 'disabled') });
             },
 
 
@@ -55,12 +65,6 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
             },
 
 
-            init_datepicker: function() {
-                this.ui.start_date.datepicker(app_helper.datepicker_default);
-                this.ui.end_date.datepicker(app_helper.datepicker_default);
-            },
-
-
             /*
              * view event handlers
              */
@@ -70,7 +74,9 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
 
                 form_helper.clear_errors(this);
 
-                var data = Backbone.Syphon.serialize(this);
+                var options = { exclude: this.model.disabled_fields() };
+
+                var data = Backbone.Syphon.serialize(this, options);
                 this.trigger('form:submit', projects_helper.unformat(data));
             },
 

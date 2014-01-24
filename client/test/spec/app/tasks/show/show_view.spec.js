@@ -52,7 +52,7 @@ define([ 'app', 'app/entities/task', 'app/tasks/show/show_view' ], function (App
         it('Check the delete functionality.', function () {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-task').click();
 
             expect(App.trigger).toHaveBeenCalledWith('task:delete', task, 'tasks:list');
         });

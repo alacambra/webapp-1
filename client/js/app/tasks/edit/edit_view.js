@@ -18,12 +18,14 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
 
             ui: {
                 description: '#js-task-description',
+                status: '#js-task-status',
+                priority: '#js-task-priority',
                 start_date: '#js-task-startDate',
                 end_date: '#js-task-endDate',
-                progress: '#js-task-progress',
-                progress_slider: '#js-task-progress-slider',
                 duration: '#js-task-duration',
                 duration_slider: '#js-task-duration-slider',
+                progress: '#js-task-progress',
+                progress_slider: '#js-task-progress-slider',
 
                 submit_button: '#js-task-submit',
                 submit_error_msg: '#js-task-submit-error-msg',
@@ -40,10 +42,20 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
 
 
             onRender: function () {
+                var disable_fields = _.map(this.model.disabled_fields(), function(item) {
+                    return item.underscore();
+                });
+
                 this.init_description_elastic_textarea();
-                this.init_datepicker();
-                this.init_progress_slider();
-                this.init_duration_slider();
+
+                this.init_duration_slider(_.include(disable_fields, 'duration'));
+                this.init_progress_slider(_.include(disable_fields, 'progress'));
+
+                if (!_.include(disable_fields, 'start_date')) this.ui.start_date.datepicker(app_helper.datepicker_default);
+                if (!_.include(disable_fields, 'end_date'))   this.ui.end_date.datepicker(app_helper.datepicker_default);
+
+                var that = this;
+                _.each(disable_fields, function(field) { that.ui[field].attr('disabled', 'disabled') });
             },
 
 
@@ -62,31 +74,9 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
             },
 
 
-            init_datepicker: function() {
-                this.ui.start_date.datepicker(app_helper.datepicker_default);
-                this.ui.end_date.datepicker(app_helper.datepicker_default);
-            },
+            init_duration_slider: function(disabled) {
+                if (_.isUndefined(disabled)) disabled = false;
 
-
-            init_progress_slider: function() {
-                var that = this;
-                var progress = tasks_helper.format_progress(this.model.get('progress'));
-
-                this.ui.progress.val(progress);
-                this.ui.progress_slider.slider({
-                    range: 'min',
-                    value: progress,
-                    min: 0,
-                    max: 100,
-                    step: 5,
-                    slide: function(event, ui) {
-                        that.ui.progress.val(ui.value);
-                    }
-                });
-            },
-
-
-            init_duration_slider: function() {
                 var that = this;
                 var duration = this.model.get('duration') || 0;
 
@@ -97,8 +87,30 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
                     min: 0,
                     max: 24 * 4 * 15,
                     step: 15,
+                    disabled: disabled,
                     slide: function(event, ui) {
                         that.ui.duration.val(tasks_helper.format_duration(ui.value) || 0);
+                    }
+                });
+            },
+
+
+            init_progress_slider: function(disabled) {
+                if (_.isUndefined(disabled)) disabled = false;
+
+                var that = this;
+                var progress = tasks_helper.format_progress(this.model.get('progress'));
+
+                this.ui.progress.val(progress);
+                this.ui.progress_slider.slider({
+                    range: 'min',
+                    value: progress,
+                    min: 0,
+                    max: 100,
+                    step: 5,
+                    disabled: disabled,
+                    slide: function(event, ui) {
+                        that.ui.progress.val(ui.value);
                     }
                 });
             },
@@ -113,7 +125,9 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
 
                 form_helper.clear_errors(this);
 
-                var data = Backbone.Syphon.serialize(this);
+                var options = { exclude: this.model.disabled_fields() };
+
+                var data = Backbone.Syphon.serialize(this, options);
                 this.trigger('form:submit', tasks_helper.unformat(data));
             },
 

@@ -1,4 +1,7 @@
-define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
+define(['marionette',
+        'config',
+        'i18n'],
+function(Marionette, CONFIG) {
     var App = new Marionette.Application();
 
 
@@ -107,8 +110,7 @@ define(['marionette', 'config', 'i18n'], function(Marionette, CONFIG) {
 
     App.on('initialize:after', function() {
         App.init_i18n(function() {
-            var faux_require = '';
-            if (CONFIG.rest.faux_enable) faux_require = 'app_faux_server';
+            var faux_require = CONFIG.rest.faux.enable ? 'app_faux_server' : '';
 
             require([
                 faux_require,

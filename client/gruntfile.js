@@ -49,14 +49,17 @@ module.exports = function (grunt) {
                 options: {
                     port: 8000
                 }
+            },
+            test_build: {
+                options: {
+                    port: 8001
+                }
             }
         },
 
         jasmine: {
             options: {
                 specs: 'test/spec/**/*.spec.js',
-                vendor: 'js/lib/vendor/i18n.js',
-                helpers: 'test/lib/test_helper.js',
                 host: 'http://127.0.0.1:<%= connect.test.options.port %>/',
                 template: require('grunt-template-jasmine-requirejs')
             },
@@ -64,6 +67,8 @@ module.exports = function (grunt) {
             test: {
                 src: 'js/app/**/*.js',
                 options: {
+                    vendor: 'js/lib/vendor/i18n.js',
+                    helpers: 'test/lib/test_helper.js',
                     templateOptions: {
                         requireConfigFile: 'js/require_main.js'
                     }
@@ -72,6 +77,8 @@ module.exports = function (grunt) {
             build: {
                 src: 'dist/js/application.js',
                 options: {
+                    host: 'http://127.0.0.1:<%= connect.test_build.options.port %>/',
+                    helpers: [ 'test/lib/test_helper.js', 'dist/js/application.js' ],
                     templateOptions: {
                         requireConfigFile: 'dist/js/application.js'
                     }
@@ -191,7 +198,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build:test', [
         'build',
-        'connect:test',
+        'connect:test_build',
         'jasmine:build'
     ]);
 
@@ -199,6 +206,12 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'connect:test',
         'jasmine:test'
+    ]);
+
+    // Test task for distribution version. A single test run.
+    grunt.registerTask('test:build', [
+        'connect:test_build',
+        'jasmine:build'
     ]);
 
     // Test task. Runs test on every app change.

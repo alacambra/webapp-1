@@ -6,12 +6,16 @@
 
 <div><%= textile(description) %></div>
 
+<p><%= I18n.t('project.label.title') %>: <%= title %></p>
 <p><%= I18n.t('project.label.status') %>: <%= status_text(status) %></p>
 <p><%= I18n.t('project.label.start_date') %>: <%= format_date(startDate) %></p>
 <p><%= I18n.t('project.label.end_date') %>: <%= format_date(endDate) %></p>
 
 <%= button_to('edit', path('projects', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
-<button type="button" class="btn btn-default btn-sm btn-text js-delete">
+<button type="button" class="btn btn-default btn-sm btn-text js-delete-project">
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
 </button>
+
+<div id="js-project-tasks"></div>
+

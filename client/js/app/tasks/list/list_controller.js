@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/task', 'app/tasks/list/list_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/task',
+        'app/tasks/list/list_view'],
 function(App, response_handler) {
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
@@ -7,7 +10,7 @@ function(App, response_handler) {
 
                 $.when(App.request('task:entities')).done(function(tasks, response) {
                     if (tasks) {
-                        var list_view = new List.Tasks({
+                        var list_view = new List.View({
                             collection: tasks
                         });
 
@@ -23,7 +26,13 @@ function(App, response_handler) {
                 $.when(App.request('task:entity', task)).done(function(task, response) {
                     if (task) {
                         task.destroy();
-                        if (redirect !== undefined) App.trigger(redirect);
+                        if (!_.isUndefined(redirect)) {
+                            if (_.isObject(redirect)) {
+                                App.trigger(redirect.event, redirect.id);
+                            } else {
+                                App.trigger(redirect);
+                            }
+                        }
                     }
                 });
             }

@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/project', 'app/projects/edit/edit_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/project',
+        'app/projects/edit/edit_view'],
 function (App, response_handler) {
     App.module('Projects.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
@@ -11,6 +14,7 @@ function (App, response_handler) {
 
                         edit_view.on('form:submit', function(data) {
                             var model_validated = project.save(data, {
+                                patch: true,
                                 success: function() {
                                     App.trigger('project:show', project.get('id'));
                                 },

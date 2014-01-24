@@ -6,14 +6,17 @@ define(['app',
         'lib/vendor/textile'],
 function(App, show_tpl, app_helper, view_helper, projects_helper) {
     App.module('Projects.Show', function(Show, App, Backbone, Marionette, $, _) {
-        Show.View = Marionette.ItemView.extend({
+        Show.View = Marionette.Layout.extend({
             template: show_tpl,
             templateHelpers: _.extend({}, app_helper, view_helper, projects_helper),
 
+            regions: {
+                project_tasks: '#js-project-tasks'
+            },
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete': 'delete_item'
+                'click .js-delete-project': 'delete_item'
             },
 
 

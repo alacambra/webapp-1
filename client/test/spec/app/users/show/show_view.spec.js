@@ -50,7 +50,7 @@ define(['app', 'app/entities/user', 'app/users/show/show_view'], function(App, E
         it('Check the delete functionality', function() {
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-user').click();
 
             expect(App.trigger).toHaveBeenCalledWith('user:delete', user, 'users:list');
         });

@@ -2,7 +2,7 @@ define(['app',
         'app/entities/effort',
         'app/efforts/list/list_view',
         'app/app_helper',
-    'app/view_helper'],
+        'app/view_helper'],
 function(App, Entities, List, app_helper, view_helper) {
     var $sandbox = $('#sandbox');
 
@@ -25,11 +25,11 @@ function(App, Entities, List, app_helper, view_helper) {
             ], { task_id: 23 });
 
         beforeEach(function() {
-            listView = new List.Efforts({
+            listView = new List.View({
                 collection: efforts,
                 templateHelpers: _.extend({}, app_helper, view_helper)
             });
-            itemView = new List.View({
+            itemView = new List.ItemView({
                 model: effort1
             });
             $sandbox.html(listView.render().$el);
@@ -94,7 +94,7 @@ function(App, Entities, List, app_helper, view_helper) {
 
             spyOn(App, 'trigger');
 
-            $sandbox.find('.js-delete').click();
+            $sandbox.find('.js-delete-effort').click();
 
             expect(App.trigger).toHaveBeenCalledWith('effort:delete', effort1.task_id, effort1);
         });

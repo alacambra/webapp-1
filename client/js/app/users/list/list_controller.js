@@ -1,4 +1,7 @@
-define(['app', 'lib/response_handler', 'app/entities/user', 'app/users/list/list_view'],
+define(['app',
+        'lib/response_handler',
+        'app/entities/user',
+        'app/users/list/list_view'],
 function(App, response_handler) {
     App.module('Users.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
@@ -7,7 +10,7 @@ function(App, response_handler) {
 
                 $.when(App.request('user:entities')).done(function(users, response) {
                     if (users) {
-                        var list_view = new List.Users({
+                        var list_view = new List.View({
                             collection: users
                         });
 

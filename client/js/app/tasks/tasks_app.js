@@ -1,11 +1,13 @@
-define(['app'], function (App) {
+define(['app'],
+function (App) {
     App.module('TasksApp', function (TasksApp, App, Backbone, Marionette, $, _) {
         TasksApp.Router = Marionette.AppRouter.extend({
             appRoutes: {
                 'tasks': 'tasks_list',
                 'tasks/new': 'task_new',
                 'tasks/:id': 'task_show',
-                'tasks/:id/edit': 'task_edit'
+                'tasks/:id/edit': 'task_edit',
+                'tasks/:id/subtasks/new': 'task_subtasks_new'
             }
         });
 
@@ -26,6 +28,12 @@ define(['app'], function (App) {
             edit: function(id) { return {
                 href: '#tasks/' + id + '/edit',
                 event: 'task:edit,' + id };
+            },
+            create_subtask: function (id) {
+                return {
+                    href: '#tasks/' + id + '/subtasks/new',
+                    event: 'task:subtasks:new,' + id
+                }
             }
         };
 
@@ -52,6 +60,11 @@ define(['app'], function (App) {
 
         App.on('task:delete', function(id, redirect) {
             API.task_delete(id, redirect);
+        });
+
+        App.on('task:subtasks:new', function (id) {
+            App.navigate('tasks/' + id + '/subtasks/new');
+            API.task_subtasks_new(id);
         });
 
 
@@ -90,6 +103,13 @@ define(['app'], function (App) {
                         ListController.task_delete(task, redirect);
                     });
                 }
+            },
+
+            task_subtasks_new: function (parent_id) {
+                require(['app/tasks/edit/edit_controller'], function (EditController) {
+                    EditController.create_subtask(parent_id);
+                    highlight_navi();
+                });
             }
         };
 

@@ -1,6 +1,7 @@
 /** @module form_helper */
 
-define(['i18n'], function() {
+define(['i18n'],
+function() {
     return {
 
         /**
@@ -71,6 +72,8 @@ define(['i18n'], function() {
             };
 
             _.each(errors, mark_errors);
+
+            view.ui.submit_button.addClass('btn-danger');
         },
 
 

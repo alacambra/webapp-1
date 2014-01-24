@@ -38,6 +38,7 @@ I18n.translations['de'] = {
         label: {
             title: 'Titel',
             description: 'Beschreibung',
+            task_count: 'Aufgaben',
             status: 'Status',
             start_date: 'Start',
             end_date: 'Ende'
@@ -69,7 +70,9 @@ I18n.translations['de'] = {
             duration_short: 'Aufwand',
             progress: 'Fortschritt',
             effort: 'Aufgewendete Zeit',
-            effort_short: 'Zeit'
+            effort_short: 'Zeit',
+            project: 'Projekt',
+            subtask: 'Unteraufgaben'
         },
         status_options: {
             todo: 'ToDo',
@@ -87,7 +90,7 @@ I18n.translations['de'] = {
             high: 'Hoch'
         },
         button: {
-            new: 'Neuer Task'
+            new: 'Neue Aufgabe'
         }
     },
 
