@@ -33,7 +33,13 @@ function() {
             var text;
             var select = $('<select>', { name: attr, id: 'js-' + model + '-' + attr, class: options.class });
             _.each(options.options, function(item, idx) {
-                text = I18n.t(model + '.' + attr + '_options' + '.' + item);
+                if (_.isArray(item)) {
+                    idx = item[0];
+                    text = item[1];
+                } else {
+                    text = I18n.t(model + '.' + attr + '_options' + '.' + item);
+                }
+
                 select.append($('<option>', { value: idx, text: text, selected: options.selected == idx }));
             });
 

@@ -7,11 +7,26 @@ define([ 'app', 'app/entities/task', 'app/tasks/edit/edit_controller' ], functio
         beforeEach(function () {
             temp = App.request;
 
-            App.request = function (event_type, task_id) {
-                return new Entities.Task({
-                    id: task_id
-                });
-            }
+            App.request = function(event_type, task_id) {
+                if (event_type == 'task:entity') {
+                    return new Entities.Task({
+                        id: task_id,
+                        assignee: {
+                            id: 0,
+                            firstName: 'Foo',
+                            lastName: 'Bar'
+                        }
+                    });
+                } else if (event_type == 'user:entities') {
+                    return new Entities.UserCollection([{
+                        id: 0,
+                        firstName: 'Foo',
+                        lastName: 'Bar'
+                    }]);
+                }
+
+                return false;
+            };
         });
 
         afterEach(function () {

@@ -72,6 +72,13 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <div class="col-lg-4">
+            <label class="control-label"><%= I18n.t('task.label.assigned_to') %></label>
+            <%= select_for('task', 'assignee_id', { class: 'form-control', selected: assignee.id, options: users }) %>
+        </div>
+    </div>
+
     <button id="js-task-submit" class="btn btn-default btn-sm btn-text right-space js-submit">
         <span class="glyphicon glyphicon-floppy-disk"></span> <%= I18n.t('save') %>
     </button>
