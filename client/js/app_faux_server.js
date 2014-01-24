@@ -208,4 +208,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         _.extend(users[id], context.data);
         return users[id];
     });
+
+
+    /* -------- user sessions -------- */
+
+    Faux.post(base_url + 'user_sessions', function (context) {
+        log_rest(context);
+        App.set_credentials('foo:bar');
+        return users[0];
+    });
+
 });
