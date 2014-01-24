@@ -13,7 +13,11 @@ function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks
             templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
 
             initialize: function(options) {
-                _.extend(this.templateHelpers, options); // options given by composite view in itemViewOptions
+                var default_options = {
+                    parent: null,
+                    users: null
+                };
+                _.extend(this.templateHelpers, default_options, options);
             },
 
             events: {
