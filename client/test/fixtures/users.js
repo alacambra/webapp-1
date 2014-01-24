@@ -23,11 +23,12 @@ define({
         id: 3,
         firstName: 'Django',
         lastName: 'Delta',
-        birthDate: 1387206224
+        email: 'django@ion2s.com'
     },
     4: {
         id: 4,
         firstName: 'Erik',
-        lastName: 'Electric'
+        lastName: 'Electric',
+        email: 'erik.electric@ions2.com'
     }
 });
