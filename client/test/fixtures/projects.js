@@ -21,21 +21,17 @@ define({
         id: 2,
         title: 'Project2',
         description: 'Lorem ipsum',
-        startDate: 1387206224,
-        endDate: 1388206224
+        startDate: 1387206224
     },
     3: {
         id: 3,
         title: 'Project3',
-        startDate: 1387206224,
         endDate: 1388206224,
         status: 1
     },
     4: {
         id: 4,
         title: 'Project4',
-        startDate: 1387206224,
-        endDate: 1388206224,
         status: 2
     }
 });
