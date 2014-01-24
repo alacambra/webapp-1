@@ -135,13 +135,13 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		updateDates(startDate, endDate);
 
 		setEffort(getEffort() + task.getEffort());
-		calculateProgress();
+		calculateProgress(task);
 
 	}
 
-	private void calculateProgress() {
+	private void calculateProgress(Task newTask) {
 		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
-
+		tasks.add((PersistedTask) newTask);
 		Float totalProgress = (float) 0;
 		Integer totalEstimation = 0;
 
@@ -150,7 +150,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 			totalProgress += t.getDuration() * t.getProgress();
 		}
 
-		setProgress(totalProgress / totalEstimation); 
+		setProgress(totalProgress / totalEstimation);
 	}
 
 	@Override
@@ -199,7 +199,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void updateProgress() {
-		calculateProgress();
+//		calculateProgress();
 	}
 
 	@Override
@@ -239,7 +239,8 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public Float getProgress() {
-		return getFloatProperty(NodePropertyName.PROGRESS);
+		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
+		return progress != null ? progress : 0; 
 	}
 
 	private void setProgress(Float progress) {

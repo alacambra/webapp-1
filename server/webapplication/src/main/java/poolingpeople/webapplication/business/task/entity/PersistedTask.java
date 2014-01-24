@@ -191,7 +191,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public void setDuration(Integer duration) {
 		manager.setProperty(underlyingNode,
-				NodePropertyName.DURATION.name(), duration);
+				NodePropertyName.DURATION.name(), new Integer(duration));
 	}
 
 	@Override
