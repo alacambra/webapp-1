@@ -3,13 +3,19 @@
     <span title="<%= I18n.t('task.label.subtask') %>"><%= subtaskCount > 0 ? '[' + subtaskCount + ']' : '' %></span>
 </div>
 
-<div class="col-md-2">
+<div class="col-md-1">
     <% if (parent !== 'project') { %>
         <% if (project) { %>
             <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
         <% } %>
     <% } else { %>
         <%= truncate(description, 25) %>&nbsp;
+    <% } %>
+</div>
+
+<div class="col-md-1">
+    <% if (assignee) { %>
+        <%= link_to(full_name(assignee.firstName, assignee.lastName), path('users', 'show', assignee.id), { i18n: false }) %>
     <% } %>
 </div>
 
