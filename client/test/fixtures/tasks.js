@@ -48,6 +48,11 @@ define({
         "project": {
             "id": 1,
             "title": "Project1"
+        },
+        "assignee": {
+            "id": 2,
+            "firstName": "Charlie",
+            "lastName": "Chaos"
         }
     },
     "3": {
@@ -62,7 +67,12 @@ define({
             "id": 0,
             "title": "Task0"
         },
-        "subtaskCount": 1
+        "subtaskCount": 1,
+        "assignee": {
+            "id": 2,
+            "firstName": "Charlie",
+            "lastName": "Chaos"
+        }
     },
     "4": {
         "id": 4,
@@ -74,6 +84,11 @@ define({
         "parentTask": {
             "id": 0,
             "title": "Task0"
+        },
+        "assignee": {
+            "id": 2,
+            "firstName": "Charlie",
+            "lastName": "Chaos"
         }
     },
     "5": {
@@ -86,11 +101,21 @@ define({
         "parentTask": {
             "id": 3,
             "title": "Task3"
+        },
+        "assignee": {
+            "id": 2,
+            "firstName": "Charlie",
+            "lastName": "Chaos"
         }
     },
     "6": {
         "id": 6,
         "title": "Task6",
-        "startDate": 1387206224
+        "startDate": 1387206224,
+        "assignee": {
+            "id": 2,
+            "firstName": "Charlie",
+            "lastName": "Chaos"
+        }
     }
 });

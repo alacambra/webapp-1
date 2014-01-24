@@ -118,6 +118,12 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     /* -------- tasks -------- */
 
+    function task_add_assignee(data) {
+        var assignee_id = data.assignee_id;
+        delete data.assignee_id;
+        data.assignee = users[assignee_id];
+    }
+
     Faux.get(base_url + 'tasks', function (context) {
         log_rest(context);
         return _.filter(_.toArray(tasks), function(task) { return !task.parentTask });
@@ -130,6 +136,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.post(base_url + 'tasks', function (context) {
         log_rest(context);
+        task_add_assignee(context.data);
         context.data.id = generate_id();
         tasks[context.data.id] = context.data;
         return tasks[context.data.id];
@@ -148,6 +155,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.patch(base_url + 'tasks/:id', function (context, id) {
         log_rest(context);
+        task_add_assignee(context.data);
         _.extend(tasks[id], context.data);
         return tasks[id];
     });

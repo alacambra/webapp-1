@@ -123,7 +123,8 @@ function(App, validation_helper) {
                 return new Entities.Task({
                     project: {
                         id: project_id
-                    }
+                    },
+                    assignee: App.current_user()
                 });
             }
         };

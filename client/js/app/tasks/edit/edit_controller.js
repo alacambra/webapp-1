@@ -1,8 +1,10 @@
 define(['app',
         'lib/response_handler',
+        'app/users/users_helper',
         'app/entities/task',
+        'app/entities/user',
         'app/tasks/edit/edit_view'],
-function (App, response_handler) {
+function (App, response_handler, users_helper) {
     App.module('Tasks.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             task_edit: function (task_id) {
@@ -10,15 +12,70 @@ function (App, response_handler) {
 
                 $.when(App.request('task:entity', task_id)).done(function(task, response) {
                     if (task) {
-                        var edit_view = new Edit.View({
-                            model: task
+                        $.when(App.request('user:entities')).done(function(users, response) {
+                            if (users) {
+                                var users_list = users.map(function(user) {
+                                    return [
+                                        user.get('id'),
+                                        users_helper.full_name(user.get('firstName'), user.get('lastName'))]
+                                });
+
+                                var edit_view = new Edit.View({
+                                    model: task,
+                                    users: users_list
+                                });
+
+                                edit_view.on('form:submit', function(data) {
+                                    var model_validated = task.save(data, {
+                                        patch: true,
+                                        success: function() {
+                                            App.trigger('task:show', task.get('id'));
+                                        },
+                                        error: function(model, response) {
+                                            response_handler.handle(response, {
+                                                503: function() { edit_view.triggerMethod('form:save:failed'); }
+                                            });
+                                        }
+                                    });
+
+                                    if (model_validated) {
+                                        edit_view.triggerMethod('form:data:valid');
+                                    } else {
+                                        edit_view.triggerMethod('form:data:invalid', task.validationError);
+                                    }
+                                });
+
+                                App.main_region.show(edit_view);
+                            } else {
+                                response_handler.handle(response);
+                            }
+                        });
+                    } else {
+                        response_handler.handle(response);
+                    }
+                });
+            },
+
+            create_project_task: function (project_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
+                $.when(App.request('project:task:create', project_id)).done(function (task, response) {
+                    $.when(App.request('user:entities')).done(function(users, response) {
+                        var users_list = users.map(function(user) {
+                            return [
+                                user.get('id'),
+                                users_helper.full_name(user.get('firstName'), user.get('lastName'))]
                         });
 
-                        edit_view.on('form:submit', function(data) {
+                        var edit_view = new Edit.View({
+                            model: task,
+                            users: users_list
+                        });
+
+                        edit_view.on('form:submit', function (data) {
                             var model_validated = task.save(data, {
-                                patch: true,
                                 success: function() {
-                                    App.trigger('task:show', task.get('id'));
+                                    App.trigger('project:show', project_id);
                                 },
                                 error: function(model, response) {
                                     response_handler.handle(response, {
@@ -35,40 +92,7 @@ function (App, response_handler) {
                         });
 
                         App.main_region.show(edit_view);
-                    } else {
-                        response_handler.handle(response);
-                    }
-                });
-            },
-
-            create_project_task: function (project_id) {
-                App.main_region.show(new App.Common.LoadingView);
-
-                $.when(App.request('project:task:create', project_id)).done(function (task, response) {
-                    var edit_view = new Edit.View({
-                        model: task
                     });
-
-                    edit_view.on('form:submit', function (data) {
-                        var model_validated = task.save(data, {
-                            success: function() {
-                                App.trigger('project:show', project_id);
-                            },
-                            error: function(model, response) {
-                                response_handler.handle(response, {
-                                    503: function() { edit_view.triggerMethod('form:save:failed'); }
-                                });
-                            }
-                        });
-
-                        if (model_validated) {
-                            edit_view.triggerMethod('form:data:valid');
-                        } else {
-                            edit_view.triggerMethod('form:data:invalid', task.validationError);
-                        }
-                    });
-
-                    App.main_region.show(edit_view);
                 });
             },
 
@@ -76,30 +100,39 @@ function (App, response_handler) {
                 App.main_region.show(new App.Common.LoadingView);
 
                 $.when(App.request('task:subtasks:create', parent_id)).done(function (task, response) {
-                    var edit_view = new Edit.View({
-                        model: task
-                    });
+                    $.when(App.request('user:entities')).done(function(users, response) {
+                        var users_list = users.map(function(user) {
+                            return [
+                                user.get('id'),
+                                users_helper.full_name(user.get('firstName'), user.get('lastName'))]
+                        });
 
-                    edit_view.on('form:submit', function (data) {
-                        var model_validated = task.save(data, {
-                            success: function() {
-                                App.trigger('task:show', parent_id);
-                            },
-                            error: function(model, response) {
-                                response_handler.handle(response, {
-                                    503: function() { edit_view.triggerMethod('form:save:failed'); }
-                                });
+                        var edit_view = new Edit.View({
+                            model: task,
+                            users: users_list
+                        });
+
+                        edit_view.on('form:submit', function (data) {
+                            var model_validated = task.save(data, {
+                                success: function() {
+                                    App.trigger('task:show', parent_id);
+                                },
+                                error: function(model, response) {
+                                    response_handler.handle(response, {
+                                        503: function() { edit_view.triggerMethod('form:save:failed'); }
+                                    });
+                                }
+                            });
+
+                            if (model_validated) {
+                                edit_view.triggerMethod('form:data:valid');
+                            } else {
+                                edit_view.triggerMethod('form:data:invalid', task.validationError);
                             }
                         });
 
-                        if (model_validated) {
-                            edit_view.triggerMethod('form:data:valid');
-                        } else {
-                            edit_view.triggerMethod('form:data:invalid', task.validationError);
-                        }
+                        App.main_region.show(edit_view);
                     });
-
-                    App.main_region.show(edit_view);
                 });
             }
         }

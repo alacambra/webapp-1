@@ -93,7 +93,9 @@ function(App, validation_helper) {
                 var defer = $.Deferred();
 
                 if (typeof task_id !== 'object') {
-                    task_entity = new Entities.Task({ id: task_id });
+                    task_entity = new Entities.Task({
+                        id: task_id
+                    });
 
                     if (task_id !== undefined) { // task id was set, load entity
                         task_entity.fetch({
@@ -105,6 +107,7 @@ function(App, validation_helper) {
                             }
                         });
                     } else { // no task id was set, return new instance
+                        task_entity.set('assignee', App.current_user());
                         defer.resolve(task_entity);
                     }
                 } else { // given "task_id" is a model, return unchanged
@@ -135,7 +138,8 @@ function(App, validation_helper) {
                 return new Entities.Task({
                     parentTask: {
                         id: parent_id
-                    }
+                    },
+                    assignee: App.current_user()
                 });
             }
         };

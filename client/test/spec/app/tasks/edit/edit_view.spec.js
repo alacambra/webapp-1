@@ -6,7 +6,12 @@ define([ 'app', 'app/entities/task', 'app/tasks/edit/edit_view' ], function (App
 
         var view = null,
             task = new Entities.Task({
-                id: 8
+                id: 8,
+                assignee: {
+                    id: 2,
+                    firstName: 'Charlie',
+                    lastName: 'Chaos'
+                }
             });
 
         beforeEach(function () {
