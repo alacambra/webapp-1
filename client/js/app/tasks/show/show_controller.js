@@ -17,7 +17,7 @@ function (App, response_handler, TaskList) {
 
                         App.main_region.show(show_view);
 
-                        $.when(App.request('task:subtasks:entities', task)).done(function (subtasks, response) {
+                        $.when(App.request('task:entities', task)).done(function (subtasks, response) {
                             show_view.subtasks.show(new TaskList.View({
                                 collection: subtasks,
                                 breadcrumbs: false,

@@ -72,9 +72,22 @@ function(App, validation_helper) {
 
 
         var API = {
-            get_task_entities: function() {
+            get_task_entities: function(parent) {
                 var tasks = new Entities.TaskCollection();
                 var defer = $.Deferred();
+
+
+                console.log(parent);
+                if (_.isObject(parent)) {
+                    if (!_.isUndefined(parent.subtasks)) {
+                        // parent is a task so set its subtasks
+                        tasks = parent.subtasks;
+
+                    } else if (!_.isUndefined(parent.tasks)) {
+                        // parent is a project so set its tasks
+                        tasks = parent.tasks;
+                    }
+                }
 
                 tasks.fetch({
                     success: function(model, response) {
@@ -88,80 +101,63 @@ function(App, validation_helper) {
                 return defer.promise();
             },
 
-            get_task_entity: function(task_id) {
-                var task_entity;
+            get_task_entity: function(task_id, options) {
                 var defer = $.Deferred();
 
-                if (typeof task_id !== 'object') {
-                    task_entity = new Entities.Task({
-                        id: task_id
+                if (_.isObject(task_id)) {
+                    // given task_id is a model, resolve unchanged task
+                    defer.resolve(task_id);
+
+                } else if (_.isUndefined(task_id)) {
+                    // no task_id is set, create a new task model
+                    var task = new Entities.Task({
+                        assignee: App.current_user()
                     });
 
-                    if (task_id !== undefined) { // task id was set, load entity
-                        task_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no task id was set, return new instance
-                        task_entity.set('assignee', App.current_user());
-                        defer.resolve(task_entity);
+                    // check the options when it is specified
+                    if (_.isObject(options)) {
+                        if (!_.isUndefined(options.parent_task_id)) {
+                            // parent_task_id is set as option, extend task to subtask
+                            task.set('parentTask', {
+                                id: options.parent_task_id
+                            });
+                        }
+
+                        if (!_.isUndefined(options.project_id)) {
+                            // project_id is set as option, extend task to a project_task
+                            task.set('project', {
+                                id: options.project_id
+                            });
+                        }
                     }
-                } else { // given "task_id" is a model, return unchanged
-                    defer.resolve(task_id);
-                }
 
-                return defer.promise();
-            },
+                    // resolve final new task
+                    defer.resolve(task);
 
-            get_task_subtasks_entities: function (task) {
-                var defer = $.Deferred();
-
-                if (_.isObject(task)) {
-                    task.subtasks.fetch({
-                        success: function (collection, response) {
-                            defer.resolve(collection, response);
+                } else {
+                    // task_id is set, fetch model from server and resolve response
+                    new Entities.Task({ id: task_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
                         },
-                        error: function (collection, response) {
+                        error: function (model, response) {
                             defer.resolve(false, response);
                         }
                     });
                 }
 
                 return defer.promise();
-            },
-
-            create_task_subtask_entity: function (parent_id) {
-                return new Entities.Task({
-                    parentTask: {
-                        id: parent_id
-                    },
-                    assignee: App.current_user()
-                });
             }
         };
 
 
-        App.reqres.setHandler('task:entities', function() {
-            return API.get_task_entities();
+        App.reqres.setHandler('task:entities', function(parent) {
+            return API.get_task_entities(parent);
         });
 
 
-        App.reqres.setHandler('task:entity', function(id) {
-            return API.get_task_entity(id);
-        });
-
-
-        App.reqres.setHandler('task:subtasks:entities', function (task) {
-            return API.get_task_subtasks_entities(task);
-        });
-
-
-        App.reqres.setHandler('task:subtasks:create', function (parent_id) {
-            return API.create_task_subtask_entity(parent_id);
+        App.reqres.setHandler('task:entity', function(id, options) {
+            return API.get_task_entity(id, options);
         });
     });
 
