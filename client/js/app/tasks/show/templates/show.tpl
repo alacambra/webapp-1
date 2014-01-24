@@ -45,6 +45,18 @@
         <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
     <% } %>
 </p>
+<p>
+    <%= I18n.t('task.label.parent_task') %>:
+    <% if (parentTask) { %>
+        <%= link_to(parentTask.title, path('tasks', 'show', parentTask.id), { i18n: false }) %>
+    <% } %>
+</p>
+<p>
+    <%= I18n.t('task.label.assigned_to') %>:
+    <% if (assignee) { %>
+        <%= link_to(full_name(assignee.firstName, assignee.lastName), path('users', 'show', assignee.id), { i18n: false }) %>
+    <% } %>
+</p>
 
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
 <%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>

@@ -3,12 +3,13 @@ define(['app',
         'app/app_helper',
         'app/view_helper',
         'app/tasks/tasks_helper',
+        'app/users/users_helper',
         'lib/vendor/textile'],
-function(App, show_tpl, app_helper, view_helper, tasks_helper) {
+function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
     App.module('Tasks.Show', function(Show, App, Backbone, Marionette, $, _) {
         Show.View = Marionette.Layout.extend({
             template: show_tpl,
-            templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
+            templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper, users_helper),
 
             regions: {
                 subtasks: '#js-subtasks'
