@@ -12,7 +12,7 @@ function (App, response_handler, users_helper) {
 
             var task_options = {};
             var redirect = {
-                event_name: 'task:show',
+                event: 'task:show',
                 id: task_id
             };
 
@@ -21,7 +21,10 @@ function (App, response_handler, users_helper) {
                 _.extend(redirect, options.redirect);
             }
 
-            $.when(App.request('task:entity', task_id, task_options), App.request('user:entities')).done(function(task_response, users_response) {
+            var fetching_task = App.request('task:entity', task_id, task_options);
+            var fetching_users = App.request('user:entities');
+
+            $.when(fetching_task, fetching_users).done(function(task_response, users_response) {
                 var task = _.isUndefined(task_id) ? task_response : task_response[0];
                 var users = users_response[0];
 
@@ -50,7 +53,7 @@ function (App, response_handler, users_helper) {
                 var model_validated = task.save(data, {
                     patch: true,
                     success: function() {
-                        App.trigger(redirect.event_name, redirect.id);
+                        App.trigger(redirect.event, redirect.id);
                     },
                     error: function(model, response) {
                         response_handler.handle(response, {
@@ -79,7 +82,7 @@ function (App, response_handler, users_helper) {
                         project_id: project_id
                     },
                     redirect: {
-                        event_name: 'project:show',
+                        event: 'project:show',
                         id: project_id
                     }
                 });
