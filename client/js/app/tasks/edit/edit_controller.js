@@ -26,22 +26,14 @@ function (App, response_handler, users_helper) {
                 var users = users_response[0];
 
                 if (task && users) {
-                    users = users.map(function(user) {
-                        return [
-                            user.get('id'),
-                            users_helper.full_name(user.get('firstName'), user.get('lastName'))
-                        ];
-                    });
-
                     var edit_view = new Edit.View({
                         model: task,
-                        users: users
+                        users: users_helper.options_for_select(users)
                     });
 
                     App.main_region.show(edit_view);
 
                     set_view_submit_handler(edit_view, task, redirect);
-
                 } else {
                     if (!task) {
                         response_handler.handle(task_response[1]);

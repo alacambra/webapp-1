@@ -16,6 +16,16 @@ function(view_helper) {
             return data;
         },
 
+        options_for_select: function(users) {
+            var that = this;
+            return users.map(function(user) {
+                return [
+                    user.get('id'),
+                    that.full_name(user.get('firstName'), user.get('lastName'))
+                ];
+            });
+        },
+
         has_value: function(val) {
             return !(val === 0 || is_blank(val));
         }
