@@ -52,7 +52,11 @@ function (App, response_handler, users_helper) {
             edit_view.on('form:submit', function (data) {
                 var model_validated = task.save(data, {
                     patch: true,
-                    success: function() {
+                    success: function(model, response, options) {
+                        // read header and alert its content
+                        if (options.xhr && options.xhr.getResponseHeader('X-Warning')) {
+                            alert(options.xhr.getResponseHeader('X-Warning'));
+                        }
                         App.trigger(redirect.event, redirect.id);
                     },
                     error: function(model, response) {
