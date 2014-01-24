@@ -1,5 +1,5 @@
 define(['app/view_helper',
-    'advanced_string'],
+        'advanced_string'],
 function(view_helper) {
     return {
         format_date: function(date) {
