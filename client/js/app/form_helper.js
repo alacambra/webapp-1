@@ -24,9 +24,9 @@ function() {
          * <%= select_for('project', 'priority', { selected: 1, class: 'pretty' }) %>
          * ...
          *
-         * @param model - Name of the model
-         * @param attr - Name of the attribute (will get suffix '_options' for locales)
-         * @param options - optional options for this select element
+         * @param model {string} - Name of the model
+         * @param attr {string} - Name of the attribute (will get suffix '_options' for locales)
+         * @param options {object|string[]} - options for this select element
          * @returns {string} - select element with its options as a html text
          */
         select_for: function(model, attr, options) {
@@ -65,8 +65,8 @@ function() {
          *
          * // result: if input#js-view-a-attr1 is empty this function marks the input red and adds the specific message
          *
-         * @param view - View that is rendering the form
-         * @param errors - errors object that contains the error information
+         * @param view {object} - View that is rendering the form
+         * @param errors {object} - contains the error information: key = field name, value = error message
          */
         mark_errors: function(view, errors) {
             var $view = view.$el;
@@ -86,7 +86,7 @@ function() {
         /**
          * Removed all added error marks and messages.
          *
-         * @param view - View that need to be cleaned from errors
+         * @param view {object} - View that need to be cleaned from errors
          */
         clear_errors: function(view) {
             var $form = view.$el.find('form');
@@ -102,7 +102,7 @@ function() {
         /**
          * Displays a load indicator in the specific view.
          *
-         * @param view - View that shows load indicator
+         * @param view {object} - View that shows load indicator
          */
         show_load_indicator: function(view) {
             view.ui.save_indicator.fadeIn(300);
@@ -113,8 +113,8 @@ function() {
         /**
          * Shows error when saving a model failed.
          *
-         * @param view - View that has a submit button to save its model
-         * @param message - Message to be shown
+         * @param view {object} - View that has a submit button to save its model
+         * @param [message=I18n.t('errors.save_failed')] {string} - Message to be displayed
          */
         show_save_error: function(view, message) {
             message = message || I18n.t('errors.save_failed');

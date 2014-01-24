@@ -7,7 +7,7 @@ function(view_helper, form_helper) {
         priority_options: ['low', 'normal', 'high'],
 
         format_date: function(date) {
-            return this.has_value(date) ? view_helper.format_date(date) : '';
+            return !is_blank(date) ? view_helper.format_date(date) : '';
         },
 
         status_text: function(status) {
@@ -21,7 +21,7 @@ function(view_helper, form_helper) {
         },
 
         format_duration: function(duration) {
-            return this.has_value(duration) ? view_helper.format_time(duration) : '';
+            return !is_blank(duration) ? view_helper.format_time(duration) : '';
         },
 
         format_progress: function(progress) {
@@ -47,15 +47,11 @@ function(view_helper, form_helper) {
         unformat: function(data) {
             if (!_.isUndefined(data.status))    data.status = parseInt(data.status);
             if (!_.isUndefined(data.priority))  data.priority = parseInt(data.priority);
-            if (!_.isUndefined(data.startDate)) data.startDate = this.has_value(data.startDate) ? view_helper.unformat_date(data.startDate) : null;
-            if (!_.isUndefined(data.endDate))   data.endDate = this.has_value(data.endDate) ? view_helper.unformat_date(data.endDate) : null;
+            if (!_.isUndefined(data.startDate)) data.startDate = !is_blank(data.startDate) ? view_helper.unformat_date(data.startDate) : null;
+            if (!_.isUndefined(data.endDate))   data.endDate = !is_blank(data.endDate) ? view_helper.unformat_date(data.endDate) : null;
             if (!_.isUndefined(data.duration))  data.duration = this.unformat_duration(data.duration);
             if (!_.isUndefined(data.progress))  data.progress = parseFloat(data.progress) / 100 || 0;
             return data;
-        },
-
-        has_value: function(val) {
-            return !(val === 0 || is_blank(val));
         }
     }
 });

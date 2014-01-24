@@ -74,7 +74,7 @@ I18n.translations['en'] = {
             project: 'Project',
             subtask: 'Subtasks',
             parent_task: 'Superior Task',
-            assigned_to: 'Assigned to'
+            assigned_to: 'Assignee'
         },
         status_options: {
             todo: 'ToDo',

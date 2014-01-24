@@ -4,16 +4,21 @@ define(['app',
         'app/common/empty_view',
         'app/app_helper',
         'app/view_helper',
-        'app/tasks/tasks_helper'],
-function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks_helper) {
+        'app/tasks/tasks_helper',
+        'app/users/users_helper'],
+function(App, list_tpl, list_item_tpl, EmptyView, app_helper, view_helper, tasks_helper, users_helper) {
     App.module('Tasks.List', function(List, App, Backbone, Marionette, $, _) {
         List.ItemView = Marionette.ItemView.extend({
             className: 'list-row',
             template: list_item_tpl,
-            templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper),
+            templateHelpers: _.extend({}, app_helper, view_helper, tasks_helper, users_helper),
 
             initialize: function(options) {
-                _.extend(this.templateHelpers, options); // options given by composite view in itemViewOptions
+                var default_options = {
+                    parent: null,
+                    users: null
+                };
+                _.extend(this.templateHelpers, default_options, options);
             },
 
             events: {

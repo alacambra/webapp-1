@@ -3,7 +3,7 @@ define(['app/view_helper',
 function(view_helper) {
     return {
         format_date: function(date) {
-            return this.has_value(date) ? view_helper.format_date(date) : '';
+            return !is_blank(date) ? view_helper.format_date(date) : '';
         },
 
         full_name: function(first_name, last_name) {
@@ -11,13 +11,19 @@ function(view_helper) {
         },
 
         unformat: function(data) {
-            data.birthDate = this.has_value(data.birthDate) ? view_helper.unformat_date(data.birthDate) : null;
+            data.birthDate = !is_blank(data.birthDate) ? view_helper.unformat_date(data.birthDate) : null;
             if (is_blank(data.password)) delete data.password; // do not send/save an unfilled password
             return data;
         },
 
-        has_value: function(val) {
-            return !(val === 0 || is_blank(val));
+        options_for_select: function(users) {
+            var that = this;
+            return users.map(function(user) {
+                return [
+                    user.get('id'),
+                    that.full_name(user.get('firstName'), user.get('lastName'))
+                ];
+            });
         }
     }
 });

@@ -45,7 +45,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
                 var default_options = {
                     users: null
                 };
-                _.extend(this.templateHelpers, default_options, options); // options given by composite view in itemViewOptions
+                _.extend(this.templateHelpers, default_options, options);
             },
 
 

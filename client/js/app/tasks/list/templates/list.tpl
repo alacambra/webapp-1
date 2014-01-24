@@ -13,7 +13,8 @@
 
 <div class="list-row header">
     <div class="col-md-2"><%= I18n.t('task.label.title') %></div>
-    <div class="col-md-2"><%= I18n.t('task.label.' + (parent !== 'project' ? 'project' : 'description')) %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.' + (parent !== 'project' ? 'project' : 'description')) %></div>
+    <div class="col-md-1"><%= I18n.t('task.label.assigned_to') %></div>
     <div class="col-md-1"><%= I18n.t('task.label.status') %></div>
     <div class="col-md-1"><%= I18n.t('task.label.priority') %></div>
     <div class="col-md-1"><%= I18n.t('task.label.start_date') %></div>
