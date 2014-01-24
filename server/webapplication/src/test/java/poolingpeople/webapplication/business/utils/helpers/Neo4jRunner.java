@@ -6,6 +6,7 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.test.TestGraphDatabaseFactory;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
@@ -13,7 +14,7 @@ import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProdu
 public class Neo4jRunner extends BlockJUnit4ClassRunner{
 
 	Transaction tx;
-	GraphDatabaseService graphDb = GraphDatabaseServiceProducer.graphDb;
+	private GraphDatabaseService graphDb =  new TestGraphDatabaseFactory().newImpermanentDatabase();
 	private Object clazz;
 
 	public Neo4jRunner(Class<?> klass) throws InitializationError {

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,6 +25,8 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.helpers.collection.IteratorUtil;
+import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.impl.util.StringLogger;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
@@ -35,15 +38,17 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException
 @Singleton
 public class NeoManager {
 
-	GraphDatabaseService graphDb;
-	Logger logger = Logger.getLogger(this.getClass());
+	private GraphDatabaseService graphDb;
+	private Logger logger = Logger.getLogger(this.getClass());
 	public static final String FOUND = "found";
+	private ExecutionEngine engine;
 
 	protected NeoManager(){}
 
 	@Inject
 	public NeoManager(GraphDatabaseService graphDb){
 		this.graphDb = graphDb;
+		engine = new ExecutionEngine( graphDb );
 	}
 
 
@@ -78,6 +83,7 @@ public class NeoManager {
 		}
 	}
 
+	@Deprecated
 	public IndexHits<Node> getNodes(IndexContainer indexContainer) {
 
 		IndexHits<Node> indexHits = 
@@ -85,6 +91,19 @@ public class NeoManager {
 				.forNodes( indexContainer.getType() )
 				.get( indexContainer.getKey(), indexContainer.getValue());
 		return indexHits;
+	}
+	
+	public Collection<Node> getNodes(String label) {
+		
+		ExecutionResult result = runCypherQuery("MATCH (n:{label}) RETURN n", genericMap("label", label));
+		Iterator<Node> n_column = result.columnAs("n");
+		return IteratorUtil.asCollection(n_column);
+//		return IteratorUtil.addToCollection(n_column, new ArrayList<Node>());
+		
+	}
+	
+	private Map<String, Object> genericMap(Object... objects){
+		return MapUtil.genericMap(new HashMap<String, Object>(), objects);
 	}
 
 	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
@@ -108,7 +127,11 @@ public class NeoManager {
 		addToIndex(node, indexContainer);
 		Label label = DynamicLabel.label(type.name());
 		node.addLabel(label);
-//		addToIndex(node, new TypeIndexContainer(type));
+		
+		/*
+		 * Legacy support 
+		 */
+		addToIndex(node, new TypeIndexContainer(type));
 		return node;
 	}
 
@@ -243,8 +266,7 @@ public class NeoManager {
 	public ExecutionResult runCypherQuery(String query, Map<String, Object> params) {
 
 		ExecutionResult result = null;
-		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
-		ExecutionEngine engine = new ExecutionEngine( graphDb, logger);
+//		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
 
 		if ( params == null) {
 			result = engine.execute( query );
@@ -348,7 +370,7 @@ public class NeoManager {
 	}
 
 
-	public <T> AbstractCollection<T> getPersistedObjects( Collection<Node> nodes, AbstractCollection<T> objects, Class<T> clazz ) {
+	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
 
 		for ( Node n : nodes ) {
 

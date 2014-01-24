@@ -36,7 +36,7 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	CatchWebExceptionInterceptor.class,
 	ConfigurationProducer.class,
 	EmailValidation.class,
-        ValidatorProducer.class
+	ValidatorProducer.class
 })
 
 public abstract class AbstractTest {
@@ -59,10 +59,10 @@ public abstract class AbstractTest {
 
 	@Inject
 	EffortBoundary effortBoundary;
-	
+
 	@Inject
 	ProjectBoundary projectBoundary;
-	
+
 	@Inject 
 	UserBoundary userBoundary;
 
@@ -94,12 +94,12 @@ public abstract class AbstractTest {
 		}
 
 	}
-	
+
 	protected Map<String, Object> insertProjectFromFile(String filename) {
 		String json = FileLoader.getText(filename);
 		return insertProjectFromJson(json);
 	}
-	
+
 	protected <K,V> Map<K,V> insertProjectFromJson(String json) {
 
 		try {
@@ -113,12 +113,12 @@ public abstract class AbstractTest {
 		}
 
 	}
-	
+
 	protected Map<String, Object> insertUserFromFile(String filename) {
 		String json = FileLoader.getText(filename);
 		return insertUserFromJson(json);
 	}
-	
+
 	protected <K,V> Map<K,V> insertUserFromJson(String json) {
 
 		try {
@@ -194,7 +194,7 @@ public abstract class AbstractTest {
 		String json = FileLoader.getText(filename);
 		return convertJsonToMap(json);
 	}
-	
+
 	protected List<Map<String, Object>> createProjectListFromProjectFile(String projectRequestFile, int num) {
 		List<Map<String, Object>> projects = new ArrayList<Map<String, Object>>();
 
@@ -205,7 +205,7 @@ public abstract class AbstractTest {
 
 		return projects;
 	}
-	
+
 	protected List<Map<String, Object>> createUserListFromUserFile(String userRequestFile, int num) {
 		List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
 
