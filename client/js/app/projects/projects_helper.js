@@ -3,7 +3,7 @@ define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_
         status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'offered'],
 
         format_date: function(date) {
-            return this.has_value(date) ? view_helper.format_date(date) : '';
+            return !is_blank(date) ? view_helper.format_date(date) : '';
         },
 
         status_text: function(status) {
@@ -20,13 +20,9 @@ define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_
 
         unformat: function(data) {
             if (!_.isUndefined(data.status))    data.status = parseInt(data.status);
-            if (!_.isUndefined(data.startDate)) data.startDate = this.has_value(data.startDate) ? view_helper.unformat_date(data.startDate) : null;
-            if (!_.isUndefined(data.endDate))   data.endDate = this.has_value(data.endDate) ? view_helper.unformat_date(data.endDate) : null;
+            if (!_.isUndefined(data.startDate)) data.startDate = !is_blank(data.startDate) ? view_helper.unformat_date(data.startDate) : null;
+            if (!_.isUndefined(data.endDate))   data.endDate = !is_blank(data.endDate) ? view_helper.unformat_date(data.endDate) : null;
             return data;
-        },
-
-        has_value: function(val) {
-            return !(val === 0 || is_blank(val));
         }
     }
 });

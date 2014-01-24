@@ -3,11 +3,11 @@ define(['app/view_helper',
 function(view_helper) {
     return {
         format_date: function(date) {
-            return this.has_value(date) ? view_helper.format_date(date) : '';
+            return !is_blank(date) ? view_helper.format_date(date) : '';
         },
 
         format_time: function(time) {
-            return this.has_value(time) ? view_helper.format_time(time) : '';
+            return !is_blank(time) ? view_helper.format_time(time) : '';
         },
 
         confirm_text: function(effort) {
@@ -23,13 +23,9 @@ function(view_helper) {
         },
 
         unformat: function(data) {
-            data.date = this.has_value(data.date) ? view_helper.unformat_date(data.date) : null;
+            data.date = !is_blank(data.date) ? view_helper.unformat_date(data.date) : null;
             data.time = this.unformat_time(data.time);
             return data;
-        },
-
-        has_value: function(val) {
-            return !(val === 0 || is_blank(val));
         }
     }
 });
