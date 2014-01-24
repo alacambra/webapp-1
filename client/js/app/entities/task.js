@@ -36,7 +36,7 @@ function(App, validation_helper) {
                 }
 
                 if (options && _.isArray(options.subtasks)) {
-                    this.subtasks = new Entities.TaskCollection(options.tasks);
+                    this.subtasks = new Entities.TaskCollection(options.subtasks);
                 } else {
                     this.subtasks = new Entities.TaskCollection();
                 }

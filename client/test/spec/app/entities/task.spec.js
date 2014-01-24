@@ -1,13 +1,32 @@
-define([ 'app/entities/task' ], function (Entities) {
-
+define(['app',
+        'app/entities/task',
+        'app/entities/project'],
+function (App, Entities) {
     return describe('Task :: Entities', function () {
 
         var task = null,
-            tasks = null;
+            tasks = null,
+            temp_task_fetch = null,
+            temp_tasks_fetch = null;
 
         beforeEach(function () {
-            task = new Entities.Task();
-            tasks = new Entities.TaskCollection();
+            task = new Entities.Task({ id: 22 });
+            tasks = new Entities.TaskCollection([ task ]);
+
+            temp_task_fetch = Entities.Task.prototype.fetch;
+            Entities.Task.prototype.fetch = function (options) {
+                options.success(task);
+            };
+
+            temp_tasks_fetch = Entities.TaskCollection.prototype.fetch;
+            Entities.TaskCollection.prototype.fetch = function (options) {
+                options.success(tasks);
+            };
+        });
+
+        afterEach(function () {
+            Entities.Task.prototype.fetch = temp_task_fetch;
+            Entities.TaskCollection.prototype.fetch = temp_tasks_fetch;
         });
 
         describe('Model', function () {
@@ -92,6 +111,73 @@ define([ 'app/entities/task' ], function (Entities) {
 
                 tasks.each(function (t) {
                     expect(priority).toBeLessThan(priority = t.get('priority'));
+                });
+            });
+        });
+
+        describe('API', function () {
+            it('Should return specified list of tasks', function () {
+                runs(function () {
+                    $.when(App.request('task:entities')).done(function (response) {
+                        expect(response).toBe(tasks);
+                    });
+                });
+            });
+
+            it('Should return specified list of subtasks', function () {
+                runs(function () {
+                    var tasks_with_subtasks = new Entities.Task({}, {
+                        subtasks: [ {}, {}, {}, {}, {} ]
+                    });
+
+                    Entities.TaskCollection.prototype.fetch = function (options) {
+                        options.success(tasks_with_subtasks.subtasks);
+                    };
+
+                    $.when(App.request('task:entities', tasks_with_subtasks)).done(function (response) {
+                        expect(response).toBe(tasks_with_subtasks.subtasks);
+                    });
+                });
+            });
+
+            it('Should return specified list of project tasks', function () {
+                runs(function () {
+                    var project_with_tasks = new Entities.Project({}, {
+                        tasks: [ {}, {}, {}, {} ]
+                    });
+
+                    Entities.TaskCollection.prototype.fetch = function (options) {
+                        options.success(project_with_tasks.tasks);
+                    };
+
+                    $.when(App.request('task:entities', project_with_tasks)).done(function (response) {
+                        expect(response.length).toBe(project_with_tasks.tasks.length);
+                    });
+                });
+            });
+
+            it('Should return a new task', function () {
+                runs(function () {
+                    $.when(App.request('task:entity')).done(function (response) {
+                        expect(response.get('id')).toBe(null);
+                    });
+                });
+            });
+
+            it('Should return specified task', function () {
+                runs(function () {
+                    $.when(App.request('task:entity', task)).done(function (response) {
+                        expect(response).toBe(task);
+                    });
+                });
+            });
+
+            it('Should return a task with specified id', function () {
+                runs(function () {
+                    var id = task.get('id');
+                    $.when(App.request('task:entity', id)).done(function (response) {
+                        expect(response.get('id')).toBe(id);
+                    });
                 });
             });
         });
