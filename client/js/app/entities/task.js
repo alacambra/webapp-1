@@ -22,8 +22,9 @@ function(App, validation_helper) {
 
                 effort: 0,
                 project: null,
-                parent_task: null,
-                subtaskCount: 0
+                parentTask: null,
+                subtaskCount: 0,
+                assignee: null
             },
 
             // fields to be disabled, when task has children
@@ -132,7 +133,7 @@ function(App, validation_helper) {
 
             create_task_subtask_entity: function (parent_id) {
                 return new Entities.Task({
-                    parent_task: {
+                    parentTask: {
                         id: parent_id
                     }
                 });
