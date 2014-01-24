@@ -100,32 +100,6 @@ function(App, validation_helper) {
                 }
 
                 return defer.promise();
-            },
-
-            get_project_task_entities: function (project) {
-                var defer = $.Deferred();
-
-                if (_.isObject(project)) {
-                    project.tasks.fetch({
-                        success: function (collection, response) {
-                            defer.resolve(collection, response);
-                        },
-                        error: function (collection, response) {
-                            defer.resolve(false, response);
-                        }
-                    });
-                }
-
-                return defer.promise();
-            },
-
-            create_project_task_entity: function (project_id) {
-                return new Entities.Task({
-                    project: {
-                        id: project_id
-                    },
-                    assignee: App.current_user()
-                });
             }
         };
 
@@ -137,15 +111,6 @@ function(App, validation_helper) {
 
         App.reqres.setHandler('project:entity', function(id) {
             return API.get_project_entity(id);
-        });
-
-
-        App.reqres.setHandler('project:task:entities', function (project) {
-            return API.get_project_task_entities(project);
-        });
-
-        App.reqres.setHandler('project:task:create', function (project_id) {
-            return API.create_project_task_entity(project_id);
         });
     });
 
