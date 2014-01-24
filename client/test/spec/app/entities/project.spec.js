@@ -1,11 +1,30 @@
-define(['app/entities/project'], function(Entities) {
+define(['app',
+        'app/entities/project'],
+function(App, Entities) {
     return describe('Project :: Entities', function() {
         var project = null,
-            projects = null;
+            projects = null,
+            temp_project_fetch = null,
+            temp_projects_fetch = null;
 
         beforeEach(function() {
-            project = new Entities.Project();
+            project = new Entities.Project({ id: 2 });
             projects = new Entities.ProjectCollection();
+
+            temp_project_fetch = Entities.Project.prototype.fetch;
+            Entities.Project.prototype.fetch = function (options) {
+                options.success(project, null);
+            };
+
+            temp_projects_fetch = Entities.ProjectCollection.prototype.fetch;
+            Entities.ProjectCollection.prototype.fetch = function (options) {
+                options.success(projects, null);
+            }
+        });
+
+        afterEach(function () {
+            Entities.Project.prototype.fetch = temp_project_fetch;
+            Entities.ProjectCollection.prototype.fetch = temp_projects_fetch;
         });
 
         describe('Model', function() {
@@ -95,6 +114,41 @@ define(['app/entities/project'], function(Entities) {
         describe('Collection', function() {
             it('must have a url that contains "project"', function() {
                 expect(Entities.ProjectCollection.prototype.url).toContain('project');
+            });
+        });
+
+        describe('API', function () {
+            it('Should return specified list of projects', function () {
+                runs(function () {
+                    $.when(App.request('project:entities')).done(function (response) {
+                        expect(response).toBe(projects);
+                    });
+                });
+            });
+
+            it('Should return a new project', function () {
+                runs(function () {
+                    $.when(App.request('project:entity')).done(function (response) {
+                        expect(response.get('id')).toBe(null);
+                    });
+                });
+            });
+
+            it('Should return specified project', function () {
+                runs(function () {
+                    $.when(App.request('project:entity', project)).done(function (response) {
+                        expect(response).toBe(project);
+                    });
+                });
+            });
+
+            it('Should return project with specified project id', function () {
+                runs(function () {
+                    var id = project.get('id');
+                    $.when(App.request('project:entity', id)).done(function (response) {
+                        expect(response.get('id')).toBe(id);
+                    });
+                });
             });
         });
     });

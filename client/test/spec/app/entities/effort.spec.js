@@ -102,7 +102,7 @@ function(App, Entities) {
         });
 
         describe('API', function () {
-            it('Should return a list of efforts', function () {
+            it('Should return specified list of efforts', function () {
                 runs(function () {
                     $.when(App.request('effort:entities', efforts.task_id)).done(function (response) {
                         expect(response).toBe(efforts);
