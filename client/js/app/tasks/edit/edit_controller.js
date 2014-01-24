@@ -21,12 +21,12 @@ function (App, response_handler, users_helper) {
                 _.extend(redirect, options.redirect);
             }
 
-            $.when(App.request('task:entity', task_id, task_options), App.request('user:entities')).done(function (task_response, users_response) {
+            $.when(App.request('task:entity', task_id, task_options), App.request('user:entities')).done(function(task_response, users_response) {
                 var task = _.isUndefined(task_id) ? task_response : task_response[0];
                 var users = users_response[0];
 
                 if (task && users) {
-                    users = users.map(function (user) {
+                    users = users.map(function(user) {
                         return [
                             user.get('id'),
                             users_helper.full_name(user.get('firstName'), user.get('lastName'))
@@ -40,25 +40,7 @@ function (App, response_handler, users_helper) {
 
                     App.main_region.show(edit_view);
 
-                    edit_view.on('form:submit', function (data) {
-                        var model_validated = task.save(data, {
-                            patch: true,
-                            success: function() {
-                                App.trigger(redirect.event_name, redirect.id);
-                            },
-                            error: function(model, response) {
-                                response_handler.handle(response, {
-                                    503: function() { edit_view.triggerMethod('form:save:failed'); }
-                                });
-                            }
-                        });
-
-                        if (model_validated) {
-                            edit_view.triggerMethod('form:data:valid');
-                        } else {
-                            edit_view.triggerMethod('form:data:invalid', task.validationError);
-                        }
-                    });
+                    set_view_submit_handler(edit_view, task, redirect);
 
                 } else {
                     if (!task) {
@@ -70,6 +52,30 @@ function (App, response_handler, users_helper) {
                 }
             });
         }
+
+
+        function set_view_submit_handler(edit_view, task, redirect) {
+            edit_view.on('form:submit', function (data) {
+                var model_validated = task.save(data, {
+                    patch: true,
+                    success: function() {
+                        App.trigger(redirect.event_name, redirect.id);
+                    },
+                    error: function(model, response) {
+                        response_handler.handle(response, {
+                            503: function() { edit_view.triggerMethod('form:save:failed'); }
+                        });
+                    }
+                });
+
+                if (model_validated) {
+                    edit_view.triggerMethod('form:data:valid');
+                } else {
+                    edit_view.triggerMethod('form:data:invalid', task.validationError);
+                }
+            });
+        }
+
 
         Edit.Controller = {
             task_edit: function (task_id) {
