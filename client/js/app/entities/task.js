@@ -76,8 +76,6 @@ function(App, validation_helper) {
                 var tasks = new Entities.TaskCollection();
                 var defer = $.Deferred();
 
-
-                console.log(parent);
                 if (_.isObject(parent)) {
                     if (!_.isUndefined(parent.subtasks)) {
                         // parent is a task so set its subtasks
