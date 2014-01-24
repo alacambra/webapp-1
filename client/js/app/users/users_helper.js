@@ -11,7 +11,7 @@ function(view_helper) {
         },
 
         unformat: function(data) {
-            data.birthDate = this.has_value(data.birthDate) ? view_helper.unformat_date(data.birthDate) : 0;
+            data.birthDate = this.has_value(data.birthDate) ? view_helper.unformat_date(data.birthDate) : null;
             if (is_blank(data.password)) delete data.password; // do not send/save an unfilled password
             return data;
         },

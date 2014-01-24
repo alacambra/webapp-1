@@ -23,7 +23,7 @@ function(view_helper) {
         },
 
         unformat: function(data) {
-            data.date = this.has_value(data.date) ? view_helper.unformat_date(data.date) : 0;
+            data.date = this.has_value(data.date) ? view_helper.unformat_date(data.date) : null;
             data.time = this.unformat_time(data.time);
             return data;
         },
