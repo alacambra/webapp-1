@@ -32,7 +32,7 @@ define(['app/users/users_helper', 'app/entities/user'], function(users_helper, E
             expect(users_helper.unformat({
                 birthDate: ''
             })).toEqual({
-                birthDate: 0
+                birthDate: null
             });
 
             expect(users_helper.unformat({
