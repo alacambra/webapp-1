@@ -23,8 +23,9 @@ Send, git pull{ENTER}
 
 Sleep, 5000
 
-Send, grunt sass:dev{ENTER}
+WinActivate
+Send, grunt sass`:dev{ENTER}
 
 Sleep, 3000
 
-Send, exit{ENTER}
+WinClose
