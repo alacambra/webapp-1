@@ -6,11 +6,7 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.IndexHits;
-
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
 import poolingpeople.webapplication.business.project.entity.Project;

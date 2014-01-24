@@ -95,10 +95,13 @@ public class NeoManager {
 	
 	public Collection<Node> getNodes(String label) {
 		
-		ExecutionResult result = runCypherQuery("MATCH (n:{label}) RETURN n", genericMap("label", label));
+		/**
+		 * @todo investigate why is not possible to use it as a parameter
+		 */
+//		ExecutionResult result = runCypherQuery("MATCH(n:{label}) RETURN n", genericMap("label", label));
+		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n", null);
 		Iterator<Node> n_column = result.columnAs("n");
 		return IteratorUtil.asCollection(n_column);
-//		return IteratorUtil.addToCollection(n_column, new ArrayList<Node>());
 		
 	}
 	

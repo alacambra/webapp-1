@@ -98,6 +98,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
+	@JsonIgnore
 	public Collection<Task> getTasks() {
 		// TODO Auto-generated method stub
 		return null;
@@ -116,6 +117,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
+	@JsonIgnore
 	public Integer getEffort() {
 		// TODO Auto-generated method stub
 		return null;
@@ -134,6 +136,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
+	@JsonIgnore
 	public Float getProgress() {
 		// TODO Auto-generated method stub
 		return null;

@@ -53,7 +53,7 @@ public class UserBoundaryTest extends AbstractTest{
 	@Test
 	public void testSaveUser() throws JsonGenerationException, JsonMappingException, IOException{
 		Map<String,Object> expectedUser = convertJsonFileToMap(userResponseFile);
-		Response response = target.saveUser(FileLoader.getText(userRequestFile));
+		Response response = target.saveUser(FileLoader.getText(jsonModelsPath + userRequestFile));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		Map<String,Object> actual = convertJsonToMap((String) response.getEntity());
 		expectedUser.put("id", actual.get("id"));

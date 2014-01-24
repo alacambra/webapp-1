@@ -87,7 +87,7 @@ public class EffortBoundryTest extends AbstractTest{
 	@Test
 	public void testSaveEffort() throws JsonParseException, JsonMappingException, IOException {
 		Map<String, Object> task = restObjectsHelper.insertTaskFromFile(taskRequestFile);
-		Response r = target.saveEffort((String) task.get("id"), FileLoader.getText(effortRequestFile));
+		Response r = target.saveEffort((String) task.get("id"), FileLoader.getText(jsonModelsPath + effortRequestFile));
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
 
 		/*

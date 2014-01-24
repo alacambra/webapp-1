@@ -62,7 +62,7 @@ public class TaskBoundaryTest extends AbstractTest{
 	public void testSaveTask() throws Exception {
 
 		Map<String,String> expectedTaskdata = restObjectsHelper.convertJsonFileToMap("task-create-response.json");
-		Response response = target.saveTask(FileLoader.getText("task-create-request.json"));
+		Response response = target.saveTask(FileLoader.getText(jsonModelsPath +"task-create-request.json"));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		Map<String,String> actuall = restObjectsHelper.convertJsonToMap((String) response.getEntity());
 		expectedTaskdata.put("id", actuall.get("id"));

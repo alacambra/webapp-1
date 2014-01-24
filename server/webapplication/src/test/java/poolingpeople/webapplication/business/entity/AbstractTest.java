@@ -41,12 +41,14 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 
 public abstract class AbstractTest {
 
+	protected final String jsonModelsPath = "json-models/";
+	
 	@Inject
 	protected FileLoader fileLoader;
 
 	@Inject
 	protected RestObjectsHelper restObjectsHelper;
-
+	
 	protected ObjectMapper mapper = new ObjectMapper();
 
 	/*
@@ -65,7 +67,6 @@ public abstract class AbstractTest {
 
 	@Inject 
 	UserBoundary userBoundary;
-
 
 	protected <K,V> Map<K,V> getTask(String uuid) {
 
@@ -96,7 +97,7 @@ public abstract class AbstractTest {
 	}
 
 	protected Map<String, Object> insertProjectFromFile(String filename) {
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertProjectFromJson(json);
 	}
 
@@ -115,7 +116,7 @@ public abstract class AbstractTest {
 	}
 
 	protected Map<String, Object> insertUserFromFile(String filename) {
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertUserFromJson(json);
 	}
 
@@ -135,7 +136,7 @@ public abstract class AbstractTest {
 
 	protected <K,V> Map<K,V> insertTaskFromFile(String filename) {
 
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertTaskFromJson(json);
 
 	}
@@ -156,7 +157,7 @@ public abstract class AbstractTest {
 
 	protected <K,V> EffortWithTaskContainer<K,V> insertEffortFromFile(String filename) {
 
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertEffortFromJson(json);
 
 	}
@@ -191,7 +192,7 @@ public abstract class AbstractTest {
 	}
 
 	protected <K,V> Map<K,V> convertJsonFileToMap(String filename) {
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return convertJsonToMap(json);
 	}
 
@@ -240,7 +241,7 @@ public abstract class AbstractTest {
 
 		for (int i = 0; i<num; i++ ) {
 
-			container = insertEffortFromJson(FileLoader.getText(filename), (Map<String, String>) container.getTask());
+			container = insertEffortFromJson(FileLoader.getText(jsonModelsPath + filename), (Map<String, String>) container.getTask());
 			created = container.getEffort();
 			efforts.add(created);
 		}
@@ -262,6 +263,8 @@ public abstract class AbstractTest {
 	protected <K,V> boolean mapsAreEquals(Map<K,V> m1, Map<K,V> m2) {
 
 		if ( m1.size() != m2.size()) {
+			logger.info(m1.toString());
+			logger.info(m2.toString());
 			logger.info("Map size does not match.");
 			return false;
 		}

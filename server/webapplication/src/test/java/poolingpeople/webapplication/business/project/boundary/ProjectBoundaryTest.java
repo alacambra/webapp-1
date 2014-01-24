@@ -55,7 +55,7 @@ public class ProjectBoundaryTest extends AbstractTest {
 	public void testSaveProject() throws JsonParseException, JsonMappingException, IOException {
 		
 		Map<String,Object> expectedProject = convertJsonFileToMap(projectResponseFile);
-		Response response = target.saveProject(FileLoader.getText(projectRequestFile));
+		Response response = target.saveProject(FileLoader.getText(jsonModelsPath + projectRequestFile));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		Map<String,Object> actuall = convertJsonToMap((String) response.getEntity());
 		expectedProject.put("id", actuall.get("id"));
