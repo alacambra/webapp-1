@@ -8,5 +8,6 @@ npm-debug.log
 node_modules/*
 js/config.js
 css/base.css
+script/pull_and_sass.ini
 dist
 doc
