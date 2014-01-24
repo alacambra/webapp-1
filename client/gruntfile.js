@@ -5,6 +5,9 @@ module.exports = function (grunt) {
                 files: {
                     'dist/css/style.css': 'css/base.sass' // will be overwritten during ccsmin:combine
                 }
+            },
+            dev: {
+                files: { 'css/base.css': 'css/base.sass' }
             }
         },
 
