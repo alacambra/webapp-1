@@ -136,7 +136,11 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.post(base_url + 'tasks', function (context) {
         log_rest(context);
+
         task_add_assignee(context.data);
+
+        if (context.data.project) context.data.project.title = projects[context.data.project.id].title;
+
         context.data.id = generate_id();
         tasks[context.data.id] = context.data;
         return tasks[context.data.id];
