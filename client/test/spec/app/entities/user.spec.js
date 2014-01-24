@@ -1,11 +1,32 @@
-define(['app/entities/user', 'moment'], function(Entities, moment) {
+define(['app',
+        'app/entities/user', 'moment'],
+function(App, Entities, moment) {
     return describe('User :: Entities', function() {
         var user = null,
-            users = null;
+            user_with_id = null,
+            users = null,
+            temp_user_fetch = null,
+            temp_users_fetch = null;
 
         beforeEach(function() {
             user = new Entities.User();
+            user_with_id = new Entities.User({ id: 2 });
             users = new Entities.UserCollection();
+
+            temp_user_fetch = Entities.User.prototype.fetch;
+            Entities.User.prototype.fetch = function (options) {
+                options.success(user_with_id);
+            };
+
+            temp_users_fetch = Entities.UserCollection.prototype.fetch;
+            Entities.UserCollection.prototype.fetch = function (options) {
+                options.success(users);
+            };
+        });
+
+        afterEach(function () {
+            Entities.User.prototype.fetch = temp_user_fetch;
+            Entities.UserCollection.prototype.fetch = temp_users_fetch;
         });
 
         describe('Model', function() {
@@ -199,6 +220,41 @@ define(['app/entities/user', 'moment'], function(Entities, moment) {
         describe('Collection', function() {
             it('must have a url that contains "user"', function() {
                 expect(Entities.UserCollection.prototype.url).toContain('user');
+            });
+        });
+
+        describe('API', function () {
+            it('Should return a specified list of users', function () {
+                runs(function () {
+                    $.when(App.request('user:entities')).done(function (response) {
+                        expect(response).toBe(users);
+                    });
+                });
+            });
+
+            it('Should return a new user', function () {
+                runs(function () {
+                    $.when(App.request('user:entity')).done(function (response) {
+                        expect(response.get('id')).toBe(null);
+                    });
+                });
+            });
+
+            it('Should return specified user', function () {
+                runs(function () {
+                    $.when(App.request('user:entity', user_with_id)).done(function (response) {
+                        expect(response).toBe(user_with_id);
+                    });
+                });
+            });
+
+            it('Should return user with specified user id', function () {
+                runs(function () {
+                    var id = user_with_id.get('id');
+                    $.when(App.request('user:entity', id)).done(function (response) {
+                        expect(response.get('id')).toBe(id);
+                    });
+                });
             });
         });
     });
