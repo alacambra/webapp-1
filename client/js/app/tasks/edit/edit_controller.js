@@ -45,8 +45,7 @@ function (App, response_handler, users_helper) {
                 } else {
                     if (!task) {
                         response_handler.handle(task_response[1]);
-                    }
-                    if (!users) {
+                    } else if (!users) {
                         response_handler.handle(users_response[1]);
                     }
                 }
