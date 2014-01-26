@@ -95,6 +95,7 @@ public interface Project{
 	 * All updates must be executed
 	 */
 	void updateAll();
+	void setDefaultProgress(Float progress);
 
 }
 

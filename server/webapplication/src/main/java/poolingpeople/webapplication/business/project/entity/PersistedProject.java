@@ -114,7 +114,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public void setDefaultStartDate(Long startDate) {
 		
-		if(getLongProperty(NodePropertyName.DEFAULT_START_DATE) == null) {
+		if(getLongProperty(NodePropertyName.START_DATE) == null) {
 			setStartDate(startDate);
 		}
 		
@@ -124,11 +124,11 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public void setDefaultEndDate(Long endDate) {
 		
-		if(getLongProperty(NodePropertyName.DEFAULT_END_DATE) == null) {
-			setStartDate(endDate);
+		if(getLongProperty(NodePropertyName.END_DATE) == null) {
+			setEndDate(endDate);
 		}
 		
-		setProperty(NodePropertyName.END_DATE, endDate);
+		setProperty(NodePropertyName.DEFAULT_END_DATE, endDate);
 	}
 
 	private Long getDefaultStartDate() {
@@ -141,7 +141,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public Float getProgress() {
-		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
+  		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
 		return getProgressIsDefault() ? getDefaultProgress() : progress;
 	}
 	
@@ -346,7 +346,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		return obj instanceof PersistedProject
 				&& ((PersistedProject) obj).getNode().equals(underlyingNode);
 	}
-	
+
 }
 
 

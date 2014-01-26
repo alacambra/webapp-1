@@ -52,6 +52,7 @@ public class ProjectMixin implements Project{
 
 
 	@Override
+//	@JsonProperty(value="startDate")
 	public void setDefaultStartDate(Long startDate) {
 	}
 
@@ -61,6 +62,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
+//	@JsonProperty(value="endDate")
 	public void setDefaultEndDate(Long endDate) {
 
 	}
@@ -136,7 +138,6 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-	@JsonIgnore
 	public Float getProgress() {
 		// TODO Auto-generated method stub
 		return null;
@@ -150,6 +151,12 @@ public class ProjectMixin implements Project{
 
 	@Override
 	public void updateAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDefaultProgress(Float progress) {
 		// TODO Auto-generated method stub
 		
 	}

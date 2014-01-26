@@ -1,7 +1,8 @@
 {
-"endDate":14,
+"defaultStartDate":2,
+"defaultEndDate":14,
+"defaultProgress":0.5,
 "status":4,
 "description":"lalalalalalalala",
-"startDate":2,
 "title":"title"
 }

@@ -43,12 +43,13 @@ public class ProjectBoundaryTest extends AbstractTest {
 	@Test
 	public void testGetAllProject() throws JsonGenerationException, JsonMappingException, IOException {
 		List<Map<String, Object>> expected = createProjectListFromProjectFile(projectRequestFile, 3);
+		System.out.println(expected);
 		Response projects = target.getAllProject();
 		assertEquals(Response.Status.OK, projects.getStatusInfo());
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> actuall = mapper.readValue((String)projects.getEntity(), List.class);
-		assertTrue(mapsListAreEquals(expected, actuall));
+		List<Map<String, Object>> actual = mapper.readValue((String)projects.getEntity(), List.class);
+		assertTrue(mapsListAreEquals(expected, actual));
 	}
 
 	@Test
@@ -57,9 +58,9 @@ public class ProjectBoundaryTest extends AbstractTest {
 		Map<String,Object> expectedProject = convertJsonFileToMap(projectResponseFile);
 		Response response = target.saveProject(FileLoader.getText(jsonModelsPath + projectRequestFile));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		Map<String,Object> actuall = convertJsonToMap((String) response.getEntity());
-		expectedProject.put("id", actuall.get("id"));
-		assertTrue(mapsAreEquals(expectedProject, actuall));
+		Map<String,Object> actual = convertJsonToMap((String) response.getEntity());
+		expectedProject.put("id", actual.get("id"));
+		assertTrue(mapsAreEquals(expectedProject, actual));
 		
 	}
 

@@ -17,6 +17,7 @@ public class ProjectDTO implements Project {
 	private int status;
 	private Long startDate;
 	private Long endDate;
+	private Float progress;
 
 	@IgnoreAttribute
 	@Override
@@ -45,9 +46,17 @@ public class ProjectDTO implements Project {
 	public Long getStartDate() {
 		return startDate;
 	}
+	
+	public Long getDefaultStartDate() {
+		return startDate;
+	}
 
 	@Override
 	public Long getEndDate() {
+		return endDate;
+	}
+	
+	public Long getDefaultEndDate() {
 		return endDate;
 	}
 
@@ -129,8 +138,20 @@ public class ProjectDTO implements Project {
 	@Override
 	public Float getProgress() {
 		// TODO Auto-generated method stub
-		return null;
+		return progress;
 	}
+	
+	@Override
+	public void setDefaultProgress(Float progress) {
+		// TODO Auto-generated method stub
+ 		this.progress = progress;
+	}
+	
+	public Float getDefaultProgress() {
+		// TODO Auto-generated method stub
+ 		return progress;
+	}
+
 
 	@Override
 	public void updateDates() {

@@ -15,6 +15,8 @@ import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
+import poolingpeople.webapplication.business.project.entity.PersistedProject;
+import poolingpeople.webapplication.business.project.entity.Project;
 
 public class PersistedTask extends PersistedModel<Task> implements Task {
 
@@ -241,10 +243,26 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		for(Effort effort : getEfforts()) {
 			deleteEffort(effort);
 		}
+		
+		Project p = getProject();
+		if( p != null ){
+			p.removeTask(this);
+		}
 	}
 	
 	private void setEffort(Integer totalEffort) {
 		manager.setProperty(underlyingNode, NodePropertyName.EFFORT.name(), totalEffort);
+	}
+	
+	public Project getProject() {
+		
+		Node n = manager.getRelatedNode(underlyingNode, Relations.HAS_TASK_ASSIGNED);
+		
+		if ( n != null ) {
+			return new PersistedProject(manager, n);
+		}
+		
+		return null;
 	}
 
 	@Override
