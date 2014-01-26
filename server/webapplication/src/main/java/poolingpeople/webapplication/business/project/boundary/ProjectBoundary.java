@@ -100,8 +100,8 @@ public class ProjectBoundary {
 			JsonMappingException, IOException {
 		Project persistedProject = entityFactory.createProject(new ProjectDTO());
 		persistedProject.setDescription("desc");
-		persistedProject.setEndDate(1L);
-		persistedProject.setStartDate(2L);
+		persistedProject.setDefaultEndDate(1L);
+		persistedProject.setDefaultStartDate(2L);
 		persistedProject.setTitle("title");
 		persistedProject.setStatus(ProjectStatus.ARCHIVED);
 		String r = mapper.writeValueAsString(persistedProject);

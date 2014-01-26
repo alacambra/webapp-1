@@ -35,14 +35,14 @@ public interface Project{
 	 * @return
 	 */
 	Long getStartDate();
-	void setStartDate(Long startDate);
+	void setDefaultStartDate(Long startDate);
 	
 	/**
 	 * When the project ends. It can be given manually but if a child or more exists the bigger of all dates will be taken 
 	 * @return
 	 */
 	Long getEndDate();
-	void setEndDate(Long endDate);
+	void setDefaultEndDate(Long endDate);
 	
 	/**
 	 * Deletes the relation with a task. 

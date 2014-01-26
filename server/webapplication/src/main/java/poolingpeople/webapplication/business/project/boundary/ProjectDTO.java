@@ -71,12 +71,12 @@ public class ProjectDTO implements Project {
 	}
 
 	@Override
-	public void setStartDate(Long startDate) {
+	public void setDefaultStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
 	@Override
-	public void setEndDate(Long endDate) {
+	public void setDefaultEndDate(Long endDate) {
 		this.endDate = endDate;
 	}
 

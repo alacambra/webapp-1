@@ -91,11 +91,6 @@ public abstract class PersistedModel<T>{
 				NodePropertyName.ID.name());
 	}
 
-	@Override
-	public int hashCode() {
-		return underlyingNode.hashCode();
-	}
-
 	protected void createRelationTo(Relations relation, PersistedModel<?> to, boolean mustBeUnique) {
 
 		if(mustBeUnique && manager.relationExists(underlyingNode, to.getNode(), relation)) {
@@ -203,6 +198,11 @@ public abstract class PersistedModel<T>{
 				new ArrayList<IN>(), 
 				implementationClass, 
 				interfaceClass);
+	}
+	
+	@Override
+	public int hashCode() {
+		return underlyingNode.hashCode();
 	}
 
 

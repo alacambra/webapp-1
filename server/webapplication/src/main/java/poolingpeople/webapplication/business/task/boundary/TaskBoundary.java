@@ -24,7 +24,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.LoggedUserContainer;
-import poolingpeople.webapplication.business.boundary.SetMixinView;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;

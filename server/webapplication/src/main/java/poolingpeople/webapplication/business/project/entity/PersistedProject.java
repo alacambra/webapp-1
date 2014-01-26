@@ -19,7 +19,7 @@ import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
 
 public class PersistedProject extends PersistedModel<Project> implements Project {
-
+	
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
 	private List<PersistedTask> relatedTasks;
 
@@ -36,6 +36,8 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		super(manager, node, NODE_TYPE);
 	}
 
+	/**************** NON-INHERITABLE ATTRIBUTES *****************/
+	
 	@Override
 	public String getTitle() {
 		return getStringProperty(NodePropertyName.TITLE);
@@ -55,45 +57,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	public void setDescription(String description) {
 		setProperty(NodePropertyName.DESCRIPTION, description);
 	}
-
-	@Override
-	public Long getStartDate() {
-		return getLongProperty(NodePropertyName.START_DATE);
-	}
-
-	@Override
-	public void setStartDate(Long startDate) {
-		setProperty(NodePropertyName.START_DATE, startDate);
-	}
-
-	@Override
-	public Long getEndDate() {
-		return getLongProperty(NodePropertyName.END_DATE);
-	}
-
-	@Override
-	public void setEndDate(Long endDate) {
-		setProperty(NodePropertyName.END_DATE, endDate);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof PersistedProject
-				&& ((PersistedProject) obj).getNode().equals(underlyingNode);
-	}
-
-	@Override
-	public int hashCode() {
-		return underlyingNode.hashCode();
-	}
-
-	public void addSubtask(Project child) {
-		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE,
-				((PersistedProject) child).getNodeType());
-		manager.createRelationshipTo(underlyingNode,
-				((PersistedProject) child).getNode(), Relations.IS_SUBPROJECT_OF);
-	}
-
+	
 	@Override
 	public Integer getStatusInteger() {
 		return getStatus().getNumber();
@@ -114,12 +78,117 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 			return ProjectStatus.NEW;
 		}
 	}
-
+	
 	@Override
 	public void setStatus(ProjectStatus status) {
 		setProperty(NodePropertyName.STATUS, status.name());		
 	}
 
+	/**************** INHERITABLE ATTRIBUTES *****************/
+	
+	@Override
+	public Long getStartDate() {
+
+		Long startDate = getLongProperty(NodePropertyName.START_DATE);
+		return getStartDateIsDefault() ? getDefaultStartDate() : startDate;
+		
+	}
+
+	@Override
+	public Long getEndDate() {
+
+		Long endDate = getLongProperty(NodePropertyName.END_DATE);
+		return getEndDateIsDefault() ? getDefaultEndDate() : endDate;
+		
+	}
+	
+	private void setStartDate(Long startDate) {
+		setProperty(NodePropertyName.START_DATE, startDate);
+	}
+
+	private void setEndDate(Long startDate) {
+		setProperty(NodePropertyName.END_DATE, startDate);
+	}
+
+
+	@Override
+	public void setDefaultStartDate(Long startDate) {
+		
+		if(getLongProperty(NodePropertyName.DEFAULT_START_DATE) == null) {
+			setStartDate(startDate);
+		}
+		
+		setProperty(NodePropertyName.DEFAULT_START_DATE, startDate);
+	}
+
+	@Override
+	public void setDefaultEndDate(Long endDate) {
+		
+		if(getLongProperty(NodePropertyName.DEFAULT_END_DATE) == null) {
+			setStartDate(endDate);
+		}
+		
+		setProperty(NodePropertyName.END_DATE, endDate);
+	}
+
+	private Long getDefaultStartDate() {
+		return getLongProperty(NodePropertyName.DEFAULT_START_DATE);
+	}
+	
+	private Long getDefaultEndDate() {
+		return getLongProperty(NodePropertyName.DEFAULT_END_DATE);
+	}
+
+	@Override
+	public Float getProgress() {
+		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
+		return getProgressIsDefault() ? getDefaultProgress() : progress;
+	}
+	
+	private Float getDefaultProgress(){
+		return getFloatProperty(NodePropertyName.DEFAULT_PROGRESS);
+	}
+
+	private void setProgress(Float progress) {
+		setProperty(NodePropertyName.PROGRESS, progress);
+	}
+	
+	public void setDefaultProgress(Float progress) {
+		setProperty(NodePropertyName.DEFAULT_PROGRESS, progress);
+	}
+
+	/**************** FLAGS FOR INHERITABLE ATTRIBUTES *****************/
+	
+	/**
+	 * @todo: which are the default values? How to know if values child are valid?
+	 * Each attribute must have defaults....
+	 * @return
+	 */
+	public boolean getProgressIsDefault() {
+		return getRelatedTasks().size() == 0;
+	}
+	
+	public boolean getEndDateIsDefault() {
+		return getRelatedTasks().size() == 0;
+	}
+	
+	public boolean getStatusIsDefault() {
+		return getRelatedTasks().size() == 0;
+	}
+	
+	public boolean getStartDateIsDefault() {
+		return getRelatedTasks().size() == 0;
+	}
+
+	/**************** RELATIONAL METHODS *****************/
+	
+	public void addSubproject(Project child) {
+		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE,
+				((PersistedProject) child).getNodeType());
+		manager.createRelationshipTo(underlyingNode,
+				((PersistedProject) child).getNode(), Relations.IS_SUBPROJECT_OF);
+	}
+	
 	@Override
 	public void addTask(Task task) {
 
@@ -129,28 +198,16 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 		createRelationshipTo((PersistedModel<?>) task, Relations.HAS_TASK_ASSIGNED);
 
-		Long startDate = task.getStartDate();
-		Long endDate = task.getEndDate();
+//		Long startDate = task.getStartDate();
+//		Long endDate = task.getEndDate();
+//
+//		updateDates(startDate, endDate);
+//		updateDates();
+//		setEffort(getEffort() + task.getEffort());
+//		calculateProgress();
+		
+		updateAll();
 
-		updateDates(startDate, endDate);
-
-		setEffort(getEffort() + task.getEffort());
-		calculateProgress(task);
-
-	}
-
-	private void calculateProgress(Task newTask) {
-		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
-		tasks.add((PersistedTask) newTask);
-		Float totalProgress = (float) 0;
-		Integer totalEstimation = 0;
-
-		for(Task t : tasks) {
-			totalEstimation += t.getDuration();
-			totalProgress += t.getDuration() * t.getProgress();
-		}
-
-		setProgress(totalProgress / totalEstimation);
 	}
 
 	@Override
@@ -159,21 +216,16 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 			throw new RelationNotFoundException();
 		}
 
+		manager.removeNode(((PersistedModel<?>) task).getNode());
+//		getRelatedTasks().remove(task);
+		updateAll();
 	}
 
 	@Override
 	public Collection<Task> getTasks() {
 		return getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class, Task.class);
 	}
-
-	private void startDateChanged(Long startDate) {
-		
-	}
-
-	private void endDateChanged(Long endDate) {
-		
-	}
-
+	
 	@Override
 	public Integer getEffort() {
 
@@ -185,41 +237,67 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 		setProperty(NodePropertyName.EFFORT, effort);
 	}
 
+	/**************** UPDATE METHODS *****************/
+	
+	private void calculateProgress() {
+		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
+		Float totalProgress = (float) 0;
+		Integer totalEstimation = 0;
+
+		for(Task t : tasks) {
+			totalEstimation += t.getDuration();
+			totalProgress += t.getDuration() * t.getProgress();
+		}
+
+		setProgress(totalEstimation > 0 ? totalProgress / totalEstimation : -1);
+	}
+	
 	@Override
 	public void updateEffort() {
-		
+
 		int effort = 0;
 
 		for (Task t : getRelatedTasks()) {
 			effort += t.getEffort();
 		}
-		
+
 		setEffort(effort);
 	}
 
 	@Override
 	public void updateProgress() {
-//		calculateProgress();
+		calculateProgress();
 	}
 
 	@Override
 	public void updateDates() {
-		
-		long startDate = getStartDate();
-		long endDate = getEndDate();
-		
+
+		Long startDate = getDefaultStartDate();
+		Long endDate = getDefaultEndDate();
+		Long currentStartDate = getStartDate();
+		Long currentEndDate = getEndDate();
+
 		for (Task t : getRelatedTasks()) {
-			
-			long sd = t.getStartDate();
-			long ed = t.getEndDate();
+
+			Long sd = t.getStartDate();
+			Long ed = t.getEndDate();
 			startDate = startDate > sd ? sd : startDate;
 			endDate = endDate < ed ? ed : endDate;
-			
+
 		};
 		
-		updateDates(startDate , endDate);
+		if ( currentStartDate != startDate ) {
+			setStartDate(startDate);
+			startDateChanged(startDate);
+		}
+		
+		if ( currentEndDate != endDate ) {
+			setEndDate(endDate);
+			endDateChanged(endDate);
+		}
+
 	}
-	
+
 	private void updateDates(long startDate, long endDate) {
 		if (getStartDate() > startDate) {
 			setStartDate(startDate);
@@ -235,44 +313,41 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void updateAll() {
+		updateEffort();
+		updateDates();
+		updateProgress();
 	}
 
-	@Override
-	public Float getProgress() {
-		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
-		return progress != null ? progress : 0; 
+	/**************** PROPAGATION METHODS *****************/
+	
+	private void startDateChanged(Long startDate) {
+
 	}
 
-	private void setProgress(Float progress) {
-		setProperty(NodePropertyName.PROGRESS, progress);
+	private void endDateChanged(Long endDate) {
+
 	}
 
+
+	/**************** HELPER METHODS *****************/
+	
 	private List<PersistedTask> getRelatedTasks(){
 
-		if (relatedTasks == null){
+//		if (relatedTasks == null){
 			relatedTasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
-		}
+//		}
 
 		return relatedTasks;
 	}
 
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof PersistedProject
+				&& ((PersistedProject) obj).getNode().equals(underlyingNode);
+	}
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

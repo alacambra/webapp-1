@@ -30,7 +30,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	}
 
 	/*
-	 * Needed for json serialization. It will be called bz jax-rs (jackson) and
+	 * Needed for json serialization. It will be called by jax-rs (jackson) and
 	 * therefore no instance of manager will be availabe. Exist som jackson
 	 * provider interface?
 	 */
@@ -158,7 +158,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		return underlyingNode.hashCode();
 	}
 
-	public void addSubtask(PersistedModel<?> child) {
+	public void addSubproject(PersistedModel<?> child) {
 		createRelationTo(Relations.IS_SUBPROJECT_OF, child, true);
 	}
 

@@ -387,7 +387,7 @@ public class NeoManager {
 				objects.add(c.newInstance(this, n));
 
 			} catch (Exception e) {
-				//				log.error(e);
+				throw new RootApplicationException(e);
 			}
 		}
 
