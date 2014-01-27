@@ -4,23 +4,41 @@ define(['i18n'],
 function() {
     return {
         /**
-         * Validates attribute and its confirmation input to be identical.
+         * Validates attribute(s) and their confirmation input to be identical.
          *
          * The confirmation attribute is expected to be named with a appended "Confirmation", i.e. password and passwordConfirmation.
          *
-         * @param attr {string} - Name of the attribute to be checked.
+         * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
+         * @param [options] {object} - Options to override default options.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
+         * @param [options.message] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
-        validates_confirmation_of: function(attr, attrs, errors) {
-            if (errors[attr] !== undefined) return errors;
+        validates_confirmation_of: function(attributes, attrs, errors, options) {
+            errors = errors || {};
 
-            var attr_confirmation = attr + 'Confirmation';
+            if (_.isString(attributes)) attributes = [attributes];
 
-            if (attrs[attr] !== attrs[attr_confirmation]) {
-                errors[attr] = I18n.t('errors.validation.confirmation');
-            }
+            _.each(attributes, function(attr) {
+                if (!_.isUndefined(errors[attr])) return; // attributes already has error, do not overwrite/stack
+
+                var default_options = {
+                    if: true,
+                    message: I18n.t('errors.validation.confirmation')
+                };
+
+                options = _.extend(default_options, options || {});
+
+                if (!options.if) return;
+
+                var attr_confirmation = attr + 'Confirmation';
+
+                if (attrs[attr] !== attrs[attr_confirmation]) {
+                    errors[attr] = options.message;
+                }
+            });
 
             return errors;
         },
@@ -42,7 +60,7 @@ function() {
             if (typeof attributes === 'string') attributes = [attributes];
 
             _.each(attributes, function(attr) {
-                if (errors[attr] !== undefined) return errors;
+                if (errors[attr] !== undefined) return;
 
                 var default_options = {
                     allow_blank: false,
@@ -51,7 +69,7 @@ function() {
 
                 options = _.extend(default_options, options || {});
 
-                if (options.allow_blank && is_blank(attrs[attr])) return errors;
+                if (options.allow_blank && is_blank(attrs[attr])) return;
 
                 if (attrs[attr] == val) {
                     errors[attr] = options.message;
