@@ -41,7 +41,7 @@ function(App, validation_helper) {
 
                 errors = validation_helper.validates_presence_of('title', attrs, errors);
 
-                if (attrs.startDate != 0 && attrs.endDate != 0) {
+                if (!is_empty(attrs.startDate) && !is_empty(attrs.endDate)) {
                     errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
                         message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
                     });

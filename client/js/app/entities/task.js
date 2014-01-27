@@ -56,7 +56,7 @@ function(App, validation_helper) {
                 errors = validation_helper.validates_numericality_of('duration', attrs, errors, { allow_blank: true, only_integer: true });
                 errors = validation_helper.validates_numericality_of('progress', attrs, errors, { allow_blank: true });
 
-                if (attrs.startDate != 0 && attrs.endDate != 0) {
+                if (!is_empty(attrs.startDate) && !is_empty(attrs.endDate)) {
                     errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
                         message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
                     });
