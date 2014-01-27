@@ -1,5 +1,5 @@
 define(['app/entities/user_session'], function(Entities) {
-    return describe('UserSession :: Entities', function() {
+    return describe('Entities :: UserSession', function() {
         var user_session = null;
 
         

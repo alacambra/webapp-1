@@ -97,23 +97,31 @@ function(App, moment, validation_helper) {
                 var effort_entity;
                 var defer = $.Deferred();
 
-                if (typeof effort_id !== 'object') {
-                    effort_entity = new Entities.Effort({ id: effort_id }, { task_id: task_id });
-
-                    if (effort_id !== undefined) { // effort id was set, load entity
-                        effort_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no effort id was set, return new instance
-                        defer.resolve(effort_entity);
-                    }
-                } else { // given "effort_id" is a model, return unchanged
+                if (_.isObject(effort_id)) {
+                    // given effort_id is a model, resolve unchanged effort
                     defer.resolve(effort_id);
+
+                } else if (_.isUndefined(effort_id) && !_.isUndefined(task_id)) {
+                    // no effort_id is set but task_id is, create a new effort model
+                    var effort = new Entities.Effort({}, {
+                        task_id: task_id
+                    });
+
+                    defer.resolve(effort);
+
+                } else if (validation_helper.isValidId(effort_id) && !_.isUndefined(task_id)) {
+                    // effort_id is a valid id and task is defined, fetch model from server and resolve response
+                    new Entities.Effort({ id: effort_id }, { task_id: task_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(model, response);
+                        }
+                    });
+
+                } else {
+                    defer.resolve(undefined);
                 }
 
                 return defer.promise();

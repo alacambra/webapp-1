@@ -143,7 +143,7 @@ function(App, validation_helper) {
                     // resolve final new task
                     defer.resolve(task);
 
-                } else {
+                } else if (validation_helper.isValidId(task_id)) {
                     // task_id is set, fetch model from server and resolve response
                     new Entities.Task({ id: task_id }).fetch({
                         success: function (model, response) {
@@ -153,6 +153,9 @@ function(App, validation_helper) {
                             defer.resolve(false, response);
                         }
                     });
+
+                } else {
+                    defer.resolve(undefined);
                 }
 
                 return defer.promise();

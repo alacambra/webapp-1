@@ -1,32 +1,13 @@
 define(['app',
         'app/entities/user', 'moment'],
 function(App, Entities, moment) {
-    return describe('User :: Entities', function() {
+    return describe('Entities :: User', function() {
         var user = null,
-            user_with_id = null,
-            users = null,
-            temp_user_fetch = null,
-            temp_users_fetch = null;
+            users = null;
 
         beforeEach(function() {
             user = new Entities.User();
-            user_with_id = new Entities.User({ id: 2 });
             users = new Entities.UserCollection();
-
-            temp_user_fetch = Entities.User.prototype.fetch;
-            Entities.User.prototype.fetch = function (options) {
-                options.success(user_with_id);
-            };
-
-            temp_users_fetch = Entities.UserCollection.prototype.fetch;
-            Entities.UserCollection.prototype.fetch = function (options) {
-                options.success(users);
-            };
-        });
-
-        afterEach(function () {
-            Entities.User.prototype.fetch = temp_user_fetch;
-            Entities.UserCollection.prototype.fetch = temp_users_fetch;
         });
 
         describe('Model', function() {
@@ -225,35 +206,88 @@ function(App, Entities, moment) {
 
         describe('API', function () {
             it('Should return a specified list of users', function () {
+                var response = null;
+                var users = new Entities.UserCollection();
+
+                spyOn(Entities.UserCollection.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(users);
+                });
+
                 runs(function () {
-                    $.when(App.request('user:entities')).done(function (response) {
-                        expect(response).toBe(users);
+                    $.when(App.request('user:entities')).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'user:entities\' with no parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(users);
                 });
             });
 
             it('Should return a new user', function () {
+                var response = null;
+
                 runs(function () {
-                    $.when(App.request('user:entity')).done(function (response) {
-                        expect(response.get('id')).toBe(null);
+                    $.when(App.request('user:entity')).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'user:entity\' with no parameter', 100);
+
+                runs(function () {
+                    expect(response.get('id')).toBe(null);
                 });
             });
 
             it('Should return specified user', function () {
+                var response = null;
+                var user = new Entities.User({ id: 1 });
+
                 runs(function () {
-                    $.when(App.request('user:entity', user_with_id)).done(function (response) {
-                        expect(response).toBe(user_with_id);
+                    request = $.when(App.request('user:entity', user)).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'user:entity\' with specified user as parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(user);
                 });
             });
 
             it('Should return user with specified user id', function () {
+                var response = null;
+                var id = 1;
+                var user = new Entities.User({
+                    id: id
+                });
+
+                spyOn(Entities.User.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(user);
+                });
+
                 runs(function () {
-                    var id = user_with_id.get('id');
-                    $.when(App.request('user:entity', id)).done(function (response) {
-                        expect(response.get('id')).toBe(id);
+                    $.when(App.request('user:entity', id)).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'user:entity\' with specified id as parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(user);
                 });
             });
         });
