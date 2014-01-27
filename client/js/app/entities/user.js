@@ -63,26 +63,31 @@ function(App, moment, validation_helper) {
             },
 
             get_user_entity: function(user_id) {
-                var user_entity;
                 var defer = $.Deferred();
 
-                if (typeof user_id !== 'object') {
-                    user_entity = new Entities.User({ id: user_id });
-
-                    if (user_id !== undefined) { // user id was set, load entity
-                        user_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no user id was set, return new instance
-                        defer.resolve(user_entity);
-                    }
-                } else { // given "user_id" is a model, return unchanged
+                if (_.isObject(user_id)) {
+                    // given user_id is a model, resolve unchanged user
                     defer.resolve(user_id);
+
+                } else if (_.isUndefined(user_id)) {
+                    // no user_id is set, create a new user model
+                    var user = new Entities.User();
+
+                    defer.resolve(user);
+
+                } else if (validation_helper.isValidId(user_id)) {
+                    // user_id is a valid id, fetch model from server and resolve response
+                    new Entities.User({ id: user_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(model, response);
+                        }
+                    });
+
+                } else {
+                    defer.resolve(undefined);
                 }
 
                 return defer.promise();
