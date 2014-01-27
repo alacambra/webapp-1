@@ -128,6 +128,62 @@ define(['app/validation_helper'], function (validation_helper) {
         });
 
 
+        describe('validates_format_of', function () {
+            it('must validate format', function () {
+                expect(validation_helper.validates_format_of('email', { email: 'ABC123' }, {}, { with: /^\S+$/ }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: 'testing' }, {}, { with: /^test/ }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: 'alice@riddell.com' }, {}, { with: /\S+@\S+\.\S+/ }).email).toBeUndefined();
+            });
+
+            it('must invalidate wrong format', function () {
+                expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, {}, { with: /^\S+$/ }).email).toBeDefined();
+                expect(validation_helper.validates_format_of('email', { email: 'xtesting' }, {}, { with: /^test/ }).email).toBeDefined();
+                expect(validation_helper.validates_format_of('email', { email: 'aliceriddell.com' }, {}, { with: /\S+@\S+\.\S+/ }).email).toBeDefined();
+                expect(validation_helper.validates_format_of('email', { email: '' }, {}, { with: /^\S$/ }).email).toBeDefined();
+            });
+
+            it('must optionally conditionally skip validation', function () {
+                expect(validation_helper.validates_format_of('email', { email: 'ABC123' }, {}, { with: /^\S+$/, if: false }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, {}, { with: /^\S+$/, if: false }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: 'ABC123' }, {}, { with: /^\S+$/, if: true }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, {}, { with: /^\S+$/, if: true }).email).toBeDefined();
+            });
+
+            it('must optionally allow blank values', function () {
+                expect(validation_helper.validates_format_of('email', { email: '' }, {}, { with: /^\S$/, allow_blank: true }).email).toBeUndefined();
+            });
+
+            it('must optionally use specific error message', function () {
+                expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, {}, { with: /^\S+$/, message: 'gotcha' }).email).toEqual('gotcha');
+            });
+
+            it('must keep other existing errors', function () {
+                expect(validation_helper.validates_format_of('email', { email: 'ABC123' }, { other: 'error' }, { with: /^\S+$/ }).other).toEqual('error');
+                expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, { other: 'error' }, { with: /^\S+$/ }).other).toEqual('error');
+            });
+
+            it('must skip existing errors', function () {
+                expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, { email: 'error' }, { with: /^\S+$/ }).email).toEqual('error');
+            });
+
+            it('must check multiple attributes', function () {
+                validation = validation_helper.validates_format_of(['first', 'last'], { first: 'ABC123', last: 'AB' }, {}, { with: /^\S+$/ });
+
+                expect(validation.first).toBeUndefined();
+                expect(validation.last).toBeUndefined();
+
+                validation = validation_helper.validates_format_of(['first', 'last'], { first: 'ABC 123', last: 'A B' }, {}, { with: /^\S+$/ });
+
+                expect(validation.first).toBeDefined();
+                expect(validation.last).toBeDefined();
+            });
+
+            it('must throw exceptions', function () {
+                expect(function() { validation_helper.validates_format_of('email', { email: 'ABC 123' }) }).toThrow(new Error('options.with must be defined'));
+            });
+        });
+
+
         describe('validates_numericality_of', function () {
             it('must validate numeric values', function () {
                 expect(validation_helper.validates_numericality_of('amount', { amount: 1 }).amount).toBeUndefined();

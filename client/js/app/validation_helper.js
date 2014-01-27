@@ -10,10 +10,10 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors] {object} - Object containing already existing error messages.
+         * @param [errors={}] {object} - Object containing already existing error messages.
          * @param [options] {object} - Options to override default options.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
-         * @param [options.message] {string} - Error message to be used.
+         * @param [options.message=I18n.t('errors.validation.confirmation')] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
         validates_confirmation_of: function(attributes, attrs, errors, options) {
@@ -49,14 +49,14 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
+         * @param [errors={}] {object} - Object containing already existing error messages.
          * @param options {object} - Options to override default options.
          * @param options.in - Values which should be not accepted as valid (specified as blacklist array or range (object specifing min+max).
          * @param [options.in.min] - Minimum value which should be not accepted as valid.
          * @param [options.in.max] - Maximum value which should be not accepted as valid.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
-         * @param [options.message='errors.validation.invalid'] {string} - Error message to be used.
+         * @param [options.message=I18n.t('errors.validation.confirmation')] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
         validates_exclusion_of: function(attributes, attrs, errors, options) {
@@ -100,30 +100,44 @@ function() {
 
 
         /**
-         * Validates length of text for given attribute.
+         * Validates format of attribute(s) to match regular expression.
          *
-         * @param attr {string} - Name of the attribute to be checked.
-         * @param format {regex} - Regular expression attribute should match.
+         * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
-         * @param [options] {object} - Options to override default options.
+         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param options {object} - Options to override default options.
+         * @param options.with {regex} - Format which should be accepted as valid.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
+         * @param [options.message='errors.validation.invalid'] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
-        validates_format_of: function(attr, format, attrs, errors, options) {
-            if (errors[attr] !== undefined) return errors;
+        validates_format_of: function(attributes, attrs, errors, options) {
+            errors = errors || {};
+
+            if (_.isString(attributes)) attributes = [attributes];
 
             var default_options = {
-                allow_blank: false
+                if: true,
+                allow_blank: false,
+                message: I18n.t('errors.validation.invalid')
             };
 
             options = _.extend(default_options, options || {});
 
-            if (options.allow_blank && is_blank(attrs[attr])) return errors;
+            if (!options.if) return errors;
 
-            if (!format.test(attrs[attr])) {
-                errors[attr] = I18n.t('errors.validation.invalid');
-            }
+            if (_.isUndefined(options.with)) throw Error('options.with must be defined');
+
+            _.each(attributes, function(attr) {
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
+
+                if (options.allow_blank && is_blank(attrs[attr])) return;
+
+                if (!options.with.test(attrs[attr]) || is_blank(attrs[attr])) {
+                    errors[attr] = options.message;
+                }
+            });
 
             return errors;
         },
@@ -194,12 +208,12 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors] {object} - Object containing already existing error messages.
+         * @param [errors={}] {object} - Object containing already existing error messages.
          * @param [options] {object} - Options to override default options.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
          * @param [options.only_integer=false] {boolean} - Only integers will be accepted as valid.
-         * @param [options.message] {string} - Error message to be used.
+         * @param [options.message=I18n.t('errors.validation.no_number')] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
         validates_numericality_of: function(attributes, attrs, errors, options) {
