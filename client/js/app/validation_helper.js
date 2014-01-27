@@ -45,7 +45,7 @@ function() {
 
 
         /**
-         * Validates attribute(s) not to be a specific value.
+         * Validates attribute(s) not to be in a specific range.
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
@@ -67,7 +67,7 @@ function() {
             var default_options = {
                 if: true,
                 allow_blank: false,
-                message: I18n.t('errors.validation.confirmation')
+                message: I18n.t('errors.validation.invalid')
             };
 
             options = _.extend(default_options, options || {});
@@ -144,33 +144,55 @@ function() {
 
 
         /**
-         * Validates attribute to be in a specific range.
+         * Validates attribute(s) to be in a specific range.
          *
-         * @param attr {string} - Name of the attribute to be checked.
-         * @param min {number} - Minimum value which should be accepted as valid.
-         * @param max {number} - Maximum value which should be accepted as valid.
+         * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
-         * @param [options] {object} - Options to override default options.
+         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param options {object} - Options to override default options.
+         * @param options.in - Values which should be accepted as valid (specified as whitelist array or range (object specifing min+max).
+         * @param [options.in.min] - Minimum value which should be accepted as valid.
+         * @param [options.in.max] - Maximum value which should be accepted as valid.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
-         * @param [options.message'errors.validation.invalid'] {string} - Error message to be used.
+         * @param [options.message=I18n.t('errors.validation.confirmation')] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
-        validates_inclusion_of: function(attr, min, max, attrs, errors, options) {
-            if (errors[attr] !== undefined) return errors;
+        validates_inclusion_of: function(attributes, attrs, errors, options) {
+            errors = errors || {};
+
+            if (_.isString(attributes)) attributes = [attributes];
 
             var default_options = {
+                if: true,
                 allow_blank: false,
                 message: I18n.t('errors.validation.invalid')
             };
 
             options = _.extend(default_options, options || {});
 
-            if (options.allow_blank && is_blank(attrs[attr])) return errors;
+            if (!options.if) return errors;
 
-            if (attrs[attr] < min || attrs[attr] > max) {
-                errors[attr] = options.message;
+            if (_.isUndefined(options.in)) throw Error('options.in must be defined');
+            if (!_.isArray(options.in) && (_.isUndefined(options.in.min) || _.isUndefined(options.in.max))) {
+                throw Error('options.in must define min and max');
             }
+
+            _.each(attributes, function(attr) {
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
+
+                if (options.allow_blank && is_blank(attrs[attr])) return;
+
+                if (_.isArray(options.in)) {
+                    if (!_.contains(options.in, attrs[attr]) || is_blank(attrs[attr])) {
+                        errors[attr] = options.message;
+                    }
+                } else {
+                    if (attrs[attr] < options.in.min || attrs[attr] > options.in.max) {
+                        errors[attr] = options.message;
+                    }
+                }
+            });
 
             return errors;
         },

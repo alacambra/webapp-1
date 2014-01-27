@@ -42,11 +42,16 @@ function(App, moment, validation_helper) {
                 errors = validation_helper.validates_exclusion_of('date', attrs, errors, { in: [0], message: I18n.t('errors.validation.empty') });
                 errors = validation_helper.validates_exclusion_of('time', attrs, errors, { in: [0], message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
 
-                // date between 01.01.1914 (100 years ago) and now?
-                // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
-                errors = validation_helper.validates_inclusion_of('date', -1767229200, moment().add('y', 100).unix(), attrs, errors);
+                errors = validation_helper.validates_inclusion_of('date', attrs, errors, {
+                    in: {
+                        min: -1767229200, // 01.01.1914 (100 years ago)
+                        max: moment().add('y', 100).unix() // 100 years from now
+                    }
+                });
 
-                errors = validation_helper.validates_inclusion_of('time', 0, 60 * 24 * 365, attrs, errors);
+                errors = validation_helper.validates_inclusion_of('time', attrs, errors, {
+                    in: { min: 0, max: 60 * 24 * 365 } // [0, 1 year]
+                });
 
                 return _.isEmpty(errors) ? false : errors;
             }

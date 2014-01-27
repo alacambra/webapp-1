@@ -184,6 +184,73 @@ define(['app/validation_helper'], function (validation_helper) {
         });
 
 
+        describe('validates_inclusion_of', function () {
+            it('must validate inclusion in array', function () {
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice'] }).name).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice', 'Bob'] }).name).toBeUndefined();
+            });
+
+            it('must validate inclusion in range', function () {
+                expect(validation_helper.validates_inclusion_of('count', { count: 20 }, {}, { in: { min: 10, max: 100 } }).count).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 10 }, {}, { in: { min: 10, max: 100 } }).count).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 100 }, {}, { in: { min: 10, max: 100 } }).count).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: -10 }, {}, { in: { min: -10, max: 10 } }).count).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 5 }, {}, { in: { min: -10, max: 10 } }).count).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 10 }, {}, { in: { min: -10, max: 10 } }).count).toBeUndefined();
+            });
+
+            it('must invalidate inclusion miss in array', function () {
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: [''] }).name).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['A', 'Bob'] }).name).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: '' }, {}, { in: ['A', 'Bob'] }).name).toBeDefined();
+            });
+
+            it('must invalidate inclusion miss in range', function () {
+                expect(validation_helper.validates_inclusion_of('count', { count: 5 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 101 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 500 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: -20 }, {}, { in: { min: -10, max: 10 } }).count).toBeDefined();
+            });
+
+            it('must optionally conditionally skip validation', function () {
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Bob'], if: false }).name).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice'], if: false }).name).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Bob'], if: true }).name).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice'], if: true }).name).toBeUndefined();
+            });
+
+            it('must optionally use specific error message', function () {
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Bob'], message: 'gotcha' }).name).toEqual('gotcha');
+            });
+
+            it('must keep other existing errors', function () {
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, { other: 'error'}, { in: ['a'] }).other).toEqual('error');
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, { other: 'error'}, { in: ['Alice'] }).other).toEqual('error');
+            });
+
+            it('must skip existing errors', function () {
+                expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, { name: 'error'}, { in: ['Bob'] }).name).toEqual('error');
+            });
+
+            it('must check multiple attributes', function () {
+                validation = validation_helper.validates_inclusion_of(['first', 'last'], { first: 'Alice', last: 'Riddell' }, {}, { in: ['Bob', 'Alice', 'Riddell'] });
+                expect(validation.first).toBeUndefined();
+                expect(validation.last).toBeUndefined();
+
+                validation = validation_helper.validates_inclusion_of(['first', 'last'], { first: 'Alice', last: 'Riddell' }, {}, { in: ['Bob'] });
+                expect(validation.first).toBeDefined();
+                expect(validation.last).toBeDefined();
+            });
+
+            it('must throw exceptions', function () {
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }) }).toThrow(new Error('options.in must be defined'));
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min and max'));
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: { min: 0 } }) }).toThrow(new Error('options.in must define min and max'));
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: { max: 0 } }) }).toThrow(new Error('options.in must define min and max'));
+            });
+        });
+
+
         describe('validates_numericality_of', function () {
             it('must validate numeric values', function () {
                 expect(validation_helper.validates_numericality_of('amount', { amount: 1 }).amount).toBeUndefined();

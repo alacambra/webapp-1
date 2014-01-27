@@ -56,11 +56,11 @@ function(App, validation_helper) {
                 errors = validation_helper.validates_numericality_of('duration', attrs, errors, { allow_blank: true, only_integer: true });
                 errors = validation_helper.validates_numericality_of('progress', attrs, errors, { allow_blank: true });
 
-                if (!is_empty(attrs.startDate) && !is_empty(attrs.endDate)) {
-                    errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
-                        message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
-                    });
-                }
+                errors = validation_helper.validates_inclusion_of('endDate', attrs, errors, {
+                    if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
+                    in: { min: attrs.startDate, max: attrs.endDate },
+                    message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
+                });
 
                 return _.isEmpty(errors) ? false : errors;
             }

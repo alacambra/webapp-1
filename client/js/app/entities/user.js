@@ -29,9 +29,13 @@ function(App, moment, validation_helper) {
                     errors = validation_helper.validates_confirmation_of('password', attrs, errors);
                 }
 
-                // date between 01.01.1914 (100 years ago) and now?
-                // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
-                errors = validation_helper.validates_inclusion_of('birthDate', -1767229200, moment().unix(), attrs, errors);
+                errors = validation_helper.validates_inclusion_of('birthDate', attrs, errors, {
+                    in: {
+                        min: -1767229200, // 01.01.1914 (100 years ago)
+                        max: moment().unix() // now
+                    }
+                });
+
 
                 return _.isEmpty(errors) ? false : errors;
             }
