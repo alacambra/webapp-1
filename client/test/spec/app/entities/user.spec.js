@@ -1,7 +1,7 @@
 define(['app',
         'app/entities/user', 'moment'],
 function(App, Entities, moment) {
-    return describe('User :: Entities', function() {
+    return describe('Entities :: User', function() {
         var user = null,
             users = null;
 
