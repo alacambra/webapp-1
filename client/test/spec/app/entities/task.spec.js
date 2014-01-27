@@ -173,10 +173,6 @@ function (App, Entities) {
             it('Should return a new task', function () {
                 var response = null;
 
-                spyOn(Entities.Task.prototype, 'fetch').andCallFake(function (options) {
-                    options.success(new Entities.Task());
-                });
-
                 runs(function () {
                     $.when(App.request('task:entity')).done(function (_response) {
                         response = _response;
@@ -195,10 +191,6 @@ function (App, Entities) {
             it('Should return specified task', function () {
                 var response = null;
                 var task = new Entities.Task({ id: 1 });
-
-                spyOn(Entities.Task.prototype, 'fetch').andCallFake(function (options) {
-                    options.success(task);
-                });
 
                 runs(function () {
                     $.when(App.request('task:entity', task)).done(function (_response) {
@@ -235,7 +227,7 @@ function (App, Entities) {
                 }, 'The response of \'task:entity\' with an id as parameter', 100);
 
                 runs(function () {
-                    expect(response.get('id')).toBe(id);
+                    expect(response).toBe(task);
                 });
             });
         });

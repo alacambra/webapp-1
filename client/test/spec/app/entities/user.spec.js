@@ -231,10 +231,6 @@ function(App, Entities, moment) {
             it('Should return a new user', function () {
                 var response = null;
 
-                spyOn(Entities.User.prototype, 'fetch').andCallFake(function (options) {
-                    options.success(new Entities.User());
-                });
-
                 runs(function () {
                     $.when(App.request('user:entity')).done(function (_response) {
                         response = _response;
@@ -252,13 +248,7 @@ function(App, Entities, moment) {
 
             it('Should return specified user', function () {
                 var response = null;
-                var user = new Entities.User({
-                    id: 1
-                });
-
-                spyOn(Entities.User.prototype, 'fetch').andCallFake(function (options) {
-                    options.success(user);
-                });
+                var user = new Entities.User({ id: 1 });
 
                 runs(function () {
                     request = $.when(App.request('user:entity', user)).done(function (_response) {
@@ -297,7 +287,7 @@ function(App, Entities, moment) {
                 }, 'The response of \'user:entity\' with specified id as parameter', 100);
 
                 runs(function () {
-                    expect(response.get('id')).toBe(id);
+                    expect(response).toBe(user);
                 });
             });
         });
