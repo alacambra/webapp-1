@@ -21,7 +21,7 @@ function(App, moment, validation_helper) {
                 var errors = {};
 
                 errors = validation_helper.validates_presence_of(['firstName', 'lastName', 'email'], attrs, errors);
-                errors = validation_helper.validates_format_of('email', /\S+@\S+\.\S+/, attrs, errors);
+                errors = validation_helper.validates_format_of('email', attrs, errors, { with: /^\S+@\S+\.\S+$/ });
 
                 if (this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation)) {
                     errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors);
