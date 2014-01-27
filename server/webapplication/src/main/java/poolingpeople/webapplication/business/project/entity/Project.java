@@ -96,6 +96,8 @@ public interface Project{
 	 */
 	void updateAll();
 	void setDefaultProgress(Float progress);
+	
+	public Integer getTaskCount();
 
 }
 

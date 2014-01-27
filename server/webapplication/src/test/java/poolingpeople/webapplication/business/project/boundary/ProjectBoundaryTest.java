@@ -21,8 +21,8 @@ import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
 public class ProjectBoundaryTest extends AbstractTest {
 
-	String projectRequestFile = "project-create-request.json";
-	String projectResponseFile = "project-create-response.json";
+	String projectRequestFile = "projects/project-create-request.json";
+	String projectResponseFile = "projects/project-create-response.json";
 	
 	@Inject
 	ProjectBoundary target;

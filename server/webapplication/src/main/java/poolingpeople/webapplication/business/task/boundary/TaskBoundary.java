@@ -23,6 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.boundary.LoggedUserContainer;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
@@ -62,7 +63,7 @@ public class TaskBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTaskById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writerWithView(TaskMixin.class).writeValueAsString(
+		String r = mapper.writeValueAsString(
 				entityFactory.getTaskById(id));
 		return Response.ok().entity(r).build();
 	}
@@ -105,31 +106,9 @@ public class TaskBoundary extends AbstractBoundry{
 		return Response.noContent().build();
 	}
 
-	@GET
-	@Path("fakeit")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response fakeTask() throws JsonGenerationException,
-	JsonMappingException, IOException {
-		Task persistedTask = entityFactory.createTask(new PersistedTask());
-		persistedTask.setDescription("desc");
-		persistedTask.setEndDate(1L);
-		persistedTask.setStartDate(2L);
-		persistedTask.setPriority(TaskPriority.HIGH);
-		persistedTask.setProgress((float) 0.25);
-		persistedTask.setTitle("title");
-		persistedTask.setDuration(34);
-		persistedTask.setStatus(TaskStatus.ARCHIVED);
-		String r = mapper.writeValueAsString(persistedTask);
-		return Response.ok().entity(r).build();
-	}
-
-	/************************************* USER action TASK in PROJECT 
-	 * @throws IOException 
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException *************************************/
-
+	/************************************* USER action TASK in PROJECT *************************************/
 	@POST
-	@Path(idPattern + "/in/project/" + "{projectId:" + uuidRegexPattern + "}")
+	@Path("/in/project/" + "{projectId:" + uuidRegexPattern + "}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createTaskInProject(@PathParam("id") String uuid, @PathParam("projectId") String projectId, String json) throws JsonParseException, JsonMappingException, IOException{
@@ -162,6 +141,48 @@ public class TaskBoundary extends AbstractBoundry{
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

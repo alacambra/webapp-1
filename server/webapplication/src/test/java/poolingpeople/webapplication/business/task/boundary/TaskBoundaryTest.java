@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 import poolingpeople.webapplication.business.entity.AbstractTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
@@ -21,6 +20,9 @@ public class TaskBoundaryTest extends AbstractTest{
 
 	@Inject
 	TaskBoundary target;
+	
+	String taskRequestFile = "tasks/task-create-request.json";
+	String taskResponseFile = "tasks/task-create-response.json";
 
 	@Before
 	public void setUp() {
@@ -33,40 +35,40 @@ public class TaskBoundaryTest extends AbstractTest{
 	@Test
 	public void testGetTaskById() throws Exception {
 
-		Map<String,String> createdTaskdata = restObjectsHelper.insertTaskFromFile("task-create-request.json");
-		Map<String,String> expectedTaskdata = restObjectsHelper.convertJsonFileToMap("task-create-response.json");
+		Map<String,String> createdTaskdata = insertTaskFromFile(taskRequestFile);
+		Map<String,String> expectedTaskdata = convertJsonFileToMap(taskResponseFile);
 		expectedTaskdata.put("id", createdTaskdata.get("id"));
 
 		Response response = target.getTaskById(createdTaskdata.get("id"));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		Map<String,String> receivedTaskdata = restObjectsHelper.convertJsonToMap((String)response.getEntity());
+		Map<String,String> receivedTaskdata = convertJsonToMap((String)response.getEntity());
 
-		assertTrue(restObjectsHelper.mapsAreEquals(expectedTaskdata, receivedTaskdata));
+		assertTrue(mapsAreEquals(expectedTaskdata, receivedTaskdata));
 
 	}
 
 	@Test
 	public void testGetAllTask() throws Exception {
 
-		List<Map<Object, Object>> expected = restObjectsHelper.createTaskListFromTaskFile("task-create-request.json", 3);
+		List<Map<Object, Object>> expected = createTaskListFromTaskFile(taskRequestFile, 3);
 		Response allTask = target.getAllTask();
 		assertEquals(Response.Status.OK, allTask.getStatusInfo());
 
 		@SuppressWarnings("unchecked")
-		List<Map<Object, Object>> actuall = mapper.readValue((String)allTask.getEntity(), List.class);
-		assertTrue(restObjectsHelper.mapsListAreEquals(expected, actuall));
+		List<Map<Object, Object>> actual = mapper.readValue((String)allTask.getEntity(), List.class);
+		assertTrue(mapsListAreEquals(expected, actual));
 
 	}
 
 	@Test
 	public void testSaveTask() throws Exception {
 
-		Map<String,String> expectedTaskdata = restObjectsHelper.convertJsonFileToMap("task-create-response.json");
-		Response response = target.saveTask(FileLoader.getText(jsonModelsPath +"task-create-request.json"));
+		Map<String,String> expectedTaskdata = convertJsonFileToMap(taskResponseFile);
+		Response response = target.saveTask(FileLoader.getText(jsonModelsPath +taskRequestFile));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		Map<String,String> actuall = restObjectsHelper.convertJsonToMap((String) response.getEntity());
-		expectedTaskdata.put("id", actuall.get("id"));
-		assertTrue(restObjectsHelper.mapsAreEquals(expectedTaskdata, actuall));
+		Map<String,String> actual = convertJsonToMap((String) response.getEntity());
+		expectedTaskdata.put("id", actual.get("id"));
+		assertTrue(mapsAreEquals(expectedTaskdata, actual));
 
 	}
 
@@ -74,20 +76,19 @@ public class TaskBoundaryTest extends AbstractTest{
 	public void testUpdateTask() throws Exception {
 
 		String title = "title under test";
-		Map<String,String> createdTaskdata = restObjectsHelper.insertTaskFromFile("task-create-request.json");
+		Map<String,String> createdTaskdata = insertTaskFromFile(taskRequestFile);
 		createdTaskdata.put("title", title);
-		String json = restObjectsHelper.convertMapToJson(createdTaskdata);
+		String json = convertMapToJson(createdTaskdata);
 		Response r = target.updateTask(createdTaskdata.get("id"), json);
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
-		Map<String,String> receivedTaskdata = restObjectsHelper.convertJsonToMap((String)r.getEntity());
-		assertTrue(restObjectsHelper.mapsAreEquals(receivedTaskdata, createdTaskdata));
-
+		Map<String,String> receivedTaskdata = convertJsonToMap((String)r.getEntity());
+		assertTrue(mapsAreEquals(receivedTaskdata, createdTaskdata));
 
 	}
 
-	@Test()
+	@Test
 	public void testDeleteTask() throws Exception {
-		Map<String,String> createdTaskdata = restObjectsHelper.insertTaskFromFile("task-create-request.json");
+		Map<String,String> createdTaskdata = insertTaskFromFile(taskRequestFile);
 		Response r = target.deleteTask(createdTaskdata.get("id"));
 		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
 		try{

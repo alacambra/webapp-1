@@ -1,8 +1,6 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
-import java.util.Date;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -22,14 +20,11 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
-import poolingpeople.webapplication.business.boundary.SetMixinView;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.task.entity.TaskPriority;
-import poolingpeople.webapplication.business.task.entity.TaskStatus;
 
 @Path("tasks/{taskId:[\\w\\d-]+}/efforts/")
 @Stateless
@@ -102,43 +97,63 @@ public class EffortBoundary {
 		return Response.noContent().build();
 	}
 
-	//TODO: destroy it. Its just for development time....
-	@GET
-	@Path("fakeit/{quantity:[\\d]+}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response fakeTask(@PathParam("quantity") int quantity) 
-			throws JsonGenerationException, JsonMappingException, IOException {
-
-		Task persistedTask = entityFactory.createTask(new TaskDTO());
-		persistedTask.setDescription("faked task to use with efforts");
-		persistedTask.setEndDate(1L);
-		persistedTask.setStartDate(2L);
-		persistedTask.setPriority(TaskPriority.HIGH);
-		persistedTask.setProgress((float) 0.25);
-		persistedTask.setTitle("EffortedTask");
-		persistedTask.setDuration(34);
-		persistedTask.setStatus(TaskStatus.ARCHIVED);
-
-		for (int i = 0; i<quantity; i++) {
-			persistedTask.addEffort(generateEffort());
-		}
-
-		String r = mapper.writeValueAsString(persistedTask.getEfforts());
-		return Response.ok().entity(r).build();
-	}
-
-	//TODO: destroy it. Its just for development time....
-	private Effort generateEffort() {
-		Effort effort = new EffortDto();
-		effort.setComment("some comment");
-		effort.setDate(new Date().getTime());
-		effort.setTime(2);
-		
-		Effort peffort = entityFactory.createEffort(effort);
-
-		return peffort;
-	}		
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

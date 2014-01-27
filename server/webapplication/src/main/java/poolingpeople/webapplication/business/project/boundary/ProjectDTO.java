@@ -164,6 +164,12 @@ public class ProjectDTO implements Project {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Integer getTaskCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 

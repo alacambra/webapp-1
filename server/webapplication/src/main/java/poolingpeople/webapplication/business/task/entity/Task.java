@@ -2,6 +2,8 @@ package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
 
+import poolingpeople.webapplication.business.project.entity.Project;
+
 public interface Task{
 	
 	/**
@@ -39,16 +41,10 @@ public interface Task{
 
 	Long getStartDate();
 
-	void setStartDate(Long startDate);
-
 	Long getEndDate();
-
-	void setEndDate(Long endDate);
 
 	Float getProgress();
 
-	void setProgress(Float progress);
-	
 	/**
 	 * Estimated duration of the task
 	 * @return
@@ -66,6 +62,20 @@ public interface Task{
 	void deleteEffort(Effort effort);
 	
 	Integer getEffort();
+	
+	Project getProject();
+
+	void setDefaultStartDate(Long startDate);
+
+	void setDefaultEndDate(Long endDate);
+
+	void setDefaultProgress(Float progress);
+
+	void updateProgress();
+
+	void updateDates();
+
+	void updateAll();
 	
 }
 

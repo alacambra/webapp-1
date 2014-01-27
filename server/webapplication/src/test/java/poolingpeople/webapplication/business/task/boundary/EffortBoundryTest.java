@@ -26,8 +26,8 @@ public class EffortBoundryTest extends AbstractTest{
 	@Inject 
 	EffortBoundary target;
 
-	String effortRequestFile = "effort-task-create-request.json";
-	String effortResponseFile = "effort-task-create-response.json";
+	String effortRequestFile = "tasks/effort-task-create-request.json";
+	String effortResponseFile = "tasks/effort-task-create-response.json";
 
 	String taskRequestFile = "task-create-request.json";
 

@@ -162,7 +162,7 @@ public class PersistedProjectTest{
 		target = new PersistedProject(manager, "1");
 		target.updateAll();
 		
-		String q = "MATCH (n:TASK) return sum(n.PROGRESS * n.DURATION) / sum(n.DURATION) as total ";
+		String q = "MATCH (n:TASK) return sum(n.DEFAULT_PROGRESS * n.DURATION) / sum(n.DURATION) as total ";
 		Double expectedProgress = (Double) manager.runCypherQuery(q, null).columnAs("total").next();
 		Float f = Float.parseFloat(expectedProgress.toString());
 		assertEquals(f, target.getProgress());

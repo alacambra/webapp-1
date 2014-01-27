@@ -22,18 +22,20 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
+import poolingpeople.webapplication.business.task.boundary.AbstractBoundry;
 
 @Path("projects")
 @Stateless
 @Neo4jTransaction
 @CatchWebAppException
 @AuthValidator
-public class ProjectBoundary {
+public class ProjectBoundary extends AbstractBoundry{
 
 	@Inject
 	ObjectMapper mapper;
@@ -41,16 +43,16 @@ public class ProjectBoundary {
 	@Inject
 	EntityFactory entityFactory;
 
-	@Inject
+	@Inject 
 	DTOConverter dtoConverter;
 	
 
 	@GET
-	@Path("{id:[\\w\\d-]+}")
+	@Path(idPattern)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProjectById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writerWithView(ProjectMixin.class).writeValueAsString(
+		String r = mapper.writerWithView(JsonViews.Basic.class).writeValueAsString(
 				entityFactory.getProjectById(id));
 		return Response.ok().entity(r).build();
 	}
@@ -59,7 +61,11 @@ public class ProjectBoundary {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllProject() throws JsonGenerationException,
 			JsonMappingException, IOException {
-		String r = mapper.writeValueAsString(entityFactory.getAllProject());
+		
+		String r = 
+				mapper.writerWithView(JsonViews.FullProject.class)
+				.writeValueAsString(entityFactory.getAllProject());
+		
 		return Response.ok().entity(r).build();
 	}
 
@@ -74,7 +80,7 @@ public class ProjectBoundary {
 	}
 
 	@PUT
-	@Path("{id:[\\w\\d-]+}")
+	@Path(idPattern)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateProject(@PathParam("id") String uuid, String json)
@@ -87,7 +93,7 @@ public class ProjectBoundary {
 	}
 
 	@DELETE
-	@Path("{id:[\\w\\d-]+}")
+	@Path(idPattern)
 	public Response deleteProject(@PathParam("id") String uuid) {
 		entityFactory.deleteProject(uuid);
 		return Response.noContent().build();

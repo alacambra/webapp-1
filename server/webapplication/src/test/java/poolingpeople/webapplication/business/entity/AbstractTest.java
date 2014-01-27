@@ -266,6 +266,19 @@ public abstract class AbstractTest {
 			logger.info(m1.toString());
 			logger.info(m2.toString());
 			logger.info("Map size does not match.");
+			
+			for(Object k1 : m1.keySet()){
+				if (!m2.containsKey(k1)){
+					logger.info(k1 + " not found");
+				}
+			}
+			
+			for(Object k1 : m2.keySet()){
+				if (!m1.containsKey(k1)){
+					logger.info(k1 + " not found");
+				}
+			}
+			
 			return false;
 		}
 

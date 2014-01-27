@@ -192,11 +192,11 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public void addTask(Task task) {
 
-		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS_TASK_ASSIGNED)) {
+		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
 			throw new RelationAlreadyExistsException();
 		}
 
-		createRelationshipTo((PersistedModel<?>) task, Relations.HAS_TASK_ASSIGNED);
+		createRelationshipTo((PersistedModel<?>) task, Relations.PROJECT_HAS_TASK);
 
 //		Long startDate = task.getStartDate();
 //		Long endDate = task.getEndDate();
@@ -212,7 +212,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public void removeTask(Task task) {
-		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.HAS_TASK_ASSIGNED)) {
+		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
 			throw new RelationNotFoundException();
 		}
 
@@ -223,7 +223,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	@Override
 	public Collection<Task> getTasks() {
-		return getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class, Task.class);
+		return getRelatedNodes(Relations.PROJECT_HAS_TASK, PersistedTask.class, Task.class);
 	}
 	
 	@Override
@@ -240,11 +240,10 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	/**************** UPDATE METHODS *****************/
 	
 	private void calculateProgress() {
-		List<PersistedTask> tasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
 		Float totalProgress = (float) 0;
 		Integer totalEstimation = 0;
 
-		for(Task t : tasks) {
+		for(Task t : getTasks()) {
 			totalEstimation += t.getDuration();
 			totalProgress += t.getDuration() * t.getProgress();
 		}
@@ -298,18 +297,18 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 
 	}
 
-	private void updateDates(long startDate, long endDate) {
-		if (getStartDate() > startDate) {
-			setStartDate(startDate);
-			startDateChanged(startDate);
-		}
-
-		if (getEndDate() < endDate) {
-			setEndDate(endDate);
-			endDateChanged(endDate);
-		}
-
-	}
+//	private void updateDates(long startDate, long endDate) {
+//		if (getStartDate() > startDate) {
+//			setStartDate(startDate);
+//			startDateChanged(startDate);
+//		}
+//
+//		if (getEndDate() < endDate) {
+//			setEndDate(endDate);
+//			endDateChanged(endDate);
+//		}
+//
+//	}
 
 	@Override
 	public void updateAll() {
@@ -321,11 +320,23 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	/**************** PROPAGATION METHODS *****************/
 	
 	private void startDateChanged(Long startDate) {
-
+		
 	}
 
 	private void endDateChanged(Long endDate) {
-
+		
+	}
+	
+	private void durationChanged(Integer duration) {
+		
+	}
+	
+	private void progressChanged(Float progress){
+		
+	}
+	
+	private void effortChanged(Integer effort) {
+		
 	}
 
 
@@ -334,7 +345,7 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	private List<PersistedTask> getRelatedTasks(){
 
 //		if (relatedTasks == null){
-			relatedTasks = getRelatedNodes(Relations.HAS_TASK_ASSIGNED, PersistedTask.class);
+			relatedTasks = getRelatedNodes(Relations.PROJECT_HAS_TASK, PersistedTask.class);
 //		}
 
 		return relatedTasks;
@@ -345,6 +356,11 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	public boolean equals(Object obj) {
 		return obj instanceof PersistedProject
 				&& ((PersistedProject) obj).getNode().equals(underlyingNode);
+	}
+
+	@Override
+	public Integer getTaskCount() {
+		return getTasks().size();
 	}
 
 }

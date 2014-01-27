@@ -5,8 +5,10 @@ import java.util.Collection;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
@@ -16,7 +18,7 @@ import poolingpeople.webapplication.business.task.entity.Task;
 public class ProjectMixin implements Project{
 
 	@Override
-//	@JsonView(View.SampleView.class)
+	@JsonView(JsonViews.Shared.class)
 	public String getId() {
 		return null;
 	}
@@ -32,7 +34,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-//	@JsonView(View.NoSend.class)
+	@JsonView(JsonViews.Basic.class)
 	public String getTitle() {
 		return null;
 	}
@@ -42,6 +44,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
+	@JsonView(JsonViews.FullProject.class)
 	public String getDescription() {
 		return null;
 	}
@@ -52,112 +55,98 @@ public class ProjectMixin implements Project{
 
 
 	@Override
-//	@JsonProperty(value="startDate")
 	public void setDefaultStartDate(Long startDate) {
 	}
 
 	@Override
+	@JsonView(JsonViews.Basic.class)
 	public Long getEndDate() {
 		return null;
 	}
 
 	@Override
-//	@JsonProperty(value="endDate")
 	public void setDefaultEndDate(Long endDate) {
 
 	}
 
 	@Override
 	@JsonProperty(value="status")
+	@JsonView(JsonViews.FullProject.class)
 	public Integer getStatusInteger() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@JsonProperty(value="status")
 	public void setStatusInteger(Integer status) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
+	@JsonIgnore
 	public ProjectStatus getStatus() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setStatus(ProjectStatus status) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
+	@JsonView(JsonViews.Basic.class)
 	public Long getStartDate() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	@JsonIgnore
+	@JsonView(JsonViews.FullProjectWithElements.class)
 	public Collection<Task> getTasks() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public void removeTask(Task task) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void addTask(Task task) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	@JsonIgnore
+	@JsonView(JsonViews.FullProject.class)
 	public Integer getEffort() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateEffort() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void updateProgress() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
+	@JsonView(JsonViews.FullProject.class)
 	public Float getProgress() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateDates() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void updateAll() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setDefaultProgress(Float progress) {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	@JsonView(JsonViews.Basic.class)
+	public Integer getTaskCount() {
+		return null;
 	}
 }

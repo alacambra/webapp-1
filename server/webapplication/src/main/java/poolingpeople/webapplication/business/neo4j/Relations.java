@@ -65,11 +65,8 @@ public enum Relations implements RelationshipType {
 			{PoolingpeopleObjectType.POOL, Arrays.asList(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.PROJECT)}
 		})),
 	
-	/**
-	 * ASK: "HAS" is not clear enough. Should not be better IS_SUBPROJECT_OF/PARENT_OF and _TODO?
-	 * TODO: ATTENTION!!!
-	 */
-	HAS_TASK_ASSIGNED(PoolingpeopleObjectType.PROJECT,  PoolingpeopleObjectType.TASK),
+	PROJECT_HAS_TASK(PoolingpeopleObjectType.PROJECT,  PoolingpeopleObjectType.TASK),
+	HAS_SUBTASK(PoolingpeopleObjectType.TASK,  PoolingpeopleObjectType.TASK),
 	
 	HAS_SUBPROJECT(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.PROJECT),
 	
