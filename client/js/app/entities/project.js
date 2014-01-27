@@ -77,26 +77,31 @@ function(App, validation_helper) {
             },
 
             get_project_entity: function(project_id) {
-                var project_entity;
                 var defer = $.Deferred();
 
-                if (typeof project_id !== 'object') {
-                    project_entity = new Entities.Project({ id: project_id });
-
-                    if (project_id !== undefined) { // project id was set, load entity
-                        project_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no project id was set, return new instance
-                        defer.resolve(project_entity);
-                    }
-                } else { // given "project_id" is a model, return unchanged
+                if (_.isObject(project_id)) {
+                    // given project_id is a model, resolve unchanged project
                     defer.resolve(project_id);
+
+                } else if (_.isUndefined(project_id)) {
+                    // no project_id is set, create new project model
+                    var project = new Entities.Project();
+
+                    defer.resolve(project);
+
+                } else if (validation_helper.isValidId(project_id)) {
+                    // project_id is a valid id, fetch model from server and resolve response
+                    new Entities.Project({ id: project_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(model, response);
+                        }
+                    });
+
+                } else {
+                    defer.resolve(undefined);
                 }
 
                 return defer.promise();
