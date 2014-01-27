@@ -53,6 +53,14 @@ function(App, validation_helper) {
 
                 errors = validation_helper.validates_presence_of('title', attrs, errors);
 
+                errors = validation_helper.validates_inclusion_of('duration', attrs, errors, {
+                    in: { min: 0, max: 60 * 24 * 365 } // [1, 1 year]
+                });
+
+                errors = validation_helper.validates_inclusion_of('progress', attrs, errors, {
+                    in: { min: 0, max: 1 }
+                });
+
                 errors = validation_helper.validates_numericality_of('duration', attrs, errors, { allow_blank: true, only_integer: true });
                 errors = validation_helper.validates_numericality_of('progress', attrs, errors, { allow_blank: true });
 

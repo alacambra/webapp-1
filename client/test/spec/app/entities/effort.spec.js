@@ -49,7 +49,7 @@ function(App, Entities) {
                 effort.set('date', '');
                 expect(effort.validate(effort.attributes).date).toBeDefined();
 
-                effort.set('date', 0);
+                effort.set('date', null);
                 expect(effort.validate(effort.attributes).date).toBeDefined();
 
                 effort.set('date', -1767229201);
@@ -73,6 +73,9 @@ function(App, Entities) {
             });
 
             it('The time must be an integer', function() {
+                effort.set('time', null);
+                expect(effort.validate(effort.attributes).time).toBeDefined();
+
                 effort.set('time', 0);
                 expect(effort.validate(effort.attributes).time).toBeDefined();
 

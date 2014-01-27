@@ -37,10 +37,7 @@ function(App, moment, validation_helper) {
             validate: function(attrs, options) {
                 var errors = {};
 
-                errors = validation_helper.validates_numericality_of('time', attrs, errors, { only_integer: true });
-
-                errors = validation_helper.validates_exclusion_of('date', attrs, errors, { in: [0], message: I18n.t('errors.validation.empty') });
-                errors = validation_helper.validates_exclusion_of('time', attrs, errors, { in: [0], message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
+                errors = validation_helper.validates_presence_of('date', attrs, errors);
 
                 errors = validation_helper.validates_inclusion_of('date', attrs, errors, {
                     in: {
@@ -50,8 +47,10 @@ function(App, moment, validation_helper) {
                 });
 
                 errors = validation_helper.validates_inclusion_of('time', attrs, errors, {
-                    in: { min: 0, max: 60 * 24 * 365 } // [0, 1 year]
+                    in: { min: 1, max: 60 * 24 * 365 } // [1, 1 year]
                 });
+
+                errors = validation_helper.validates_numericality_of('time', attrs, errors, { only_integer: true });
 
                 return _.isEmpty(errors) ? false : errors;
             }
