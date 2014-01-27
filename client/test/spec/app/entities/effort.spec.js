@@ -1,8 +1,7 @@
 define(['app',
         'app/entities/effort'],
 function(App, Entities) {
-    return describe('Effort :: Entities', function() {
-
+    return describe('Entities :: Effort', function() {
         var effort = null,
             efforts = null;
 
@@ -12,67 +11,42 @@ function(App, Entities) {
         });
 
         describe('Model', function() {
-            it('Should have a urlRoot that contains \'tasks\' and \'efforts\'', function() {
+            it('must have a urlRoot that contains \'tasks\' and \'efforts\'', function() {
                 expect(effort.urlRoot()).toContain('tasks');
                 expect(effort.urlRoot()).toContain('effort');
             });
 
-            it('Check default attributes', function() {
+            it('must have default attributes', function() {
                 expect(effort.task_id).toBeDefined();
                 expect(effort.get('date')).toBeNull();
                 expect(effort.get('time')).toBeNull();
                 expect(effort.get('comment')).toBeNull();
             });
 
-            it('Default Effort Model should always return an error object on validate', function() {
-                expect(effort.validate(effort.attributes)).toBeDefined();
-            });
+            describe('Validation', function () {
+                it('must fail with default attributes', function() {
+                    expect(effort.validate(effort.attributes)).toBeDefined();
+                });
 
-            it('The date of has to be an integer and not empty and between +/- 100 years from now', function() {
-                effort.set('date', '');
-                expect(effort.validate(effort.attributes).date).toBeDefined();
+                describe('date', function () {
+                    it('may be empty', function () {
+                        effort.set('date', null);
+                        expect(effort.validate(effort.attributes).date).toBeUndefined();
+                    });
+                });
 
-                effort.set('date', 0);
-                expect(effort.validate(effort.attributes).date).toBeDefined();
+                describe('time', function () {
+                    it('must be greater then 0', function () {
+                        effort.set('time', 0);
+                        expect(effort.validate(effort.attributes).time).toBeDefined();
 
-                effort.set('date', -1767229201);
-                expect(effort.validate(effort.attributes).date).toBeDefined();
+                        effort.set('time', -1);
+                        expect(effort.validate(effort.attributes).time).toBeDefined();
 
-                effort.set('date', 7258118400);
-                expect(effort.validate(effort.attributes).date).toBeDefined();
-
-
-                effort.set('date', 1);
-                expect(effort.validate(effort.attributes).date).toBeUndefined();
-
-                effort.set('date', -1);
-                expect(effort.validate(effort.attributes).date).toBeUndefined();
-
-                effort.set('date', -1767229200);
-                expect(effort.validate(effort.attributes).date).toBeUndefined();
-
-                effort.set('date', 2524608000);
-                expect(effort.validate(effort.attributes).date).toBeUndefined();
-            });
-
-            it('The time must be an integer', function() {
-                effort.set('time', 0);
-                expect(effort.validate(effort.attributes).time).toBeDefined();
-
-                effort.set('time', -1);
-                expect(effort.validate(effort.attributes).time).toBeDefined();
-
-                effort.set('time', -100);
-                expect(effort.validate(effort.attributes).time).toBeDefined();
-
-                effort.set('time', 1);
-                expect(effort.validate(effort.attributes).time).toBeUndefined();
-
-                effort.set('time', 120);
-                expect(effort.validate(effort.attributes).time).toBeUndefined();
-
-                effort.set('time', 60 * 24 * 365);
-                expect(effort.validate(effort.attributes).time).toBeUndefined();
+                        effort.set('time', 1);
+                        expect(effort.validate(effort.attributes).time).toBeUndefined();
+                    });
+                });
 
             });
         });
@@ -151,7 +125,7 @@ function(App, Entities) {
                 });
             });
 
-            it('Should return effort with specified id and task id', function (response) {
+            it('Should return effort with specified id and task id', function () {
                 var response = null;
                 var effort_id = 1;
                 var task_id = 2;

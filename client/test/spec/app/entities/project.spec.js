@@ -1,7 +1,7 @@
 define(['app',
         'app/entities/project'],
 function(App, Entities) {
-    return describe('Project :: Entities', function() {
+    return describe('Entities :: Project', function() {
         var project = null,
             projects = null;
 
