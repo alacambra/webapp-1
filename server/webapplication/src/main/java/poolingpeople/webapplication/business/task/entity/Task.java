@@ -77,6 +77,14 @@ public interface Task{
 
 	void updateAll();
 
+	void updateDuration();
+
+	void updateEfforts();
+
+	void addSubtask(Task child);
+
+	void removeSubtask(Task child);
+
 	
 }
 

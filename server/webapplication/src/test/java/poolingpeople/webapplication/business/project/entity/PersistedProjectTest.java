@@ -11,6 +11,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
@@ -105,7 +106,7 @@ public class PersistedProjectTest{
 		Task t1 = new PersistedTask(manager, "2");
 		target.addTask(t1);
 
-		String q = "MATCH (n:TASK) return sum(n.PROGRESS * n.DURATION) / sum(n.DURATION) as total ";
+		String q = "MATCH (n:TASK) return sum(n.DEFAULT_PROGRESS * n.DEFAULT_DURATION) / sum(n.DEFAULT_DURATION) as total ";
 		Double expectedProgress = (Double) manager.runCypherQuery(q, null).columnAs("total").next();
 
 		Float f = Float.parseFloat(expectedProgress.toString());
@@ -162,7 +163,7 @@ public class PersistedProjectTest{
 		target = new PersistedProject(manager, "1");
 		target.updateAll();
 		
-		String q = "MATCH (n:TASK) return sum(n.DEFAULT_PROGRESS * n.DURATION) / sum(n.DURATION) as total ";
+		String q = "MATCH (n:TASK) return sum(n.DEFAULT_PROGRESS * n.DEFAULT_DURATION) / sum(n.DEFAULT_DURATION) as total ";
 		Double expectedProgress = (Double) manager.runCypherQuery(q, null).columnAs("total").next();
 		Float f = Float.parseFloat(expectedProgress.toString());
 		assertEquals(f, target.getProgress());
@@ -175,7 +176,8 @@ public class PersistedProjectTest{
 		
 		Task t2 = new PersistedTask(manager, "3");
 		target.removeTask(t2);
-		assertNull(target.getProgress());
+		f = new Float(2.5);
+		assertEquals(f, target.getProgress());
 	}
 
 	@Test

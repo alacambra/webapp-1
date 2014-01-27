@@ -197,4 +197,28 @@ public class TaskMixin implements Task{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void updateDuration() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEfforts() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addSubtask(Task child) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeSubtask(Task child){
+		// TODO Auto-generated method stub
+		
+	}
 }

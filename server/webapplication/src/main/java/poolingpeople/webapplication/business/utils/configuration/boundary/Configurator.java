@@ -15,7 +15,6 @@ public class Configurator {
     private final String notFoundMessage = "There is no value associated with the given key";
 
     /*
-     * @todo for qaiser: What???
      * --- Will be called via PostConstruct invocation from the bean container" ---
      */
     @SuppressWarnings({"serial" })

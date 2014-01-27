@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
@@ -121,7 +123,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public Integer getDuration() {
-		
+
 		Integer duration = getIntegerProperty(NodePropertyName.DURATION);
 		return getDurationIsDefault() ? getDefaultDuration() : duration;
 	}
@@ -129,12 +131,12 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	private void setDuration(Integer duration) {
 		setProperty(NodePropertyName.DURATION, new Integer(duration));
 	}
-	
+
 	@Override
 	public void setDefaultDuration(Integer progress) {
 		setProperty(NodePropertyName.DEFAULT_DURATION, progress);
 	}
-	
+
 	private void setEffort(Integer totalEffort) {
 		setProperty(NodePropertyName.EFFORT, totalEffort);
 	}
@@ -201,11 +203,11 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	private Long getDefaultEndDate() {
 		return getLongProperty(NodePropertyName.DEFAULT_END_DATE);
 	}
-	
+
 	private Integer getDefaultDuration() {
 		return getIntegerProperty(NodePropertyName.DEFAULT_DURATION);
 	}
-	
+
 	@Override
 	public Float getProgress() {
 		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
@@ -247,15 +249,29 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	public boolean getDurationIsDefult(){
 		return getSubtasks().size() == 0;
 	}
-	
+
 	private boolean getDurationIsDefault() {
 		return getSubtasks().size() == 0;
 	}
 
 	/**************** RELATIONAL METHODS *****************/
 
-	public void addSubproject(PersistedModel<?> child) {
-		createRelationTo(Relations.IS_SUBPROJECT_OF, child, true);
+	@Override
+	public void addSubtask(Task child) {
+		createRelationTo(Relations.HAS_SUBTASK, (PersistedModel<?>) child, true);
+		setEffort(child.getEffort() + getEffort());
+	}
+	/*
+	 * @todo: what happens with the subtasks? 
+	 */
+	@Override
+	public void removeSubtask(Task child){
+		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) child).getNode(), Relations.HAS_SUBTASK)) {
+			throw new RelationNotFoundException();
+		}
+
+		manager.removeNode(((PersistedModel<?>) child).getNode());
+		updateAll();
 	}
 
 	@Override
@@ -301,21 +317,40 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	/**************** UPDATE METHODS *****************/
 
-	private void calculateProgress() {
+	private void calculateProgressAndDuration() {
+
+		Float oldProgress = getProgress();
+		Integer oldDuratation = getDuration();
+
 		Float totalProgress = (float) 0;
-		Integer totalEstimation = 0;
+		Integer totalDuration = 0;
 
 		for(Task t : getSubtasks()) {
-			totalEstimation += t.getDuration();
+			totalDuration += t.getDuration();
 			totalProgress += t.getDuration() * t.getProgress();
 		}
+		
+		totalProgress = totalDuration > 0 ? totalProgress / totalDuration : 0;
 
-		setProgress(totalEstimation > 0 ? totalProgress / totalEstimation : -1);
+		if (totalDuration != oldDuratation){
+			setDuration(totalDuration);
+			durationChanged(totalDuration);
+		}
+		
+		if ( oldProgress != totalProgress ){
+			setProgress(totalProgress);
+			progressChanged(totalProgress);
+		}
 	}
 
 	@Override
 	public void updateProgress() {
-		calculateProgress();
+		calculateProgressAndDuration();
+	}
+
+	@Override
+	public void updateDuration() {
+		calculateProgressAndDuration();
 	}
 
 	@Override
@@ -352,18 +387,27 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		updateEfforts();
 		updateDates();
 		updateProgress();
+
+		//In this case is the same as updateProgress(); 
+		//updateDuration();
 	}
 
-
+	@Override
 	public void updateEfforts() {
+
 		Collection<Effort> efforts = getEfforts();
+
+		int oldEffort = getEffort();
 		int totalEffort = 0;
 
 		for (Effort effort : efforts) {
 			totalEffort +=effort.getTime();
 		}
 
-		setEffort(totalEffort);
+		if (oldEffort != totalEffort) {
+			setEffort(totalEffort);
+			effortChanged(totalEffort);
+		}
 	}
 
 	@Override
@@ -374,31 +418,37 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		}
 
 		Project p = getProject();
+		Task t = getParent();
+		
 		if( p != null ){
 			p.removeTask(this);
+		} else if (t != null) {
+			t.removeSubtask(t);
 		}
+
+
 	}
 
 	/**************** PROPAGATION METHODS *****************/
 
 	private void startDateChanged(Long startDate) {
-
+		getParent().updateDates();
 	}
 
 	private void endDateChanged(Long endDate) {
-
+		getParent().updateDates();
 	}
 
 	private void durationChanged(Integer duration) {
-
+		getParent().updateDuration();
 	}
 
 	private void progressChanged(Float progress){
-
+		getParent().updateProgress();
 	}
 
 	private void effortChanged(Integer effort) {
-
+		getParent().updateEfforts();
 	}
 
 
@@ -415,6 +465,17 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	public boolean equals(Object obj) {
 		return obj instanceof PersistedTask
 				&& ((PersistedTask) obj).getNode().equals(underlyingNode);
+	}
+
+	public Task getParent() {
+		
+		Task parent = getRelatedNode(Relations.HAS_SUBTASK, PersistedTask.class, Direction.INCOMING);
+		
+		if ( parent.equals(this) ){
+			throw new RootApplicationException("Parent and child can not be the same");
+		}
+		
+		return parent;
 	}
 
 }

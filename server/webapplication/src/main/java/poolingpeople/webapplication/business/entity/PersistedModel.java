@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
@@ -154,7 +155,7 @@ public abstract class PersistedModel<T>{
 	protected Integer getIntegerProperty(NodePropertyName property) {
 		return manager.getIntegerProperty(underlyingNode, property.name());
 	}
-	
+
 	protected Float getFloatProperty(NodePropertyName property) {
 		return manager.getFloatProperty(underlyingNode, property.name());
 	}
@@ -187,6 +188,18 @@ public abstract class PersistedModel<T>{
 		onDelete();
 	}
 
+	protected <P extends PersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz) {
+
+		return manager.wrapNodeInPersistenceWrapper(manager.getRelatedNode(underlyingNode, relation), clazz);
+
+	}
+
+	protected <P extends PersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz, Direction direction) {
+
+		return manager.wrapNodeInPersistenceWrapper(manager.getRelatedNode(underlyingNode, relation, direction), clazz);
+
+	}
+
 	protected <P> List<P> getRelatedNodes(Relations relation, Class<P> clazz){
 		ArrayList<P> list = new ArrayList<>();
 		return (List<P>) manager.getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation), list, clazz);
@@ -199,7 +212,7 @@ public abstract class PersistedModel<T>{
 				implementationClass, 
 				interfaceClass);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return underlyingNode.hashCode();

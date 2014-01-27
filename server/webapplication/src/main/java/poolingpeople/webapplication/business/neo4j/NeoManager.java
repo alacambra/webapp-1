@@ -30,6 +30,7 @@ import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.impl.util.StringLogger;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
+import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
@@ -373,6 +374,17 @@ public class NeoManager {
 		} catch (org.neo4j.graphdb.NotFoundException e) {
 			logger.error("property not found", e);
 			return 0L;
+		}
+	}
+	
+	public <T extends PersistedModel<?>> T wrapNodeInPersistenceWrapper(Node n, Class<T> clazz) {
+		try {
+
+			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
+			return (c.newInstance(this, n));
+
+		} catch (Exception e) {
+			throw new RootApplicationException(e);
 		}
 	}
 
