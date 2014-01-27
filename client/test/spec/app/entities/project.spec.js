@@ -3,28 +3,11 @@ define(['app',
 function(App, Entities) {
     return describe('Project :: Entities', function() {
         var project = null,
-            projects = null,
-            temp_project_fetch = null,
-            temp_projects_fetch = null;
+            projects = null;
 
         beforeEach(function() {
             project = new Entities.Project({ id: 2 });
             projects = new Entities.ProjectCollection();
-
-            temp_project_fetch = Entities.Project.prototype.fetch;
-            Entities.Project.prototype.fetch = function (options) {
-                options.success(project, null);
-            };
-
-            temp_projects_fetch = Entities.ProjectCollection.prototype.fetch;
-            Entities.ProjectCollection.prototype.fetch = function (options) {
-                options.success(projects, null);
-            }
-        });
-
-        afterEach(function () {
-            Entities.Project.prototype.fetch = temp_project_fetch;
-            Entities.ProjectCollection.prototype.fetch = temp_projects_fetch;
         });
 
         describe('Model', function() {
@@ -119,35 +102,86 @@ function(App, Entities) {
 
         describe('API', function () {
             it('Should return specified list of projects', function () {
+                var response = null;
+                var projects = new Entities.ProjectCollection();
+
+                spyOn(Entities.ProjectCollection.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(projects);
+                });
+
                 runs(function () {
-                    $.when(App.request('project:entities')).done(function (response) {
-                        expect(response).toBe(projects);
+                    $.when(App.request('project:entities')).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'project:entities\' with no parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(projects);
                 });
             });
 
             it('Should return a new project', function () {
+                var response = null;
+
                 runs(function () {
-                    $.when(App.request('project:entity')).done(function (response) {
-                        expect(response.get('id')).toBe(null);
+                    $.when(App.request('project:entity')).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'project:entity\' with no parameter', 100);
+
+                runs(function () {
+                    expect(response.get('id')).toBe(null);
                 });
             });
 
             it('Should return specified project', function () {
+                var response = null;
+                var project = new Entities.Project({ id: 1 });
+
                 runs(function () {
-                    $.when(App.request('project:entity', project)).done(function (response) {
-                        expect(response).toBe(project);
+                    $.when(App.request('project:entity', project)).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'project:entity\' with specified project as parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(project);
                 });
             });
 
             it('Should return project with specified project id', function () {
+                var response = null;
+                var id = 1;
+                var project = new Entities.Project({ id: id });
+
+                spyOn(Entities.Project.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(project);
+                });
+
                 runs(function () {
-                    var id = project.get('id');
-                    $.when(App.request('project:entity', id)).done(function (response) {
-                        expect(response.get('id')).toBe(id);
+                    $.when(App.request('project:entity', id)).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'project:entity\' with id as parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(project);
                 });
             });
         });
