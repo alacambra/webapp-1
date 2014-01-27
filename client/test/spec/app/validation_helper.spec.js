@@ -13,6 +13,10 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_numericality_of('amount', { amount: 1.2 }, {}, { only_integer: true }).amount).toBeDefined();
             });
 
+            it('must optionally conditionally skip validation', function () {
+                expect(validation_helper.validates_numericality_of('amount', { amount: '' }, {}, { if: (1 === 2) }).amount).toBeUndefined();
+            });
+
             it('must optionally allow blank values', function () {
                 expect(validation_helper.validates_numericality_of('amount', { amount: '' }, {}, { allow_blank: true }).amount).toBeUndefined();
             });
