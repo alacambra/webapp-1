@@ -21,9 +21,6 @@ public class TaskBoundaryTest extends AbstractTest{
 	@Inject
 	TaskBoundary target;
 	
-	String taskRequestFile = "tasks/task-create-request.json";
-	String taskResponseFile = "tasks/task-create-response.json";
-
 	@Before
 	public void setUp() {
 	}
@@ -63,12 +60,12 @@ public class TaskBoundaryTest extends AbstractTest{
 	@Test
 	public void testSaveTask() throws Exception {
 
-		Map<String,String> expectedTaskdata = convertJsonFileToMap(taskResponseFile);
+		Map<String,String> expected = convertJsonFileToMap(taskResponseFile);
 		Response response = target.saveTask(FileLoader.getText(jsonModelsPath +taskRequestFile));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
 		Map<String,String> actual = convertJsonToMap((String) response.getEntity());
-		expectedTaskdata.put("id", actual.get("id"));
-		assertTrue(mapsAreEquals(expectedTaskdata, actual));
+		expected.put("id", actual.get("id"));
+		assertTrue(mapsAreEquals(expected, actual));
 
 	}
 
@@ -76,13 +73,13 @@ public class TaskBoundaryTest extends AbstractTest{
 	public void testUpdateTask() throws Exception {
 
 		String title = "title under test";
-		Map<String,String> createdTaskdata = insertTaskFromFile(taskRequestFile);
-		createdTaskdata.put("title", title);
-		String json = convertMapToJson(createdTaskdata);
-		Response r = target.updateTask(createdTaskdata.get("id"), json);
+		Map<String,String> expected = insertTaskFromFile(taskRequestFile);
+		expected.put("title", title);
+		String json = convertMapToJson(expected);
+		Response r = target.updateTask(expected.get("id"), json);
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
-		Map<String,String> receivedTaskdata = convertJsonToMap((String)r.getEntity());
-		assertTrue(mapsAreEquals(receivedTaskdata, createdTaskdata));
+		Map<String,String> actual = convertJsonToMap((String)r.getEntity());
+		assertTrue(mapsAreEquals(expected, actual));
 
 	}
 

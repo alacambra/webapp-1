@@ -19,9 +19,6 @@ import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
 public class UserBoundaryTest extends AbstractTest{
 
-	String userRequestFile = "user-create-request.json";
-	String userResponseFile = "user-create-response.json";
-	
 	@Inject
 	UserBoundary target;
 	
@@ -62,12 +59,12 @@ public class UserBoundaryTest extends AbstractTest{
 
 	@Test
 	public void testUpdateUser() throws JsonGenerationException, JsonMappingException, IOException{
-		Map<String,Object> createdUser = insertUserFromFile(userRequestFile);
-		String json = convertMapToJson(createdUser);
-		Response r = target.updateUser((String) createdUser.get("id"), json);
+		Map<String,Object> expected = insertUserFromFile(userRequestFile);
+		String json = convertMapToJson(expected);
+		Response r = target.updateUser((String) expected.get("id"), json);
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
-		Map<String,Object> receivedUser = convertJsonToMap((String)r.getEntity());
-		assertTrue(mapsAreEquals(receivedUser, createdUser));
+		Map<String,Object> actual = convertJsonToMap((String)r.getEntity());
+		assertTrue(mapsAreEquals(expected, actual));
 	}
 
 	@Test
@@ -77,7 +74,7 @@ public class UserBoundaryTest extends AbstractTest{
 		Response r = target.updateUser((String) createdUser.get("id"), json);
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
 		Map<String,Object> receivedUser = convertJsonToMap((String)r.getEntity());
-		assertTrue(mapsAreEquals(receivedUser, createdUser));
+		assertTrue(mapsAreEquals(createdUser, receivedUser));
 	}
 
 }

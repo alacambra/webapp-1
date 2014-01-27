@@ -45,7 +45,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public void setTitle(String title) {
-		manager.setProperty(underlyingNode, NodePropertyName.TITLE.name(),
+		setProperty(NodePropertyName.TITLE,
 				title);
 	}
 
@@ -57,8 +57,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public void setDescription(String description) {
-		manager.setProperty(underlyingNode,
-				NodePropertyName.DESCRIPTION.name(), description);
+		setProperty(NodePropertyName.DESCRIPTION, description);
 	}
 
 	@Override
@@ -76,8 +75,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public void setPriority(TaskPriority priority) {
-		manager.setProperty(underlyingNode,
-				NodePropertyName.PRIORITY.name(), priority.name());
+		setProperty(NodePropertyName.PRIORITY, priority.name());
 	}
 
 	@Override
@@ -95,7 +93,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public void setStatus(TaskStatus status) {
-		manager.setProperty(underlyingNode, NodePropertyName.STATUS.name(),
+		setProperty(NodePropertyName.STATUS,
 				status.name());
 	}
 
@@ -123,18 +121,22 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 	@Override
 	public Integer getDuration() {
-		return manager.getIntegerProperty(underlyingNode,
-				NodePropertyName.DURATION.name());
+		
+		Integer duration = getIntegerProperty(NodePropertyName.DURATION);
+		return getDurationIsDefault() ? getDefaultDuration() : duration;
 	}
 
+	private void setDuration(Integer duration) {
+		setProperty(NodePropertyName.DURATION, new Integer(duration));
+	}
+	
 	@Override
-	public void setDuration(Integer duration) {
-		manager.setProperty(underlyingNode,
-				NodePropertyName.DURATION.name(), new Integer(duration));
+	public void setDefaultDuration(Integer progress) {
+		setProperty(NodePropertyName.DEFAULT_DURATION, progress);
 	}
-
+	
 	private void setEffort(Integer totalEffort) {
-		manager.setProperty(underlyingNode, NodePropertyName.EFFORT.name(), totalEffort);
+		setProperty(NodePropertyName.EFFORT, totalEffort);
 	}
 
 	@Override
@@ -199,7 +201,11 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	private Long getDefaultEndDate() {
 		return getLongProperty(NodePropertyName.DEFAULT_END_DATE);
 	}
-
+	
+	private Integer getDefaultDuration() {
+		return getIntegerProperty(NodePropertyName.DEFAULT_DURATION);
+	}
+	
 	@Override
 	public Float getProgress() {
 		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
@@ -241,6 +247,10 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	public boolean getDurationIsDefult(){
 		return getSubtasks().size() == 0;
 	}
+	
+	private boolean getDurationIsDefault() {
+		return getSubtasks().size() == 0;
+	}
 
 	/**************** RELATIONAL METHODS *****************/
 
@@ -253,7 +263,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 		Integer totalEffort = getEffort() + effort.getTime();
 		setEffort(totalEffort);
-		createRelationTo(Relations.HAS_EFFORT, (PersistedModel) effort, true);
+		createRelationTo(Relations.HAS_EFFORT, (PersistedModel<?>) effort, true);
 
 	}
 
@@ -268,14 +278,14 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public void deleteEffort(Effort effort) {
 
-		if (!manager.relationExists(underlyingNode, ((PersistedModel) effort).getNode(), Relations.HAS_EFFORT)) {
+		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) effort).getNode(), Relations.HAS_EFFORT)) {
 			throw new RelationNotFoundException();
 		}
 
 		Integer totalEffort = getEffort() - effort.getTime();
 		setEffort(totalEffort);
 
-		manager.removeNode(((PersistedModel) effort).getNode());
+		manager.removeNode(((PersistedModel<?>) effort).getNode());
 	}
 
 	public Project getProject() {

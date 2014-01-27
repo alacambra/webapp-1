@@ -130,7 +130,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	public void setDuration(Integer duration) {
+	public void setDefaultDuration(Integer duration) {
 		
 	}
 

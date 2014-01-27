@@ -50,7 +50,7 @@ public interface Task{
 	 * @return
 	 */
 	Integer getDuration();
-	void setDuration(Integer duration); 
+	void setDefaultDuration(Integer progress); 
 	
 	/**
 	 * Number of ours used to develop some aspect of the task
@@ -76,6 +76,7 @@ public interface Task{
 	void updateDates();
 
 	void updateAll();
+
 	
 }
 

@@ -100,7 +100,6 @@ public class ProjectMixin implements Project{
 	@Override
 	@JsonView(JsonViews.FullProjectWithElements.class)
 	public Collection<Task> getTasks() {
-		
 		return null;
 	}
 

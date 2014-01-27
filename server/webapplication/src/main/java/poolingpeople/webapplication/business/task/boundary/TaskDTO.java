@@ -122,7 +122,7 @@ public class TaskDTO implements Task {
 	}
 
 	@Override
-	public void setDuration(Integer duration) {
+	public void setDefaultDuration(Integer duration) {
 		this.duration = duration;
 	}
 

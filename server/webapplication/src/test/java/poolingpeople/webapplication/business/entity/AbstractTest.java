@@ -50,7 +50,16 @@ public abstract class AbstractTest {
 	protected RestObjectsHelper restObjectsHelper;
 	
 	protected ObjectMapper mapper = new ObjectMapper();
-
+	
+	protected String taskRequestFile = "tasks/task-create-request.json";
+	protected String taskResponseFile = "tasks/task-create-response.json";
+	protected String projectRequestFile = "projects/project-create-request.json";
+	protected String projectResponseFile = "projects/project-create-response.json";
+	protected String userRequestFile = "users/user-create-request.json";
+    protected String userResponseFile = "users/user-create-response.json";
+    protected String effortRequestFile = "tasks/effort-task-create-request.json";
+	protected String effortResponseFile = "tasks/effort-task-create-response.json";
+	
 	/*
 	 * From hier is helepr. New struct test
 	 */
@@ -176,7 +185,7 @@ public abstract class AbstractTest {
 	}
 
 	protected <K,V> EffortWithTaskContainer<K,V> insertEffortFromJson(String json) {
-		Map<String,String> task = insertTaskFromFile("task-create-request.json");
+		Map<String,String> task = insertTaskFromFile(taskRequestFile);
 		return insertEffortFromJson(json, task);
 	}
 
@@ -196,12 +205,16 @@ public abstract class AbstractTest {
 		return convertJsonToMap(json);
 	}
 
-	protected List<Map<String, Object>> createProjectListFromProjectFile(String projectRequestFile, int num) {
+	protected List<Map<String, Object>> createProjectListFromProjectFile(String projectRequestFile, String projectResponseFile, int num) {
 		List<Map<String, Object>> projects = new ArrayList<Map<String, Object>>();
 
+		String json = FileLoader.getText(jsonModelsPath + projectResponseFile);
+		
 		for (int i = 0; i<num; i++ ) {
-			Map<String, Object> created = insertProjectFromFile(projectRequestFile);
-			projects.add(created);
+			Map<String, Object> project = convertJsonToMap(json);
+			Map<String, Object> created = insertProjectFromJson(json);
+			project.put("id", created.get("id"));
+			projects.add(project);
 		}
 
 		return projects;
@@ -260,31 +273,31 @@ public abstract class AbstractTest {
 	}
 
 
-	protected <K,V> boolean mapsAreEquals(Map<K,V> m1, Map<K,V> m2) {
+	protected <K,V> boolean mapsAreEquals(Map<K,V> expected, Map<K,V> actual) {
 
-		if ( m1.size() != m2.size()) {
-			logger.info(m1.toString());
-			logger.info(m2.toString());
+		if ( expected.size() != actual.size()) {
+			logger.info(expected.toString());
+			logger.info(actual.toString());
 			logger.info("Map size does not match.");
 			
-			for(Object k1 : m1.keySet()){
-				if (!m2.containsKey(k1)){
-					logger.info(k1 + " not found");
+			for(Object k1 : expected.keySet()){
+				if (!actual.containsKey(k1)){
+					logger.info(k1 + " not found in actual");
 				}
 			}
 			
-			for(Object k1 : m2.keySet()){
-				if (!m1.containsKey(k1)){
-					logger.info(k1 + " not found");
+			for(Object k1 : actual.keySet()){
+				if (!expected.containsKey(k1)){
+					logger.info(k1 + " not found in expected");
 				}
 			}
 			
 			return false;
 		}
 
-		for(Object k1 : m1.keySet()) {
-			if (!m2.containsKey(k1) || !m1.get(k1).equals(m2.get(k1))){
-				logger.info("Value for key " + k1 + " does not match. " + m1.get(k1) + " --- " + m2.get(k1));
+		for(Object k1 : expected.keySet()) {
+			if (!actual.containsKey(k1) || !expected.get(k1).equals(actual.get(k1))){
+				logger.info("Value for key " + k1 + " does not match. Expected:" + expected.get(k1) + " --- Actual: " + actual.get(k1));
 				return false;
 			}
 		}
@@ -292,16 +305,16 @@ public abstract class AbstractTest {
 		return true;
 	}
 
-	protected <K,V> boolean mapsListAreEquals(List<Map<K,V>> l1, List<Map<K,V>> l2) {
+	protected <K,V> boolean mapsListAreEquals(List<Map<K,V>> expected, List<Map<K,V>> actual) {
 
-		if (l1.size() != l2.size()) {
+		if (expected.size() != actual.size()) {
 			return false;
 		}
 
 		int success = 0;
 
-		for(Map<K,V> m1 : l1) {
-			for(Map<K,V> m2 : l2) {
+		for(Map<K,V> m1 : expected) {
+			for(Map<K,V> m2 : actual) {
 				if(mapsAreEquals(m1, m2)){
 					success++;
 					break;
@@ -309,7 +322,7 @@ public abstract class AbstractTest {
 			}
 		}
 
-		return success == l1.size();
+		return success == expected.size();
 	}
 
 }

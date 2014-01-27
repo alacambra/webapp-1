@@ -52,7 +52,7 @@ public class ProjectBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProjectById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writerWithView(JsonViews.Basic.class).writeValueAsString(
+		String r = mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(
 				entityFactory.getProjectById(id));
 		return Response.ok().entity(r).build();
 	}
@@ -76,20 +76,19 @@ public class ProjectBoundary extends AbstractBoundry{
 			JsonMappingException, IOException {
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
 		Project Project = entityFactory.createProject(dtoProject);
-		return Response.ok().entity(mapper.writeValueAsString(Project)).build();
+		return Response.ok().entity(mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(Project)).build();
 	}
 
 	@PUT
 	@Path(idPattern)
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateProject(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		Project Project = dtoConverter.fromDTOtoPersitedBean(dtoProject,
+		dtoConverter.fromDTOtoPersitedBean(dtoProject,
 				entityFactory.getProjectById(uuid));
-		String r = mapper.writeValueAsString(Project);
-		return Response.ok().entity(r).build();
+		
+		return Response.noContent().build();
 	}
 
 	@DELETE
