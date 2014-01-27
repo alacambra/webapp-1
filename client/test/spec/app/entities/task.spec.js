@@ -5,28 +5,11 @@ function (App, Entities) {
     return describe('Task :: Entities', function () {
 
         var task = null,
-            tasks = null,
-            temp_task_fetch = null,
-            temp_tasks_fetch = null;
+            tasks = null;
 
         beforeEach(function () {
             task = new Entities.Task({ id: 22 });
             tasks = new Entities.TaskCollection([ task ]);
-
-            temp_task_fetch = Entities.Task.prototype.fetch;
-            Entities.Task.prototype.fetch = function (options) {
-                options.success(task);
-            };
-
-            temp_tasks_fetch = Entities.TaskCollection.prototype.fetch;
-            Entities.TaskCollection.prototype.fetch = function (options) {
-                options.success(tasks);
-            };
-        });
-
-        afterEach(function () {
-            Entities.Task.prototype.fetch = temp_task_fetch;
-            Entities.TaskCollection.prototype.fetch = temp_tasks_fetch;
         });
 
         describe('Model', function () {
@@ -117,67 +100,142 @@ function (App, Entities) {
 
         describe('API', function () {
             it('Should return specified list of tasks', function () {
+                var response = null;
+                var tasks = new Entities.TaskCollection();
+
+                spyOn(Entities.TaskCollection.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(tasks);
+                });
+
                 runs(function () {
-                    $.when(App.request('task:entities')).done(function (response) {
-                        expect(response).toBe(tasks);
+                    $.when(App.request('task:entities')).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response if \'task:entities\' with no parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(tasks);
                 });
             });
 
             it('Should return specified list of subtasks', function () {
+                var response = null;
+                var task = new Entities.Task({ id: 1 });
+
+                spyOn(Entities.TaskCollection.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(task.subtasks);
+                });
+
                 runs(function () {
-                    var tasks_with_subtasks = new Entities.Task({}, {
-                        subtasks: [ {}, {}, {}, {}, {} ]
+                    $.when(App.request('task:entities', task)).done(function (_response) {
+                        response = _response;
                     });
+                });
 
-                    Entities.TaskCollection.prototype.fetch = function (options) {
-                        options.success(tasks_with_subtasks.subtasks);
-                    };
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'task:entities\' with a task that has subtasks as parameter', 100);
 
-                    $.when(App.request('task:entities', tasks_with_subtasks)).done(function (response) {
-                        expect(response).toBe(tasks_with_subtasks.subtasks);
-                    });
+                runs(function () {
+                    expect(response).toBe(task.subtasks);
+                    expect(task.subtasks.url).toMatch('/tasks/1/subtasks');
                 });
             });
 
             it('Should return specified list of project tasks', function () {
+                var response = null;
+                var project = new Entities.Project({ id: 1 });
+
+                spyOn(Entities.TaskCollection.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(project.tasks);
+                });
+
                 runs(function () {
-                    var project_with_tasks = new Entities.Project({}, {
-                        tasks: [ {}, {}, {}, {} ]
+                    $.when(App.request('task:entities', project)).done(function (_response) {
+                        response = _response;
                     });
+                });
 
-                    Entities.TaskCollection.prototype.fetch = function (options) {
-                        options.success(project_with_tasks.tasks);
-                    };
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'task:entities\' with a project that has tasks as parameter', 100);
 
-                    $.when(App.request('task:entities', project_with_tasks)).done(function (response) {
-                        expect(response.length).toBe(project_with_tasks.tasks.length);
-                    });
+                runs(function () {
+                    expect(response).toBe(project.tasks);
+                    expect(project.tasks.url).toMatch('/projects/1/tasks');
                 });
             });
 
             it('Should return a new task', function () {
+                var response = null;
+
+                spyOn(Entities.Task.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(new Entities.Task());
+                });
+
                 runs(function () {
-                    $.when(App.request('task:entity')).done(function (response) {
-                        expect(response.get('id')).toBe(null);
+                    $.when(App.request('task:entity')).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'task:entity\' with no parameter', 100);
+
+                runs(function () {
+                    expect(response.get('id')).toBe(null);
                 });
             });
 
             it('Should return specified task', function () {
+                var response = null;
+                var task = new Entities.Task({ id: 1 });
+
+                spyOn(Entities.Task.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(task);
+                });
+
                 runs(function () {
-                    $.when(App.request('task:entity', task)).done(function (response) {
-                        expect(response).toBe(task);
+                    $.when(App.request('task:entity', task)).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'task:entity\' with specified task as parameter', 100);
+
+                runs(function () {
+                    expect(response).toBe(task);
                 });
             });
 
             it('Should return a task with specified id', function () {
+                var response = null;
+                var id = 1;
+                var task = new Entities.Task({ id: id });
+
+                spyOn(Entities.Task.prototype, 'fetch').andCallFake(function (options) {
+                    options.success(task);
+                });
+
                 runs(function () {
-                    var id = task.get('id');
-                    $.when(App.request('task:entity', id)).done(function (response) {
-                        expect(response.get('id')).toBe(id);
+                    $.when(App.request('task:entity', id)).done(function (_response) {
+                        response = _response;
                     });
+                });
+
+                waitsFor(function () {
+                    return !_.isNull(response);
+                }, 'The response of \'task:entity\' with an id as parameter', 100);
+
+                runs(function () {
+                    expect(response.get('id')).toBe(id);
                 });
             });
         });
