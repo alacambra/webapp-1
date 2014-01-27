@@ -214,6 +214,16 @@ function() {
             });
 
             return errors;
+        },
+
+        /**
+         * Check if specified id is a number or a string.
+         *
+         * @param id - id to validate
+         * @returns {boolean} - true when id is number or string else false
+         */
+        isValidId: function (id) {
+            return _.isNumber(id) || _.isString(id);
         }
     }
 });

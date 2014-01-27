@@ -153,15 +153,16 @@ function(App, Entities) {
 
             it('Should return effort with specified id and task id', function (response) {
                 var response = null;
-                var id = 1;
-                var effort = new Entities.Effort({ id: id }, { task_id: 2 });
+                var effort_id = 1;
+                var task_id = 2;
+                var effort = new Entities.Effort({ id: effort_id }, { task_id: task_id });
 
                 spyOn(Entities.Effort.prototype, 'fetch').andCallFake(function (options) {
                     options.success(effort);
                 });
 
                 runs(function () {
-                    $.when(App.request('effort:entity', null, id)).done(function (_response) {
+                    $.when(App.request('effort:entity', task_id, effort_id)).done(function (_response) {
                         response = _response;
                     });
                 });
