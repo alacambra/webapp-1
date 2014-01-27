@@ -6,7 +6,7 @@ function() {
         /**
          * Validates attribute and its confirmation input to be identical.
          *
-         * The confirmation attribute is expected to be named with a apprended "Confirmation", i.e. password and passwordConfirmation.
+         * The confirmation attribute is expected to be named with a appended "Confirmation", i.e. password and passwordConfirmation.
          *
          * @param attr {string} - Name of the attribute to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
@@ -157,7 +157,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param [options] {object} - Options to override default options.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
          * @param [options.only_integer=false] {boolean} - Only integers will be accepted as valid.
@@ -170,7 +170,7 @@ function() {
             if (_.isString(attributes)) attributes = [attributes];
 
             _.each(attributes, function(attr) {
-                if (errors[attr] !== undefined) return errors;
+                if (!_.isUndefined(errors[attr])) return errors; // attributes already has error, do not overwrite/stack
 
                 var default_options = {
                     allow_blank: false,
