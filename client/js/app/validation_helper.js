@@ -21,17 +21,17 @@ function() {
 
             if (_.isString(attributes)) attributes = [attributes];
 
+            var default_options = {
+                if: true,
+                message: I18n.t('errors.validation.confirmation')
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return errors;
+
             _.each(attributes, function(attr) {
-                if (!_.isUndefined(errors[attr])) return; // attributes already has error, do not overwrite/stack
-
-                var default_options = {
-                    if: true,
-                    message: I18n.t('errors.validation.confirmation')
-                };
-
-                options = _.extend(default_options, options || {});
-
-                if (!options.if) return;
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
                 var attr_confirmation = attr + 'Confirmation';
 
@@ -48,31 +48,50 @@ function() {
          * Validates attribute(s) not to be a specific value.
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
-         * @param val {string} - Value which should not be accepted as valid.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
          * @param errors {object} - Object containing already existing error messages.
-         * @param [options] {object} - Options to override default options.
+         * @param options {object} - Options to override default options.
+         * @param options.in - Values which should be not accepted as valid (specified as blacklist array or range (object specifing min+max).
+         * @param [options.in.min] - Minimum value which should be not accepted as valid.
+         * @param [options.in.max] - Maximum value which should be not accepted as valid.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
          * @param [options.message='errors.validation.invalid'] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
-        validates_exclusion_of: function(attributes, val, attrs, errors, options) {
-            if (typeof attributes === 'string') attributes = [attributes];
+        validates_exclusion_of: function(attributes, attrs, errors, options) {
+            errors = errors || {};
+
+            if (_.isString(attributes)) attributes = [attributes];
+
+            var default_options = {
+                if: true,
+                allow_blank: false,
+                message: I18n.t('errors.validation.confirmation')
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return errors;
+
+            if (_.isUndefined(options.in)) throw Error('options.in must be defined');
+            if (!_.isArray(options.in) && (_.isUndefined(options.in.min) || _.isUndefined(options.in.max))) {
+                throw Error('options.in must define min and max');
+            }
 
             _.each(attributes, function(attr) {
-                if (errors[attr] !== undefined) return;
-
-                var default_options = {
-                    allow_blank: false,
-                    message: I18n.t('errors.validation.invalid')
-                };
-
-                options = _.extend(default_options, options || {});
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
                 if (options.allow_blank && is_blank(attrs[attr])) return;
 
-                if (attrs[attr] == val) {
-                    errors[attr] = options.message;
+                if (_.isArray(options.in)) {
+                    if (_.contains(options.in, attrs[attr]) || is_blank(attrs[attr])) {
+                        errors[attr] = options.message;
+                    }
+                } else {
+                    if (attrs[attr] >= options.in.min && attrs[attr] <= options.in.max) {
+                        errors[attr] = options.message;
+                    }
                 }
             });
 
@@ -188,19 +207,20 @@ function() {
 
             if (_.isString(attributes)) attributes = [attributes];
 
+            var default_options = {
+                if: true,
+                allow_blank: false,
+                only_integer: false,
+                message: I18n.t('errors.validation.no_number')
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return errors;
+
             _.each(attributes, function(attr) {
-                if (!_.isUndefined(errors[attr])) return; // attributes already has error, do not overwrite/stack
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
-                var default_options = {
-                    if: true,
-                    allow_blank: false,
-                    only_integer: false,
-                    message: I18n.t('errors.validation.no_number')
-                };
-
-                options = _.extend(default_options, options || {});
-
-                if (!options.if) return;
                 if (options.allow_blank && is_blank(attrs[attr])) return;
 
                 if (!_.isNumber(attrs[attr]) || _.isNaN(attrs[attr]) || (options.only_integer && attrs[attr] % 1 !== 0)) {

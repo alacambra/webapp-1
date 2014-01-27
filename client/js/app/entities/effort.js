@@ -39,8 +39,8 @@ function(App, moment, validation_helper) {
 
                 errors = validation_helper.validates_numericality_of('time', attrs, errors, { only_integer: true });
 
-                errors = validation_helper.validates_exclusion_of('date', 0, attrs, errors, { message: I18n.t('errors.validation.empty') });
-                errors = validation_helper.validates_exclusion_of('time', 0, attrs, errors, { message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
+                errors = validation_helper.validates_exclusion_of('date', attrs, errors, { in: [0], message: I18n.t('errors.validation.empty') });
+                errors = validation_helper.validates_exclusion_of('time', attrs, errors, { in: [0], message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
 
                 // date between 01.01.1914 (100 years ago) and now?
                 // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
