@@ -13,10 +13,10 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     function log_rest(context) {
         if (!CONFIG.rest.faux.log_rest) return;
 
-        console.log(context.url + ' - ' + context.httpMethod);
+        console.log(context.httpMethod + ': ' + context.url);
 
         if (context.data) {
-            console.log('data: ' + JSON.stringify(context.data));
+            console.log(JSON.stringify(context.data));
         }
     }
 
