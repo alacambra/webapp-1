@@ -136,6 +136,7 @@ I18n.translations['de'] = {
             too_short: 'ist zu kurz (nicht weniger als {{count}} Zeichen)',
             wrong_length: 'hat die falsche Länge (muss genau {{count}} Zeichen haben)',
             wrong_value: 'darf nicht {{val}} sein',
+            no_number: 'muss eine Zahl sein',
             date_later_than: 'muss früher sein als {{attr}}',
             date_earlier_than: 'muss später sein als {{attr}}'
         },

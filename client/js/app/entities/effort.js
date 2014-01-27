@@ -37,6 +37,8 @@ function(App, moment, validation_helper) {
             validate: function(attrs, options) {
                 var errors = {};
 
+                errors = validation_helper.validates_numericality_of('time', attrs, errors, { only_integer: true });
+
                 errors = validation_helper.validates_exclusion_of('date', 0, attrs, errors, { message: I18n.t('errors.validation.empty') });
                 errors = validation_helper.validates_exclusion_of('time', 0, attrs, errors, { message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
 
