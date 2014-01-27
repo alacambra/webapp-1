@@ -7,6 +7,8 @@ function (App, response_handler, TaskList) {
     App.module('Projects.Show', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             project_show: function (project_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
                 $.when(App.request('project:entity', project_id)).done(function(project, response) {
                     if (project) {
                         var show_view = new Show.View({
