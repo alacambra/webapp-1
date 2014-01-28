@@ -79,7 +79,7 @@ function(App, moment, validation_helper) {
 
                     defer.resolve(user);
 
-                } else if (validation_helper.isValidId(user_id)) {
+                } else if (is_string_or_number(user_id)) {
                     // user_id is a valid id, fetch model from server and resolve response
                     new Entities.User({ id: user_id }).fetch({
                         success: function (model, response) {

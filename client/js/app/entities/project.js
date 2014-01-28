@@ -89,7 +89,7 @@ function(App, validation_helper) {
 
                     defer.resolve(project);
 
-                } else if (validation_helper.isValidId(project_id)) {
+                } else if (is_string_or_number(project_id)) {
                     // project_id is a valid id, fetch model from server and resolve response
                     new Entities.Project({ id: project_id }).fetch({
                         success: function (model, response) {

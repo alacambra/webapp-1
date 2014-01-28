@@ -109,7 +109,7 @@ function(App, moment, validation_helper) {
 
                     defer.resolve(effort);
 
-                } else if (validation_helper.isValidId(effort_id) && !_.isUndefined(task_id)) {
+                } else if (is_string_or_number(effort_id) && !_.isUndefined(task_id)) {
                     // effort_id is a valid id and task is defined, fetch model from server and resolve response
                     new Entities.Effort({ id: effort_id }, { task_id: task_id }).fetch({
                         success: function (model, response) {
