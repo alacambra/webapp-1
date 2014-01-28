@@ -5,11 +5,11 @@ define(['app',
 function(App, Entities, Ctrl, response_handler) {
     return describe('Effort :: List :: Controller', function() {
         it('Should invoke show in main region two times', function () {
-            var defer = $.Deferred();
             var task_id = 11;
             var counter = 0;
 
             spyOn(App, 'request').andCallFake(function (event, tid) {
+                var defer = $.Deferred();
                 defer.resolve(new Entities.EffortCollection([ { id: 1 }, { id: 2 }, { id: 3 } ], { task_id: tid }));
                 return defer.promise();
             });
@@ -26,10 +26,10 @@ function(App, Entities, Ctrl, response_handler) {
         });
 
         it('Should invoke response_handler when effort request fails', function () {
-            var defer = $.Deferred();
             var response = 'failure';
 
             spyOn(App, 'request').andCallFake(function (event, tid) {
+                var defer = $.Deferred();
                 defer.resolve(undefined, response);
                 return defer.promise();
             });
@@ -42,12 +42,12 @@ function(App, Entities, Ctrl, response_handler) {
         });
 
         it('Should delete a specified effort with optional redirect', function () {
-            var defer = $.Deferred();
             var task_id = 21;
             var effort = new Entities.Effort({ id: 2 }, { task_id: task_id });
             var redirect;
 
             spyOn(App, 'request').andCallFake(function (event, tid, eff) {
+                var defer = $.Deferred();
                 defer.resolve(eff);
                 return defer.promise();
             });

@@ -5,12 +5,12 @@ define(['app',
 function(App, Entities, Ctrl, response_handler) {
     return describe('Effort :: Show :: Controller', function() {
         it('Should invoke show in main_region two times', function () {
-            var defer = $.Deferred();
             var effort_id = 7;
             var task_id = 12;
             var counter = 0;
 
             spyOn(App, 'request').andCallFake(function (event, tid, eid) {
+                var defer = $.Deferred();
                 defer.resolve(new Entities.Effort({ id: eid }, { task_id: tid }));
                 return defer.promise();
             });
@@ -27,10 +27,10 @@ function(App, Entities, Ctrl, response_handler) {
         });
 
         it('Should invoke response_handler when effort request fails', function () {
-            var defer = $.Deferred();
             var response = 'failure';
 
             spyOn(App, 'request').andCallFake(function (event, tid, eid) {
+                var defer = $.Deferred();
                 defer.resolve(undefined, response);
                 return defer.promise();
             });
