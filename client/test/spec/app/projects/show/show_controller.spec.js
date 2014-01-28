@@ -1,31 +1,44 @@
-define(['app', 'app/entities/project', 'app/projects/show/show_controller'], function(App, Entities, Ctrl) {
+define(['app',
+        'app/entities/project',
+        'app/projects/show/show_controller',
+        'lib/response_handler'],
+function(App, Entities, Ctrl, response_handler) {
     return describe('Project :: Show :: Controller', function() {
-        var temp = null;
+        it('Should invoke show in main_region two times', function () {
+            var project_id = 18;
+            var counter = 0;
 
-        beforeEach(function() {
-            temp = App.request;
-
-            App.request = function(event_type, project_id) {
+            spyOn(App, 'request').andCallFake(function (event, pid) {
                 var defer = $.Deferred();
-
-                defer.resolve(new Entities.Project({
-                    id: project_id
-                }));
-
+                defer.resolve(new Entities.Project({ id: pid }));
                 return defer.promise();
-            }
+            });
+
+            spyOn(App.main_region, 'show').andCallFake(function () {
+                counter++;
+            });
+
+            Ctrl.project_show(project_id);
+
+            // LoadingView +1
+            // Project Show_View +1
+            expect(counter).toBe(2);
         });
 
-        afterEach(function() {
-            App.request = temp;
-        });
+        it('Should invoked response_handler when project request fails', function () {
+            var response = 'failure';
 
-        it('Should call show in main region', function() {
-            spyOn(App.main_region, 'show');
+            spyOn(App, 'request').andCallFake(function (event, pid) {
+                var defer = $.Deferred();
+                defer.resolve(undefined, response);
+                return defer.promise();
+            });
 
-            Ctrl.project_show(1);
+            spyOn(response_handler, 'handle');
 
-            expect(App.main_region.show).toHaveBeenCalled();
+            Ctrl.project_show();
+
+            expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
     });
 });
