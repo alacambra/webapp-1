@@ -1,8 +1,9 @@
 define(['app',
+        'app/model_helper',
         'app/validation_helper',
         'app/entities/effort',
         'app/entities/project'],
-function(App, validation_helper) {
+function(App, model_helper, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
@@ -27,8 +28,11 @@ function(App, validation_helper) {
                 assignee: null
             },
 
-            // fields to be disabled, when task has children
-            child_disable_fields: ['status', 'priority', 'startDate', 'endDate', 'duration', 'progress'],
+            parse: function (response, options) {
+                this.disabled_fields = model_helper.disabled_fields(response);
+
+                return response;
+            },
 
             initialize: function (attributes, options) {
                 if (!this.isNew()) {
@@ -42,10 +46,6 @@ function(App, validation_helper) {
                 }
 
                 this.subtasks.url = App.model_base_url('subtasks', 'tasks', this.get('id'));
-            },
-
-            disabled_fields: function() {
-                return this.get('subtaskCount') > 0 ? this.child_disable_fields : [];
             },
 
             validate: function(attrs, options) {
@@ -78,7 +78,7 @@ function(App, validation_helper) {
         Entities.TaskCollection = Backbone.Collection.extend({
             model: Entities.Task,
             url: base_url,
-            comparator: 'priority'
+            comparator: function(task) { return -task.get('priority') }
         });
 
 
