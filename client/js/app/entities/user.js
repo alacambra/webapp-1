@@ -18,16 +18,16 @@ function(App, moment, validation_helper) {
             },
 
             validate: function(attrs, options) {
+                var is_new_or_password_set = this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation);
+
                 var errors = {};
 
                 errors = validation_helper.validates_presence_of(['firstName', 'lastName', 'email'], attrs, errors);
                 errors = validation_helper.validates_format_of('email', attrs, errors, { with: /^\S+@\S+\.\S+$/ });
 
-                if (this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation)) {
-                    errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors);
-                    errors = validation_helper.validates_length_of('password', attrs, errors, { min: 4, max: 64 });
-                    errors = validation_helper.validates_confirmation_of('password', attrs, errors);
-                }
+                errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors, { if: is_new_or_password_set });
+                errors = validation_helper.validates_length_of('password', attrs, errors, { min: 4, max: 64, if: is_new_or_password_set });
+                errors = validation_helper.validates_confirmation_of('password', attrs, errors, { if: is_new_or_password_set });
 
                 errors = validation_helper.validates_inclusion_of('birthDate', attrs, errors, {
                     in: {
