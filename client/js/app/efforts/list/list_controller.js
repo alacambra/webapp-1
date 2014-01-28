@@ -26,7 +26,7 @@ function(App, response_handler) {
                 $.when(App.request('effort:entity', task_id, effort)).done(function(effort, response) {
                     if (effort) {
                         effort.destroy();
-                        if (redirect !== undefined) App.trigger(redirect, task_id);
+                        if (!_.isUndefined(redirect)) App.trigger(redirect, task_id);
                     }
                 });
             }

@@ -6,7 +6,7 @@ define(function() {
                 expire: false
             };
 
-            if (typeof expire != undefined) {
+            if (expire !== undefined) {
                 store.expire = new Date().getTime() + (expire * 24 * 60 * 60 * 1000);
             }
 
@@ -14,7 +14,7 @@ define(function() {
         };
 
         this.get = function(key, default_value) {
-            if (typeof default_value == 'undefined') default_value = null;
+            if (default_value === undefined) default_value = null;
 
             var item = localStorage.getItem(key);
 

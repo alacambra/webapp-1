@@ -13,9 +13,9 @@ function() {
          * @returns {string} - Truncated text.
          */
         truncate: function(text, length, omission) {
-            if (typeof text !== 'string') return '';
-            if (length === undefined) length = 100;
-            if (omission === undefined) omission = ' …';
+            if (!_.isString(text)) return '';
+            length = length || 100;
+            omission = omission || ' …';
 
             return text.length <= length ? text : text.substr(0, length - omission.length) + omission;
         },
