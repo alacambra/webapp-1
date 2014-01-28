@@ -3,7 +3,6 @@
 define(function() {
     return {
         disabled_fields: function(attrs) {
-            console.log(attrs);
             var token = 'IsDefault';
 
             return _.compact(_.map(attrs, function(value, key) {
