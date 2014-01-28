@@ -106,20 +106,39 @@ public class TaskBoundary extends AbstractBoundry{
 		return Response.noContent().build();
 	}
 
-	/************************************* USER action TASK in TASK *************************************/
+	/************************************* USER action TASK in TASK 
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException *************************************/
 	
 	@POST
 	@Path("/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createSubtaskInTask(@PathParam("parentId") String parentId, String json){
-		return null;
+	public Response createSubtaskInTask(@PathParam("parentId") String parentId, String json)
+			throws JsonParseException, JsonMappingException, IOException{
+		
+		Task parentTask = entityFactory.getTaskById(parentId);
+		Task dtoTask = mapper.readValue(json, TaskDTO.class);
+		Task task = entityFactory.createTask(dtoTask);
+		
+		parentTask.addSubtask(task);
+		
+		String r = mapper.writeValueAsString(task);
+		return Response.ok().entity(r).build();
+		
 	}
 	
 	@PUT
 	@Path(idPattern + "/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
-	public Response addSubtaskToTask(){
-		return null;
+	public Response addSubtaskToTask(@PathParam("id") String id, @PathParam("parentId") String parentId){
+		
+		Task parentTask = entityFactory.getTaskById(parentId);
+		Task childTask = entityFactory.getTaskById(id);
+		
+		parentTask.addSubtask(childTask);
+		
+		return Response.noContent().build();
 	}
 	
 	@PUT

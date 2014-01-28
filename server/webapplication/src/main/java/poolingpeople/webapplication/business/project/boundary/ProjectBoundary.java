@@ -84,6 +84,7 @@ public class ProjectBoundary extends AbstractBoundry{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateProject(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
+		
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
 		dtoConverter.fromDTOtoPersitedBean(dtoProject,
 				entityFactory.getProjectById(uuid));
