@@ -39,7 +39,7 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	ValidatorProducer.class
 })
 
-public abstract class AbstractTest {
+public abstract class AbstractBoundryTest {
 
 	protected final String jsonModelsPath = "json-models/";
 	

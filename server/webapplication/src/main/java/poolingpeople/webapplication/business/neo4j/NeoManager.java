@@ -290,9 +290,9 @@ public class NeoManager {
 	}
 
 	public Collection<Node> getRelatedNodes(Node node, RelationshipType relation, Direction direction) {
-		if ( direction == null ) {
-			throw new RuntimeException("direction can no be null");
-		}
+//		if ( direction == null ) {
+//			throw new RuntimeException("direction can no be null");
+//		}
 		return loadRelatedNodesTo(node, relation, direction);
 	}
 

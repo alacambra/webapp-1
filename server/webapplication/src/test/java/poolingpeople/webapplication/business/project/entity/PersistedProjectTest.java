@@ -10,8 +10,8 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
+import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
@@ -19,49 +19,21 @@ import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.Neo4jRunner;
 
-@RunWith(Neo4jRunner.class)
-public class PersistedProjectTest{
+
+public class PersistedProjectTest extends AbstractPersitanceTest{
 
 	PersistedProject target;
-	NeoManager manager;
-	Transaction tx;
-	String structurePath = "cypher-graphs/";
+	
 	String unrelatedStructureFileName =  "project-task-effort-unrelated.cy";
 	String relatedStructureFileName =  "project-task-effort-related.cy";
 
-	public void setManager(NeoManager manager) {
-		this.manager = manager;
-	}
-
 	private void addUnrelatedStructure() {
-		manager.runCypherQuery(FileLoader.getText(structurePath + unrelatedStructureFileName), null);
-		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-		for(Node n : iterable) {
-			manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
-		}
+		addCypherStructure(unrelatedStructureFileName);
 	}
 
 	private void addRelatedStructure() {
-		manager.runCypherQuery(FileLoader.getText(structurePath + relatedStructureFileName), null);
-		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-		for(Node n : iterable) {
-			manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
-		}
+		addCypherStructure(relatedStructureFileName);
 	}
-
-	@Before
-	public void setUp() {
-		
-	}
-
-	@After
-	public void tearDown() {
-		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-		for(Node n : iterable) {
-			manager.removeNode(n);
-		}
-	}
-
 
 	@Test
 	public void testPersistedProjectConstructors() {
@@ -86,7 +58,7 @@ public class PersistedProjectTest{
 
 		Task t2 = new PersistedTask(manager, "3");
 		target.addTask(t2);
-		assertEquals(new Long(10), target.getStartDate());
+		assertEquals(new Long(34), target.getStartDate());
 		assertEquals(new Long(51), target.getEndDate());
 
 		Task t1 = new PersistedTask(manager, "2");
@@ -147,7 +119,7 @@ public class PersistedProjectTest{
 		assertEquals(new Long(51), target.getEndDate());
 
 		target.removeTask(t1);
-		assertEquals(new Long(10), target.getStartDate());
+		assertEquals(new Long(34), target.getStartDate());
 		assertEquals(new Long(51), target.getEndDate());
 
 		target.removeTask(t2);

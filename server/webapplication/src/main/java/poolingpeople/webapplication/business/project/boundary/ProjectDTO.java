@@ -170,6 +170,12 @@ public class ProjectDTO implements Project {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void removeTaskRelation(Task task) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

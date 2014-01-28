@@ -134,7 +134,7 @@ public class TaskBoundary extends AbstractBoundry{
 		Project target = entityFactory.getProjectById(targetId);
 		Task t =  entityFactory.getTaskById(uuid);
 		
-		source.removeTask(t);
+		source.removeTaskRelation(t);
 		target.addTask(t);
 		
 		return Response.noContent().build();

@@ -196,18 +196,32 @@ public abstract class PersistedModel<T>{
 
 	protected <P extends PersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz, Direction direction) {
 
-		return manager.wrapNodeInPersistenceWrapper(manager.getRelatedNode(underlyingNode, relation, direction), clazz);
+		Node n = manager.getRelatedNode(underlyingNode, relation, direction);
+		
+		if(n != null)
+			return manager.wrapNodeInPersistenceWrapper(n, clazz);
+			
+		return null;
 
 	}
 
-	protected <P> List<P> getRelatedNodes(Relations relation, Class<P> clazz){
+	protected <P> List<P> getRelatedNodes(Relations relation, Class<P> clazz, Direction direction){
 		ArrayList<P> list = new ArrayList<>();
-		return (List<P>) manager.getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation), list, clazz);
+		return (List<P>) manager.getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation, direction), list, clazz);
 	}
 
 	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass){
+//		return (List<IN>) manager.getPersistedObjects(
+//				manager.getRelatedNodes(underlyingNode, relation), 
+//				new ArrayList<IN>(), 
+//				implementationClass, 
+//				interfaceClass);
+		return getRelatedNodes(relation, implementationClass, interfaceClass, null);
+	}
+	
+	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass, Direction direction){
 		return (List<IN>) manager.getPersistedObjects(
-				manager.getRelatedNodes(underlyingNode, relation), 
+				manager.getRelatedNodes(underlyingNode, relation, direction), 
 				new ArrayList<IN>(), 
 				implementationClass, 
 				interfaceClass);

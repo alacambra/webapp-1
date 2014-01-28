@@ -13,10 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import poolingpeople.webapplication.business.entity.AbstractTest;
+import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
-public class TaskBoundaryTest extends AbstractTest{
+public class TaskBoundaryTest extends AbstractBoundryTest{
 
 	@Inject
 	TaskBoundary target;

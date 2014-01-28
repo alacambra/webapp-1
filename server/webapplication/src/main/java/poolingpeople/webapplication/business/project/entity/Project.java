@@ -98,6 +98,7 @@ public interface Project{
 	void setDefaultProgress(Float progress);
 	
 	public Integer getTaskCount();
+	void removeTaskRelation(Task task);
 
 }
 

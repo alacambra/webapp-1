@@ -14,10 +14,10 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 
-import poolingpeople.webapplication.business.entity.AbstractTest;
+import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
-public class UserBoundaryTest extends AbstractTest{
+public class UserBoundaryTest extends AbstractBoundryTest{
 
 	@Inject
 	UserBoundary target;

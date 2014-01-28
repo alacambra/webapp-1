@@ -10,10 +10,10 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.PersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
+import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
@@ -124,8 +124,12 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public Integer getDuration() {
 
-		Integer duration = getIntegerProperty(NodePropertyName.DURATION);
+		Integer duration = getCalculatedDuration();
 		return getDurationIsDefault() ? getDefaultDuration() : duration;
+	}
+	
+	private Integer getCalculatedDuration() {
+		return getIntegerProperty(NodePropertyName.DURATION);
 	}
 
 	private void setDuration(Integer duration) {
@@ -154,22 +158,31 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	@Override
 	public Long getStartDate() {
 
-		Long startDate = getLongProperty(NodePropertyName.START_DATE);
+		Long startDate = getCalculatedStartDate();
 		return getStartDateIsDefault() ? getDefaultStartDate() : startDate;
 
 	}
-
-	@Override
-	public Long getEndDate() {
-
-		Long endDate = getLongProperty(NodePropertyName.END_DATE);
-		return getEndDateIsDefault() ? getDefaultEndDate() : endDate;
-
+	
+	private Long getCalculatedStartDate() {
+		return getLongProperty(NodePropertyName.START_DATE);
 	}
 
 	private void setStartDate(Long startDate) {
 		setProperty(NodePropertyName.START_DATE, startDate);
 	}
+	
+	@Override
+	public Long getEndDate() {
+
+		Long endDate = getCalculatedEndDate();
+		return getEndDateIsDefault() ? getDefaultEndDate() : endDate;
+
+	}
+	
+	private Long getCalculatedEndDate() {
+		return getLongProperty(NodePropertyName.END_DATE);
+	}
+
 
 	private void setEndDate(Long startDate) {
 		setProperty(NodePropertyName.END_DATE, startDate);
@@ -184,6 +197,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		}
 
 		setProperty(NodePropertyName.DEFAULT_START_DATE, startDate);
+		updateAll();
 	}
 
 	@Override
@@ -235,31 +249,30 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	}
 
 	public boolean getEndDateIsDefault() {
-		return getSubtasks().size() == 0;
+		return getSubtasks().size() == 0 || getCalculatedEndDate() == null;
+	}
+	
+	public boolean getStartDateIsDefault() {
+		return getSubtasks().size() ==  0 || getCalculatedStartDate() == null;
 	}
 
 	public boolean getStatusIsDefault() {
-		return getSubtasks().size() == 0;
-	}
-
-	public boolean getStartDateIsDefault() {
-		return getSubtasks().size() == 0;
-	}
-
-	public boolean getDurationIsDefult(){
-		return getSubtasks().size() == 0;
+		return true;
 	}
 
 	private boolean getDurationIsDefault() {
-		return getSubtasks().size() == 0;
+		return getSubtasks().size() == 0 || getCalculatedDuration() == null;
 	}
 
 	/**************** RELATIONAL METHODS *****************/
 
 	@Override
 	public void addSubtask(Task child) {
+		//		setEffort(child.getEffort() + getEffort());
+		//		setStartDate(child.getStartDate() < getStartDate() ? child.getStartDate() : getStartDate());
+		//		setEndDate(child.getEndDate() > getEndDate() ? child.getEndDate() : getEndDate());
 		createRelationTo(Relations.HAS_SUBTASK, (PersistedModel<?>) child, true);
-		setEffort(child.getEffort() + getEffort());
+		updateAll();
 	}
 	/*
 	 * @todo: what happens with the subtasks? 
@@ -329,14 +342,14 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 			totalDuration += t.getDuration();
 			totalProgress += t.getDuration() * t.getProgress();
 		}
-		
+
 		totalProgress = totalDuration > 0 ? totalProgress / totalDuration : 0;
 
 		if (totalDuration != oldDuratation){
 			setDuration(totalDuration);
 			durationChanged(totalDuration);
 		}
-		
+
 		if ( oldProgress != totalProgress ){
 			setProgress(totalProgress);
 			progressChanged(totalProgress);
@@ -419,7 +432,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 		Project p = getProject();
 		Task t = getParent();
-		
+
 		if( p != null ){
 			p.removeTask(this);
 		} else if (t != null) {
@@ -432,23 +445,38 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	/**************** PROPAGATION METHODS *****************/
 
 	private void startDateChanged(Long startDate) {
-		getParent().updateDates();
+		Task parent = getParent();
+
+		if (parent != null)
+			getParent().updateDates();
 	}
 
 	private void endDateChanged(Long endDate) {
-		getParent().updateDates();
+		Task parent = getParent();
+
+		if (parent != null)
+			getParent().updateDates();
 	}
 
 	private void durationChanged(Integer duration) {
-		getParent().updateDuration();
+		Task parent = getParent();
+
+		if (parent != null)
+			getParent().updateDuration();
 	}
 
 	private void progressChanged(Float progress){
-		getParent().updateProgress();
+		Task parent = getParent();
+
+		if (parent != null)
+			getParent().updateProgress();
 	}
 
 	private void effortChanged(Integer effort) {
-		getParent().updateEfforts();
+		Task parent = getParent();
+
+		if (parent != null)
+			getParent().updateEfforts();
 	}
 
 
@@ -456,7 +484,7 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	/**************** HELPER METHODS *****************/
 	private List<PersistedTask> getSubtasks(){
 
-		subtasks = getRelatedNodes(Relations.HAS_SUBTASK, PersistedTask.class);
+		subtasks = getRelatedNodes(Relations.HAS_SUBTASK, PersistedTask.class, Direction.OUTGOING);
 		return subtasks;
 	}
 
@@ -468,13 +496,13 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 	}
 
 	public Task getParent() {
-		
+
 		Task parent = getRelatedNode(Relations.HAS_SUBTASK, PersistedTask.class, Direction.INCOMING);
-		
-		if ( parent.equals(this) ){
+
+		if (parent != null &&  parent.equals(this) ){
 			throw new RootApplicationException("Parent and child can not be the same");
 		}
-		
+
 		return parent;
 	}
 

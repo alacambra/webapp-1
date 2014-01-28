@@ -148,4 +148,10 @@ public class ProjectMixin implements Project{
 	public Integer getTaskCount() {
 		return null;
 	}
+
+	@Override
+	public void removeTaskRelation(Task task) {
+		// TODO Auto-generated method stub
+		
+	}
 }
