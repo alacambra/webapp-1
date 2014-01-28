@@ -46,7 +46,11 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
                 if (!_.include(disable_fields, 'end_date'))   this.ui.end_date.datepicker(app_helper.datepicker_default);
 
                 var that = this;
-                _.each(disable_fields, function(field) { that.ui[field].attr('disabled', 'disabled') });
+                _.each(disable_fields, function(field) {
+                    if (!_.isUndefined(that.ui[field])) {
+                        that.ui[field].attr('disabled', 'disabled')
+                    }
+                });
             },
 
 

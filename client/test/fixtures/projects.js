@@ -6,16 +6,28 @@ define({
         "startDate": 1387206224,
         "endDate": 1388206224,
         "status": 2,
+        "progress": 0.5,
 
-        "taskCount": 2
+        "taskCount": 2,
+
+        "startDateIsDefault": true,
+        "endDateIsDefault": true,
+        "progressIsDefault": true,
+        "statusIsDefault": true
     },
     "1": {
         "id": 1,
         "title": "Project1",
         "startDate": 1387206224,
         "endDate": 1388206224,
+        "progress": 0.5,
 
-        "taskCount": 1
+        "taskCount": 1,
+
+        "startDateIsDefault": false,
+        "endDateIsDefault": false,
+        "progressIsDefault": false,
+        "statusIsDefault": false
     },
     "2": {
         "id": 2,

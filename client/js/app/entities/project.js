@@ -20,10 +20,25 @@ function(App, validation_helper) {
             },
 
             // fields to be disabled, when task has children
-            child_disable_fields: ['status', 'startDate', 'endDate'],
+            child_disable_fields: [],
 
             disabled_fields: function() {
                 return this.get('taskCount') > 0 ? this.child_disable_fields : [];
+            },
+
+            parse: function (response, options) {
+                var that = this;
+                that.child_disable_fields = [];
+
+                _.each(response, function (val, key) {
+                    var regex = key.match(/IsDefault$/)
+                    if (regex && !val) {
+                        var disabled_key = regex.input.substring(0, regex.index);
+                        that.child_disable_fields.push(disabled_key);
+                    }
+                });
+
+                return response;
             },
 
             initialize: function (attributes, options) {
