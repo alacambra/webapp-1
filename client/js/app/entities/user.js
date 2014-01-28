@@ -25,7 +25,7 @@ function(App, moment, validation_helper) {
 
                 if (this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation)) {
                     errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors);
-                    errors = validation_helper.validates_length_of('password', 4, 64, attrs, errors);
+                    errors = validation_helper.validates_length_of('password', attrs, errors, { min: 4, max: 64 });
                     errors = validation_helper.validates_confirmation_of('password', attrs, errors);
                 }
 

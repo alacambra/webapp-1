@@ -1,6 +1,6 @@
 /** @module validation_helper */
 
-define(['i18n'],
+define(['i18n', 'advanced_string'],
 function() {
     return {
         /**
@@ -199,27 +199,55 @@ function() {
 
 
         /**
-         * Validates length of text for given attribute.
+         * Validates length of text for given attribute(s).
          *
-         * @param attr {string} - Name of the attribute to be checked.
-         * @param min_length {number} - Minimum length of text to be valid.
-         * @param max_length {number} - Maximum length of text to be valid.
+         * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
+         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param options {object} - Options to override default options.
+         * @param [options.min] - Minimum length which should be accepted as valid (optional if max is set).
+         * @param [options.max] - Maximum length which should be accepted as valid (optional if min is set).
+         * @param [options.trim=false] {boolean} - Remove leading and trailing whitespace before checking.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
+         * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
          * @returns {object} - Extended version of given errors object.
          */
-        validates_length_of: function(attr, min_length, max_length, attrs, errors) {
-            if (errors[attr] !== undefined) return errors;
+        validates_length_of: function(attributes, attrs, errors, options) {
+            errors = errors || {};
 
-            if (min_length === max_length && attrs[attr].length !== min_length) {
-                errors[attr] = I18n.t('errors.validation.wrong_length', { count: min_length });
-            } else {
-                if (attrs[attr].length < min_length) {
-                    errors[attr] = I18n.t('errors.validation.too_short', { count: min_length });
-                } else if (attrs[attr].length > max_length) {
-                    errors[attr] = I18n.t('errors.validation.too_long', { count: max_length });
-                }
+            if (_.isString(attributes)) attributes = [attributes];
+
+            var default_options = {
+                if: true,
+                trim: false,
+                allow_blank: false
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return errors;
+
+            if (_.isUndefined(options.min) && _.isUndefined(options.max)) {
+                throw Error('options must define min or max');
             }
+
+            _.each(attributes, function(attr) {
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
+
+                var attribute = options.trim ? attrs[attr].trim() : attrs[attr];
+
+                if (options.allow_blank && is_blank(attribute)) return;
+
+                if (options.min === options.max && attribute.length !== options.min) {
+                    errors[attr] = I18n.t('errors.validation.wrong_length', { count: options.min });
+                } else {
+                    if (attribute.length < options.min) {
+                        errors[attr] = I18n.t('errors.validation.too_short', { count: options.min });
+                    } else if (attribute.length > options.max) {
+                        errors[attr] = I18n.t('errors.validation.too_long', { count: options.max });
+                    }
+                }
+            });
 
             return errors;
         },
