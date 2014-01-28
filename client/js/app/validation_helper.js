@@ -10,7 +10,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param [options] {object} - Options to override default options.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.message=I18n.t('errors.validation.confirmation')] {string} - Error message to be used.
@@ -49,7 +49,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param options {object} - Options to override default options.
          * @param options.in - Values which should be not accepted as valid (specified as blacklist array or range (object specifing min+max).
          * @param [options.in.min] - Minimum value which should be not accepted as valid.
@@ -104,7 +104,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param options {object} - Options to override default options.
          * @param options.with {regex} - Format which should be accepted as valid.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
@@ -148,7 +148,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param options {object} - Options to override default options.
          * @param options.in - Values which should be accepted as valid (specified as whitelist array or range (object specifing min+max).
          * @param [options.in.min] - Minimum value which should be accepted as valid.
@@ -203,7 +203,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param options {object} - Options to override default options.
          * @param [options.min] - Minimum length which should be accepted as valid (optional if max is set).
          * @param [options.max] - Maximum length which should be accepted as valid (optional if min is set).
@@ -258,7 +258,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param [options] {object} - Options to override default options.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
@@ -301,7 +301,7 @@ function() {
          *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param [errors] {object} - Object containing already existing error messages.
          * @param options {object} - Options to override default options.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
