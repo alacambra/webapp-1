@@ -45,3 +45,10 @@ jQuery.extend (String.prototype, {
         return this.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
     }
 });
+
+// ' FooBar ' -> 'FooBar'
+jQuery.extend (String.prototype, {
+    trim: function () {
+        return this.replace(/^\s+|\s+$/g,'');
+    }
+});
