@@ -93,7 +93,8 @@ I18n.translations['en'] = {
         },
         button: {
             new: 'New Task'
-        }
+        },
+        delete_confirm: 'Every Subtask of "{{name}}" will be also deleted!\n\nReally delete task "{{name}}" with his {{count}} subtasks?'
     },
 
     user: {

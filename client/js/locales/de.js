@@ -93,7 +93,8 @@ I18n.translations['de'] = {
         },
         button: {
             new: 'Neue Aufgabe'
-        }
+        },
+        delete_confirm: 'Jeder Subtask von "{{name}}" wird auch gelöscht!\n\nTask "{{name}}" mit seinen {{count}} Subtasks wirklich löschen?'
     },
 
     user: {

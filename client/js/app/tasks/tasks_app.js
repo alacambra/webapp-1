@@ -98,7 +98,13 @@ function (App) {
             },
 
             task_delete: function (task, redirect) {
-                if (confirm(I18n.t('delete_confirm', { name: task.get('title') }))) {
+                var title = task.get('title');
+                var count = task.subtasks.length;
+
+                var confirm1 = confirm(I18n.t('delete_confirm', { name: title }));
+                var confirm2 = count > 0 ? confirm(I18n.t('task.delete_confirm', { name: title, count: count })) : true;
+
+                if (confirm1 && confirm2) {
                     require(['app/tasks/list/list_controller'], function (ListController) {
                         ListController.task_delete(task, redirect);
                     });
