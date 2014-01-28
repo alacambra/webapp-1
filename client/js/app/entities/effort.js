@@ -94,7 +94,11 @@ function(App, moment, validation_helper) {
             get_effort_entity: function(task_id, effort_id) {
                 var defer = $.Deferred();
 
-                if (is_string_or_number(effort_id) && !_.isUndefined(task_id)) {
+                if (_.isObject(effort_id)) return effort_id; // given effort_id is a model, return model instead of promise
+
+                if (_.isUndefined(task_id)) throw new Error('task_id must be defined');
+
+                if (is_string_or_number(effort_id)) {
                     // effort_id is a valid id and task is defined, fetch model from server and resolve response
                     new Entities.Effort({ id: effort_id }, { task_id: task_id }).fetch({
                         success: function (model, response) {
@@ -105,19 +109,15 @@ function(App, moment, validation_helper) {
                         }
                     });
 
-                } else if (_.isUndefined(effort_id) && !_.isUndefined(task_id)) {
+                } else if (_.isUndefined(effort_id)) {
                     // no effort_id is set but task_id is, create a new effort model
                     var effort = new Entities.Effort({}, {
                         task_id: task_id
                     });
 
                     defer.resolve(effort);
-
-                } else if (_.isObject(effort_id)) {
-                    // given effort_id is a model, resolve unchanged effort
-                    defer.resolve(effort_id);
                 } else {
-                    throw new Error('could not provide effort entity');
+                    throw new Error('wrong effort_id type');
                 }
 
                 return defer.promise();
