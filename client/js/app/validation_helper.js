@@ -299,27 +299,41 @@ function() {
         /**
          * Validates presence of text for given attribute(s).
          *
-         * Sets error message "invalid", if attribute is no string.
-         * Sets error message "empty", if attribute is empty.
-         *
          * @param attributes {string|string[]} - Name of the attribute(s) to be checked.
          * @param attrs {object} - Object containing model attributes, given by backbone validate().
-         * @param errors {object} - Object containing already existing error messages.
+         * @param [errors={}] {object} - Object containing already existing error messages.
+         * @param options {object} - Options to override default options.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
+         * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
+         * @param [options.message=I18n.t('errors.validation.empty')] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
          */
-        validates_presence_of: function(attributes, attrs, errors) {
-            if (typeof attributes === 'string') attributes = [attributes];
+        validates_presence_of: function(attributes, attrs, errors, options) {
+            errors = errors || {};
+
+            if (_.isString(attributes)) attributes = [attributes];
+
+            var default_options = {
+                if: true,
+                allow_blank: false,
+                message: I18n.t('errors.validation.empty')
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return errors;
 
             _.each(attributes, function(attr) {
-                if (errors[attr] !== undefined) return; // skip if an error was set already
+                if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
-                if (is_blank(attrs[attr])) {
-                    errors[attr] = I18n.t('errors.validation.empty');
+                if (!options.allow_blank && is_blank(attrs[attr])) {
+                    errors[attr] = options.message;
                 }
             });
 
             return errors;
         },
+
 
         /**
          * Check if specified id is a number or a string.

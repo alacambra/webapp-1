@@ -251,8 +251,6 @@ define(['app/validation_helper'], function (validation_helper) {
         });
 
 
-
-
         describe('validates_length_of', function () {
             it('must validate correct length', function () {
                 expect(validation_helper.validates_length_of('name', { name: 'Alice' }, {}, { min: 1 }).name).toBeUndefined();
@@ -378,6 +376,51 @@ define(['app/validation_helper'], function (validation_helper) {
                 validation = validation_helper.validates_numericality_of(['amount', 'other'], { amount: 1, other: 2 });
                 expect(validation.amount).toBeUndefined();
                 expect(validation.other).toBeUndefined();
+            });
+        });
+
+
+        describe('validates_presence_of', function () {
+            it('must validate presence', function () {
+                expect(validation_helper.validates_presence_of('name', { name: 'Alice' }).name).toBeUndefined();
+                expect(validation_helper.validates_presence_of('name', { name: 1 }).name).toBeUndefined();
+                expect(validation_helper.validates_presence_of('name', { name: 0 }).name).toBeUndefined();
+            });
+
+            it('must invalidate missing value', function () {
+                expect(validation_helper.validates_presence_of('name', { name: '' }).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: '   ' }).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: null }).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: undefined }).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: [] }).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: {} }).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', {}).name).toBeDefined();
+            });
+
+            it('must optionally conditionally skip validation', function () {
+                expect(validation_helper.validates_presence_of('name', { name: '' }, {}, { if: false }).name).toBeUndefined();
+            });
+
+            it('must optionally allow blank values', function () {
+                expect(validation_helper.validates_presence_of('name', { name: '' }, {}, { allow_blank: true }).name).toBeUndefined();
+            });
+
+            it('must keep other existing errors', function () {
+                expect(validation_helper.validates_presence_of('name', { name: '' }, { other: 'error' }).other).toEqual('error');
+            });
+
+            it('must skip existing errors', function () {
+                expect(validation_helper.validates_presence_of('name', { name: 'Alice' }, { name: 'error' }).name).toEqual('error');
+            });
+
+            it('must check multiple attributes', function () {
+                validation = validation_helper.validates_presence_of(['first', 'last'], { first: 'Alice', last: 'Bob' });
+                expect(validation.first).toBeUndefined();
+                expect(validation.last).toBeUndefined();
+
+                validation = validation_helper.validates_presence_of(['first', 'last'], { first: '', last: ' ' });
+                expect(validation.first).toBeDefined();
+                expect(validation.last).toBeDefined();
             });
         });
     });
