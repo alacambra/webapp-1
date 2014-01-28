@@ -12,7 +12,7 @@ function(Marionette, CONFIG) {
 
 
     App.init_i18n = function(callback) {
-        if (callback === undefined) callback = function() {};
+        callback = callback || function() {};
 
         I18n.defaultLocale = CONFIG.i18n.default_locale;
 
@@ -47,7 +47,7 @@ function(Marionette, CONFIG) {
 
 
     App.navigate = function(route,  options) {
-        options || (options = {});
+        options = options || {};
         Backbone.history.navigate(route, options);
     };
 
@@ -66,7 +66,7 @@ function(Marionette, CONFIG) {
             cfg = CONFIG.rest.base_url[subdomain] || cfg;
         }
 
-        if (parent_model !== undefined) {
+        if (!_.isUndefined(parent_model)) {
             parent_base_url = parent_model + '/' + parent_id + '/';
         }
 
@@ -129,7 +129,7 @@ function(Marionette, CONFIG) {
 
                 Backbone.history.start();
 
-                if (App.current_route() === '') {
+                if (is_blank(App.current_route())) {
                     App.trigger('home');
                 }
             });

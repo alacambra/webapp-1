@@ -26,7 +26,7 @@ function(App, response_handler) {
                 $.when(App.request('user:entity', user)).done(function(user, response) {
                     if (user) {
                         user.destroy();
-                        if (redirect !== undefined) App.trigger(redirect);
+                        if (!_.isUndefined(redirect)) App.trigger(redirect);
                     }
                 });
             }

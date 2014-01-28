@@ -30,6 +30,7 @@ function is_blank(data) {
     return is_empty(data); // fallback
 }
 
+
 /**
  * Checks if specified data is a string or a number.
  *
