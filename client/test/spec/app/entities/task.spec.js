@@ -98,7 +98,7 @@ function (App, Entities) {
             });
 
             it('Should order the Collection by the attribute \'priority\'.', function () {
-                var priority = -1;
+                var priority = 100;
 
                 tasks.add([
                     { priority: 9 },
@@ -109,7 +109,7 @@ function (App, Entities) {
                 ]);
 
                 tasks.each(function (t) {
-                    expect(priority).toBeLessThan(priority = t.get('priority'));
+                    expect(priority).toBeGreaterThan(priority = t.get('priority'));
                 });
             });
         });
