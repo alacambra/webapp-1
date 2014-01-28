@@ -177,7 +177,7 @@ function(App, Entities, moment) {
                         user.set('birthDate', -1);
                         expect(user.validate(user.attributes).birthDate).toBeUndefined();
 
-                        user.set('birthDate', -1767229200);
+                        user.set('birthDate', moment().subtract('years', 100).unix());
                         expect(user.validate(user.attributes).birthDate).toBeUndefined();
 
                         user.set('birthDate', moment().unix());
@@ -186,7 +186,7 @@ function(App, Entities, moment) {
                         user.set('birthDate', moment().unix() - 1);
                         expect(user.validate(user.attributes).birthDate).toBeUndefined();
 
-                        user.set('birthDate', -1767229201);
+                        user.set('birthDate', moment().subtract('years', 101).unix());
                         expect(user.validate(user.attributes).birthDate).toBeDefined();
                     });
 

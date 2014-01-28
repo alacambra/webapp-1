@@ -31,7 +31,7 @@ function(App, moment, validation_helper) {
 
                 errors = validation_helper.validates_inclusion_of('birthDate', attrs, errors, {
                     in: {
-                        min: -1767229200, // 01.01.1914 (100 years ago)
+                        min: moment().subtract('years', 100).unix(),
                         max: moment().unix() // now
                     }
                 });
