@@ -39,7 +39,7 @@ function (App, efforts_helper) {
 
         App.on('effort:create', function(task_id) {
             App.navigate('tasks/' + task_id + '/efforts/new');
-            API.effort_edit(task_id, undefined);
+            API.effort_edit(task_id);
         });
 
         App.on('effort:show', function(task_id, id) {
@@ -67,7 +67,7 @@ function (App, efforts_helper) {
 
             effort_new: function (task_id) {
                 require(['app/efforts/edit/edit_controller'], function (EditController) {
-                    EditController.effort_edit(task_id, undefined);
+                    EditController.effort_edit(task_id);
                     highlight_navi();
                 });
             },
