@@ -15,12 +15,6 @@ function (App, response_handler) {
                         });
 
                         edit_view.on('form:submit', function(data) {
-
-
-                            console.log(effort);
-
-
-
                             var model_validated = effort.save(data, {
                                 success: function() {
                                     App.trigger('task:show', effort.task_id);
