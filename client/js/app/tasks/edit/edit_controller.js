@@ -12,8 +12,7 @@ function (App, response_handler, users_helper) {
 
             var task_options = {};
             var redirect = {
-                event: 'task:show',
-                id: task_id
+                event: 'task:show'
             };
 
             if (options) {
@@ -57,7 +56,7 @@ function (App, response_handler, users_helper) {
                         if (options.xhr && options.xhr.getResponseHeader('X-Warning')) {
                             alert(options.xhr.getResponseHeader('X-Warning'));
                         }
-                        App.trigger(redirect.event, redirect.id);
+                        App.trigger(redirect.event, redirect.id || model.get('id'));
                     },
                     error: function(model, response) {
                         response_handler.handle(response, {
