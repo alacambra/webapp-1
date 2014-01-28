@@ -26,8 +26,14 @@ public class PersistedEffort extends PersistedModel<Effort> implements Effort{
 		super(manager, node, NODE_TYPE);
 	}
 
+	/*
+	 * @todo: in the system defaults must be loaded
+	 */
 	public PersistedEffort(NeoManager manager, Effort effort) throws NodeExistsException {
 		super(manager, NODE_TYPE, effort);
+		if(getTime() == null) {
+			setTime(0);
+		}
 	}
 
 	public PersistedEffort(NeoManager manager, String id) throws NotUniqueException,

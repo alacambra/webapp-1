@@ -106,12 +106,35 @@ public class TaskBoundary extends AbstractBoundry{
 		return Response.noContent().build();
 	}
 
+	/************************************* USER action TASK in TASK *************************************/
+	
+	@POST
+	@Path("/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createSubtaskInTask(@PathParam("parentId") String parentId, String json){
+		return null;
+	}
+	
+	@PUT
+	@Path(idPattern + "/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
+	public Response addSubtaskToTask(){
+		return null;
+	}
+	
+	@PUT
+	@Path(idPattern + "/from/task/" + "{sourceId:" + uuidRegexPattern + "}" + "/to/" + "{targetId:" + uuidRegexPattern + "}")
+	public Response moveSubtaskFromTaskToTask(){
+		return null;
+	}
+	
 	/************************************* USER action TASK in PROJECT *************************************/
 	@POST
 	@Path("/in/project/" + "{projectId:" + uuidRegexPattern + "}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createTaskInProject(@PathParam("id") String uuid, @PathParam("projectId") String projectId, String json) throws JsonParseException, JsonMappingException, IOException{
+	public Response createTaskInProject(@PathParam("projectId") String projectId, String json) 
+			throws JsonParseException, JsonMappingException, IOException{
 
 		Project p = entityFactory.getProjectById(projectId);
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);

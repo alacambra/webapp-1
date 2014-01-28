@@ -1,13 +1,10 @@
 package poolingpeople.webapplication.business.task.entity;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
-import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.task.boundary.EffortDto;
@@ -20,14 +17,7 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 	String relatedStructure = "project-task-task-effort-related.cy";
 	String unrelatedStructure = "project-task-task-effort-unrelated.cy";
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown(){
-	}
-
+	
 	private void loadRelatedStructure() {
 		addCypherStructure(relatedStructure);
 	}
@@ -141,15 +131,13 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		String q = "MATCH (n:TASK)-->()-->(child:TASK) return sum(child.DEFAULT_PROGRESS * child.DEFAULT_DURATION) / sum(child.DEFAULT_DURATION) as total ";
 		Double expectedProgress = (Double) manager.runCypherQuery(q, null).columnAs("total").next();
 		
-		System.out.println(expectedProgress);
-
 		Float f = Float.parseFloat(expectedProgress.toString());
 		assertEquals(f, t1.getProgress());
 
 	}
 	
 	@Test
-	public void effortIsCorrect(){
+	public void effortIsCorrect() {
 		loadRelatedStructure();
 		Task t1 = new PersistedTask(manager, "T1");
 		Task t11 = new PersistedTask(manager, "T11");
@@ -160,12 +148,40 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		Task t122= new PersistedTask(manager, "T122");
 		
 		
-		Effort effort = new PersistedEffort(manager, new EffortDto());
-		t111.addEffort(effort);
-		effort.setTime(10);		
+		EffortDto dto = new EffortDto();
 		String q = "MATCH (n:EFFORT) RETURN sum(n.time) as total";
 		Integer totalEffort = (Integer) manager.runCypherQuery(q, null).columnAs("total").next();
+		dto.setTime(10);
+		Effort effort = new PersistedEffort(manager, dto);
+		t111.addEffort(effort);
 		assertEquals(totalEffort, t1.getEffort());
+		
+		
+	}
+	
+	@Test
+	public void durationIsCorrect() {
+		loadUnrelatedStructure();
+		Task t1 = new PersistedTask(manager, "T1");
+		Task t11 = new PersistedTask(manager, "T11");
+		Task t111 = new PersistedTask(manager, "T111");
+		Task t112 = new PersistedTask(manager, "T112");
+		Task t12 = new PersistedTask(manager, "T12");
+		Task t121 = new PersistedTask(manager, "T121");
+		Task t122= new PersistedTask(manager, "T122");
+		
+		t1.addSubtask(t11);
+		t1.addSubtask(t12);
+		t11.addSubtask(t111);
+		t11.addSubtask(t112);
+		t12.addSubtask(t121);
+		t12.addSubtask(t122);
+		
+		String q = "MATCH (n:TASK)-->()-->(child:TASK) return sum(child.DEFAULT_DURATION) as total ";
+		Long expectedProgress = (Long) manager.runCypherQuery(q, null).columnAs("total").next();
+		
+		Integer f = Integer.parseInt(expectedProgress.toString());
+		assertEquals(f, t1.getDuration());
 		
 		
 	}
