@@ -94,17 +94,9 @@ function(App, validation_helper) {
             get_project_entity: function(project_id) {
                 var defer = $.Deferred();
 
-                if (_.isObject(project_id)) {
-                    // given project_id is a model, resolve unchanged project
-                    defer.resolve(project_id);
+                if (_.isObject(project_id)) return project_id;  // given project_id is a model, return model instead of promise
 
-                } else if (_.isUndefined(project_id)) {
-                    // no project_id is set, create new project model
-                    var project = new Entities.Project();
-
-                    defer.resolve(project);
-
-                } else if (is_string_or_number(project_id)) {
+                if (is_string_or_number(project_id)) {
                     // project_id is a valid id, fetch model from server and resolve response
                     new Entities.Project({ id: project_id }).fetch({
                         success: function (model, response) {
@@ -115,8 +107,14 @@ function(App, validation_helper) {
                         }
                     });
 
+                } else if (_.isUndefined(project_id)) {
+                    // no project_id is set, create new project model
+                    var project = new Entities.Project();
+
+                    defer.resolve(project);
+
                 } else {
-                    defer.resolve(undefined);
+                    throw new Error('wrong project type');
                 }
 
                 return defer.promise();

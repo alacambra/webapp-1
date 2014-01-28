@@ -69,17 +69,9 @@ function(App, moment, validation_helper) {
             get_user_entity: function(user_id) {
                 var defer = $.Deferred();
 
-                if (_.isObject(user_id)) {
-                    // given user_id is a model, resolve unchanged user
-                    defer.resolve(user_id);
+                if (_.isObject(user_id)) return user_id;    // given user_id is a model, return model instead of promise
 
-                } else if (_.isUndefined(user_id)) {
-                    // no user_id is set, create a new user model
-                    var user = new Entities.User();
-
-                    defer.resolve(user);
-
-                } else if (is_string_or_number(user_id)) {
+                if (is_string_or_number(user_id)) {
                     // user_id is a valid id, fetch model from server and resolve response
                     new Entities.User({ id: user_id }).fetch({
                         success: function (model, response) {
@@ -90,8 +82,14 @@ function(App, moment, validation_helper) {
                         }
                     });
 
+                } else if (_.isUndefined(user_id)) {
+                    // no user_id is set, create a new user model
+                    var user = new Entities.User();
+
+                    defer.resolve(user);
+
                 } else {
-                    defer.resolve(undefined);
+                    throw new Error('wrong user_id type');
                 }
 
                 return defer.promise();

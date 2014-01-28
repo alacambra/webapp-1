@@ -113,9 +113,18 @@ function(App, validation_helper) {
             get_task_entity: function(task_id, options) {
                 var defer = $.Deferred();
 
-                if (_.isObject(task_id)) {
-                    // given task_id is a model, resolve unchanged task
-                    defer.resolve(task_id);
+                if (_.isObject(task_id)) return task_id;    // given task_id is a model, return model instead of promise
+
+                if (is_string_or_number(task_id)) {
+                    // task_id is set, fetch model from server and resolve response
+                    new Entities.Task({ id: task_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(false, response);
+                        }
+                    });
 
                 } else if (_.isUndefined(task_id)) {
                     // no task_id is set, create a new task model
@@ -143,19 +152,8 @@ function(App, validation_helper) {
                     // resolve final new task
                     defer.resolve(task);
 
-                } else if (is_string_or_number(task_id)) {
-                    // task_id is set, fetch model from server and resolve response
-                    new Entities.Task({ id: task_id }).fetch({
-                        success: function (model, response) {
-                            defer.resolve(model, response);
-                        },
-                        error: function (model, response) {
-                            defer.resolve(false, response);
-                        }
-                    });
-
                 } else {
-                    defer.resolve(undefined);
+                    throw new Error('wrong task_id type')
                 }
 
                 return defer.promise();
