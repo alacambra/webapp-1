@@ -11,6 +11,10 @@ function(App, model_helper, validation_helper) {
             urlRoot: function () {
                 if (this.isNew() && !_.isNull(this.get('project'))) {
                     return App.model_base_url('tasks/in/project/' + this.get('project').id);
+
+                } else if (this.isNew() && !_.isNull(this.get('parentTask'))) {
+                    return App.model_base_url('tasks/in/task/' + this.get('parentTask').id);
+
                 } else {
                     return base_url;
                 }
