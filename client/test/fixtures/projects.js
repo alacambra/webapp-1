@@ -10,10 +10,10 @@ define({
 
         "taskCount": 2,
 
-        "startDateIsDefault": true,
-        "endDateIsDefault": true,
-        "progressIsDefault": true,
-        "statusIsDefault": true
+        "startDateIsDefault": false,
+        "endDateIsDefault": false,
+        "progressIsDefault": false,
+        "statusIsDefault": false
     },
     "1": {
         "id": 1,
@@ -24,8 +24,8 @@ define({
 
         "taskCount": 1,
 
-        "startDateIsDefault": false,
-        "endDateIsDefault": false,
+        "startDateIsDefault": true,
+        "endDateIsDefault": true,
         "progressIsDefault": false,
         "statusIsDefault": false
     },

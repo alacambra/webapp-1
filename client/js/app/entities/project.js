@@ -1,7 +1,8 @@
 define(['app',
+        'app/model_helper',
         'app/validation_helper',
         'app/entities/task'],
-function(App, validation_helper) {
+function(App, model_helper, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('projects');
 
@@ -19,24 +20,8 @@ function(App, validation_helper) {
                 taskCount: 0
             },
 
-            // fields to be disabled, when task has children
-            child_disable_fields: [],
-
-            disabled_fields: function() {
-                return this.get('taskCount') > 0 ? this.child_disable_fields : [];
-            },
-
             parse: function (response, options) {
-                var that = this;
-                that.child_disable_fields = [];
-
-                _.each(response, function (val, key) {
-                    var regex = key.match(/IsDefault$/)
-                    if (regex && !val) {
-                        var disabled_key = regex.input.substring(0, regex.index);
-                        that.child_disable_fields.push(disabled_key);
-                    }
-                });
+                this.disabled_fields = model_helper.disabled_fields(response);
 
                 return response;
             },
