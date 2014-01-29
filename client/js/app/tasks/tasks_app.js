@@ -68,11 +68,11 @@ function (App) {
         });
 
         App.on('task:move:to:project', function (task, target_project_id) {
-            API.task_move_to_project(task, target_project_id);
+            API.task_move(task, target_project_id, 'project');
         });
 
         App.on('task:move:to:task', function (task, target_task_id) {
-            API.task_move_to_task(task, target_task_id);
+            API.task_move(task, target_task_id, 'task');
         });
 
         var API = {
@@ -120,16 +120,17 @@ function (App) {
                 }
             },
 
-            task_move_to_project: function (task, target_project_id) {
-                if (!is_string_or_number(target_project_id)) {
-                    return;
-                }
+            task_move: function (task, id, type) {
+                var url = App.model_base_url('tasks/' + task.get('id'));
+                var error_msg = 'error';
 
-                var url;
-                if (_.isNull(task.get('project'))) {
-                    url = App.model_base_url('tasks/' + task.get('id') + '/in/project/' + target_project_id);
-                } else {
-                    url = App.model_base_url('tasks/' + task.get('id') + '/from/project/' + task.get('project').id + '/to/' + target_project_id);
+                if (type === 'project') {
+                    url += _.isNull(task.get('project')) ? '/in/project/' + id : '/from/project/' + task.get('project').id + '/to/' + id;
+                    error_msg = I18n.t('task.move_to_project_failed', { name: task.get('title'), project_id: id });
+
+                } else if (type === 'task') {
+                    url += _.isNull(task.get('parentTask')) ? '/in/task/' + id : '/from/task/' + task.get('parentTask').id + '/to/' + id;
+                    error_msg = I18n.t('task.move_to_task_failed', { name: task.get('title'), task_id: id });
                 }
 
                 Backbone.sync('update', task, {
@@ -142,36 +143,9 @@ function (App) {
                         });
                     },
                     error: function (response) {
-                        alert(I18n.t('task.move_to_project_failed', { name: task.get('title'), project_id: target_project_id }));
+                        alert(error_msg);
                     }
                 });
-            },
-
-            task_move_to_task: function (task, target_task_id) {
-                if (!is_string_or_number(target_task_id)) {
-                    return;
-                }
-
-                var url;
-                if (_.isNull(task.get('parentTask'))) {
-                    url = App.model_base_url('tasks/' + task.get('id') + '/in/task/' + target_task_id);
-                } else {
-                    url = App.model_base_url('tasks/' + task.get('id') + '/from/task/' + task.get('parentTask').id + '/to/' + target_task_id);
-                }
-
-                Backbone.sync('update', task, {
-                    data: {},
-                    url: url,
-                    success: function (response) {
-                        task.set(response);
-                        require(['app/tasks/show/show_controller'], function (ShowController) {
-                            ShowController.task_show(task);
-                        });
-                    },
-                    error: function (response) {
-                        alert(I18n.t('task.move_to_task_failed', { name: task.get('title'), task_id: target_task_id }));
-                    }
-                })
             },
 
             task_subtasks_new: function (parent_id) {
