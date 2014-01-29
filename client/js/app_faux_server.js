@@ -10,14 +10,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
 //    Faux.setLatency(200, 400);
 
-    function log_rest(context) {
+    function log_rest(context, info, type) {
         if (!CONFIG.rest.faux.log_rest) return;
 
-        console.log(context.httpMethod + ': ' + context.url);
+        var msg = info ? info + '\n' : '';
+        msg += context.httpMethod + ': ' + context.url;
+        msg += context.data ? '\ndata = ' + JSON.stringify(context.data, null, 4) : '';
 
-        if (context.data) {
-            console.log(JSON.stringify(context.data));
-        }
+        console[type || 'log'](msg);
     }
 
     var id = 100;
@@ -35,7 +35,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     /* -------- default -------- */
 
     Faux.setDefaultHandler(function(context) {
-        console.error(context.url + ' - ' + context.httpMethod + ' => not defined!');
+        log_rest(context, 'A handler for the following request is not defined.', 'warn');
     });
 
 
@@ -109,6 +109,20 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
 
     /* -------- project tasks -------- */
+
+    Faux.post(base_url + 'tasks/in/project/:project_id', function (context, project_id) {
+        log_rest(context);
+
+        task_add_assignee(context.data);
+
+        context.data.id = generate_id();
+        context.data.project = {
+            id: project_id,
+            title: projects[project_id].title
+        };
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
 
     Faux.get(base_url + 'projects/:project_id/tasks', function(context, project_id) {
         log_rest(context);

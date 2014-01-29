@@ -13,8 +13,8 @@ function (App, Entities) {
         });
 
         describe('Model', function () {
-            it('must have a urlRoot that contains \'task\'.', function() {
-                expect(Entities.Task.prototype.urlRoot).toContain('task');
+            it('must have a urlRoot that contains \'tasks\'.', function() {
+                expect(task.urlRoot()).toContain('tasks');
             });
 
             it('must have default attributes.', function () {
