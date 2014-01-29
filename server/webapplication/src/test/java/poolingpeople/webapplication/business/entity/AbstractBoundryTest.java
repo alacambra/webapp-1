@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 
 import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
+import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
 import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
@@ -48,6 +49,12 @@ public abstract class AbstractBoundryTest {
 
 	@Inject
 	protected RestObjectsHelper restObjectsHelper;
+	
+	@Inject
+	protected EntityFactory entityFactory;
+	
+	@Inject 
+	protected NeoManager manager;
 	
 	protected ObjectMapper mapper = new ObjectMapper();
 	
@@ -105,7 +112,7 @@ public abstract class AbstractBoundryTest {
 
 	}
 
-	protected Map<String, Object> insertProjectFromFile(String filename) {
+	protected Map<Object, Object> insertProjectFromFile(String filename) {
 		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertProjectFromJson(json);
 	}
@@ -124,7 +131,7 @@ public abstract class AbstractBoundryTest {
 
 	}
 
-	protected Map<String, Object> insertUserFromFile(String filename) {
+	protected Map<Object, Object> insertUserFromFile(String filename) {
 		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertUserFromJson(json);
 	}
@@ -220,11 +227,11 @@ public abstract class AbstractBoundryTest {
 		return projects;
 	}
 
-	protected List<Map<String, Object>> createUserListFromUserFile(String userRequestFile, int num) {
-		List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
+	protected List<Map<Object, Object>> createUserListFromUserFile(String userRequestFile, int num) {
+		List<Map<Object, Object>> users = new ArrayList<Map<Object, Object>>();
 
 		for (int i = 0; i<num; i++ ) {
-			Map<String, Object> created = insertUserFromFile(userRequestFile);
+			Map<Object, Object> created = insertUserFromFile(userRequestFile);
 			users.add(created);
 		}
 

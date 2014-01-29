@@ -3,7 +3,7 @@ package poolingpeople.webapplication.business.task.entity;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.entity.DTOConverter;
-import poolingpeople.webapplication.business.entity.PersistedModel;
+import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
@@ -13,7 +13,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsExceptio
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedEffort extends PersistedModel<Effort> implements Effort{
+public class PersistedEffort extends AbstractPersistedModel<Effort> implements Effort{
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	
@@ -41,9 +41,9 @@ public class PersistedEffort extends PersistedModel<Effort> implements Effort{
 		super(manager, id, NODE_TYPE);
 	}
 
-	public PersistedEffort() throws NodeExistsException {
-		super(NODE_TYPE);
-	}
+//	public PersistedEffort() throws NodeExistsException {
+//		super(NODE_TYPE);
+//	}
 
 	@Override
 	public Long getDate() {
@@ -88,6 +88,11 @@ public class PersistedEffort extends PersistedModel<Effort> implements Effort{
 		PersistedTask persistedTask = new PersistedTask(manager, n);
 		persistedTask.updateEfforts();
 
+	}
+
+	@Override
+	protected void initializeVariables() {
+		
 	}
 
 

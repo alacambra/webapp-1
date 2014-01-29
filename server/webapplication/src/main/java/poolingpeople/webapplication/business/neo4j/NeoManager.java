@@ -30,7 +30,7 @@ import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.impl.util.StringLogger;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
-import poolingpeople.webapplication.business.entity.PersistedModel;
+import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
@@ -377,7 +377,7 @@ public class NeoManager {
 		}
 	}
 	
-	public <T extends PersistedModel<?>> T wrapNodeInPersistenceWrapper(Node n, Class<T> clazz) {
+	public <T extends AbstractPersistedModel<?>> T wrapNodeInPersistenceWrapper(Node n, Class<T> clazz) {
 		try {
 
 			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);

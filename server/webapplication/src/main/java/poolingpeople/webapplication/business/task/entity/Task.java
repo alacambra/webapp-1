@@ -89,6 +89,10 @@ public interface Task{
 	void removeTaskRelation(Task child);
 
 	void setAssignee(User u);
+
+	Task getParent();
+
+	User getAssignee();
 	
 }
 

@@ -4,7 +4,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
-import poolingpeople.webapplication.business.entity.PersistedModel;
+import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.NodePropertyName;
@@ -15,7 +15,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceExcepti
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 
-public class PersistedUser extends PersistedModel<User> implements User {
+public class PersistedUser extends AbstractPersistedModel<User> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 
@@ -41,20 +41,25 @@ public class PersistedUser extends PersistedModel<User> implements User {
 		
 	}
 
-	public PersistedUser() throws NodeExistsException {
-		super(NODE_TYPE);
-	}
+//	public PersistedUser() throws NodeExistsException {
+//		super(NODE_TYPE);
+//	}
 
-	public PersistedUser(NeoManager manager) throws NodeExistsException {
-		super(NODE_TYPE);
-		this.manager = manager;
+//	public PersistedUser(NeoManager manager) throws NodeExistsException {
+//		super(manager, NODE_TYPE);
+//		this.manager = manager;
+//	}
+	
+	public PersistedUser(NeoManager manager, String email, String password){
+		super(manager, NODE_TYPE);
+		loadByCredentials(email, password);
 	}
 
 	public PersistedUser(NeoManager manager, Node node) {
 		super(manager, node, NODE_TYPE);
 	}
 
-	public void loadByCredentials(String email, String password) {
+	private void loadByCredentials(String email, String password) {
 
 		if (underlyingNode != null) {
 			throw new RootApplicationException("Node already loaded");
@@ -147,6 +152,12 @@ public class PersistedUser extends PersistedModel<User> implements User {
 	@Override
 	public void setBirthDate(Long birthDate) {
 		manager.setProperty(underlyingNode, NodePropertyName.BIRTHDATE.name(), birthDate);
+	}
+
+	@Override
+	protected void initializeVariables() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

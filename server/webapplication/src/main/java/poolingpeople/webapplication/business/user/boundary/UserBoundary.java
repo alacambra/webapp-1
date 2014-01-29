@@ -107,21 +107,21 @@ public class UserBoundary {
 		return Response.ok().build();
 	}
 
-	@GET
-	@Path("fakeit")
-	@Produces(MediaType.APPLICATION_JSON)
-	@AuthNotRequired
-	public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
-
-		User persistedUser = entityFactory.createUser("al@al.com" + new Date().getTime(), "a", new PersistedUser());
-
-//		persistedUser.setEmail("al@al.com" + new Date().getTime());
-		persistedUser.setFirstName("al");
-		persistedUser.setLastName("ipsum");
-
-		String r = mapper.writeValueAsString(persistedUser);
-		return Response.ok().entity(r).build();
-	}
+//	@GET
+//	@Path("fakeit")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@AuthNotRequired
+//	public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
+//
+//		User persistedUser = entityFactory.createUser("al@al.com" + new Date().getTime(), "a", new PersistedUser(new UserDTO()));
+//
+////		persistedUser.setEmail("al@al.com" + new Date().getTime());
+//		persistedUser.setFirstName("al");
+//		persistedUser.setLastName("ipsum");
+//
+//		String r = mapper.writeValueAsString(persistedUser);
+//		return Response.ok().entity(r).build();
+//	}
 
 	private  <T>  T deserializeAndValidate(String json, Class<T> clazz) 
 			throws JsonParseException, JsonMappingException, IOException {

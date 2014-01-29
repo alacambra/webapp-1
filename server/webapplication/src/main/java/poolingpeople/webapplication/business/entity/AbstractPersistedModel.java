@@ -24,7 +24,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundExcept
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
 
-public abstract class PersistedModel<T>{
+public abstract class AbstractPersistedModel<T>{
 
 	protected Node underlyingNode;
 	protected NeoManager manager;
@@ -35,7 +35,7 @@ public abstract class PersistedModel<T>{
 	private final PoolingpeopleObjectType NODE_TYPE;
 
 
-	public PersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
+	public AbstractPersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
 			throws NotUniqueException, NodeNotFoundException {
 
 		this(objectType);
@@ -44,7 +44,7 @@ public abstract class PersistedModel<T>{
 
 	}
 
-	public PersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
+	public AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
 		this(objectType);
 
 		isCreated = false;
@@ -55,15 +55,21 @@ public abstract class PersistedModel<T>{
 				.randomUUID().toString()), NODE_TYPE);
 
 		fromDTOtoPersitedBean(dtoModel);
-
+		initializeVariables();
+		
 		isCreated = true;
 	}
 
-	protected PersistedModel(PoolingpeopleObjectType objectType) throws NodeExistsException{
+	private AbstractPersistedModel(PoolingpeopleObjectType objectType) throws NodeExistsException{
 		NODE_TYPE = objectType;
 	}
+	
+	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType){
+		this(objectType);
+		this.manager = manager;
+	}
 
-	public PersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
+	public AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
 
 		this(objectType);
 
@@ -92,7 +98,7 @@ public abstract class PersistedModel<T>{
 				NodePropertyName.ID.name());
 	}
 
-	protected void createRelationTo(Relations relation, PersistedModel<?> to, boolean mustBeUnique) {
+	protected void createRelationTo(Relations relation, AbstractPersistedModel<?> to, boolean mustBeUnique) {
 
 		if(mustBeUnique && manager.relationExists(underlyingNode, to.getNode(), relation)) {
 			throw new RelationAlreadyExistsException();
@@ -168,11 +174,11 @@ public abstract class PersistedModel<T>{
 		return manager.getLongProperty(underlyingNode, property.name());
 	}
 
-	protected void createRelationshipTo(PersistedModel<?> to, Relations relation) {
+	protected void createRelationshipTo(AbstractPersistedModel<?> to, Relations relation) {
 		manager.createRelationshipTo(underlyingNode, to.getNode(), relation);
 	}
 
-	protected void createRelationshipFrom(PersistedModel<?> from, Relations relation) {
+	protected void createRelationshipFrom(AbstractPersistedModel<?> from, Relations relation) {
 		manager.createRelationshipTo(from.getNode(), underlyingNode, relation);
 	}
 
@@ -188,13 +194,13 @@ public abstract class PersistedModel<T>{
 		onDelete();
 	}
 
-	protected <P extends PersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz) {
+	protected <P extends AbstractPersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz) {
 
 		return manager.wrapNodeInPersistenceWrapper(manager.getRelatedNode(underlyingNode, relation), clazz);
 
 	}
 
-	protected <P extends PersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz, Direction direction) {
+	protected <P extends AbstractPersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz, Direction direction) {
 
 		Node n = manager.getRelatedNode(underlyingNode, relation, direction);
 		
@@ -232,7 +238,7 @@ public abstract class PersistedModel<T>{
 		return underlyingNode.hashCode();
 	}
 
-
+	protected abstract void initializeVariables();
 
 
 }

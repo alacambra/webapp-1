@@ -3,10 +3,13 @@ package poolingpeople.webapplication.business.project.entity;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.helpers.DefaultValidationEventHandler;
+
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.webapplication.business.entity.PersistedModel;
+import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
+import poolingpeople.webapplication.business.neo4j.DefaultValues;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
@@ -19,7 +22,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundEx
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
 
-public class PersistedProject extends PersistedModel<Project> implements Project {
+public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
 	private List<PersistedTask> relatedTasks;
@@ -208,11 +211,11 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public void addTask(Task task) {
 
-		if (manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
+		if (manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
 			throw new RelationAlreadyExistsException();
 		}
 
-		createRelationshipTo((PersistedModel<?>) task, Relations.PROJECT_HAS_TASK);
+		createRelationshipTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK);
 
 		//		Long startDate = task.getStartDate();
 		//		Long endDate = task.getEndDate();
@@ -231,21 +234,21 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	 */
 	@Override
 	public void removeTask(Task task) {
-		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
+		if (!manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
 			throw new RelationNotFoundException();
 		}
 
-		manager.removeNode(((PersistedModel<?>) task).getNode());
+		manager.removeNode(((AbstractPersistedModel<?>) task).getNode());
 		updateAll();
 	}
 
 	@Override
 	public void removeTaskRelation(Task task) {
-		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
+		if (!manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
 			throw new RelationNotFoundException();
 		}
 
-		manager.removeRelation(underlyingNode, ((PersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK);
+		manager.removeRelation(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK);
 		updateAll();
 	}
 
@@ -299,12 +302,8 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public void updateDates() {
 
-		Long invalidStartDate = 99999999999999L;
-		Long invalidEndDate = 0L;
-
-
-		Long startDate = invalidStartDate;
-		Long endDate = invalidEndDate;
+		Long startDate = DefaultValues.invalidStartDate;
+		Long endDate = DefaultValues.invalidEndDate;
 		Long currentStartDate = getStartDate();
 		Long currentEndDate = getEndDate();
 
@@ -376,6 +375,23 @@ public class PersistedProject extends PersistedModel<Project> implements Project
 	@Override
 	public Integer getTaskCount() {
 		return getTasks().size();
+	}
+
+	@Override
+	protected void initializeVariables() {
+		
+		if ( getDefaultStartDate() == null )
+			setDefaultStartDate(DefaultValues.invalidStartDate);
+
+		if ( getDefaultEndDate() == null )
+			setDefaultEndDate(DefaultValues.invalidEndDate);
+
+		if ( getDefaultProgress() == null )
+			setDefaultProgress(DefaultValues.defaultProgress);
+		
+		if ( getEffort() == null )
+			setEffort(DefaultValues.defaultEffort);
+		
 	}
 
 }

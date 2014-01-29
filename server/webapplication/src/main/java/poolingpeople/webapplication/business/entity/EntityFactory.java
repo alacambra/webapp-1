@@ -75,8 +75,8 @@ public class EntityFactory {
 
 		try{
 
-			PersistedUser persistedUser = new PersistedUser(manager);
-			persistedUser.loadByCredentials(email, password);
+			PersistedUser persistedUser = new PersistedUser(manager, email, password);
+//			persistedUser.loadByCredentials(email, password);
 			
 			return persistedUser;
 			

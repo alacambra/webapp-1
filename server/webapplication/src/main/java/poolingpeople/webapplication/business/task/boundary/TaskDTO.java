@@ -229,5 +229,17 @@ public class TaskDTO implements Task {
 		
 	}
 
+	@Override
+	public Task getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getAssignee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

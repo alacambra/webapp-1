@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.task.boundary;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -8,19 +9,25 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.neo4j.graphdb.Transaction;
 
 import static org.junit.Assert.*;
 import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
+import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.entity.User;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
 public class TaskBoundaryTest extends AbstractBoundryTest{
 
 	@Inject
 	TaskBoundary target;
-	
+
 	@Before
 	public void setUp() {
 	}
@@ -94,6 +101,180 @@ public class TaskBoundaryTest extends AbstractBoundryTest{
 			assertEquals(Status.NOT_FOUND.getStatusCode(), e.getResponse().getStatus());
 		}
 	}
+
+	@Test
+	public void testCreateSubtaskInTask() throws JsonParseException, JsonMappingException, IOException{
+		Map<Object, Object> parent = insertTaskFromFile(taskRequestFile);
+		Response r = target.createSubtaskInTask((String) parent.get("id"), FileLoader.getText(jsonModelsPath + taskRequestFile));
+		assertEquals(Status.OK.getStatusCode(), r.getStatus());
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try{
+			Task parentTask = entityFactory.getTaskById((String) parent.get("id"));
+			Task child = entityFactory.getTaskById((String) convertJsonToMap((String) r.getEntity()).get("id"));
+			assertEquals(child.getParent(), parentTask);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+
+	}
+
+	@Test
+	public void testAddSubtaskToTask(){
+
+		Map<Object, Object> parent = insertTaskFromFile(taskRequestFile);
+		Map<Object, Object> child = insertTaskFromFile(taskRequestFile);
+		Response r = target.addSubtaskToTask((String) child.get("id"), (String) parent.get("id"));
+		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
+
+		Transaction tx = manager.getGraphDbService().beginTx();
+
+		try{
+			Task parentTask = entityFactory.getTaskById((String) parent.get("id"));
+			Task childTask = entityFactory.getTaskById((String) child.get("id"));
+			assertNotNull(childTask.getParent());
+			assertEquals(childTask.getParent(), parentTask);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+	}
+
+	@Test
+	public void testMoveSubtaskFromTaskToTask(){
+		Map<Object, Object> source = insertTaskFromFile(taskRequestFile);
+		Map<Object, Object> dest = insertTaskFromFile(taskRequestFile);
+		Map<Object, Object> child = insertTaskFromFile(taskRequestFile);
+		
+		Response r = target.addSubtaskToTask((String) child.get("id"), (String) source.get("id"));
+		
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try{
+			Task parentTask = entityFactory.getTaskById((String) source.get("id"));
+			Task childTask = entityFactory.getTaskById((String) child.get("id"));
+			assertNotNull(childTask.getParent());
+			assertEquals(childTask.getParent(), parentTask);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+		
+		r = target.moveSubtaskFromTaskToTask((String) child.get("id"), (String) source.get("id"), (String) dest.get("id"));
+		
+		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
+
+		tx = manager.getGraphDbService().beginTx();
+		try{
+			Task destTask = entityFactory.getTaskById((String) dest.get("id"));
+			Task childTask = entityFactory.getTaskById((String) child.get("id"));
+			assertNotNull(childTask.getParent());
+			assertEquals(childTask.getParent(), destTask);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+	}
+
+	@Test
+	public void testCreateTaskInProject() throws JsonParseException, JsonMappingException, IOException{
+		Map<Object, Object> project = insertProjectFromFile(projectRequestFile);
+		Response r = target.createTaskInProject((String) project.get("id"), FileLoader.getText(jsonModelsPath + taskRequestFile));
+		assertEquals(Status.OK.getStatusCode(), r.getStatus());
+		
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try{
+			Project parentProject = entityFactory.getProjectById((String) project.get("id"));
+			Task childTask = entityFactory.getTaskById((String) (convertJsonToMap((String) r.getEntity()).get("id")));
+			assertNotNull(childTask.getProject());
+			assertEquals(childTask.getProject(), parentProject);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+	}
+
+	@Test
+	public void testAddTaskToProject() throws JsonParseException, JsonMappingException, IOException{
+
+		Map<Object, Object> project = insertProjectFromFile(projectRequestFile);
+		Map<Object, Object> task = insertTaskFromFile(taskRequestFile);
+		Response r = target.addTaskToProject((String) task.get("id"), (String) project.get("id"));
+		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
+		
+		Transaction tx = manager.getGraphDbService().beginTx();
+		
+		try{
+			Project parentProject = entityFactory.getProjectById((String) project.get("id"));
+			Task childTask = entityFactory.getTaskById((String) task.get("id"));
+			assertNotNull(childTask.getProject());
+			assertEquals(childTask.getProject(), parentProject);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+		
+	}
+
+	@Test
+	public void testMoveTaskFromProjectToProject() throws JsonParseException, JsonMappingException, IOException{
+		
+		Map<Object, Object> source = insertProjectFromFile(projectRequestFile);
+		Map<Object, Object> dest = insertProjectFromFile(projectRequestFile);
+		Map<Object, Object> child = insertTaskFromFile(taskRequestFile);
+		
+		Response r = target.addTaskToProject((String) child.get("id"), (String) source.get("id"));
+		
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try{
+			Project sourceProject = entityFactory.getProjectById((String) source.get("id"));
+			Task childTask = entityFactory.getTaskById((String) child.get("id"));
+			assertNotNull(childTask.getProject());
+			assertEquals(childTask.getProject(), sourceProject);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+		
+		r = target.moveTaskFromProjectToProject((String) child.get("id"), (String) source.get("id"), (String) dest.get("id"));
+		
+		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
+
+		tx = manager.getGraphDbService().beginTx();
+		try{
+			Project destProject = entityFactory.getProjectById((String) dest.get("id"));
+			Task childTask = entityFactory.getTaskById((String) child.get("id"));
+			assertNotNull(childTask.getProject());
+			assertEquals(childTask.getProject(), destProject);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+
+	}
+
+	@Test
+	public void testAssignTaskToUser(){
+
+		Map<Object, Object>  user = insertUserFromFile(userRequestFile);
+		Map<Object, Object> task = insertTaskFromFile(taskRequestFile);
+		
+		Response r = target.assignTaskToUser((String)task.get("id"), (String) user.get("id"));
+		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
+		
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try{
+			User assignee = entityFactory.getUserById((String) user.get("id"));
+			Task assignedTask= entityFactory.getTaskById((String) task.get("id"));
+			assertNotNull(assignedTask.getAssignee());
+			assertEquals(assignedTask.getAssignee(), assignee);
+			tx.success();
+		} finally {
+			tx.close();
+		}
+	}
+
+
+
 
 
 

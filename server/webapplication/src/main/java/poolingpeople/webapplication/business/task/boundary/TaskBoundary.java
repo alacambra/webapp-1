@@ -125,10 +125,10 @@ public class TaskBoundary extends AbstractBoundry{
 
 	@PUT
 	@Path(idPattern + "/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
-	public Response addSubtaskToTask(@PathParam("id") String id, @PathParam("parentId") String parentId){
+	public Response addSubtaskToTask(@PathParam("id") String childId, @PathParam("parentId") String parentId){
 
 		Task parentTask = entityFactory.getTaskById(parentId);
-		Task childTask = entityFactory.getTaskById(id);
+		Task childTask = entityFactory.getTaskById(childId);
 
 		parentTask.addSubtask(childTask);
 		return Response.noContent().build();

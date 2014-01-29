@@ -26,13 +26,13 @@ public class ProjectBoundaryTest extends AbstractBoundryTest {
 	
 	@Test
 	public void testGetProjectById() throws JsonGenerationException, JsonMappingException, IOException {
-		Map<String,Object> createdProjectData = insertProjectFromFile(projectRequestFile);
-		Map<String,Object> expected = convertJsonFileToMap(projectResponseFile);
+		Map<Object,Object> createdProjectData = insertProjectFromFile(projectRequestFile);
+		Map<Object,Object> expected = convertJsonFileToMap(projectResponseFile);
 		expected.put("id", createdProjectData.get("id"));
 
 		Response response = target.getProjectById((String) createdProjectData.get("id"));
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		Map<String,Object> actual = convertJsonToMap((String)response.getEntity());
+		Map<Object,Object> actual = convertJsonToMap((String)response.getEntity());
 
 		assertTrue(mapsAreEquals(expected, actual));
 	}
@@ -64,14 +64,14 @@ public class ProjectBoundaryTest extends AbstractBoundryTest {
 	@Test
 	public void testUpdateProject() throws JsonParseException, JsonMappingException, IOException {
 		String title = "title under test";
-		Map<String,Object> inserted = insertProjectFromFile(projectRequestFile);
-		Map<String,Object> expected = convertJsonFileToMap(projectResponseFile);
+		Map<Object,Object> inserted = insertProjectFromFile(projectRequestFile);
+		Map<Object,Object> expected = convertJsonFileToMap(projectResponseFile);
 		expected.put("id", inserted.get("id"));
 		expected.put("title", title);
 		String json = convertMapToJson(expected);
 		Response r = target.updateProject((String) expected.get("id"), json);
 		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
-		Map<String,Object> actual = convertJsonToMap((String)target.getProjectById((String) inserted.get("id")).getEntity());
+		Map<Object,Object> actual = convertJsonToMap((String)target.getProjectById((String) inserted.get("id")).getEntity());
 		assertTrue(mapsAreEquals(expected, actual));
 	}
 

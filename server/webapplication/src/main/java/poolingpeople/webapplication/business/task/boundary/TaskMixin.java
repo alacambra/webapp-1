@@ -159,79 +159,79 @@ public class TaskMixin implements Task{
 
 	@Override
 	@JsonView(JsonViews.FullTask.class)
+	@JsonIgnore
 	public Project getProject() {
 		return null;
 	}
 
 	@Override
 	public void setDefaultStartDate(Long startDate) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setDefaultEndDate(Long endDate) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setDefaultProgress(Float progress) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void updateProgress() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void updateDates() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void updateAll() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void updateDuration() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void updateEfforts() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void addSubtask(Task child) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void removeSubtask(Task child){
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void removeTaskRelation(Task child) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setAssignee(User u) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Task getParent() {
+		return null;
+	}
+
+	@Override
+	@JsonIgnore
+	public User getAssignee() {
+		return null;
 	}
 }
