@@ -8,7 +8,13 @@ function(App, model_helper, validation_helper) {
         var base_url = App.model_base_url('tasks');
 
         Entities.Task = Backbone.Model.extend({
-            urlRoot: base_url,
+            urlRoot: function () {
+                if (this.isNew() && !_.isNull(this.get('project'))) {
+                    return App.model_base_url('tasks/in/project/' + this.get('project').id);
+                } else {
+                    return base_url;
+                }
+            },
 
             defaults: {
                 id: null,
