@@ -117,7 +117,7 @@ function (App) {
             },
 
             task_move: function (task, target_project_id) {
-                if (_.isEmpty(target_project_id)) {
+                if (!is_string_or_number(target_project_id)) {
                     return;
                 }
 
