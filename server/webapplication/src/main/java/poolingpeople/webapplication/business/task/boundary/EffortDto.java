@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.task.boundary;
 
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.task.entity.Effort;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public class EffortDto implements Effort{
 	
@@ -34,6 +35,10 @@ public class EffortDto implements Effort{
 	}
 	public void setTime(Integer time) {
 		this.time = time;
+	}
+	@Override
+	public String getTaskId() {
+		return null;
 	}
 	
 	

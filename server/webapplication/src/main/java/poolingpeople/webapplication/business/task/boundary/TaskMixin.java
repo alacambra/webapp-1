@@ -225,13 +225,19 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonIgnore
 	public Task getParent() {
 		return null;
 	}
 
 	@Override
-	@JsonIgnore
 	public User getAssignee() {
+		return null;
+	}
+
+	@Override
+	public String getParentId() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

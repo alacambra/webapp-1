@@ -6,6 +6,7 @@ import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.task.entity.Effort;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EffortMixin implements Effort{
@@ -52,6 +53,11 @@ public class EffortMixin implements Effort{
 	
 	@JsonIgnore
 	public PoolingpeopleObjectType getNodeType() {
+		return null;
+	}
+
+	@Override
+	public String getTaskId() {
 		return null;
 	}
 

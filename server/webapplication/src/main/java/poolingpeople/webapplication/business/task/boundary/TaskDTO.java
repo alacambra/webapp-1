@@ -241,5 +241,11 @@ public class TaskDTO implements Task {
 		return null;
 	}
 
+	@Override
+	public String getParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

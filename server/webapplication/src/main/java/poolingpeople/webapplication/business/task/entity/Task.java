@@ -91,6 +91,7 @@ public interface Task{
 	void setAssignee(User u);
 
 	Task getParent();
+	String getParentId();
 
 	User getAssignee();
 	

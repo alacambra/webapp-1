@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.task.entity;
 
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.entity.DTOConverter;
@@ -40,10 +41,6 @@ public class PersistedEffort extends AbstractPersistedModel<Effort> implements E
 	NodeNotFoundException {
 		super(manager, id, NODE_TYPE);
 	}
-
-//	public PersistedEffort() throws NodeExistsException {
-//		super(NODE_TYPE);
-//	}
 
 	@Override
 	public Long getDate() {
@@ -92,7 +89,13 @@ public class PersistedEffort extends AbstractPersistedModel<Effort> implements E
 
 	@Override
 	protected void initializeVariables() {
-		
+		if ( getTime() == null )
+			setTime(0);
+	}
+
+	@Override
+	public String getTaskId() {
+		return getRelatedNode(Relations.HAS_EFFORT, PersistedTask.class, Direction.INCOMING).getId();
 	}
 
 

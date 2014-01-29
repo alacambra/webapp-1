@@ -569,6 +569,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		return getRelatedNode(Relations.DOES, PersistedUser.class, Direction.INCOMING);
 	}
 
+	@Override
+	public String getParentId() {
+		return getParent().getId();
+	}
+
 
 }
 
