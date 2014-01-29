@@ -99,7 +99,7 @@ function (App) {
 
             task_delete: function (task, redirect) {
                 var title = task.get('title');
-                var count = task.subtasks.length;
+                var count = task.get('subtaskCount');
 
                 var confirm1 = confirm(I18n.t('delete_confirm', { name: title }));
                 var confirm2 = count > 0 ? confirm(I18n.t('task.delete_confirm', { name: title, count: count })) : true;
