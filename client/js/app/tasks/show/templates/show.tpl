@@ -61,8 +61,12 @@
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
 <%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
-<button type="button" class="btn btn-default btn-sm btn-text right-space js-move-task">
-    <span class="glyphicon glyphicon-transfer"></span> <%= I18n.t('move') %>
+<button type="button" class="btn btn-default btn-sm btn-text right-space js-move-to-project">
+    <span class="glyphicon glyphicon-transfer"></span> <%= I18n.t('task.move_to_project') %>
+</button>
+
+<button type="button" class="btn btn-default btn-sm btn-text right-space js-move-to-task">
+    <span class="glyphicon glyphicon-transfer"></span> <%= I18n.t('task.move_to_task') %>
 </button>
 
 <button type="button" class="btn btn-default btn-sm btn-text js-delete-task">

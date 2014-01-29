@@ -18,7 +18,8 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
             events: {
                 'click a[data-navigate]': App.handle_link,
                 'click .js-delete-task': 'delete_item',
-                'click .js-move-task': 'move_item'
+                'click .js-move-to-project': 'move_item_to_project',
+                'click .js-move-to-task': 'move_item_to_task'
             },
 
 
@@ -34,9 +35,15 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
             },
 
 
-            move_item: function () {
-                var target_project_id = prompt(I18n.t('task.move_prompt'));
-                App.trigger('task:move', this.model, target_project_id);
+            move_item_to_project: function () {
+                var target_project_id = prompt(I18n.t('task.move_to_project_prompt'));
+                App.trigger('task:move:to:project', this.model, target_project_id);
+            },
+
+
+            move_item_to_task: function () {
+                var target_task_id = prompt(I18n.t('task.move_to_task_prompt'));
+                App.trigger('task:move:to:task', this.model, target_task_id);
             }
         });
     });
