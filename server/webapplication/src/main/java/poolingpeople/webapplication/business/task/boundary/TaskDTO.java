@@ -12,6 +12,7 @@ import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public class TaskDTO implements Task {
 
@@ -212,6 +213,18 @@ public class TaskDTO implements Task {
 
 	@Override
 	public void removeSubtask(Task child) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeTaskRelation(Task child) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAssignee(User u) {
 		// TODO Auto-generated method stub
 		
 	}

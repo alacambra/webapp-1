@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.PersistedModel;
@@ -19,6 +20,7 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
 import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public class PersistedTask extends PersistedModel<Task> implements Task {
 
@@ -274,14 +276,22 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		createRelationTo(Relations.HAS_SUBTASK, (PersistedModel<?>) child, true);
 		updateAll();
 	}
+	
+	@Override
+	public void removeTaskRelation(Task child) {
+		
+		isParentOfChildOrException(child);
+		manager.removeRelation(underlyingNode, ((PersistedModel<Project>) child).getNode(), Relations.HAS_SUBTASK);
+		
+	}
+	
 	/*
 	 * @todo: what happens with the subtasks? 
 	 */
 	@Override
 	public void removeSubtask(Task child){
-		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) child).getNode(), Relations.HAS_SUBTASK)) {
-			throw new RelationNotFoundException();
-		}
+		
+		isParentOfChildOrException(child);
 
 		manager.removeNode(((PersistedModel<?>) child).getNode());
 		updateAll();
@@ -326,6 +336,11 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 		}
 
 		return null;
+	}
+	
+	@Override
+	public void setAssignee(User u) {
+		manager.removeRelation(((PersistedModel<User>) u).getNode(), underlyingNode, Relations.DOES);
 	}
 
 	/**************** UPDATE METHODS *****************/
@@ -505,6 +520,13 @@ public class PersistedTask extends PersistedModel<Task> implements Task {
 
 		return parent;
 	}
+	
+	private void isParentOfChildOrException(Task child) {
+		if (!manager.relationExists(underlyingNode, ((PersistedModel<?>) child).getNode(), Relations.HAS_SUBTASK)) {
+			throw new RelationNotFoundException();
+		}
+	}
+
 
 }
 

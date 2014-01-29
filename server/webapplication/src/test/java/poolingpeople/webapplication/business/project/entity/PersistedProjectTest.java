@@ -2,22 +2,11 @@ package poolingpeople.webapplication.business.project.entity;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.tooling.GlobalGraphOperations;
-
 import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
-import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.utils.helpers.FileLoader;
-import poolingpeople.webapplication.business.utils.helpers.Neo4jRunner;
 
 
 public class PersistedProjectTest extends AbstractPersitanceTest{

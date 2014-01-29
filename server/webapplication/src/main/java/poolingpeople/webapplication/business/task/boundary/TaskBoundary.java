@@ -23,16 +23,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
-import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.boundary.LoggedUserContainer;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.task.entity.TaskPriority;
-import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("tasks")
 @Stateless
@@ -106,47 +103,55 @@ public class TaskBoundary extends AbstractBoundry{
 		return Response.noContent().build();
 	}
 
-	/************************************* USER action TASK in TASK 
-	 * @throws IOException 
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException *************************************/
-	
+	/************************************* USER action TASK in TASK *************************************/
+
 	@POST
 	@Path("/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createSubtaskInTask(@PathParam("parentId") String parentId, String json)
 			throws JsonParseException, JsonMappingException, IOException{
-		
+
 		Task parentTask = entityFactory.getTaskById(parentId);
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
-		
+
 		parentTask.addSubtask(task);
-		
+
 		String r = mapper.writeValueAsString(task);
 		return Response.ok().entity(r).build();
-		
+
 	}
-	
+
 	@PUT
 	@Path(idPattern + "/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
 	public Response addSubtaskToTask(@PathParam("id") String id, @PathParam("parentId") String parentId){
-		
+
 		Task parentTask = entityFactory.getTaskById(parentId);
 		Task childTask = entityFactory.getTaskById(id);
-		
+
 		parentTask.addSubtask(childTask);
-		
 		return Response.noContent().build();
 	}
-	
+
 	@PUT
 	@Path(idPattern + "/from/task/" + "{sourceId:" + uuidRegexPattern + "}" + "/to/" + "{targetId:" + uuidRegexPattern + "}")
-	public Response moveSubtaskFromTaskToTask(){
-		return null;
+	public Response moveSubtaskFromTaskToTask(
+			@PathParam("id") String taskId, 
+			@PathParam("sourceId") String sourceId,
+			@PathParam("targetId") String targetId
+			){
+
+		Task source = entityFactory.getTaskById(sourceId);
+		Task target = entityFactory.getTaskById(targetId);
+		Task task = entityFactory.getTaskById(taskId);
+
+		source.removeTaskRelation(task);
+		target.addSubtask(task);
+
+		return Response.noContent().build();
 	}
-	
+
 	/************************************* USER action TASK in PROJECT *************************************/
 	@POST
 	@Path("/in/project/" + "{projectId:" + uuidRegexPattern + "}")
@@ -159,9 +164,21 @@ public class TaskBoundary extends AbstractBoundry{
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
 		p.addTask(task);
-		
+
 		String r = mapper.writeValueAsString(task);
 		return Response.ok().entity(r).build();
+	}
+
+
+	@PUT
+	@Path(idPattern + "/in/project/" + "{projectId:" + uuidRegexPattern + "}")
+	public Response addTaskToProject(@PathParam("id") String taskId, @PathParam("projectId") String projectId) 
+			throws JsonParseException, JsonMappingException, IOException{
+
+		Project p = entityFactory.getProjectById(projectId);
+		Task task = entityFactory.getTaskById(taskId);
+		p.addTask(task);
+		return Response.noContent().build();
 	}
 
 	@PUT
@@ -175,23 +192,25 @@ public class TaskBoundary extends AbstractBoundry{
 		Project source = entityFactory.getProjectById(sourceId);
 		Project target = entityFactory.getProjectById(targetId);
 		Task t =  entityFactory.getTaskById(uuid);
-		
+
 		source.removeTaskRelation(t);
 		target.addTask(t);
-		
+
 		return Response.noContent().build();
 	}
 
+	/************************************* USER action TASK in  *************************************/
+	@PUT 
+	@Path(idPattern + "/to/user/{userId:" + uuidRegexPattern + "}")
+	public Response assignTaskToUser(@PathParam("id") String taskId, @PathParam("userId") String userId){
+
+		User user = entityFactory.getUserById(userId);
+		Task task = entityFactory.getTaskById(taskId);
+		task.setAssignee(user);
+		
+		return Response.noContent().build();
+	}
 }
-
-
-
-
-
-
-
-
-
 
 
 

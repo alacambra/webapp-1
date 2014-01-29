@@ -45,11 +45,6 @@ public enum Relations implements RelationshipType {
 	
 	
 	/**
-	 * Project must do a task
-	 */
-	TODO(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.TASK),
-	
-	/**
 	 * Subjects that has rolls in grouping and timing entities
 	 */
 	WITH_ROLLS(ArrayUtils.toMap(new Object[][]{

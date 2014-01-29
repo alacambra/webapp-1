@@ -3,6 +3,7 @@ package poolingpeople.webapplication.business.task.entity;
 import java.util.Collection;
 
 import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public interface Task{
 	
@@ -85,6 +86,9 @@ public interface Task{
 
 	void removeSubtask(Task child);
 
+	void removeTaskRelation(Task child);
+
+	void setAssignee(User u);
 	
 }
 
