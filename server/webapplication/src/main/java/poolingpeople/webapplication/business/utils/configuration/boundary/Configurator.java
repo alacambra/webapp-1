@@ -23,7 +23,7 @@ public class Configurator {
         config = new HashMap<String, String>() {
             {
                 put("test", "asdf");
-                put("debug", "true");
+                put("debug", "false");
                 put("isLogging", "true");
                 put("invalidJson", "Invalid JSON provided, thus deserializing is not possible!");
                 put("doesNotExist", "The given Item does not exist");

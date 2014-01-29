@@ -7,7 +7,7 @@ public class JsonViews {
 	/**
 	 * Attributes that must NEVER be sent
 	 */
-	public static interface NeverSend{}
+	public static interface NeverUsed{}
 	
 	/**
 	 * Attributes that can be send in a subentity

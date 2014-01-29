@@ -1,6 +1,7 @@
 package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
+import java.util.List;
 
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.user.entity.User;
@@ -94,6 +95,8 @@ public interface Task{
 	String getParentId();
 
 	User getAssignee();
+
+	List<Task> getSubtasks();
 	
 }
 

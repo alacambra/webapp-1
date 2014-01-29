@@ -1,6 +1,7 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -243,6 +244,12 @@ public class TaskDTO implements Task {
 
 	@Override
 	public String getParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Task> getSubtasks() {
 		// TODO Auto-generated method stub
 		return null;
 	}

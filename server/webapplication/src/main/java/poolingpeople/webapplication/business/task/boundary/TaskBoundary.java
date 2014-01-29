@@ -23,6 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.boundary.LoggedUserContainer;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
@@ -60,8 +61,7 @@ public class TaskBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTaskById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writeValueAsString(
-				entityFactory.getTaskById(id));
+		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(entityFactory.getTaskById(id));
 		return Response.ok().entity(r).build();
 	}
 
@@ -69,7 +69,16 @@ public class TaskBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllTask() throws JsonGenerationException,
 	JsonMappingException, IOException {
-		String r = mapper.writeValueAsString(entityFactory.getAllTask());
+		String r = mapper.writerWithView(JsonViews.Basic.class).writeValueAsString(entityFactory.getAllTask());
+		return Response.ok().entity(r).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(idPattern + "/subtasks")
+	public Response getSubtasks(@PathParam("id") String id) throws JsonGenerationException,
+	JsonMappingException, IOException {
+		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(entityFactory.getTaskById(id).getSubtasks());
 		return Response.ok().entity(r).build();
 	}
 
@@ -80,7 +89,7 @@ public class TaskBoundary extends AbstractBoundry{
 	JsonMappingException, IOException {
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
-		return Response.ok().entity(mapper.writeValueAsString(task)).build();
+		return Response.ok().entity(mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task)).build();
 	}
 
 	@PUT
@@ -90,9 +99,8 @@ public class TaskBoundary extends AbstractBoundry{
 	public Response updateTask(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
-		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask,
-				entityFactory.getTaskById(uuid));
-		String r = mapper.writeValueAsString(task);
+		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask, entityFactory.getTaskById(uuid));
+		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
 	}
 
@@ -118,7 +126,7 @@ public class TaskBoundary extends AbstractBoundry{
 
 		parentTask.addSubtask(task);
 
-		String r = mapper.writeValueAsString(task);
+		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
 
 	}
@@ -165,7 +173,7 @@ public class TaskBoundary extends AbstractBoundry{
 		Task task = entityFactory.createTask(dtoTask);
 		p.addTask(task);
 
-		String r = mapper.writeValueAsString(task);
+		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
 	}
 

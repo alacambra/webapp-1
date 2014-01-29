@@ -56,14 +56,24 @@ public class ProjectBoundary extends AbstractBoundry{
 				entityFactory.getProjectById(id));
 		return Response.ok().entity(r).build();
 	}
+	
+	@GET
+	@Path(idPattern + "/tasks/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProjectTasks(@PathParam("id") String projectId)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		String r = mapper.writerWithView(JsonViews.Basic.class).writeValueAsString(
+				entityFactory.getProjectById(projectId).getTasks());
+		return Response.ok().entity(r).build();
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllProject() throws JsonGenerationException,
+	public Response getAllProjects() throws JsonGenerationException,
 			JsonMappingException, IOException {
 		
 		String r = 
-				mapper.writerWithView(JsonViews.FullProject.class)
+				mapper.writerWithView(JsonViews.Basic.class)
 				.writeValueAsString(entityFactory.getAllProject());
 		
 		return Response.ok().entity(r).build();
@@ -86,8 +96,7 @@ public class ProjectBoundary extends AbstractBoundry{
 			throws JsonParseException, JsonMappingException, IOException {
 		
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		dtoConverter.fromDTOtoPersitedBean(dtoProject,
-				entityFactory.getProjectById(uuid));
+		dtoConverter.fromDTOtoPersitedBean(dtoProject, entityFactory.getProjectById(uuid));
 		
 		return Response.noContent().build();
 	}

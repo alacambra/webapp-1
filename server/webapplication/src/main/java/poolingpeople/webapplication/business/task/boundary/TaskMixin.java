@@ -1,10 +1,12 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonSetter;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
@@ -220,6 +222,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonIgnore
 	public void setAssignee(User u) {
 		
 	}
@@ -238,6 +241,12 @@ public class TaskMixin implements Task{
 
 	@Override
 	public String getParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Task> getSubtasks() {
 		// TODO Auto-generated method stub
 		return null;
 	}

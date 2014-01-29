@@ -41,7 +41,7 @@ public class ProjectBoundaryTest extends AbstractBoundryTest {
 	public void testGetAllProject() throws JsonGenerationException, JsonMappingException, IOException {
 		List<Map<String, Object>> expected = createProjectListFromProjectFile(projectRequestFile, projectResponseFile ,3);
 		System.out.println(expected);
-		Response projects = target.getAllProject();
+		Response projects = target.getAllProjects();
 		assertEquals(Response.Status.OK, projects.getStatusInfo());
 
 		@SuppressWarnings("unchecked")

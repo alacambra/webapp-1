@@ -250,15 +250,15 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	/**************** FLAGS FOR INHERITABLE ATTRIBUTES *****************/
 
 	public boolean getProgressIsDefault() {
-		return getSubtasks().size() == 0;
+		return getCachedSubtasks().size() == 0;
 	}
 
 	public boolean getEndDateIsDefault() {
-		return getSubtasks().size() == 0 || getCalculatedEndDate() == null;
+		return getCachedSubtasks().size() == 0 || getCalculatedEndDate() == null;
 	}
 
 	public boolean getStartDateIsDefault() {
-		return getSubtasks().size() ==  0 || getCalculatedStartDate() == null;
+		return getCachedSubtasks().size() ==  0 || getCalculatedStartDate() == null;
 	}
 
 	public boolean getStatusIsDefault() {
@@ -266,7 +266,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	}
 
 	private boolean getDurationIsDefault() {
-		return getSubtasks().size() == 0 || getCalculatedDuration() == null;
+		return getCachedSubtasks().size() == 0 || getCalculatedDuration() == null;
 	}
 
 	/**************** RELATIONAL METHODS *****************/
@@ -362,7 +362,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		Float totalProgress = (float) 0;
 		Integer totalDuration = 0;
 
-		for(Task t : getSubtasks()) {
+		for(Task t : getCachedSubtasks()) {
 			totalDuration += t.getDuration();
 			totalProgress += t.getDuration() * t.getProgress();
 		}
@@ -398,7 +398,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		Long currentStartDate = getStartDate();
 		Long currentEndDate = getEndDate();
 
-		for (Task t : getSubtasks()) {
+		for (Task t : getCachedSubtasks()) {
 
 			Long sd = t.getStartDate();
 			Long ed = t.getEndDate();
@@ -515,12 +515,16 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 
 	/**************** HELPER METHODS *****************/
-	private List<PersistedTask> getSubtasks(){
+	private List<PersistedTask> getCachedSubtasks(){
 
 		subtasks = getRelatedNodes(Relations.HAS_SUBTASK, PersistedTask.class, Direction.OUTGOING);
 		return subtasks;
 	}
 
+	@Override
+	public List<Task> getSubtasks(){
+		return getRelatedNodes(Relations.HAS_SUBTASK, PersistedTask.class, Task.class, Direction.OUTGOING);
+	}
 
 	@Override
 	public boolean equals(Object obj) {
