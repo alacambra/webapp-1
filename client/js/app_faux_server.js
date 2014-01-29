@@ -245,13 +245,13 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     Faux.put(base_url + 'tasks/:task_id/in/task/:target_task_id', function (context, task_id, target_task_id) {
         log_rest(context);
 
-        if (_.isUndefined(projects[target_task_id])) {
+        if (_.isUndefined(tasks[target_task_id])) {
             return NOT_FOUND;
         }
 
-        tasks[task_id].project = {
+        tasks[task_id].parentTask = {
             id: target_task_id,
-            title: projects[target_task_id].title
+            title: tasks[target_task_id].title
         };
 
         return tasks[task_id];

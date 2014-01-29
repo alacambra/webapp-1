@@ -142,7 +142,7 @@ function (App) {
                         });
                     },
                     error: function (response) {
-                        alert(I18n.t('task.move_to_project_failed', { name: task.get('title'), project_id: target_project_id, target_type: 'project' }));
+                        alert(I18n.t('task.move_to_project_failed', { name: task.get('title'), project_id: target_project_id }));
                     }
                 });
             },
@@ -169,7 +169,7 @@ function (App) {
                         });
                     },
                     error: function (response) {
-                        alert(I18n.t('task.move_to_task_failed', { name: task.get('title'), task_id: target_task_id, target_type: 'task' }));
+                        alert(I18n.t('task.move_to_task_failed', { name: task.get('title'), task_id: target_task_id }));
                     }
                 })
             },

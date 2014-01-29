@@ -95,11 +95,11 @@ I18n.translations['en'] = {
             new: 'New Task'
         },
         delete_confirm: 'Task "{{name}}" and his {{count}} subtasks will be deleted.\n\nAre you really sure to delete task "{{name}}" and his {{count}} subtasks?',
-        move_to_project_prompt: 'Please enter ID of the targeted project:',
         move_to_project: 'Move Task to Project',
+        move_to_project_prompt: 'Please enter ID of the targeted project:',
         move_to_project_failed: 'Couldn\'t move task "{{name}}".\n\nThere is no project with ID "{{project_id}}".',
-        move_to_task_prompt: 'Please enter ID of the targeted task:',
         move_to_task: 'Move Task to Task',
+        move_to_task_prompt: 'Please enter ID of the targeted task:',
         move_to_task_failed: 'Couldn\'t move task "{{name}}".\n\nThere is no task with ID "{{task_id}}".'
     },
 
