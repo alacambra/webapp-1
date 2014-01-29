@@ -94,7 +94,9 @@ I18n.translations['en'] = {
         button: {
             new: 'New Task'
         },
-        delete_confirm: 'Task "{{name}}" and his {{count}} subtasks will be deleted.\n\nAre you really sure to delete task "{{name}}" and his {{count}} subtasks?'
+        delete_confirm: 'Task "{{name}}" and his {{count}} subtasks will be deleted.\n\nAre you really sure to delete task "{{name}}" and his {{count}} subtasks?',
+        move_prompt: 'Please enter ID of the targeted project:',
+        move_failed: 'Couldn\'t move task "{{name}}".\n\nThere is no project with ID "{{project_id}}".'
     },
 
     user: {
@@ -156,5 +158,6 @@ I18n.translations['en'] = {
     submit: 'Submit',
     edit: 'Edit',
     delete: 'Delete',
-    new: 'New'
+    new: 'New',
+    move: 'Move'
 };

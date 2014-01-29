@@ -94,7 +94,9 @@ I18n.translations['de'] = {
         button: {
             new: 'Neue Aufgabe'
         },
-        delete_confirm: 'Aufgabe "{{name}}" und seine {{count}} Unteraufgaben werden gelöscht.\n\nSind Sie wirklich sicher die Aufgabe {{name}} und seine {{count}} Unteraufgaben zu löschen?'
+        delete_confirm: 'Aufgabe "{{name}}" und seine {{count}} Unteraufgaben werden gelöscht.\n\nSind Sie wirklich sicher die Aufgabe {{name}} und seine {{count}} Unteraufgaben zu löschen?',
+        move_prompt: 'Bitte geben Sie die ID des Zielprojektes ein:',
+        move_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEin Projekt mit der ID "{{project_id}}" existiert nicht.'
     },
 
     user: {
@@ -156,5 +158,6 @@ I18n.translations['de'] = {
     submit: 'Absenden',
     edit: 'Bearbeiten',
     delete: 'Löschen',
-    new: 'Neu'
+    new: 'Neu',
+    move: 'Bewegen'
 };
