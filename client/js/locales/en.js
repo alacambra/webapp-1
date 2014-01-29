@@ -94,7 +94,7 @@ I18n.translations['en'] = {
         button: {
             new: 'New Task'
         },
-        delete_confirm: 'Every Subtask of "{{name}}" will be also deleted!\n\nReally delete task "{{name}}" with his {{count}} subtasks?'
+        delete_confirm: 'Task "{{name}}" and his {{count}} subtasks will be deleted.\n\nAre you really sure to delete task "{{name}}" and his {{count}} subtasks?'
     },
 
     user: {
@@ -150,7 +150,7 @@ I18n.translations['en'] = {
         empty_list: 'Empty list.'
     },
 
-    delete_confirm: '"{{name}}\n\n"Really delete this entity?',
+    delete_confirm: '"{{name}}"\n\nReally delete this entity?',
 
     save: 'Save',
     submit: 'Submit',
