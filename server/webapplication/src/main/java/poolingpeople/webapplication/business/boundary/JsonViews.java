@@ -51,4 +51,21 @@ public class JsonViews {
 	 * All attributes of an entity with subentities
 	 */
 	public static interface FullTaskWithElements extends BasicTaskWithElements, FullTask{}
+	
+	
+	/************************************** EFFORT's VIEWS ***********************************************/
+	/**
+	 * Basic attributes from the main entity and shared attributes of subentity 
+	 */
+	public static interface BasicEffortWithElements extends Basic{}
+	
+	/**
+	 * All attributes of an entity without subentities
+	 */
+	public static interface FullEffort extends Basic{}
+	
+	/**
+	 * All attributes of an entity with subentities
+	 */
+	public static interface FullEffortWithElements extends BasicEffortWithElements, FullEffort{}
 }

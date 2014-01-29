@@ -34,7 +34,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.Shared.class)
 	public String getTitle() {
 		return null;
 	}
@@ -44,7 +44,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-	@JsonView(JsonViews.FullProject.class)
+	@JsonView(JsonViews.Basic.class)
 	public String getDescription() {
 		return null;
 	}
@@ -71,7 +71,7 @@ public class ProjectMixin implements Project{
 
 	@Override
 	@JsonProperty(value="status")
-	@JsonView(JsonViews.FullProject.class)
+	@JsonView(JsonViews.Basic.class)
 	public Integer getStatusInteger() {
 		return null;
 	}
@@ -144,7 +144,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.Shared.class)
 	public Integer getTaskCount() {
 		return null;
 	}

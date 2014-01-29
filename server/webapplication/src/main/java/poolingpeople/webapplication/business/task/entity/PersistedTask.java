@@ -571,7 +571,8 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 	@Override
 	public String getParentId() {
-		return getParent().getId();
+		Task parent = getParent();
+		return parent == null ? null : parent.getId();
 	}
 
 

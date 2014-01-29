@@ -47,7 +47,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.FullTask.class)
 	public String getDescription() {
 		return null;
 	}
@@ -92,7 +92,7 @@ public class TaskMixin implements Task{
 
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.FullTask.class)
 	public Float getProgress() {
 		return null;
 	}
@@ -152,13 +152,13 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.FullTask.class)
+	@JsonView(JsonViews.Basic.class)
 	public Integer getEffort() {
 		return null;
 	}
 
 	@Override
-	@JsonView(JsonViews.FullTask.class)
+	@JsonView(JsonViews.Basic.class)
 	@JsonIgnore
 	public Project getProject() {
 		return null;
@@ -231,6 +231,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonView(JsonViews.Basic.class)
 	public User getAssignee() {
 		return null;
 	}
