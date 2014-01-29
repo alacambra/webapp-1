@@ -17,7 +17,8 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click .js-delete-task': 'delete_item'
+                'click .js-delete-task': 'delete_item',
+                'click .js-move-task': 'move_item'
             },
 
 
@@ -30,6 +31,12 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
                     }
                 }
                 App.trigger('task:delete', this.model, redirect);
+            },
+
+
+            move_item: function () {
+                var target_project_id = prompt(I18n.t('task.move_prompt'));
+                App.trigger('task:move', this.model, target_project_id);
             }
         });
     });

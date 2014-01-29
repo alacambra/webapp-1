@@ -95,7 +95,7 @@ function(App, model_helper, validation_helper) {
 
                 if (_.isObject(parent)) {
                     if (!_.isUndefined(parent.subtasks)) {
-                        // parent is a task so set its subtasks
+                        // parent is a task so set its tasks
                         tasks = parent.subtasks;
 
                     } else if (!_.isUndefined(parent.tasks)) {

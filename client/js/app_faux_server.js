@@ -124,6 +124,36 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         return tasks[context.data.id];
     });
 
+    Faux.put(base_url + 'tasks/:task_id/from/project/:source_project_id/to/:target_project_id', function (context, task_id, source_project_id, target_project_id) {
+        log_rest(context);
+
+        if (_.isUndefined(projects[target_project_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].project = {
+            id: target_project_id,
+            title: projects[target_project_id].title
+        };
+
+        return tasks[task_id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/in/project/:target_project_id', function (context, task_id, target_project_id) {
+        log_rest(context);
+
+        if (_.isUndefined(projects[target_project_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].project = {
+            id: target_project_id,
+            title: projects[target_project_id].title
+        };
+
+        return tasks[task_id];
+    });
+
     Faux.get(base_url + 'projects/:project_id/tasks', function(context, project_id) {
         log_rest(context);
         return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == project_id });
