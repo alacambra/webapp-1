@@ -4,7 +4,7 @@ define({
         "firstName": "Alice",
         "lastName": "Riddell",
         "birthDate": null,
-        "email": "alice.riddell.com"
+        "email": "alice@riddell.com"
     },
 
     "1": {

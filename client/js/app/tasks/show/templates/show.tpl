@@ -43,13 +43,23 @@
     <%= I18n.t('task.label.project') %>:
     <% if (project) { %>
         <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
+    <% } else { %>
+        &ndash;
     <% } %>
+    <button type="button" class="btn btn-default btn-xs js-move-to-project">
+        <span class="glyphicon glyphicon-transfer"></span>
+    </button>
 </p>
 <p>
     <%= I18n.t('task.label.parent_task') %>:
     <% if (parentTask) { %>
         <%= link_to(parentTask.title, path('tasks', 'show', parentTask.id), { i18n: false }) %>
+    <% } else { %>
+        &ndash;
     <% } %>
+    <button type="button" class="btn btn-default btn-xs js-move-to-task">
+        <span class="glyphicon glyphicon-transfer"></span>
+    </button>
 </p>
 <p>
     <%= I18n.t('task.label.assigned_to') %>:
@@ -60,14 +70,6 @@
 
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>
 <%= button_to('edit', path('tasks', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
-
-<button type="button" class="btn btn-default btn-sm btn-text right-space js-move-to-project">
-    <span class="glyphicon glyphicon-transfer"></span> <%= I18n.t('task.move_to_project') %>
-</button>
-
-<button type="button" class="btn btn-default btn-sm btn-text right-space js-move-to-task">
-    <span class="glyphicon glyphicon-transfer"></span> <%= I18n.t('task.move_to_task') %>
-</button>
 
 <button type="button" class="btn btn-default btn-sm btn-text js-delete-task">
     <span class="glyphicon glyphicon-trash"></span> <%= I18n.t('delete') %>
