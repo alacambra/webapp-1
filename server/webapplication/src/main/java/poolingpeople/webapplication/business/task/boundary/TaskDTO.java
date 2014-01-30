@@ -59,9 +59,17 @@ public class TaskDTO implements Task {
 	public Long getStartDate() {
 		return startDate;
 	}
+	
+	public Long getDefaultStartDate() {
+		return startDate;
+	}
 
 	@Override
 	public Long getEndDate() {
+		return endDate;
+	}
+	
+	public Long getDefaultEndDate() {
 		return endDate;
 	}
 
@@ -160,19 +168,19 @@ public class TaskDTO implements Task {
 
 	@Override
 	public void setDefaultStartDate(Long startDate) {
-		// TODO Auto-generated method stub
+		this.startDate = startDate;
 		
 	}
 
 	@Override
 	public void setDefaultEndDate(Long endDate) {
-		// TODO Auto-generated method stub
+		this.endDate = endDate;
 		
 	}
 
 	@Override
 	public void setDefaultProgress(Float progress) {
-		// TODO Auto-generated method stub
+		this.progress = progress;
 		
 	}
 

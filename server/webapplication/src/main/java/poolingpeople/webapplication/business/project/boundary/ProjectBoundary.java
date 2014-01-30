@@ -107,7 +107,7 @@ public class ProjectBoundary extends AbstractBoundry{
 		entityFactory.deleteProject(uuid);
 		return Response.noContent().build();
 	}
-
+	
 	@GET
 	@Path("fakeit")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -9,6 +9,17 @@ import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
 import poolingpeople.webapplication.business.task.entity.Task;
 
+/*
+ * @todo (notes for me:)
+ * An object need:
+ * 	- rest layer for jackson: mixin
+ * 	- transformer layer between json and persistance: dto
+ *  - persistance layer: AbstractPersistanceModel
+ *  Must pay attention in crossed attributes. For hierarchical attributes defaults can be set but not read and
+ * 	calculated values can be read but not set
+ *   
+ */
+
 public class ProjectDTO implements Project {
 
 	private String id;
