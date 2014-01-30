@@ -38,17 +38,20 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
 
             assoc_item_to_project: function () {
                 var target_project_id = prompt(I18n.t('task.assoc_to_project_prompt'));
+                if (_.isNull(target_project_id)) return;
                 App.trigger('task:assoc:to:project', this.model, target_project_id);
             },
 
 
             assoc_item_to_task: function () {
                 var target_task_id = prompt(I18n.t('task.assoc_to_task_prompt'));
+                if (_.isNull(target_task_id)) return;
                 App.trigger('task:assoc:to:task', this.model, target_task_id);
             },
 
             assoc_item_to_user: function () {
                 var target_user_id = prompt(I18n.t('task.assoc_to_user_prompt'));
+                if (_.isNull(target_user_id)) return;
                 App.trigger('task:assoc:to:user', this.model, target_user_id);
             }
         });
