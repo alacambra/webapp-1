@@ -22,6 +22,7 @@ import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 import poolingpeople.webapplication.business.user.boundary.UserBoundary;
 import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
+import poolingpeople.webapplication.business.utils.cdi.LoggedUserContainerProducer;
 import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper;
@@ -37,7 +38,8 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	CatchWebExceptionInterceptor.class,
 	ConfigurationProducer.class,
 	EmailValidation.class,
-	ValidatorProducer.class
+	ValidatorProducer.class,
+	LoggedUserContainerProducer.class
 })
 
 public abstract class AbstractBoundryTest {

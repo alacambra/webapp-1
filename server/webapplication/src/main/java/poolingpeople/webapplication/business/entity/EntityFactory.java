@@ -149,6 +149,10 @@ public class EntityFactory {
 	public Effort createEffort(Effort effort) {
 		return new PersistedEffort(manager, effort);
 	}
+	
+	public NeoManager getManager() {
+		return manager;
+	}
 
 }
 
