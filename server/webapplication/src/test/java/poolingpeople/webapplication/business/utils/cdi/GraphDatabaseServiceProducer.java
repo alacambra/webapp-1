@@ -11,7 +11,7 @@ import org.neo4j.test.TestGraphDatabaseFactory;
 @ApplicationScoped
 public class GraphDatabaseServiceProducer{
 
-	private final GraphDatabaseService graphDb =  new TestGraphDatabaseFactory().newImpermanentDatabase();
+	private GraphDatabaseService graphDb =  new TestGraphDatabaseFactory().newImpermanentDatabase();
 	private Logger logger = Logger.getLogger(this.getClass());
 	
 	public GraphDatabaseServiceProducer() {

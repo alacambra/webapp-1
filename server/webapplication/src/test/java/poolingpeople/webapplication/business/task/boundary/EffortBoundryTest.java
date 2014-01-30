@@ -16,53 +16,47 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 
-import poolingpeople.webapplication.business.entity.AbstractTest;
+import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper.EffortWithTaskContainer;
-import scala.annotation.meta.getter;
 
-public class EffortBoundryTest extends AbstractTest{
+public class EffortBoundryTest extends AbstractBoundryTest{
 
 	@Inject 
 	EffortBoundary target;
 
-	String effortRequestFile = "effort-task-create-request.json";
-	String effortResponseFile = "effort-task-create-response.json";
-
-	String taskRequestFile = "task-create-request.json";
-
 	@Test
 	public void testGetEffort() throws Exception{
 
-		EffortWithTaskContainer<String,String> container = restObjectsHelper.insertEffortFromFile(effortRequestFile);
+		EffortWithTaskContainer<String,String> container = insertEffortFromFile(effortRequestFile);
 		Response r = target.getEffort(container.getEffort().get("id"));
-		Map<String, String> actual = restObjectsHelper.convertJsonToMap((String) r.getEntity());
-		assertTrue(restObjectsHelper.mapsAreEquals(container.getEffort(), actual));
+		Map<String, String> actual = convertJsonToMap((String) r.getEntity());
+		assertTrue(mapsAreEquals(container.getEffort(), actual));
 	}
 
 	@Test
 	public void testGetEfforts() throws JsonGenerationException, JsonMappingException, IOException {
-		EffortWithTaskContainer<String, String> expected = restObjectsHelper.createEffortListFromEffortFile(effortRequestFile, 3);
+		EffortWithTaskContainer<String, String> expected = createEffortListFromEffortFile(effortRequestFile, 3);
 		Response allEfforts = target.getEfforts(expected.getTask().get("id"));
 		assertEquals(Response.Status.OK, allEfforts.getStatusInfo());
 
 		@SuppressWarnings("unchecked")
 		List<Map<String, String>> actuall = mapper.readValue((String)allEfforts.getEntity(), List.class);
-		assertTrue(restObjectsHelper.mapsListAreEquals(expected.getEfforts(), actuall));
+		assertTrue(mapsListAreEquals(expected.getEfforts(), actuall));
 	}
 
 	@Test
 	public void testUpdateEffort() throws JsonParseException, JsonMappingException, IOException {
 		String newComment = "lalalalasda";
 		Integer newEffort = 10;
-		EffortWithTaskContainer<String,Object> expected = restObjectsHelper.insertEffortFromFile(effortRequestFile);
+		EffortWithTaskContainer<String,Object> expected = insertEffortFromFile(effortRequestFile);
 		expected.getEffort().put("comment", newComment);
 		expected.getEffort().put("time", newEffort);
 
 		Response r = target.updateEffort(
 				(String)expected.getTask().get("id"), 
 				(String)expected.getEffort().get("id"), 
-				restObjectsHelper.convertMapToJson(expected.getEffort()));
+				convertMapToJson(expected.getEffort()));
 
 		/*
 		 * Status is correct
@@ -72,13 +66,13 @@ public class EffortBoundryTest extends AbstractTest{
 		/*
 		 * Update has been really done
 		 */
-		Map<String, Object> m = restObjectsHelper.getEffort((String)expected.getEffort().get("id"));
-		assertTrue(restObjectsHelper.mapsAreEquals(m, expected.getEffort()));
+		Map<String, Object> m = getEffort((String)expected.getEffort().get("id"));
+		assertTrue(mapsAreEquals(m, expected.getEffort()));
 
 		/*
 		 * Task time has been updated
 		 */
-		Map<String, Object> task = restObjectsHelper.getTask((String)expected.getTask().get("id"));
+		Map<String, Object> task = getTask((String)expected.getTask().get("id"));
 		assertEquals(0, expected.getTask().get("effort"));
 		assertEquals(expected.getEffort().get("time"), task.get("effort"));
 
@@ -86,23 +80,23 @@ public class EffortBoundryTest extends AbstractTest{
 
 	@Test
 	public void testSaveEffort() throws JsonParseException, JsonMappingException, IOException {
-		Map<String, Object> task = restObjectsHelper.insertTaskFromFile(taskRequestFile);
-		Response r = target.saveEffort((String) task.get("id"), FileLoader.getText(effortRequestFile));
+		Map<String, Object> task = insertTaskFromFile(taskRequestFile);
+		Response r = target.saveEffort((String) task.get("id"), FileLoader.getText(jsonModelsPath + effortRequestFile));
 		assertEquals(Status.OK.getStatusCode(), r.getStatus());
 
 		/*
 		 * Effort has been saved
 		 */
-		Map<String, Object> actual = restObjectsHelper.convertJsonToMap((String) r.getEntity());
-		actual = restObjectsHelper.getEffort((String) actual.get("id"));
-		Map<String, Object> expected = restObjectsHelper.convertJsonFileToMap(effortResponseFile);
+		Map<String, Object> actual = convertJsonToMap((String) r.getEntity());
+		actual = getEffort((String) actual.get("id"));
+		Map<String, Object> expected = convertJsonFileToMap(effortResponseFile);
 		expected.put("id", actual.get("id"));
-		assertTrue(restObjectsHelper.mapsAreEquals(expected, actual));
+		assertTrue(mapsAreEquals(expected, actual));
 
 		/*
 		 * Task time has been updated
 		 */
-		task = restObjectsHelper.getTask((String) task.get("id"));
+		task = getTask((String) task.get("id"));
 		assertEquals(actual.get("time"), task.get("effort"));
 
 	}
@@ -110,7 +104,7 @@ public class EffortBoundryTest extends AbstractTest{
 	@Test()
 	public void testDeleteEffort() throws JsonGenerationException, JsonMappingException, IOException {
 		
-		EffortWithTaskContainer<String,Object> createdEffortData = restObjectsHelper.insertEffortFromFile(effortRequestFile);
+		EffortWithTaskContainer<String,Object> createdEffortData = insertEffortFromFile(effortRequestFile);
 		
 		Response r = target.deleteEffort(
 				(String)createdEffortData.getTask().get("id"), 

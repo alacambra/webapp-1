@@ -18,6 +18,7 @@ import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 public class RestObjectsHelper {
 
 	Logger logger = Logger.getLogger(this.getClass());
+	protected String jsonModelsPath = "json-models/";
 
 	@Inject
 	TaskBoundary taskBoundary;
@@ -27,6 +28,9 @@ public class RestObjectsHelper {
 	
 	ObjectMapper mapper = new ObjectMapper();
 	
+	public void setJsonModelsPath(String jsonModelsPath) {
+		this.jsonModelsPath = jsonModelsPath;
+	}
 	
 	public <K,V> Map<K,V> getTask(String uuid) {
 
@@ -58,7 +62,7 @@ public class RestObjectsHelper {
 
 	public <K,V> Map<K,V> insertTaskFromFile(String filename) {
 
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertTaskFromJson(json);
 
 	}
@@ -79,7 +83,7 @@ public class RestObjectsHelper {
 	
 	public <K,V> EffortWithTaskContainer<K,V> insertEffortFromFile(String filename) {
 
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertEffortFromJson(json);
 
 	}
@@ -144,7 +148,7 @@ public class RestObjectsHelper {
 	}
 
 	public <K,V> Map<K,V> convertJsonFileToMap(String filename) {
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return convertJsonToMap(json);
 	}
 
@@ -171,7 +175,7 @@ public class RestObjectsHelper {
 
 		for (int i = 0; i<num; i++ ) {
 			
-			container = insertEffortFromJson(FileLoader.getText(filename), (Map<String, String>) container.getTask());
+			container = insertEffortFromJson(FileLoader.getText(jsonModelsPath + filename), (Map<String, String>) container.getTask());
 			created = container.getEffort();
 			efforts.add(created);
 		}

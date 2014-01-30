@@ -15,7 +15,6 @@ public class Configurator {
     private final String notFoundMessage = "There is no value associated with the given key";
 
     /*
-     * @todo for qaiser: What???
      * --- Will be called via PostConstruct invocation from the bean container" ---
      */
     @SuppressWarnings({"serial" })
@@ -24,7 +23,7 @@ public class Configurator {
         config = new HashMap<String, String>() {
             {
                 put("test", "asdf");
-                put("debug", "true");
+                put("debug", "false");
                 put("isLogging", "true");
                 put("invalidJson", "Invalid JSON provided, thus deserializing is not possible!");
                 put("doesNotExist", "The given Item does not exist");

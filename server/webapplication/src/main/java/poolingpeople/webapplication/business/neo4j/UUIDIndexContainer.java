@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class UUIDIndexContainer extends IndexContainer{
 	public UUIDIndexContainer(String uuid) {
-		super("ALL", NodesPropertiesNames.ID.name(), uuid);
+		super("ALL", NodePropertyName.ID.name(), uuid);
 	}
 	
 	public UUIDIndexContainer() {

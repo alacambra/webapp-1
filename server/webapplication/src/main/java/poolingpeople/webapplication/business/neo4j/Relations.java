@@ -45,11 +45,6 @@ public enum Relations implements RelationshipType {
 	
 	
 	/**
-	 * Project must do a task
-	 */
-	TODO(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.TASK),
-	
-	/**
 	 * Subjects that has rolls in grouping and timing entities
 	 */
 	WITH_ROLLS(ArrayUtils.toMap(new Object[][]{
@@ -65,13 +60,11 @@ public enum Relations implements RelationshipType {
 			{PoolingpeopleObjectType.POOL, Arrays.asList(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.PROJECT)}
 		})),
 	
-	/**
-	 * ASK: "HAS" is not clear enough. Should not be better IS_SUBPROJECT_OF/PARENT_OF and _TODO?
-	 * TODO: ATTENTION!!!
-	 */
-	HAS(ArrayUtils.toMap(new Object[][]{
-			{PoolingpeopleObjectType.PROJECT, Arrays.asList(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.TASK)}
-		})),
+	PROJECT_HAS_TASK(PoolingpeopleObjectType.PROJECT,  PoolingpeopleObjectType.TASK),
+	HAS_SUBTASK(PoolingpeopleObjectType.TASK,  PoolingpeopleObjectType.TASK),
+	
+	HAS_SUBPROJECT(PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.PROJECT),
+	
 		
 	/**
 	 * A task has an effort booked by a user

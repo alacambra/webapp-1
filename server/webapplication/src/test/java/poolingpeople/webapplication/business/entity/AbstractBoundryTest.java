@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 
 import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
+import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
 import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
@@ -36,19 +37,36 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	CatchWebExceptionInterceptor.class,
 	ConfigurationProducer.class,
 	EmailValidation.class,
-        ValidatorProducer.class
+	ValidatorProducer.class
 })
 
-public abstract class AbstractTest {
+public abstract class AbstractBoundryTest {
 
+	protected final String jsonModelsPath = "json-models/";
+	
 	@Inject
 	protected FileLoader fileLoader;
 
 	@Inject
 	protected RestObjectsHelper restObjectsHelper;
-
+	
+	@Inject
+	protected EntityFactory entityFactory;
+	
+	@Inject 
+	protected NeoManager manager;
+	
 	protected ObjectMapper mapper = new ObjectMapper();
-
+	
+	protected String taskRequestFile = "tasks/task-create-request.json";
+	protected String taskResponseFile = "tasks/task-create-response.json";
+	protected String projectRequestFile = "projects/project-create-request.json";
+	protected String projectResponseFile = "projects/project-create-response.json";
+	protected String userRequestFile = "users/user-create-request.json";
+    protected String userResponseFile = "users/user-create-response.json";
+    protected String effortRequestFile = "tasks/effort-task-create-request.json";
+	protected String effortResponseFile = "tasks/effort-task-create-response.json";
+	
 	/*
 	 * From hier is helepr. New struct test
 	 */
@@ -59,13 +77,12 @@ public abstract class AbstractTest {
 
 	@Inject
 	EffortBoundary effortBoundary;
-	
+
 	@Inject
 	ProjectBoundary projectBoundary;
-	
+
 	@Inject 
 	UserBoundary userBoundary;
-
 
 	protected <K,V> Map<K,V> getTask(String uuid) {
 
@@ -94,12 +111,12 @@ public abstract class AbstractTest {
 		}
 
 	}
-	
-	protected Map<String, Object> insertProjectFromFile(String filename) {
-		String json = FileLoader.getText(filename);
+
+	protected Map<Object, Object> insertProjectFromFile(String filename) {
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertProjectFromJson(json);
 	}
-	
+
 	protected <K,V> Map<K,V> insertProjectFromJson(String json) {
 
 		try {
@@ -113,12 +130,12 @@ public abstract class AbstractTest {
 		}
 
 	}
-	
-	protected Map<String, Object> insertUserFromFile(String filename) {
-		String json = FileLoader.getText(filename);
+
+	protected Map<Object, Object> insertUserFromFile(String filename) {
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertUserFromJson(json);
 	}
-	
+
 	protected <K,V> Map<K,V> insertUserFromJson(String json) {
 
 		try {
@@ -135,7 +152,7 @@ public abstract class AbstractTest {
 
 	protected <K,V> Map<K,V> insertTaskFromFile(String filename) {
 
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertTaskFromJson(json);
 
 	}
@@ -156,7 +173,7 @@ public abstract class AbstractTest {
 
 	protected <K,V> EffortWithTaskContainer<K,V> insertEffortFromFile(String filename) {
 
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return insertEffortFromJson(json);
 
 	}
@@ -175,7 +192,7 @@ public abstract class AbstractTest {
 	}
 
 	protected <K,V> EffortWithTaskContainer<K,V> insertEffortFromJson(String json) {
-		Map<String,String> task = insertTaskFromFile("task-create-request.json");
+		Map<String,String> task = insertTaskFromFile(taskRequestFile);
 		return insertEffortFromJson(json, task);
 	}
 
@@ -191,26 +208,30 @@ public abstract class AbstractTest {
 	}
 
 	protected <K,V> Map<K,V> convertJsonFileToMap(String filename) {
-		String json = FileLoader.getText(filename);
+		String json = FileLoader.getText(jsonModelsPath + filename);
 		return convertJsonToMap(json);
 	}
-	
-	protected List<Map<String, Object>> createProjectListFromProjectFile(String projectRequestFile, int num) {
+
+	protected List<Map<String, Object>> createProjectListFromProjectFile(String projectRequestFile, String projectResponseFile, int num) {
 		List<Map<String, Object>> projects = new ArrayList<Map<String, Object>>();
 
+		String json = FileLoader.getText(jsonModelsPath + projectResponseFile);
+		
 		for (int i = 0; i<num; i++ ) {
-			Map<String, Object> created = insertProjectFromFile(projectRequestFile);
-			projects.add(created);
+			Map<String, Object> project = convertJsonToMap(json);
+			Map<String, Object> created = insertProjectFromJson(json);
+			project.put("id", created.get("id"));
+			projects.add(project);
 		}
 
 		return projects;
 	}
-	
-	protected List<Map<String, Object>> createUserListFromUserFile(String userRequestFile, int num) {
-		List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
+
+	protected List<Map<Object, Object>> createUserListFromUserFile(String userRequestFile, int num) {
+		List<Map<Object, Object>> users = new ArrayList<Map<Object, Object>>();
 
 		for (int i = 0; i<num; i++ ) {
-			Map<String, Object> created = insertUserFromFile(userRequestFile);
+			Map<Object, Object> created = insertUserFromFile(userRequestFile);
 			users.add(created);
 		}
 
@@ -240,7 +261,7 @@ public abstract class AbstractTest {
 
 		for (int i = 0; i<num; i++ ) {
 
-			container = insertEffortFromJson(FileLoader.getText(filename), (Map<String, String>) container.getTask());
+			container = insertEffortFromJson(FileLoader.getText(jsonModelsPath + filename), (Map<String, String>) container.getTask());
 			created = container.getEffort();
 			efforts.add(created);
 		}
@@ -259,16 +280,31 @@ public abstract class AbstractTest {
 	}
 
 
-	protected <K,V> boolean mapsAreEquals(Map<K,V> m1, Map<K,V> m2) {
+	protected <K,V> boolean mapsAreEquals(Map<K,V> expected, Map<K,V> actual) {
 
-		if ( m1.size() != m2.size()) {
+		if ( expected.size() != actual.size()) {
+			logger.info(expected.toString());
+			logger.info(actual.toString());
 			logger.info("Map size does not match.");
+			
+			for(Object k1 : expected.keySet()){
+				if (!actual.containsKey(k1)){
+					logger.info(k1 + " not found in actual");
+				}
+			}
+			
+			for(Object k1 : actual.keySet()){
+				if (!expected.containsKey(k1)){
+					logger.info(k1 + " not found in expected");
+				}
+			}
+			
 			return false;
 		}
 
-		for(Object k1 : m1.keySet()) {
-			if (!m2.containsKey(k1) || !m1.get(k1).equals(m2.get(k1))){
-				logger.info("Value for key " + k1 + " does not match. " + m1.get(k1) + " --- " + m2.get(k1));
+		for(Object k1 : expected.keySet()) {
+			if (!actual.containsKey(k1) || !expected.get(k1).equals(actual.get(k1))){
+				logger.info("Value for key " + k1 + " does not match. Expected:" + expected.get(k1) + " --- Actual: " + actual.get(k1));
 				return false;
 			}
 		}
@@ -276,16 +312,16 @@ public abstract class AbstractTest {
 		return true;
 	}
 
-	protected <K,V> boolean mapsListAreEquals(List<Map<K,V>> l1, List<Map<K,V>> l2) {
+	protected <K,V> boolean mapsListAreEquals(List<Map<K,V>> expected, List<Map<K,V>> actual) {
 
-		if (l1.size() != l2.size()) {
+		if (expected.size() != actual.size()) {
 			return false;
 		}
 
 		int success = 0;
 
-		for(Map<K,V> m1 : l1) {
-			for(Map<K,V> m2 : l2) {
+		for(Map<K,V> m1 : expected) {
+			for(Map<K,V> m2 : actual) {
 				if(mapsAreEquals(m1, m2)){
 					success++;
 					break;
@@ -293,7 +329,7 @@ public abstract class AbstractTest {
 			}
 		}
 
-		return success == l1.size();
+		return success == expected.size();
 	}
 
 }

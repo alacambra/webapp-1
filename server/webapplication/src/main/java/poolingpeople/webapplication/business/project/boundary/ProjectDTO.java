@@ -1,9 +1,13 @@
 package poolingpeople.webapplication.business.project.boundary;
 
+import java.util.Collection;
+
 import org.codehaus.jackson.annotate.JsonProperty;
+
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public class ProjectDTO implements Project {
 
@@ -13,6 +17,7 @@ public class ProjectDTO implements Project {
 	private int status;
 	private Long startDate;
 	private Long endDate;
+	private Float progress;
 
 	@IgnoreAttribute
 	@Override
@@ -41,9 +46,17 @@ public class ProjectDTO implements Project {
 	public Long getStartDate() {
 		return startDate;
 	}
+	
+	public Long getDefaultStartDate() {
+		return startDate;
+	}
 
 	@Override
 	public Long getEndDate() {
+		return endDate;
+	}
+	
+	public Long getDefaultEndDate() {
 		return endDate;
 	}
 
@@ -67,12 +80,12 @@ public class ProjectDTO implements Project {
 	}
 
 	@Override
-	public void setStartDate(Long startDate) {
+	public void setDefaultStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
 	@Override
-	public void setEndDate(Long endDate) {
+	public void setDefaultEndDate(Long endDate) {
 		this.endDate = endDate;
 	}
 
@@ -85,6 +98,83 @@ public class ProjectDTO implements Project {
 	@Override
 	public void setStatusInteger(Integer status) {
 		this.status = status;
+	}
+
+	@Override
+	public Collection<Task> getTasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeTask(Task task) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTask(Task task) {
+		
+	}
+
+	@Override
+	public Integer getEffort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateEffort() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateProgress() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Float getProgress() {
+		// TODO Auto-generated method stub
+		return progress;
+	}
+	
+	@Override
+	public void setDefaultProgress(Float progress) {
+		// TODO Auto-generated method stub
+ 		this.progress = progress;
+	}
+	
+	public Float getDefaultProgress() {
+		// TODO Auto-generated method stub
+ 		return progress;
+	}
+
+
+	@Override
+	public void updateDates() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Integer getTaskCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeTaskRelation(Task task) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

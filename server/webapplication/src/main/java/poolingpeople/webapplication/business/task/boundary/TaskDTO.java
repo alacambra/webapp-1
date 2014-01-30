@@ -1,16 +1,19 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
+import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public class TaskDTO implements Task {
 
@@ -93,21 +96,6 @@ public class TaskDTO implements Task {
 	}
 
 	@Override
-	public void setStartDate(Long startDate) {
-		this.startDate = startDate;
-	}
-
-	@Override
-	public void setEndDate(Long endDate) {
-		this.endDate = endDate;
-	}
-
-	@Override
-	public void setProgress(Float progress) {
-		this.progress = progress;
-	}
-
-	@Override
 	@JsonProperty(value="priority")
 	public Integer getPriorityInteger() {
 		return priority;
@@ -136,7 +124,7 @@ public class TaskDTO implements Task {
 	}
 
 	@Override
-	public void setDuration(Integer duration) {
+	public void setDefaultDuration(Integer duration) {
 		this.duration = duration;
 	}
 
@@ -160,6 +148,114 @@ public class TaskDTO implements Task {
 
 	@Override
 	public Integer getEffort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Project getProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultStartDate(Long startDate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDefaultEndDate(Long endDate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDefaultProgress(Float progress) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateProgress() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDates() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDuration() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEfforts() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addSubtask(Task child) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeSubtask(Task child) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeTaskRelation(Task child) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAssignee(User u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Task getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getAssignee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Task> getSubtasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer getSubtaskCount() {
 		// TODO Auto-generated method stub
 		return null;
 	}

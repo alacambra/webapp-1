@@ -1,7 +1,6 @@
 package poolingpeople.webapplication.business.user.boundary;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -33,7 +32,6 @@ import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("users")
@@ -107,21 +105,21 @@ public class UserBoundary {
 		return Response.ok().build();
 	}
 
-	@GET
-	@Path("fakeit")
-	@Produces(MediaType.APPLICATION_JSON)
-	@AuthNotRequired
-	public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
-
-		User persistedUser = entityFactory.createUser("al@al.com" + new Date().getTime(), "a", new PersistedUser());
-
-//		persistedUser.setEmail("al@al.com" + new Date().getTime());
-		persistedUser.setFirstName("al");
-		persistedUser.setLastName("ipsum");
-
-		String r = mapper.writeValueAsString(persistedUser);
-		return Response.ok().entity(r).build();
-	}
+//	@GET
+//	@Path("fakeit")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@AuthNotRequired
+//	public Response fakeUser() throws JsonGenerationException, JsonMappingException, IOException {
+//
+//		User persistedUser = entityFactory.createUser("al@al.com" + new Date().getTime(), "a", new PersistedUser(new UserDTO()));
+//
+////		persistedUser.setEmail("al@al.com" + new Date().getTime());
+//		persistedUser.setFirstName("al");
+//		persistedUser.setLastName("ipsum");
+//
+//		String r = mapper.writeValueAsString(persistedUser);
+//		return Response.ok().entity(r).build();
+//	}
 
 	private  <T>  T deserializeAndValidate(String json, Class<T> clazz) 
 			throws JsonParseException, JsonMappingException, IOException {

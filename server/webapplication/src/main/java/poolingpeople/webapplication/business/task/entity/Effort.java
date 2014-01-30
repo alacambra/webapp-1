@@ -8,4 +8,5 @@ public interface Effort {
 	void setComment(String comment);
 	Integer getTime();
 	void setTime(Integer time);
+	String getTaskId();
 }

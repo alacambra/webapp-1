@@ -1,9 +1,17 @@
 package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
+import java.util.List;
 
-public interface Task {
+import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.user.entity.User;
+
+public interface Task{
 	
+	/**
+	 * UUID of a node. 
+	 * @return
+	 */
 	String getId();
 
 	String getTitle();
@@ -35,26 +43,63 @@ public interface Task {
 
 	Long getStartDate();
 
-	void setStartDate(Long startDate);
-
 	Long getEndDate();
-
-	void setEndDate(Long endDate);
 
 	Float getProgress();
 
-	void setProgress(Float progress);
-	
+	/**
+	 * Estimated duration of the task
+	 * @return
+	 */
 	Integer getDuration();
-	void setDuration(Integer duration); 
+	void setDefaultDuration(Integer progress); 
 	
+	/**
+	 * Number of ours used to develop some aspect of the task
+	 * @param effort
+	 */
 	void addEffort(Effort effort);
 	Collection<Effort> getEfforts();
 
 	void deleteEffort(Effort effort);
 	
 	Integer getEffort();
+	
+	Project getProject();
 
+	void setDefaultStartDate(Long startDate);
+
+	void setDefaultEndDate(Long endDate);
+
+	void setDefaultProgress(Float progress);
+
+	void updateProgress();
+
+	void updateDates();
+
+	void updateAll();
+
+	void updateDuration();
+
+	void updateEfforts();
+
+	void addSubtask(Task child);
+
+	void removeSubtask(Task child);
+
+	void removeTaskRelation(Task child);
+
+	void setAssignee(User u);
+
+	Task getParent();
+	String getParentId();
+
+	User getAssignee();
+
+	List<Task> getSubtasks();
+	
+	Integer getSubtaskCount();
+	
 }
 
 

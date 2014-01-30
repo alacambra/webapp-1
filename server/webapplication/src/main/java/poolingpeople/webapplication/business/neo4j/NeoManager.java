@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,14 +18,19 @@ import org.apache.log4j.Logger;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.helpers.collection.IteratorUtil;
+import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.kernel.impl.util.StringLogger;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
+import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
@@ -33,15 +39,17 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException
 @Singleton
 public class NeoManager {
 
-	GraphDatabaseService graphDb;
-	Logger logger = Logger.getLogger(this.getClass());
+	private GraphDatabaseService graphDb;
+	private Logger logger = Logger.getLogger(this.getClass());
 	public static final String FOUND = "found";
+	private ExecutionEngine engine;
 
 	protected NeoManager(){}
 
 	@Inject
 	public NeoManager(GraphDatabaseService graphDb){
 		this.graphDb = graphDb;
+		engine = new ExecutionEngine( graphDb );
 	}
 
 
@@ -76,6 +84,7 @@ public class NeoManager {
 		}
 	}
 
+	@Deprecated
 	public IndexHits<Node> getNodes(IndexContainer indexContainer) {
 
 		IndexHits<Node> indexHits = 
@@ -83,6 +92,22 @@ public class NeoManager {
 				.forNodes( indexContainer.getType() )
 				.get( indexContainer.getKey(), indexContainer.getValue());
 		return indexHits;
+	}
+	
+	public Collection<Node> getNodes(String label) {
+		
+		/**
+		 * @todo investigate why is not possible to use it as a parameter
+		 */
+//		ExecutionResult result = runCypherQuery("MATCH(n:{label}) RETURN n", genericMap("label", label));
+		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n", null);
+		Iterator<Node> n_column = result.columnAs("n");
+		return IteratorUtil.asCollection(n_column);
+		
+	}
+	
+	private Map<String, Object> genericMap(Object... objects){
+		return MapUtil.genericMap(new HashMap<String, Object>(), objects);
 	}
 
 	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
@@ -100,10 +125,16 @@ public class NeoManager {
 			node.setProperty(prop.getKey(), prop.getValue());
 		}
 
-		node.setProperty(NodesPropertiesNames.ID.name(), indexContainer.getValue());
-		node.setProperty(NodesPropertiesNames.TYPE.name(), type.name());
+		node.setProperty(NodePropertyName.ID.name(), indexContainer.getValue());
+		node.setProperty(NodePropertyName.TYPE.name(), type.name());
 
 		addToIndex(node, indexContainer);
+		Label label = DynamicLabel.label(type.name());
+		node.addLabel(label);
+		
+		/*
+		 * Legacy support 
+		 */
 		addToIndex(node, new TypeIndexContainer(type));
 		return node;
 	}
@@ -147,7 +178,7 @@ public class NeoManager {
 		try {
 			prop = node.getProperty(key);
 		} catch (org.neo4j.graphdb.NotFoundException e) {
-			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
+			logger.warn("property not found:" + key + "( internal id:" + node.getId() + " | uuid:" + getStringProperty(node, "ID") + ")");
 			return null;
 		}
 		return prop;
@@ -169,6 +200,8 @@ public class NeoManager {
 		} catch (org.neo4j.graphdb.NotFoundException e) {
 			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
 			return 0;
+		} catch (ClassCastException e) {
+			return Integer.parseInt(getProperty(node, key).toString());
 		}
 	}
 
@@ -178,6 +211,8 @@ public class NeoManager {
 		} catch (org.neo4j.graphdb.NotFoundException e) {
 			logger.warn("property not found:" + key + "( internal id:" + node.getId() + ")");
 			return 0F;
+		} catch (ClassCastException e) {
+			return Float.parseFloat(getProperty(node, key).toString());
 		}
 	}
 
@@ -239,8 +274,7 @@ public class NeoManager {
 	public ExecutionResult runCypherQuery(String query, Map<String, Object> params) {
 
 		ExecutionResult result = null;
-		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
-		ExecutionEngine engine = new ExecutionEngine( graphDb, logger);
+//		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
 
 		if ( params == null) {
 			result = engine.execute( query );
@@ -256,9 +290,9 @@ public class NeoManager {
 	}
 
 	public Collection<Node> getRelatedNodes(Node node, RelationshipType relation, Direction direction) {
-		if ( direction == null ) {
-			throw new RuntimeException("direction can no be null");
-		}
+//		if ( direction == null ) {
+//			throw new RuntimeException("direction can no be null");
+//		}
 		return loadRelatedNodesTo(node, relation, direction);
 	}
 
@@ -309,7 +343,7 @@ public class NeoManager {
 	 * @param n
 	 */
 	public void removeNode(Node n) {
-		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodesPropertiesNames.ID.name()));
+		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodePropertyName.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
 		
 		Iterable<Relationship> rels = n.getRelationships();
@@ -342,9 +376,20 @@ public class NeoManager {
 			return 0L;
 		}
 	}
+	
+	public <T extends AbstractPersistedModel<?>> T wrapNodeInPersistenceWrapper(Node n, Class<T> clazz) {
+		try {
+
+			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
+			return (c.newInstance(this, n));
+
+		} catch (Exception e) {
+			throw new RootApplicationException(e);
+		}
+	}
 
 
-	public <T> AbstractCollection<T> getPersistedObjects( Collection<Node> nodes, AbstractCollection<T> objects, Class<T> clazz ) {
+	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
 
 		for ( Node n : nodes ) {
 
@@ -354,7 +399,7 @@ public class NeoManager {
 				objects.add(c.newInstance(this, n));
 
 			} catch (Exception e) {
-				//				log.error(e);
+				throw new RootApplicationException(e);
 			}
 		}
 

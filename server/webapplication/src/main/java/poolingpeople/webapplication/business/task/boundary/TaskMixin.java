@@ -1,23 +1,29 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonSetter;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.task.entity.Effort;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.task.entity.TaskPriority;
 import poolingpeople.webapplication.business.task.entity.TaskStatus;
+import poolingpeople.webapplication.business.user.entity.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskMixin implements Task{
 
 	@Override
-//	@JsonView(View.SampleView.class)
+	@JsonView(JsonViews.Shared.class)
 	public String getId() {
 		return null;
 	}
@@ -33,7 +39,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-//	@JsonView(View.NoSend.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public String getTitle() {
 		return null;
 	}
@@ -43,15 +49,18 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonView(JsonViews.FullTask.class)
 	public String getDescription() {
 		return null;
 	}
 
 	@Override
+	@JsonView(JsonViews.BasicTask.class)
 	public void setDescription(String description) {
 	}
 
 	@Override
+	@JsonIgnore
 	public TaskPriority getPriority() {
 		return null;
 	}
@@ -61,6 +70,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonIgnore
 	public TaskStatus getStatus() {
 		return null;
 	}
@@ -70,94 +80,181 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonView(JsonViews.BasicTask.class)
 	public Long getStartDate() {
 		return null;
 	}
 
-	@Override
-	public void setStartDate(Long startDate) {
-	}
 
 	@Override
+	@JsonView(JsonViews.BasicTask.class)
 	public Long getEndDate() {
 		return null;
 	}
 
-	@Override
-	public void setEndDate(Long endDate) {
-
-	}
 
 	@Override
+	@JsonView(JsonViews.FullTask.class)
 	public Float getProgress() {
 		return null;
 	}
 
-	@Override
-	public void setProgress(Float progress) {
-	}
 
 	@Override
 	@JsonProperty(value="priority")
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getPriorityInteger() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@JsonProperty(value="priority")
 	public void setPriorityInteger(Integer priority) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	@JsonProperty(value="status")
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getStatusInteger() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@JsonProperty(value="status")
 	public void setStatusInteger(Integer status) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getDuration() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setDuration(Integer duration) {
-		// TODO Auto-generated method stub
+	public void setDefaultDuration(Integer duration) {
 		
 	}
 
 	@Override
 	public void addEffort(Effort effort) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	@JsonIgnore
+	@JsonView(JsonViews.FullTaskWithElements.class)
 	public Collection<Effort> getEfforts() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void deleteEffort(Effort effort) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getEffort() {
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.BasicTask.class)
+	public Project getProject() {
+		return null;
+	}
+
+	@Override
+	public void setDefaultStartDate(Long startDate) {
+		
+	}
+
+	@Override
+	public void setDefaultEndDate(Long endDate) {
+		
+	}
+
+	@Override
+	public void setDefaultProgress(Float progress) {
+		
+	}
+
+	@Override
+	public void updateProgress() {
+		
+	}
+
+	@Override
+	public void updateDates() {
+		
+	}
+
+	@Override
+	public void updateAll() {
+		
+	}
+
+	@Override
+	public void updateDuration() {
+		
+	}
+
+	@Override
+	public void updateEfforts() {
+		
+	}
+
+	@Override
+	public void addSubtask(Task child) {
+		
+	}
+
+	@Override
+	public void removeSubtask(Task child){
+		
+	}
+
+	@Override
+	public void removeTaskRelation(Task child) {
+		
+	}
+
+	@Override
+	@JsonIgnore
+	public void setAssignee(User u) {
+		
+	}
+
+	@Override
+	@JsonIgnore
+	public Task getParent() {
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.BasicTask.class)
+	public User getAssignee() {
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.Shared.class)
+	public String getParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.NeverUsed.class)
+	public List<Task> getSubtasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.BasicTask.class)
+	public Integer getSubtaskCount() {
 		// TODO Auto-generated method stub
 		return null;
 	}

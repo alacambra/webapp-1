@@ -2,15 +2,12 @@ package poolingpeople.webapplication.business.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.IndexHits;
-
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.project.entity.PersistedProject;
 import poolingpeople.webapplication.business.project.entity.Project;
@@ -32,7 +29,14 @@ public class EntityFactory {
 
 		PersistedTask task = getTaskById(uuid);
 		task.runDeletePreconditions();
+		Set<AbstractPersistedModel<?>> objects = task.loadObjectsToInform();
 		manager.removeNode(task.getNode());
+		
+		for(AbstractPersistedModel<?> model : objects){
+			model.updateAll();
+		}
+			
+		
 	}
 
 	public PersistedTask getTaskById(String uuid)  {
@@ -44,14 +48,10 @@ public class EntityFactory {
 	}
 
 	public List<PersistedTask> getAllTask() {
-		IndexHits<Node> nodes = manager.getNodes(new TypeIndexContainer(PersistedTask.NODE_TYPE));
-		List<PersistedTask> tasks = new ArrayList<PersistedTask>();
-
-		for(Node n : nodes){
-			tasks.add(new PersistedTask(manager, n));
-		}
-
-		return tasks;
+		return manager.getPersistedObjects(
+				manager.getNodes(PersistedTask.NODE_TYPE.name()), 
+				new ArrayList<PersistedTask>(), 
+				PersistedTask.class);
 	}
 
 	public PersistedProject createProject(Project project) {
@@ -64,14 +64,10 @@ public class EntityFactory {
 	}
 
 	public List<PersistedProject> getAllProject() {
-		IndexHits<Node> nodes = manager.getNodes(new TypeIndexContainer(PersistedProject.NODE_TYPE));
-		List<PersistedProject> projects = new ArrayList<PersistedProject>();
-
-		for(Node n : nodes){
-			projects.add(new PersistedProject(manager, n));
-		}
-
-		return projects;
+		return manager.getPersistedObjects(
+				manager.getNodes(PersistedProject.NODE_TYPE.name()), 
+				new ArrayList<PersistedProject>(), 
+				PersistedProject.class);
 	}
 
 	public void deleteProject(String uuid) {
@@ -86,8 +82,8 @@ public class EntityFactory {
 
 		try{
 
-			PersistedUser persistedUser = new PersistedUser(manager);
-			persistedUser.loadByCredentials(email, password);
+			PersistedUser persistedUser = new PersistedUser(manager, email, password);
+//			persistedUser.loadByCredentials(email, password);
 			
 			return persistedUser;
 			
@@ -133,14 +129,10 @@ public class EntityFactory {
 
 	public List<PersistedUser> getAllUsers() {
 
-		IndexHits<Node> nodes = manager.getNodes(new TypeIndexContainer(PersistedUser.NODE_TYPE));
-		List<PersistedUser> users = new ArrayList<PersistedUser>();
-
-		for(Node n : nodes){
-			users.add(new PersistedUser(manager, n));
-		}
-
-		return users;
+		return manager.getPersistedObjects(
+				manager.getNodes(PersistedUser.NODE_TYPE.name()), 
+				new ArrayList<PersistedUser>(), 
+				PersistedUser.class);
 	}
 
 	public User createUser(String email, String password, User user) {

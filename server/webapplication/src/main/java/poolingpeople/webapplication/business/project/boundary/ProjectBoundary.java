@@ -22,19 +22,20 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
-import poolingpeople.webapplication.business.boundary.SetMixinView;
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
+import poolingpeople.webapplication.business.task.boundary.AbstractBoundry;
 
 @Path("projects")
 @Stateless
 @Neo4jTransaction
 @CatchWebAppException
 @AuthValidator
-public class ProjectBoundary {
+public class ProjectBoundary extends AbstractBoundry{
 
 	@Inject
 	ObjectMapper mapper;
@@ -42,25 +43,39 @@ public class ProjectBoundary {
 	@Inject
 	EntityFactory entityFactory;
 
-	@Inject
+	@Inject 
 	DTOConverter dtoConverter;
 	
 
 	@GET
-	@Path("{id:[\\w\\d-]+}")
+	@Path(idPattern)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProjectById(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writerWithView(ProjectMixin.class).writeValueAsString(
+		String r = mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(
 				entityFactory.getProjectById(id));
+		return Response.ok().entity(r).build();
+	}
+	
+	@GET
+	@Path(idPattern + "/tasks/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProjectTasks(@PathParam("id") String projectId)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		String r = mapper.writerWithView(JsonViews.BasicProject.class).writeValueAsString(
+				entityFactory.getProjectById(projectId).getTasks());
 		return Response.ok().entity(r).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllProject() throws JsonGenerationException,
+	public Response getAllProjects() throws JsonGenerationException,
 			JsonMappingException, IOException {
-		String r = mapper.writeValueAsString(entityFactory.getAllProject());
+		
+		String r = 
+				mapper.writerWithView(JsonViews.BasicProject.class)
+				.writeValueAsString(entityFactory.getAllProject());
+		
 		return Response.ok().entity(r).build();
 	}
 
@@ -71,24 +86,23 @@ public class ProjectBoundary {
 			JsonMappingException, IOException {
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
 		Project Project = entityFactory.createProject(dtoProject);
-		return Response.ok().entity(mapper.writeValueAsString(Project)).build();
+		return Response.ok().entity(mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(Project)).build();
 	}
 
 	@PUT
-	@Path("{id:[\\w\\d-]+}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Path(idPattern)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateProject(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
+		
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		Project Project = dtoConverter.fromDTOtoPersitedBean(dtoProject,
-				entityFactory.getProjectById(uuid));
-		String r = mapper.writeValueAsString(Project);
-		return Response.ok().entity(r).build();
+		dtoConverter.fromDTOtoPersitedBean(dtoProject, entityFactory.getProjectById(uuid));
+		
+		return Response.noContent().build();
 	}
 
 	@DELETE
-	@Path("{id:[\\w\\d-]+}")
+	@Path(idPattern)
 	public Response deleteProject(@PathParam("id") String uuid) {
 		entityFactory.deleteProject(uuid);
 		return Response.noContent().build();
@@ -101,8 +115,8 @@ public class ProjectBoundary {
 			JsonMappingException, IOException {
 		Project persistedProject = entityFactory.createProject(new ProjectDTO());
 		persistedProject.setDescription("desc");
-		persistedProject.setEndDate(1L);
-		persistedProject.setStartDate(2L);
+		persistedProject.setDefaultEndDate(1L);
+		persistedProject.setDefaultStartDate(2L);
 		persistedProject.setTitle("title");
 		persistedProject.setStatus(ProjectStatus.ARCHIVED);
 		String r = mapper.writeValueAsString(persistedProject);
