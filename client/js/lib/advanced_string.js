@@ -42,6 +42,12 @@ String.prototype.underscore = function () {
 };
 
 
+// 'FooBar' -> 'foo-bar'
+String.prototype.dasherize = function () {
+    return this.replace(/([a-z\d])([A-Z]+)/g, '$1-$2').replace(/[-\s]+/g, '-').toLowerCase();
+};
+
+
 // ' FooBar ' -> 'FooBar'
 String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g,'');
