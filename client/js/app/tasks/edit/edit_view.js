@@ -141,12 +141,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
 
 
             update_progress: function (event) {
-                var progress = parseInt(this.ui.progress.val());
-                if (isNaN(progress)) {
-                    progress = 0;
-                } else {
-                    progress = tasks_helper.format_progress(progress / 100);
-                }
+                var progress = tasks_helper.format_progress(parseInt(this.ui.progress.val()) / 100);
 
                 this.ui.progress_slider.slider('option', 'value', progress);
                 this.ui.progress.val(progress);

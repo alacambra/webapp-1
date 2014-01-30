@@ -10,6 +10,18 @@
 <p><%= I18n.t('project.label.status') %>: <%= status_text(status) %></p>
 <p><%= I18n.t('project.label.start_date') %>: <%= format_date(startDate) %></p>
 <p><%= I18n.t('project.label.end_date') %>: <%= format_date(endDate) %></p>
+<p><%= I18n.t('project.label.progress') %>: <%= format_progress(progress) %> %</p>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="<%= format_progress(progress) %>" aria-valuemin="0" aria-valuemax="100"
+                 style="width: <%= format_progress(progress) %>%;">
+            </div>
+        </div>
+    </div>
+</div>
 
 <%= button_to('edit', path('projects', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 

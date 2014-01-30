@@ -25,7 +25,7 @@ function(view_helper, form_helper) {
         },
 
         format_progress: function(progress) {
-            if (progress < 0) {
+            if (!_.isNumber(progress) || isNaN(progress) || progress < 0) {
                 return 0;
             } else if (progress > 1) {
                 return 100;
