@@ -61,6 +61,16 @@ I18n.translations['de'] = {
         }
     },
 
+    service: {
+        label: {
+            name: 'Name',
+            description: 'Beschreibung'
+        },
+        button: {
+            new: 'Neuer Dienst'
+        }
+    },
+
     task: {
         label: {
             title: 'Titel',
