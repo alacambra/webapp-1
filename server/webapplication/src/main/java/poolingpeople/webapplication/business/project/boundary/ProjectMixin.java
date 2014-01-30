@@ -55,6 +55,7 @@ public class ProjectMixin implements Project{
 
 
 	@Override
+	@JsonProperty("startDate")
 	public void setDefaultStartDate(Long startDate) {
 	}
 
@@ -65,6 +66,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
+	@JsonProperty("endDate")
 	public void setDefaultEndDate(Long endDate) {
 
 	}

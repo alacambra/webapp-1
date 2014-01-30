@@ -11,17 +11,22 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
+import org.junit.After;
 import org.junit.runner.RunWith;
+import org.neo4j.graphdb.Node;
+import org.neo4j.tooling.GlobalGraphOperations;
 
 import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
+import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
 import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 import poolingpeople.webapplication.business.user.boundary.UserBoundary;
 import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
+import poolingpeople.webapplication.business.utils.cdi.LoggedUserContainerProducer;
 import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper;
@@ -37,7 +42,8 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	CatchWebExceptionInterceptor.class,
 	ConfigurationProducer.class,
 	EmailValidation.class,
-	ValidatorProducer.class
+	ValidatorProducer.class,
+	LoggedUserContainerProducer.class
 })
 
 public abstract class AbstractBoundryTest {
@@ -83,6 +89,30 @@ public abstract class AbstractBoundryTest {
 
 	@Inject 
 	UserBoundary userBoundary;
+	
+	protected String structurePath = "cypher-graphs/";
+	
+	
+	
+	protected void addCypherStructure(String cypherStructure){
+		
+		cypherStructure = "project-task-task-effort-related.cy";
+		
+		manager.runCypherQuery(FileLoader.getText(structurePath + cypherStructure), null);
+		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
+		for(Node n : iterable) {
+			manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
+		}
+	}
+	
+	@After
+	public void tearDown() {
+		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
+		for(Node n : iterable) {
+			manager.removeNode(n);
+		}
+	}
+	
 
 	protected <K,V> Map<K,V> getTask(String uuid) {
 

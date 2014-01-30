@@ -166,16 +166,19 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonProperty("startDate")
 	public void setDefaultStartDate(Long startDate) {
 		
 	}
 
 	@Override
+	@JsonProperty("endDate")
 	public void setDefaultEndDate(Long endDate) {
 		
 	}
 
 	@Override
+	@JsonProperty("progress")
 	public void setDefaultProgress(Float progress) {
 		
 	}

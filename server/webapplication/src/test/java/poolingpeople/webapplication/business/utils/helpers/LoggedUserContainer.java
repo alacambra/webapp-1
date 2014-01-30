@@ -1,6 +1,13 @@
-package poolingpeople.webapplication.business.boundary;
+package poolingpeople.webapplication.business.utils.helpers;
 
+import javax.inject.Inject;
+
+import org.neo4j.graphdb.Transaction;
+
+import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
 import poolingpeople.webapplication.business.entity.EntityFactory;
+import poolingpeople.webapplication.business.user.boundary.UserDTO;
+import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
 public class LoggedUserContainer implements ILoggedUserContainer {
@@ -10,8 +17,29 @@ public class LoggedUserContainer implements ILoggedUserContainer {
 	private String password;
 	private User user;
 
+	@Inject
 	public LoggedUserContainer(EntityFactory entityFactory){
+
 		this.entityFactory = entityFactory;
+		Transaction tx = entityFactory.getManager().getGraphDbService().beginTx();
+		try{
+			email = "a@a.cat";
+			password = "aaaa";
+
+			validateCredentials();
+
+			if (!userIsSuccessfullyLogged()) {
+
+				UserDTO dto = new UserDTO(); 
+				dto.setEmail(email);
+				dto.setPassword(password);
+
+				user = new PersistedUser(entityFactory.getManager(), email, password, dto);
+				tx.success();
+			}
+		} finally {
+			tx.close();
+		}
 	}
 
 	@Override
@@ -46,7 +74,7 @@ public class LoggedUserContainer implements ILoggedUserContainer {
 	public User getUser() {
 		return user;
 	}
-	
+
 	@Override
 	public boolean userIsSuccessfullyLogged() {
 		return user != null;
