@@ -46,7 +46,7 @@
     <% } else { %>
         &ndash;
     <% } %>
-    <button type="button" class="btn btn-default btn-xs js-move-to-project">
+    <button type="button" class="btn btn-default btn-xs js-assoc-to-project">
         <span class="glyphicon glyphicon-transfer"></span>
     </button>
 </p>
@@ -57,7 +57,7 @@
     <% } else { %>
         &ndash;
     <% } %>
-    <button type="button" class="btn btn-default btn-xs js-move-to-task">
+    <button type="button" class="btn btn-default btn-xs js-assoc-to-task">
         <span class="glyphicon glyphicon-transfer"></span>
     </button>
 </p>
@@ -68,7 +68,7 @@
     <% } else { %>
         &ndash;
     <% } %>
-    <button type="button" class="btn btn-default btn-xs js-move-to-user">
+    <button type="button" class="btn btn-default btn-xs js-assoc-to-user">
         <span class="glyphicon glyphicon-transfer"></span>
     </button>
 </p>
