@@ -237,8 +237,9 @@ function() {
                 var attribute = options.trim ? attrs[attr].trim() : attrs[attr];
 
                 if (options.allow_blank && is_blank(attribute)) return;
+                if (is_blank(attribute) && (_.isUndefined(options.min) || options.min == 0)) return;
 
-                if (options.min === options.max && attribute.length !== options.min) {
+                if ((options.min === options.max && attribute.length !== options.min) || is_blank(attribute)) {
                     errors[attr] = I18n.t('errors.validation.wrong_length', { count: options.min });
                 } else {
                     if (attribute.length < options.min) {
