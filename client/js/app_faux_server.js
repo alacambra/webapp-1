@@ -282,7 +282,7 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
     /* -------- tasks associations - tasks -------- */
 
-    Faux.post(base_url + 'tasks/in/task/:task_id', function (context, task_id) {
+    Faux.post(base_url + 'tasks/as/subtask/:task_id', function (context, task_id) {
         log_rest(context);
 
         context.data.id = generate_id();
