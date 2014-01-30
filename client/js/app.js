@@ -119,6 +119,7 @@ function(Marionette, CONFIG) {
                 'app/user_sessions/user_sessions_app',
                 'app/efforts/efforts_app',
                 'app/projects/projects_app',
+                'app/services/services_app',
                 'app/tasks/tasks_app',
                 'app/users/users_app',
                 'app/common/loading_view',

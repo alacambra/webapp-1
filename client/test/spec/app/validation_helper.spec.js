@@ -265,6 +265,12 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_length_of('name', { name: 'A ' }, {}, { min: 2 }).name).toBeUndefined();
                 expect(validation_helper.validates_length_of('name', { name: ' A' }, {}, { min: 2 }).name).toBeUndefined();
 
+                expect(validation_helper.validates_length_of('name', { name: [1, 2, 3] }, {}, { min: 2 }).name).toBeUndefined();
+                expect(validation_helper.validates_length_of('name', { name: [1, 2, 3] }, {}, { min: 3 }).name).toBeUndefined();
+                expect(validation_helper.validates_length_of('name', { name: [1, 2, 3] }, {}, { max: 3 }).name).toBeUndefined();
+                expect(validation_helper.validates_length_of('name', { name: [1, 2, 3] }, {}, { max: 4 }).name).toBeUndefined();
+                expect(validation_helper.validates_length_of('name', { name: null }, {}, { min: 0 }).name).toBeUndefined();
+
                 expect(validation_helper.validates_length_of('name', { name: ' 123 ' }, {}, { max: 3, trim: true }).name).toBeUndefined();
                 expect(validation_helper.validates_length_of('name', { name: '1 ' }, {}, { max: 1, trim: true }).name).toBeUndefined();
                 expect(validation_helper.validates_length_of('name', { name: ' 1' }, {}, { max: 1, trim: true }).name).toBeUndefined();
@@ -278,6 +284,10 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_length_of('name', { name: 'Alice' }, {}, { min: 2, max: 2 }).name).toBeDefined();
                 expect(validation_helper.validates_length_of('name', { name: 'Alice' }, {}, { min: 2, max: 3 }).name).toBeDefined();
                 expect(validation_helper.validates_length_of('name', { name: 'Alice' }, {}, { min: 10, max: 20 }).name).toBeDefined();
+
+                expect(validation_helper.validates_length_of('name', { name: [1, 2, 3] }, {}, { min: 4 }).name).toBeDefined();
+                expect(validation_helper.validates_length_of('name', { name: [1, 2, 3] }, {}, { max: 2 }).name).toBeDefined();
+                expect(validation_helper.validates_length_of('name', { name: null }, {}, { min: 1 }).name).toBeDefined();
 
                 expect(validation_helper.validates_length_of('name', { name: '  ' }, {}, { min: 1, trim: true }).name).toBeDefined();
                 expect(validation_helper.validates_length_of('name', { name: ' 123 ' }, {}, { min: 5, trim: true }).name).toBeDefined();

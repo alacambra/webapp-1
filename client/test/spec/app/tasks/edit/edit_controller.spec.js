@@ -35,31 +35,7 @@ function (App, Entities, Ctrl, response_handler) {
 
             spyOn(App, 'request').andCallFake(function (event, tid) {
                 var defer = $.Deferred();
-                if (event === 'task:entity') {
-                    defer.resolve(undefined, response);
-                } else if (event === 'user:entities') {
-                    defer.resolve(new Entities.UserCollection([ { id: 1 }, { id: 2 }, { id: 3 } ]), null);
-                }
-                return defer.promise();
-            });
-
-            spyOn(response_handler, 'handle');
-
-            Ctrl.task_edit(1);
-
-            expect(response_handler.handle).toHaveBeenCalledWith(response);
-        });
-
-        it('Should invoke response_handler when user request fails', function () {
-            var response = 'failure';
-
-            spyOn(App, 'request').andCallFake(function (event, tid) {
-                var defer = $.Deferred();
-                if (event === 'task:entity') {
-                    defer.resolve(new Entities.Task({ id: tid }), null);
-                } else if (event === 'user:entities') {
-                    defer.resolve(undefined, response);
-                }
+                defer.resolve(undefined, response);
                 return defer.promise();
             });
 

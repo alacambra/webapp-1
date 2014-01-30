@@ -10,7 +10,7 @@
             <ul id="js-main-navi-items" class="nav navbar-nav">
                 <li><a href="#"><%= I18n.t('main_navi.pools') %></a></li>
                 <li><%= link_to('main_navi.people', path('users', 'list')) %></li>
-                <li><a href="#"><%= I18n.t('main_navi.services') %></a></li>
+                <li><%= link_to('main_navi.services', path('services', 'list')) %></li>
                 <li><a href="#"><%= I18n.t('main_navi.messages') %></a></li>
                 <li><%= link_to('main_navi.projects', path('projects', 'list')) %></li>
                 <li><%= link_to('main_navi.tasks', path('tasks', 'list')) %></li>

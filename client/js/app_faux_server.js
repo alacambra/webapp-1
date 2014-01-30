@@ -3,10 +3,11 @@ define(['app',
         'backbone_faux_server',
         '../test/fixtures/efforts',
         '../test/fixtures/projects',
+        '../test/fixtures/services',
         '../test/fixtures/tasks',
         '../test/fixtures/users'
 ],
-function (App, CONFIG, Faux, efforts, projects, tasks, users) {
+function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
 //    Faux.setLatency(200, 400);
 
@@ -129,10 +130,113 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     /* -------- project tasks -------- */
 
-    Faux.post(base_url + 'tasks/in/project/:project_id', function (context, project_id) {
+    Faux.get(base_url + 'projects/:project_id/tasks', function(context, project_id) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == project_id });
+    });
+
+
+    /* -------- services -------- */
+
+    Faux.get(base_url + 'services', function (context) {
+        log_rest(context);
+        return _.toArray(services);
+    });
+
+    Faux.get(base_url + 'services/:id', function (context, id) {
+        log_rest(context);
+        return services[id];
+    });
+
+    Faux.post(base_url + 'services', function (context) {
+        log_rest(context);
+        context.data.id = generate_id();
+        services[context.data.id] = context.data;
+        return services[context.data.id];
+    });
+
+    Faux.del(base_url + 'services/:id', function (context, id) {
+        log_rest(context);
+        delete services[id];
+    });
+
+    Faux.put(base_url + 'services/:id', function (context, id) {
+        log_rest(context);
+        services[id] = context.data;
+        return services[id];
+    });
+
+    Faux.patch(base_url + 'services/:id', function (context, id) {
+        log_rest(context);
+        _.extend(services[id], context.data);
+        return services[id];
+    });
+
+
+    /* -------- tasks -------- */
+
+    function task_add_assignee(data) {
+        var assignee_id = data.assignee_id;
+        delete data.assignee_id;
+        data.assignee = users[assignee_id];
+    }
+
+    Faux.get(base_url + 'tasks', function (context) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return !task.parentTask });
+    });
+
+    Faux.get(base_url + 'tasks/:id', function (context, id) {
+        log_rest(context);
+        return tasks[id];
+    });
+
+    Faux.post(base_url + 'tasks', function (context) {
         log_rest(context);
 
-        task_add_assignee(context.data);
+        if (context.data.project) context.data.project.title = projects[context.data.project.id].title;
+
+        context.data.id = generate_id();
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
+
+    Faux.del(base_url + 'tasks/:id', function (context, id) {
+        log_rest(context);
+        delete tasks[id];
+    });
+
+    Faux.put(base_url + 'tasks/:id', function (context, id) {
+        log_rest(context);
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
+        tasks[id] = context.data;
+        return tasks[id];
+    });
+
+    Faux.patch(base_url + 'tasks/:id', function (context, id) {
+        log_rest(context);
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
+        _.extend(tasks[id], context.data);
+        return tasks[id];
+    });
+
+
+    /* -------- tasks subtasks -------- */
+
+    Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return task.parentId == task_id });
+    });
+
+
+    /* -------- tasks associations - projects -------- */
+
+    Faux.post(base_url + 'tasks/in/project/:project_id', function (context, project_id) {
+        log_rest(context);
 
         context.data.id = generate_id();
         context.data.project = {
@@ -175,73 +279,11 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         return tasks[task_id];
     });
 
-    Faux.get(base_url + 'projects/:project_id/tasks', function(context, project_id) {
-        log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == project_id });
-    });
 
-
-    /* -------- tasks -------- */
-
-    function task_add_assignee(data) {
-        var assignee_id = data.assignee_id;
-        delete data.assignee_id;
-        data.assignee = users[assignee_id];
-    }
-
-    Faux.get(base_url + 'tasks', function (context) {
-        log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return !task.parentId });
-    });
-
-    Faux.get(base_url + 'tasks/:id', function (context, id) {
-        log_rest(context);
-        return tasks[id];
-    });
-
-    Faux.post(base_url + 'tasks', function (context) {
-        log_rest(context);
-
-        task_add_assignee(context.data);
-
-        if (context.data.project) context.data.project.title = projects[context.data.project.id].title;
-
-        context.data.id = generate_id();
-        context.data.startDate = convert_to_server_null_value(context.data.startDate);
-        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
-        tasks[context.data.id] = context.data;
-        return tasks[context.data.id];
-    });
-
-    Faux.del(base_url + 'tasks/:id', function (context, id) {
-        log_rest(context);
-        delete tasks[id];
-    });
-
-    Faux.put(base_url + 'tasks/:id', function (context, id) {
-        log_rest(context);
-        context.data.startDate = convert_to_server_null_value(context.data.startDate);
-        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
-        tasks[id] = context.data;
-        return tasks[id];
-    });
-
-    Faux.patch(base_url + 'tasks/:id', function (context, id) {
-        log_rest(context);
-        task_add_assignee(context.data);
-        context.data.startDate = convert_to_server_null_value(context.data.startDate);
-        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
-        _.extend(tasks[id], context.data);
-        return tasks[id];
-    });
-
-
-    /* -------- tasks subtasks -------- */
+    /* -------- tasks associations - tasks -------- */
 
     Faux.post(base_url + 'tasks/in/task/:task_id', function (context, task_id) {
         log_rest(context);
-
-        task_add_assignee(context.data);
 
         context.data.id = generate_id();
         context.data.parentId = task_id;
@@ -275,9 +317,22 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         return tasks[task_id];
     });
 
-    Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
+
+    /* -------- tasks associations - users -------- */
+
+    Faux.put(base_url + 'tasks/:task_id/to/user/:target_user_id', function (context, task_id, target_user_id) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return task.parentId == task_id });
+
+        if (_.isUndefined(users[target_user_id])) {
+            return NOT_FOUND;
+        }
+
+        var task = tasks[task_id];
+        task.assignee_id = target_user_id;
+
+        task_add_assignee(task);
+
+        return task;
     });
 
 
