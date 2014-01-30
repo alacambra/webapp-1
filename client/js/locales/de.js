@@ -42,7 +42,9 @@ I18n.translations['de'] = {
             status: 'Status',
             start_date: 'Start',
             end_date: 'Ende',
-            progress: 'Fortschritt'
+            progress: 'Fortschritt',
+            effort: 'Aufgewendete Zeit',
+            effort_short: 'Zeit'
         },
         status_options: {
             todo: 'ToDo',

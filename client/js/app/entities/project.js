@@ -18,6 +18,7 @@ function(App, model_helper, validation_helper) {
                 endDate: null,
                 progress: null,
 
+                effort: 0,
                 taskCount: 0
             },
 

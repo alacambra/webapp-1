@@ -11,6 +11,10 @@ define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_
             return I18n.t('project.status_options.' + this.status_options[status]);
         },
 
+        format_duration: function(duration) {
+            return !is_blank(duration) ? view_helper.format_time(duration) : '';
+        },
+
         format_progress: function(progress) {
             if (!_.isNumber(progress) || isNaN(progress) || progress < 0) {
                 return 0;
