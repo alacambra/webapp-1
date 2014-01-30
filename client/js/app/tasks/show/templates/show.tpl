@@ -52,8 +52,8 @@
 </p>
 <p>
     <%= I18n.t('task.label.parent_task') %>:
-    <% if (parent_id) { %>
-        <%= link_to(parent_title, path('tasks', 'show', parent_id), { i18n: false }) %>
+    <% if (parentId) { %>
+        <%= link_to(parent_title, path('tasks', 'show', parentId), { i18n: false }) %>
     <% } else { %>
         &ndash;
     <% } %>
