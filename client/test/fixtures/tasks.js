@@ -80,10 +80,7 @@ define({
 
             "subtaskCount": 0,
 
-            "parentTask": {
-                "id": 1,
-                "title": "Writing"
-            },
+            "parent_id": 1,
 
             "assignee": {
                 "id": 2,
@@ -114,10 +111,7 @@ define({
 
             "subtaskCount": 1,
 
-            "parentTask": {
-                "id": 1,
-                "title": "Writing"
-            },
+            "parent_id": 1,
 
             "assignee": {
                 "id": 2,
@@ -146,10 +140,7 @@ define({
 
                 "subtaskCount": 0,
 
-                "parentTask": {
-                    "id": 3,
-                    "title": "Chapter 1"
-                },
+                "parent_id": 3,
 
                 "assignee": {
                     "id": 2,

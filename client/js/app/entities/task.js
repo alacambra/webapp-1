@@ -12,8 +12,8 @@ function(App, model_helper, validation_helper) {
                 if (this.isNew() && !_.isNull(this.get('project'))) {
                     return App.model_base_url('tasks/in/project/' + this.get('project').id);
 
-                } else if (this.isNew() && !_.isNull(this.get('parentTask'))) {
-                    return App.model_base_url('tasks/in/task/' + this.get('parentTask').id);
+                } else if (this.isNew() && !_.isNull(this.get('parent_id'))) {
+                    return App.model_base_url('tasks/in/task/' + this.get('parent_id'));
 
                 } else {
                     return base_url;
@@ -33,7 +33,8 @@ function(App, model_helper, validation_helper) {
 
                 effort: 0,
                 project: null,
-                parentTask: null,
+                parent_id: null,
+                parent_title: null,
                 subtaskCount: 0,
                 assignee: null
             },
@@ -146,7 +147,7 @@ function(App, model_helper, validation_helper) {
                     if (_.isObject(options)) {
                         if (!_.isUndefined(options.parent_task_id)) {
                             // parent_task_id is set as option, extend task to subtask
-                            task.set('parentTask', {
+                            task.set('parent_id', {
                                 id: options.parent_task_id
                             });
                         }
