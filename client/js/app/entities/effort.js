@@ -1,7 +1,8 @@
 define(['app',
         'moment',
+        'app/model_helper',
         'app/validation_helper'],
-function(App, moment, validation_helper) {
+function(App, moment, model_helper, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         Entities.Effort = Backbone.Model.extend({
             urlRoot: function () {
@@ -13,6 +14,12 @@ function(App, moment, validation_helper) {
                 date: null,
                 time: null,
                 comment: null
+            },
+
+            parse: function (response) {
+                response = model_helper.convert_server_response(response);
+
+                return response;
             },
 
             initialize: function(attributes, options) {

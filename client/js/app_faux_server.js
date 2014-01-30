@@ -25,6 +25,15 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         return id++;
     }
 
+    var server_null_value = 99999999999999;
+    function convert_to_server_null_value(date) {
+        return _.isNumber(date) ? date : server_null_value;
+    }
+
+    function convert_to_server_null_value_negative(date) {
+        return _.isNumber(date) ? date : -server_null_value;
+    }
+
     var NOT_FOUND = 'HTTP/1.1 404 Not Found';
     var NOT_IMPLEMENTED = 'HTTP/1.1 400 Not Implemented';
 
@@ -45,7 +54,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.get(base_url + 'tasks/:task_id/efforts', function(context, task_id) {
         log_rest(context);
-        return _.filter(_.toArray(efforts), function(effort) { return effort.task_id == task_id });
+        return _.filter(_.toArray(efforts), function(effort) { return effort.taskId == task_id });
     });
 
     Faux.get(base_url + 'tasks/:task_id/efforts/:id', function(context, task_id, id) {
@@ -56,6 +65,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     Faux.post(base_url + 'tasks/:task_id/efforts', function(context, task_id) {
         log_rest(context);
         context.data.id = generate_id();
+        context.data.date = convert_to_server_null_value(context.data.date);
         efforts[context.data.id] = context.data;
         efforts[context.data.id]['task_id'] = task_id;
         return efforts[context.data.id];
@@ -68,6 +78,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.put(base_url + 'tasks/:task_id/efforts/:id', function(context, task_id, id) {
         log_rest(context);
+        context.data.date = convert_to_server_null_value(context.data.date);
         efforts[id] = context.data;
         return efforts[id];
     });
@@ -88,6 +99,8 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     Faux.post(base_url + 'projects', function(context) {
         log_rest(context);
         context.data.id = generate_id();
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         projects[context.data.id] = context.data;
         return projects[context.data.id];
     });
@@ -99,12 +112,16 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.put(base_url + 'projects/:id', function(context, id) {
         log_rest(context);
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         projects[id] = context.data;
         return projects[id];
     });
 
     Faux.patch(base_url + 'projects/:id', function(context, id) {
         log_rest(context);
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         _.extend(projects[id], context.data);
         return projects[id];
     });
@@ -122,6 +139,8 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
             id: project_id,
             title: projects[project_id].title
         };
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         tasks[context.data.id] = context.data;
         return tasks[context.data.id];
     });
@@ -172,7 +191,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.get(base_url + 'tasks', function (context) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return !task.parentTask });
+        return _.filter(_.toArray(tasks), function(task) { return !task.parentId });
     });
 
     Faux.get(base_url + 'tasks/:id', function (context, id) {
@@ -188,6 +207,8 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         if (context.data.project) context.data.project.title = projects[context.data.project.id].title;
 
         context.data.id = generate_id();
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         tasks[context.data.id] = context.data;
         return tasks[context.data.id];
     });
@@ -199,6 +220,8 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.put(base_url + 'tasks/:id', function (context, id) {
         log_rest(context);
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         tasks[id] = context.data;
         return tasks[id];
     });
@@ -206,6 +229,8 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     Faux.patch(base_url + 'tasks/:id', function (context, id) {
         log_rest(context);
         task_add_assignee(context.data);
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         _.extend(tasks[id], context.data);
         return tasks[id];
     });
@@ -219,10 +244,9 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
         task_add_assignee(context.data);
 
         context.data.id = generate_id();
-        context.data.parentTask = {
-            id: task_id,
-            title: tasks[task_id].title
-        };
+        context.data.parentId = task_id;
+        context.data.startDate = convert_to_server_null_value(context.data.startDate);
+        context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         tasks[context.data.id] = context.data;
         return tasks[context.data.id];
     });
@@ -234,10 +258,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
             return NOT_FOUND;
         }
 
-        tasks[task_id].parentTask = {
-            id: target_task_id,
-            title: tasks[target_task_id].title
-        };
+        tasks[task_id].parentId = target_task_id;
 
         return tasks[task_id];
     });
@@ -249,17 +270,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
             return NOT_FOUND;
         }
 
-        tasks[task_id].parentTask = {
-            id: target_task_id,
-            title: tasks[target_task_id].title
-        };
+        tasks[task_id].parentId = target_task_id;
 
         return tasks[task_id];
     });
 
     Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return task.parentTask && task.parentTask.id == task_id });
+        return _.filter(_.toArray(tasks), function(task) { return task.parentId == task_id });
     });
 
 
@@ -278,6 +296,7 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     Faux.post(base_url + 'users', function (context) {
         log_rest(context);
         context.data.id = generate_id();
+        context.data.birthDate = convert_to_server_null_value(context.data.birthDate);
         users[context.data.id] = context.data;
         return users[context.data.id];
     });
@@ -289,12 +308,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     Faux.put(base_url + 'users/:id', function (context, id) {
         log_rest(context);
+        context.data.birthDate = convert_to_server_null_value(context.data.birthDate);
         users[id] = context.data;
         return users[id];
     });
 
     Faux.patch(base_url + 'users/:id', function (context, id) {
         log_rest(context);
+        context.data.birthDate = convert_to_server_null_value(context.data.birthDate);
         _.extend(users[id], context.data);
         return users[id];
     });
