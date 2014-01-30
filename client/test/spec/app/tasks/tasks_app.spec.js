@@ -130,14 +130,11 @@ function (App, TasksApp, Entities) {
                 var s = '/tasks/' + task.get('id') + '/in/task/' + target_task_id;
                 expect(options.url).toMatch(new RegExp(s));
 
-                task.set({
-                    parent_id: 5,
-                    parent_title: 'pt5'
-                });
+                task.set('parentId', 5);
 
                 App.trigger('task:assoc:to:task', task, target_task_id);
 
-                s = '/tasks/' + task.get('id') + '/from/task/' + task.get('parent_id') + '/to/' + target_task_id;
+                s = '/tasks/' + task.get('id') + '/from/task/' + task.get('parentId') + '/to/' + target_task_id;
                 expect(options.url).toMatch(new RegExp(s));
             });
         });

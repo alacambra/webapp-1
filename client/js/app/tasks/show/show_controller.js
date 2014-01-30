@@ -11,7 +11,7 @@ function (App, response_handler, TaskList) {
 
                 $.when(App.request('task:entity', task_id)).done(function(task, response) {
                     if (task) {
-                        var parent_task_id = task.get('parent_id');
+                        var parent_task_id = task.get('parentId');
                         var fetching_parent_task = parent_task_id ? App.request('task:entity', parent_task_id) : null;
                         $.when(fetching_parent_task).done(function(parent_task, response) {
                             if (is_empty(parent_task_id) || parent_task) {
