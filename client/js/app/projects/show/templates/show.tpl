@@ -10,6 +10,10 @@
 <p><%= I18n.t('project.label.status') %>: <%= status_text(status) %></p>
 <p><%= I18n.t('project.label.start_date') %>: <%= format_date(startDate) %></p>
 <p><%= I18n.t('project.label.end_date') %>: <%= format_date(endDate) %></p>
+<p>
+    <%= I18n.t('project.label.effort') %>:
+    <%= format_duration(effort) %>
+</p>
 <p><%= I18n.t('project.label.progress') %>: <%= format_progress(progress) %> %</p>
 
 <div class="row">

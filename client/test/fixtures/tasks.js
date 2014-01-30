@@ -42,7 +42,7 @@ define({
         "duration":    9600,
         "progress":    0.65,
 
-        "effort": 0,
+        "effort": 660,
 
         "project": {
             "id": 0,
