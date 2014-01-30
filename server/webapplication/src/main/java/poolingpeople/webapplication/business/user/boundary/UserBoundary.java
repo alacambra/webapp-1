@@ -1,7 +1,6 @@
 package poolingpeople.webapplication.business.user.boundary;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -33,7 +32,6 @@ import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.user.entity.PersistedUser;
 import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("users")

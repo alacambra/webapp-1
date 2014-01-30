@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -40,19 +39,16 @@ import poolingpeople.webapplication.business.user.entity.User;
 public class TaskBoundary extends AbstractBoundry{
 
 	@Inject
-	HttpServletRequest request;
+	private ObjectMapper mapper;
 
 	@Inject
-	ObjectMapper mapper;
+	private EntityFactory entityFactory;
 
 	@Inject
-	EntityFactory entityFactory;
+	private DTOConverter dtoConverter;
 
 	@Inject
-	DTOConverter dtoConverter;
-
-	@Inject
-	LoggedUserContainer loggedUserContainer;
+	private LoggedUserContainer loggedUserContainer;
 
 
 	/************************************* TASK CRUD *************************************/
@@ -69,7 +65,7 @@ public class TaskBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllTask() throws JsonGenerationException,
 	JsonMappingException, IOException {
-		String r = mapper.writerWithView(JsonViews.Basic.class).writeValueAsString(entityFactory.getAllTask());
+		String r = mapper.writerWithView(JsonViews.BasicTask.class).writeValueAsString(entityFactory.getAllTask());
 		return Response.ok().entity(r).build();
 	}
 	
@@ -89,6 +85,7 @@ public class TaskBoundary extends AbstractBoundry{
 	JsonMappingException, IOException {
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
+		task.setAssignee(loggedUserContainer.getUser());
 		return Response.ok().entity(mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task)).build();
 	}
 

@@ -62,7 +62,7 @@ public class ProjectBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProjectTasks(@PathParam("id") String projectId)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String r = mapper.writerWithView(JsonViews.Basic.class).writeValueAsString(
+		String r = mapper.writerWithView(JsonViews.BasicProject.class).writeValueAsString(
 				entityFactory.getProjectById(projectId).getTasks());
 		return Response.ok().entity(r).build();
 	}
@@ -73,7 +73,7 @@ public class ProjectBoundary extends AbstractBoundry{
 			JsonMappingException, IOException {
 		
 		String r = 
-				mapper.writerWithView(JsonViews.Basic.class)
+				mapper.writerWithView(JsonViews.BasicProject.class)
 				.writeValueAsString(entityFactory.getAllProject());
 		
 		return Response.ok().entity(r).build();

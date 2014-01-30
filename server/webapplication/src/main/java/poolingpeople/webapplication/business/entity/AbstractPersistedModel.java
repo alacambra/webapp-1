@@ -3,8 +3,8 @@ package poolingpeople.webapplication.business.entity;
 import java.lang.reflect.Method;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -240,7 +240,23 @@ public abstract class AbstractPersistedModel<T>{
 
 	protected abstract void initializeVariables();
 
-
+	/**
+	 * called when an attribute update is required. 
+	 */
+	public void updateAll(){
+		
+	}
+	
+	/**
+	 * Returns the objects that must execute an update all.
+	 * Should be overriden
+	 * @return
+	 */
+	public Set<AbstractPersistedModel<?>> loadObjectsToInform() {
+		return new HashSet<AbstractPersistedModel<?>>();
+	}
+	
+	
 }
 
 
