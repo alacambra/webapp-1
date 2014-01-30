@@ -67,12 +67,17 @@ function (App) {
             API.task_subtasks_new(id);
         });
 
-        App.on('task:move:to:project', function (task, target_project_id) {
-            API.task_move(task, target_project_id, 'project');
+        App.on('task:assoc:to:project', function (task, target_project_id) {
+            API.task_assoc(task, target_project_id, 'project');
         });
 
-        App.on('task:move:to:task', function (task, target_task_id) {
-            API.task_move(task, target_task_id, 'task');
+        App.on('task:assoc:to:task', function (task, target_task_id) {
+            API.task_assoc(task, target_task_id, 'task');
+        });
+
+
+        App.on('task:assoc:to:user', function (task, target_user_id) {
+            API.task_assoc(task, target_user_id, 'user');
         });
 
         var API = {
@@ -120,17 +125,23 @@ function (App) {
                 }
             },
 
-            task_move: function (task, id, type) {
+            task_assoc: function (task, id, type) {
                 var url = App.model_base_url('tasks/' + task.get('id'));
                 var error_msg = 'error';
 
-                if (type === 'project') {
-                    url += _.isNull(task.get('project')) ? '/in/project/' + id : '/from/project/' + task.get('project').id + '/to/' + id;
-                    error_msg = I18n.t('task.move_to_project_failed', { name: task.get('title'), project_id: id });
-
-                } else if (type === 'task') {
-                    url += _.isNull(task.get('parentTask')) ? '/in/task/' + id : '/from/task/' + task.get('parentTask').id + '/to/' + id;
-                    error_msg = I18n.t('task.move_to_task_failed', { name: task.get('title'), task_id: id });
+                switch(type) {
+                    case 'project':
+                        url += _.isNull(task.get('project')) ? '/in/project/' + id : '/from/project/' + task.get('project').id + '/to/' + id;
+                        error_msg = I18n.t('task.assoc_to_project_failed', { name: task.get('title'), id: id });
+                        break;
+                    case 'task':
+                        url += _.isNull(task.get('parentTask')) ? '/in/task/' + id : '/from/task/' + task.get('parentTask').id + '/to/' + id;
+                        error_msg = I18n.t('task.assoc_to_task_failed', { name: task.get('title'), id: id });
+                        break;
+                    case 'user':
+                        url += '/to/user/' + id;
+                        error_msg = I18n.t('task.assoc_to_user_failed', { name: task.get('title'), id: id });
+                        break;
                 }
 
                 Backbone.sync('update', task, {

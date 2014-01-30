@@ -20,28 +20,17 @@ function (App, response_handler, users_helper) {
                 _.extend(redirect, options.redirect);
             }
 
-            var fetching_task = App.request('task:entity', task_id, task_options);
-            var fetching_users = App.request('user:entities');
-
-            $.when(fetching_task, fetching_users).done(function(task_response, users_response) {
-                var task = _.isUndefined(task_id) ? task_response : task_response[0];
-                var users = users_response[0];
-
-                if (task && users) {
+            $.when(App.request('task:entity', task_id, task_options)).done(function(task, response) {
+                if (task) {
                     var edit_view = new Edit.View({
-                        model: task,
-                        users: users_helper.options_for_select(users)
+                        model: task
                     });
 
                     App.main_region.show(edit_view);
 
                     set_view_submit_handler(edit_view, task, redirect);
                 } else {
-                    if (!task) {
-                        response_handler.handle(task_response[1]);
-                    } else if (!users) {
-                        response_handler.handle(users_response[1]);
-                    }
+                    response_handler.handle(response);
                 }
             });
         }
