@@ -13,7 +13,7 @@ function(App, model_helper, validation_helper) {
                     return App.model_base_url('tasks/in/project/' + this.get('project').id);
 
                 } else if (this.isNew() && !_.isNull(this.get('parentId'))) {
-                    return App.model_base_url('tasks/in/task/' + this.get('parentId'));
+                    return App.model_base_url('tasks/as/subtask/' + this.get('parentId'));
 
                 } else {
                     return base_url;
