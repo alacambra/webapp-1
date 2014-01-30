@@ -23,7 +23,7 @@ define({
             "lastName": "Riddell"
         },
 
-        "parent_id": null,
+        "parentId": null,
 
         "startDateIsDefault": true,
         "endDateIsDefault":   true,
@@ -55,7 +55,7 @@ define({
             "lastName": "Bishop"
         },
 
-        "parent_id": null,
+        "parentId": null,
 
         "startDateIsDefault": false,
         "endDateIsDefault":   true,
@@ -84,7 +84,7 @@ define({
                 "lastName": "Brown"
             },
 
-            "parent_id": 1,
+            "parentId": 1,
 
             "startDateIsDefault": true,
             "endDateIsDefault":   true,
@@ -113,7 +113,7 @@ define({
                 "lastName": "Brown"
             },
 
-            "parent_id": 1,
+            "parentId": 1,
 
             "startDateIsDefault": false,
             "endDateIsDefault":   true,
@@ -142,7 +142,7 @@ define({
                     "lastName": "Brown"
                 },
 
-                "parent_id": 3,
+                "parentId": 3,
 
                 "startDateIsDefault": true,
                 "endDateIsDefault":   true,
@@ -174,7 +174,7 @@ define({
             "lastName": "Bishop"
         },
 
-        "parent_id": null,
+        "parentId": null,
 
         "priorityIsDefault":  true,
         "startDateIsDefault": true,
@@ -204,7 +204,7 @@ define({
             "lastName": "Bishop"
         },
 
-        "parent_id": null,
+        "parentId": null,
 
         "startDateIsDefault": true,
         "endDateIsDefault":   true,
