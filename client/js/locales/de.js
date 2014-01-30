@@ -41,7 +41,8 @@ I18n.translations['de'] = {
             task_count: 'Aufgaben',
             status: 'Status',
             start_date: 'Start',
-            end_date: 'Ende'
+            end_date: 'Ende',
+            progress: 'Fortschritt'
         },
         status_options: {
             todo: 'ToDo',
