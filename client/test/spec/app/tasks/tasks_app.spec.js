@@ -56,6 +56,27 @@ function (App, TasksApp, Entities) {
         });
 
         describe('API', function () {
+            it('Should delete a specified task with optional redirect', function () {
+                var task = new Entities.Task({ id: 2 });
+                var redirect;
+
+                spyOn(window, 'confirm').andReturn(true);
+                spyOn(App, 'trigger').andCallThrough();
+                spyOn(task, 'destroy');
+
+                App.trigger('task:delete', task, redirect);
+
+                expect(task.destroy).toHaveBeenCalled();
+                expect(App.trigger).not.toHaveBeenCalledWith(redirect);
+
+                redirect = 'home';
+
+                App.trigger('task:delete', task, redirect);
+
+                expect(task.destroy).toHaveBeenCalled();
+                expect(App.trigger).toHaveBeenCalledWith(redirect);
+            });
+
             it('Moving a task to a project should use correct parameters', function () {
                 var task = new Entities.Task({ id: 28 });
                 var target_project_id = 4;

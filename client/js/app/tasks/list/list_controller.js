@@ -19,22 +19,6 @@ function(App, response_handler) {
                         response_handler.handle(response);
                     }
                 });
-            },
-
-
-            task_delete: function(task, redirect) {
-                $.when(App.request('task:entity', task)).done(function(task, response) {
-                    if (task) {
-                        task.destroy();
-                        if (!_.isUndefined(redirect)) {
-                            if (_.isObject(redirect)) {
-                                App.trigger(redirect.event, redirect.id);
-                            } else {
-                                App.trigger(redirect);
-                            }
-                        }
-                    }
-                });
             }
         }
     });
