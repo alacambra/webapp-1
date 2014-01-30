@@ -350,7 +350,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 			throw new RelationAlreadyExistsException();
 		}
 
-		manager.removeRelation(((AbstractPersistedModel<User>) u).getNode(), underlyingNode, Relations.DOES);
+		manager.removeRelationsTo(underlyingNode, Relations.DOES);
 		createRelationshipFrom((AbstractPersistedModel<?>) u, Relations.DOES);
 	}
 	
