@@ -2,7 +2,9 @@ package poolingpeople.webapplication.business.task.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -351,6 +353,24 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		manager.removeRelation(((AbstractPersistedModel<User>) u).getNode(), underlyingNode, Relations.DOES);
 		createRelationshipFrom((AbstractPersistedModel<?>) u, Relations.DOES);
 	}
+	
+	@Override
+	public User getAssignee() {
+		return getRelatedNode(Relations.DOES, PersistedUser.class, Direction.INCOMING);
+	}
+
+	@Override
+	public String getParentId() {
+		Task parent = getParent();
+		return parent == null ? null : parent.getId();
+	}
+
+	@Override
+	public Integer getSubtaskCount() {
+		Collection<?> subtasks = getSubtasks();
+		return subtasks != null ? subtasks.size() : 0;
+	}
+
 
 	/**************** UPDATE METHODS *****************/
 
@@ -463,14 +483,14 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 			deleteEffort(effort);
 		}
 
-		Project p = getProject();
-		Task t = getParent();
-
-		if( p != null ){
-			p.removeTask(this);
-		} else if (t != null) {
-			t.removeSubtask(t);
-		}
+//		Project p = getProject();
+//		Task t = getParent();
+//
+//		if( p != null ){
+//			p.removeTask(this);
+//		} else if (t != null) {
+//			t.removeSubtask(t);
+//		}
 
 
 	}
@@ -567,18 +587,21 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		if ( getEffort() == null )
 			setEffort(DefaultValues.defaultEffort);
 	}
-
+	
 	@Override
-	public User getAssignee() {
-		return getRelatedNode(Relations.DOES, PersistedUser.class, Direction.INCOMING);
+	public Set<AbstractPersistedModel<?>> loadObjectsToInform() {
+		HashSet<AbstractPersistedModel<?>> objects = new HashSet<AbstractPersistedModel<?>>(); 
+		
+		Project p = getProject();
+		if ( p != null)
+			objects.add((AbstractPersistedModel<?>) p);
+		
+		Task parentTask = getParent();
+		if( parentTask != null )
+			objects.add((AbstractPersistedModel<?>) parentTask);
+		
+		return objects;
 	}
-
-	@Override
-	public String getParentId() {
-		Task parent = getParent();
-		return parent == null ? null : parent.getId();
-	}
-
 
 }
 

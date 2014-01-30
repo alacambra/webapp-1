@@ -14,22 +14,22 @@ public class JsonViews {
 	 */
 	public static interface Shared{}
 	
-	/**
-	 * Attributes for an elementary (visitor or non contact...) view but only in the main entity
-	 */
-	public static interface Basic extends Shared{}
-	
+
 	/************************************** PROJECT's VIEWS ***********************************************/
 	
 	/**
+	 * Attributes for an elementary (visitor or non contact...) view but only in the main entity
+	 */
+	public static interface BasicProject extends Shared{}
+	/**
 	 * Basic attributes from the main entity and shared attributes of subentity 
 	 */
-	public static interface BasicProjectWithElements extends Basic{}
+	public static interface BasicProjectWithElements extends BasicProject{}
 	
 	/**
 	 * All attributes of an entity without subentities
 	 */
-	public static interface FullProject extends Basic{}
+	public static interface FullProject extends BasicProject{}
 	
 	/**
 	 * All attributes of an entity with subentities
@@ -38,14 +38,18 @@ public class JsonViews {
 	
 	/************************************** TASK's VIEWS ***********************************************/
 	/**
+	 * Attributes for an elementary (visitor or non contact...) view but only in the main entity
+	 */
+	public static interface BasicTask extends Shared{}
+	/**
 	 * Basic attributes from the main entity and shared attributes of subentity 
 	 */
-	public static interface BasicTaskWithElements extends Basic{}
+	public static interface BasicTaskWithElements extends BasicTask{}
 	
 	/**
 	 * All attributes of an entity without subentities
 	 */
-	public static interface FullTask extends Basic{}
+	public static interface FullTask extends BasicTask{}
 	
 	/**
 	 * All attributes of an entity with subentities
@@ -55,14 +59,18 @@ public class JsonViews {
 	
 	/************************************** EFFORT's VIEWS ***********************************************/
 	/**
+	 * Attributes for an elementary (visitor or non contact...) view but only in the main entity
+	 */
+	public static interface BasicEffort extends Shared{}
+	/**
 	 * Basic attributes from the main entity and shared attributes of subentity 
 	 */
-	public static interface BasicEffortWithElements extends Basic{}
+	public static interface BasicEffortWithElements extends BasicEffort{}
 	
 	/**
 	 * All attributes of an entity without subentities
 	 */
-	public static interface FullEffort extends Basic{}
+	public static interface FullEffort extends BasicEffort{}
 	
 	/**
 	 * All attributes of an entity with subentities

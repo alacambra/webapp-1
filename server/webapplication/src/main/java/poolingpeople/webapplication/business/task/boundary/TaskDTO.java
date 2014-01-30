@@ -254,5 +254,11 @@ public class TaskDTO implements Task {
 		return null;
 	}
 
+	@Override
+	public Integer getSubtaskCount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

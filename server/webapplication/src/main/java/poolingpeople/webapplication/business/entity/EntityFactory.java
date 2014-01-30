@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -28,7 +29,13 @@ public class EntityFactory {
 
 		PersistedTask task = getTaskById(uuid);
 		task.runDeletePreconditions();
+		Set<AbstractPersistedModel<?>> objects = task.loadObjectsToInform();
 		manager.removeNode(task.getNode());
+		
+		for(AbstractPersistedModel<?> model : objects){
+			model.updateAll();
+		}
+			
 		
 	}
 
@@ -141,6 +148,10 @@ public class EntityFactory {
 	 */
 	public Effort createEffort(Effort effort) {
 		return new PersistedEffort(manager, effort);
+	}
+	
+	public NeoManager getManager() {
+		return manager;
 	}
 
 }

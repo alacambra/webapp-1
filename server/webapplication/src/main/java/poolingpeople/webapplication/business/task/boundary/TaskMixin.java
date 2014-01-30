@@ -39,7 +39,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public String getTitle() {
 		return null;
 	}
@@ -55,7 +55,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public void setDescription(String description) {
 	}
 
@@ -80,14 +80,14 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Long getStartDate() {
 		return null;
 	}
 
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Long getEndDate() {
 		return null;
 	}
@@ -102,7 +102,7 @@ public class TaskMixin implements Task{
 
 	@Override
 	@JsonProperty(value="priority")
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getPriorityInteger() {
 		return null;
 	}
@@ -115,7 +115,7 @@ public class TaskMixin implements Task{
 
 	@Override
 	@JsonProperty(value="status")
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getStatusInteger() {
 		return null;
 	}
@@ -127,7 +127,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getDuration() {
 		return null;
 	}
@@ -154,14 +154,13 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Integer getEffort() {
 		return null;
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
-	@JsonIgnore
+	@JsonView(JsonViews.BasicTask.class)
 	public Project getProject() {
 		return null;
 	}
@@ -234,19 +233,28 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.Basic.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public User getAssignee() {
 		return null;
 	}
 
 	@Override
+	@JsonView(JsonViews.Shared.class)
 	public String getParentId() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@JsonView(JsonViews.NeverUsed.class)
 	public List<Task> getSubtasks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.BasicTask.class)
+	public Integer getSubtaskCount() {
 		// TODO Auto-generated method stub
 		return null;
 	}

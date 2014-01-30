@@ -4,7 +4,7 @@ import javax.xml.bind.DatatypeConverter;
 
 public class AuthService {
 
-    public void loadCredentials(String authRawHeader, LoggedUserContainer loggedUserContainer) {
+    public void loadCredentials(String authRawHeader, ILoggedUserContainer loggedUserContainer) {
     	
         if(authRawHeader == null || authRawHeader.length() < 0 
         		|| !authRawHeader.subSequence(0, "Basic ".length()).equals("Basic ")) return;

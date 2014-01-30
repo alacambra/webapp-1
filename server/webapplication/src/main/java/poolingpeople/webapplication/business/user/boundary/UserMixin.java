@@ -2,8 +2,11 @@ package poolingpeople.webapplication.business.user.boundary;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonValue;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.user.entity.User;
 
@@ -51,7 +54,7 @@ public class UserMixin implements User{
 	public void setLastName(String lastname) {}
 
 	@Override
-//	@JsonIgnore
+	@JsonView(JsonViews.NeverUsed.class)
 	public String getPassword() {
 		return null;
 	}

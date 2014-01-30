@@ -121,8 +121,7 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 
 	@Override
 	public String getPassword() {
-		return manager.getStringProperty(underlyingNode,
-				NodePropertyName.PASSWORD.name());
+		return manager.getStringProperty(underlyingNode, NodePropertyName.PASSWORD.name());
 	}
 
 	@Override

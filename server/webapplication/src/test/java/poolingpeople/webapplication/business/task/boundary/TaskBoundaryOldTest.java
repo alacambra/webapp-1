@@ -50,12 +50,12 @@ public class TaskBoundaryOldTest {
 
     @Before
     public void setUp() throws IOException {
-        MockitoAnnotations.initMocks(this);
-        cut = new TaskBoundary();
-
-        cut.dtoConverter = dtoConverterMock;
-        cut.entityFactory = entityFactoryMock;
-        cut.mapper = objectMapperMock;
+//        MockitoAnnotations.initMocks(this);
+//        cut = new TaskBoundary();
+//
+//        cut.dtoConverter = dtoConverterMock;
+//        cut.entityFactory = entityFactoryMock;
+//        cut.mapper = objectMapperMock;
 
     }
 

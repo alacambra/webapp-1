@@ -98,6 +98,8 @@ public interface Task{
 
 	List<Task> getSubtasks();
 	
+	Integer getSubtaskCount();
+	
 }
 
 

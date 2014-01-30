@@ -3,8 +3,6 @@ package poolingpeople.webapplication.business.project.entity;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.helpers.DefaultValidationEventHandler;
-
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
@@ -239,7 +237,6 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 		}
 
 		manager.removeNode(((AbstractPersistedModel<?>) task).getNode());
-		updateAll();
 	}
 
 	@Override

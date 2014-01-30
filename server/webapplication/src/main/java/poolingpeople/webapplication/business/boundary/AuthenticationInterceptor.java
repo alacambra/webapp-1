@@ -7,7 +7,6 @@ import javax.interceptor.InvocationContext;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
 import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 
 @Interceptor
@@ -15,7 +14,7 @@ import poolingpeople.webapplication.business.utils.configuration.boundary.Config
 public class AuthenticationInterceptor {
 
 	@Inject
-	private LoggedUserContainer loggedUserContainer;
+	private ILoggedUserContainer loggedUserContainer;
 
         @Inject
         @Configurable("debug")
