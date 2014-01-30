@@ -67,6 +67,13 @@ function (App) {
             API.task_subtasks_new(id);
         });
 
+        App.on('task:move:to:project', function (task, target_project_id) {
+            API.task_move(task, target_project_id, 'project');
+        });
+
+        App.on('task:move:to:task', function (task, target_task_id) {
+            API.task_move(task, target_task_id, 'task');
+        });
 
         var API = {
             tasks_list: function () {
@@ -98,11 +105,47 @@ function (App) {
             },
 
             task_delete: function (task, redirect) {
-                if (confirm(I18n.t('delete_confirm', { name: task.get('title') }))) {
+                var title = task.get('title');
+                var count = task.get('subtaskCount');
+                var confirm_message = I18n.t('delete_confirm', { name: title });
+
+                if (count > 0) {
+                    confirm_message = I18n.t('task.delete_confirm', { name: title, count: count });
+                }
+
+                if (confirm(confirm_message)) {
                     require(['app/tasks/list/list_controller'], function (ListController) {
                         ListController.task_delete(task, redirect);
                     });
                 }
+            },
+
+            task_move: function (task, id, type) {
+                var url = App.model_base_url('tasks/' + task.get('id'));
+                var error_msg = 'error';
+
+                if (type === 'project') {
+                    url += _.isNull(task.get('project')) ? '/in/project/' + id : '/from/project/' + task.get('project').id + '/to/' + id;
+                    error_msg = I18n.t('task.move_to_project_failed', { name: task.get('title'), project_id: id });
+
+                } else if (type === 'task') {
+                    url += _.isNull(task.get('parentTask')) ? '/in/task/' + id : '/from/task/' + task.get('parentTask').id + '/to/' + id;
+                    error_msg = I18n.t('task.move_to_task_failed', { name: task.get('title'), task_id: id });
+                }
+
+                Backbone.sync('update', task, {
+                    data: {},
+                    url: url,
+                    success: function (response) {
+                        task.set(response);
+                        require(['app/tasks/show/show_controller'], function (ShowController) {
+                            ShowController.task_show(task);
+                        });
+                    },
+                    error: function (response) {
+                        alert(error_msg);
+                    }
+                });
             },
 
             task_subtasks_new: function (parent_id) {

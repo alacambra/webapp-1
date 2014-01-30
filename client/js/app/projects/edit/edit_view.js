@@ -22,6 +22,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
                 status: '#js-project-status',
                 start_date: '#js-project-startDate',
                 end_date: '#js-project-endDate',
+                progress: '#js-project-progress',
+                progress_slider: '#js-project-progress-slider',
 
                 submit_button: '#js-project-submit',
                 submit_error_msg: '#js-project-submit-error-msg',
@@ -31,22 +33,28 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
             
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click button.js-submit': 'submit'
+                'click button.js-submit': 'submit',
+                'blur input#js-project-progress': 'update_progress'
             },
 
 
             onRender: function () {
-                var disable_fields = _.map(this.model.disabled_fields(), function(item) {
+                var disable_fields = _.map(this.model.disabled_fields, function(item) {
                     return item.underscore();
                 });
 
                 this.init_description_elastic_textarea();
+                this.init_progress_slider(_.include(disable_fields, 'progress'));
 
                 if (!_.include(disable_fields, 'start_date')) this.ui.start_date.datepicker(app_helper.datepicker_default);
                 if (!_.include(disable_fields, 'end_date'))   this.ui.end_date.datepicker(app_helper.datepicker_default);
 
                 var that = this;
-                _.each(disable_fields, function(field) { that.ui[field].attr('disabled', 'disabled') });
+                _.each(disable_fields, function(field) {
+                    if (!_.isUndefined(that.ui[field])) {
+                        that.ui[field].attr('disabled', 'disabled')
+                    }
+                });
             },
 
 
@@ -65,6 +73,27 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
             },
 
 
+            init_progress_slider: function(disabled) {
+                if (_.isUndefined(disabled)) disabled = false;
+
+                var that = this;
+                var progress = projects_helper.format_progress(this.model.get('progress'));
+
+                this.ui.progress.val(progress);
+                this.ui.progress_slider.slider({
+                    range: 'min',
+                    value: progress,
+                    min: 0,
+                    max: 100,
+                    step: 5,
+                    disabled: disabled,
+                    slide: function(event, ui) {
+                        that.ui.progress.val(ui.value);
+                    }
+                });
+            },
+
+
             /*
              * view event handlers
              */
@@ -74,10 +103,18 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
 
                 form_helper.clear_errors(this);
 
-                var options = { exclude: this.model.disabled_fields() };
+                var options = { exclude: this.model.disabled_fields };
 
                 var data = Backbone.Syphon.serialize(this, options);
                 this.trigger('form:submit', projects_helper.unformat(data));
+            },
+
+
+            update_progress: function (event) {
+                var progress = projects_helper.format_progress(parseInt(this.ui.progress.val()) / 100);
+
+                this.ui.progress_slider.slider('option', 'value', progress);
+                this.ui.progress.val(progress);
             },
 
 

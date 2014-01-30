@@ -2,7 +2,7 @@ define(['app', 'app/common/message_view'], function(App, MessageView) {
     return {
         handle: function (response, actions, default_callback) {
             actions = actions || {};
-            if (default_callback === undefined) default_callback = function() { console.log('uncatched response code'); };
+            default_callback = default_callback || function() { console.log('uncatched response code'); };
 
             //console.log(response);
 

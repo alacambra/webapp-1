@@ -90,32 +90,6 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, efforts_helper) {
             },
 
 
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_tasks: function (event) {
-                event.preventDefault();
-                App.trigger('tasks:list');
-            },
-
-            go_to_task: function (event) {
-                event.preventDefault();
-                App.trigger('task:show', this.model.task_id);
-            },
-
-            go_to_efforts: function (event) {
-                event.preventDefault();
-                App.trigger('efforts:list', this.model.task_id);
-            },
-
-            go_to_effort: function (event) {
-                event.preventDefault();
-                App.trigger('effort:show', this.model.task_id, this.model.get('id'));
-            },
-
-
             update_time: function (event) {
                 var time = this.ui.time.val();
 

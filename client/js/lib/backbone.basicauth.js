@@ -14,7 +14,7 @@ define(['app', 'lib/storage'], function(App, Storage) {
 
 
     App.get_credentials = function() {
-        return storage.get('credentials');
+        return storage.get('credentials', null);
     };
 
 

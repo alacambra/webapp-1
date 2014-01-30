@@ -41,7 +41,10 @@ I18n.translations['de'] = {
             task_count: 'Aufgaben',
             status: 'Status',
             start_date: 'Start',
-            end_date: 'Ende'
+            end_date: 'Ende',
+            progress: 'Fortschritt',
+            effort: 'Aufgewendete Zeit',
+            effort_short: 'Zeit'
         },
         status_options: {
             todo: 'ToDo',
@@ -93,7 +96,14 @@ I18n.translations['de'] = {
         },
         button: {
             new: 'Neue Aufgabe'
-        }
+        },
+        delete_confirm: 'Aufgabe "{{name}}" und seine {{count}} Unteraufgaben werden gelöscht.\n\nSind Sie wirklich sicher die Aufgabe {{name}} und seine {{count}} Unteraufgaben zu löschen?',
+        move_to_project: 'Aufgabe in Projekt verschieben',
+        move_to_project_prompt: 'Bitte geben Sie die ID des Zielprojektes ein:',
+        move_to_project_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEin Projekt mit der ID "{{project_id}}" existiert nicht.',
+        move_to_task: 'Aufgabe in Aufgabe verschieben',
+        move_to_task_prompt: 'Bitte geben Sie die ID der Zielaufgabe ein:',
+        move_to_task_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEine Aufgabe mit der ID "{{task_id}}" existiert nicht.'
     },
 
     user: {
@@ -136,6 +146,7 @@ I18n.translations['de'] = {
             too_short: 'ist zu kurz (nicht weniger als {{count}} Zeichen)',
             wrong_length: 'hat die falsche Länge (muss genau {{count}} Zeichen haben)',
             wrong_value: 'darf nicht {{val}} sein',
+            no_number: 'muss eine Zahl sein',
             date_later_than: 'muss früher sein als {{attr}}',
             date_earlier_than: 'muss später sein als {{attr}}'
         },

@@ -1,27 +1,44 @@
-define(['app', 'app/entities/project', 'app/projects/edit/edit_controller'], function (App, Entities, Ctrl) {
+define(['app',
+        'app/entities/project',
+        'app/projects/edit/edit_controller',
+        'lib/response_handler'],
+function (App, Entities, Ctrl, response_handler) {
     return describe('Project :: Edit :: Controller', function () {
-        var temp = null;
+        it('Should invoke show in main_region two times', function () {
+            var project_id = 8;
+            var counter = 0;
 
-        beforeEach(function () {
-            temp = App.request;
+            spyOn(App, 'request').andCallFake(function (event, pid) {
+                var defer = $.Deferred();
+                defer.resolve(new Entities.Project({ id: pid }));
+                return defer.promise();
+            });
 
-            App.request = function (event_type, project_id) {
-                return new Entities.Project({
-                    id: project_id
-                });
-            }
+            spyOn(App.main_region, 'show').andCallFake(function () {
+                counter++;
+            });
+
+            Ctrl.project_edit(project_id);
+
+            // LoadingView +1
+            // Project Edit_View +1
+            expect(counter).toBe(2);
         });
 
-        afterEach(function () {
-            App.request = temp;
+        it('Should invoke response_handler when project request fails', function () {
+            var response = 'failure';
+
+            spyOn(App, 'request').andCallFake(function (event, pid) {
+                var defer = $.Deferred();
+                defer.resolve(undefined, response);
+                return defer.promise();
+            });
+
+            spyOn(response_handler, 'handle');
+
+            Ctrl.project_edit();
+
+            expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
-
-        it('Should call show in main region', function () {
-            spyOn(App.main_region, 'show');
-
-            Ctrl.project_edit(5);
-
-            expect(App.main_region.show).toHaveBeenCalled();
-        })
     });
 });

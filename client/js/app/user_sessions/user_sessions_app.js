@@ -18,7 +18,7 @@ function (App) {
             },
 
             logout: function() {
-                App.set_credentials(undefined);
+                App.set_credentials(null);
                 App.trigger('user_session:login');
                 App.trigger('main_navi:highlight:item', 'logout');
             }

@@ -10,14 +10,14 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
 //    Faux.setLatency(200, 400);
 
-    function log_rest(context) {
+    function log_rest(context, info, type) {
         if (!CONFIG.rest.faux.log_rest) return;
 
-        console.log(context.url + ' - ' + context.httpMethod);
+        var msg = info ? info + '\n' : '';
+        msg += context.httpMethod + ': ' + context.url;
+        msg += context.data ? '\ndata = ' + JSON.stringify(context.data, null, 4) : '';
 
-        if (context.data) {
-            console.log('data: ' + JSON.stringify(context.data));
-        }
+        console[type || 'log'](msg);
     }
 
     var id = 100;
@@ -35,7 +35,9 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
     /* -------- default -------- */
 
     Faux.setDefaultHandler(function(context) {
-        console.error(context.url + ' - ' + context.httpMethod + ' => not defined!');
+        log_rest(context, 'A handler for the following request is not defined.', 'warn');
+
+        return NOT_FOUND;
     });
 
 
@@ -110,6 +112,50 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
     /* -------- project tasks -------- */
 
+    Faux.post(base_url + 'tasks/in/project/:project_id', function (context, project_id) {
+        log_rest(context);
+
+        task_add_assignee(context.data);
+
+        context.data.id = generate_id();
+        context.data.project = {
+            id: project_id,
+            title: projects[project_id].title
+        };
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/from/project/:source_project_id/to/:target_project_id', function (context, task_id, source_project_id, target_project_id) {
+        log_rest(context);
+
+        if (_.isUndefined(projects[target_project_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].project = {
+            id: target_project_id,
+            title: projects[target_project_id].title
+        };
+
+        return tasks[task_id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/in/project/:target_project_id', function (context, task_id, target_project_id) {
+        log_rest(context);
+
+        if (_.isUndefined(projects[target_project_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].project = {
+            id: target_project_id,
+            title: projects[target_project_id].title
+        };
+
+        return tasks[task_id];
+    });
+
     Faux.get(base_url + 'projects/:project_id/tasks', function(context, project_id) {
         log_rest(context);
         return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == project_id });
@@ -166,6 +212,50 @@ function (App, CONFIG, Faux, efforts, projects, tasks, users) {
 
 
     /* -------- tasks subtasks -------- */
+
+    Faux.post(base_url + 'tasks/in/task/:task_id', function (context, task_id) {
+        log_rest(context);
+
+        task_add_assignee(context.data);
+
+        context.data.id = generate_id();
+        context.data.parentTask = {
+            id: task_id,
+            title: tasks[task_id].title
+        };
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/from/task/:source_task_id/to/:target_task_id', function (context, task_id, source_task_id, target_task_id) {
+        log_rest(context);
+
+        if (_.isUndefined(tasks[target_task_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].parentTask = {
+            id: target_task_id,
+            title: tasks[target_task_id].title
+        };
+
+        return tasks[task_id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/in/task/:target_task_id', function (context, task_id, target_task_id) {
+        log_rest(context);
+
+        if (_.isUndefined(tasks[target_task_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].parentTask = {
+            id: target_task_id,
+            title: tasks[target_task_id].title
+        };
+
+        return tasks[task_id];
+    });
 
     Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
         log_rest(context);

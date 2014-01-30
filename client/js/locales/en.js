@@ -41,7 +41,10 @@ I18n.translations['en'] = {
             task_count: 'Tasks',
             status: 'Status',
             start_date: 'Start',
-            end_date: 'End'
+            end_date: 'End',
+            progress: 'Progress',
+            effort: 'Time',
+            effort_short: 'Spent Time'
         },
         status_options: {
             todo: 'ToDo',
@@ -93,7 +96,14 @@ I18n.translations['en'] = {
         },
         button: {
             new: 'New Task'
-        }
+        },
+        delete_confirm: 'Task "{{name}}" and his {{count}} subtasks will be deleted.\n\nAre you really sure to delete task "{{name}}" and his {{count}} subtasks?',
+        move_to_project: 'Move Task into Project',
+        move_to_project_prompt: 'Please enter ID of the targeted project:',
+        move_to_project_failed: 'Couldn\'t move task "{{name}}".\n\nThere is no project with ID "{{project_id}}".',
+        move_to_task: 'Move Task into Task',
+        move_to_task_prompt: 'Please enter ID of the targeted task:',
+        move_to_task_failed: 'Couldn\'t move task "{{name}}".\n\nThere is no task with ID "{{task_id}}".'
     },
 
     user: {
@@ -136,6 +146,7 @@ I18n.translations['en'] = {
             too_short: 'is too short (not less than {{count}} characters)',
             wrong_length: 'has wrong length (must have exactly {{count}} characters)',
             wrong_value: 'must not be {{val}}',
+            no_number: 'must be a number',
             date_later_than: 'must be earlier than {{attr}}',
             date_earlier_than: 'must be later than {{attr}}'
         },
@@ -148,7 +159,7 @@ I18n.translations['en'] = {
         empty_list: 'Empty list.'
     },
 
-    delete_confirm: '"{{name}}\n\n"Really delete this entity?',
+    delete_confirm: '"{{name}}"\n\nReally delete this entity?',
 
     save: 'Save',
     submit: 'Submit',

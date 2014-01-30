@@ -43,13 +43,23 @@
     <%= I18n.t('task.label.project') %>:
     <% if (project) { %>
         <%= link_to(project.title, path('projects', 'show', project.id), { i18n: false }) %>
+    <% } else { %>
+        &ndash;
     <% } %>
+    <button type="button" class="btn btn-default btn-xs js-move-to-project">
+        <span class="glyphicon glyphicon-transfer"></span>
+    </button>
 </p>
 <p>
     <%= I18n.t('task.label.parent_task') %>:
     <% if (parentTask) { %>
         <%= link_to(parentTask.title, path('tasks', 'show', parentTask.id), { i18n: false }) %>
+    <% } else { %>
+        &ndash;
     <% } %>
+    <button type="button" class="btn btn-default btn-xs js-move-to-task">
+        <span class="glyphicon glyphicon-transfer"></span>
+    </button>
 </p>
 <p>
     <%= I18n.t('task.label.assigned_to') %>:

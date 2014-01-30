@@ -43,6 +43,15 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <div class="col-lg-4 project-slider-group">
+            <label class="control-label" for="js-project-progress"><%= I18n.t('project.label.progress') %></label>
+            <input id="js-project-progress" type="text" name="progress">
+            <span>%</span>
+            <div id="js-project-progress-slider"></div>
+        </div>
+    </div>
+
     <button id="js-project-submit" class="btn btn-default btn-sm btn-text right-space js-submit">
         <span class="glyphicon glyphicon-floppy-disk"></span> <%= I18n.t('save') %>
     </button>

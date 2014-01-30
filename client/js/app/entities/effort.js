@@ -3,8 +3,6 @@ define(['app',
         'app/validation_helper'],
 function(App, moment, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
-        var base_url = App.model_base_url('efforts');
-
         Entities.Effort = Backbone.Model.extend({
             urlRoot: function () {
                 return App.model_base_url('efforts', 'tasks', this.task_id);
@@ -37,14 +35,20 @@ function(App, moment, validation_helper) {
             validate: function(attrs, options) {
                 var errors = {};
 
-                errors = validation_helper.validates_exclusion_of('date', 0, attrs, errors, { message: I18n.t('errors.validation.empty') });
-                errors = validation_helper.validates_exclusion_of('time', 0, attrs, errors, { message: I18n.t('errors.validation.wrong_value', { val: 0 }) });
+                errors = validation_helper.validates_presence_of('date', attrs, errors);
 
-                // date between 01.01.1914 (100 years ago) and now?
-                // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
-                errors = validation_helper.validates_inclusion_of('date', -1767229200, moment().add('y', 100).unix(), attrs, errors);
+                errors = validation_helper.validates_inclusion_of('date', attrs, errors, {
+                    in: {
+                        min: moment().subtract('years', 100).unix(),
+                        max: moment().add('years', 100).unix()
+                    }
+                });
 
-                errors = validation_helper.validates_inclusion_of('time', 0, 60 * 24 * 365, attrs, errors);
+                errors = validation_helper.validates_inclusion_of('time', attrs, errors, {
+                    in: { min: 1, max: 60 * 24 * 365 } // [1, 1 year]
+                });
+
+                errors = validation_helper.validates_numericality_of('time', attrs, errors, { only_integer: true });
 
                 return _.isEmpty(errors) ? false : errors;
             }
@@ -88,26 +92,32 @@ function(App, moment, validation_helper) {
             },
 
             get_effort_entity: function(task_id, effort_id) {
-                var effort_entity;
                 var defer = $.Deferred();
 
-                if (typeof effort_id !== 'object') {
-                    effort_entity = new Entities.Effort({ id: effort_id }, { task_id: task_id });
+                if (_.isObject(effort_id)) return effort_id; // given effort_id is a model, return model instead of promise
 
-                    if (effort_id !== undefined) { // effort id was set, load entity
-                        effort_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no effort id was set, return new instance
-                        defer.resolve(effort_entity);
-                    }
-                } else { // given "effort_id" is a model, return unchanged
-                    defer.resolve(effort_id);
+                if (_.isUndefined(task_id)) throw new Error('task_id must be defined');
+
+                if (is_string_or_number(effort_id)) {
+                    // effort_id is a valid id and task is defined, fetch model from server and resolve response
+                    new Entities.Effort({ id: effort_id }, { task_id: task_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(model, response);
+                        }
+                    });
+
+                } else if (_.isUndefined(effort_id)) {
+                    // no effort_id is set but task_id is, create a new effort model
+                    var effort = new Entities.Effort({}, {
+                        task_id: task_id
+                    });
+
+                    defer.resolve(effort);
+                } else {
+                    throw new Error('wrong effort_id type');
                 }
 
                 return defer.promise();

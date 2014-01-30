@@ -6,6 +6,8 @@ function(App, response_handler) {
     App.module('Projects.List', function(List, App, Backbone, Marionette, $, _) {
         List.Controller = {
             projects_list: function() {
+                App.main_region.show(new App.Common.LoadingView);
+
                 $.when(App.request('project:entities')).done(function(projects, response) {
                     if (projects) {
                         var list_view = new List.View({
@@ -24,7 +26,7 @@ function(App, response_handler) {
                 $.when(App.request('project:entity', project)).done(function(project, response) {
                     if (project) {
                         project.destroy();
-                        if (redirect !== undefined) App.trigger(redirect);
+                        if (!_.isUndefined(redirect)) App.trigger(redirect);
                     }
                 });
             }

@@ -1,7 +1,8 @@
 define(['app',
+        'app/model_helper',
         'app/validation_helper',
         'app/entities/task'],
-function(App, validation_helper) {
+function(App, model_helper, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('projects');
 
@@ -15,15 +16,16 @@ function(App, validation_helper) {
                 status: 1,
                 startDate: null,
                 endDate: null,
+                progress: null,
 
+                effort: 0,
                 taskCount: 0
             },
 
-            // fields to be disabled, when task has children
-            child_disable_fields: ['status', 'startDate', 'endDate'],
+            parse: function (response, options) {
+                this.disabled_fields = model_helper.disabled_fields(response);
 
-            disabled_fields: function() {
-                return this.get('taskCount') > 0 ? this.child_disable_fields : [];
+                return response;
             },
 
             initialize: function (attributes, options) {
@@ -41,11 +43,11 @@ function(App, validation_helper) {
 
                 errors = validation_helper.validates_presence_of('title', attrs, errors);
 
-                if (attrs.startDate != 0 && attrs.endDate != 0) {
-                    errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
-                        message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
-                    });
-                }
+                errors = validation_helper.validates_inclusion_of('endDate', attrs, errors, {
+                    if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
+                    in: { min: attrs.startDate, max: attrs.endDate },
+                    message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
+                });
 
                 return _.isEmpty(errors) ? false : errors;
             }
@@ -77,26 +79,29 @@ function(App, validation_helper) {
             },
 
             get_project_entity: function(project_id) {
-                var project_entity;
                 var defer = $.Deferred();
 
-                if (typeof project_id !== 'object') {
-                    project_entity = new Entities.Project({ id: project_id });
+                if (_.isObject(project_id)) return project_id;  // given project_id is a model, return model instead of promise
 
-                    if (project_id !== undefined) { // project id was set, load entity
-                        project_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no project id was set, return new instance
-                        defer.resolve(project_entity);
-                    }
-                } else { // given "project_id" is a model, return unchanged
-                    defer.resolve(project_id);
+                if (is_string_or_number(project_id)) {
+                    // project_id is a valid id, fetch model from server and resolve response
+                    new Entities.Project({ id: project_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(model, response);
+                        }
+                    });
+
+                } else if (_.isUndefined(project_id)) {
+                    // no project_id is set, create new project model
+                    var project = new Entities.Project();
+
+                    defer.resolve(project);
+
+                } else {
+                    throw new Error('wrong project type');
                 }
 
                 return defer.promise();

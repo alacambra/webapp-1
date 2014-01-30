@@ -18,20 +18,24 @@ function(App, moment, validation_helper) {
             },
 
             validate: function(attrs, options) {
+                var is_new_or_password_set = this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation);
+
                 var errors = {};
 
                 errors = validation_helper.validates_presence_of(['firstName', 'lastName', 'email'], attrs, errors);
-                errors = validation_helper.validates_format_of('email', /\S+@\S+\.\S+/, attrs, errors);
+                errors = validation_helper.validates_format_of('email', attrs, errors, { with: /^\S+@\S+\.\S+$/ });
 
-                if (this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation)) {
-                    errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors);
-                    errors = validation_helper.validates_length_of('password', 4, 64, attrs, errors);
-                    errors = validation_helper.validates_confirmation_of('password', attrs, errors);
-                }
+                errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors, { if: is_new_or_password_set });
+                errors = validation_helper.validates_length_of('password', attrs, errors, { min: 4, max: 64, if: is_new_or_password_set });
+                errors = validation_helper.validates_confirmation_of('password', attrs, errors, { if: is_new_or_password_set });
 
-                // date between 01.01.1914 (100 years ago) and now?
-                // if date is not set, date will be 0 and match validation // TODO: add clean check for unset date value
-                errors = validation_helper.validates_inclusion_of('birthDate', -1767229200, moment().unix(), attrs, errors);
+                errors = validation_helper.validates_inclusion_of('birthDate', attrs, errors, {
+                    in: {
+                        min: moment().subtract('years', 100).unix(),
+                        max: moment().unix() // now
+                    }
+                });
+
 
                 return _.isEmpty(errors) ? false : errors;
             }
@@ -63,26 +67,29 @@ function(App, moment, validation_helper) {
             },
 
             get_user_entity: function(user_id) {
-                var user_entity;
                 var defer = $.Deferred();
 
-                if (typeof user_id !== 'object') {
-                    user_entity = new Entities.User({ id: user_id });
+                if (_.isObject(user_id)) return user_id;    // given user_id is a model, return model instead of promise
 
-                    if (user_id !== undefined) { // user id was set, load entity
-                        user_entity.fetch({
-                            success: function(model, response) {
-                                defer.resolve(model, response);
-                            },
-                            error: function(model, response) {
-                                defer.resolve(false, response);
-                            }
-                        });
-                    } else { // no user id was set, return new instance
-                        defer.resolve(user_entity);
-                    }
-                } else { // given "user_id" is a model, return unchanged
-                    defer.resolve(user_id);
+                if (is_string_or_number(user_id)) {
+                    // user_id is a valid id, fetch model from server and resolve response
+                    new Entities.User({ id: user_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(model, response);
+                        }
+                    });
+
+                } else if (_.isUndefined(user_id)) {
+                    // no user_id is set, create a new user model
+                    var user = new Entities.User();
+
+                    defer.resolve(user);
+
+                } else {
+                    throw new Error('wrong user_id type');
                 }
 
                 return defer.promise();

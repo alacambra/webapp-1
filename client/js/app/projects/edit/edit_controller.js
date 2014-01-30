@@ -6,6 +6,8 @@ function (App, response_handler) {
     App.module('Projects.Edit', function (Edit, App, Backbone, Marionette, $, _) {
         Edit.Controller = {
             project_edit: function (project_id) {
+                App.main_region.show(new App.Common.LoadingView);
+
                 $.when(App.request('project:entity', project_id)).done(function(project, response) {
                     if (project) {
                         var edit_view = new Edit.View({

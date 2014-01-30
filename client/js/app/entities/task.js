@@ -1,13 +1,24 @@
 define(['app',
+        'app/model_helper',
         'app/validation_helper',
         'app/entities/effort',
         'app/entities/project'],
-function(App, validation_helper) {
+function(App, model_helper, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('tasks');
 
         Entities.Task = Backbone.Model.extend({
-            urlRoot: base_url,
+            urlRoot: function () {
+                if (this.isNew() && !_.isNull(this.get('project'))) {
+                    return App.model_base_url('tasks/in/project/' + this.get('project').id);
+
+                } else if (this.isNew() && !_.isNull(this.get('parentTask'))) {
+                    return App.model_base_url('tasks/in/task/' + this.get('parentTask').id);
+
+                } else {
+                    return base_url;
+                }
+            },
 
             defaults: {
                 id: null,
@@ -27,8 +38,11 @@ function(App, validation_helper) {
                 assignee: null
             },
 
-            // fields to be disabled, when task has children
-            child_disable_fields: ['status', 'priority', 'startDate', 'endDate', 'duration', 'progress'],
+            parse: function (response, options) {
+                this.disabled_fields = model_helper.disabled_fields(response);
+
+                return response;
+            },
 
             initialize: function (attributes, options) {
                 if (!this.isNew()) {
@@ -36,7 +50,7 @@ function(App, validation_helper) {
                 }
 
                 if (options && _.isArray(options.subtasks)) {
-                    this.subtasks = new Entities.TaskCollection(options.tasks);
+                    this.subtasks = new Entities.TaskCollection(options.subtasks);
                 } else {
                     this.subtasks = new Entities.TaskCollection();
                 }
@@ -44,20 +58,27 @@ function(App, validation_helper) {
                 this.subtasks.url = App.model_base_url('subtasks', 'tasks', this.get('id'));
             },
 
-            disabled_fields: function() {
-                return this.get('subtaskCount') > 0 ? this.child_disable_fields : [];
-            },
-
             validate: function(attrs, options) {
                 var errors = {};
 
                 errors = validation_helper.validates_presence_of('title', attrs, errors);
 
-                if (attrs.startDate != 0 && attrs.endDate != 0) {
-                    errors = validation_helper.validates_inclusion_of('endDate', attrs.startDate, attrs.endDate, attrs, errors, {
-                        message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
-                    });
-                }
+                errors = validation_helper.validates_inclusion_of('duration', attrs, errors, {
+                    in: { min: 0, max: 60 * 24 * 365 } // [1, 1 year]
+                });
+
+                errors = validation_helper.validates_inclusion_of('progress', attrs, errors, {
+                    in: { min: 0, max: 1 }
+                });
+
+                errors = validation_helper.validates_numericality_of('duration', attrs, errors, { allow_blank: true, only_integer: true });
+                errors = validation_helper.validates_numericality_of('progress', attrs, errors, { allow_blank: true });
+
+                errors = validation_helper.validates_inclusion_of('endDate', attrs, errors, {
+                    if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
+                    in: { min: attrs.startDate, max: attrs.endDate },
+                    message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
+                });
 
                 return _.isEmpty(errors) ? false : errors;
             }
@@ -67,7 +88,7 @@ function(App, validation_helper) {
         Entities.TaskCollection = Backbone.Collection.extend({
             model: Entities.Task,
             url: base_url,
-            comparator: 'priority'
+            comparator: function(task) { return -task.get('priority') }
         });
 
 
@@ -78,7 +99,7 @@ function(App, validation_helper) {
 
                 if (_.isObject(parent)) {
                     if (!_.isUndefined(parent.subtasks)) {
-                        // parent is a task so set its subtasks
+                        // parent is a task so set its tasks
                         tasks = parent.subtasks;
 
                     } else if (!_.isUndefined(parent.tasks)) {
@@ -102,9 +123,18 @@ function(App, validation_helper) {
             get_task_entity: function(task_id, options) {
                 var defer = $.Deferred();
 
-                if (_.isObject(task_id)) {
-                    // given task_id is a model, resolve unchanged task
-                    defer.resolve(task_id);
+                if (_.isObject(task_id)) return task_id;    // given task_id is a model, return model instead of promise
+
+                if (is_string_or_number(task_id)) {
+                    // task_id is set, fetch model from server and resolve response
+                    new Entities.Task({ id: task_id }).fetch({
+                        success: function (model, response) {
+                            defer.resolve(model, response);
+                        },
+                        error: function (model, response) {
+                            defer.resolve(false, response);
+                        }
+                    });
 
                 } else if (_.isUndefined(task_id)) {
                     // no task_id is set, create a new task model
@@ -133,15 +163,7 @@ function(App, validation_helper) {
                     defer.resolve(task);
 
                 } else {
-                    // task_id is set, fetch model from server and resolve response
-                    new Entities.Task({ id: task_id }).fetch({
-                        success: function (model, response) {
-                            defer.resolve(model, response);
-                        },
-                        error: function (model, response) {
-                            defer.resolve(false, response);
-                        }
-                    });
+                    throw new Error('wrong task_id type')
                 }
 
                 return defer.promise();

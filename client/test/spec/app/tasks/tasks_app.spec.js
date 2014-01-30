@@ -1,4 +1,7 @@
-define([ 'app', 'app/tasks/tasks_app', 'app/entities/task' ], function (App, TasksApp, Entities) {
+define(['app',
+        'app/tasks/tasks_app',
+        'app/entities/task' ],
+function (App, TasksApp, Entities) {
 
     describe('Task :: App', function () {
 
@@ -50,6 +53,72 @@ define([ 'app', 'app/tasks/tasks_app', 'app/entities/task' ], function (App, Tas
             App.trigger('task:delete', task, redirect);
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
+        });
+
+        describe('API', function () {
+            it('Moving a task to a project should use correct parameters', function () {
+                var task = new Entities.Task({ id: 28 });
+                var target_project_id = 4;
+                var method = null;
+                var model = null;
+                var options = null;
+
+                spyOn(Backbone, 'sync').andCallFake(function (_method, _model, _options) {
+                    method = _method;
+                    model = _model;
+                    options = _options;
+                });
+
+                App.trigger('task:move:to:project', task, target_project_id);
+
+                expect(method).toBe('update');
+                expect(model).toBe(task);
+                expect(options.data).toEqual({});
+                var s = '/tasks/' + task.get('id') + '/in/project/' + target_project_id;
+                expect(options.url).toMatch(new RegExp(s));
+
+                task.set('project', {
+                    id: 2,
+                    title: 'p2'
+                });
+
+                App.trigger('task:move:to:project', task, target_project_id);
+
+                s = '/tasks/' + task.get('id') + '/from/project/' + task.get('project').id + '/to/' + target_project_id;
+                expect(options.url).toMatch(new RegExp(s));
+            });
+
+            it('Moving a task to a task should use correct parameters', function () {
+                var task = new Entities.Task({ id: 22 });
+                var target_task_id = 8;
+                var method = null;
+                var model = null;
+                var options = null;
+
+                spyOn(Backbone, 'sync').andCallFake(function (_method, _model, _options) {
+                    method = _method;
+                    model = _model;
+                    options = _options;
+                });
+
+                App.trigger('task:move:to:task', task, target_task_id);
+
+                expect(method).toBe('update');
+                expect(model).toBe(task);
+                expect(options.data).toEqual({});
+                var s = '/tasks/' + task.get('id') + '/in/task/' + target_task_id;
+                expect(options.url).toMatch(new RegExp(s));
+
+                task.set('parentTask', {
+                    id: 5,
+                    title: 'pt5'
+                });
+
+                App.trigger('task:move:to:task', task, target_task_id);
+
+                s = '/tasks/' + task.get('id') + '/from/task/' + task.get('parentTask').id + '/to/' + target_task_id;
+                expect(options.url).toMatch(new RegExp(s));
+            });
         });
     });
 });

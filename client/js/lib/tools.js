@@ -29,3 +29,14 @@ function is_blank(data) {
     if (typeof data === 'string') return !/\S/.test(data); // check for non-whitespace characters
     return is_empty(data); // fallback
 }
+
+
+/**
+ * Checks if specified data is a string or a number.
+ *
+ * @param data {*} - to be checked
+ * @returns {boolean} - true when data is string or number else false
+ */
+function is_string_or_number(data) {
+    return _.isString(data) || _.isNumber(data);
+}

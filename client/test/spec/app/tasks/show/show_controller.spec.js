@@ -1,29 +1,44 @@
-define([ 'app', 'app/entities/task', 'app/tasks/show/show_controller' ], function (App, Entities, Ctrl) {
-
+define(['app',
+        'app/entities/task',
+        'app/tasks/show/show_controller',
+        'lib/response_handler'],
+function (App, Entities, Ctrl, response_handler) {
     return describe('Task :: Show :: Controller', function () {
+        it('Should invoke show in main_region two times', function () {
+            var task_id = 5;
+            var counter = 0;
 
-        var temp = null;
+            spyOn(App, 'request').andCallFake(function (event, tid) {
+                var defer = $.Deferred();
+                defer.resolve(new Entities.Task({ id: tid }), null);
+                return defer.promise();
+            });
 
-        beforeEach(function () {
-            temp = App.request;
+            spyOn(App.main_region, 'show').andCallFake(function () {
+                counter++;
+            });
 
-            App.request = function (event_type, task_id) {
-                return new Entities.Task({
-                    id: task_id
-                });
-            }
+            Ctrl.task_show(task_id);
+
+            // LoadingView +1
+            // Task Show_View +1
+            expect(counter).toBe(2);
         });
 
-        afterEach(function () {
-            App.request = temp;
-        });
+        it('Should invoke response_handler when task request fails', function () {
+            var response = 'failure';
 
-        it('Should call show in main region.', function () {
-            spyOn(App.main_region, 'show');
+            spyOn(App, 'request').andCallFake(function (event, tid) {
+                var defer = $.Deferred();
+                defer.resolve(undefined, response);
+                return defer.promise();
+            });
 
-            Ctrl.task_show(6);
+            spyOn(response_handler, 'handle');
 
-            expect(App.main_region.show).toHaveBeenCalled();
+            Ctrl.task_show();
+
+            expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
     });
 });
