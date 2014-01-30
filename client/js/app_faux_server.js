@@ -183,7 +183,7 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
     Faux.get(base_url + 'tasks', function (context) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return !task.parentTask });
+        return _.filter(_.toArray(tasks), function(task) { return !task.parent_id });
     });
 
     Faux.get(base_url + 'tasks/:id', function (context, id) {
@@ -229,7 +229,7 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
     Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return task.parentId == task_id });
+        return _.filter(_.toArray(tasks), function(task) { return task.parent_id == task_id });
     });
 
 
@@ -286,7 +286,8 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
         log_rest(context);
 
         context.data.id = generate_id();
-        context.data.parentId = task_id;
+        context.data.parent_id = task_id;
+        context.data.parent_title = tasks[task_id].title;
         context.data.startDate = convert_to_server_null_value(context.data.startDate);
         context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
         tasks[context.data.id] = context.data;
@@ -300,7 +301,8 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
             return NOT_FOUND;
         }
 
-        tasks[task_id].parentId = target_task_id;
+        tasks[task_id].parent_id = target_task_id;
+        tasks[task_id].parent_title = tasks[target_task_id].title;
 
         return tasks[task_id];
     });
@@ -312,7 +314,8 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
             return NOT_FOUND;
         }
 
-        tasks[task_id].parentId = target_task_id;
+        tasks[task_id].parent_id = target_task_id;
+        tasks[task_id].parent_title = tasks[target_task_id].title;
 
         return tasks[task_id];
     });

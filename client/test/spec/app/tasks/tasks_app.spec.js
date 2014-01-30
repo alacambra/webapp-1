@@ -90,7 +90,7 @@ function (App, TasksApp, Entities) {
                     options = _options;
                 });
 
-                App.trigger('task:move:to:project', task, target_project_id);
+                App.trigger('task:assoc:to:project', task, target_project_id);
 
                 expect(method).toBe('update');
                 expect(model).toBe(task);
@@ -103,7 +103,7 @@ function (App, TasksApp, Entities) {
                     title: 'p2'
                 });
 
-                App.trigger('task:move:to:project', task, target_project_id);
+                App.trigger('task:assoc:to:project', task, target_project_id);
 
                 s = '/tasks/' + task.get('id') + '/from/project/' + task.get('project').id + '/to/' + target_project_id;
                 expect(options.url).toMatch(new RegExp(s));
@@ -122,7 +122,7 @@ function (App, TasksApp, Entities) {
                     options = _options;
                 });
 
-                App.trigger('task:move:to:task', task, target_task_id);
+                App.trigger('task:assoc:to:task', task, target_task_id);
 
                 expect(method).toBe('update');
                 expect(model).toBe(task);
@@ -130,14 +130,14 @@ function (App, TasksApp, Entities) {
                 var s = '/tasks/' + task.get('id') + '/in/task/' + target_task_id;
                 expect(options.url).toMatch(new RegExp(s));
 
-                task.set('parentTask', {
-                    id: 5,
-                    title: 'pt5'
+                task.set({
+                    parent_id: 5,
+                    parent_title: 'pt5'
                 });
 
-                App.trigger('task:move:to:task', task, target_task_id);
+                App.trigger('task:assoc:to:task', task, target_task_id);
 
-                s = '/tasks/' + task.get('id') + '/from/task/' + task.get('parentTask').id + '/to/' + target_task_id;
+                s = '/tasks/' + task.get('id') + '/from/task/' + task.get('parent_id') + '/to/' + target_task_id;
                 expect(options.url).toMatch(new RegExp(s));
             });
         });

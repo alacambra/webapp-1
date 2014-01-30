@@ -144,7 +144,7 @@ function (App) {
                         error_msg = I18n.t('task.assoc_to_project_failed', { name: task.get('title'), id: id });
                         break;
                     case 'task':
-                        url += _.isNull(task.get('parentTask')) ? '/in/task/' + id : '/from/task/' + task.get('parentTask').id + '/to/' + id;
+                        url += _.isNull(task.get('parent_id')) ? '/in/task/' + id : '/from/task/' + task.get('parent_id') + '/to/' + id;
                         error_msg = I18n.t('task.assoc_to_task_failed', { name: task.get('title'), id: id });
                         break;
                     case 'user':
