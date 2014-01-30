@@ -23,6 +23,8 @@ function(App, model_helper, validation_helper) {
             },
 
             parse: function (response, options) {
+                response = model_helper.convert_server_response(response);
+
                 this.disabled_fields = model_helper.disabled_fields(response);
 
                 return response;

@@ -3,13 +3,13 @@ define({
         "id": 0,
         "firstName": "Alice",
         "lastName": "Riddell",
-        "birthDate": null,
+        "birthDate": 99999999999999,
         "email": "alice@riddell.com"
     },
 
     "1": {
         "id": 1,
-        firstName: "Bob",
+        "firstName": "Bob",
         "lastName": "Bishop",
         "birthDate": -98413200,
         "email": "b.bishop@mail.com"
@@ -19,7 +19,7 @@ define({
         "id": 2,
         "firstName": "Charlie",
         "lastName": "Brown",
-        "birthDate": null,
+        "birthDate": 99999999999999,
         "email": "charlie@brown.org"
     },
 

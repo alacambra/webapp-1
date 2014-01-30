@@ -39,30 +39,5 @@ function (App, Entities, Ctrl, response_handler) {
 
             expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
-
-        it('Should delete a specified task with optional redirect', function () {
-            var task = new Entities.Task({ id: 2 });
-            var redirect;
-
-            spyOn(App, 'request').andCallFake(function (event, t) {
-                var defer = $.Deferred();
-                defer.resolve(t);
-                return defer.promise();
-            });
-
-            spyOn(task, 'destroy');
-            spyOn(App, 'trigger');
-
-            Ctrl.task_delete(task);
-
-            expect(task.destroy).toHaveBeenCalled();
-            expect(App.trigger).not.toHaveBeenCalled();
-
-            redirect = 'redirect';
-
-            Ctrl.task_delete(task, redirect);
-
-            expect(App.trigger).toHaveBeenCalledWith(redirect);
-        });
     });
 });

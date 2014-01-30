@@ -1,7 +1,8 @@
 define(['app',
         'moment',
+        'app/model_helper',
         'app/validation_helper'],
-function(App, moment, validation_helper) {
+function(App, moment, model_helper, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('users');
 
@@ -15,6 +16,12 @@ function(App, moment, validation_helper) {
                 lastName: null,
                 birthDate: null,
                 email: null
+            },
+
+            parse: function (response) {
+                response = model_helper.convert_server_response(response);
+
+                return response;
             },
 
             validate: function(attrs, options) {

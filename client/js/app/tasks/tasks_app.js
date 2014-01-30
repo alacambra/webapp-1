@@ -58,8 +58,8 @@ function (App) {
             API.task_edit(id);
         });
 
-        App.on('task:delete', function(id, redirect) {
-            API.task_delete(id, redirect);
+        App.on('task:delete', function(task, redirect) {
+            API.task_delete(task, redirect);
         });
 
         App.on('task:subtasks:new', function (id) {
@@ -110,6 +110,10 @@ function (App) {
             },
 
             task_delete: function (task, redirect) {
+                if (_.isUndefined(task.destroy)) {
+                    throw new Error('Task has to be a Backbone.Model!');
+                }
+
                 var title = task.get('title');
                 var count = task.get('subtaskCount');
                 var confirm_message = I18n.t('delete_confirm', { name: title });
@@ -119,9 +123,14 @@ function (App) {
                 }
 
                 if (confirm(confirm_message)) {
-                    require(['app/tasks/list/list_controller'], function (ListController) {
-                        ListController.task_delete(task, redirect);
-                    });
+                    task.destroy();
+                    if (!_.isUndefined(redirect)) {
+                        if (_.isObject(redirect)) {
+                            App.trigger(redirect.event, redirect.id);
+                        } else {
+                            App.trigger(redirect);
+                        }
+                    }
                 }
             },
 
