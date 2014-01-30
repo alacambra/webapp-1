@@ -113,50 +113,6 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
     /* -------- project tasks -------- */
 
-    Faux.post(base_url + 'tasks/in/project/:project_id', function (context, project_id) {
-        log_rest(context);
-
-        task_add_assignee(context.data);
-
-        context.data.id = generate_id();
-        context.data.project = {
-            id: project_id,
-            title: projects[project_id].title
-        };
-        tasks[context.data.id] = context.data;
-        return tasks[context.data.id];
-    });
-
-    Faux.put(base_url + 'tasks/:task_id/from/project/:source_project_id/to/:target_project_id', function (context, task_id, source_project_id, target_project_id) {
-        log_rest(context);
-
-        if (_.isUndefined(projects[target_project_id])) {
-            return NOT_FOUND;
-        }
-
-        tasks[task_id].project = {
-            id: target_project_id,
-            title: projects[target_project_id].title
-        };
-
-        return tasks[task_id];
-    });
-
-    Faux.put(base_url + 'tasks/:task_id/in/project/:target_project_id', function (context, task_id, target_project_id) {
-        log_rest(context);
-
-        if (_.isUndefined(projects[target_project_id])) {
-            return NOT_FOUND;
-        }
-
-        tasks[task_id].project = {
-            id: target_project_id,
-            title: projects[target_project_id].title
-        };
-
-        return tasks[task_id];
-    });
-
     Faux.get(base_url + 'projects/:project_id/tasks', function(context, project_id) {
         log_rest(context);
         return _.filter(_.toArray(tasks), function(task) { return task.project && task.project.id == project_id });
@@ -221,8 +177,6 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
     Faux.post(base_url + 'tasks', function (context) {
         log_rest(context);
 
-        task_add_assignee(context.data);
-
         if (context.data.project) context.data.project.title = projects[context.data.project.id].title;
 
         context.data.id = generate_id();
@@ -243,7 +197,6 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
     Faux.patch(base_url + 'tasks/:id', function (context, id) {
         log_rest(context);
-        task_add_assignee(context.data);
         _.extend(tasks[id], context.data);
         return tasks[id];
     });
@@ -251,10 +204,61 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
 
     /* -------- tasks subtasks -------- */
 
-    Faux.post(base_url + 'tasks/in/task/:task_id', function (context, task_id) {
+    Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
+        log_rest(context);
+        return _.filter(_.toArray(tasks), function(task) { return task.parentTask && task.parentTask.id == task_id });
+    });
+
+
+    /* -------- tasks associations - projects -------- */
+
+    Faux.post(base_url + 'tasks/in/project/:project_id', function (context, project_id) {
         log_rest(context);
 
-        task_add_assignee(context.data);
+        context.data.id = generate_id();
+        context.data.project = {
+            id: project_id,
+            title: projects[project_id].title
+        };
+        tasks[context.data.id] = context.data;
+        return tasks[context.data.id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/from/project/:source_project_id/to/:target_project_id', function (context, task_id, source_project_id, target_project_id) {
+        log_rest(context);
+
+        if (_.isUndefined(projects[target_project_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].project = {
+            id: target_project_id,
+            title: projects[target_project_id].title
+        };
+
+        return tasks[task_id];
+    });
+
+    Faux.put(base_url + 'tasks/:task_id/in/project/:target_project_id', function (context, task_id, target_project_id) {
+        log_rest(context);
+
+        if (_.isUndefined(projects[target_project_id])) {
+            return NOT_FOUND;
+        }
+
+        tasks[task_id].project = {
+            id: target_project_id,
+            title: projects[target_project_id].title
+        };
+
+        return tasks[task_id];
+    });
+
+
+    /* -------- tasks associations - tasks -------- */
+
+    Faux.post(base_url + 'tasks/in/task/:task_id', function (context, task_id) {
+        log_rest(context);
 
         context.data.id = generate_id();
         context.data.parentTask = {
@@ -295,9 +299,22 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
         return tasks[task_id];
     });
 
-    Faux.get(base_url + 'tasks/:task_id/subtasks', function (context, task_id) {
+
+    /* -------- tasks associations - users -------- */
+
+    Faux.put(base_url + 'tasks/:task_id/to/user/:target_user_id', function (context, task_id, target_user_id) {
         log_rest(context);
-        return _.filter(_.toArray(tasks), function(task) { return task.parentTask && task.parentTask.id == task_id });
+
+        if (_.isUndefined(users[target_user_id])) {
+            return NOT_FOUND;
+        }
+
+        var task = tasks[task_id];
+        task.assignee_id = target_user_id;
+
+        task_add_assignee(task);
+
+        return task;
     });
 
 

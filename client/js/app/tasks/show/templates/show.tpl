@@ -65,7 +65,12 @@
     <%= I18n.t('task.label.assigned_to') %>:
     <% if (assignee) { %>
         <%= link_to(full_name(assignee.firstName, assignee.lastName), path('users', 'show', assignee.id), { i18n: false }) %>
+    <% } else { %>
+        &ndash;
     <% } %>
+    <button type="button" class="btn btn-default btn-xs js-move-to-user">
+        <span class="glyphicon glyphicon-transfer"></span>
+    </button>
 </p>
 
 <%= button_to('effort.button.new', path('efforts', 'create', id), { icon: 'time', class: 'right-space' }) %>

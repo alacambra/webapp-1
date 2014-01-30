@@ -108,12 +108,12 @@ I18n.translations['de'] = {
             new: 'Neue Aufgabe'
         },
         delete_confirm: 'Aufgabe "{{name}}" und seine {{count}} Unteraufgaben werden gelöscht.\n\nSind Sie wirklich sicher die Aufgabe {{name}} und seine {{count}} Unteraufgaben zu löschen?',
-        move_to_project: 'Aufgabe in Projekt verschieben',
         move_to_project_prompt: 'Bitte geben Sie die ID des Zielprojektes ein:',
-        move_to_project_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEin Projekt mit der ID "{{project_id}}" existiert nicht.',
-        move_to_task: 'Aufgabe in Aufgabe verschieben',
+        move_to_project_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEin Projekt mit der ID "{{id}}" existiert nicht.',
         move_to_task_prompt: 'Bitte geben Sie die ID der Zielaufgabe ein:',
-        move_to_task_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEine Aufgabe mit der ID "{{task_id}}" existiert nicht.'
+        move_to_task_failed: 'Task "{{name}}" konnte nicht verschoben werden.\n\nEine Aufgabe mit der ID "{{id}}" existiert nicht.',
+        move_to_user_prompt: 'Bitte geben Sie die ID des Benutzers ein:',
+        move_to_user_failed: 'Task "{{name}}" konnte nicht zugewiesen werden.\n\nEin Benutzer mit der ID "{{id}}" existiert nicht.'
     },
 
     user: {
