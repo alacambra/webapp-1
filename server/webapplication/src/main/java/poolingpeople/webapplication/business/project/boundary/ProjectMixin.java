@@ -114,7 +114,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-	@JsonView(JsonViews.FullProject.class)
+	@JsonView(JsonViews.BasicProject.class)
 	public Integer getEffort() {
 		return null;
 	}
