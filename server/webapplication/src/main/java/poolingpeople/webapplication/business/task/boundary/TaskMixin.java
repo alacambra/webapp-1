@@ -94,7 +94,7 @@ public class TaskMixin implements Task{
 
 
 	@Override
-	@JsonView(JsonViews.FullTask.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public Float getProgress() {
 		return null;
 	}
