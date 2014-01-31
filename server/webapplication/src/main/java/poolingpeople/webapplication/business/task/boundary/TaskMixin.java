@@ -49,7 +49,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	@JsonView(JsonViews.FullTask.class)
+	@JsonView(JsonViews.BasicTask.class)
 	public String getDescription() {
 		return null;
 	}
@@ -128,6 +128,7 @@ public class TaskMixin implements Task{
 
 	@Override
 	@JsonView(JsonViews.BasicTask.class)
+	@JsonProperty(value="duration")
 	public Integer getDuration() {
 		return null;
 	}
