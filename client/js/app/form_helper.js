@@ -72,9 +72,11 @@ function() {
             var $view = view.$el;
 
             var mark_errors = function(value, key) {
-                var $control_group = $view.find(view.cssPrefix + key.dasherize()).parent().parent();
+                var $field = $view.find(view.cssPrefix + key.dasherize());
+                var $control_group = $field.parent();
                 var $error_msg = $('<span>', { class: 'help-block', text: value });
-                $control_group.append($error_msg).addClass('has-error');
+                $field.before($error_msg);
+                $control_group.addClass('has-error');
             };
 
             _.each(errors, mark_errors);

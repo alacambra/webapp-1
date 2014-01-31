@@ -20,8 +20,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
             ui: {
                 description: '#js-project-description',
                 status: '#js-project-status',
-                start_date: '#js-project-startDate',
-                end_date: '#js-project-endDate',
+                start_date: '#js-project-start-date',
+                end_date: '#js-project-end-date',
                 progress: '#js-project-progress',
                 progress_slider: '#js-project-progress-slider',
 
