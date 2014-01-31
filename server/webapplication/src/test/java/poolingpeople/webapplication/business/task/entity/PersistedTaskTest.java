@@ -138,7 +138,7 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 	
 	@Test
 	public void effortIsCorrect() {
-		loadRelatedStructure();
+		loadUnrelatedStructure();
 		Task t1 = new PersistedTask(manager, "T1");
 		Task t11 = new PersistedTask(manager, "T11");
 		Task t111 = new PersistedTask(manager, "T111");
@@ -147,13 +147,20 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		Task t121 = new PersistedTask(manager, "T121");
 		Task t122= new PersistedTask(manager, "T122");
 		
+		t1.addSubtask(t11);
+		t11.addSubtask(t111);
+		t11.addSubtask(t112);
+		t1.addSubtask(t12);
+		t12.addSubtask(t121);
+		t12.addSubtask(t122);
+		
 		
 		EffortDto dto = new EffortDto();
-		String q = "MATCH (n:EFFORT) RETURN sum(n.time) as total";
-		Integer totalEffort = (Integer) manager.runCypherQuery(q, null).columnAs("total").next();
+		String q = "MATCH (task:TASK)-[:HAS_EFFORT]->(effort) RETURN sum(effort.TIME) as total";
 		dto.setTime(10);
 		Effort effort = new PersistedEffort(manager, dto);
 		t111.addEffort(effort);
+		Integer totalEffort = Integer.parseInt(manager.runCypherQuery(q, null).columnAs("total").next().toString());
 		assertEquals(totalEffort, t1.getEffort());
 		
 		
@@ -182,8 +189,6 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		
 		Integer f = Integer.parseInt(expectedProgress.toString());
 		assertEquals(f, t1.getDuration());
-		
-		
 	}
 
 }	

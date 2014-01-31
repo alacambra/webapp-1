@@ -235,7 +235,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 	@Override
 	public Float getProgress() {
-		Float progress = getFloatProperty(NodePropertyName.PROGRESS);
+		Float progress = getCalculatedProgress();
 		return getProgressIsDefault() ? getDefaultProgress() : progress;
 	}
 
@@ -246,6 +246,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	private void setProgress(Float progress) {
 		setProperty(NodePropertyName.PROGRESS, progress);
 	}
+	
+	private Float getCalculatedProgress() {
+		return getFloatProperty(NodePropertyName.PROGRESS);
+	}
+
 
 	@Override
 	public void setDefaultProgress(Float progress) {
@@ -256,7 +261,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	/**************** FLAGS FOR INHERITABLE ATTRIBUTES *****************/
 
 	public boolean getProgressIsDefault() {
-		return getCachedSubtasks().size() == 0;
+		return getCachedSubtasks().size() == 0 || getCalculatedProgress() == null;
 	}
 
 	public boolean getEndDateIsDefault() {
@@ -310,8 +315,8 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	public void addEffort(Effort effort) {
 
 		Integer totalEffort = getEffort() + effort.getTime();
-		setEffort(totalEffort);
 		createRelationTo(Relations.HAS_EFFORT, (AbstractPersistedModel<?>) effort, true);
+		setEffort(totalEffort);
 
 	}
 
@@ -471,6 +476,10 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		for (Effort effort : efforts) {
 			totalEffort +=effort.getTime();
+		}
+		
+		for (Task t : getSubtasks()) {
+			totalEffort += t.getEffort();
 		}
 
 		setEffort(totalEffort);
