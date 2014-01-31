@@ -2,12 +2,13 @@ define(['app',
         'config',
         'backbone_faux_server',
         '../test/fixtures/efforts',
+        '../test/fixtures/pools',
         '../test/fixtures/projects',
         '../test/fixtures/services',
         '../test/fixtures/tasks',
         '../test/fixtures/users'
 ],
-function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
+function (App, CONFIG, Faux, efforts, pools, projects, services, tasks, users) {
 
 //    Faux.setLatency(200, 400);
 
@@ -71,6 +72,43 @@ function (App, CONFIG, Faux, efforts, projects, services, tasks, users) {
         log_rest(context);
         efforts[id] = context.data;
         return efforts[id];
+    });
+
+
+    /* -------- pools -------- */
+
+    Faux.get(base_url + 'pools', function (context) {
+        log_rest(context);
+        return _.toArray(pools);
+    });
+
+    Faux.get(base_url + 'pools/:id', function (context, id) {
+        log_rest(context);
+        return pools[id];
+    });
+
+    Faux.post(base_url + 'pools', function (context) {
+        log_rest(context);
+        context.data.id = generate_id();
+        pools[context.data.id] = context.data;
+        return pools[context.data.id];
+    });
+
+    Faux.del(base_url + 'pools/:id', function (context, id) {
+        log_rest(context);
+        delete pools[id];
+    });
+
+    Faux.put(base_url + 'pools/:id', function (context, id) {
+        log_rest(context);
+        pools[id] = context.data;
+        return pools[id];
+    });
+
+    Faux.patch(base_url + 'pools/:id', function (context, id) {
+        log_rest(context);
+        _.extend(pools[id], context.data);
+        return pools[id];
     });
 
 

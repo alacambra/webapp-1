@@ -118,6 +118,7 @@ function(Marionette, CONFIG) {
                 faux_require,
                 'app/user_sessions/user_sessions_app',
                 'app/efforts/efforts_app',
+                'app/pools/pools_app',
                 'app/projects/projects_app',
                 'app/services/services_app',
                 'app/tasks/tasks_app',

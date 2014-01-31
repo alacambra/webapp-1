@@ -34,6 +34,42 @@ I18n.translations['en'] = {
         }
     },
 
+    pool: {
+        label: {
+            name: 'Name',
+            description: 'Description',
+            street: 'Street',
+            house_number: 'House number',
+            city: 'City',
+            zip: 'ZIP',
+            country: 'Country',
+            email: 'E-Mail',
+            website: 'Website',
+            founding_date: 'Founding date',
+            employee_count: 'Employee count',
+            phone: 'Phone',
+            fax: 'Fax'
+        },
+        country_options : {
+            unselected: '',
+            germany: 'Germany',
+            great_britain: 'Great Britain',
+            austria: 'Austria',
+            switzerland: 'Switzerland'
+        },
+        employee_count_options: {
+            unselected: '',
+            10: '1-10',
+            50: '11-50',
+            200: '51-200',
+            500: '201-500',
+            many: '>500'
+        },
+        button: {
+            new: 'New Pool'
+        }
+    },
+
     project: {
         label: {
             title: 'Title',
