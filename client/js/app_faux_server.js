@@ -69,7 +69,7 @@ function (App, CONFIG, Faux, efforts, pools, projects, services, tasks, users) {
         context.data.id = generate_id();
         context.data.date = convert_to_server_null_value(context.data.date);
         efforts[context.data.id] = context.data;
-        efforts[context.data.id]['task_id'] = task_id;
+        efforts[context.data.id]['taskId'] = task_id;
         return efforts[context.data.id];
     });
 
