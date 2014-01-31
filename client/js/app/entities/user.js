@@ -19,6 +19,24 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
                 email: null
             },
 
+            disabled_fields: [ 'email' ],
+
+            save: function (attributes, options) {
+                attributes = attributes || {};
+                options = options || {};
+
+                // filter data that is disabled and also excluded from server request
+                _.each(this.disabled_fields, function (name) {
+                    delete attributes[name];
+                });
+
+                options.contentType = 'application/json';
+                options.data = JSON.stringify(attributes);
+
+                // proxy the call to the original save function
+                return Backbone.Model.prototype.save.call(this, attributes, options);
+            },
+
             parse: function (response) {
                 response = model_helper.convert_server_response(response);
 

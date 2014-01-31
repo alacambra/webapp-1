@@ -127,7 +127,7 @@ function (App, TasksApp, Entities) {
                 expect(method).toBe('update');
                 expect(model).toBe(task);
                 expect(options.data).toEqual({});
-                var s = '/tasks/' + task.get('id') + '/in/task/' + target_task_id;
+                var s = '/tasks/' + task.get('id') + '/as/subtask/' + target_task_id;
                 expect(options.url).toMatch(new RegExp(s));
 
                 task.set('parentId', 5);
