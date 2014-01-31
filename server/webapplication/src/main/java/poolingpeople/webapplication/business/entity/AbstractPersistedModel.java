@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
 
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
@@ -256,6 +257,21 @@ public abstract class AbstractPersistedModel<T>{
 		return new HashSet<AbstractPersistedModel<?>>();
 	}
 	
+	@Override
+	public String toString() {
+		
+		String r = "\n";
+		
+		for ( NodePropertyName name : NodePropertyName.values()) {
+			try {
+				r += name + ":" + underlyingNode.getProperty(name.name()).toString() + "\n";
+			} catch(NotFoundException e) {
+				
+			}
+		}
+		
+		return super.toString() + " | " + r;
+	}
 	
 }
 
