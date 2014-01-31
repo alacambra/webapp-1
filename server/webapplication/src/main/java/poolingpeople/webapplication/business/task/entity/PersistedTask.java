@@ -149,7 +149,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	}
 
 	private void setEffort(Integer totalEffort) {
-		setProperty(NodePropertyName.EFFORT, totalEffort);
+
+		if ( getEffort() != totalEffort) {
+			setProperty(NodePropertyName.EFFORT, totalEffort);
+			effortChanged(totalEffort);
+		}
 	}
 
 	@Override
@@ -353,7 +357,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		manager.removeRelationsTo(underlyingNode, Relations.DOES);
 		createRelationshipFrom((AbstractPersistedModel<?>) u, Relations.DOES);
 	}
-	
+
 	@Override
 	public User getAssignee() {
 		return getRelatedNode(Relations.DOES, PersistedUser.class, Direction.INCOMING);
@@ -463,17 +467,13 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		Collection<Effort> efforts = getEfforts();
 
-		int oldEffort = getEffort();
 		int totalEffort = 0;
 
 		for (Effort effort : efforts) {
 			totalEffort +=effort.getTime();
 		}
 
-		if (oldEffort != totalEffort) {
-			setEffort(totalEffort);
-			effortChanged(totalEffort);
-		}
+		setEffort(totalEffort);
 	}
 
 	@Override
@@ -483,14 +483,14 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 			deleteEffort(effort);
 		}
 
-//		Project p = getProject();
-//		Task t = getParent();
-//
-//		if( p != null ){
-//			p.removeTask(this);
-//		} else if (t != null) {
-//			t.removeSubtask(t);
-//		}
+		//		Project p = getProject();
+		//		Task t = getParent();
+		//
+		//		if( p != null ){
+		//			p.removeTask(this);
+		//		} else if (t != null) {
+		//			t.removeSubtask(t);
+		//		}
 
 
 	}
@@ -530,6 +530,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		if (parent != null)
 			getParent().updateEfforts();
+
+		Project project = getProject();
+		if ( project != null ) {
+			project.updateAll();
+		}
 	}
 
 
@@ -580,26 +585,26 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		if ( getDefaultProgress() == null )
 			setDefaultProgress(DefaultValues.defaultProgress);
-		
+
 		if ( getDefaultDuration() == null )
 			setDefaultDuration(DefaultValues.defaultDuration);
-		
+
 		if ( getEffort() == null )
 			setEffort(DefaultValues.defaultEffort);
 	}
-	
+
 	@Override
 	public Set<AbstractPersistedModel<?>> loadObjectsToInform() {
 		HashSet<AbstractPersistedModel<?>> objects = new HashSet<AbstractPersistedModel<?>>(); 
-		
+
 		Project p = getProject();
 		if ( p != null)
 			objects.add((AbstractPersistedModel<?>) p);
-		
+
 		Task parentTask = getParent();
 		if( parentTask != null )
 			objects.add((AbstractPersistedModel<?>) parentTask);
-		
+
 		return objects;
 	}
 
