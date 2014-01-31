@@ -15,6 +15,8 @@ function (App, CONFIG, Faux, efforts, pools, projects, services, tasks, users) {
     function log_rest(context, info, type) {
         if (!CONFIG.rest.faux.log_rest) return;
 
+        if (_.isString(context.data)) context.data = JSON.parse(context.data);
+
         var msg = info ? info + '\n' : '';
         msg += context.httpMethod + ': ' + context.url;
         msg += context.data ? '\ndata = ' + JSON.stringify(context.data, null, 4) : '';

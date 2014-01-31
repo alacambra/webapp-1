@@ -50,7 +50,7 @@ function(App, model_helper, validation_helper) {
                 delete attributes.assignee;
 
                 // override options.data with the filtered attributes as json
-                options.data = attributes;
+                options.data = JSON.stringify(attributes);
 
                 // proxy the call to the original save function
                 Backbone.Model.prototype.save.call(this, attributes, options);
