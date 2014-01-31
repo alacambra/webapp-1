@@ -120,7 +120,7 @@ public class TaskBoundary extends AbstractBoundry{
 		Task parentTask = entityFactory.getTaskById(parentId);
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
-
+		task.setAssignee(loggedUserContainer.getUser());
 		parentTask.addSubtask(task);
 
 		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
@@ -168,6 +168,7 @@ public class TaskBoundary extends AbstractBoundry{
 		Project p = entityFactory.getProjectById(projectId);
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
+		task.setAssignee(loggedUserContainer.getUser());
 		p.addTask(task);
 
 		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
