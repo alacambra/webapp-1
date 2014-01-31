@@ -36,9 +36,11 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
                 });
 
                 var that = this;
-                _.each(disable_fields, function (field) {
-                    that.ui[field].attr('disabled', 'disabled');
-                });
+                if (!this.model.isNew()) {
+                    _.each(disable_fields, function (field) {
+                        that.ui[field].attr('disabled', 'disabled');
+                    });
+                }
             },
             
 
