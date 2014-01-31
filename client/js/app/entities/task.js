@@ -38,22 +38,32 @@ function(App, model_helper, validation_helper) {
                 assignee: null
             },
 
+            excluded_fields: [ 'effort', 'project', 'parentId', 'subtaskCount', 'assignee' ],
+
+            disabled_fields: [],
+
             save: function(attributes, options) {
-                attributes || (attributes = {});
-                options || (options = {});
+                attributes = attributes || {};
+                options = options || {};
 
-                // filter data that is not send to server by default
-                delete attributes.effort;
-                delete attributes.project;
-                delete attributes.parentId;
-                delete attributes.subtaskCount;
-                delete attributes.assignee;
+                // filter data that is excluded from server request
+                _.each(this.excluded_fields, function (name) {
+                    delete attributes[name];
+                });
 
-                // override options.data with the filtered attributes as json
+                // filter data that is disabled and also excluded from server request
+                _.each(this.disabled_fields, function (name) {
+                    delete attributes[name];
+                });
+
+                options.contentType = 'application/json';
                 options.data = JSON.stringify(attributes);
 
+//                options.attrs = attributes;
+//                console.log(JSON.stringify(options.attrs, null, 4));
+
                 // proxy the call to the original save function
-                Backbone.Model.prototype.save.call(this, attributes, options);
+                return Backbone.Model.prototype.save.call(this, attributes, options);
             },
 
             parse: function (response, options) {
@@ -99,6 +109,8 @@ function(App, model_helper, validation_helper) {
                     in: { min: attrs.startDate, max: attrs.endDate },
                     message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
                 });
+
+                console.log(JSON.stringify(errors, null, 4));
 
                 return _.isEmpty(errors) ? false : errors;
             }
