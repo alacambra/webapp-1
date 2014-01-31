@@ -59,9 +59,6 @@ function(App, model_helper, validation_helper) {
                 options.contentType = 'application/json';
                 options.data = JSON.stringify(attributes);
 
-//                options.attrs = attributes;
-//                console.log(JSON.stringify(options.attrs, null, 4));
-
                 // proxy the call to the original save function
                 return Backbone.Model.prototype.save.call(this, attributes, options);
             },

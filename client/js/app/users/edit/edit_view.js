@@ -16,6 +16,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
             
             ui: {
+                email: '#js-user-email',
+
                 submit_button: '#js-user-submit',
                 submit_error_msg: '#js-user-submit-error-msg',
                 save_indicator: '#js-user-save-indicator'
@@ -27,6 +29,17 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
                 'click button.js-submit': 'submit'
             },
 
+
+            onRender: function () {
+                var disable_fields = _.map(this.model.disabled_fields, function (item) {
+                    return item.underscore();
+                });
+
+                var that = this;
+                _.each(disable_fields, function (field) {
+                    that.ui[field].attr('disabled', 'disabled');
+                });
+            },
             
 
             /*
