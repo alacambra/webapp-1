@@ -78,6 +78,10 @@ public class TaskDTO implements Task {
 		return progress;
 	}
 
+	public Float getDefaultProgress() {
+		return progress;
+	}
+	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -128,6 +132,10 @@ public class TaskDTO implements Task {
 
 	@Override
 	public Integer getDuration() {
+		return duration;
+	}
+	
+	public Integer getDefaultDuration() {
 		return duration;
 	}
 
