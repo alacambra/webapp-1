@@ -1,4 +1,4 @@
-define(['app/users/users_helper', 'app/entities/user'], function(users_helper, Entities) {
+define(['app/users/users_helper'], function(users_helper) {
     return describe('User :: Helper', function() {
         beforeEach(function() {
             I18n.locale = 'en';

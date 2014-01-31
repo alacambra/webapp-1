@@ -11,7 +11,7 @@ function(App, moment, model_helper, validation_helper) {
 
             defaults: {
                 id: null,
-                date: null,
+                date: moment().unix(),
                 time: null,
                 comment: null
             },
@@ -42,13 +42,12 @@ function(App, moment, model_helper, validation_helper) {
             validate: function(attrs, options) {
                 var errors = {};
 
-                errors = validation_helper.validates_presence_of('date', attrs, errors);
-
                 errors = validation_helper.validates_inclusion_of('date', attrs, errors, {
                     in: {
                         min: moment().subtract('years', 100).unix(),
                         max: moment().add('years', 100).unix()
-                    }
+                    },
+                    allow_blank: true
                 });
 
                 errors = validation_helper.validates_inclusion_of('time', attrs, errors, {
