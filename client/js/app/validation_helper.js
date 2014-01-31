@@ -134,7 +134,7 @@ function() {
             _.each(attributes, function(attr) {
                 if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
-                var attribute = options.trim ? attrs[attr].trim() : attrs[attr];
+                var attribute = options.trim && _.isString(attrs[attr]) ? attrs[attr].trim() : attrs[attr];
 
                 if (options.allow_blank && is_blank(attribute)) return;
 
@@ -238,7 +238,7 @@ function() {
             _.each(attributes, function(attr) {
                 if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
-                var attribute = options.trim ? attrs[attr].trim() : attrs[attr];
+                var attribute = options.trim && _.isString(attrs[attr]) ? attrs[attr].trim() : attrs[attr];
 
                 if (options.allow_blank && is_blank(attribute)) return;
                 if (is_blank(attribute) && (_.isUndefined(options.min) || options.min == 0)) return;
