@@ -157,9 +157,8 @@ function (App) {
                     data: {},
                     url: url,
                     success: function (response) {
-                        task.set(response);
                         require(['app/tasks/show/show_controller'], function (ShowController) {
-                            ShowController.task_show(task);
+                            ShowController.task_show(task.get('id'));
                         });
                     },
                     error: function (response) {
