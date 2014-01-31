@@ -1,6 +1,8 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -28,6 +30,7 @@ import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.project.entity.Project;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.user.entity.User;
 
@@ -65,7 +68,15 @@ public class TaskBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllTask() throws JsonGenerationException,
 	JsonMappingException, IOException {
-		String r = mapper.writerWithView(JsonViews.BasicTask.class).writeValueAsString(entityFactory.getAllTask());
+		
+		 List<PersistedTask> list = new ArrayList<>();
+		 for ( PersistedTask t : entityFactory.getAllTask() ){
+			 if ( t.getParent() == null ) {
+				 list.add(t);
+			 }
+		 }
+		
+		String r = mapper.writerWithView(JsonViews.BasicTask.class).writeValueAsString(list);
 		return Response.ok().entity(r).build();
 	}
 	
