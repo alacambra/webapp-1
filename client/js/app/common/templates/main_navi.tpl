@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse">
             <!-- main navi -->
             <ul id="js-main-navi-items" class="nav navbar-nav">
-                <li><a href="#"><%= I18n.t('main_navi.pools') %></a></li>
+                <li><%= link_to('main_navi.pools', path('pools', 'list')) %></li>
                 <li><%= link_to('main_navi.people', path('users', 'list')) %></li>
                 <li><%= link_to('main_navi.services', path('services', 'list')) %></li>
                 <li><a href="#"><%= I18n.t('main_navi.messages') %></a></li>

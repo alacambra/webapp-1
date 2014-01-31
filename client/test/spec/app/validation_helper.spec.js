@@ -133,12 +133,15 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_format_of('email', { email: 'ABC123' }, {}, { with: /^\S+$/ }).email).toBeUndefined();
                 expect(validation_helper.validates_format_of('email', { email: 'testing' }, {}, { with: /^test/ }).email).toBeUndefined();
                 expect(validation_helper.validates_format_of('email', { email: 'alice@riddell.com' }, {}, { with: /\S+@\S+\.\S+/ }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: ' 123 ' }, {}, { with: /^\d+$/, trim: true }).email).toBeUndefined();
+                expect(validation_helper.validates_format_of('email', { email: null }, {}, { with: /^\d+$/, trim: true, allow_blank: true }).email).toBeUndefined();
             });
 
             it('must invalidate wrong format', function () {
                 expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, {}, { with: /^\S+$/ }).email).toBeDefined();
                 expect(validation_helper.validates_format_of('email', { email: 'xtesting' }, {}, { with: /^test/ }).email).toBeDefined();
                 expect(validation_helper.validates_format_of('email', { email: 'aliceriddell.com' }, {}, { with: /\S+@\S+\.\S+/ }).email).toBeDefined();
+                expect(validation_helper.validates_format_of('email', { email: ' 123 ' }, {}, { with: /^\d+$/ }).email).toBeDefined();
                 expect(validation_helper.validates_format_of('email', { email: '' }, {}, { with: /^\S$/ }).email).toBeDefined();
             });
 
@@ -275,6 +278,7 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_length_of('name', { name: '1 ' }, {}, { max: 1, trim: true }).name).toBeUndefined();
                 expect(validation_helper.validates_length_of('name', { name: ' 1' }, {}, { max: 1, trim: true }).name).toBeUndefined();
                 expect(validation_helper.validates_length_of('name', { name: 'A B' }, {}, { min: 3, trim: true }).name).toBeUndefined();
+                expect(validation_helper.validates_length_of('name', { name: null }, {}, { max: 3, trim: true }).name).toBeUndefined();
             });
 
             it('must invalidate wrong length', function () {

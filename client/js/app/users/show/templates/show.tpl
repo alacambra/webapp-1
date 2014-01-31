@@ -7,7 +7,7 @@
 <p><%= I18n.t('user.label.first_name') %>: <%= firstName %></p>
 <p><%= I18n.t('user.label.last_name') %>: <%= lastName %></p>
 <p><%= I18n.t('user.label.birth_date') %>: <%= format_date(birthDate) %></p>
-<p><%= I18n.t('user.label.email') %>: <%= email %></p>
+<p><%= I18n.t('user.label.email') %>: <a href="mailto:<%= email %>"><%= email %></a></p>
 
 <%= button_to('edit', path('users', 'edit', id), { icon: 'pencil', class: 'right-space' }) %>
 
