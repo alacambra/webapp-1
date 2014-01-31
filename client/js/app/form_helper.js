@@ -37,7 +37,7 @@ function() {
                     idx = item[0];
                     text = item[1];
                 } else {
-                    text = I18n.t(model + '.' + attr + '_options' + '.' + item);
+                    text = I18n.t(model + '.' + attr.underscore() + '_options' + '.' + item);
                 }
 
                 select.append($('<option>', { value: idx, text: text, selected: options.selected == idx }));
@@ -72,7 +72,7 @@ function() {
             var $view = view.$el;
 
             var mark_errors = function(value, key) {
-                var $control_group = $view.find(view.cssPrefix + key).parent().parent();
+                var $control_group = $view.find(view.cssPrefix + key.dasherize()).parent().parent();
                 var $error_msg = $('<span>', { class: 'help-block', text: value });
                 $control_group.append($error_msg).addClass('has-error');
             };

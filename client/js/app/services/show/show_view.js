@@ -12,19 +12,13 @@ function(App, show_tpl, app_helper, view_helper, services_helper) {
 
 
             events: {
-                'click a[data-navigate]': App.handle_link,
-                'click .js-delete-service': 'delete_item'
+                'click a[data-navigate]': App.handle_link
             },
             
 
             edit: function(event) {
                 event.preventDefault();
                 App.trigger('service:edit', this.model.get('id'));
-            },
-
-
-            delete_item: function() {
-                App.trigger('service:delete', this.model, 'services:list');
             }
         });
     });
