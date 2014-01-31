@@ -117,8 +117,8 @@ function(App, Entities, moment) {
 
                         it('must not be too long', function() {
                             user.set({
-                                password:             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                                passwordConfirmation: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' });
+                                password: pad('X', 65),
+                                passwordConfirmation: pad('X', 65) });
                             expect(user.validate(user.attributes).password).toBeDefined();
                         });
                     });
@@ -153,8 +153,8 @@ function(App, Entities, moment) {
 
                         it('must not be too long', function() {
                             user.set({
-                                password:             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                                passwordConfirmation: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' });
+                                password: pad('X', 65),
+                                passwordConfirmation: pad('X', 65) });
                             expect(user.validate(user.attributes).password).toBeDefined();
                         });
                     });
