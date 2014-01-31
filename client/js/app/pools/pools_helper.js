@@ -3,8 +3,8 @@ define(['app/view_helper',
         'advanced_string'],
 function(view_helper, form_helper) {
     return {
-        country_options: ['unselected', 'germany', 'great_britain', 'austria', 'switzerland'],
-        employee_count_options: ['unselected', '10', '50', '200', '500', 'many'],
+        country_options: [[0, 'unselected'], [1, 'germany'], [2, 'great_britain'], [3, 'austria'], [4, 'switzerland']],
+        employee_count_options: [[0, 'unselected'], [1,'10'], [2, '50'], [3, '200'], [4, '500'], [5, 'many']],
 
         format_date: function(date) {
             return !is_blank(date) ? view_helper.format_date(date) : '';
@@ -12,12 +12,12 @@ function(view_helper, form_helper) {
 
         country_text: function(status) {
             if (!this.country_options[status]) return '';
-            return I18n.t('pool.country_options.' + this.country_options[status]);
+            return I18n.t('pool.country_options.' + this.country_options[status][1]);
         },
 
         employee_count_text: function(priority) {
             if (!this.employee_count_options[priority]) return '';
-            return I18n.t('pool.employee_count_options.' + this.employee_count_options[priority]);
+            return I18n.t('pool.employee_count_options.' + this.employee_count_options[priority][1]);
         },
 
         select_for: function(model, attr, options) {

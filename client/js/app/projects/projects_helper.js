@@ -1,6 +1,6 @@
 define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_helper, form_helper) {
     return {
-        status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'offered'],
+        status_options: [[0, 'todo'], [1, 'new'], [2, 'assigned'], [3, 'on_hold'], [4, 'completed'], [5, 'archieved'], [6, 'offered']],
 
         format_date: function(date) {
             return !is_blank(date) ? view_helper.format_date(date) : '';
@@ -8,7 +8,7 @@ define(['app/view_helper', 'app/form_helper', 'advanced_string'], function(view_
 
         status_text: function(status) {
             if (!this.status_options[status]) return '';
-            return I18n.t('project.status_options.' + this.status_options[status]);
+            return I18n.t('project.status_options.' + this.status_options[status][1]);
         },
 
         format_duration: function(duration) {

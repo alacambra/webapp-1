@@ -3,8 +3,8 @@ define(['app/view_helper',
     'advanced_string'],
 function(view_helper, form_helper) {
     return {
-        status_options: ['todo', 'new', 'assigned', 'on_hold', 'completed', 'archieved', 'requested', 'offered'],
-        priority_options: ['low', 'normal', 'high'],
+        status_options: [[0, 'todo'], [1, 'new'], [2, 'assigned'], [3, 'on_hold'], [4, 'completed'], [5, 'archieved'], [6, 'offered']],
+        priority_options: [[0, 'low'], [1, 'normal'], [2, 'high']],
 
         format_date: function(date) {
             return !is_blank(date) ? view_helper.format_date(date) : '';
@@ -12,12 +12,12 @@ function(view_helper, form_helper) {
 
         status_text: function(status) {
             if (!this.status_options[status]) return '';
-            return I18n.t('task.status_options.' + this.status_options[status]);
+            return I18n.t('task.status_options.' + this.status_options[status][1]);
         },
 
         priority_text: function(priority) {
             if (!this.priority_options[priority]) return '';
-            return I18n.t('task.priority_options.' + this.priority_options[priority]);
+            return I18n.t('task.priority_options.' + this.priority_options[priority][1]);
         },
 
         format_duration: function(duration) {
