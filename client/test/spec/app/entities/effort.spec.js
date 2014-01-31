@@ -18,7 +18,7 @@ function(App, Entities) {
 
             it('must have default attributes', function() {
                 expect(effort.task_id).toBeDefined();
-                expect(effort.get('date')).toBeNull();
+                expect(effort.get('date') / 100).toBeCloseTo(moment().unix() / 100, 1);
                 expect(effort.get('time')).toBeNull();
                 expect(effort.get('comment')).toBeNull();
             });
@@ -29,9 +29,9 @@ function(App, Entities) {
                 });
 
                 describe('date', function () {
-                    it('must not be empty', function () {
+                    it('may be empty', function () {
                         effort.set('date', null);
-                        expect(effort.validate(effort.attributes).date).toBeDefined();
+                        expect(effort.validate(effort.attributes).date).toBeUndefined();
                     });
                 });
 

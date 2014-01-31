@@ -1,8 +1,9 @@
 define(['app',
         'moment',
         'app/model_helper',
-        'app/validation_helper'],
-function(App, moment, model_helper, validation_helper) {
+        'app/validation_helper',
+        'lib/regexp_templates'],
+function(App, moment, model_helper, validation_helper, regexp_tpl) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('users');
 
@@ -30,7 +31,7 @@ function(App, moment, model_helper, validation_helper) {
                 var errors = {};
 
                 errors = validation_helper.validates_presence_of(['firstName', 'lastName', 'email'], attrs, errors);
-                errors = validation_helper.validates_format_of('email', attrs, errors, { with: /^\S+@\S+\.\S+$/ });
+                errors = validation_helper.validates_format_of('email', attrs, errors, { with: regexp_tpl.email });
 
                 errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors, { if: is_new_or_password_set });
                 errors = validation_helper.validates_length_of('password', attrs, errors, { min: 4, max: 64, if: is_new_or_password_set });

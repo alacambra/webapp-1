@@ -1,7 +1,8 @@
 define(['app',
         'moment',
-        'app/validation_helper'],
-function(App, moment, validation_helper) {
+        'app/validation_helper',
+        'lib/regexp_templates'],
+function(App, moment, validation_helper, regexp_tpl) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('pools');
 
@@ -34,12 +35,12 @@ function(App, moment, validation_helper) {
                 errors = validation_helper.validates_length_of('name', attrs, errors, { max: 40 });
                 errors = validation_helper.validates_length_of('description', attrs, errors, { max: 1500 });
 
-                errors = validation_helper.validates_format_of(['street', 'city'], attrs, errors, { with: /^[\D]{2,}$/, trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('houseNumber',      attrs, errors, { with: /^\d{1,6}\s?[a-zA-Z]{0,3}$/, trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('zip',              attrs, errors, { with: /^([0]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{3}$/, trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('email',            attrs, errors, { with: /^\S+@\S+\.\S+$/, trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('website',          attrs, errors, { with: /^http[s]?:\/\/[\.a-zA-ZäöüßAÖÜ0-9_-]+\.[a-zA-Z]{2,5}(\/.*)?$/, trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of(['phone', 'fax'],   attrs, errors, { with: /^\+[\d\s-]{7,}$/, trim: true, allow_blank: true });
+                errors = validation_helper.validates_format_of(['street', 'city'], attrs, errors, { with: regexp_tpl.street,       trim: true, allow_blank: true });
+                errors = validation_helper.validates_format_of('houseNumber',      attrs, errors, { with: regexp_tpl.house_number, trim: true, allow_blank: true });
+                errors = validation_helper.validates_format_of('zip',              attrs, errors, { with: regexp_tpl.zip,          trim: true, allow_blank: true });
+                errors = validation_helper.validates_format_of('email',            attrs, errors, { with: regexp_tpl.email,        trim: true, allow_blank: true });
+                errors = validation_helper.validates_format_of('website',          attrs, errors, { with: regexp_tpl.url,          trim: true, allow_blank: true });
+                errors = validation_helper.validates_format_of(['phone', 'fax'],   attrs, errors, { with: regexp_tpl.phone,        trim: true, allow_blank: true });
 
                 errors = validation_helper.validates_inclusion_of('foundingDate', attrs, errors, {
                     in: {

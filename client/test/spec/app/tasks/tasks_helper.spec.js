@@ -1,4 +1,4 @@
-define([ 'app/tasks/tasks_helper', 'app/entities/task' ], function (tasks_helper, Entities) {
+define(['app/tasks/tasks_helper'], function (tasks_helper) {
 
     return describe('Task :: Helper', function () {
         it('Date should be returned in the format \'YYYY-MM-DD\'.', function () {
