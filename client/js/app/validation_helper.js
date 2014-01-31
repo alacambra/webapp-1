@@ -108,6 +108,7 @@ function() {
          * @param options {object} - Options to override default options.
          * @param options.with {regex} - Format which should be accepted as valid.
          * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
+         * @param [options.trim=false] {boolean} - Remove leading and trailing whitespace before checking.
          * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
          * @param [options.message='errors.validation.invalid'] {string} - Error message to be used.
          * @returns {object} - Extended version of given errors object.
@@ -119,6 +120,7 @@ function() {
 
             var default_options = {
                 if: true,
+                trim: false,
                 allow_blank: false,
                 message: I18n.t('errors.validation.invalid')
             };
@@ -132,9 +134,11 @@ function() {
             _.each(attributes, function(attr) {
                 if (!_.isUndefined(errors[attr])) return; // attribute already has error, do not overwrite/stack
 
-                if (options.allow_blank && is_blank(attrs[attr])) return;
+                var attribute = options.trim ? attrs[attr].trim() : attrs[attr];
 
-                if (!options.with.test(attrs[attr]) || is_blank(attrs[attr])) {
+                if (options.allow_blank && is_blank(attribute)) return;
+
+                if (!options.with.test(attribute) || is_blank(attribute)) {
                     errors[attr] = options.message;
                 }
             });
