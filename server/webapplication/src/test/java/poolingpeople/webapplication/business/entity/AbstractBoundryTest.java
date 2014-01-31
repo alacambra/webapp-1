@@ -14,6 +14,7 @@ import org.jglue.cdiunit.CdiRunner;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
@@ -49,30 +50,30 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 public abstract class AbstractBoundryTest {
 
 	protected final String jsonModelsPath = "json-models/";
-	
+
 	@Inject
 	protected FileLoader fileLoader;
 
 	@Inject
 	protected RestObjectsHelper restObjectsHelper;
-	
+
 	@Inject
 	protected EntityFactory entityFactory;
-	
+
 	@Inject 
 	protected NeoManager manager;
-	
+
 	protected ObjectMapper mapper = new ObjectMapper();
-	
+
 	protected String taskRequestFile = "tasks/task-create-request.json";
 	protected String taskResponseFile = "tasks/task-create-response.json";
 	protected String projectRequestFile = "projects/project-create-request.json";
 	protected String projectResponseFile = "projects/project-create-response.json";
 	protected String userRequestFile = "users/user-create-request.json";
-    protected String userResponseFile = "users/user-create-response.json";
-    protected String effortRequestFile = "tasks/effort-task-create-request.json";
+	protected String userResponseFile = "users/user-create-response.json";
+	protected String effortRequestFile = "tasks/effort-task-create-request.json";
 	protected String effortResponseFile = "tasks/effort-task-create-response.json";
-	
+
 	/*
 	 * From hier is helepr. New struct test
 	 */
@@ -89,30 +90,42 @@ public abstract class AbstractBoundryTest {
 
 	@Inject 
 	UserBoundary userBoundary;
-	
+
 	protected String structurePath = "cypher-graphs/";
-	
-	
-	
+
+
+
 	protected void addCypherStructure(String cypherStructure){
-		
-		cypherStructure = "project-task-task-effort-related.cy";
-		
-		manager.runCypherQuery(FileLoader.getText(structurePath + cypherStructure), null);
-		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-		for(Node n : iterable) {
-			manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try {
+			cypherStructure = "project-task-task-effort-related.cy";
+
+			manager.runCypherQuery(FileLoader.getText(structurePath + cypherStructure), null);
+			Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
+			for(Node n : iterable) {
+				manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
+			}
+			tx.success();
+		}finally {
+			tx.close();
 		}
 	}
-	
+
 	@After
 	public void tearDown() {
-		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-		for(Node n : iterable) {
-			manager.removeNode(n);
+		Transaction tx = manager.getGraphDbService().beginTx();
+		try {
+			Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
+			for(Node n : iterable) {
+				manager.removeNode(n);
+			}
+			tx.success();
+		}finally {
+			tx.close();
 		}
+
 	}
-	
+
 
 	protected <K,V> Map<K,V> getTask(String uuid) {
 
@@ -246,7 +259,7 @@ public abstract class AbstractBoundryTest {
 		List<Map<String, Object>> projects = new ArrayList<Map<String, Object>>();
 
 		String json = FileLoader.getText(jsonModelsPath + projectResponseFile);
-		
+
 		for (int i = 0; i<num; i++ ) {
 			Map<String, Object> project = convertJsonToMap(json);
 			Map<String, Object> created = insertProjectFromJson(json);
@@ -316,19 +329,19 @@ public abstract class AbstractBoundryTest {
 			logger.info(expected.toString());
 			logger.info(actual.toString());
 			logger.info("Map size does not match.");
-			
+
 			for(Object k1 : expected.keySet()){
 				if (!actual.containsKey(k1)){
 					logger.info(k1 + " not found in actual");
 				}
 			}
-			
+
 			for(Object k1 : actual.keySet()){
 				if (!expected.containsKey(k1)){
 					logger.info(k1 + " not found in expected");
 				}
 			}
-			
+
 			return false;
 		}
 

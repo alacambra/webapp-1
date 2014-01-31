@@ -93,19 +93,19 @@ public class NeoManager {
 				.get( indexContainer.getKey(), indexContainer.getValue());
 		return indexHits;
 	}
-	
+
 	public Collection<Node> getNodes(String label) {
-		
+
 		/**
 		 * @todo investigate why is not possible to use it as a parameter
 		 */
-//		ExecutionResult result = runCypherQuery("MATCH(n:{label}) RETURN n", genericMap("label", label));
+		//		ExecutionResult result = runCypherQuery("MATCH(n:{label}) RETURN n", genericMap("label", label));
 		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n", null);
 		Iterator<Node> n_column = result.columnAs("n");
 		return IteratorUtil.asCollection(n_column);
-		
+
 	}
-	
+
 	private Map<String, Object> genericMap(Object... objects){
 		return MapUtil.genericMap(new HashMap<String, Object>(), objects);
 	}
@@ -131,7 +131,7 @@ public class NeoManager {
 		addToIndex(node, indexContainer);
 		Label label = DynamicLabel.label(type.name());
 		node.addLabel(label);
-		
+
 		/*
 		 * Legacy support 
 		 */
@@ -274,7 +274,7 @@ public class NeoManager {
 	public ExecutionResult runCypherQuery(String query, Map<String, Object> params) {
 
 		ExecutionResult result = null;
-//		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
+		//		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
 
 		if ( params == null) {
 			result = engine.execute( query );
@@ -290,9 +290,9 @@ public class NeoManager {
 	}
 
 	public Collection<Node> getRelatedNodes(Node node, RelationshipType relation, Direction direction) {
-//		if ( direction == null ) {
-//			throw new RuntimeException("direction can no be null");
-//		}
+		//		if ( direction == null ) {
+		//			throw new RuntimeException("direction can no be null");
+		//		}
 		return loadRelatedNodesTo(node, relation, direction);
 	}
 
@@ -315,7 +315,11 @@ public class NeoManager {
 
 		return relatedNodes;
 	}
-
+	
+	@Deprecated
+	/*
+	 * could happens that a pair of node hasthe same relation several times
+	 */
 	public void removeRelation(Node from, Node to, RelationshipType type) {
 
 		Iterable<Relationship> rels = from.getRelationships(type, Direction.OUTGOING);
@@ -325,6 +329,25 @@ public class NeoManager {
 				rel.delete();
 				return;
 			}
+		}
+	}
+
+	public void removeRelationsFrom(Node from, RelationshipType type) {
+
+		removeRelations(from, type, Direction.OUTGOING);
+	}
+
+	public void removeRelationsTo(Node to, RelationshipType type) {
+
+		removeRelations(to, type, Direction.INCOMING);
+	}
+
+	public void removeRelations(Node n, RelationshipType type, Direction direction) {
+
+		Iterable<Relationship> rels = n.getRelationships(type, direction);
+
+		for ( Relationship rel : rels ) {
+			rel.delete();
 		}
 	}
 
@@ -345,16 +368,16 @@ public class NeoManager {
 	public void removeNode(Node n) {
 		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodePropertyName.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
-		
+
 		Iterable<Relationship> rels = n.getRelationships();
-		
+
 		for (Relationship r : rels) {
 			r.delete();
 		}
-		
+
 		n.delete();
 	}
-	
+
 	public Boolean getBooleanProperty(Node node, String key) {
 		try {
 			return (Boolean) getProperty(node, key);
@@ -376,7 +399,7 @@ public class NeoManager {
 			return 0L;
 		}
 	}
-	
+
 	public <T extends AbstractPersistedModel<?>> T wrapNodeInPersistenceWrapper(Node n, Class<T> clazz) {
 		try {
 
