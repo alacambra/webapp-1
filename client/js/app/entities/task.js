@@ -38,6 +38,24 @@ function(App, model_helper, validation_helper) {
                 assignee: null
             },
 
+            save: function(attributes, options) {
+                attributes || (attributes = {});
+                options || (options = {});
+
+                // filter data that is not send to server by default
+                delete attributes.effort;
+                delete attributes.project;
+                delete attributes.parentId;
+                delete attributes.subtaskCount;
+                delete attributes.assignee;
+
+                // override options.data with the filtered attributes as json
+                options.data = attributes;
+
+                // proxy the call to the original save function
+                Backbone.Model.prototype.save.call(this, attributes, options);
+            },
+
             parse: function (response, options) {
                 response = model_helper.convert_server_response(response);
 
