@@ -14,15 +14,15 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label" for="js-user-firstName"><%= I18n.t('user.label.first_name') %></label>
-                            <input id="js-user-firstName" type="text" name="firstName" value="<%= firstName %>" class="form-control">
+                            <label class="control-label" for="js-user-first-name"><%= I18n.t('user.label.first_name') %></label>
+                            <input id="js-user-first-name" type="text" name="firstName" value="<%= firstName %>" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label" for="js-user-lastName"><%= I18n.t('user.label.last_name') %></label>
-                            <input id="js-user-lastName" type="text" name="lastName" value="<%= lastName %>" class="form-control">
+                            <label class="control-label" for="js-user-last-name"><%= I18n.t('user.label.last_name') %></label>
+                            <input id="js-user-last-name" type="text" name="lastName" value="<%= lastName %>" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -38,8 +38,8 @@
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label" for="js-user-birthDate"><%= I18n.t('user.label.birth_date') %></label>
-                            <input id="js-user-birthDate" type="text" name="birthDate" value="<%= format_date(birthDate) %>" placeholder="<%= format_date(454111200) %>" class="form-control">
+                            <label class="control-label" for="js-user-birth-date"><%= I18n.t('user.label.birth_date') %></label>
+                            <input id="js-user-birth-date" type="text" name="birthDate" value="<%= format_date(birthDate) %>" placeholder="<%= format_date(454111200) %>" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -54,8 +54,8 @@
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label" for="js-user-passwordConfirmation"><%= I18n.t('user.label.password_confirmation') %></label>
-                            <input id="js-user-passwordConfirmation" type="password" name="passwordConfirmation" class="form-control">
+                            <label class="control-label" for="js-user-password-confirmation"><%= I18n.t('user.label.password_confirmation') %></label>
+                            <input id="js-user-password-confirmation" type="password" name="passwordConfirmation" class="form-control">
                         </div>
                     </div>
                 </div>
