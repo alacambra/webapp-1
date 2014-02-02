@@ -27,11 +27,11 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 		super(manager, NODE_TYPE, user);
 		isCreated = false;
 		
-		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
-
-		if ( indexHits.size() != 0 ) {
-			throw new NotUniqueException("Too many nodes with the same email/passwords");
-		}
+//		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
+//
+//		if ( indexHits.size() != 0 ) {
+//			throw new NotUniqueException("Too many nodes with the same email/passwords");
+//		}
 		
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
 		setLoginEmail(email);
