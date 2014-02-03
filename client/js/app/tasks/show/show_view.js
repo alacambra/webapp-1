@@ -50,6 +50,7 @@ function(App, show_tpl, app_helper, view_helper, tasks_helper, users_helper) {
             },
 
             assoc_item_to_user: function () {
+                console.log('u');
                 var target_user_id = prompt(I18n.t('task.assoc_to_user_prompt'));
                 if (_.isNull(target_user_id)) return;
                 App.trigger('task:assoc:to:user', this.model, target_user_id);
