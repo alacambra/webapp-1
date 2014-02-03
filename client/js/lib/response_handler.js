@@ -2,7 +2,9 @@ define(['app', 'app/common/message_view'], function(App, MessageView) {
     return {
         handle: function (response, actions, default_callback) {
             actions = actions || {};
-            default_callback = default_callback || function() { console.log('uncatched response code'); };
+            default_callback = default_callback || function() {
+                App.main_region.show(new MessageView({ message: 'errors.server_error', type: 'warning' }));
+            };
 
             //console.log(response);
 
@@ -20,7 +22,7 @@ define(['app', 'app/common/message_view'], function(App, MessageView) {
                         App.main_region.show(new MessageView({ message: 'errors.page_not_found', type: 'danger' }));
                         break;
                     case 503:
-                        App.main_region.show(new MessageView({ message: 'errors.server_unreachable', type: 'warning' }));
+                        App.main_region.show(new MessageView({ message: 'errors.server_unavailable', type: 'warning' }));
                         break;
                     default: default_callback();
                 }
