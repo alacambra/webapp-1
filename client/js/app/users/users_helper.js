@@ -7,6 +7,11 @@ function(view_helper) {
         },
 
         full_name: function(first_name, last_name) {
+            if (_.isObject(first_name)) {
+                var user = first_name;
+                first_name = user.get('firstName');
+                last_name = user.get('lastName');
+            }
             return _.compact([first_name, last_name]).join(' ');
         },
 
