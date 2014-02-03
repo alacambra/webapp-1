@@ -154,7 +154,6 @@ function (App) {
                 }
 
                 Backbone.sync('update', task, {
-                    data: {},
                     url: url,
                     success: function (response) {
                         require(['app/tasks/show/show_controller'], function (ShowController) {

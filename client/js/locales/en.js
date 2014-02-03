@@ -173,6 +173,7 @@ I18n.translations['en'] = {
             password: 'Password'
         },
         auth_error: 'Login failed',
+        login_error: 'Server error: Login failed',
         button: {
             login: 'Send'
         }
@@ -198,7 +199,8 @@ I18n.translations['en'] = {
         },
         page_not_found: 'The page could not be found.',
         save_failed: 'Server error: Save failed',
-        server_unreachable : 'The server did not respond. Please try again.'
+        server_unavailable: 'The server did not respond. Please try again.',
+        server_error: 'The server answered with an error. Please try again.'
     },
 
     common: {
@@ -206,6 +208,8 @@ I18n.translations['en'] = {
     },
 
     delete_confirm: '"{{name}}"\n\nReally delete this entity?',
+
+    mandatory_field: 'Mandatory field',
 
     save: 'Save',
     submit: 'Submit',

@@ -25,7 +25,7 @@ function (App, Entities) {
                                 if (response.status == 401) {
                                     view.triggerMethod('form:save:failed', I18n.t('user_session.auth_error'));
                                 } else {
-                                    view.triggerMethod('form:save:failed');
+                                    view.triggerMethod('form:save:failed', I18n.t('user_session.login_error'));
                                 }
                             }
                         });

@@ -17,6 +17,8 @@ function(App, login_tpl, app_helper, view_helper, form_helper) {
                 username: '#js-user-session-username',
                 password: '#js-user-session-password',
 
+                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
+
                 submit_button: '#js-user-session-submit',
                 submit_error_msg: '#js-user-session-submit-error-msg',
                 save_indicator: '#js-user-session-save-indicator'
@@ -29,6 +31,11 @@ function(App, login_tpl, app_helper, view_helper, form_helper) {
                 'click a.js-home': 'go_to_home'
             },
 
+
+
+            onRender: function () {
+                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
+            },
 
 
             /*

@@ -94,7 +94,7 @@ function (App, TasksApp, Entities) {
 
                 expect(method).toBe('update');
                 expect(model).toBe(task);
-                expect(options.data).toEqual({});
+                expect(options.data).toEqual(undefined);
                 var s = '/tasks/' + task.get('id') + '/in/project/' + target_project_id;
                 expect(options.url).toMatch(new RegExp(s));
 
@@ -126,7 +126,7 @@ function (App, TasksApp, Entities) {
 
                 expect(method).toBe('update');
                 expect(model).toBe(task);
-                expect(options.data).toEqual({});
+                expect(options.data).toEqual(undefined);
                 var s = '/tasks/' + task.get('id') + '/as/subtask/' + target_task_id;
                 expect(options.url).toMatch(new RegExp(s));
 

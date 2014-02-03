@@ -45,6 +45,9 @@ function(App, model_helper, validation_helper) {
 
                 errors = validation_helper.validates_presence_of('title', attrs, errors);
 
+                errors = validation_helper.validates_length_of('title', attrs, errors, { max: 40 });
+                errors = validation_helper.validates_length_of('description', attrs, errors, { max: 5000 });
+
                 errors = validation_helper.validates_inclusion_of('endDate', attrs, errors, {
                     if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
                     in: { min: attrs.startDate, max: attrs.endDate },

@@ -53,7 +53,7 @@ function (App, response_handler, users_helper) {
                         });
                     }
                 });
-                console.log(model_validated);
+
                 if (model_validated) {
                     edit_view.triggerMethod('form:data:valid');
                 } else {

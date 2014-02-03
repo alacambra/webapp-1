@@ -18,6 +18,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
             ui: {
                 email: '#js-user-email',
 
+                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
+
                 submit_button: '#js-user-submit',
                 submit_error_msg: '#js-user-submit-error-msg',
                 save_indicator: '#js-user-save-indicator'
@@ -31,16 +33,9 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
 
             onRender: function () {
-                var disable_fields = _.map(this.model.disabled_fields, function (item) {
-                    return item.underscore();
-                });
+                form_helper.disable_fields(this, { if: !this.model.isNew() });
 
-                var that = this;
-                if (!this.model.isNew()) {
-                    _.each(disable_fields, function (field) {
-                        that.ui[field].attr('disabled', 'disabled');
-                    });
-                }
+                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
             },
             
 
@@ -55,22 +50,6 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
                 var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', users_helper.unformat(data));
-            },
-
-
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_users: function (event) {
-                event.preventDefault();
-                App.trigger('users:list');
-            },
-
-            go_to_user: function (event) {
-                event.preventDefault();
-                App.trigger('user:show', this.model.get('id'));
             },
 
 

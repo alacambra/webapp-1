@@ -173,6 +173,7 @@ I18n.translations['de'] = {
             password: 'Passwort'
         },
         auth_error: 'Anmeldung fehlgeschlagen',
+        login_error: 'Serverfehler: Anmeldung fehlgeschlagen',
         button: {
             login: 'Absenden'
         }
@@ -198,7 +199,8 @@ I18n.translations['de'] = {
         },
         page_not_found: 'Die Seite wurde nicht gefunden.',
         save_failed: 'Serverfehler: Speichern fehlgeschlagen',
-        server_unreachable : 'Der Server antwortet nicht. Bitte versuchen Sie es erneut.'
+        server_unavailable: 'Der Server antwortet nicht. Bitte versuchen Sie es erneut.',
+        server_error: 'Der Server meldet einen Fehler. Bitte versuchen Sie es erneut.'
     },
 
     common: {
@@ -206,6 +208,8 @@ I18n.translations['de'] = {
     },
 
     delete_confirm: '"{{name}}"\n\nDiesen Eintrag wirklich löschen?',
+
+    mandatory_field: 'Pflichtfeld',
 
     save: 'Speichern',
     submit: 'Absenden',

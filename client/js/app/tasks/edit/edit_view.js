@@ -27,6 +27,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
                 progress: '#js-task-progress',
                 progress_slider: '#js-task-progress-slider',
 
+                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
+
                 submit_button: '#js-task-submit',
                 submit_error_msg: '#js-task-submit-error-msg',
                 save_indicator: '#js-task-save-indicator'
@@ -62,8 +64,9 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
                 if (!_.include(disable_fields, 'start_date')) this.ui.start_date.datepicker(app_helper.datepicker_default);
                 if (!_.include(disable_fields, 'end_date'))   this.ui.end_date.datepicker(app_helper.datepicker_default);
 
-                var that = this;
-                _.each(disable_fields, function(field) { that.ui[field].attr('disabled', 'disabled') });
+                form_helper.disable_fields(this, { disable_fields: disable_fields });
+
+                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
             },
 
 

@@ -19,6 +19,7 @@ function(App, moment, validation_helper) {
                 var errors = {};
 
                 errors = validation_helper.validates_presence_of('name', attrs, errors);
+
                 errors = validation_helper.validates_length_of('name', attrs, errors, { max: 40 });
                 errors = validation_helper.validates_length_of('description', attrs, errors, { max: 500 });
 
