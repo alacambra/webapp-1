@@ -68,10 +68,11 @@ function() {
 
             var mark_errors = function(value, key) {
                 var $field = $view.find(view.cssPrefix + key.dasherize());
-                var $control_group = $field.parent();
+                var $form_group = $field.closest('.form-group');
+                var $label = $form_group.find('label');
                 var $error_msg = $('<span>', { class: 'help-block', text: value });
-                $field.before($error_msg);
-                $control_group.addClass('has-error');
+                $label.after($error_msg);
+                $form_group.addClass('has-error');
             };
 
             _.each(errors, mark_errors);
@@ -120,6 +121,15 @@ function() {
                 view.ui.submit_button.removeClass('disabled').addClass('btn-danger');
                 view.ui.submit_error_msg.text(message).show();
             });
+        },
+
+
+        mark_mandatory_fields: function($mandatory_fields) {
+            var $mandatory_indicator = $('<span>', { class: 'input-group-addon mandatory-indicator', title: I18n.t('mandatory_field') }).append(
+                $('<span>', { class: 'glyphicon glyphicon-asterisk' })
+            );
+
+            $mandatory_fields.wrap($('<div>', { class: 'input-group'})).after($mandatory_indicator);
         }
     }
 });

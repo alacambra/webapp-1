@@ -13,7 +13,7 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="control-label" for="js-service-name"><%= I18n.t('service.label.name') %></label>
-                    <input id="js-service-name" type="text" name="name" value="<%= name %>" class="form-control">
+                    <input id="js-service-name" type="text" name="name" value="<%= name %>" class="form-control" data-required="true">
                 </div>
 
                 <div class="form-group">

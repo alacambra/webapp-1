@@ -207,6 +207,8 @@ I18n.translations['de'] = {
 
     delete_confirm: '"{{name}}"\n\nDiesen Eintrag wirklich löschen?',
 
+    mandatory_field: 'Pflichtfeld',
+
     save: 'Speichern',
     submit: 'Absenden',
     edit: 'Bearbeiten',

@@ -18,6 +18,9 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, pools_helper) {
             
             ui: {
                 description: '#js-pool-description',
+
+                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
+
                 submit_button: '#js-pool-submit',
                 submit_error_msg: '#js-pool-submit-error-msg',
                 save_indicator: '#js-pool-save-indicator'
@@ -32,6 +35,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, pools_helper) {
 
             onRender: function () {
                 this.init_description_elastic_textarea();
+
+                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
             },
 
 
