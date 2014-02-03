@@ -1,7 +1,11 @@
 package poolingpeople.webapplication.business.user.entity;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public interface User {
 	
@@ -27,6 +31,8 @@ public interface User {
 	
 	Long getBirthDate();
 	void setBirthDate(Long birthDate);
+
+	List<Task> getTasks();
 
 }
 

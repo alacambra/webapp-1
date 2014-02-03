@@ -1,5 +1,8 @@
 package poolingpeople.webapplication.business.user.entity;
 
+import java.util.List;
+
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
@@ -14,6 +17,8 @@ import poolingpeople.webapplication.business.neo4j.UserIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
+import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.Task;
 
 public class PersistedUser extends AbstractPersistedModel<User> implements User {
 
@@ -151,6 +156,11 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 	@Override
 	public void setBirthDate(Long birthDate) {
 		manager.setProperty(underlyingNode, NodePropertyName.BIRTHDATE.name(), birthDate);
+	}
+	
+	@Override
+	public List<Task> getTasks() {
+		return getRelatedNodes(Relations.DOES, PersistedTask.class, Task.class, Direction.OUTGOING);
 	}
 
 	@Override

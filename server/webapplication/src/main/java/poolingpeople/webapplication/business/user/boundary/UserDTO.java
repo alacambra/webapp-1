@@ -1,5 +1,10 @@
 package poolingpeople.webapplication.business.user.boundary;
 
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.user.entity.User;
@@ -62,5 +67,11 @@ public class UserDTO implements User {
 	
 	public void setBirthDate(Long birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	@Override
+	@JsonIgnore
+	public List<Task> getTasks() {
+		return null;
 	}
 }

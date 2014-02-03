@@ -223,9 +223,27 @@ public class TaskBoundary extends AbstractBoundry{
 
 		User user = entityFactory.getUserById(userId);
 		Task task = entityFactory.getTaskById(taskId);
+		
+		List<Task> tasks = user.getTasks();
+		boolean error = false;
+		for (Task oldTask : tasks) {
+			
+			/*
+			 * new task is future || in past
+			 */
+			if ((oldTask.getEndDate() < task.getStartDate() && oldTask.getEndDate() < task.getEndDate())
+					|| (oldTask.getStartDate() > task.getEndDate() && oldTask.getStartDate() > task.getStartDate())) {
+				continue;
+			}
+			
+			error = true;
+			break;
+			
+		}
+		
 		task.setAssignee(user);
 		
-		return Response.noContent().build();
+		return error ? Response.noContent().header("X-Warning", true).build() : Response.noContent().build();
 	}
 }
 
