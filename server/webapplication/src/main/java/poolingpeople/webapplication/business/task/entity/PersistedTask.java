@@ -219,6 +219,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 		}
 
 		setProperty(NodePropertyName.DEFAULT_END_DATE, endDate);
+		updateAll();
 	}
 
 	private Long getDefaultStartDate() {
@@ -422,8 +423,8 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public void updateDates() {
 
-		Long startDate = getDefaultStartDate();
-		Long endDate = getDefaultEndDate();
+		Long startDate = DefaultValues.invalidStartDate;
+		Long endDate = DefaultValues.invalidEndDate;
 		Long currentStartDate = getStartDate();
 		Long currentEndDate = getEndDate();
 
