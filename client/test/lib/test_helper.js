@@ -1,9 +1,14 @@
-(function () {
+function find_missing_translation($view) {
+    var match = $view.text().match(/missing \"([\w\.]+)\" translation/);
+    return match ? match[1] : undefined;
+}
 
+
+(function() {
     // Add div#sandbox to body
     require([
         'jquery'
-    ], function ($) {
+    ], function($) {
         $('body').append('<div id="sandbox" style="overflow: hidden; height: 1px;"></div>');
     });
 
@@ -31,5 +36,4 @@
         'app/common/loading_view',
         'app/common/home_view'
     ]);
-
 }());

@@ -1,9 +1,10 @@
-define(['app',
+define(['config',
+        'app',
         'app/entities/project',
         'app/projects/list/list_view',
         'app/app_helper',
         'app/view_helper'],
-function(App, Entities, List, app_helper, view_helper) {
+function(CONFIG, App, Entities, List, app_helper, view_helper) {
     var $sandbox = $('#sandbox');
 
     describe('Project :: List :: View', function() {
@@ -21,6 +22,8 @@ function(App, Entities, List, app_helper, view_helper) {
            ]);
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             listView = new List.View({
                 collection: projects,
                 templateHelpers: _.extend({}, app_helper, view_helper)
@@ -51,6 +54,13 @@ function(App, Entities, List, app_helper, view_helper) {
 
         it('This item view should be represented by a "div" element', function() {
             expect(itemView.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(listView.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check if list view rendered two items', function() {

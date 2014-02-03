@@ -1,14 +1,19 @@
-define(['app', 'app/entities/pool', 'app/pools/edit/edit_view'], function(App, Entities, Edit) {
+define(['config',
+        'app',
+        'app/entities/pool',
+        'app/pools/edit/edit_view'],
+function(CONFIG, App, Entities, Edit) {
     var $sandbox = $('#sandbox');
 
     describe('Pool :: Edit :: View', function() {
-
         var view = null,
             pool = new Entities.Pool({
                 id: 8
             });
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             view = new Edit.View({
                 model: pool
             });
@@ -24,8 +29,15 @@ define(['app', 'app/entities/pool', 'app/pools/edit/edit_view'], function(App, E
             expect(view.render()).toBe(view);
         });
 
-        it('The view should be represented by a \'div\' element', function() {
+        it('The view should be represented by a "div" element', function() {
             expect(view.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(view.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check the model of the view', function() {

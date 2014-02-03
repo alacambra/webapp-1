@@ -1,4 +1,8 @@
-define(['app', 'app/entities/pool', 'app/pools/show/show_view'], function(App, Entities, Show) {
+define(['config',
+        'app',
+        'app/entities/pool',
+        'app/pools/show/show_view'],
+function(CONFIG, App, Entities, Show) {
     var $sandbox = $('#sandbox');
 
     describe('Pool :: Show :: View', function() {
@@ -8,6 +12,8 @@ define(['app', 'app/entities/pool', 'app/pools/show/show_view'], function(App, E
             });
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             view = new Show.View({
                 model: pool
             });
@@ -23,8 +29,15 @@ define(['app', 'app/entities/pool', 'app/pools/show/show_view'], function(App, E
             expect(view.render()).toBe(view);
         });
 
-        it('This view should be represented by a \'div\' element', function() {
+        it('This view should be represented by a "div" element', function() {
             expect(view.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(view.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check the model of the view', function() {
