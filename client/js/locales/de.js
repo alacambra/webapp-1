@@ -173,6 +173,7 @@ I18n.translations['de'] = {
             password: 'Passwort'
         },
         auth_error: 'Anmeldung fehlgeschlagen',
+        login_error: 'Serverfehler: Anmeldung fehlgeschlagen',
         button: {
             login: 'Absenden'
         }

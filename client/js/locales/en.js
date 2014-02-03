@@ -173,6 +173,7 @@ I18n.translations['en'] = {
             password: 'Password'
         },
         auth_error: 'Login failed',
+        login_error: 'Server error: Login failed',
         button: {
             login: 'Send'
         }

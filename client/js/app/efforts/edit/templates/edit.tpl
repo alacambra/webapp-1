@@ -27,7 +27,7 @@
 
                 <div class="form-group">
                     <label class="control-label" for="js-effort-comment"><%= I18n.t('effort.label.comment') %></label>
-                    <input id="js-effort-comment" type="text" name="comment" value="<%= comment %>" class="form-control">
+                    <input id="js-effort-comment" type="text" name="comment" value="<%= comment %>" maxlength="500" class="form-control">
                 </div>
             </div>
         </div>
