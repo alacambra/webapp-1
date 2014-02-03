@@ -511,6 +511,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		if (parent != null)
 			getParent().updateDates();
+		
+		Project project = getProject();
+		if ( project != null ) {
+			project.updateAll();
+		}
 	}
 
 	private void endDateChanged(Long endDate) {
@@ -518,6 +523,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		if (parent != null)
 			getParent().updateDates();
+		
+		Project project = getProject();
+		if ( project != null ) {
+			project.updateAll();
+		}
 	}
 
 	private void durationChanged(Integer duration) {
@@ -525,6 +535,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		if (parent != null)
 			getParent().updateDuration();
+		
+		Project project = getProject();
+		if ( project != null ) {
+			project.updateAll();
+		}
 	}
 
 	private void progressChanged(Float progress){
@@ -532,6 +547,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 		if (parent != null)
 			getParent().updateProgress();
+		
+		Project project = getProject();
+		if ( project != null ) {
+			project.updateAll();
+		}
 	}
 
 	private void effortChanged(Integer effort) {
