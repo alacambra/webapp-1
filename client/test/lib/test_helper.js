@@ -1,15 +1,14 @@
 function find_missing_translation($view) {
-    var match = $view.text().match(/\[missing \"([\w\.]+)\" translation\]/);
+    var match = $view.text().match(/missing \"([\w\.]+)\" translation/);
     return match ? match[1] : undefined;
 }
 
 
-(function () {
-
+(function() {
     // Add div#sandbox to body
     require([
         'jquery'
-    ], function ($) {
+    ], function($) {
         $('body').append('<div id="sandbox" style="overflow: hidden; height: 1px;"></div>');
     });
 

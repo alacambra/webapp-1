@@ -1,16 +1,7 @@
 define(['app/users/users_helper'], function(users_helper) {
     return describe('User :: Helper', function() {
-        beforeEach(function() {
-            I18n.locale = 'en';
-        });
-
-
         it('must format date correctly', function() {
-            I18n.locale = 'en';
-            expect(users_helper.format_date(1387062000)).toEqual('2013-12-15');
-
-            I18n.locale = 'de';
-            expect(users_helper.format_date(1387062000)).toEqual('15.12.2013');
+            expect(users_helper.format_date(1387062000)).toBe('2013-12-15');
         });
 
 
