@@ -58,8 +58,12 @@
             <!-- login/logout button -->
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a id="login_button" href="#login" style="<%= !logged_in ? '' : 'display:none' %>"><%= I18n.t('main_navi.login') %></a>
-                    <a id="logout_button" href="#logout" style="<%= logged_in ? '' : 'display:none' %>"><%= I18n.t('main_navi.logout') %></a>
+                    <% if (!logged_in) { %>
+                        <a id="login_button" href="#login"><%= I18n.t('main_navi.login') %></a>
+                    <% } else { %>
+                        <% user_name = current_user ? current_user.firstName + ' ' + current_user.lastName : '' %>
+                        <a id="logout_button" href="#logout" title="<%= user_name %>"><%= I18n.t('main_navi.logout') %></a>
+                    <% } %>
                 </li>
             </ul>
         </div>

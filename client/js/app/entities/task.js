@@ -170,9 +170,7 @@ function(App, model_helper, validation_helper) {
 
                 } else if (_.isUndefined(task_id)) {
                     // no task_id is set, create a new task model
-                    var task = new Entities.Task({
-                        assignee: App.current_user()
-                    });
+                    var task = new Entities.Task();
 
                     // check the options when it is specified
                     if (_.isObject(options)) {

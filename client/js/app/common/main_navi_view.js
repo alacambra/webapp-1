@@ -19,13 +19,11 @@ function (App, main_navi_tpl, MessageView, app_helper, view_helper) {
                 });
 
                 App.on('main_navi:login', function() {
-                    that.ui.login_button.hide();
-                    that.ui.logout_button.show();
+                    that.render();
                 });
 
                 App.on('main_navi:logout', function() {
-                    that.ui.logout_button.hide();
-                    that.ui.login_button.show();
+                    that.render();
                 });
             },
 
@@ -33,7 +31,8 @@ function (App, main_navi_tpl, MessageView, app_helper, view_helper) {
             serializeData: function() {
                 return {
                     available_locales: this.available_locales,
-                    logged_in: App.logged_in()
+                    logged_in: App.logged_in(),
+                    current_user: App.get_current_user()
                 }
             },
 

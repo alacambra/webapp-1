@@ -23,9 +23,14 @@ define(['app', 'lib/storage'], function(App, Storage) {
     };
 
 
-    App.current_user = function() {
-        //if (!App.logged_in()) return null; // FIXME: When server returns user during login, store and return this user
-        return { id: 1, firstName: 'Bob', lastName: 'Bubble' };
+    App.set_current_user = function(user) {
+        return storage.set('current_user', user);
+    };
+
+
+    App.get_current_user = function() {
+        if (!App.logged_in()) return null;
+        return storage.get('current_user', null);
     };
 
 
