@@ -1,7 +1,12 @@
-<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+<div class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
     <div class="container">
-        <!-- pooling people logo -->
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- pooling people logo -->
             <a href="#" data-navigate="home"><img id="navi-logo" height="40px" width="40px" src="img/pp_logo.png"></a>
         </div>
 
@@ -18,7 +23,7 @@
             </ul>
 
             <!-- search box and button -->
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left visible-lg" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="<%= I18n.t('main_navi.search_placeholder') %>">
                 </div>
@@ -28,7 +33,7 @@
             </form>
 
             <!-- language selector -->
-            <div class="navbar-form navbar-left">
+            <div class="navbar-form navbar-left visible-md visible-lg">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <%= I18n.locale.toUpperCase() %> <span class="caret"></span>
@@ -56,7 +61,7 @@
             -->
 
             <!-- login/logout button -->
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right visible-md visible-lg">
                 <li>
                     <% if (!logged_in) { %>
                         <a id="login_button" href="#login"><%= I18n.t('main_navi.login') %></a>
