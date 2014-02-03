@@ -146,6 +146,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public void setDefaultDuration(Integer progress) {
 		setProperty(NodePropertyName.DEFAULT_DURATION, progress);
+		updateAll();
 	}
 
 	private void setEffort(Integer totalEffort) {
@@ -256,6 +257,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public void setDefaultProgress(Float progress) {
 		setProperty(NodePropertyName.DEFAULT_PROGRESS, progress);
+		updateAll();
 	}
 
 
