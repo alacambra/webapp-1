@@ -32,44 +32,40 @@
                 </button>
             </form>
 
-            <!-- language selector -->
-            <div class="navbar-form navbar-left visible-md visible-lg">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <%= I18n.locale.toUpperCase() %> <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" id="js-locale">
-                        <% _.each(available_locales, function(locale) { %>
-                            <li><a href="#<%= locale %>"><%= I18n.t('locale.' + locale) %></a></li>
-                        <% }) %>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- admin options -->
-            <!--
-            <div class="navbar-form navbar-left">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-wrench"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" id="js-admin-options">
-                        <li><a href="">test</a></li>
-                    </ul>
-                </div>
-            </div>
-            -->
-
             <!-- login/logout button -->
             <ul class="nav navbar-nav navbar-right visible-md visible-lg">
                 <li>
                     <% if (!logged_in) { %>
-                        <a id="login_button" href="#login"><%= I18n.t('main_navi.login') %></a>
+                    <a id="login_button" href="#login"><%= I18n.t('main_navi.login') %></a>
                     <% } else { %>
-                        <a id="logout_button" href="#logout" title="<%= current_username %>"><%= I18n.t('main_navi.logout') %></a>
+                    <a id="logout_button" href="#logout" title="<%= current_username %>"><%= I18n.t('main_navi.logout') %></a>
                     <% } %>
                 </li>
             </ul>
+
+            <!-- language selector -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.locale.toUpperCase() %> <b class="caret"></b></a>
+                    <ul id="js-locale" class="dropdown-menu">
+                        <% _.each(available_locales, function(locale) { %>
+                        <li><a href="#<%= locale %>"><%= I18n.t('locale.' + locale) %></a></li>
+                        <% }) %>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- admin options -->
+            <!--
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span></a>
+                    <ul id="js-admin-options" class="dropdown-menu">
+                        <li><a href="">test</a></li>
+                    </ul>
+                </li>
+            </ul>
+            -->
         </div>
     </div>
 </div>
