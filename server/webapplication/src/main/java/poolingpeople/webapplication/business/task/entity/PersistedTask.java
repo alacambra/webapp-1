@@ -266,11 +266,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	}
 
 	public boolean getEndDateIsDefault() {
-		return getCachedSubtasks().size() == 0 || getCalculatedEndDate() == null;
+		return getCachedSubtasks().size() == 0 || getCalculatedEndDate() == null || getCalculatedEndDate() == DefaultValues.invalidEndDate;
 	}
 
 	public boolean getStartDateIsDefault() {
-		return getCachedSubtasks().size() ==  0 || getCalculatedStartDate() == null;
+		return getCachedSubtasks().size() ==  0 || getCalculatedStartDate() == null|| getCalculatedStartDate() == DefaultValues.invalidStartDate;
 	}
 
 	public boolean getStatusIsDefault() {
