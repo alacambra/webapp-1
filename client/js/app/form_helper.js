@@ -68,10 +68,11 @@ function() {
 
             var mark_errors = function(value, key) {
                 var $field = $view.find(view.cssPrefix + key.dasherize());
-                var $control_group = $field.parent();
+                var $form_group = $field.closest('.form-group');
+                var $label = $form_group.find('label');
                 var $error_msg = $('<span>', { class: 'help-block', text: value });
-                $field.before($error_msg);
-                $control_group.addClass('has-error');
+                $label.after($error_msg);
+                $form_group.addClass('has-error');
             };
 
             _.each(errors, mark_errors);
@@ -120,6 +121,59 @@ function() {
                 view.ui.submit_button.removeClass('disabled').addClass('btn-danger');
                 view.ui.submit_error_msg.text(message).show();
             });
+        },
+
+
+        /**
+         * Adds disabled attributes for disabled form elements.
+         *
+         * @param view {object} - Marionette view
+         * @param options {object} - Options to override default options.
+         * @param [options.disable_fields] {string[]} - List of attributes, which should be disabled. Attribute names will
+         *                                              be converted from camelcase to underscore (fooBar -> foo_bar).
+         *                                              If not given attributes will be read from model disabled_fields
+         *                                              method.
+         *                                              Attributes must be defined as view.ui elements to be disableable.
+         * @param [options.if=true] {boolean} - Only disable fields if the condition is met.
+         */
+        disable_fields: function(view, options) {
+            var default_options = {
+                if: true,
+                disable_fields: false
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return;
+
+            if (!options.disable_fields) {
+                options.disable_fields = _.map(view.model.disabled_fields, function (item) {
+                    return item.underscore();
+                });
+            }
+
+            _.each(options.disable_fields, function (field) {
+                if (!_.isUndefined(view.ui[field])) {
+                    view.ui[field].attr('disabled', 'disabled');
+                }
+            });
+        },
+
+
+        /**
+         * Sets mandatory indicator icon for given form elements.
+         *
+         * @param $mandatory_fields {object[]} - View UI elements.
+         */
+        mark_mandatory_fields: function($mandatory_fields) {
+            var $mandatory_indicator = $('<span>', {
+                class: 'input-group-addon mandatory-indicator',
+                title: I18n.t('mandatory_field')
+            }).append(
+                $('<span>', { class: 'glyphicon glyphicon-asterisk' })
+            );
+
+            $mandatory_fields.wrap($('<div>', { class: 'input-group'})).after($mandatory_indicator);
         }
     }
 });

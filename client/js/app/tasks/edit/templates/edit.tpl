@@ -17,12 +17,12 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="control-label" for="js-task-title"><%= I18n.t('task.label.title') %></label>
-                    <input id="js-task-title" type="text" name="title" value="<%= title %>" class="form-control">
+                    <input id="js-task-title" type="text" name="title" value="<%= title %>" class="form-control" data-required="true">
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="js-task-description"><%= I18n.t('task.label.description') %></label>
-                    <textarea id="js-task-description" name="description" class="form-control" rows="4" maxlength="5000"><%= description %></textarea>
+                    <textarea id="js-task-description" name="description" class="form-control resize-vertical" rows="4" maxlength="5000"><%= description %></textarea>
                 </div>
             </div>
 

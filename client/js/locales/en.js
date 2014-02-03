@@ -207,6 +207,8 @@ I18n.translations['en'] = {
 
     delete_confirm: '"{{name}}"\n\nReally delete this entity?',
 
+    mandatory_field: 'Mandatory field',
+
     save: 'Save',
     submit: 'Submit',
     edit: 'Edit',
