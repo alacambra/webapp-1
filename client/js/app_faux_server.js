@@ -239,7 +239,9 @@ function (App, CONFIG, Faux, efforts, pools, projects, services, tasks, users) {
         context.data.id = generate_id();
         context.data.startDate = convert_to_server_null_value(context.data.startDate);
         context.data.endDate = convert_to_server_null_value_negative(context.data.endDate);
+        context.data.assignee_id = App.get_current_user() ? App.get_current_user().get('id') : null;
         tasks[context.data.id] = context.data;
+        task_add_assignee(tasks[context.data.id]);
         return tasks[context.data.id];
     });
 
@@ -420,7 +422,6 @@ function (App, CONFIG, Faux, efforts, pools, projects, services, tasks, users) {
 
     Faux.post(base_url + 'user_sessions', function (context) {
         log_rest(context);
-        App.set_credentials('foo:bar');
         return users[0];
     });
 

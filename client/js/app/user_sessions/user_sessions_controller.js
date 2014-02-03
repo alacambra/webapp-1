@@ -16,8 +16,9 @@ function (App, Entities) {
                         user_session.save({}, {
                             validate: false,
                             headers: { 'Authorization': 'Basic ' + credentials },
-                            success: function() {
+                            success: function(user) {
                                 App.set_credentials(credentials);
+                                App.set_current_user(user);
                                 App.navigate(App.redirect_location || 'tasks', { trigger: true });
                                 App.redirect_location = false;
                             },
