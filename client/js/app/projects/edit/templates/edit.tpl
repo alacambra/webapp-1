@@ -18,7 +18,7 @@
 
                 <div class="form-group">
                     <label class="control-label" for="js-project-description"><%= I18n.t('project.label.description') %></label>
-                    <textarea id="js-project-description" name="description" class="form-control" rows="4" maxlength="5000"><%= description %></textarea>
+                    <textarea id="js-project-description" name="description" class="form-control resize-vertical" rows="4" maxlength="5000"><%= description %></textarea>
                 </div>
             </div>
 

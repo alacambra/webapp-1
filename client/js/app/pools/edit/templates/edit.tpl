@@ -18,7 +18,7 @@
 
                 <div class="form-group">
                     <label class="control-label" for="js-pool-description"><%= I18n.t('pool.label.description') %></label>
-                    <textarea id="js-pool-description" name="description" class="form-control" rows="4" maxlength="5000"><%= description %></textarea>
+                    <textarea id="js-pool-description" name="description" class="form-control resize-vertical" rows="4" maxlength="5000"><%= description %></textarea>
                 </div>
             </div>
 
