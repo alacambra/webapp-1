@@ -14,11 +14,13 @@ import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProdu
 public class Neo4jRunner extends BlockJUnit4ClassRunner{
 
 	Transaction tx;
-	private GraphDatabaseService graphDb =  new TestGraphDatabaseFactory().newImpermanentDatabase();
+	private final GraphDatabaseService graphDb;
 	private Object clazz;
 
 	public Neo4jRunner(Class<?> klass) throws InitializationError {
 		super(klass);
+		GraphDatabaseServiceProducer databaseServiceProducer = new GraphDatabaseServiceProducer();
+		graphDb = databaseServiceProducer.getGraphDb();
 		this.clazz = klass;
 	}
 
@@ -38,15 +40,15 @@ public class Neo4jRunner extends BlockJUnit4ClassRunner{
 			@Override
 			public void evaluate() throws Throwable {
 
-				tx = graphDb.beginTx();
-				try {
+				try (Transaction tx = graphDb.beginTx()) {
 
 					defaultStatement.evaluate();
 					tx.success();
 
-				} finally {
-					tx.close();
 				}
+//				finally {
+//					tx.close();
+//				}
 
 			}
 		};

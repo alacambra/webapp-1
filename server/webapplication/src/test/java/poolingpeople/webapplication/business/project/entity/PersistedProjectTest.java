@@ -2,11 +2,22 @@ package poolingpeople.webapplication.business.project.entity;
 
 import static org.junit.Assert.*;
 
+import java.util.Map.Entry;
+
 import org.junit.Test;
+import org.neo4j.graphdb.DynamicLabel;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+
 import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
+import poolingpeople.webapplication.business.neo4j.NodePropertyName;
+import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.boundary.UserDTO;
+import poolingpeople.webapplication.business.user.entity.PersistedUser;
+import poolingpeople.webapplication.business.user.entity.User;
 
 
 public class PersistedProjectTest extends AbstractPersitanceTest{
@@ -37,6 +48,31 @@ public class PersistedProjectTest extends AbstractPersitanceTest{
 
 	}
 
+	@Test
+	public void test(){
+		
+		String p = "a";
+		
+		UserDTO u = new UserDTO();
+		u.setEmail("a@a.com");
+//		
+		User u1 = new PersistedUser(manager, "aa@a.com", "a", u);
+		User u2 = new PersistedUser(manager, "a@a.com", "a", u);
+		
+		
+//		Node node = manager.getGraphDbService().createNode();
+//		Label label = DynamicLabel.label("USER");
+//		node.addLabel(label);
+////		node.setProperty("EMAIL", "a");
+//		node.setProperty(NodePropertyName.ID.name(), p);
+//		
+//		node = manager.getGraphDbService().createNode();
+//		label = DynamicLabel.label("USER");
+//		node.addLabel(label);
+////		node.setProperty("EMAIL", "a");
+//		node.setProperty(NodePropertyName.ID.name(), p);
+	}
+	
 	@Test
 	public void testAddTaskDatesAreCorrect() {
 

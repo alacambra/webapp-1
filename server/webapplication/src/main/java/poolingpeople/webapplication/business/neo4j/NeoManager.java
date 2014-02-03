@@ -110,7 +110,7 @@ public class NeoManager {
 		return MapUtil.genericMap(new HashMap<String, Object>(), objects);
 	}
 
-	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType type) 
+	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType poolingpeopleObjectType) 
 	{
 
 		Node node = null;
@@ -126,16 +126,20 @@ public class NeoManager {
 		}
 
 		node.setProperty(NodePropertyName.ID.name(), indexContainer.getValue());
-		node.setProperty(NodePropertyName.TYPE.name(), type.name());
+		node.setProperty(NodePropertyName.TYPE.name(), poolingpeopleObjectType.name());
 
-		addToIndex(node, indexContainer);
-		Label label = DynamicLabel.label(type.name());
+		Label label = DynamicLabel.label(indexContainer.getKey());
 		node.addLabel(label);
-
+		label = DynamicLabel.label(poolingpeopleObjectType.name());
+		node.addLabel(label);
+		
 		/*
 		 * Legacy support 
 		 */
-		addToIndex(node, new TypeIndexContainer(type));
+		addToIndex(node, new TypeIndexContainer(poolingpeopleObjectType));
+		addToIndex(node, indexContainer);
+		
+		
 		return node;
 	}
 
