@@ -12,7 +12,7 @@
 <form>
     <fieldset>
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label class="control-label" for="js-effort-date"><%= I18n.t('effort.label.date') %></label>
                     <input id="js-effort-date" type="text" name="date" value="<%= format_date(date) %>" class="form-control">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12 col-md-12 col-lg-12">
                 <button id="js-pool-submit" class="btn btn-default btn-sm btn-text right-space js-submit">
                     <span class="glyphicon glyphicon-floppy-disk"></span> <%= I18n.t('save') %>
                 </button>
