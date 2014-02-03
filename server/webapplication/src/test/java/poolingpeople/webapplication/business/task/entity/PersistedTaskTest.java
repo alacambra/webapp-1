@@ -70,7 +70,7 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		
 		Task t11 = new PersistedTask(manager, "T11");
 		t1.addSubtask(t11);
-		assertEquals(new Long(1), t1.getStartDate());
+		assertEquals(new Long(34), t1.getStartDate());
 		assertEquals(new Long(51), t1.getEndDate());
 		assertEquals(new Long(34), t11.getStartDate());
 		assertEquals(new Long(51), t11.getEndDate());
@@ -78,7 +78,7 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		Task t111 = new PersistedTask(manager, "T111");
 		
 		t11.addSubtask(t111);
-		assertEquals(new Long(1), t1.getStartDate());
+		assertEquals(new Long(4), t1.getStartDate());
 		assertEquals(new Long(510), t1.getEndDate());
 		assertEquals(new Long(4), t11.getStartDate());
 		assertEquals(new Long(510), t11.getEndDate());
@@ -87,7 +87,7 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		
 		Task t112 = new PersistedTask(manager, "T112");
 		t11.addSubtask(t112);
-		assertEquals(new Long(1), t1.getStartDate());
+		assertEquals(new Long(4), t1.getStartDate());
 		assertEquals(new Long(510), t1.getEndDate());
 		assertEquals(new Long(4), t11.getStartDate());
 		assertEquals(new Long(510), t11.getEndDate());
@@ -98,7 +98,7 @@ public class PersistedTaskTest extends AbstractPersitanceTest{
 		
 		Project p = new PersistedProject(manager, "P1");
 		p.addTask(t1);
-		assertEquals(new Long(1), p.getStartDate());
+		assertEquals(new Long(4), p.getStartDate());
 		assertEquals(new Long(510), p.getEndDate());
 		
 		t1.setDefaultStartDate(23L);
