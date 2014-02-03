@@ -42,6 +42,8 @@ function(App, moment, model_helper, validation_helper) {
             validate: function(attrs, options) {
                 var errors = {};
 
+                errors = validation_helper.validates_length_of('comment', attrs, errors, { max: 500 });
+
                 errors = validation_helper.validates_inclusion_of('date', attrs, errors, {
                     in: {
                         min: moment().subtract('years', 100).unix(),

@@ -13,12 +13,12 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label class="control-label" for="js-pool-name"><%= I18n.t('pool.label.name') %></label>
-                    <input id="js-pool-name" type="text" name="name" value="<%= name %>" class="form-control" data-required="true">
+                    <input id="js-pool-name" type="text" name="name" value="<%= name %>" class="form-control" maxlength="40" data-required="true">
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="js-pool-description"><%= I18n.t('pool.label.description') %></label>
-                    <textarea id="js-pool-description" name="description" class="form-control resize-vertical" rows="4" maxlength="5000" data-required="true"><%= description %></textarea>
+                    <textarea id="js-pool-description" name="description" class="form-control resize-vertical" rows="4" maxlength="1500" data-required="true"><%= description %></textarea>
                 </div>
             </div>
 

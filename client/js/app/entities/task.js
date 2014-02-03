@@ -90,6 +90,9 @@ function(App, model_helper, validation_helper) {
 
                 errors = validation_helper.validates_presence_of('title', attrs, errors);
 
+                errors = validation_helper.validates_length_of('title', attrs, errors, { max: 40 });
+                errors = validation_helper.validates_length_of('description', attrs, errors, { max: 5000 });
+
                 errors = validation_helper.validates_inclusion_of('duration', attrs, errors, {
                     in: { min: 0, max: 60 * 24 * 365 } // [1, 1 year]
                 });
