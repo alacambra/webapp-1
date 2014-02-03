@@ -1,4 +1,8 @@
-define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(App, Entities, Show) {
+define(['config',
+        'app',
+        'app/entities/effort',
+        'app/efforts/show/show_view'],
+function(CONFIG, App, Entities, Show) {
     var $sandbox = $('#sandbox');
 
     describe('Effort :: Show :: View', function() {
@@ -10,6 +14,8 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
             });
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             view = new Show.View({
                 model: effort
             });
@@ -25,8 +31,15 @@ define(['app', 'app/entities/effort', 'app/efforts/show/show_view'], function(Ap
             expect(view.render()).toBe(view);
         });
 
-        it('This view should be represented by a \'div\' element', function() {
+        it('This view should be represented by a "div" element', function() {
             expect(view.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(view.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check the model of the view', function() {

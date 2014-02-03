@@ -1,9 +1,10 @@
-define(['app',
+define(['config',
+        'app',
         'app/entities/effort',
         'app/efforts/list/list_view',
         'app/app_helper',
         'app/view_helper'],
-function(App, Entities, List, app_helper, view_helper) {
+function(CONFIG, App, Entities, List, app_helper, view_helper) {
     var $sandbox = $('#sandbox');
 
     describe('Effort :: List :: View', function() {
@@ -25,6 +26,8 @@ function(App, Entities, List, app_helper, view_helper) {
             ], { task_id: 23 });
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             listView = new List.View({
                 collection: efforts,
                 templateHelpers: _.extend({}, app_helper, view_helper)
@@ -49,12 +52,19 @@ function(App, Entities, List, app_helper, view_helper) {
             expect(itemView.render()).toBe(itemView);
         });
 
-        it('This list view should be represented by a \'div\' element', function() {
+        it('This list view should be represented by a "div" element', function() {
             expect(listView.el.tagName.toLowerCase()).toBe('div');
         });
 
-        it('This item view should be represented by a \'div\' element', function() {
+        it('This item view should be represented by a "div" element', function() {
             expect(itemView.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(listView.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check if list view rendered two items', function() {

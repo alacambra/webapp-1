@@ -1,4 +1,8 @@
-define(['app', 'app/entities/project', 'app/projects/show/show_view'], function(App, Entities, Show) {
+define(['config',
+        'app',
+        'app/entities/project',
+        'app/projects/show/show_view'],
+function(CONFIG, App, Entities, Show) {
     var $sandbox = $('#sandbox');
 
     describe('Project :: Show :: View', function() {
@@ -8,6 +12,8 @@ define(['app', 'app/entities/project', 'app/projects/show/show_view'], function(
             });
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             view = new Show.View({
                 model: project
             });
@@ -25,6 +31,13 @@ define(['app', 'app/entities/project', 'app/projects/show/show_view'], function(
 
         it('This view should be represented by a "div" element', function() {
             expect(view.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(view.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check the model of the view', function() {

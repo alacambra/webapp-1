@@ -21,6 +21,7 @@ module.exports = function (grunt) {
                     'js/app/**/*.js',
                     'js/app/**/*.tpl',
                     'js/lib/**/*.js',
+                    'js/locales/**/*.js',
                     'test/spec/**/*.spec.js'
                 ]
             },
@@ -31,6 +32,7 @@ module.exports = function (grunt) {
                     'js/app/**/*.js',
                     'js/app/**/*.tpl',
                     'js/lib/**/*.js',
+                    'js/locales/**/*.js',
                     'test/spec/**/*.spec.js'
                 ]
             }

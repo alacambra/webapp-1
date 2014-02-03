@@ -1,12 +1,17 @@
-define(['app', 'app/entities/user_session', 'app/user_sessions/login_view'], function(App, Entities, Login) {
+define(['config',
+        'app',
+        'app/entities/user_session',
+        'app/user_sessions/login_view'],
+function(CONFIG, App, Entities, Login) {
     var $sandbox = $('#sandbox');
 
     describe('UserSession :: Login :: View', function() {
-
         var view = null,
             user_session = new Entities.UserSession();
 
         beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             view = new Login.View({
                 model: user_session
             });
@@ -22,8 +27,15 @@ define(['app', 'app/entities/user_session', 'app/user_sessions/login_view'], fun
             expect(view.render()).toBe(view);
         });
 
-        it('The view should be represented by a \'div\' element', function() {
+        it('The view should be represented by a "div" element', function() {
             expect(view.el.tagName.toLowerCase()).toBe('div');
+        });
+
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(view.render().$el)).toBeUndefined();
+            });
         });
 
         it('Check the model of the view', function() {

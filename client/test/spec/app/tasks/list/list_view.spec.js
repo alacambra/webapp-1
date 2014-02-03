@@ -1,10 +1,11 @@
-define(['app',
+define(['config',
+        'app',
         'app/entities/task',
         'app/tasks/list/list_view'],
-function (App, Entities, List) {
+function(CONFIG, App, Entities, List) {
     var $sandbox = $('#sandbox');
 
-    describe('Task :: List :: View', function () {
+    describe('Task :: List :: View', function() {
 
         var listView = null,
             itemView = null,
@@ -19,7 +20,9 @@ function (App, Entities, List) {
                 task2
             ]);
 
-        beforeEach(function () {
+        beforeEach(function() {
+            I18n.locale = CONFIG.i18n.default_locale;
+
             listView = new List.View({
                 collection: tasks
             });
@@ -29,33 +32,40 @@ function (App, Entities, List) {
             $sandbox.html(listView.render().$el);
         });
 
-        afterEach(function () {
+        afterEach(function() {
             listView.remove();
             itemView.remove();
             $sandbox.html('');
         });
 
-        it('The render function of list should always return the list view itself.', function () {
+        it('The render function of list should always return the list view itself', function() {
             expect(listView.render()).toBe(listView);
         });
 
-        it('The render function of item should always return the item view itself.', function () {
+        it('The render function of item should always return the item view itself', function() {
             expect(itemView.render()).toBe(itemView);
         });
 
-        it('This list view should be represented by a \'div\' element.', function () {
+        it('This list view should be represented by a "div" element', function() {
             expect(listView.el.tagName.toLowerCase()).toBe('div');
         });
 
-        it('This item view should be represented by a \'div\' element.', function () {
+        it('This item view should be represented by a "div" element', function() {
             expect(itemView.el.tagName.toLowerCase()).toBe('div');
         });
 
-        it('Check if list view rendered two items.', function () {
+        it('Check if list view rendered two items', function() {
             expect($sandbox.find('#js-task-list-items .list-row').length).toBe(2);
         });
 
-        it('Check the create functionality of list view.', function () {
+        _.each(CONFIG.i18n.available_locales, function(locale) {
+            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
+                I18n.locale = locale;
+                expect(find_missing_translation(listView.render().$el)).toBeUndefined();
+            });
+        });
+
+        it('Check the create functionality of list view', function() {
             spyOn(App, 'trigger');
 
             $sandbox.find('a[data-navigate="task:create"]').click();
@@ -63,7 +73,7 @@ function (App, Entities, List) {
             expect(App.trigger).toHaveBeenCalledWith('task:create');
         });
 
-        it('Check the show functionality of item view.', function () {
+        it('Check the show functionality of item view', function() {
             $sandbox.html(itemView.render().$el);
 
             spyOn(App, 'trigger');
@@ -73,7 +83,7 @@ function (App, Entities, List) {
             expect(App.trigger).toHaveBeenCalledWith('task:show', task1.get('id') + '');
         });
 
-        it('Check the edit functionality of item view.', function () {
+        it('Check the edit functionality of item view', function() {
             $sandbox.html(itemView.render().$el);
 
             spyOn(App, 'trigger');
@@ -83,7 +93,7 @@ function (App, Entities, List) {
             expect(App.trigger).toHaveBeenCalledWith('task:edit', task1.get('id') + '');
         });
 
-        it('Check the delete functionality of item view.', function () {
+        it('Check the delete functionality of item view', function() {
             $sandbox.html(itemView.render().$el);
 
             spyOn(App, 'trigger');
@@ -93,7 +103,7 @@ function (App, Entities, List) {
             expect(App.trigger).toHaveBeenCalledWith('task:delete', task1);
         });
 
-        it('Check the create functionality of list view that is rendered with flag \'parent: "project"\'.', function () {
+        it('Check the create functionality of list view that is rendered with flag "parent: \'project\'"', function() {
             var project_id = '8';
 
             listView = new List.View({
