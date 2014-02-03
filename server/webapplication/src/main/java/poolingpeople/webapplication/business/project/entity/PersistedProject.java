@@ -186,11 +186,11 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 
 
 	public boolean getStartDateIsDefault() {
-		return getRelatedTasks().size() == 0 || (getCalculatedStartDate() == null);
+		return getRelatedTasks().size() == 0 || (getCalculatedStartDate() == null) || getCalculatedEndDate() == DefaultValues.invalidEndDate;
 	}
 
 	public boolean getEndDateIsDefault() {
-		return getRelatedTasks().size() == 0 || (getCalculatedEndDate() == null);
+		return getRelatedTasks().size() == 0 || (getCalculatedEndDate() == null || getCalculatedStartDate() == DefaultValues.invalidStartDate);
 	}
 
 	public boolean getStatusIsDefault() {
