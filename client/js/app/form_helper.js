@@ -124,8 +124,52 @@ function() {
         },
 
 
+        /**
+         * Adds disabled attributes for disabled form elements.
+         *
+         * @param view {object} - Marionette view
+         * @param options {object} - Options to override default options.
+         * @param [options.disable_fields] {string[]} - List of attributes, which should be disabled. Attribute names will
+         *                                              be converted from camelcase to underscore (fooBar -> foo_bar).
+         *                                              If not given attributes will be read from model disabled_fields
+         *                                              method.
+         *                                              Attributes must be defined as view.ui elements to be disableable.
+         * @param [options.if=true] {boolean} - Only disable fields if the condition is met.
+         */
+        disable_fields: function(view, options) {
+            var default_options = {
+                if: true,
+                disable_fields: false
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return;
+
+            if (!options.disable_fields) {
+                options.disable_fields = _.map(view.model.disabled_fields, function (item) {
+                    return item.underscore();
+                });
+            }
+
+            _.each(options.disable_fields, function (field) {
+                if (!_.isUndefined(view.ui[field])) {
+                    view.ui[field].attr('disabled', 'disabled');
+                }
+            });
+        },
+
+
+        /**
+         * Sets mandatory indicator icon for given form elements.
+         *
+         * @param $mandatory_fields {object[]} - View UI elements.
+         */
         mark_mandatory_fields: function($mandatory_fields) {
-            var $mandatory_indicator = $('<span>', { class: 'input-group-addon mandatory-indicator', title: I18n.t('mandatory_field') }).append(
+            var $mandatory_indicator = $('<span>', {
+                class: 'input-group-addon mandatory-indicator',
+                title: I18n.t('mandatory_field')
+            }).append(
                 $('<span>', { class: 'glyphicon glyphicon-asterisk' })
             );
 

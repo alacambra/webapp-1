@@ -33,16 +33,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
 
             onRender: function () {
-                var disable_fields = _.map(this.model.disabled_fields, function (item) {
-                    return item.underscore();
-                });
-
-                var that = this;
-                if (!this.model.isNew()) {
-                    _.each(disable_fields, function (field) {
-                        that.ui[field].attr('disabled', 'disabled');
-                    });
-                }
+                form_helper.disable_fields(this, { if: !this.model.isNew() });
 
                 form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
             },
