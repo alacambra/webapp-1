@@ -1,4 +1,4 @@
-define(['app', 'lib/storage'], function(App, Storage) {
+define(['app', 'lib/storage', 'app/entities/user'], function(App, Storage, Entities) {
     var storage = new Storage;
 
 
@@ -30,7 +30,7 @@ define(['app', 'lib/storage'], function(App, Storage) {
 
     App.get_current_user = function() {
         if (!App.logged_in()) return null;
-        return storage.get('current_user', null);
+        return new Entities.User(storage.get('current_user', {}));
     };
 
 

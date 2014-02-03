@@ -61,8 +61,7 @@
                     <% if (!logged_in) { %>
                         <a id="login_button" href="#login"><%= I18n.t('main_navi.login') %></a>
                     <% } else { %>
-                        <% user_name = current_user ? current_user.firstName + ' ' + current_user.lastName : '' %>
-                        <a id="logout_button" href="#logout" title="<%= user_name %>"><%= I18n.t('main_navi.logout') %></a>
+                        <a id="logout_button" href="#logout" title="<%= current_username %>"><%= I18n.t('main_navi.logout') %></a>
                     <% } %>
                 </li>
             </ul>

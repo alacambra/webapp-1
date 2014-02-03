@@ -2,8 +2,9 @@ define(['app',
         'tpl!app/common/templates/main_navi.tpl',
         'app/common/message_view',
         'app/app_helper',
-        'app/view_helper'],
-function (App, main_navi_tpl, MessageView, app_helper, view_helper) {
+        'app/view_helper',
+        'app/users/users_helper'],
+function (App, main_navi_tpl, MessageView, app_helper, view_helper, users_helper) {
     App.module('Common', function (Common, App, Backbone, Marionette, $, _) {
         Common.MainNaviView = Marionette.ItemView.extend({
             template: main_navi_tpl,
@@ -32,7 +33,7 @@ function (App, main_navi_tpl, MessageView, app_helper, view_helper) {
                 return {
                     available_locales: this.available_locales,
                     logged_in: App.logged_in(),
-                    current_user: App.get_current_user()
+                    current_username: users_helper.full_name(App.get_current_user())
                 }
             },
 
