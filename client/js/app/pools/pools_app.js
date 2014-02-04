@@ -87,9 +87,10 @@ function (App) {
 
             pool_delete: function (pool, redirect) {
                 if (confirm(I18n.t('delete_confirm', { name: pool.get('name') }))) {
-                    require(['app/pools/list/list_controller'], function (ListController) {
-                        ListController.pool_delete(pool, redirect);
-                    });
+                    if (pool) {
+                        pool.destroy();
+                        if (!_.isUndefined(redirect)) App.trigger(redirect);
+                    }
                 }
             }
         };
