@@ -4,16 +4,16 @@ define(['app/validation_helper'], function (validation_helper) {
 
         describe('validates_confirmation_of', function () {
             it('must validate confirmation', function () {
-                expect(validation_helper.validates_confirmation_of('password', { password: '', passwordConfirmation: '' }).password).toBeUndefined();
-                expect(validation_helper.validates_confirmation_of('password', { password: 'a', passwordConfirmation: 'a' }).password).toBeUndefined();
+                expect(validation_helper.validates_confirmation_of('password', { password: '', passwordConfirmation: '' }, {}).password).toBeUndefined();
+                expect(validation_helper.validates_confirmation_of('password', { password: 'a', passwordConfirmation: 'a' }, {}).password).toBeUndefined();
             });
 
             it('must invalidate wrong confirmation', function () {
-                expect(validation_helper.validates_confirmation_of('password', { password: 'a', passwordConfirmation: '' }).password).toBeDefined();
-                expect(validation_helper.validates_confirmation_of('password', { password: 'a', passwordConfirmation: 'b' }).password).toBeDefined();
-                expect(validation_helper.validates_confirmation_of('password', { password: '', passwordConfirmation: 'b' }).password).toBeDefined();
-                expect(validation_helper.validates_confirmation_of('password', { password: 'a' }).password).toBeDefined();
-                expect(validation_helper.validates_confirmation_of('password', { passwordConfirmation: 'a' }).password).toBeDefined();
+                expect(validation_helper.validates_confirmation_of('password', { password: 'a', passwordConfirmation: '' }, {}).password).toBeDefined();
+                expect(validation_helper.validates_confirmation_of('password', { password: 'a', passwordConfirmation: 'b' }, {}).password).toBeDefined();
+                expect(validation_helper.validates_confirmation_of('password', { password: '', passwordConfirmation: 'b' }, {}).password).toBeDefined();
+                expect(validation_helper.validates_confirmation_of('password', { password: 'a' }, {}).password).toBeDefined();
+                expect(validation_helper.validates_confirmation_of('password', { passwordConfirmation: 'a' }, {}).password).toBeDefined();
             });
 
             it('must optionally conditionally skip validation', function () {
@@ -34,26 +34,6 @@ define(['app/validation_helper'], function (validation_helper) {
 
             it('must skip existing errors', function () {
                 expect(validation_helper.validates_confirmation_of('password', { password: 'a' }, { password: 'error' }).password).toEqual('error');
-            });
-
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_confirmation_of(['password', 'email'], {
-                    password: 'a',
-                    passwordConfirmation: 'a',
-                    email: 'b',
-                    emailConfirmation: 'b'
-                });
-                expect(validation.password).toBeUndefined();
-                expect(validation.email).toBeUndefined();
-
-                validation = validation_helper.validates_confirmation_of(['password', 'email'], {
-                    password: 'a',
-                    passwordConfirmation: '1',
-                    email: 'b',
-                    emailConfirmation: '2'
-                });
-                expect(validation.password).toBeDefined();
-                expect(validation.email).toBeDefined();
             });
         });
 
@@ -84,7 +64,7 @@ define(['app/validation_helper'], function (validation_helper) {
             it('must invalidate exclusion hit in array', function () {
                 expect(validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice'] }).name).toBeDefined();
                 expect(validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: ['A', 'Alice', 'Bob'] }).name).toBeDefined();
-                expect(validation_helper.validates_exclusion_of('name', { name: '' }, {}, { in: [''] }).name).toBeDefined();
+                expect(validation_helper.validates_exclusion_of('name', { name: '' }, {}, { in: ['', 'Bob', 'Charly'] }).name).toBeDefined();
             });
 
             it('must invalidate exclusion hit in range', function () {
@@ -119,19 +99,9 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_exclusion_of('name', { name: 'Alice' }, { name: 'error' }, { in: ['Alice'] }).name).toEqual('error');
             });
 
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_exclusion_of(['first', 'last'], { first: 'Alice', last: 'Riddell' }, {}, { in: ['Bob'] });
-                expect(validation.first).toBeUndefined();
-                expect(validation.last).toBeUndefined();
-
-                validation = validation_helper.validates_exclusion_of(['first', 'last'], { first: 'Alice', last: 'Riddell' }, {}, { in: ['Bob', 'Alice', 'Riddell'] });
-                expect(validation.first).toBeDefined();
-                expect(validation.last).toBeDefined();
-            });
-
             it('must throw exceptions', function () {
-                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }) }).toThrow(new Error('options.in must be defined'));
-                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min or max'));
+                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}) }).toThrow(new Error('options.in must be defined'));
+                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must be array or object defining min or max'));
             });
         });
 
@@ -177,20 +147,8 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_format_of('email', { email: 'ABC 123' }, { email: 'error' }, { with: /^\S+$/ }).email).toEqual('error');
             });
 
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_format_of(['first', 'last'], { first: 'ABC123', last: 'AB' }, {}, { with: /^\S+$/ });
-
-                expect(validation.first).toBeUndefined();
-                expect(validation.last).toBeUndefined();
-
-                validation = validation_helper.validates_format_of(['first', 'last'], { first: 'ABC 123', last: 'A B' }, {}, { with: /^\S+$/ });
-
-                expect(validation.first).toBeDefined();
-                expect(validation.last).toBeDefined();
-            });
-
             it('must throw exceptions', function () {
-                expect(function() { validation_helper.validates_format_of('email', { email: 'ABC 123' }) }).toThrow(new Error('options.with must be defined'));
+                expect(function() { validation_helper.validates_format_of('email', { email: 'ABC 123' }, {}) }).toThrow(new Error('options.with must be defined'));
             });
         });
 
@@ -199,6 +157,7 @@ define(['app/validation_helper'], function (validation_helper) {
             it('must validate inclusion in array', function () {
                 expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice'] }).name).toBeUndefined();
                 expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice', 'Bob'] }).name).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('name', { name: '' }, {}, { in: ['', 'Bob', 'Charly'] }).name).toBeUndefined();
             });
 
             it('must validate inclusion in range', function () {
@@ -253,19 +212,9 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, { name: 'error' }, { in: ['Bob'] }).name).toEqual('error');
             });
 
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_inclusion_of(['first', 'last'], { first: 'Alice', last: 'Riddell' }, {}, { in: ['Bob', 'Alice', 'Riddell'] });
-                expect(validation.first).toBeUndefined();
-                expect(validation.last).toBeUndefined();
-
-                validation = validation_helper.validates_inclusion_of(['first', 'last'], { first: 'Alice', last: 'Riddell' }, {}, { in: ['Bob'] });
-                expect(validation.first).toBeDefined();
-                expect(validation.last).toBeDefined();
-            });
-
             it('must throw exceptions', function () {
-                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }) }).toThrow(new Error('options.in must be defined'));
-                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min or max'));
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}) }).toThrow(new Error('options.in must be defined'));
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must be array or object defining min or max'));
             });
         });
 
@@ -335,38 +284,28 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_length_of('name', { name: 'Alice' }, { name: 'error' }, { min: 10 }).name).toEqual('error');
             });
 
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_length_of(['first', 'last'], { first: 'Alice', last: 'Bob' }, {}, { min: 3 });
-                expect(validation.first).toBeUndefined();
-                expect(validation.last).toBeUndefined();
-
-                validation = validation_helper.validates_length_of(['first', 'last'], { first: 'Alice', last: 'Bob' }, {}, { min: 10 });
-                expect(validation.first).toBeDefined();
-                expect(validation.last).toBeDefined();
-            });
-
             it('must throw exceptions', function () {
-                expect(function() { validation_helper.validates_length_of('name', { name: 'Alice' }) }).toThrow(new Error('options must define min or max'));
+                expect(function() { validation_helper.validates_length_of('name', { name: 'Alice' }, {}) }).toThrow(new Error('options must define min or max'));
             });
         });
 
 
         describe('validates_numericality_of', function () {
             it('must validate numeric values', function () {
-                expect(validation_helper.validates_numericality_of('amount', { amount: 1 }).amount).toBeUndefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: 1.23 }).amount).toBeUndefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: 0 }).amount).toBeUndefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: -10 }).amount).toBeUndefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: 1 }, {}).amount).toBeUndefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: 1.23 }, {}).amount).toBeUndefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: 0 }, {}).amount).toBeUndefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: -10 }, {}).amount).toBeUndefined();
             });
 
             it('must invalidate non-numeric values', function () {
-                expect(validation_helper.validates_numericality_of('amount', { amount: '' }).amount).toBeDefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: 'A' }).amount).toBeDefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: '1' }).amount).toBeDefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: NaN }).amount).toBeDefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: {} }).amount).toBeDefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: [] }).amount).toBeDefined();
-                expect(validation_helper.validates_numericality_of('amount', { amount: [1] }).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: '' }, {}).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: 'A' }, {}).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: '1' }, {}).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: NaN }, {}).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: {} }, {}).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: [] }, {}).amount).toBeDefined();
+                expect(validation_helper.validates_numericality_of('amount', { amount: [1] }, {}).amount).toBeDefined();
             });
 
             it('must optionally validate only integers', function () {
@@ -397,34 +336,24 @@ define(['app/validation_helper'], function (validation_helper) {
             it('must skip existing errors', function () {
                 expect(validation_helper.validates_numericality_of('amount', { amount: '' }, { amount: 'error'}).amount).toEqual('error');
             });
-
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_numericality_of(['amount', 'other'], { amount: '', other: '' });
-                expect(validation.amount).toBeDefined();
-                expect(validation.other).toBeDefined();
-
-                validation = validation_helper.validates_numericality_of(['amount', 'other'], { amount: 1, other: 2 });
-                expect(validation.amount).toBeUndefined();
-                expect(validation.other).toBeUndefined();
-            });
         });
 
 
         describe('validates_presence_of', function () {
             it('must validate presence', function () {
-                expect(validation_helper.validates_presence_of('name', { name: 'Alice' }).name).toBeUndefined();
-                expect(validation_helper.validates_presence_of('name', { name: 1 }).name).toBeUndefined();
-                expect(validation_helper.validates_presence_of('name', { name: 0 }).name).toBeUndefined();
+                expect(validation_helper.validates_presence_of('name', { name: 'Alice' }, {}).name).toBeUndefined();
+                expect(validation_helper.validates_presence_of('name', { name: 1 }, {}).name).toBeUndefined();
+                expect(validation_helper.validates_presence_of('name', { name: 0 }, {}).name).toBeUndefined();
             });
 
             it('must invalidate missing value', function () {
-                expect(validation_helper.validates_presence_of('name', { name: '' }).name).toBeDefined();
-                expect(validation_helper.validates_presence_of('name', { name: '   ' }).name).toBeDefined();
-                expect(validation_helper.validates_presence_of('name', { name: null }).name).toBeDefined();
-                expect(validation_helper.validates_presence_of('name', { name: undefined }).name).toBeDefined();
-                expect(validation_helper.validates_presence_of('name', { name: [] }).name).toBeDefined();
-                expect(validation_helper.validates_presence_of('name', { name: {} }).name).toBeDefined();
-                expect(validation_helper.validates_presence_of('name', {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: '' }, {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: '   ' }, {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: null }, {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: undefined }, {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: [] }, {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', { name: {} }, {}).name).toBeDefined();
+                expect(validation_helper.validates_presence_of('name', {}, {}).name).toBeDefined();
             });
 
             it('must optionally conditionally skip validation', function () {
@@ -441,16 +370,6 @@ define(['app/validation_helper'], function (validation_helper) {
 
             it('must skip existing errors', function () {
                 expect(validation_helper.validates_presence_of('name', { name: 'Alice' }, { name: 'error' }).name).toEqual('error');
-            });
-
-            it('must check multiple attributes', function () {
-                validation = validation_helper.validates_presence_of(['first', 'last'], { first: 'Alice', last: 'Bob' });
-                expect(validation.first).toBeUndefined();
-                expect(validation.last).toBeUndefined();
-
-                validation = validation_helper.validates_presence_of(['first', 'last'], { first: '', last: ' ' });
-                expect(validation.first).toBeDefined();
-                expect(validation.last).toBeDefined();
             });
         });
     });
