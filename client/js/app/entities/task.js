@@ -86,33 +86,25 @@ function(App, model_helper, validation_helper) {
             },
 
             validate: function(attrs, options) {
-                var errors = {};
-
-                errors = validation_helper.validates_presence_of('title', attrs, errors);
-
-                errors = validation_helper.validates_length_of('title', attrs, errors, { max: 40 });
-                errors = validation_helper.validates_length_of('description', attrs, errors, { max: 5000 });
-
-                errors = validation_helper.validates_inclusion_of('duration', attrs, errors, {
-                    in: { min: 0, max: 60 * 24 * 365 } // [1, 1 year]
-                });
-
-                errors = validation_helper.validates_inclusion_of('progress', attrs, errors, {
-                    in: { min: 0, max: 1 }
-                });
-
-                errors = validation_helper.validates_numericality_of('duration', attrs, errors, { allow_blank: true, only_integer: true });
-                errors = validation_helper.validates_numericality_of('progress', attrs, errors, { allow_blank: true });
-
-                errors = validation_helper.validates_inclusion_of('endDate', attrs, errors, {
-                    if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
-                    in: { min: attrs.startDate, max: attrs.endDate },
-                    message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
-                });
-
-                console.log(JSON.stringify(errors, null, 4));
-
-                return _.isEmpty(errors) ? false : errors;
+                return validation_helper.validate({
+                    title: ['presence', ['length', { max: 40 }]],
+                    description: ['length', { max: 5000 }],
+                    duration: [
+                        ['inclusion', { in: { min: 0, max: 60 * 24 * 365 } }], // [1, 1 year]
+                        ['numericality', { allow_blank: true, only_integer: true }]
+                    ],
+                    progress: [
+                        ['inclusion', { in: { min: 0, max: 1 } }],
+                        ['numericality', { allow_blank: true }]
+                    ],
+                    endDate: [
+                        ['inclusion', {
+                            in: { min: attrs.startDate },
+                            if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
+                            message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
+                        }]
+                    ]
+                }, attrs);
             }
         });
 

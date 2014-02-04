@@ -16,14 +16,10 @@ function(App, moment, validation_helper) {
             },
 
             validate: function(attrs, options) {
-                var errors = {};
-
-                errors = validation_helper.validates_presence_of('name', attrs, errors);
-
-                errors = validation_helper.validates_length_of('name', attrs, errors, { max: 40 });
-                errors = validation_helper.validates_length_of('description', attrs, errors, { max: 500 });
-
-                return _.isEmpty(errors) ? false : errors;
+                return validation_helper.validate({
+                    name: ['presence', ['length', { max: 40 }]],
+                    description: ['length', { max: 500 }]
+                }, attrs);
             }
         });
 

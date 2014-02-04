@@ -1,5 +1,5 @@
 define(['app',
-    'app/validation_helper'],
+        'app/validation_helper'],
 function(App, validation_helper) {
     App.module('Entities', function(Entities, App, Backbone, Marionette, $, _) {
         var base_url = App.model_base_url('user_sessions');
@@ -8,9 +8,10 @@ function(App, validation_helper) {
             urlRoot: base_url,
 
             validate: function(attrs, options) {
-                var errors = validation_helper.validates_presence_of(['username', 'password'], attrs, {});
-
-                return _.isEmpty(errors) ? false : errors;
+                return validation_helper.validate({
+                    username: 'presence',
+                    password: 'presence'
+                }, attrs);
             }
         });
     });

@@ -41,20 +41,17 @@ function(App, model_helper, validation_helper) {
             },
 
             validate: function(attrs, options) {
-                var errors = {};
-
-                errors = validation_helper.validates_presence_of('title', attrs, errors);
-
-                errors = validation_helper.validates_length_of('title', attrs, errors, { max: 40 });
-                errors = validation_helper.validates_length_of('description', attrs, errors, { max: 5000 });
-
-                errors = validation_helper.validates_inclusion_of('endDate', attrs, errors, {
-                    if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
-                    in: { min: attrs.startDate, max: attrs.endDate },
-                    message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
-                });
-
-                return _.isEmpty(errors) ? false : errors;
+                return validation_helper.validate({
+                    title: ['presence', ['length', { max: 40 }]],
+                    description: ['length', { max: 5000 }],
+                    endDate: [
+                        ['inclusion', {
+                            in: { min: attrs.startDate },
+                            if: !is_empty(attrs.startDate) && !is_empty(attrs.endDate), // start and end date set
+                            message : I18n.t('errors.validation.date_earlier_than', { attr: I18n.t('project.label.start_date') })
+                        }]
+                    ]
+                }, attrs);
             }
         });
 

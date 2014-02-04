@@ -28,29 +28,23 @@ function(App, moment, validation_helper, regexp_tpl) {
             },
 
             validate: function(attrs, options) {
-                var errors = {};
+                return validation_helper.validate({
+                    name: ['presence', ['length', { max: 40 }]],
+                    description: ['presence', ['length', { max: 1500 }]],
+                    street:      ['format', { with: regexp_tpl.street,       trim: true, allow_blank: true }],
+                    houseNumber: ['format', { with: regexp_tpl.house_number, trim: true, allow_blank: true }],
+                    city:        ['format', { with: regexp_tpl.street,       trim: true, allow_blank: true }],
+                    zip:         ['format', { with: regexp_tpl.zip,          trim: true, allow_blank: true }],
+                    email:       ['format', { with: regexp_tpl.email,        trim: true, allow_blank: true }],
+                    website:     ['format', { with: regexp_tpl.url,          trim: true, allow_blank: true }],
+                    phone:       ['format', { with: regexp_tpl.phone,        trim: true, allow_blank: true }],
+                    fax:         ['format', { with: regexp_tpl.phone,        trim: true, allow_blank: true }],
 
-                errors = validation_helper.validates_presence_of(['name', 'description'], attrs, errors);
-
-                errors = validation_helper.validates_length_of('name', attrs, errors, { max: 40 });
-                errors = validation_helper.validates_length_of('description', attrs, errors, { max: 1500 });
-
-                errors = validation_helper.validates_format_of(['street', 'city'], attrs, errors, { with: regexp_tpl.street,       trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('houseNumber',      attrs, errors, { with: regexp_tpl.house_number, trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('zip',              attrs, errors, { with: regexp_tpl.zip,          trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('email',            attrs, errors, { with: regexp_tpl.email,        trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of('website',          attrs, errors, { with: regexp_tpl.url,          trim: true, allow_blank: true });
-                errors = validation_helper.validates_format_of(['phone', 'fax'],   attrs, errors, { with: regexp_tpl.phone,        trim: true, allow_blank: true });
-
-                errors = validation_helper.validates_inclusion_of('foundingDate', attrs, errors, {
-                    in: {
-                        min: moment().subtract('years', 100).unix(),
-                        max: moment().unix(), // now,
+                    foundingDate: ['inclusion', {
+                        in: { min: moment().subtract('years', 100).unix(), max: moment().unix() }, // [-100, now]
                         allow_blank: true
-                    }
-                });
-
-                return _.isEmpty(errors) ? false : errors;
+                    }]
+                }, attrs);
             }
         });
 

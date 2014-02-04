@@ -76,6 +76,11 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_exclusion_of('count', { count: 11 }, {}, { in: { min: -10, max: 10 } }).count).toBeUndefined();
             });
 
+            it('must validate exclusion in open range', function () {
+                expect(validation_helper.validates_exclusion_of('count', { count: 5 }, {}, { in: { min: 10 } }).count).toBeUndefined();
+                expect(validation_helper.validates_exclusion_of('count', { count: 20 }, {}, { in: { max: 10 } }).count).toBeUndefined();
+            });
+
             it('must invalidate exclusion hit in array', function () {
                 expect(validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: ['Alice'] }).name).toBeDefined();
                 expect(validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: ['A', 'Alice', 'Bob'] }).name).toBeDefined();
@@ -87,6 +92,11 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_exclusion_of('count', { count: 10 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
                 expect(validation_helper.validates_exclusion_of('count', { count: 100 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
                 expect(validation_helper.validates_exclusion_of('count', { count: 0 }, {}, { in: { min: -10, max: 10 } }).count).toBeDefined();
+            });
+
+            it('must invalidate exclusion hit in open range', function () {
+                expect(validation_helper.validates_exclusion_of('count', { count: 15 }, {}, { in: { min: 10 } }).count).toBeDefined();
+                expect(validation_helper.validates_exclusion_of('count', { count: 15 }, {}, { in: { max: 100 } }).count).toBeDefined();
             });
 
             it('must optionally conditionally skip validation', function () {
@@ -121,9 +131,7 @@ define(['app/validation_helper'], function (validation_helper) {
 
             it('must throw exceptions', function () {
                 expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }) }).toThrow(new Error('options.in must be defined'));
-                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min and max'));
-                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: { min: 0 } }) }).toThrow(new Error('options.in must define min and max'));
-                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: { max: 0 } }) }).toThrow(new Error('options.in must define min and max'));
+                expect(function() { validation_helper.validates_exclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min or max'));
             });
         });
 
@@ -202,6 +210,11 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_inclusion_of('count', { count: 10 }, {}, { in: { min: -10, max: 10 } }).count).toBeUndefined();
             });
 
+            it('must validate inclusion in open range', function () {
+                expect(validation_helper.validates_inclusion_of('count', { count: 20 }, {}, { in: { min: 10 } }).count).toBeUndefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 20 }, {}, { in: { max: 100 } }).count).toBeUndefined();
+            });
+
             it('must invalidate inclusion miss in array', function () {
                 expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: [''] }).name).toBeDefined();
                 expect(validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: ['A', 'Bob'] }).name).toBeDefined();
@@ -213,6 +226,11 @@ define(['app/validation_helper'], function (validation_helper) {
                 expect(validation_helper.validates_inclusion_of('count', { count: 101 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
                 expect(validation_helper.validates_inclusion_of('count', { count: 500 }, {}, { in: { min: 10, max: 100 } }).count).toBeDefined();
                 expect(validation_helper.validates_inclusion_of('count', { count: -20 }, {}, { in: { min: -10, max: 10 } }).count).toBeDefined();
+            });
+
+            it('must invalidate inclusion miss in open range', function () {
+                expect(validation_helper.validates_inclusion_of('count', { count: 5 }, {}, { in: { min: 10 } }).count).toBeDefined();
+                expect(validation_helper.validates_inclusion_of('count', { count: 20 }, {}, { in: { max: 10 } }).count).toBeDefined();
             });
 
             it('must optionally conditionally skip validation', function () {
@@ -247,9 +265,7 @@ define(['app/validation_helper'], function (validation_helper) {
 
             it('must throw exceptions', function () {
                 expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }) }).toThrow(new Error('options.in must be defined'));
-                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min and max'));
-                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: { min: 0 } }) }).toThrow(new Error('options.in must define min and max'));
-                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: { max: 0 } }) }).toThrow(new Error('options.in must define min and max'));
+                expect(function() { validation_helper.validates_inclusion_of('name', { name: 'Alice' }, {}, { in: {} }) }).toThrow(new Error('options.in must define min or max'));
             });
         });
 

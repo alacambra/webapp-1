@@ -30,24 +30,23 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
             validate: function(attrs, options) {
                 var is_new_or_password_set = this.isNew() || !is_blank(attrs.password) || !is_blank(attrs.passwordConfirmation);
 
-                var errors = {};
-
-                errors = validation_helper.validates_presence_of(['firstName', 'lastName', 'email'], attrs, errors);
-                errors = validation_helper.validates_format_of('email', attrs, errors, { with: regexp_tpl.email });
-
-                errors = validation_helper.validates_presence_of(['password', 'passwordConfirmation'], attrs, errors, { if: is_new_or_password_set });
-                errors = validation_helper.validates_length_of('password', attrs, errors, { min: 4, max: 64, if: is_new_or_password_set });
-                errors = validation_helper.validates_confirmation_of('password', attrs, errors, { if: is_new_or_password_set });
-
-                errors = validation_helper.validates_inclusion_of('birthDate', attrs, errors, {
-                    in: {
-                        min: moment().subtract('years', 100).unix(),
-                        max: moment().unix() // now
-                    }
-                });
-
-
-                return _.isEmpty(errors) ? false : errors;
+                return validation_helper.validate({
+                    firstName: 'presence',
+                    lastName: 'presence',
+                    email: [
+                        'presence',
+                        ['format', { with: regexp_tpl.email }]
+                    ],
+                    password: [
+                        ['presence',     { if: is_new_or_password_set }],
+                        ['length',       { if: is_new_or_password_set, min: 4, max: 64 }],
+                        ['confirmation', { if: is_new_or_password_set }]
+                    ],
+                    passwordConfirmation: ['presence', { if: is_new_or_password_set }],
+                    birthDate: ['inclusion', {
+                        in: { min: moment().subtract('years', 100).unix(), max: moment().unix() } // [-100, now]
+                    }]
+                }, attrs);
             }
         });
 

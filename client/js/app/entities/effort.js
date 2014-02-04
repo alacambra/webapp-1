@@ -40,25 +40,20 @@ function(App, moment, model_helper, validation_helper) {
             },
 
             validate: function(attrs, options) {
-                var errors = {};
-
-                errors = validation_helper.validates_length_of('comment', attrs, errors, { max: 500 });
-
-                errors = validation_helper.validates_inclusion_of('date', attrs, errors, {
-                    in: {
-                        min: moment().subtract('years', 100).unix(),
-                        max: moment().add('years', 100).unix()
-                    },
-                    allow_blank: true
-                });
-
-                errors = validation_helper.validates_inclusion_of('time', attrs, errors, {
-                    in: { min: 1, max: 60 * 24 * 365 } // [1, 1 year]
-                });
-
-                errors = validation_helper.validates_numericality_of('time', attrs, errors, { only_integer: true });
-
-                return _.isEmpty(errors) ? false : errors;
+                return validation_helper.validate({
+                    comment: ['length', { max: 500 }],
+                    date: ['inclusion', {
+                        in: {
+                            min: moment().subtract('years', 100).unix(),
+                            max: moment().add('years', 100).unix()
+                        },
+                        allow_blank: true
+                    }],
+                    time: [
+                        ['inclusion', { in: { min: 1, max: 60 * 24 * 365 } }], // [1, 1 year]
+                        ['numericality', { only_integer: true }]
+                    ]
+                }, attrs);
             }
         });
 
