@@ -33,6 +33,9 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
                 return validation_helper.validate({
                     firstName: 'presence',
                     lastName: 'presence',
+                    birthDate: ['inclusion', {
+                        in: { min: moment().subtract('years', 100).unix(), max: moment().unix() } // [-100, now]
+                    }],
                     email: [
                         'presence',
                         ['format', { with: regexp_tpl.email }]
@@ -42,10 +45,7 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
                         ['length',       { if: is_new_or_password_set, min: 4, max: 64 }],
                         ['confirmation', { if: is_new_or_password_set }]
                     ],
-                    passwordConfirmation: ['presence', { if: is_new_or_password_set }],
-                    birthDate: ['inclusion', {
-                        in: { min: moment().subtract('years', 100).unix(), max: moment().unix() } // [-100, now]
-                    }]
+                    passwordConfirmation: ['presence', { if: is_new_or_password_set }]
                 }, attrs);
             }
         });

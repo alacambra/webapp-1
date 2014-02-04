@@ -42,26 +42,20 @@ function(App, Entities) {
 
 
                     it('must not be longer than 40 chars', function() {
-                        service.set('name', 'Lorem ipsum, dolor sit amet, consetetur.');
+                        service.set('name', pad('X', 40));
                         expect(service.validate(service.attributes).name).toBeUndefined();
 
-                        service.set('name', 'Lorem ipsum, dolor sit amet, consetetur.X');
-                        expect(service.validate(service.attributes).name).toBeDefined();
-
-                        service.set('name', 'Lorem ipsum, dolor sit amet, consetetur.XX');
+                        service.set('name', pad('X', 41));
                         expect(service.validate(service.attributes).name).toBeDefined();
                     });
                 });
 
                 describe('description', function() {
                     it('must not be longer than 500 chars', function() {
-                        service.set('description', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata, sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.');
+                        service.set('description', pad('X', 500));
                         expect(service.validate(service.attributes).description).toBeUndefined();
 
-                        service.set('description', 'XLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata, sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.');
-                        expect(service.validate(service.attributes).description).toBeDefined();
-
-                        service.set('description', 'XXLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata, sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et.');
+                        service.set('description', pad('X', 501));
                         expect(service.validate(service.attributes).description).toBeDefined();
                     });
                 });
