@@ -31,11 +31,8 @@ function(CONFIG, App, Entities, Edit) {
             expect(view.el.tagName.toLowerCase()).toBe('div');
         });
 
-        _.each(CONFIG.i18n.available_locales, function(locale) {
-            it('Must not contain missing translations (' + locale.toUpperCase() + ')', function() {
-                I18n.locale = locale;
-                expect(find_missing_translation(view.render().$el)).toBeUndefined();
-            });
+        it('Must not contain missing translations', function() {
+            expect(find_missing_translation(view.render().$el)).toBeUndefined();
         });
 
         it('Check the model of the view', function() {
