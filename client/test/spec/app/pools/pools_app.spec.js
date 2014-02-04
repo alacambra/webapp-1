@@ -49,5 +49,28 @@ define(['app', 'app/pools/pools_app', 'app/entities/pool'], function(App, PoolsA
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
         });
+
+        describe('API', function () {
+            it('Should delete a specified pool with optional redirect', function () {
+                var pool = new Entities.Pool({ id: 3 });
+                var redirect;
+
+                spyOn(window, 'confirm').andReturn(true);
+                spyOn(App, 'trigger').andCallThrough();
+                spyOn(pool, 'destroy');
+
+                App.trigger('pool:delete', pool, redirect);
+
+                expect(pool.destroy).toHaveBeenCalled();
+                expect(App.trigger).not.toHaveBeenCalledWith(redirect);
+
+                redirect = 'home';
+
+                App.trigger('pool:delete', pool, redirect);
+
+                expect(pool.destroy).toHaveBeenCalled();
+                expect(App.trigger).toHaveBeenCalledWith(redirect);
+            });
+        });
     });
 });

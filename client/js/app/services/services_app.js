@@ -87,9 +87,10 @@ function (App) {
 
             service_delete: function (service, redirect) {
                 if (confirm(I18n.t('delete_confirm', { name: service.get('name') }))) {
-                    require(['app/services/list/list_controller'], function (ListController) {
-                        ListController.service_delete(service, redirect);
-                    });
+                    if (service) {
+                        service.destroy();
+                        if (!_.isUndefined(redirect)) App.trigger(redirect);
+                    }
                 }
             }
         };

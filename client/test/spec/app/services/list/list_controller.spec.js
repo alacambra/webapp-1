@@ -39,30 +39,5 @@ function (App, Entities, Ctrl, response_handler) {
 
             expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
-
-        it('Should delete a specified service with optional redirect', function () {
-            var service = new Entities.Service({ id: 13 });
-            var redirect;
-
-            spyOn(App, 'request').andCallFake(function (event, p) {
-                var defer = $.Deferred();
-                defer.resolve(p);
-                return defer.promise();
-            });
-
-            spyOn(service, 'destroy');
-            spyOn(App, 'trigger');
-
-            Ctrl.service_delete(service);
-
-            expect(service.destroy).toHaveBeenCalled();
-            expect(App.trigger).not.toHaveBeenCalled();
-
-            redirect = 'redirect';
-
-            Ctrl.service_delete(service, redirect);
-
-            expect(App.trigger).toHaveBeenCalledWith(redirect)
-        });
     });
 });

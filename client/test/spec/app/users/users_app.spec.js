@@ -49,5 +49,28 @@ define(['app', 'app/users/users_app', 'app/entities/user'], function(App, UsersA
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
         });
+
+        describe('API', function () {
+            it ('Should delete a specified user with optional redirect', function () {
+                var user = new Entities.User({ id: 4 });
+                var redirect;
+
+                spyOn(window, 'confirm').andReturn(true);
+                spyOn(App, 'trigger').andCallThrough();
+                spyOn(user, 'destroy');
+
+                App.trigger('user:delete', user, redirect);
+
+                expect(user.destroy).toHaveBeenCalled();
+                expect(App.trigger).not.toHaveBeenCalledWith(redirect);
+
+                redirect = 'home';
+
+                App.trigger('user:delete', user, redirect);
+
+                expect(user.destroy).toHaveBeenCalled();
+                expect(App.trigger).toHaveBeenCalledWith(redirect);
+            });
+        });
     });
 });

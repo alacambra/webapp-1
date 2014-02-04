@@ -39,30 +39,5 @@ function(App, Entities, Ctrl, response_handler) {
 
             expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
-        
-        it('Should delete a specified pool with optional redirect', function () {
-            var pool = new Entities.Pool({ id: 4 });
-            var redirect;
-            
-            spyOn(App, 'request').andCallFake(function (event, u) {
-                var defer = $.Deferred();
-                defer.resolve(u);
-                return defer.promise();
-            });
-
-            spyOn(pool, 'destroy');
-            spyOn(App, 'trigger');
-
-            Ctrl.pool_delete(pool);
-
-            expect(pool.destroy).toHaveBeenCalled();
-            expect(App.trigger).not.toHaveBeenCalled();
-
-            redirect = 'redirect';
-
-            Ctrl.pool_delete(pool, redirect);
-
-            expect(App.trigger).toHaveBeenCalledWith(redirect);
-        });
     });
 });

@@ -99,9 +99,10 @@ function (App) {
 
             project_delete: function (project, redirect) {
                 if (confirm(I18n.t('delete_confirm', { name: project.get('title') }))) {
-                    require(['app/projects/list/list_controller'], function (ListController) {
-                        ListController.project_delete(project, redirect);
-                    });
+                    if (project) {
+                        project.destroy();
+                        if (!_.isUndefined(redirect)) App.trigger(redirect);
+                    }
                 }
             },
 

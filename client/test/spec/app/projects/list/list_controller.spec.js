@@ -39,30 +39,5 @@ function (App, Entities, Ctrl, response_handler) {
 
             expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
-
-        it('Should delete a specified project with optional redirect', function () {
-            var project = new Entities.Project({ id: 13 });
-            var redirect;
-
-            spyOn(App, 'request').andCallFake(function (event, p) {
-                var defer = $.Deferred();
-                defer.resolve(p);
-                return defer.promise();
-            });
-
-            spyOn(project, 'destroy');
-            spyOn(App, 'trigger');
-
-            Ctrl.project_delete(project);
-
-            expect(project.destroy).toHaveBeenCalled();
-            expect(App.trigger).not.toHaveBeenCalled();
-
-            redirect = 'redirect';
-
-            Ctrl.project_delete(project, redirect);
-
-            expect(App.trigger).toHaveBeenCalledWith(redirect)
-        });
     });
 });

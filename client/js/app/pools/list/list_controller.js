@@ -19,16 +19,6 @@ function(App, response_handler) {
                         response_handler.handle(response);
                     }
                 });
-            },
-
-
-            pool_delete: function(pool, redirect) {
-                $.when(App.request('pool:entity', pool)).done(function(pool, response) {
-                    if (pool) {
-                        pool.destroy();
-                        if (!_.isUndefined(redirect)) App.trigger(redirect);
-                    }
-                });
             }
         }
     });

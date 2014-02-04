@@ -40,31 +40,5 @@ function(App, Entities, Ctrl, response_handler) {
 
             expect(response_handler.handle).toHaveBeenCalledWith(response);
         });
-
-        it('Should delete a specified effort with optional redirect', function () {
-            var task_id = 21;
-            var effort = new Entities.Effort({ id: 2 }, { task_id: task_id });
-            var redirect;
-
-            spyOn(App, 'request').andCallFake(function (event, tid, eff) {
-                var defer = $.Deferred();
-                defer.resolve(eff);
-                return defer.promise();
-            });
-
-            spyOn(effort, 'destroy');
-            spyOn(App, 'trigger');
-
-            Ctrl.effort_delete(task_id, effort, redirect);
-
-            expect(effort.destroy).toHaveBeenCalled();
-            expect(App.trigger).not.toHaveBeenCalled();
-
-            redirect = 'redirect';
-
-            Ctrl.effort_delete(task_id, effort, redirect);
-
-            expect(App.trigger).toHaveBeenCalledWith(redirect, task_id);
-        });
     });
 });

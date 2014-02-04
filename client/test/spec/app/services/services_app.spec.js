@@ -49,5 +49,28 @@ define(['app', 'app/services/services_app', 'app/entities/service'], function(Ap
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
         });
+
+        describe('API', function () {
+            it('Should delete a specified service with optional redirect', function () {
+                var service = new Entities.Service({ id: 6 });
+                var redirect;
+
+                spyOn(window, 'confirm').andReturn(true);
+                spyOn(App, 'trigger').andCallThrough();
+                spyOn(service, 'destroy');
+
+                App.trigger('service:delete', service, redirect);
+
+                expect(service.destroy).toHaveBeenCalled();
+                expect(App.trigger).not.toHaveBeenCalledWith(redirect);
+
+                redirect = 'home';
+
+                App.trigger('service:delete', service, redirect);
+
+                expect(service.destroy).toHaveBeenCalled();
+                expect(App.trigger).toHaveBeenCalledWith(redirect);
+            });
+        });
     });
 });
