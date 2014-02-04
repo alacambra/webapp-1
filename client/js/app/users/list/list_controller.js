@@ -19,16 +19,6 @@ function(App, response_handler) {
                         response_handler.handle(response);
                     }
                 });
-            },
-
-
-            user_delete: function(user, redirect) {
-                $.when(App.request('user:entity', user)).done(function(user, response) {
-                    if (user) {
-                        user.destroy();
-                        if (!_.isUndefined(redirect)) App.trigger(redirect);
-                    }
-                });
             }
         }
     });

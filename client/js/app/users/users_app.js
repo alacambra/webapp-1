@@ -87,9 +87,10 @@ function (App) {
 
             user_delete: function (user, redirect) {
                 if (confirm(I18n.t('delete_confirm', { name: user.get('firstName') + ' ' + user.get('lastName') }))) {
-                    require(['app/users/list/list_controller'], function (ListController) {
-                        ListController.user_delete(user, redirect);
-                    });
+                    if (user) {
+                        user.destroy();
+                        if (!_.isUndefined(redirect)) App.trigger(redirect);
+                    }
                 }
             }
         };
