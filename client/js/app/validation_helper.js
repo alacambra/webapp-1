@@ -72,6 +72,21 @@ function() {
         },
 
 
+        /**
+         * Validates attribute not to be in a specific range.
+         *
+         * @param attr {string} - Name of the attribute to be checked.
+         * @param attrs {object} - Object containing model attributes, given by backbone validate().
+         * @param errors {object} - Object containing already existing error messages.
+         * @param options {object} - Options to override default options.
+         * @param options.in - Values which should be not accepted as valid (specified as blacklist array or range (object specifing min/max).
+         * @param [options.in.min] - Minimum value which should be not accepted as valid.
+         * @param [options.in.max] - Maximum value which should be not accepted as valid.
+         * @param [options.if=true] {boolean} - Only check attribute if the condition is met.
+         * @param [options.allow_blank=false] {boolean} - Empty attribute will be accepted as valid.
+         * @param [options.message=I18n.t('errors.validation.confirmation')] {string} - Error message to be used.
+         * @returns {object} - Extended version of given errors object.
+         */
         validates_exclusion_of: function(attr, attrs, errors, options) {
             var default_options = {
                 if: true,
