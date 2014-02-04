@@ -3,6 +3,28 @@
 define(['i18n', 'advanced_string'],
 function() {
     return {
+        /**
+         * Wrapper for combined model validation.
+         *
+         * @example
+         * // validation params
+         * {
+         *     name: 'presence', // single validation without options
+         *     count: ['length', { min: 3 }] // single validation with options
+         *     description: [ // two validations, first without options, second with options
+         *         'presence',
+         *         ['length', { max: 1500 }]
+         *     ],
+         * }
+         *
+         * @param validations {object} - Keys indicating attribute name.
+         *                               Values as string: validation name (example "name").
+         *                               Values as array of string and object: validation name and options (example "count").
+         *                               Values as array of arrays: Array of validation name and options (example "description").
+         * @param attrs {object} - Object containing model attributes, given by backbone validate().
+         * @param errors {object} - Object containing already existing error messages.
+         * @returns {object} - Extended version of given errors object.
+         */
         validate: function(validations, attrs, errors) {
             errors = errors || {};
 
