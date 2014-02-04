@@ -49,5 +49,28 @@ define(['app', 'app/projects/projects_app', 'app/entities/project'], function(Ap
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
         });
+
+        describe('API', function () {
+            it('Should delete a specified project with optional redirect', function () {
+                var project = new Entities.Project({ id: 7 });
+                var redirect;
+
+                spyOn(window, 'confirm').andReturn(true);
+                spyOn(App, 'trigger').andCallThrough();
+                spyOn(project, 'destroy');
+
+                App.trigger('project:delete', project, redirect);
+
+                expect(project.destroy).toHaveBeenCalled();
+                expect(App.trigger).not.toHaveBeenCalledWith(redirect);
+
+                redirect = 'home';
+
+                App.trigger('project:delete', project, redirect);
+
+                expect(project.destroy).toHaveBeenCalled();
+                expect(App.trigger).toHaveBeenCalledWith(redirect);
+            });
+        });
     });
 });

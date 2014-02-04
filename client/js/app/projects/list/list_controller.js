@@ -19,16 +19,6 @@ function(App, response_handler) {
                         response_handler.handle(response);
                     }
                 });
-            },
-
-
-            project_delete: function(project, redirect) {
-                $.when(App.request('project:entity', project)).done(function(project, response) {
-                    if (project) {
-                        project.destroy();
-                        if (!_.isUndefined(redirect)) App.trigger(redirect);
-                    }
-                });
             }
         }
     });
