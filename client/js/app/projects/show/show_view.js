@@ -19,7 +19,6 @@ function(App, show_tpl, app_helper, view_helper, projects_helper) {
                 'click .js-delete-project': 'delete_item'
             },
 
-
             delete_item: function() {
                 App.trigger('project:delete', this.model, 'projects:list');
             }
