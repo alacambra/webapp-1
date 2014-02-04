@@ -88,9 +88,10 @@ function (App, efforts_helper) {
 
             effort_delete: function (task_id, effort, redirect) {
                 if (confirm(I18n.t('delete_confirm', { name: efforts_helper.confirm_text(effort) }))) {
-                    require(['app/efforts/list/list_controller'], function (ListController) {
-                        ListController.effort_delete(task_id, effort, redirect);
-                    });
+                    if (effort) {
+                        effort.destroy();
+                        if (!_.isUndefined(redirect)) App.trigger(redirect, task_id);
+                    }
                 }
             }
         };

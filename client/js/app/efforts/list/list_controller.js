@@ -19,16 +19,6 @@ function(App, response_handler) {
                         response_handler.handle(response);
                     }
                 });
-            },
-
-
-            effort_delete: function(task_id, effort, redirect) {
-                $.when(App.request('effort:entity', task_id, effort)).done(function(effort, response) {
-                    if (effort) {
-                        effort.destroy();
-                        if (!_.isUndefined(redirect)) App.trigger(redirect, task_id);
-                    }
-                });
             }
         }
     });

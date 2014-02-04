@@ -53,5 +53,28 @@ define(['app', 'app/efforts/efforts_app', 'app/entities/effort'], function(App, 
 
             expect(window.confirm).toHaveBeenCalledWith(jasmine.any(String));
         });
+
+        describe('API', function () {
+            it('Should delete a specified effort with optional redirect', function () {
+                var effort = new Entities.Effort({ id: 8 }, { task_id: 22 });
+                var redirect;
+
+                spyOn(window, 'confirm').andReturn(true);
+                spyOn(App, 'trigger').andCallThrough();
+                spyOn(effort, 'destroy');
+
+                App.trigger('effort:delete', effort.task_id, effort, redirect);
+
+                expect(effort.destroy).toHaveBeenCalled();
+                expect(App.trigger).not.toHaveBeenCalledWith(redirect);
+
+                redirect = 'home';
+
+                App.trigger('effort:delete', effort.task_id, effort, redirect);
+
+                expect(effort.destroy).toHaveBeenCalled();
+                expect(App.trigger).toHaveBeenCalledWith(redirect, effort.task_id);
+            });
+        });
     });
 });
