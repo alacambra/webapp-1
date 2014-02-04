@@ -41,7 +41,6 @@ function(App, moment, model_helper, validation_helper) {
 
             validate: function(attrs, options) {
                 return validation_helper.validate({
-                    comment: ['length', { max: 500 }],
                     date: ['inclusion', {
                         in: {
                             min: moment().subtract('years', 100).unix(),
@@ -52,7 +51,8 @@ function(App, moment, model_helper, validation_helper) {
                     time: [
                         ['inclusion', { in: { min: 1, max: 60 * 24 * 365 } }], // [1, 1 year]
                         ['numericality', { only_integer: true }]
-                    ]
+                    ],
+                    comment: ['length', { max: 500 }]
                 }, attrs);
             }
         });

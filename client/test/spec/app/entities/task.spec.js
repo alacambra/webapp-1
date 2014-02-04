@@ -39,12 +39,24 @@ function (App, Entities) {
                         expect(task.validate(task.attributes).title).toBeUndefined();
                     });
 
-                    it('must not be set', function () {
+                    it('must not be empty', function () {
                         task.set('title', '');
                         expect(task.validate(task.attributes).title).toBeDefined();
 
                         task.set('title', ' ');
                         expect(task.validate(task.attributes).title).toBeDefined();
+                    });
+
+                    it('must not be too long', function() {
+                        task.set('title', pad('X', 41));
+                        expect(task.validate(task.attributes).title).toBeDefined();
+                    });
+                });
+
+                describe('description', function() {
+                    it('must not be too long', function() {
+                        task.set('description', pad('X', 5001));
+                        expect(task.validate(task.attributes).description).toBeDefined();
                     });
                 });
 

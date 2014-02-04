@@ -41,7 +41,7 @@ function(App, Entities) {
                     });
 
 
-                    it('must not be longer than 40 chars', function() {
+                    it('must not be too long', function() {
                         service.set('name', pad('X', 40));
                         expect(service.validate(service.attributes).name).toBeUndefined();
 
@@ -51,7 +51,7 @@ function(App, Entities) {
                 });
 
                 describe('description', function() {
-                    it('must not be longer than 500 chars', function() {
+                    it('must not be too long', function() {
                         service.set('description', pad('X', 500));
                         expect(service.validate(service.attributes).description).toBeUndefined();
 

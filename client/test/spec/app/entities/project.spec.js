@@ -42,6 +42,19 @@ function(App, Entities) {
                         project.set('title', ' ');
                         expect(project.validate(project.attributes).title).toBeDefined();
                     });
+
+
+                    it('must not be too long', function() {
+                        project.set('title', pad('X', 41));
+                        expect(project.validate(project.attributes).title).toBeDefined();
+                    });
+                });
+
+                describe('description', function() {
+                    it('must not be too long', function() {
+                        project.set('description', pad('X', 5001));
+                        expect(project.validate(project.attributes).description).toBeDefined();
+                    });
                 });
 
                 describe('start date', function() {

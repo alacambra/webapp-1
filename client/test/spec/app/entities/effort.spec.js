@@ -48,6 +48,15 @@ function(App, Entities) {
                     });
                 });
 
+                describe('comment', function () {
+                    it('must not be too long', function() {
+                        effort.set('comment', pad('X', 10));
+                        expect(effort.validate(effort.attributes).comment).toBeUndefined();
+
+                        effort.set('comment', pad('X', 501));
+                        expect(effort.validate(effort.attributes).comment).toBeDefined();
+                    });
+                });
             });
         });
 
