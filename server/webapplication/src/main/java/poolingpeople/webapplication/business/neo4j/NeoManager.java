@@ -1,13 +1,11 @@
 package poolingpeople.webapplication.business.neo4j;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,10 +22,11 @@ import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.ResourceIterable;
+import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
-import org.neo4j.kernel.impl.util.StringLogger;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
@@ -68,8 +67,9 @@ public class NeoManager {
 		return false;
 	}
 
+	@Deprecated
+	public Node getUniqueNode(UUIDIndexContainer indexContainer)  {
 
-	public Node getUniqueNode( UUIDIndexContainer indexContainer)  {
 
 		IndexHits<Node> indexHits = this.getNodes(indexContainer);
 
@@ -81,6 +81,26 @@ public class NeoManager {
 			Node single = indexHits.getSingle();
 			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
 			return single;
+		}
+	}
+	
+	public Node getUniqueNode( PoolingpeopleObjectType objectType, Object value )  {
+		ResourceIterable<Node> nodes = 
+				graphDb.findNodesByLabelAndProperty(DynamicLabel.label(objectType.name()), NodePropertyName.ID.name(), value);
+		
+		ResourceIterator<Node> it = nodes.iterator(); 
+		
+		if ( it.hasNext() ){
+			Node n = it.next();
+			if (it .hasNext()){
+				throw new NodeNotFoundException();
+			}
+			
+			it.close();
+			return n;
+			
+		} else {
+			throw new NodeNotFoundException();
 		}
 	}
 
@@ -112,7 +132,6 @@ public class NeoManager {
 
 	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType poolingpeopleObjectType) 
 	{
-
 		Node node = null;
 
 		if (uniqueNodeExist(indexContainer))
@@ -132,18 +151,17 @@ public class NeoManager {
 		node.addLabel(label);
 		label = DynamicLabel.label(poolingpeopleObjectType.name());
 		node.addLabel(label);
-		
+
 		/*
 		 * Legacy support 
 		 */
 		addToIndex(node, new TypeIndexContainer(poolingpeopleObjectType));
 		addToIndex(node, indexContainer);
-		
-		
+
 		return node;
 	}
 
-
+	@Deprecated
 	public void addToIndex(Node node, IndexContainer indexContainer) {
 		graphDb.index().forNodes(indexContainer.getType()).add(node, indexContainer.getKey(), indexContainer.getValue());
 	}
@@ -278,7 +296,6 @@ public class NeoManager {
 	public ExecutionResult runCypherQuery(String query, Map<String, Object> params) {
 
 		ExecutionResult result = null;
-		//		StringLogger logger = StringLogger.lazyLogger(new File("logs/neo4j.log"));
 
 		if ( params == null) {
 			result = engine.execute( query );
@@ -319,7 +336,7 @@ public class NeoManager {
 
 		return relatedNodes;
 	}
-	
+
 	@Deprecated
 	/*
 	 * could happens that a pair of node hasthe same relation several times

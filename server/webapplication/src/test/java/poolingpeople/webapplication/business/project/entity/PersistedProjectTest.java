@@ -2,16 +2,8 @@ package poolingpeople.webapplication.business.project.entity;
 
 import static org.junit.Assert.*;
 
-import java.util.Map.Entry;
-
 import org.junit.Test;
-import org.neo4j.graphdb.DynamicLabel;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-
 import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
-import poolingpeople.webapplication.business.neo4j.NodePropertyName;
-import poolingpeople.webapplication.business.neo4j.TypeIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
