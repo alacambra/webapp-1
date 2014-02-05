@@ -71,22 +71,6 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, services_helper) {
             },
 
 
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_services: function (event) {
-                event.preventDefault();
-                App.trigger('services:list');
-            },
-
-            go_to_service: function (event) {
-                event.preventDefault();
-                App.trigger('service:show', this.model.get('id'));
-            },
-
-
             /*
              * controller event handlers
              */
