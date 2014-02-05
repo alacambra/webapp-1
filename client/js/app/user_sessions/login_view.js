@@ -25,8 +25,7 @@ function(App, login_tpl, app_helper, view_helper, form_helper) {
 
             events: {
                 'click a[data-navigate]': App.handle_link,
-                'click #js-user-session-submit': 'login',
-                'click a.js-home': 'go_to_home'
+                'click #js-user-session-submit': 'login'
             },
 
 

@@ -71,22 +71,6 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, pools_helper) {
             },
 
 
-            go_to_home: function (event) {
-                event.preventDefault();
-                App.trigger('home');
-            },
-
-            go_to_pools: function (event) {
-                event.preventDefault();
-                App.trigger('pools:list');
-            },
-
-            go_to_pool: function (event) {
-                event.preventDefault();
-                App.trigger('pool:show', this.model.get('id'));
-            },
-
-
             /*
              * controller event handlers
              */
