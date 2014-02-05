@@ -9,11 +9,12 @@ define(['config'], function (CONFIG) {
             return JSON.stringify(result);
         }
 
-        var origin = keys_to_json(I18n.translations[CONFIG.i18n.default_locale]);
+        var default_locale = CONFIG.i18n.default_locale,
+            origin = keys_to_json(I18n.translations[default_locale]);
 
         _.each(CONFIG.i18n.available_locales, function(locale) {
             if (locale != CONFIG.i18n.default_locale) {
-                it('Locales must have identical keys (' + locale.toUpperCase() + ')', function () {
+                it('Locales must have identical keys (' + (default_locale + '<->' + locale).toUpperCase() + ')', function () {
                     expect(keys_to_json(I18n.translations[locale]) == origin).toBeTruthy();
                 });
             }

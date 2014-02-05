@@ -73,7 +73,7 @@ module.exports = function (grunt) {
                 src: 'js/app/**/*.js',
                 options: {
                     vendor: 'js/lib/vendor/i18n.js',
-                    helpers: 'test/lib/test_helper.js',
+                    helpers: ['test/require_main.js', 'test/lib/test_helper.js'],
                     templateOptions: {
                         requireConfigFile: 'js/require_main.js'
                     }
@@ -83,7 +83,7 @@ module.exports = function (grunt) {
                 src: 'dist/js/application.js',
                 options: {
                     host: 'http://127.0.0.1:<%= connect.test_build.options.port %>/',
-                    helpers: [ 'test/lib/test_helper.js', 'dist/js/application.js' ],
+                    helpers: ['test/require_main.js', 'test/lib/test_helper.js', 'dist/js/application.js'],
                     templateOptions: {
                         requireConfigFile: 'dist/js/application.js'
                     }

@@ -34,7 +34,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, efforts_helper) {
                 'blur input#js-effort-time': 'update_time'
             },
 
-            
+
             serializeData: function() {
                 return _.extend({}, this.model.attributes, {
                     task_id: this.model.task_id
