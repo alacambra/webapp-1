@@ -42,6 +42,7 @@ function(App, model_helper, validation_helper) {
 
             mandatory_fields: ['title'],
             disabled_fields: [],
+            max_length_fields: { title: 40, description: 5000 },
 
             save: function(attributes, options) {
                 attributes = attributes || {};
@@ -88,8 +89,8 @@ function(App, model_helper, validation_helper) {
 
             validate: function(attrs, options) {
                 return validation_helper.validate({
-                    title: ['presence', ['length', { max: 40 }]],
-                    description: ['length', { max: 5000 }],
+                    title: ['presence', ['length', { max: this.max_length_fields.title }]],
+                    description: ['length', { max: this.max_length_fields.title }],
                     duration: [
                         ['inclusion', { in: { min: 0, max: 60 * 24 * 365 } }], // [1, 1 year]
                         ['numericality', { allow_blank: true, only_integer: true }]

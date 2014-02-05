@@ -35,7 +35,10 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, pools_helper) {
             onRender: function () {
                 this.init_description_elastic_textarea();
 
-                form_helper.mark_mandatory_fields(this);
+                form_helper.extend_fields({
+                    mandatory: {},
+                    maxlength: {}
+                }, this);
             },
 
 

@@ -3,7 +3,6 @@
 define(['i18n'],
 function() {
     return {
-
         /**
          * Creates a select element for the specified combination of model and attribute.
          *
@@ -125,6 +124,31 @@ function() {
 
 
         /**
+         * Wrapper for disable_fields, mark_mandatory_fields and set_fields_maxlength.
+         *
+         * @example
+         * // options to call each method with specific options
+         * {
+         *     disable: { if: !this.model.isNew() },
+         *     mandatory: { mandatory_fields: this.model.get_mandatory_fields() },
+         *     maxlength: {}
+         * }
+         * @param options {object} - Keys specifiy which method to call, value object is passed as options to called method.
+         * @param view {object} - Marionette view
+         */
+        extend_fields: function(options, view) {
+            var that = this;
+            _.each(options, function(field_options, type) {
+                switch(type) {
+                    case 'disable': that.disable_fields(view, field_options); break;
+                    case 'mandatory': that.mark_mandatory_fields(view, field_options); break;
+                    case 'maxlength': that.set_fields_maxlength(view, field_options); break;
+                }
+            })
+        },
+
+
+        /**
          * Adds disabled attributes for disabled form elements.
          *
          * @param view {object} - Marionette view
@@ -201,7 +225,38 @@ function() {
                     view.ui[field].wrap($('<div>', { class: 'input-group'})).after($mandatory_indicator.clone());
                 }
             });
+        },
 
+
+        /**
+         * Sets maxlength attribute for given form elements.
+         *
+         * @param view {object} - Marionette view
+         * @param options {object} - Options to override default options.
+         * @param [options.max_length_fields] {object[]} - List of attributes (name: length), which should be set as maxlength.
+         *                                                 Attribute names will be converted from camelcase to underscore
+         *                                                 (fooBar -> foo_bar).
+         *                                                 If not given attributes will be read from model
+         *                                                 max_length_fields method.
+         *                                                 Attributes must be defined as view.ui elements to be editable.
+         * @param [options.if=true] {boolean} - Only mark fields if the condition is met.
+         */
+        set_fields_maxlength: function(view, options) {
+            var default_options = {
+                if: true,
+                max_length_fields: view.model.max_length_fields
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return;
+
+            _.each(options.max_length_fields, function (length, field) {
+                var $field = view.ui[field.underscore()];
+                if (!_.isUndefined($field)) {
+                    $field.attr('maxlength', length);
+                }
+            });
         }
     }
 });

@@ -28,11 +28,12 @@ function(App, moment, validation_helper, regexp_tpl) {
             },
 
             mandatory_fields: ['name', 'description'],
+            max_length_fields: { name: 40, description: 1500 },
 
             validate: function(attrs, options) {
                 return validation_helper.validate({
-                    name: ['presence', ['length', { max: 40 }]],
-                    description: ['presence', ['length', { max: 1500 }]],
+                    name: ['presence', ['length', { max: this.max_length_fields.name }]],
+                    description: ['presence', ['length', { max: this.max_length_fields.description }]],
                     street:      ['format', { with: regexp_tpl.street,       trim: true, allow_blank: true }],
                     houseNumber: ['format', { with: regexp_tpl.house_number, trim: true, allow_blank: true }],
                     city:        ['format', { with: regexp_tpl.street,       trim: true, allow_blank: true }],

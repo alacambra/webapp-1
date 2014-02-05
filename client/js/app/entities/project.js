@@ -23,6 +23,7 @@ function(App, model_helper, validation_helper) {
             },
 
             mandatory_fields: ['title'],
+            max_length_fields: { title: 40, description: 500 },
 
             parse: function (response, options) {
                 response = model_helper.convert_server_response(response);
@@ -44,8 +45,8 @@ function(App, model_helper, validation_helper) {
 
             validate: function(attrs, options) {
                 return validation_helper.validate({
-                    title: ['presence', ['length', { max: 40 }]],
-                    description: ['length', { max: 5000 }],
+                    title: ['presence', ['length', { max: this.max_length_fields.title }]],
+                    description: ['length', { max: this.max_length_fields.description }],
                     endDate: [
                         ['inclusion', {
                             in: { min: attrs.startDate },

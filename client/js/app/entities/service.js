@@ -16,11 +16,12 @@ function(App, moment, validation_helper) {
             },
 
             mandatory_fields: ['name'],
+            max_length_fields: { name: 40, description: 500 },
 
             validate: function(attrs, options) {
                 return validation_helper.validate({
-                    name: ['presence', ['length', { max: 40 }]],
-                    description: ['length', { max: 500 }]
+                    name: ['presence', ['length', { max: this.max_length_fields.name }]],
+                    description: ['length', { max: this.max_length_fields.description }]
                 }, attrs);
             }
         });

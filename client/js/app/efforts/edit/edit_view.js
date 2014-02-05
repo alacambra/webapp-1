@@ -20,6 +20,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, efforts_helper) {
                 date: '#js-effort-date',
                 time: '#js-effort-time',
                 time_slider: '#js-effort-time-slider',
+                comment: '#js-effort-comment',
 
                 submit_button: '#js-effort-submit',
                 submit_error_msg: '#js-effort-submit-error-msg',
@@ -44,6 +45,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, efforts_helper) {
             onRender: function () {
                 this.init_datepicker();
                 this.init_time_slider();
+
+                form_helper.extend_fields({ maxlength: {} }, this);
             },
 
 

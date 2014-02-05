@@ -13,12 +13,12 @@
             <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label class="control-label" for="js-service-name"><%= I18n.t('service.label.name') %></label>
-                    <input id="js-service-name" type="text" name="name" value="<%= name %>" class="form-control" maxlength="40">
+                    <input id="js-service-name" type="text" name="name" value="<%= name %>" class="form-control">
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="js-service-description"><%= I18n.t('service.label.description') %></label>
-                    <textarea id="js-service-description" name="description" class="form-control" rows="4" maxlength="500"><%= description %></textarea>
+                    <textarea id="js-service-description" name="description" class="form-control" rows="4"><%= description %></textarea>
                 </div>
             </div>
         </div>

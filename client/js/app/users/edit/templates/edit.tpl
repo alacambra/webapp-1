@@ -48,14 +48,14 @@
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-password"><%= I18n.t('user.label.password') %></label>
-                            <input id="js-user-password" type="password" name="password" class="form-control" maxlength="64">
+                            <input id="js-user-password" type="password" name="password" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-password-confirmation"><%= I18n.t('user.label.password_confirmation') %></label>
-                            <input id="js-user-password-confirmation" type="password" name="passwordConfirmation" class="form-control" maxlength="64">
+                            <input id="js-user-password-confirmation" type="password" name="passwordConfirmation" class="form-control">
                         </div>
                     </div>
                 </div>

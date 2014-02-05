@@ -21,6 +21,7 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
 
             mandatory_fields: ['firstName', 'lastName', 'email'],
             disabled_fields: ['email'],
+            max_length_fields: { password: 64, passwordConfirmation: 64 },
 
             get_mandatory_fields: function() {
                 if (this.isNew()) {
@@ -50,7 +51,7 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
                     ],
                     password: [
                         ['presence',     { if: is_new_or_password_set }],
-                        ['length',       { if: is_new_or_password_set, min: 4, max: 64 }],
+                        ['length',       { if: is_new_or_password_set, min: 4, max: this.max_length_fields.password }],
                         ['confirmation', { if: is_new_or_password_set }]
                     ],
                     passwordConfirmation: ['presence', { if: is_new_or_password_set }]

@@ -63,9 +63,11 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
                 if (!_.include(disable_fields, 'start_date')) this.ui.start_date.datepicker(app_helper.datepicker_default);
                 if (!_.include(disable_fields, 'end_date'))   this.ui.end_date.datepicker(app_helper.datepicker_default);
 
-                form_helper.disable_fields(this, { disable_fields: disable_fields });
-
-                form_helper.mark_mandatory_fields(this);
+                form_helper.extend_fields({
+                    disable: { disable_fields: disable_fields },
+                    mandatory: {},
+                    maxlength: {}
+                }, this);
             },
 
 

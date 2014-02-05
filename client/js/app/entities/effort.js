@@ -16,6 +16,8 @@ function(App, moment, model_helper, validation_helper) {
                 comment: null
             },
 
+            max_length_fields: { comment: 500 },
+
             parse: function (response) {
                 response = model_helper.convert_server_response(response);
 
@@ -52,7 +54,7 @@ function(App, moment, model_helper, validation_helper) {
                         ['inclusion', { in: { min: 1, max: 60 * 24 * 365 } }], // [1, 1 year]
                         ['numericality', { only_integer: true }]
                     ],
-                    comment: ['length', { max: 500 }]
+                    comment: ['length', { max: this.max_length_fields.comment }]
                 }, attrs);
             }
         });

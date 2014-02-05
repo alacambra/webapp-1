@@ -35,9 +35,11 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
 
             onRender: function () {
-                form_helper.disable_fields(this, { if: !this.model.isNew() });
-
-                form_helper.mark_mandatory_fields(this, { mandatory_fields: this.model.get_mandatory_fields() });
+                form_helper.extend_fields({
+                    disable: { if: !this.model.isNew() },
+                    mandatory: { mandatory_fields: this.model.get_mandatory_fields() },
+                    maxlength: {}
+                }, this);
             },
             
 
