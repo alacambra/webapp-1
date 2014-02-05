@@ -170,13 +170,13 @@ function() {
 
             if (!options.if) return;
 
-            if (!options.disable_fields) {
-                options.disable_fields = _.map(view.model.disabled_fields, function (item) {
-                    return item.underscore();
-                });
-            }
+            var fields = options.disable_fields ? options.disable_fields : view.model.disabled_fields
 
-            _.each(options.disable_fields, function (field) {
+            fields = _.map(view.model.disabled_fields, function (item) {
+                return item.underscore();
+            });
+
+            _.each(fields, function (field) {
                 if (!_.isUndefined(view.ui[field])) {
                     view.ui[field].attr('disabled', 'disabled');
                 }
