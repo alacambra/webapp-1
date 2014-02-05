@@ -18,14 +18,13 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
 
             
             ui: {
+                title: '#js-project-title',
                 description: '#js-project-description',
                 status: '#js-project-status',
                 start_date: '#js-project-start-date',
                 end_date: '#js-project-end-date',
                 progress: '#js-project-progress',
                 progress_slider: '#js-project-progress-slider',
-
-                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
 
                 submit_button: '#js-project-submit',
                 submit_error_msg: '#js-project-submit-error-msg',
@@ -53,7 +52,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
 
                 form_helper.disable_fields(this, { disable_fields: disable_fields });
 
-                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
+                form_helper.mark_mandatory_fields(this);
             },
 
 

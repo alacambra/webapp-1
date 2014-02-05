@@ -17,9 +17,8 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, services_helper) {
 
             
             ui: {
+                name: '#js-service-name',
                 description: '#js-service-description',
-
-                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
 
                 submit_button: '#js-service-submit',
                 submit_error_msg: '#js-service-submit-error-msg',
@@ -36,7 +35,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, services_helper) {
             onRender: function () {
                 this.init_description_elastic_textarea();
 
-                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
+                form_helper.mark_mandatory_fields(this);
             },
 
 

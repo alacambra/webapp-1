@@ -40,6 +40,7 @@ function(App, model_helper, validation_helper) {
 
             excluded_fields: [ 'effort', 'project', 'parentId', 'subtaskCount', 'assignee' ],
 
+            mandatory_fields: ['title'],
             disabled_fields: [],
 
             save: function(attributes, options) {

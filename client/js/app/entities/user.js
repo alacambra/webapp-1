@@ -19,9 +19,17 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
                 email: null
             },
 
-            disabled_fields: [ 'email' ],
+            mandatory_fields: ['firstName', 'lastName', 'email'],
+            disabled_fields: ['email'],
 
-            parse: function (response) {
+            get_mandatory_fields: function() {
+                if (this.isNew()) {
+                    return _.union(this.mandatory_fields, ['password', 'passwordConfirmation']);
+                }
+                return this.mandatory_fields;
+            },
+
+            parse: function(response) {
                 response = model_helper.convert_server_response(response);
 
                 return response;

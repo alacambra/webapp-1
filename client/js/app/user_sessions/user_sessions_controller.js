@@ -5,7 +5,7 @@ function (App, Entities) {
     App.module('UserSessions.Login', function (Show, App, Backbone, Marionette, $, _) {
         Show.Controller = {
             login: function () {
-                view = new Show.View();
+                view = new Show.View({ model: new Entities.UserSession() });
 
                 view.on('form:submit', function(data) {
                     var user_session = new Entities.UserSession();

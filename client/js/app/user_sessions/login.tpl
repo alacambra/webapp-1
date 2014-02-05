@@ -7,14 +7,14 @@
     <div class="form-group">
         <div class="col-sm-6 col-md-4 col-lg-3">
             <label class="control-label" for="js-user-session-username"><%= I18n.t('user_session.label.username') %></label>
-            <input id="js-user-session-username" type="text" name="username" class="form-control" data-required="true">
+            <input id="js-user-session-username" type="text" name="username" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-sm-6 col-md-4 col-lg-3">
             <label class="control-label" for="js-user-session-password"><%= I18n.t('user_session.label.password') %></label>
-            <input id="js-user-session-password" type="password" name="password" class="form-control" data-required="true">
+            <input id="js-user-session-password" type="password" name="password" class="form-control">
         </div>
     </div>
 

@@ -27,6 +27,8 @@ function(App, moment, validation_helper, regexp_tpl) {
                 fax: null
             },
 
+            mandatory_fields: ['name', 'description'],
+
             validate: function(attrs, options) {
                 return validation_helper.validate({
                     name: ['presence', ['length', { max: 40 }]],

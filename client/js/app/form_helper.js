@@ -163,9 +163,32 @@ function() {
         /**
          * Sets mandatory indicator icon for given form elements.
          *
-         * @param $mandatory_fields {object[]} - View UI elements.
+         * @param view {object} - Marionette view
+         * @param options {object} - Options to override default options.
+         * @param [options.mandatory_fields] {string[]} - List of attributes, which should be marked as required.
+         *                                                Attribute names will be converted from camelcase to underscore
+         *                                                (fooBar -> foo_bar).
+         *                                                If not given attributes will be read from model
+         *                                                mandatory_fields method.
+         *                                                Attributes must be defined as view.ui elements to be requireable.
+         * @param [options.if=true] {boolean} - Only mark fields if the condition is met.
          */
-        mark_mandatory_fields: function($mandatory_fields) {
+        mark_mandatory_fields: function(view, options) {
+            var default_options = {
+                if: true,
+                mandatory_fields: false
+            };
+
+            options = _.extend(default_options, options || {});
+
+            if (!options.if) return;
+
+            var fields = options.mandatory_fields ? options.mandatory_fields : view.model.mandatory_fields;
+
+            fields = _.map(fields, function (item) {
+                return item.underscore();
+            });
+
             var $mandatory_indicator = $('<span>', {
                 class: 'input-group-addon mandatory-indicator',
                 title: I18n.t('mandatory_field')
@@ -173,7 +196,12 @@ function() {
                 $('<span>', { class: 'glyphicon glyphicon-asterisk' })
             );
 
-            $mandatory_fields.wrap($('<div>', { class: 'input-group'})).after($mandatory_indicator);
+            _.each(fields, function (field) {
+                if (!_.isUndefined(view.ui[field])) {
+                    view.ui[field].wrap($('<div>', { class: 'input-group'})).after($mandatory_indicator.clone());
+                }
+            });
+
         }
     }
 });

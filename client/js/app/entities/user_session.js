@@ -7,6 +7,8 @@ function(App, validation_helper) {
         Entities.UserSession = Backbone.Model.extend({
             urlRoot: base_url,
 
+            mandatory_fields: ['username', 'password'],
+
             validate: function(attrs, options) {
                 return validation_helper.validate({
                     username: 'presence',

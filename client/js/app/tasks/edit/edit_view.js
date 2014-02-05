@@ -17,6 +17,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
             cssPrefix: '#js-task-',
 
             ui: {
+                title: '#js-task-title',
                 description: '#js-task-description',
                 status: '#js-task-status',
                 priority: '#js-task-priority',
@@ -26,8 +27,6 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
                 duration_slider: '#js-task-duration-slider',
                 progress: '#js-task-progress',
                 progress_slider: '#js-task-progress-slider',
-
-                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
 
                 submit_button: '#js-task-submit',
                 submit_error_msg: '#js-task-submit-error-msg',
@@ -66,7 +65,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, tasks_helper) {
 
                 form_helper.disable_fields(this, { disable_fields: disable_fields });
 
-                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
+                form_helper.mark_mandatory_fields(this);
             },
 
 

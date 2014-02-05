@@ -16,9 +16,11 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
             
             ui: {
+                first_name: '#js-user-first-name',
+                last_name: '#js-user-last-name',
                 email: '#js-user-email',
-
-                mandatory_fields: 'input[data-required="true"], textarea[data-required="true"]',
+                password: '#js-user-password',
+                password_confirmation: '#js-user-password-confirmation',
 
                 submit_button: '#js-user-submit',
                 submit_error_msg: '#js-user-submit-error-msg',
@@ -35,7 +37,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
             onRender: function () {
                 form_helper.disable_fields(this, { if: !this.model.isNew() });
 
-                form_helper.mark_mandatory_fields(this.ui.mandatory_fields);
+                form_helper.mark_mandatory_fields(this, { mandatory_fields: this.model.get_mandatory_fields() });
             },
             
 

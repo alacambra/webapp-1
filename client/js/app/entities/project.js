@@ -22,6 +22,8 @@ function(App, model_helper, validation_helper) {
                 taskCount: 0
             },
 
+            mandatory_fields: ['title'],
+
             parse: function (response, options) {
                 response = model_helper.convert_server_response(response);
 

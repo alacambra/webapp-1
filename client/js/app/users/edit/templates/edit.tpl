@@ -15,14 +15,14 @@
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-first-name"><%= I18n.t('user.label.first_name') %></label>
-                            <input id="js-user-first-name" type="text" name="firstName" value="<%= firstName %>" class="form-control" data-required="true">
+                            <input id="js-user-first-name" type="text" name="firstName" value="<%= firstName %>" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-last-name"><%= I18n.t('user.label.last_name') %></label>
-                            <input id="js-user-last-name" type="text" name="lastName" value="<%= lastName %>" class="form-control" data-required="true">
+                            <input id="js-user-last-name" type="text" name="lastName" value="<%= lastName %>" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-email"><%= I18n.t('user.label.email') %></label>
-                            <input id="js-user-email" type="text" name="email" value="<%= email %>" class="form-control" data-required="true">
+                            <input id="js-user-email" type="text" name="email" value="<%= email %>" class="form-control">
                         </div>
 
                     </div>
@@ -48,14 +48,14 @@
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-password"><%= I18n.t('user.label.password') %></label>
-                            <input id="js-user-password" type="password" name="password" class="form-control" maxlength="64" data-required="<%= is_new_action() ? 'true' : '' %>">
+                            <input id="js-user-password" type="password" name="password" class="form-control" maxlength="64">
                         </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
                             <label class="control-label" for="js-user-password-confirmation"><%= I18n.t('user.label.password_confirmation') %></label>
-                            <input id="js-user-password-confirmation" type="password" name="passwordConfirmation" class="form-control" maxlength="64" data-required="<%= is_new_action() ? 'true' : '' %>">
+                            <input id="js-user-password-confirmation" type="password" name="passwordConfirmation" class="form-control" maxlength="64">
                         </div>
                     </div>
                 </div>

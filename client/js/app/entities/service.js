@@ -15,6 +15,8 @@ function(App, moment, validation_helper) {
                 description: null
             },
 
+            mandatory_fields: ['name'],
+
             validate: function(attrs, options) {
                 return validation_helper.validate({
                     name: ['presence', ['length', { max: 40 }]],
