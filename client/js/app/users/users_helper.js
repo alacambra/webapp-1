@@ -18,6 +18,7 @@ function(view_helper) {
         unformat: function(data) {
             data.birthDate = !is_blank(data.birthDate) ? view_helper.unformat_date(data.birthDate) : null;
             if (is_blank(data.password)) delete data.password; // do not send/save an unfilled password
+            if (is_blank(data.passwordConfirmation)) delete data.passwordConfirmation; // do not send/save an unfilled passwordConfirmation
             return data;
         },
 

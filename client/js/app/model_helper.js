@@ -31,6 +31,45 @@ define(function() {
             }));
         },
 
+
+        /**
+         * Extends the Backbone save function, to remove attributes, which should not be sent to server.
+         *
+         * @param model {object} - Backbone model, whose save function should be set.
+         * @param attributes {object} - Attributes given by Backbone model save function as first paremeter.
+         * @param options {object} - Options given by Backbone model save function as first paremeter.
+         * @param [exclude_options] {object} - Options to override default getter for exclusion array.
+         * @param [exclude_options.excluded_fields=model.excluded_fields] {string[]} - List of attribute names which are excluded.
+         * @param [exclude_options.disabled_fields=model.disabled_fields] {string[]} - List of attribute names which are disabled.
+         * @returns {*}
+         */
+        save_without_excluded_attributes: function(model, attributes, options, exclude_options) {
+            attributes = attributes || {};
+
+            var default_exclude_options = {
+                excluded_fields: model.excluded_fields,
+                disabled_fields: model.disabled_fields
+            };
+
+            exclude_options = _.extend(default_exclude_options, exclude_options || {});
+
+            // filter data that is excluded or disabled from server request
+            _.each(_.union(exclude_options.excluded_fields, exclude_options.disabled_fields), function (name) {
+                delete attributes[name];
+            });
+
+            var default_options = {
+                contentType: 'application/json',
+                data: JSON.stringify(attributes)
+            };
+
+            options = _.extend(default_options, options || {});
+
+            // proxy the call to the original save function
+            return Backbone.Model.prototype.save.call(model, attributes, options);
+        },
+
+
         /**
          * Server can not store null values for attributes and is not able to easily convert them to be null values in the
          * response - so this functions takes care of this problem and must be called in every model parse function.

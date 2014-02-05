@@ -20,8 +20,19 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
             },
 
             mandatory_fields: ['firstName', 'lastName', 'email'],
-            disabled_fields: ['email'],
+            disabled_fields: [],
             max_length_fields: { password: 64, passwordConfirmation: 64 },
+
+            save: function(attributes, options) {
+                var exclude_options = { disabled_fields: this.get_disabled_fields() };
+                return model_helper.save_without_excluded_attributes(this, attributes, options, exclude_options);
+            },
+
+            parse: function(response) {
+                response = model_helper.convert_server_response(response);
+
+                return response;
+            },
 
             get_mandatory_fields: function() {
                 if (this.isNew()) {
@@ -30,10 +41,11 @@ function(App, moment, model_helper, validation_helper, regexp_tpl) {
                 return this.mandatory_fields;
             },
 
-            parse: function(response) {
-                response = model_helper.convert_server_response(response);
-
-                return response;
+            get_disabled_fields: function() {
+                if (!this.isNew()) {
+                    return _.union(this.disabled_fields, ['email']);
+                }
+                return this.disabled_fields;
             },
 
             validate: function(attrs, options) {

@@ -36,7 +36,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, users_helper) {
 
             onRender: function () {
                 form_helper.extend_fields({
-                    disable: { if: !this.model.isNew() },
+                    disable: { disable_fields: this.model.get_disabled_fields() },
                     mandatory: { mandatory_fields: this.model.get_mandatory_fields() },
                     maxlength: {}
                 }, this);

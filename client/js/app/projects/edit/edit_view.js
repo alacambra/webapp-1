@@ -103,9 +103,7 @@ function(App, edit_tpl, app_helper, view_helper, form_helper, projects_helper) {
 
                 form_helper.clear_errors(this);
 
-                var options = { exclude: this.model.disabled_fields };
-
-                var data = Backbone.Syphon.serialize(this, options);
+                var data = Backbone.Syphon.serialize(this);
                 this.trigger('form:submit', projects_helper.unformat(data));
             },
 

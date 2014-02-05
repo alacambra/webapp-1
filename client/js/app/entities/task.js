@@ -41,28 +41,10 @@ function(App, model_helper, validation_helper) {
             excluded_fields: [ 'effort', 'project', 'parentId', 'subtaskCount', 'assignee' ],
 
             mandatory_fields: ['title'],
-            disabled_fields: [],
             max_length_fields: { title: 40, description: 5000 },
 
             save: function(attributes, options) {
-                attributes = attributes || {};
-                options = options || {};
-
-                // filter data that is excluded from server request
-                _.each(this.excluded_fields, function (name) {
-                    delete attributes[name];
-                });
-
-                // filter data that is disabled and also excluded from server request
-                _.each(this.disabled_fields, function (name) {
-                    delete attributes[name];
-                });
-
-                options.contentType = 'application/json';
-                options.data = JSON.stringify(attributes);
-
-                // proxy the call to the original save function
-                return Backbone.Model.prototype.save.call(this, attributes, options);
+                return model_helper.save_without_excluded_attributes(this, attributes, options);
             },
 
             parse: function (response, options) {
@@ -90,7 +72,7 @@ function(App, model_helper, validation_helper) {
             validate: function(attrs, options) {
                 return validation_helper.validate({
                     title: ['presence', ['length', { max: this.max_length_fields.title }]],
-                    description: ['length', { max: this.max_length_fields.title }],
+                    description: ['length', { max: this.max_length_fields.description }],
                     duration: [
                         ['inclusion', { in: { min: 0, max: 60 * 24 * 365 } }], // [1, 1 year]
                         ['numericality', { allow_blank: true, only_integer: true }]

@@ -25,6 +25,10 @@ function(App, model_helper, validation_helper) {
             mandatory_fields: ['title'],
             max_length_fields: { title: 40, description: 500 },
 
+            save: function(attributes, options) {
+                return model_helper.save_without_excluded_attributes(this, attributes, options);
+            },
+
             parse: function (response, options) {
                 response = model_helper.convert_server_response(response);
 
