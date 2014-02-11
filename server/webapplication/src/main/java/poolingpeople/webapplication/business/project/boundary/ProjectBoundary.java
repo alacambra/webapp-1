@@ -85,8 +85,8 @@ public class ProjectBoundary extends AbstractBoundry{
 	public Response saveProject(String json) throws JsonParseException,
 			JsonMappingException, IOException {
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		Project Project = entityFactory.createProject(dtoProject);
-		return Response.ok().entity(mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(Project)).build();
+		Project project = entityFactory.createProject(dtoProject);
+		return Response.ok().entity(mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(project)).build();
 	}
 
 	@PUT
