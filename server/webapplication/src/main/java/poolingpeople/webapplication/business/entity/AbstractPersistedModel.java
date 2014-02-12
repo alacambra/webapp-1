@@ -1,8 +1,10 @@
 package poolingpeople.webapplication.business.entity;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +15,9 @@ import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
+import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.IndexContainer;
@@ -21,13 +25,20 @@ import poolingpeople.webapplication.business.neo4j.NodePropertyName;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.neo4j.Relations;
 import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
+import poolingpeople.webapplication.business.neo4j.UserIndexContainer;
+import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
+import poolingpeople.webapplication.business.project.entity.PersistedProject;
 
 public abstract class AbstractPersistedModel<T>{
 
 	protected Node underlyingNode;
+	
+	/*
+	 * @todo make it private
+	 */
 	protected NeoManager manager;
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;
@@ -57,14 +68,14 @@ public abstract class AbstractPersistedModel<T>{
 
 		fromDTOtoPersitedBean(dtoModel);
 		initializeVariables();
-		
+
 		isCreated = true;
 	}
 
 	private AbstractPersistedModel(PoolingpeopleObjectType objectType) throws NodeExistsException{
 		NODE_TYPE = objectType;
 	}
-	
+
 	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType){
 		this(objectType);
 		this.manager = manager;
@@ -137,7 +148,9 @@ public abstract class AbstractPersistedModel<T>{
 				beanMethod.invoke(this, dtoMethod.invoke(dto));
 
 			} catch (Exception e) {
-				throw new RuntimeException("error for method " + dtoMethod.getName() + "|" + beanMethod.getName() + ":" + e.getMessage(), e);
+				throw new RootApplicationException(
+						"error for method " + dto.getClass().getCanonicalName() + "." + dtoMethod.getName() + "|" 
+						+ this.getClass().getCanonicalName() + "." + beanMethod.getName() + ":" + e.getMessage(), e);
 			}
 
 		}
@@ -197,41 +210,55 @@ public abstract class AbstractPersistedModel<T>{
 
 	protected <P extends AbstractPersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz) {
 
-		return manager.wrapNodeInPersistenceWrapper(manager.getRelatedNode(underlyingNode, relation), clazz);
+		Node n = manager.getRelatedNode(underlyingNode, relation);
+		
+		if ( n != null ) {
+			return getPersistedObject(n, clazz);
+		}
+		
+		return null;
 
 	}
 
 	protected <P extends AbstractPersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz, Direction direction) {
 
 		Node n = manager.getRelatedNode(underlyingNode, relation, direction);
-		
+
 		if(n != null)
-			return manager.wrapNodeInPersistenceWrapper(n, clazz);
-			
+			return getPersistedObject(n, clazz);
+
 		return null;
 
 	}
 
 	protected <P> List<P> getRelatedNodes(Relations relation, Class<P> clazz, Direction direction){
 		ArrayList<P> list = new ArrayList<>();
-		return (List<P>) manager.getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation, direction), list, clazz);
+		return (List<P>) getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation, direction), list, clazz);
 	}
 
-	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass){
-//		return (List<IN>) manager.getPersistedObjects(
-//				manager.getRelatedNodes(underlyingNode, relation), 
-//				new ArrayList<IN>(), 
-//				implementationClass, 
-//				interfaceClass);
+	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
+		//		return (List<IN>) manager.getPersistedObjects(
+		//				manager.getRelatedNodes(underlyingNode, relation), 
+		//				new ArrayList<IN>(), 
+		//				implementationClass, 
+		//				interfaceClass);
 		return getRelatedNodes(relation, implementationClass, interfaceClass, null);
 	}
-	
+
 	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass, Direction direction){
-		return (List<IN>) manager.getPersistedObjects(
+		return (List<IN>) getPersistedObjects(
 				manager.getRelatedNodes(underlyingNode, relation, direction), 
 				new ArrayList<IN>(), 
 				implementationClass, 
 				interfaceClass);
+	}
+	
+	protected boolean relationExistsTo(AbstractPersistedModel<?> to,  Relations relation) {
+		return manager.relationExists(underlyingNode, to.getNode(), relation);
+	}
+	
+	protected boolean relationExistsFrom(AbstractPersistedModel<?> from,  Relations relation) {
+		return manager.relationExists(from.getNode(), underlyingNode, relation);
 	}
 
 	@Override
@@ -245,9 +272,9 @@ public abstract class AbstractPersistedModel<T>{
 	 * called when an attribute update is required. 
 	 */
 	public void updateAll(){
-		
+
 	}
-	
+
 	/**
 	 * Returns the objects that must execute an update all.
 	 * Should be overriden
@@ -256,23 +283,77 @@ public abstract class AbstractPersistedModel<T>{
 	public Set<AbstractPersistedModel<?>> loadObjectsToInform() {
 		return new HashSet<AbstractPersistedModel<?>>();
 	}
+
+	public <T extends AbstractPersistedModel<?>> T getPersistedObject(Node n, Class<T> clazz) {
+		try {
+
+			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
+			return (c.newInstance(manager, n));
+
+		} catch (Exception e) {
+			throw new RootApplicationException(e);
+		}
+	}
+
+
+	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
+		return manager.getPersistedObjects(nodes, objects, clazz);
+	}
+
+	public <IM, IN> AbstractCollection<IN> getPersistedObjects( 
+			Collection<Node> nodes, AbstractCollection<IN> objects, Class<IM> implementationClass,  Class<IN> interfaceClass ) {
+
+		return manager.getPersistedObjects(nodes, objects, implementationClass, interfaceClass);
+	}
 	
+	public <T extends AbstractPersistedModel<?>> T getPersistedObject(IndexContainer indexContainer, Class<T> clazz) {
+		IndexHits<Node> indexHits = manager.getNodes(indexContainer);
+		
+		if ( indexHits.size() == 0 ) {
+			throw new NodeNotFoundException();
+		}
+
+		if ( indexHits.size() > 1 ) {
+			throw new NotUniqueException("Too many nodes with the same index:" + indexContainer);
+		}
+
+		Node n = indexHits.getSingle();
+
+		if (n == null){
+			throw new ConsistenceException("Index found but not its entity."); 
+		}
+		
+		return getPersistedObject(n, clazz);
+	}
+
+
 	@Override
 	public String toString() {
-		
+
 		String r = "\n";
-		
+
 		for ( NodePropertyName name : NodePropertyName.values()) {
 			try {
 				r += name + ":" + underlyingNode.getProperty(name.name()).toString() + "\n";
 			} catch(NotFoundException e) {
-				
+
 			}
 		}
-		
+
 		return super.toString() + " | " + r;
 	}
 	
+	protected void removeRelationTo(AbstractPersistedModel<?> relatedObject, Relations relation) {
+		manager.removeRelation(underlyingNode, relatedObject.getNode(), relation);
+	}
+	
+	protected void removeRelationFrom(AbstractPersistedModel<?> relatedObject, Relations relation) {
+		manager.removeRelation(relatedObject.getNode(), underlyingNode, relation);
+	}
+	
+	protected void removeRelationsTo(Relations relation) {
+		manager.removeRelationsTo(underlyingNode, relation);
+	}
 }
 
 

@@ -1,6 +1,5 @@
 package poolingpeople.webapplication.business.task.entity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -47,8 +46,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	/**************** NON-INHERITABLE ATTRIBUTES *****************/
 	@Override
 	public String getTitle() {
-		return manager.getStringProperty(underlyingNode,
-				NodePropertyName.TITLE.name());
+		return getStringProperty(NodePropertyName.TITLE);
 	}
 
 	@Override
@@ -59,8 +57,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 	@Override
 	public String getDescription() {
-		return manager.getStringProperty(underlyingNode,
-				NodePropertyName.DESCRIPTION.name());
+		return getStringProperty(NodePropertyName.DESCRIPTION);
 	}
 
 	@Override
@@ -71,11 +68,8 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public TaskPriority getPriority() {
 		try {
-			return (manager.getStringProperty(underlyingNode,
-					NodePropertyName.PRIORITY.name()).equals("")) ? TaskPriority.NORMAL
-							: TaskPriority.valueOf(manager.getStringProperty(
-									underlyingNode,
-									NodePropertyName.PRIORITY.name()));
+			return (getStringProperty(	NodePropertyName.PRIORITY).equals("")) ? TaskPriority.NORMAL
+							: TaskPriority.valueOf(getStringProperty(NodePropertyName.PRIORITY));
 		} catch (NullPointerException e) {
 			return TaskPriority.LOW;
 		}
@@ -89,11 +83,9 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public TaskStatus getStatus() {
 		try {
-			return (manager.getStringProperty(underlyingNode,
-					NodePropertyName.STATUS.name()).equals("")) ? TaskStatus.NEW
-							: TaskStatus
-							.valueOf(manager.getStringProperty(underlyingNode,
-									NodePropertyName.STATUS.name()));
+			return (getStringProperty(NodePropertyName.STATUS).equals("")) ? TaskStatus.NEW
+							: TaskStatus.valueOf(getStringProperty(NodePropertyName.STATUS));
+			
 		} catch (NullPointerException e) {
 			return TaskStatus.NEW;
 		}
@@ -101,8 +93,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 	@Override
 	public void setStatus(TaskStatus status) {
-		setProperty(NodePropertyName.STATUS,
-				status.name());
+		setProperty(NodePropertyName.STATUS, status.name());
 	}
 
 	@Override
@@ -158,7 +149,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 	@Override
 	public Integer getEffort() {
-		Integer totalEffort = manager.getIntegerProperty(underlyingNode, NodePropertyName.EFFORT.name());
+		Integer totalEffort = getIntegerProperty(NodePropertyName.EFFORT);
 
 		if ( totalEffort == null) 
 			totalEffort = 0;
@@ -294,10 +285,13 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	}
 
 	@Override
+	/*
+	 * @todo: change name to removeSubtask
+	 */
 	public void removeTaskRelation(Task child) {
 
 		isParentOfChildOrException(child);
-		manager.removeRelation(underlyingNode, ((AbstractPersistedModel<Project>) child).getNode(), Relations.HAS_SUBTASK);
+		removeRelationTo((AbstractPersistedModel<?>) child, Relations.HAS_SUBTASK);
 
 	}
 
@@ -325,15 +319,15 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public Collection<Effort> getEfforts() {
 
-		Collection<Node> nodes = manager.getRelatedNodes(underlyingNode, Relations.HAS_EFFORT);
-		return manager.getPersistedObjects(nodes, new ArrayList<Effort>(), PersistedEffort.class, Effort.class);
+		Collection<Effort> efforts = getRelatedNodes(Relations.HAS_EFFORT, PersistedEffort.class, Effort.class, Direction.OUTGOING);
+		return efforts;
 
 	}
 
 	@Override
 	public void deleteEffort(Effort effort) {
 
-		if (!manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) effort).getNode(), Relations.HAS_EFFORT)) {
+		if (!relationExistsTo((AbstractPersistedModel<?>) effort, Relations.HAS_EFFORT)) {
 			throw new RelationNotFoundException();
 		}
 
@@ -345,23 +339,18 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 
 	public Project getProject() {
 
-		Node n = manager.getRelatedNode(underlyingNode, Relations.PROJECT_HAS_TASK);
-
-		if ( n != null ) {
-			return new PersistedProject(manager, n);
-		}
-
-		return null;
+		Project p = getRelatedNode(Relations.PROJECT_HAS_TASK, PersistedProject.class);
+		return p;
 	}
 
 	@Override
 	public void setAssignee(User u) {
 
-		if (manager.relationExists(((AbstractPersistedModel<?>) u).getNode(), underlyingNode, Relations.DOES)) {
+		if (relationExistsFrom((AbstractPersistedModel<?>) u, Relations.DOES)) {
 			throw new RelationAlreadyExistsException();
 		}
 
-		manager.removeRelationsTo(underlyingNode, Relations.DOES);
+		removeRelationsTo(Relations.DOES);
 		createRelationshipFrom((AbstractPersistedModel<?>) u, Relations.DOES);
 	}
 
@@ -601,7 +590,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	}
 
 	private void isParentOfChildOrException(Task child) {
-		if (!manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) child).getNode(), Relations.HAS_SUBTASK)) {
+		if (!relationExistsTo((AbstractPersistedModel<?>) child, Relations.HAS_SUBTASK)) {
 			throw new RelationNotFoundException();
 		}
 	}

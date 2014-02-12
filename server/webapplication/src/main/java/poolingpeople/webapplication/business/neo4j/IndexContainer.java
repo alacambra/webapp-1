@@ -29,6 +29,11 @@ public class IndexContainer {
 	public void setValue(Object value) {
 		this.value = value;
 	}
+	
+	@Override
+	public String toString() {
+		return type + ": " + key + ", " + value;
+	}
 }
 
 

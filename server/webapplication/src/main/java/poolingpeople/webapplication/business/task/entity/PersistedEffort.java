@@ -44,46 +44,45 @@ public class PersistedEffort extends AbstractPersistedModel<Effort> implements E
 
 	@Override
 	public Long getDate() {
-		return manager.getLongProperty(underlyingNode, NodePropertyName.DATE.name());
+		return getLongProperty(NodePropertyName.DATE);
 	}
 
 	@Override
 	public void setDate(Long date) {
-		manager.setProperty(underlyingNode, NodePropertyName.DATE.name(), date);
+		setProperty(NodePropertyName.DATE, date);
 
 	}
 
 	@Override
 	public String getComment() {
-		return manager.getStringProperty(underlyingNode, NodePropertyName.COMMENT.name());
+		return getStringProperty(NodePropertyName.COMMENT);
 	}
 
 	@Override
 	public void setComment(String comment) {
-		manager.setProperty(underlyingNode, NodePropertyName.COMMENT.name(), comment);
+		setProperty(NodePropertyName.COMMENT, comment);
 	}
 
 	@Override
 	public Integer getTime() {
-		return manager.getIntegerProperty(underlyingNode, NodePropertyName.TIME.name());
+		return getIntegerProperty(NodePropertyName.TIME);
 	}
 
 	@Override
 	public void setTime(Integer time) {
 
-		manager.setProperty(underlyingNode, NodePropertyName.TIME.name(), time);
-		Node n = manager.getRelatedNode(underlyingNode, Relations.HAS_EFFORT);
+		setProperty(NodePropertyName.TIME, time);
+		PersistedTask task = getRelatedNode(Relations.HAS_EFFORT, PersistedTask.class);
 
 		if ( !isCreated ) {
 			return;
 		}
 		
-		if ( n == null ) {
+		if ( task == null ) {
 			throw new ConsistenceException("Effort " + getId() + " has no task");
 		}
 		
-		PersistedTask persistedTask = new PersistedTask(manager, n);
-		persistedTask.updateEfforts();
+		task.updateEfforts();
 
 	}
 

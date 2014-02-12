@@ -69,70 +69,59 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 		if (underlyingNode != null) {
 			throw new RootApplicationException("Node already loaded");
 		} 
-
-		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
-
-		if ( indexHits.size() == 0 ) {
-			throw new NodeNotFoundException();
+		
+		try {
+			underlyingNode = getPersistedObject(new UserIndexContainer(email, password), this.getClass()).getNode();
+		} catch (NotUniqueException e){
+			throw new NotUniqueException("Two many user with the same email/psw", e);
 		}
-
-		if ( indexHits.size() > 1 ) {
-			throw new RootApplicationException("Too many nodes with the same email/passwords");
-		}
-
-		underlyingNode = indexHits.getSingle();
-
-		if (underlyingNode == null){
-			throw new ConsistenceException("Index found but not its entity."); 
-		}
+		
+		
 	}
 
 	@Override
 	public String getId() {
-		return manager.getStringProperty(underlyingNode, NodePropertyName.ID.name());
+		return getStringProperty(NodePropertyName.ID);
 	}
 
 	@Override
 	public String getFirstName() {
-		return manager.getStringProperty(underlyingNode, NodePropertyName.FIRSTNAME.name());
+		return getStringProperty(NodePropertyName.FIRSTNAME);
 	}
 
 	@Override
 	public void setFirstName(String firstName) {
-		manager.setProperty(underlyingNode, NodePropertyName.FIRSTNAME.name(), firstName);
+		setProperty(NodePropertyName.FIRSTNAME, firstName);
 
 	}
 
 	@Override
 	public String getEmail() {
-		return manager.getStringProperty(underlyingNode, NodePropertyName.EMAIL.name());
+		return getStringProperty(NodePropertyName.EMAIL);
 	}
 
 	private void setLoginEmail(String email) {
-		manager.setProperty(underlyingNode, NodePropertyName.EMAIL.name(), email);
+		setProperty(NodePropertyName.EMAIL, email);
 	}
 
 	@Override
 	public String getLastName() {
-		return manager.getStringProperty(underlyingNode,
-				NodePropertyName.LASTNAME.name());
+		return getStringProperty(NodePropertyName.LASTNAME);
 	}
 
 	@Override
 	public void setLastName(String description) {
-		manager.setProperty(underlyingNode,
-				NodePropertyName.LASTNAME.name(), description);
+		setProperty(NodePropertyName.LASTNAME, description);
 	}
 
 	@Override
 	public String getPassword() {
-		return manager.getStringProperty(underlyingNode, NodePropertyName.PASSWORD.name());
+		return getStringProperty(NodePropertyName.PASSWORD);
 	}
 
 	@Override
 	public void setPassword(String password) {
-		manager.setProperty(underlyingNode,
-				NodePropertyName.PASSWORD.name(), password);
+		setProperty(NodePropertyName.PASSWORD, password);
 	}
 
 	@Override
@@ -142,20 +131,18 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 	}
 
 	public void addSubtask(User child) {
-		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE,
-				((PersistedUser) child).getNodeType());
-		manager.createRelationshipTo(underlyingNode,
-				((PersistedUser) child).getNode(), Relations.IS_SUBPROJECT_OF);
+		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE, ((PersistedUser) child).getNodeType());
+		createRelationshipTo((PersistedUser) child, Relations.IS_SUBPROJECT_OF);
 	}
 	
 	@Override
 	public Long getBirthDate() {
-		return manager.getLongProperty(underlyingNode, NodePropertyName.BIRTHDATE.name());
+		return getLongProperty(NodePropertyName.BIRTHDATE);
 	}
 
 	@Override
 	public void setBirthDate(Long birthDate) {
-		manager.setProperty(underlyingNode, NodePropertyName.BIRTHDATE.name(), birthDate);
+		setProperty(NodePropertyName.BIRTHDATE, birthDate);
 	}
 	
 	@Override
@@ -165,7 +152,6 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 
 	@Override
 	protected void initializeVariables() {
-		// TODO Auto-generated method stub
 		
 	}
 }

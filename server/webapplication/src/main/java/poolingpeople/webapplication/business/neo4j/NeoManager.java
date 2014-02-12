@@ -339,7 +339,7 @@ public class NeoManager {
 
 	@Deprecated
 	/*
-	 * could happens that a pair of node hasthe same relation several times
+	 * could happens that a pair of node has the same relation several times
 	 */
 	public void removeRelation(Node from, Node to, RelationshipType type) {
 
@@ -420,19 +420,8 @@ public class NeoManager {
 			return 0L;
 		}
 	}
-
-	public <T extends AbstractPersistedModel<?>> T wrapNodeInPersistenceWrapper(Node n, Class<T> clazz) {
-		try {
-
-			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
-			return (c.newInstance(this, n));
-
-		} catch (Exception e) {
-			throw new RootApplicationException(e);
-		}
-	}
-
-
+	
+	
 	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
 
 		for ( Node n : nodes ) {

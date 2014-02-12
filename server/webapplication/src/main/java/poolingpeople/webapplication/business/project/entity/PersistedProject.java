@@ -202,14 +202,13 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public void addSubproject(Project child) {
 		Relations.IS_SUBPROJECT_OF.relationIsPossibleOrException(NODE_TYPE,
 				((PersistedProject) child).getNodeType());
-		manager.createRelationshipTo(underlyingNode,
-				((PersistedProject) child).getNode(), Relations.IS_SUBPROJECT_OF);
+		createRelationshipTo((PersistedProject) child, Relations.IS_SUBPROJECT_OF);
 	}
 
 	@Override
 	public void addTask(Task task) {
 
-		if (manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
+		if (relationExistsTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK)) {
 			throw new RelationAlreadyExistsException();
 		}
 
@@ -232,7 +231,7 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	 */
 	@Override
 	public void removeTask(Task task) {
-		if (!manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
+		if (!relationExistsTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK)) {
 			throw new RelationNotFoundException();
 		}
 
@@ -241,11 +240,11 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 
 	@Override
 	public void removeTaskRelation(Task task) {
-		if (!manager.relationExists(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK)) {
+		if (!relationExistsTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK)) {
 			throw new RelationNotFoundException();
 		}
 
-		manager.removeRelation(underlyingNode, ((AbstractPersistedModel<?>) task).getNode(), Relations.PROJECT_HAS_TASK);
+		removeRelationTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK);
 		updateAll();
 	}
 

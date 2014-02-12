@@ -20,6 +20,10 @@ public class NotUniqueException extends RootApplicationException {
 	public NotUniqueException(String message) {
 		super(message);
 	}
+	
+	public NotUniqueException(String message, Throwable e) {
+		super(message, e);
+	}
 
 	/**
      *
