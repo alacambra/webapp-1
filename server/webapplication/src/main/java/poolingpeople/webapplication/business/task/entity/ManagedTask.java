@@ -1,42 +1,23 @@
+
+
+
+
+
 package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
 import java.util.List;
 
+import poolingpeople.webapplication.business.neo4j.Inheritance.BottomObject;
+import poolingpeople.webapplication.business.neo4j.Inheritance.Inheritable;
+import poolingpeople.webapplication.business.neo4j.Inheritance.PropagationType;
+import poolingpeople.webapplication.business.neo4j.Inheritance.Slave;
+import poolingpeople.webapplication.business.neo4j.Inheritance.TopObject;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.user.entity.User;
 
-//@Labels({})
 public class ManagedTask implements Task {
 
-//	@Unique
-//	String id;
-//	String title;
-//	String description;
-//	TaskPriority priority;
-//	TaskStatus status;
-//	
-//	@Inheritable(type=InheritanceType.TopDown, bubbleTo={parent, project})
-//	Long startDate;
-//	
-//	@Inheritable(type=InheritanceType.TopDown, bubbleTo={parent, project})
-//	Long endDate;
-//	
-//	@Inheritable(type=InheritanceType.TopDown, bubbleTo={parent, project})
-//	Float progress;
-//	
-//	@Inheritable(type=InheritanceType.TopDown, bubbleTo={parent, project})
-//	Integer duration;
-//	
-//	User assigne;
-//	Task parent;
-//	Project project;
-//	
-	
-	Collection<Effort> efforts;
-	List<Task> subttasks;
-	
-	
 	@Override
 	public String getId() {
 		//proxy: this.id = neoManager.getProperty(id)
@@ -117,24 +98,28 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
+	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
 	public Long getStartDate() {
 		
 		return null;
 	}
 
 	@Override
+	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
 	public Long getEndDate() {
 		
 		return null;
 	}
 
 	@Override
+	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
 	public Float getProgress() {
 		
 		return null;
 	}
 
 	@Override
+	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
 	public Integer getDuration() {
 		
 		return null;
@@ -153,6 +138,7 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
+	@Slave
 	public Collection<Effort> getEfforts() {
 		//proxy this.efforts = excute.query
 		//return this.efforts
@@ -166,12 +152,14 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
+	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
 	public Integer getEffort() {
 		
 		return null;
 	}
 
 	@Override
+	@TopObject
 	public Project getProject() {
 		
 		return null;
@@ -250,6 +238,7 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
+	@TopObject
 	public Task getParent() {
 		
 		return null;
@@ -268,6 +257,7 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
+	@BottomObject
 	public List<Task> getSubtasks() {
 		
 		return null;
