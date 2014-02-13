@@ -1,8 +1,3 @@
-
-
-
-
-
 package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
@@ -97,29 +92,29 @@ public class ManagedTask implements Task {
 
 	}
 
-	@Override
 	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
+	@Override
 	public Long getStartDate() {
 		
 		return null;
 	}
 
-	@Override
 	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
+	@Override
 	public Long getEndDate() {
 		
 		return null;
 	}
 
-	@Override
 	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
+	@Override
 	public Float getProgress() {
 		
 		return null;
 	}
 
-	@Override
 	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
+	@Override
 	public Integer getDuration() {
 		
 		return null;
@@ -137,8 +132,8 @@ public class ManagedTask implements Task {
 
 	}
 
-	@Override
 	@Slave
+	@Override
 	public Collection<Effort> getEfforts() {
 		//proxy this.efforts = excute.query
 		//return this.efforts
@@ -151,15 +146,15 @@ public class ManagedTask implements Task {
 
 	}
 
-	@Override
 	@Inheritable(propagationType=PropagationType.BOTTOM_TOP)
+	@Override
 	public Integer getEffort() {
 		
 		return null;
 	}
 
-	@Override
 	@TopObject
+	@Override
 	public Project getProject() {
 		
 		return null;
@@ -237,8 +232,8 @@ public class ManagedTask implements Task {
 
 	}
 
-	@Override
 	@TopObject
+	@Override
 	public Task getParent() {
 		
 		return null;
@@ -256,8 +251,8 @@ public class ManagedTask implements Task {
 		return null;
 	}
 
-	@Override
 	@BottomObject
+	@Override
 	public List<Task> getSubtasks() {
 		
 		return null;
