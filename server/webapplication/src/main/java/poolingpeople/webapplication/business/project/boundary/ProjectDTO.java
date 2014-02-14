@@ -8,6 +8,7 @@ import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
 import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.entity.User;
 
 /*
  * @todo (notes for me:)
@@ -186,6 +187,18 @@ public class ProjectDTO implements Project {
 	public void removeTaskRelation(Task task) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setOwner(User owner) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public User getOwner() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

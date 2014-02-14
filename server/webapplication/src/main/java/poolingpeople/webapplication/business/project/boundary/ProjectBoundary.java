@@ -29,6 +29,7 @@ import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
 import poolingpeople.webapplication.business.task.boundary.AbstractBoundry;
+import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("projects")
 @Stateless
@@ -75,7 +76,8 @@ public class ProjectBoundary extends AbstractBoundry{
 		String r = 
 				mapper.writerWithView(JsonViews.BasicProject.class)
 				.writeValueAsString(entityFactory.getAllProject());
-		
+		entityFactory.getAllProject().get(0).getOwner();
+		entityFactory.getAllProject().get(1).getOwner();
 		return Response.ok().entity(r).build();
 	}
 
@@ -122,4 +124,82 @@ public class ProjectBoundary extends AbstractBoundry{
 		String r = mapper.writeValueAsString(persistedProject);
 		return Response.ok().entity(r).build();
 	}
+	
+	/************************************* USER - TASK *************************************/
+	@PUT 
+	@Path(idPattern + "/to/user/{userId:" + uuidRegexPattern + "}")
+	public Response assignTaskToUser(@PathParam("id") String projectId, @PathParam("userId") String userId){
+
+		User user = entityFactory.getUserById(userId);
+		Project project = entityFactory.getProjectById(projectId);
+		project.setOwner(user);
+		
+		return Response.noContent().build();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

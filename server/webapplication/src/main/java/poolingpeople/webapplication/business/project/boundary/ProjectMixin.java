@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.project.boundary;
 
 import java.util.Collection;
 
+import org.codehaus.jackson.annotate.JsonGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,6 +14,7 @@ import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.project.entity.Project;
 import poolingpeople.webapplication.business.project.entity.ProjectStatus;
 import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.entity.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectMixin implements Project{
@@ -153,7 +155,20 @@ public class ProjectMixin implements Project{
 
 	@Override
 	public void removeTaskRelation(Task task) {
-		// TODO Auto-generated method stub
 		
+		
+	}
+
+	@Override
+	@JsonIgnore
+	public void setOwner(User owner) {
+		 
+	}
+
+	@Override
+	@JsonProperty
+	@JsonView(JsonViews.BasicProject.class)
+	public User getOwner() {
+		return null;
 	}
 }

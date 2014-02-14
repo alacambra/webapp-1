@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonSetter;
 import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
@@ -57,12 +58,13 @@ public class UserMixin implements User{
 	public void setLastName(String lastname) {}
 
 	@Override
-	@JsonView(JsonViews.NeverUsed.class)
+	@JsonIgnore
 	public String getPassword() {
 		return null;
 	}
 
 	@Override
+	@JsonSetter
 	public void setPassword(String password) {}
 
 	@Override

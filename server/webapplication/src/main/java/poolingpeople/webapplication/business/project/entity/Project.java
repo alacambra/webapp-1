@@ -3,6 +3,7 @@ package poolingpeople.webapplication.business.project.entity;
 import java.util.Collection;
 
 import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public interface Project{
 	
@@ -99,6 +100,9 @@ public interface Project{
 	
 	public Integer getTaskCount();
 	void removeTaskRelation(Task task);
+	
+	public void setOwner(User owner);
+	public User getOwner();
 
 }
 

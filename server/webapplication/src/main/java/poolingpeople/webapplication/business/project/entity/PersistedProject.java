@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.project.entity;
 
+import java.security.acl.Owner;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExi
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
 import poolingpeople.webapplication.business.task.entity.PersistedTask;
 import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.user.entity.PersistedUser;
+import poolingpeople.webapplication.business.user.entity.User;
 
 public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
 
@@ -388,6 +391,22 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 		if ( getEffort() == null )
 			setEffort(DefaultValues.defaultEffort);
 		
+	}
+
+	@Override
+	public void setOwner(User owner) {
+		
+		if (relationExistsFrom((AbstractPersistedModel<?>) owner, Relations.IS_PROJECT_OWNER)) {
+			throw new RelationAlreadyExistsException();
+		}
+
+		removeRelationsTo(Relations.IS_PROJECT_OWNER);
+		createRelationshipFrom((AbstractPersistedModel<?>) owner, Relations.IS_PROJECT_OWNER);
+	}
+
+	@Override
+	public User getOwner() {
+		return getRelatedNode(Relations.IS_PROJECT_OWNER, PersistedUser.class, Direction.INCOMING);
 	}
 
 }

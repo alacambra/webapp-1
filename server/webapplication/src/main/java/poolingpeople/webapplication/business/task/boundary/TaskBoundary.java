@@ -216,7 +216,7 @@ public class TaskBoundary extends AbstractBoundry{
 		return Response.noContent().build();
 	}
 
-	/************************************* USER action TASK in  *************************************/
+	/************************************* USER - TASK *************************************/
 	@PUT 
 	@Path(idPattern + "/to/user/{userId:" + uuidRegexPattern + "}")
 	public Response assignTaskToUser(@PathParam("id") String taskId, @PathParam("userId") String userId){

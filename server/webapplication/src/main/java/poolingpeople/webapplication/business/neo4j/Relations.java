@@ -16,6 +16,10 @@ public enum Relations implements RelationshipType {
 		{PoolingpeopleObjectType.USER, PoolingpeopleObjectType.POOL}
 	})),
 	
+	IS_PROJECT_OWNER(ArrayUtils.toMap(new PoolingpeopleObjectType[][]{
+			{PoolingpeopleObjectType.USER, PoolingpeopleObjectType.PROJECT}
+		})),
+	
 	/**
 	 * A subject collaborates into a project
 	 */
