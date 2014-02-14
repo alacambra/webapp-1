@@ -5,9 +5,9 @@ import javax.inject.Inject;
 import org.neo4j.graphdb.Transaction;
 
 import poolingpeople.commons.entities.User;
+import poolingpeople.persistance.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
 import poolingpeople.webapplication.business.entity.EntityFactory;
-import poolingpeople.webapplication.business.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.user.boundary.UserDTO;
 
 public class LoggedUserContainer implements ILoggedUserContainer {

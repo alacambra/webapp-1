@@ -14,6 +14,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 
+import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 
 //TODO: test this interceptor via CDI Bean testing concept (in Sprint 1)

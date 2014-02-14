@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 import javax.ejb.Stateless;
 
+import poolingpeople.commons.entities.IgnoreAttribute;
+
 @Stateless
 public class DTOConverter {
 

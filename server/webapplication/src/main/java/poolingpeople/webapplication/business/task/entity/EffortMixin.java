@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.Effort;
-import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistance.neo4j.PoolingpeopleObjectType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EffortMixin implements Effort{

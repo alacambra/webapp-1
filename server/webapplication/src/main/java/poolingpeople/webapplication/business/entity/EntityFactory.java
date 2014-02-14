@@ -11,12 +11,13 @@ import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.entities.PersistedEffort;
-import poolingpeople.webapplication.business.neo4j.entities.PersistedProject;
-import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
-import poolingpeople.webapplication.business.neo4j.entities.PersistedUser;
-import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.persistance.neo4j.NeoManager;
+import poolingpeople.persistance.neo4j.entities.AbstractPersistedModel;
+import poolingpeople.persistance.neo4j.entities.PersistedEffort;
+import poolingpeople.persistance.neo4j.entities.PersistedProject;
+import poolingpeople.persistance.neo4j.entities.PersistedTask;
+import poolingpeople.persistance.neo4j.entities.PersistedUser;
+import poolingpeople.persistance.neo4j.exceptions.NodeNotFoundException;
 
 @Singleton
 @EntityPersistenceRollback

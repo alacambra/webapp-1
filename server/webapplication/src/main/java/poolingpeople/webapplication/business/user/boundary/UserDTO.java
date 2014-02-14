@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.utils.validation.EmailValidation;
-import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 
 public class UserDTO implements User {
 

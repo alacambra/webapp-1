@@ -7,13 +7,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.TaskPriority;
 import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
-import poolingpeople.webapplication.business.boundary.RootApplicationException;
-import poolingpeople.webapplication.business.entity.IgnoreAttribute;
+import poolingpeople.commons.exceptions.RootApplicationException;
 
 public class TaskDTO implements Task {
 

@@ -17,16 +17,16 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
+import poolingpeople.persistance.neo4j.GraphDatabaseServiceProducerTest;
+import poolingpeople.persistance.neo4j.NeoManager;
+import poolingpeople.persistance.neo4j.TransactionInterceptor;
+import poolingpeople.persistance.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
-import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.neo4j.TransactionInterceptor;
-import poolingpeople.webapplication.business.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
 import poolingpeople.webapplication.business.task.boundary.EffortBoundary;
 import poolingpeople.webapplication.business.task.boundary.TaskBoundary;
 import poolingpeople.webapplication.business.user.boundary.UserBoundary;
-import poolingpeople.webapplication.business.utils.cdi.GraphDatabaseServiceProducer;
 import poolingpeople.webapplication.business.utils.cdi.LoggedUserContainerProducer;
 import poolingpeople.webapplication.business.utils.configuration.boundary.ConfigurationProducer;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
@@ -38,7 +38,7 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 @RunWith(CdiRunner.class)
 @AdditionalClasses({
 	ObjectMapperProducer.class, 
-	GraphDatabaseServiceProducer.class, 
+	GraphDatabaseServiceProducerTest.class, 
 	TransactionInterceptor.class, 
 	CatchWebExceptionInterceptor.class,
 	ConfigurationProducer.class,

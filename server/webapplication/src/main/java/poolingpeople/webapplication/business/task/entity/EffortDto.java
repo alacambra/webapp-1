@@ -1,7 +1,7 @@
 package poolingpeople.webapplication.business.task.entity;
 
 import poolingpeople.commons.entities.Effort;
-import poolingpeople.webapplication.business.entity.IgnoreAttribute;
+import poolingpeople.commons.entities.IgnoreAttribute;
 
 public class EffortDto implements Effort{
 	

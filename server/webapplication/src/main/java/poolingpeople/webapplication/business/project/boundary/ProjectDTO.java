@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.webapplication.business.entity.IgnoreAttribute;
 
 /*
  * @todo (notes for me:)

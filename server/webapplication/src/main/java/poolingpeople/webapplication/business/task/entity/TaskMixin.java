@@ -16,8 +16,8 @@ import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.TaskPriority;
 import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
+import poolingpeople.persistance.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.boundary.JsonViews;
-import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskMixin implements Task{
