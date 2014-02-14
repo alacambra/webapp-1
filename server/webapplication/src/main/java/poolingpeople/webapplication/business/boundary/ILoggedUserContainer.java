@@ -1,6 +1,6 @@
 package poolingpeople.webapplication.business.boundary;
 
-import poolingpeople.webapplication.business.user.entity.User;
+import poolingpeople.commons.entities.User;
 
 public interface ILoggedUserContainer {
 

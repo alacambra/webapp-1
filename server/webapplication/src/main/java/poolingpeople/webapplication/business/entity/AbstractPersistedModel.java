@@ -19,6 +19,7 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedProject;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.IndexContainer;
 import poolingpeople.webapplication.business.neo4j.NodePropertyName;
@@ -30,7 +31,6 @@ import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceExcepti
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
-import poolingpeople.webapplication.business.project.entity.PersistedProject;
 
 public abstract class AbstractPersistedModel<T>{
 

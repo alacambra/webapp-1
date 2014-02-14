@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.entity;
+package poolingpeople.webapplication.business.neo4j.entities;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,6 +8,12 @@ import java.util.Set;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.TaskPriority;
+import poolingpeople.commons.entities.TaskStatus;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.DefaultValues;
@@ -20,10 +26,6 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundExcept
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
-import poolingpeople.webapplication.business.project.entity.PersistedProject;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.user.entity.PersistedUser;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public class PersistedTask extends AbstractPersistedModel<Task> implements Task {
 
@@ -94,26 +96,6 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public void setStatus(TaskStatus status) {
 		setProperty(NodePropertyName.STATUS, status.name());
-	}
-
-	@Override
-	public Integer getPriorityInteger() {
-		return getPriority().getNumber();
-	}
-
-	@Override
-	public void setPriorityInteger(Integer priority) {
-		setPriority(TaskPriority.getPriority(priority));
-	}
-
-	@Override
-	public Integer getStatusInteger() {
-		return getStatus().getNumber();
-	}
-
-	@Override
-	public void setStatusInteger(Integer status) {
-		setStatus(TaskStatus.getStatus(status));  
 	}
 
 	/**************** INHERITABLE ATTRIBUTES *****************/

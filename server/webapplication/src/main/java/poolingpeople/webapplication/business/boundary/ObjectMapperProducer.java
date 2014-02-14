@@ -5,14 +5,15 @@ import javax.enterprise.inject.Produces;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
+
+import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.project.boundary.ProjectMixin;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.boundary.EffortMixin;
-import poolingpeople.webapplication.business.task.boundary.TaskMixin;
-import poolingpeople.webapplication.business.task.entity.Effort;
-import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.task.entity.EffortMixin;
+import poolingpeople.webapplication.business.task.entity.TaskMixin;
 import poolingpeople.webapplication.business.user.boundary.UserMixin;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public class ObjectMapperProducer {
 

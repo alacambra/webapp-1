@@ -20,16 +20,16 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.ProjectStatus;
+import poolingpeople.commons.entities.User;
+import poolingpeople.webapplication.business.boundary.AbstractBoundry;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.project.entity.ProjectStatus;
-import poolingpeople.webapplication.business.task.boundary.AbstractBoundry;
-import poolingpeople.webapplication.business.user.entity.User;
 
 @Path("projects")
 @Stateless

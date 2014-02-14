@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.user.entity;
+package poolingpeople.webapplication.business.neo4j.entities;
 
 import java.util.List;
 
@@ -6,6 +6,8 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
@@ -17,8 +19,6 @@ import poolingpeople.webapplication.business.neo4j.UserIndexContainer;
 import poolingpeople.webapplication.business.neo4j.exceptions.ConsistenceException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
 
 public class PersistedUser extends AbstractPersistedModel<User> implements User {
 

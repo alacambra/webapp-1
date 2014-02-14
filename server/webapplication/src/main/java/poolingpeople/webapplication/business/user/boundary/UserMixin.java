@@ -9,10 +9,10 @@ import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserMixin implements User{

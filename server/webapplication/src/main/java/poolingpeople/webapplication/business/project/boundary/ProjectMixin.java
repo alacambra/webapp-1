@@ -2,19 +2,18 @@ package poolingpeople.webapplication.business.project.boundary;
 
 import java.util.Collection;
 
-import org.codehaus.jackson.annotate.JsonGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.ProjectStatus;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.project.entity.ProjectStatus;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectMixin implements Project{
@@ -71,18 +70,6 @@ public class ProjectMixin implements Project{
 	@JsonProperty("endDate")
 	public void setDefaultEndDate(Long endDate) {
 
-	}
-
-	@Override
-	@JsonProperty(value="status")
-	@JsonView(JsonViews.BasicProject.class)
-	public Integer getStatusInteger() {
-		return null;
-	}
-
-	@Override
-	@JsonProperty(value="status")
-	public void setStatusInteger(Integer status) {
 	}
 
 	@Override

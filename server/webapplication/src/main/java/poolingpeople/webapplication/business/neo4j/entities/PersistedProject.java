@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.project.entity;
+package poolingpeople.webapplication.business.neo4j.entities;
 
 import java.security.acl.Owner;
 import java.util.Collection;
@@ -7,6 +7,10 @@ import java.util.List;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.ProjectStatus;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.DefaultValues;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
@@ -18,10 +22,6 @@ import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundExcept
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationAlreadyExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.RelationNotFoundException;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.PersistedUser;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
 
@@ -61,16 +61,6 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	@Override
 	public void setDescription(String description) {
 		setProperty(NodePropertyName.DESCRIPTION, description);
-	}
-
-	@Override
-	public Integer getStatusInteger() {
-		return getStatus().getNumber();
-	}
-
-	@Override
-	public void setStatusInteger(Integer status) {
-		setStatus(ProjectStatus.getStatus(status));  
 	}
 
 	@Override

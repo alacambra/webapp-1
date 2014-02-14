@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.entity;
+package poolingpeople.commons.entities;
 
 public enum TaskStatus {
 	TODO(0),

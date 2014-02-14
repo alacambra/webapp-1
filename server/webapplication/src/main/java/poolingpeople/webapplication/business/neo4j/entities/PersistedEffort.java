@@ -1,8 +1,9 @@
-package poolingpeople.webapplication.business.task.entity;
+package poolingpeople.webapplication.business.neo4j.entities;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.Effort;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.AbstractPersistedModel;
 import poolingpeople.webapplication.business.neo4j.NeoManager;

@@ -1,12 +1,11 @@
-package poolingpeople.webapplication.business.task.boundary;
+package poolingpeople.webapplication.business.task.entity;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.Effort;
 import poolingpeople.webapplication.business.neo4j.PoolingpeopleObjectType;
-import poolingpeople.webapplication.business.task.entity.Effort;
-import poolingpeople.webapplication.business.task.entity.Task;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EffortMixin implements Effort{

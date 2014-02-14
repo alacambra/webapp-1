@@ -17,10 +17,10 @@ import org.junit.Test;
 import org.neo4j.graphdb.Transaction;
 
 import static org.junit.Assert.*;
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.User;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
 public class TaskBoundaryTest extends AbstractBoundryTest{

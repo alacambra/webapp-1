@@ -1,10 +1,7 @@
-package poolingpeople.webapplication.business.task.entity;
+package poolingpeople.commons.entities;
 
 import java.util.Collection;
 import java.util.List;
-
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public interface Task{
 	
@@ -27,17 +24,9 @@ public interface Task{
 	 */
 	TaskPriority getPriority();
 	
-	Integer getPriorityInteger();
-	
-	void setPriorityInteger(Integer priority);
-
 	void setPriority(TaskPriority priority);
 
 	TaskStatus getStatus();
-	
-	Integer getStatusInteger();
-
-	void setStatusInteger(Integer status);
 	
 	void setStatus(TaskStatus status);
 

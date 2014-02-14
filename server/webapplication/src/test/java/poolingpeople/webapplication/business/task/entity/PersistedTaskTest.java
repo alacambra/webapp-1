@@ -4,13 +4,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
 import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
-import poolingpeople.webapplication.business.project.entity.PersistedProject;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.boundary.EffortDto;
-import poolingpeople.webapplication.business.task.boundary.TaskDTO;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedEffort;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedProject;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
 
 public class PersistedTaskTest extends AbstractPersitanceTest{
 	

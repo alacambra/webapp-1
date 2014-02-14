@@ -20,13 +20,13 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.test.TestGraphDatabaseFactory;
 
+import poolingpeople.commons.entities.Task;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedEffort;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeExistsException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.webapplication.business.neo4j.exceptions.NotUniqueException;
-import poolingpeople.webapplication.business.task.boundary.TaskDTO;
-import poolingpeople.webapplication.business.task.entity.PersistedEffort;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 public class NeoManagerTest {
 

@@ -10,7 +10,7 @@ import org.neo4j.graphdb.Node;
 
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
-import poolingpeople.webapplication.business.project.entity.PersistedProject;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedProject;
 
 @Path("help")
 @Stateless

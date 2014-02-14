@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.ProjectStatus;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.project.entity.ProjectStatus;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.User;
 
 /*
  * @todo (notes for me:)
@@ -99,17 +99,6 @@ public class ProjectDTO implements Project {
 	@Override
 	public void setDefaultEndDate(Long endDate) {
 		this.endDate = endDate;
-	}
-
-	@Override
-	@JsonProperty(value="status")
-	public Integer getStatusInteger() {
-		return status;
-	}
-
-	@Override
-	public void setStatusInteger(Integer status) {
-		this.status = status;
 	}
 
 	@Override

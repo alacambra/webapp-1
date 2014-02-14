@@ -1,9 +1,6 @@
-package poolingpeople.webapplication.business.project.entity;
+package poolingpeople.commons.entities;
 
 import java.util.Collection;
-
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public interface Project{
 	
@@ -18,18 +15,11 @@ public interface Project{
 	void setDescription(String description);
 	
 	/**
-	 * Return an integer representing the current status
-	 * @return
-	 */
-	Integer getStatusInteger();
-	
-	/**
 	 * Return the status as enumeration
 	 * @return
 	 */
 	ProjectStatus getStatus();
 	void setStatus(ProjectStatus status);
-	void setStatusInteger(Integer status);
 	
 	/**
 	 * When the project begins. It can be given manually but if a child or more exists the smaller of all dates will be taken  

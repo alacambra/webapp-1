@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.entity;
+package poolingpeople.commons.entities;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,8 +8,6 @@ import poolingpeople.webapplication.business.neo4j.Inheritance.Inheritable;
 import poolingpeople.webapplication.business.neo4j.Inheritance.PropagationType;
 import poolingpeople.webapplication.business.neo4j.Inheritance.Slave;
 import poolingpeople.webapplication.business.neo4j.Inheritance.TopObject;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public class ManagedTask implements Task {
 
@@ -51,18 +49,6 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
-	public Integer getPriorityInteger() {
-		
-		return null;
-	}
-
-	@Override
-	public void setPriorityInteger(Integer priority) {
-		
-
-	}
-
-	@Override
 	public void setPriority(TaskPriority priority) {
 		
 
@@ -72,18 +58,6 @@ public class ManagedTask implements Task {
 	public TaskStatus getStatus() {
 		
 		return null;
-	}
-
-	@Override
-	public Integer getStatusInteger() {
-		
-		return null;
-	}
-
-	@Override
-	public void setStatusInteger(Integer status) {
-		
-
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.boundary;
+package poolingpeople.webapplication.business.boundary;
 
 public class AbstractBoundry {
 

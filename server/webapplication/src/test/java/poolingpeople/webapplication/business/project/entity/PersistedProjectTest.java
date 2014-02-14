@@ -3,13 +3,15 @@ package poolingpeople.webapplication.business.project.entity;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.entity.AbstractPersitanceTest;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedProject;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.project.boundary.ProjectDTO;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
 import poolingpeople.webapplication.business.user.boundary.UserDTO;
-import poolingpeople.webapplication.business.user.entity.PersistedUser;
-import poolingpeople.webapplication.business.user.entity.User;
 
 
 public class PersistedProjectTest extends AbstractPersitanceTest{

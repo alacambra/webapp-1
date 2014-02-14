@@ -22,6 +22,10 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
+import poolingpeople.webapplication.business.boundary.AbstractBoundry;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
@@ -29,10 +33,8 @@ import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.User;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 @Path("tasks")
 @Stateless

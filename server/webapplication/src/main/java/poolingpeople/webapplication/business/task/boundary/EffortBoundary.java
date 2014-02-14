@@ -1,6 +1,7 @@
 package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -19,12 +20,14 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.Task;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.task.entity.Effort;
-import poolingpeople.webapplication.business.task.entity.Task;
+import poolingpeople.webapplication.business.task.entity.EffortDto;
+import poolingpeople.webapplication.business.task.entity.EffortMixin;
 
 @Path("tasks/{taskId:[\\w\\d-]+}/efforts/")
 @Stateless

@@ -21,7 +21,8 @@ import org.mockito.MockitoAnnotations;
 
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
+import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 public class TaskBoundaryOldTest {
 

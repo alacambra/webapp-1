@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.task.boundary;
+package poolingpeople.webapplication.business.task.entity;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.TaskPriority;
+import poolingpeople.commons.entities.TaskStatus;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.boundary.RootApplicationException;
 import poolingpeople.webapplication.business.entity.IgnoreAttribute;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.entity.Effort;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.task.entity.TaskPriority;
-import poolingpeople.webapplication.business.task.entity.TaskStatus;
-import poolingpeople.webapplication.business.user.entity.User;
 
 public class TaskDTO implements Task {
 
@@ -105,29 +105,6 @@ public class TaskDTO implements Task {
 	@IgnoreAttribute
 	@Override
 	public void setStatus(TaskStatus status) {
-	}
-
-	@Override
-	@JsonProperty(value="priority")
-	public Integer getPriorityInteger() {
-		return priority;
-	}
-
-	@Override
-	@JsonProperty(value="priority")
-	public void setPriorityInteger(Integer priority) {
-		this.priority = priority;
-	}
-
-	@Override
-	@JsonProperty(value="status")
-	public Integer getStatusInteger() {
-		return status;
-	}
-
-	@Override
-	public void setStatusInteger(Integer status) {
-		this.status = status;
 	}
 
 	@Override

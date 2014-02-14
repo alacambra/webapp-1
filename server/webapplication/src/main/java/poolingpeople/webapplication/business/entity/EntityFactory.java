@@ -7,16 +7,16 @@ import java.util.Set;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.neo4j.NeoManager;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedEffort;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedProject;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedTask;
+import poolingpeople.webapplication.business.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.neo4j.exceptions.NodeNotFoundException;
-import poolingpeople.webapplication.business.project.entity.PersistedProject;
-import poolingpeople.webapplication.business.project.entity.Project;
-import poolingpeople.webapplication.business.task.entity.Effort;
-import poolingpeople.webapplication.business.task.entity.PersistedEffort;
-import poolingpeople.webapplication.business.task.entity.PersistedTask;
-import poolingpeople.webapplication.business.task.entity.Task;
-import poolingpeople.webapplication.business.user.entity.PersistedUser;
-import poolingpeople.webapplication.business.user.entity.User;
 
 @Singleton
 @EntityPersistenceRollback

@@ -1,11 +1,9 @@
-package poolingpeople.webapplication.business.user.entity;
+package poolingpeople.commons.entities;
 
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import poolingpeople.webapplication.business.task.entity.Task;
 
 public interface User {
 	
