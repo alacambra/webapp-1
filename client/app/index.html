@@ -32,12 +32,9 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <ul class="nav navbar-nav">
-            <li ng-class="{ active: $state.current.name === 'main' }">
-                <a ui-sref="main">Home</a>
-            </li>
-            <li ng-class="{ active: $state.current.name === 'users' }">
-                <a ui-sref="users">Users</a>
-            </li>
+			<li ng-repeat="state in $state.get()" ng-class="{ active: $state.current.name === state.name }" ng-if="state.navbar">
+				<a ui-sref="{{ state.name }}" class="capitalize">{{ state.name }}</a>
+			</li>
         </ul>
     </div>
 </nav>
@@ -64,6 +61,8 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/users.js"></script>
+<script src="scripts/controllers/tasks.js"></script>
+<script src="scripts/controllers/projects.js"></script>
 <!-- endbuild -->
 </body>
 </html>
