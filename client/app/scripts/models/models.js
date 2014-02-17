@@ -1,6 +1,10 @@
 (function () {
 	'use strict';
 
+	/*
+	 -------------------- MODS --------------------
+	 */
+
 	var cidCounter = 0;
 
 	var idMod = stampit().enclose(function () {
@@ -71,21 +75,29 @@
 		}
 	});
 
+	/*
+	 -------------------- FACTORIES --------------------
+	 */
+
 	window.factory = {};
 
+	/**
+	 * Factory that produces user instances.
+	 */
 	factory.user = stampit.compose(idMod, userMod).methods({
-		url: '/users',
-
 		isValid: function () {
 			var validFirstName = !_.isNull(this.firstName),
 				validLastName = !_.isNull(this.lastName),
 				validBirthday = !_.isNull(this.birthday),
-				validEmail = !_.isNull(this.email);
+				validEmail = this.email && this.email.search(/^.+@.+\.\w+$/) === 0;
 
 			return validFirstName && validLastName && validBirthday && validEmail;
 		}
 	});
 
+	/**
+	 * Factory that produces task instances.
+	 */
 	factory.task = stampit.compose(idMod, processMod).methods({
 		getUrl: function () {
 			if (this.isNew()) {
@@ -95,6 +107,9 @@
 		}
 	});
 
+	/**
+	 * Factory that produces project instances.
+	 */
 	factory.project = stampit.compose(idMod, processMod).methods({
 		getUrl: function () {
 			if (this.isNew()) {
@@ -104,6 +119,9 @@
 		}
 	});
 
+	/**
+	 * Factory that produces effort instances.
+	 */
 	factory.effort = stampit.compose(idMod, effortMod);
 
 }());

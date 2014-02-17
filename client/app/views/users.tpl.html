@@ -30,6 +30,61 @@
 
 	<div class="row">
 		<div class="col-sm-6">
+			<form name="newUserForm" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="firstNameInput" class="col-sm-4 control-label">First Name</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="firstNameInput" name="firstName" placeholder="First Name" ng-model="newUser.firstName" ng-minlength="3" ng-maxlength="20" required="">
+					</div>
+					<div class="error" ng-show="newUserForm.firstName.$dirty && newUserForm.firstName.$invalid">
+						<small class="error" ng-show="newUserForm.firstName.$error.required">First Name is required</small>
+						<small class="error" ng-show="newUserForm.firstName.$error.minlength">First Name is required to be at least 3 characters</small>
+						<small class="error" ng-show="newUserForm.firstName.$error.maxlength">First Name can't be longer than 20 characters</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="lastNameInput" class="col-sm-4 control-label">Last Name</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="lastNameInput" name="lastName" placeholder="Last Name" ng-model="newUser.lastName" ng-minlength="3" ng-maxlength="20" required="">
+					</div>
+					<div class="error" ng-show="newUserForm.lastName.$dirty && newUserForm.lastName.$invalid">
+						<small class="error" ng-show="newUserForm.lastName.$error.required">First Name is required</small>
+						<small class="error" ng-show="newUserForm.lastName.$error.minlength">First Name is required to be at least 3 characters</small>
+						<small class="error" ng-show="newUserForm.lastName.$error.maxlength">First Name can't be longer than 20 characters</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="birthdayInput" class="col-sm-4 control-label">Birthday</label>
+					<div class="col-sm-8">
+						<input datepicker-popup="dd.MM.yyyy" class="form-control" id="birthdayInput" name="birthday" placeholder="Birthday" ng-model="newUser.birthday">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="emailInput" class="col-sm-4 control-label">Email</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="emailInput" name="email" placeholder="Email" ng-model="newUser.email" required="">
+					</div>
+					<div class="error" ng-show="newUserForm.email.$dirty && newUserForm.email.$invalid">
+						<small class="error" ng-show="newUserForm.email.$error.required">Email is required</small>
+						<small class="error" ng-show="newUserForm.email.$error.email">Email is not valid</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-8">
+						<button type="button" class="btn btn-default" ng-click="addNewUser()" ng-disabled="newUserForm.$invalid">New User</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-sm-6">
+			<pre>{{ newUser | json }}</pre>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row">
+		<div class="col-sm-6">
 			<pre>{{ thomas | json }}</pre>
 		</div>
 		<div class="col-sm-6">

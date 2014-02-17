@@ -6,6 +6,15 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
   text-transform: capitalize;
 }
 
+input.ng-dirty.ng-invalid {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.error {
+  color: #ff0000;
+}
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;

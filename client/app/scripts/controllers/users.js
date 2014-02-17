@@ -22,6 +22,18 @@
 					$scope.users.push(user);
 				}
 
+				$scope.addNewUser = function () {
+					if ($scope.newUser.birthday) {
+						$scope.newUser.birthday = moment($scope.newUser.birthday).unix();
+					}
+					$scope.users.push($scope.newUser);
+					$scope.newUser = null;
+				};
+
+				$scope.log = function () {
+					$log.log(newUserForm);
+				};
+
 				$scope.thomas = factory.user({
 					firstName: 'Thomas',
 					lastName: 'Stern',
