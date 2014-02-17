@@ -1,13 +1,5 @@
-.grunt
-.idea
-_SpecRunner.html
-/.project
-/.settings
-.sass-cache
-npm-debug.log
-node_modules/*
-js/config.js
-css/base.css
-script/pull_and_sass.ini
+node_modules
 dist
-doc
+.tmp
+.sass-cache
+app/bower_components
