@@ -9,11 +9,11 @@
 
 		.config(['$stateProvider', '$urlRouterProvider',
 			function ($stateProvider, $urlRouterProvider) {
-				var mainState = {
-						url: '/main',
-						name: 'main',
-						templateUrl: 'views/main.tpl.html',
-						controller: 'MainCtrl',
+				var homeState = {
+						url: '/home',
+						name: 'home',
+						templateUrl: 'views/home.tpl.html',
+						controller: 'HomeCtrl',
 						navbar: true
 					},
 					usersState = {
@@ -38,9 +38,9 @@
 						navbar: true
 					};
 
-				$urlRouterProvider.otherwise('/main');
+				$urlRouterProvider.otherwise(homeState.url);
 
-				$stateProvider.state(mainState);
+				$stateProvider.state(homeState);
 				$stateProvider.state(usersState);
 				$stateProvider.state(tasksState);
 				$stateProvider.state(projectsState);
