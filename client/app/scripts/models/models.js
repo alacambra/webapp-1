@@ -74,12 +74,7 @@
 	window.factory = {};
 
 	factory.user = stampit.compose(idMod, userMod).methods({
-		getUrl: function () {
-			if (this.isNew()) {
-				return '/users';
-			}
-			return '/users/' + this.getId();
-		},
+		url: '/users',
 
 		isValid: function () {
 			var validFirstName = !_.isNull(this.firstName),

@@ -1,1 +1,30 @@
-<h1>{{ title }}</h1>
+<div>
+	<h1>{{ title }}</h1>
+
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Priority</th>
+			<th>Start</th>
+			<th>End</th>
+			<th>Duration</th>
+			<th>Progress</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="task in tasks">
+			<td>{{ task.title }}</td>
+			<td>{{ task.description }}</td>
+			<td>{{ task.status }}</td>
+			<td>{{ task.priority }}</td>
+			<td>{{ task.startDate * 1000 | date:'yyyy-MM-dd' }}</td>
+			<td>{{ task.endDate * 1000 | date:'yyyy-MM-dd' }}</td>
+			<td>{{ task.duration }}</td>
+			<td>{{ task.progress }}</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

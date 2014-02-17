@@ -1,1 +1,83 @@
-<h1>{{ title }}</h1>
+<div>
+	<h1>{{ title }}</h1>
+
+	<table class="table">
+		<thead>
+		<tr>
+			<th>ID</th>
+			<th>Client ID</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Birthday</th>
+			<th>Email</th>
+			<th>Resource</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="user in users">
+			<td>{{ user.getId() }}</td>
+			<td>{{ user.getClientId() }}</td>
+			<td>{{ user.firstName }}</td>
+			<td>{{ user.lastName }}</td>
+			<td>{{ user.birthday * 1000 | date:'yyyy-MM-dd' }}</td>
+			<td>{{ user.email }}</td>
+			<td>{{ user.getUrl() }}</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<hr />
+
+	<div class="row">
+		<div class="col-sm-6">
+			<pre>{{ thomas | json }}</pre>
+		</div>
+		<div class="col-sm-6">
+			<pre>{{ johnny | json }}</pre>
+		</div>
+	</div>
+
+	<div class="row">
+		<h5 class="col-sm-6">
+			thomas (instance)
+		</h5>
+		<h5 class="col-sm-6">
+			johnny (instance)
+		</h5>
+	</div>
+
+	<div class="row">
+		<ul class="col-sm-6 list-group">
+			<li ng-repeat="(key, val) in thomas" class="list-group-item">
+				<b>{{ key }}</b> <span style="color: orange">{{ print(val) }}</span>
+			</li>
+		</ul>
+		<ul class="col-sm-6 list-group">
+			<li ng-repeat="(key, val) in johnny" class="list-group-item">
+				<b>{{ key }}</b> <span style="color: orange">{{ print(val) }}</span>
+			</li>
+		</ul>
+	</div>
+
+	<div class="row">
+		<h5 class="col-sm-6">
+			thomas (prototype)
+		</h5>
+		<h5 class="col-sm-6">
+			johnny (prototype)
+		</h5>
+	</div>
+
+	<div class="row">
+		<ul class="col-sm-6 list-group">
+			<li ng-repeat="(key, val) in thomas.__proto__" class="list-group-item">
+				<b>{{ key }}</b> <span style="color: orange">{{ val }}</span>
+			</li>
+		</ul>
+		<ul class="col-sm-6 list-group">
+			<li ng-repeat="(key, val) in johnny.__proto__" class="list-group-item">
+				<b>{{ key }}</b> <span style="color: orange">{{ val }}</span>
+			</li>
+		</ul>
+	</div>
+</div>
