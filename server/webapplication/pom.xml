@@ -44,12 +44,12 @@
 		<dependency>
 			<groupId>poolingpeople</groupId>
 			<artifactId>commons</artifactId>
-			<version>${project.version}</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>poolingpeople.persistance</groupId>
 			<artifactId>neo4j</artifactId>
-			<version>${project.version}</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
