@@ -13,6 +13,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.graphdb.Transaction;
 
@@ -77,6 +78,7 @@ public class TaskBoundaryTest extends AbstractBoundryTest{
 	}
 
 	@Test
+	@Ignore
 	public void testUpdateTask() throws Exception {
 
 		String title = "title under test";
