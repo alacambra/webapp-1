@@ -4,10 +4,10 @@
 	<groupId>poolingpeople.persistance</groupId>
 	<artifactId>neo4j</artifactId>
 	<parent>
-        <artifactId>parent</artifactId>
-        <groupId>poolingpeople</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+		<artifactId>parent</artifactId>
+		<groupId>poolingpeople</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>org.neo4j</groupId>
@@ -30,8 +30,7 @@
 		<dependency>
 			<groupId>poolingpeople</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
