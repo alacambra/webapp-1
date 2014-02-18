@@ -1,10 +1,66 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Poolingpeople</h1>
-    </body>
+
+<head>
+<script data-require="angular.js@*" data-semver="1.2.0-rc3-nonmin"
+        src="http://code.angularjs.org/1.2.0-rc.3/angular.js"></script>
+<script src="app.js"></script>
+<link data-require="bootstrap-css@*" data-semver="3.0.0"
+        rel="stylesheet"
+        href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+</head>
+
+<body ng-app="main" ng-init="output">
+        <div ng-controller="FormCtrl" ng-init="action = 'users'">
+                <form action="{{ action }}">
+                        <h2>User</h2>
+                        <input type="text" ng-model="formData.firstName"
+                                placeholder="firstName" /> <input type="text"
+                                ng-model="formData.lastName" placeholder="lastName" /> <input
+                                type="text" ng-model="formData.email" placeholder="email" /> <input
+                                type="text" ng-model="formData.password" placeholder="password" />
+                        <!--             <input type="date" ng-model="formData.birthDate" placeholder="birthDate" /> -->
+                        <input type="button" ng-click="submit()" value="Submit" />
+                </form>
+                <button ng-click="getData()">USERS</button>
+                <pre>resource = {{output | json}}</pre>
+        </div>
+        <div ng-controller="FormCtrl" ng-init="action = 'projects'">
+                <form action="{{ action }}">
+                        <h2>Project</h2>
+                        <input type="text" ng-model="formData.title" placeholder="title" />
+                        <input type="text" ng-model="formData.description"
+                                placeholder="description" /> <input type="text"
+                                ng-model="formData.priority" placeholder="priority" /> <input
+                                type="text" ng-model="formData.status" placeholder="status" /> <input
+                                type="text" ng-model="formData.progress" placeholder="progress" />
+                        <input type="calendar" ng-model="formData.start" placeholder="start" />
+                        <input type="calendar" ng-model="formData.end" placeholder="end" />
+                        <input type="text" ng-model="formData.estimatedDuration"
+                                placeholder="estimatedDuration" /> <input type="button"
+                                ng-click="submit()" value="Submit" />
+                </form>
+                <button ng-click="getData()">PROJECTS</button>
+                <pre>resource = {{output | json}}</pre>
+        </div>
+        <div ng-controller="FormCtrl" ng-init="action = 'tasks'">
+                <form action="{{ action }}">
+                        <h2>Task</h2>
+                        <input type="text" ng-model="formData.title" placeholder="title" />
+                        <input type="text" ng-model="formData.description"
+                                placeholder="description" /> <input type="text"
+                                ng-model="formData.priority" placeholder="priority" /> <input
+                                type="text" ng-model="formData.status" placeholder="status" /> <input
+                                type="text" ng-model="formData.progress" placeholder="progress" />
+                        <input type="calendar" ng-model="formData.start" placeholder="start" />
+                        <input type="calendar" ng-model="formData.end" placeholder="end" />
+                        <input type="text" ng-model="formData.estimatedDuration"
+                                placeholder="estimatedDuration" /> <input type="button"
+                                ng-click="submit()" value="Submit" />
+                </form>
+                <button ng-click="getData()">TASKS</button>
+                <pre>resource = {{output | json}}</pre>
+        </div>
+
+</body>
 </html>
