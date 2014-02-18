@@ -12,7 +12,7 @@ import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.persistance.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

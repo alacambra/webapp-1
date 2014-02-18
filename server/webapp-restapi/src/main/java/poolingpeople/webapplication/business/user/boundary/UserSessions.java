@@ -14,7 +14,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import poolingpeople.persistance.neo4j.Neo4jTransaction;
+import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;

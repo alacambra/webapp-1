@@ -22,7 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Task;
-import poolingpeople.persistance.neo4j.Neo4jTransaction;
+import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.entity.EntityFactory;

@@ -8,7 +8,7 @@
   <name>poolingpeople</name>
   <modules>
     <module>webapp-restapi</module>
-    <module>neo4j</module>
+    <module>persistence/neo4j</module>
     <module>shared</module>
     <module>poolingpeople-application</module>
   </modules>

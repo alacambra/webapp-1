@@ -9,7 +9,7 @@ import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.persistance.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserMixin implements User{

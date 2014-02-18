@@ -8,9 +8,10 @@ import javax.ws.rs.core.Response;
 
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.persistance.neo4j.Neo4jTransaction;
-import poolingpeople.persistance.neo4j.NeoManager;
-import poolingpeople.persistance.neo4j.entities.PersistedProject;
+import poolingpeople.persistence.neo4j.Neo4jTransaction;
+import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.entities.PersistedProject;
+
 
 @Path("help")
 @Stateless

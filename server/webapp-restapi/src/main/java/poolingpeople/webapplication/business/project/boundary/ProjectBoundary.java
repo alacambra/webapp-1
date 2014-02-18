@@ -23,7 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.User;
-import poolingpeople.persistance.neo4j.Neo4jTransaction;
+import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AbstractBoundry;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
