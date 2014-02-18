@@ -17,7 +17,6 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
-	<link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
@@ -30,13 +29,17 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
     <div class="container">
         <ul class="nav navbar-nav">
 			<li ng-repeat="state in $state.get()" ng-class="{ active: $state.current.name === state.name }" ng-if="state.navbar">
 				<a ui-sref="{{ state.name }}" class="capitalize">{{ state.name }}</a>
 			</li>
         </ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li ng-hide="loggedIn()"><button class="btn btn-default navbar-btn" ng-click="logIn()">Log In</button></li>
+			<li ng-show="loggedIn()"><button class="btn btn-default navbar-btn" ng-click="logOut()">Log Out</button></li>
+		</ul>
     </div>
 </nav>
 
@@ -50,21 +53,23 @@
 
 <!-- build:js scripts/vendor.js -->
 <!-- bower:js -->
-<script src="bower_components/jquery/jquery.js"></script>
 <script src="bower_components/underscore/underscore.js"></script>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/momentjs/moment.js"></script>
+<script src="bower_components/stampit/dist/stampit.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-ui-bootstrap/src/position/position.js"></script>
 <script src="bower_components/angular-ui-bootstrap/src/datepicker/datepicker.js"></script>
 <script src="bower_components/angular-ui-bootstrap/src/modal/modal.js"></script>
-<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
-<script src="bower_components/stampit/dist/stampit.js"></script>
-<script src="bower_components/momentjs/moment.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/models/models.js"></script>
+<script src="scripts/controllers/nav.js"></script>
 <script src="scripts/controllers/home.js"></script>
 <script src="scripts/controllers/users.js"></script>
 <script src="scripts/controllers/tasks.js"></script>

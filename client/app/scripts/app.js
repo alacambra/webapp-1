@@ -2,7 +2,7 @@
 	'use strict';
 
 	var dependencies = [
-//		'ui.bootstrap',
+		'ui.bootstrap.datepicker',
 		'ui.router'
 	];
 
