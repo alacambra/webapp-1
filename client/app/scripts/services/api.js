@@ -5,6 +5,8 @@
 
         .service('API', function($q, $http) {
 
+			var baseUrl = '/webapplication/rest';
+
             var serialize = function(obj) {
               var str = [];
               for(var p in obj)

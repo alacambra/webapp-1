@@ -108,7 +108,7 @@
                 },
 
                 getProjects: function() {
-                    return DataSources[getDataSource()].getProjects(id);
+                    return DataSources[getDataSource()].getProjects();
                 },
 
                 createProject: function(data) {

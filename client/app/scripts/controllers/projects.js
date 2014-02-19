@@ -3,8 +3,13 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ProjectsCtrl', ['$scope', '$modal', '$log',
-			function ($scope, $modal, $log) {
+		.controller('ProjectsCtrl', ['$scope', '$modal', '$log', 'DataProvider',
+			function ($scope, $modal, $log, DataProvider) {
+
+				var x = DataProvider.getProjects();
+				x.then(function (projects) {
+					$log.log(projects);
+				});
 
 				var openProjectModal = function (project) {
 					var modalInstance = $modal.open({
