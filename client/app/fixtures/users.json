@@ -1,0 +1,37 @@
+[
+	{
+		"id": "u001",
+		"firstName": "Anton",
+		"lastName": "Alpha",
+		"birthday": 262908000000,
+		"email": "anton@alpha.com"
+	},
+	{
+		"id": "u002",
+		"firstName": "Berta",
+		"lastName": "Bravo",
+		"birthday": -89686800000,
+		"email": "berta@bravo.com"
+	},
+	{
+		"id": "u003",
+		"firstName": "Cäsar",
+		"lastName": "Charlie",
+		"birthday": 377823600000,
+		"email": "cäsar@charlie.com"
+	},
+	{
+		"id": "u004",
+		"firstName": "Dora",
+		"lastName": "Delta",
+		"birthday": 687600000,
+		"email": "dora@delta.com"
+	},
+	{
+		"id": "u005",
+		"firstName": "Emil",
+		"lastName": "Echo",
+		"birthday": 678405600000,
+		"email": "emil@echo.com"
+	}
+]
