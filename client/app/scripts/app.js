@@ -3,7 +3,8 @@
 
 	var dependencies = [
 		'ui.bootstrap',
-		'ui.router'
+		'ui.router',
+		'ngCookies'
 	];
 
 	angular.module('poolingpeopleApp', dependencies)
