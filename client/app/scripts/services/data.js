@@ -7,14 +7,15 @@
 
             var DataSources = {API:API}
 
-            var getDataSource = function() {
-                return "API";
+            var getDataSource = function(key) {
+                return DataSources["API"];
             }
 
-            return {
+            var API = {
                 
                 getUser: function(id) {
-                    return DataSources[getDataSource()].getUser(id);
+                    var key = this.name + "/" + id;
+                    return getDataSource(key).getUser(id);
                 },
 
                 getUsers: function() {
@@ -131,8 +132,49 @@
 
                 assignProjectToUser: function(idProject, idUser) {
                     return DataSources[getDataSource()].assignProjectToUser(idProject, idUser);
-                },
+                }
+            };
+
+
+            Function.prototype.createInterceptor = function createInterceptor(fn) {
+
             }
+
+            /*********************************************************************************************************************/
+
+            Function.prototype.createInterceptor = function createInterceptor(fn) {
+                var scope = {},
+                    original = this; //<-- add this
+                return function () {
+                    if (fn.apply(scope, arguments)) {
+                        return original.apply(scope, arguments);
+                    }
+                    else {
+                        return null;
+                    }
+                };
+            };
+            var interceptMe = function cube(x) {
+                console.info(x);
+                return Math.pow(x, 3);
+            };
+
+            var cube = interceptMe.createInterceptor(function (x) {
+                return typeof x === "number";
+            });
+
+            /*********************************************************************************************************************/
+
+
+            for (var k in API) {
+                if(API.hasOwnProperty(k)){
+                    k.createInterceptor(function (){
+//                        return k.arguments;
+                    })
+                }
+            }
+
+            return API;
     });
 
 }());
