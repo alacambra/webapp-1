@@ -3,9 +3,9 @@
 
     angular.module('poolingpeopleApp')
 
-        .service('DataProvider', function(API, Cache) {
+        .service('DataProvider', function(API) {
 
-            var DataSources = {API:API, Cache: Cache}
+            var DataSources = {API:API}
 
             var getDataSource = function() {
                 return "API";
