@@ -6,9 +6,12 @@
 		.controller('ProjectsCtrl', ['$scope', '$modal', '$log', 'DataProvider',
 			function ($scope, $modal, $log, DataProvider) {
 
-				var x = DataProvider.getProjects();
-				x.then(function (projects) {
-					$log.log(projects);
+				$scope.checkedItems = {};
+
+				$scope.projects = [];
+
+				DataProvider.getProjects().then(function (projects) {
+					$scope.projects = projects;
 				});
 
 				var openProjectModal = function (project) {
@@ -36,12 +39,6 @@
 						$scope.checkedItems[project.getId()] = project;
 					}
 				};
-
-				$scope.checkedItems = {};
-
-				$scope.projects = window.getMyProjects();
-
-				$scope.users = window.getMyUsers();
 
 				$scope.newProject = function () {
 					openProjectModal(null);

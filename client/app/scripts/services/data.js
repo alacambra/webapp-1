@@ -18,7 +18,7 @@
                 },
 
                 getUsers: function() {
-                    return DataSources[getDataSource()].getUsers(id);
+                    return DataSources[getDataSource()].getUsers();
                 },
 
                 createUser: function(data) {

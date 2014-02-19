@@ -42,7 +42,27 @@
                     return q.promise;
                 },
 
-                getUsers: function() {
+				getUsers: function () {
+					var q = $q.defer();
+
+					$http.get(baseUrl + '/users')
+						.success(function (data, status, headers, config) {
+							var users = [];
+							for (var i = 0; i < data.length; i++) {
+								var user = factory.user(data[i]);
+								user.setId(data[i].id);
+								users.push(user);
+							}
+							q.resolve(users, status, headers, config);
+
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+
+					return q.promise;
+				},
+
+                _getUsers: function() {
                     var q = $q.defer();
                     $http.get(baseUrl + "/users/")
                         .success(function(data) {
@@ -272,7 +292,27 @@
                     return q.promise;
                 },
 
-                getProjects: function() {
+				getProjects: function () {
+					var defer = $.Deferred();
+
+					$http.get(baseUrl + '/projects')
+						.success(function (data, status, headers, config) {
+							var projects = [];
+							for (var i = 0; i < data.length; i++) {
+								var project = factory.project(data[i]);
+								project.setId(data[i].id);
+								projects.push(project);
+							}
+							defer.resolve(projects, status, headers, config);
+
+						}).error(function (data, status, headers, config) {
+							defer.reject(data, status, headers, config);
+						});
+
+					return defer.promise();
+				},
+
+                _getProjects: function() {
                     var q = $q.defer();
                     $http.get(baseUrl + "/projects/")
                         .success(function(data) {

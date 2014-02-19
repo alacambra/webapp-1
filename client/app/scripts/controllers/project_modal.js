@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ProjectModalCtrl', ['$scope', '$modalInstance', 'project', '$log',
-			function ($scope, $modalInstance, project, $log) {
+		.controller('ProjectModalCtrl', ['$scope', '$modalInstance', 'project', '$log', 'DataProvider',
+			function ($scope, $modalInstance, project, $log, DataProvider) {
 				$scope.modal = {
 					title: _.isNull(project) ? 'New Project' : 'Edit Project',
 
@@ -23,10 +23,12 @@
 					project: null
 				};
 
-				window.getMyUsers().forEach(function (user) {
-					$scope.modal.assignableUsers.push({
-						id: user.getId(),
-						name: user.getFullName()
+				DataProvider.getUsers().then(function (users) {
+					users.forEach(function (user) {
+						$scope.modal.assignableUsers.push({
+							id: user.getId(),
+							name: user.getFullName()
+						});
 					});
 				});
 
