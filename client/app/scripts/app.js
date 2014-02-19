@@ -4,6 +4,8 @@
 	var dependencies = [
 		'ui.bootstrap',
 		'ui.router',
+		'poolingpeopleAppDirective',
+		'poolingpeopleAppFilter',
 		'ngCookies'
 	];
 
@@ -54,5 +56,58 @@
 				window.$state = $state;
 				$rootScope.$state = $state;
 				$rootScope.$stateParams = $stateParams;
-			}]);
+			}])
+
+		.run(function () {
+			var projects = [],
+				projectsNumber = 11;
+
+			function randomInt(start, end) {
+				return parseInt(Math.random() * (end - start + 1) + start);
+			}
+
+			for (var i = 0; i < projectsNumber; i++) {
+				var project = factory.project({
+					title: 'Project' + i,
+					description: 'Lorem ipsum ...',
+					status: randomInt(0, 7),
+					priority: randomInt(0, 10),
+					startDate: moment('2014-02-11').valueOf(),
+					endDate: moment('2014-02-20').valueOf(),
+					duration: randomInt(15, 300),
+					effort: randomInt(15, 300),
+					progress: randomInt(0, 100),
+					assignee: {
+						id: 'user-00002',
+						name: 'User2 Last2'
+					}
+				});
+				project.setId('project-0000' + i);
+				projects.push(project);
+			}
+
+			window.getMyProjects = function () {
+				return projects;
+			}
+		})
+
+		.run(function () {
+			var users = [],
+				usersNumber = 8;
+
+			for (var i = 0; i < usersNumber; i++) {
+				var user = factory.user({
+					firstName: 'User' + i,
+					lastName: 'Last' + i,
+					birthday: moment('1991-01-0' + (i + 1)).valueOf(),
+					email: 'user' + i + '@mail.de'
+				});
+				user.setId('user-0000' + i);
+				users.push(user);
+			}
+
+			window.getMyUsers = function () {
+				return users;
+			}
+		});
 }());

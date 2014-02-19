@@ -1,30 +1,120 @@
 <div>
-	<h1>{{ title }}</h1>
-
 	<table class="table">
 		<thead>
 		<tr>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Status</th>
-			<th>Priority</th>
-			<th>Start</th>
-			<th>End</th>
-			<th>Duration</th>
-			<th>Progress</th>
+			<th><!-- Aktion --></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'">Titel</a></th>
+			<th><a href="javascript:void(0);"
+				   ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">Beschreibung</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignedTo') ? '-assignedTo' : 'assignedTo'">Zugewiesen</a>
+			</th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">Status</a>
+			</th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'start') ? '-start' : 'start'">Start</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'end') ? '-end' : 'end'">Ende</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">Aufwand
+				geschätzt</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'time') ? '-time' : 'time'">Zeit
+				aufgewendet</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">Fortschritt</a>
+			</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="project in projects">
-			<td>{{ project.title }}</td>
-			<td>{{ project.description }}</td>
-			<td>{{ project.status }}</td>
-			<td>{{ project.priority }}</td>
-			<td>{{ project.startDate * 1000 | date:'yyyy-MM-dd' }}</td>
-			<td>{{ project.endDate * 1000 | date:'yyyy-MM-dd' }}</td>
-			<td>{{ project.duration }}</td>
-			<td>{{ project.progress }}</td>
+		<tr class="ng-table-group" ng-repeat="project in projects | orderBy:sorting" ng-init="project.hideTasks = false">
+			<!-- Action -->
+			<td class="text-center">
+				<input type="checkbox" ng-click="selectProject(project)" ng-checked="checkedItems[project.getId()]"/>
+			</td>
+			<!-- Title -->
+			<td>
+				<nobr>{{ project.title }} <a href="javascript:void(0);" class="glyphicon glyphicon-plus"
+											 ng-click="showTasks(project)"></a></nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input type="text" ng-model="project.title" pp-model="">-->
+				<!--</div>-->
+			</td>
+			<!-- Description -->
+			<td>
+				<nobr>{{ project.description | limitTo:20 }}</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input type="text" ng-model="project.description" pp-model="">-->
+				<!--</div>-->
+			</td>
+			<!-- Assignee -->
+			<td>
+				<nobr>{{ project.assignee.name }}</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<select ng-model="project.assignedTo" ng-options="user.getId() as user.firstName for user in users"></select>-->
+				<!--</div>-->
+			</td>
+			<!-- Status -->
+			<td>
+				<nobr>{{ project.getStatus() }}</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<select ng-model="project.status" ng-options="project.statusList.indexOf(value) as value for value in project.statusList"></select>-->
+				<!--</div>-->
+			</td>
+			<!-- Start Date -->
+			<td>
+				<nobr>{{ project.startDate | date:'dd.MM.yyyy' }}</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input datepicker-popup="dd.MM.yyyy" ng-model="project.startDate">-->
+				<!--</div>-->
+			</td>
+			<!-- End Date -->
+			<td>
+				<nobr>{{ project.endDate | date:'dd.MM.yyyy' }}</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input datepicker-popup="dd.MM.yyyy" ng-model="project.endDate" />-->
+				<!--</div>-->
+			</td>
+			<!-- Duration -->
+			<td>
+				<nobr>{{ project.duration | minutesToHours | number:2 }}h</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input type="range" max="40" step="0.25" ng-model="project.time" /> {{ project.time | number:2 }}h-->
+				<!--</div>-->
+			</td>
+			<!-- Effort -->
+			<td>
+				<nobr>{{ project.effort | minutesToHours | number:2 }}h</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input type="range" ng-model="project.effort" />-->
+				<!--</div>-->
+			</td>
+			<!-- Progress -->
+			<td>
+				<nobr>{{ project.progress }}%</nobr>
+				<!--<div ng-if="editing(project)">-->
+				<!--<input type="range" ng-model="project.progress" />-->
+				<!--</div>-->
+			</td>
+		</tr>
+		<tr ng-repeat="task in project.tasks | orderBy:sorting" ng-show="project.hideTasks">
+			<td></td>
+			<td>{{ task.title }}</td>
+			<td>{{ task.assignedTo }}</td>
+			<td>{{ task.status }}</td>
+			<td>{{ task.start }}</td>
+			<td>{{ task.end }}</td>
+			<td>{{ task.time }}h</td>
+			<td>{{ task.progress }}</td>
 		</tr>
 		</tbody>
 	</table>
+	<div class="dropdown">
+		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default">Select Action</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="javascript:void(0);" ng-click="newProject()">Create new Project</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);" ng-click="editSelected()">Edit selected Projects</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);" ng-click="deleteSelected()">Delete selected Projects</a>
+			</li>
+		</ul>
+	</div>
 </div>

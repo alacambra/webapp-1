@@ -1,33 +1,87 @@
 (function () {
-    'use strict';
+	'use strict';
 
-    angular.module('poolingpeopleApp')
+	angular.module('poolingpeopleApp')
 
-        .controller('ProjectsCtrl', function ($scope) {
-            $scope.title = 'Hello Project';
+		.controller('ProjectsCtrl', ['$scope', '$modal', '$log',
+			function ($scope, $modal, $log) {
 
-			$scope.projects = [];
+				var openProjectModal = function (project) {
+					var modalInstance = $modal.open({
+						templateUrl: 'views/project_modal.tpl.html',
+						controller: 'ProjectModalCtrl',
+						resolve: {
+							project: function () {
+								return project;
+							}
+						}
+					});
 
-			function random8 () {
-				return parseInt(Math.random() * 8);
-			}
+					modalInstance.result.then(function (project) {
+						if (_.indexOf($scope.projects, project) < 0) {
+							$scope.projects.push(project);
+						}
+					});
+				};
 
-			function randomMinute () {
-				return parseInt(Math.random() * 520 + 30);
-			}
+				$scope.selectProject = function (project) {
+					if ($scope.checkedItems.hasOwnProperty(project.getId())) {
+						delete $scope.checkedItems[project.getId()];
+					} else {
+						$scope.checkedItems[project.getId()] = project;
+					}
+				};
 
-			for (var i = 0; i < 5; i++) {
-				var project = factory.project({
-					title: 'Project' + i,
-					description: 'Lorem ipsum ...',
-					status: random8(),
-					priority: random8(),
-					startDate: moment('2014-02-11').unix(),
-					endDate: moment('2014-02-20').unix(),
-					duration: randomMinute(),
-					progress: random8()
-				});
-				$scope.projects.push(project);
-			}
-        });
+				$scope.checkedItems = {};
+
+				$scope.projects = window.getMyProjects();
+
+				$scope.users = window.getMyUsers();
+
+				$scope.newProject = function () {
+					openProjectModal(null);
+				};
+
+				$scope.editSelected = function () {
+					for (var projectId in $scope.checkedItems) {
+						if (_.size($scope.checkedItems) === 1) {
+							openProjectModal($scope.checkedItems[projectId]);
+						} else {
+							delete $scope.checkedItems[projectId];
+						}
+					}
+				};
+
+				$scope.deleteSelected = function () {
+					var index = -1;
+					for (var projectId in $scope.checkedItems) {
+						index = $scope.projects.indexOf($scope.checkedItems[projectId]);
+						delete $scope.checkedItems[projectId]
+						$scope.projects.splice(index, 1);
+					}
+				};
+
+				$scope.showTasks = function (project) {
+					$log.log('show tasks');
+				};
+
+				/*
+				$scope.revertSelected = function () {
+					$scope.revert(getSelectedItems());
+				};
+
+				$scope.revert = function (items) {
+					doAction(items, function (index) {
+						if ($scope.editingObjects[$scope.projects[index].id]) {
+							var item = $scope.projects[index];
+							for (var key in $scope.editingObjects[$scope.projects[index].id]) {
+								item[key] = $scope.editingObjects[$scope.projects[index].id][key];
+							}
+							$scope.editingObjects[$scope.projects[index].id] = false;
+						}
+					})
+				};
+				*/
+
+			}]);
 }());

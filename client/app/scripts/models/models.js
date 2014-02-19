@@ -39,6 +39,10 @@
 		lastName: null,
 		birthday: null,
 		email: null
+	}).methods({
+		getFullName: function () {
+			return this.firstName + ' ' + this.lastName;
+		}
 	});
 
 	var processMod = stampit().state({
@@ -49,7 +53,24 @@
 		startDate: null,
 		endDate: null,
 		duration: 0,
-		progress: 0
+		effort: 0,
+		progress: 0,
+		assignee: null
+	}).methods({
+		statusList: [
+			'todo',
+			'new',
+			'assigned',
+			'on hold',
+			'completed',
+			'archived',
+			'requested',
+			'offered'
+		],
+
+		getStatus: function () {
+			return this.statusList[this.status];
+		}
 	});
 
 	var effortMod = stampit().enclose(function () {

@@ -23,15 +23,19 @@
 				}
 
 				$scope.addNewUser = function () {
+					if ($scope.newUserForm.$invalid) {
+						$scope.invalidNewUser = true;
+						return;
+					}
+
+					$scope.invalidNewUser = false;
+
 					if ($scope.newUser.birthday) {
 						$scope.newUser.birthday = moment($scope.newUser.birthday).unix();
 					}
 					$scope.users.push($scope.newUser);
 					$scope.newUser = null;
-				};
-
-				$scope.log = function () {
-					$log.log(newUserForm);
+					$scope.newUserForm.$setPristine();
 				};
 
 				$scope.thomas = factory.user({
