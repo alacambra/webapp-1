@@ -246,7 +246,7 @@
 
                 addTaskToProject: function(idTask, idParent) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/tasks/" + idTask + "/in/porject/" + idParent)
+                    $http.put(baseUrl + "/tasks/" + idTask + "/in/project/" + idParent)
                     .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
