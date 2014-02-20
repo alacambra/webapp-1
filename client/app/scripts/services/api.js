@@ -41,7 +41,7 @@
 
 					$http.get(baseUrl + '/users')
 						.success(function (data, status, headers, config) {
-							q.resolve(users, status, headers, config);
+							q.resolve(data, status, headers, config);
 
 						}).error(function (data, status, headers, config) {
 							q.reject(data, status, headers, config);

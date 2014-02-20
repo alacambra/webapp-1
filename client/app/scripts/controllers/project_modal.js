@@ -24,8 +24,8 @@
 				DataProvider.getUsers().then(function (users) {
 					users.forEach(function (user) {
 						$scope.modal.assignableUsers.push({
-							id: user.getId(),
-							name: user.getFullName()
+							id: user.id,
+							name: user.firstName + ' ' + user.lastName
 						});
 					});
 				});
