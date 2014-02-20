@@ -4,32 +4,32 @@
 		<tr>
 			<th><!-- Aktion --></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'">Titel</a></th>
-			<th><a href="javascript:void(0);"
-				   ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">Beschreibung</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignedTo') ? '-assignedTo' : 'assignedTo'">Zugewiesen</a>
-			</th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">Status</a>
-			</th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">Beschreibung</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignedTo') ? '-assignedTo' : 'assignedTo'">Zugewiesen</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">Status</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'start') ? '-start' : 'start'">Start</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'end') ? '-end' : 'end'">Ende</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">Aufwand
-				geschätzt</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'time') ? '-time' : 'time'">Zeit
-				aufgewendet</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">Fortschritt</a>
-			</th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">Aufwand geschätzt</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'time') ? '-time' : 'time'">Zeit aufgewendet</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">Fortschritt</a></th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr class="ng-table-group" ng-repeat="project in projects | orderBy:sorting" ng-init="project.hideTasks = false">
+		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-init="project.hideTasks = false">
 			<!-- Action -->
 			<td class="text-center">
 				<input type="checkbox" ng-click="selectProject(project)" ng-checked="checkedItems[project.getId()]"/>
 			</td>
 			<!-- Title -->
 			<td>
-				<nobr>{{ project.title }} <a href="javascript:void(0);" class="glyphicon glyphicon-plus"
-											 ng-click="showTasks(project)"></a></nobr>
+				<nobr>
+					<span>{{ project.title }} </span>
+					<a href="javascript:void(0);"
+					   class="glyphicon"
+					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
+					   ng-click="showTasks(project)">
+					</a>
+				</nobr>
 				<!--<div ng-if="editing(project)">-->
 				<!--<input type="text" ng-model="project.title" pp-model="">-->
 				<!--</div>-->
@@ -85,21 +85,23 @@
 			</td>
 			<!-- Progress -->
 			<td>
-				<nobr>{{ project.progress }}%</nobr>
+				<nobr>{{ project.progress * 100 }}%</nobr>
 				<!--<div ng-if="editing(project)">-->
 				<!--<input type="range" ng-model="project.progress" />-->
 				<!--</div>-->
 			</td>
 		</tr>
-		<tr ng-repeat="task in project.tasks | orderBy:sorting" ng-show="project.hideTasks">
+		<tr ng-repeat-end="" ng-repeat="task in project.getTasks() | orderBy:sorting" ng-show="project.$ui.showTasks">
 			<td></td>
 			<td>{{ task.title }}</td>
-			<td>{{ task.assignedTo }}</td>
-			<td>{{ task.status }}</td>
-			<td>{{ task.start }}</td>
-			<td>{{ task.end }}</td>
-			<td>{{ task.time }}h</td>
-			<td>{{ task.progress }}</td>
+			<td>{{ task.description | limitTo: 20 }}</td>
+			<td>{{ task.assignee.name }}</td>
+			<td>{{ task.getStatus() }}</td>
+			<td>{{ task.startDate | date:'dd.MM.yyyy' }}</td>
+			<td>{{ task.endDate | date:'dd.MM.yyyy' }}</td>
+			<td>{{ task.duration | minutesToHours | number:2 }}h</td>
+			<td>{{ task.effort | minutesToHours | number:2 }}h</td>
+			<td>{{ task.progress * 100 }}</td>
 		</tr>
 		</tbody>
 	</table>

@@ -18,6 +18,11 @@
 						projects.push(project);
 					}
 					$scope.projects = projects;
+					$scope.projects.forEach(function (project) {
+						project.$ui = {
+							showTasks: false
+						};
+					});
 				});
 
 				var openProjectModal = function (project) {
@@ -70,7 +75,19 @@
 				};
 
 				$scope.showTasks = function (project) {
-					$log.log('show tasks');
+					$scope.projects.forEach(function (p) {
+						if (project === p) {
+							p.$ui.showTasks = !p.$ui.showTasks;
+						} else {
+							p.$ui.showTasks = false;
+						}
+					});
+
+					if (_.isNull(project.getTasks())) {
+						DataProvider.getTasks().then(function (tasks) {
+							project.setTasks(tasks);
+						});
+					}
 				};
 
 				/*

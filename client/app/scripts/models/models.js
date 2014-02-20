@@ -131,7 +131,31 @@
 	/**
 	 * Factory that produces project instances.
 	 */
-	factory.project = stampit.compose(idMod, processMod).methods({
+	factory.project = stampit.compose(idMod, processMod).enclose(function () {
+		var tasks = null;
+
+		this.getTasks = function () {
+			return tasks;
+		};
+
+		this.addTask = function (task) {
+			tasks.push(task);
+		};
+
+		this.removeTask = function (task) {
+			var index = tasks.indexOf(task);
+			tasks.splice(index, 1);
+		};
+
+		this.setTasks = function (_tasks) {
+			tasks = _tasks;
+		};
+
+		this.clearTasks = function () {
+			tasks = null;
+		};
+
+	}).methods({
 		getUrl: function () {
 			if (this.isNew()) {
 				return '/projects';

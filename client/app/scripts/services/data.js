@@ -44,6 +44,10 @@
                     return DataSources[getDataSource()].getTasks(id);
                 },
 
+				getTasks: function () {
+					return DataSources[getDataSource()].getTasks();
+				},
+
                 createTask: function(data) {
                     return DataSources[getDataSource()].createTask(id);
                 },
