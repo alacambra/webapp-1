@@ -82,6 +82,9 @@
 
 						// if origin project is a new project add it to projects
 						if ($scope.projects.indexOf(originProject) < 0) {
+							originProject.$ui = {
+								showTasks: true
+							};
 							$scope.projects.push(originProject);
 						}
 
