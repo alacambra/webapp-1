@@ -16,7 +16,7 @@
 		<repository>
 			<id>snapshots</id>
 			<name>Uploadable Nexus Repo</name>
-			<url>http://cacaolat:8080/nexus/content/repositories/snapshots</url>
+			<url>http://54.194.174.30/nexus/content/repositories/snapshots</url>
 		</repository>
 	</distributionManagement>
 	<properties>
