@@ -293,7 +293,7 @@
                 },
 
 				getProjects: function () {
-					var defer = $.Deferred();
+					var q = $q.defer();
 
 					$http.get(baseUrl + '/projects')
 						.success(function (data, status, headers, config) {
@@ -303,13 +303,13 @@
 								project.setId(data[i].id);
 								projects.push(project);
 							}
-							defer.resolve(projects, status, headers, config);
+							q.resolve(projects, status, headers, config);
 
 						}).error(function (data, status, headers, config) {
-							defer.reject(data, status, headers, config);
+							q.reject(data, status, headers, config);
 						});
 
-					return defer.promise();
+					return q.promise;
 				},
 
                 _getProjects: function() {
