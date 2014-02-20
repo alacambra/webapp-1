@@ -16,20 +16,17 @@
 		<repository>
 			<id>snapshots</id>
 			<name>Uploadable Nexus Repo</name>
-			<url>http://54.194.174.30/nexus/content/repositories/snapshots</url>
+			<url>http://nexus.poolingpeople.eu/nexus/content/repositories/snapshots</url>
 		</repository>
 	</distributionManagement>
 	<properties>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
+		<neo4j.version>2.0.1</neo4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-			<version>7.0</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -56,7 +53,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

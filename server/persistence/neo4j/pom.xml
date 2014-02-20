@@ -6,11 +6,9 @@
         <groupId>poolingpeople</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
+	<name>neo4j domain model</name>
     <artifactId>neo4j</artifactId>
     <packaging>ejb</packaging>
-
-    <name>neo4J</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -27,19 +25,19 @@
         <dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j</artifactId>
-			<version>2.0.0</version>
+			<version>${neo4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-kernel</artifactId>
-			<version>2.0.0</version>
+			<version>${neo4j.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>poolingpeople</groupId>
 			<artifactId>shared</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
     </dependencies>
 
@@ -50,8 +48,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
