@@ -70,7 +70,7 @@
 			}])
 
 		/*
-		THIS DIRECTIVE IS NOT FINISHED - CUSTOM VALIDATION EXAMPLE @TS-2014-02-19
+		THIS DIRECTIVE IS NOT FINISHED - CUSTOM VALIDATION EXAMPLE by TS-2014-02-19
 		 */
 		.directive('ppValidateDate', ['$filter', '$log',
 			function ($filter, $log) {
@@ -117,5 +117,32 @@
 						});
 					}
 				};
+			}])
+
+		.directive('ppConvertPercent', ['$filter', '$log',
+			function ($filter, $log) {
+				return {
+					restrict: 'A',
+					require: 'ngModel',
+					link: function ($scope, $elem, $attrs, ngModelCtrl) {
+						ngModelCtrl.$formatters.push(function (modelValue) {
+							return modelValue * 100;
+						});
+
+						ngModelCtrl.$parsers.push(function (viewValue) {
+							return $filter('number')(viewValue / 100, 4);
+						});
+					}
+				};
+			}])
+
+		.directive('setFocus', ['$log',
+			function ($log) {
+				return {
+					restrict: 'A',
+					link: function ($scope, $elem, $attrs) {
+						$elem.focus();
+					}
+				}
 			}]);
 }());

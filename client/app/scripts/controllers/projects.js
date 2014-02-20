@@ -6,6 +6,8 @@
 		.controller('ProjectsCtrl', ['$scope', '$modal', '$log', 'DataProvider', '$window',
 			function ($scope, $modal, $log, DataProvider, $window) {
 
+				$scope.assignableUsers = [];
+
 				$scope.selectedProject = null;
 
 				$scope.projects = [];
@@ -28,6 +30,35 @@
 								project.setTasks(tasks);
 							});
 						}
+					});
+
+					for (var j = 0; j < 0; j++) {
+						var p = factory.project({
+							title: 'Project' + j,
+							description: 'lalala',
+							assignee: {
+								id: 'u001',
+								name: 'Anton Alpha'
+							},
+							status: 1,
+							startDate: 1392850800000 + j * 24 * 60 * 60 * 1000,
+							endDate: 1392850800000 + (j + 1) * 24 * 60 * 60 * 1000,
+							duration: 15 * (j + 1),
+							effort: 15 * j,
+							progress: Math.random()
+						});
+						p.setId('p11' + j);
+
+						$scope.projects.push(p);
+					}
+				});
+
+				DataProvider.getUsers().then(function (users) {
+					users.forEach(function (user) {
+						$scope.assignableUsers.push({
+							id: user.id,
+							name: user.firstName + ' ' + user.lastName
+						});
 					});
 				});
 
@@ -111,5 +142,22 @@
 					return _.isNull($scope.selectedProject);
 				};
 
+			}])
+
+		.controller('ProjectCtrl', ['$scope', '$log', '$timeout',
+			function ($scope, $log, $timeout) {
+				$scope.editable = {};
+
+				$scope.openDatePicker = function ($event, datePicker) {
+					$event.preventDefault();
+					$event.stopPropagation();
+					$scope.editable[datePicker] = true;
+				};
+
+//				$scope.hideStartDatePicker = function ($event) {
+//					$timeout(function () {
+//						$scope.editable.startDate = false;
+//					}, 100);
+//				};
 			}]);
 }());
