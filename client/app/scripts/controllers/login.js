@@ -3,12 +3,34 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('LoginCtrl', function ($scope, SessionService) {
+		.controller('LoginCtrl', function ($scope, $rootScope, SessionService, $modal) {
+
+			$rootScope.$on("requiredAuth", function() {
+				$scope.showLoginModal("You need to be authenticated");
+			});
 
 			$scope.loggedIn = SessionService.loggedIn;
-			$scope.logIn = SessionService.logIn;
+
+			$scope.showLoginModal = function (message) {
+
+				var modalInstance = $modal.open({
+					templateUrl: 'views/login_modal.tpl.html',
+					controller: 'LoginModalCtrl',
+					resolve: {
+						message: function() {
+							return message || ""
+						}
+					}
+				});
+
+				modalInstance.result.then(function (username, password) {
+					SessionService.logIn(username, password);
+				});
+			};
+
 			$scope.logOut = SessionService.logOut;
 
-			$scope.username = SessionService.username();
+			$scope.userData = SessionService.userData;
+
 		});
 }());

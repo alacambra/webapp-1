@@ -10,7 +10,13 @@
 
 				$scope.projects = [];
 
-				DataProvider.getProjects().then(function (projects) {
+				DataProvider.getProjects().then(function (data) {
+					var projects = [];
+					for (var i = 0; i < data.length; i++) {
+						var project = factory.project(data[i]);
+						project.setId(data[i].id);
+						projects.push(project);
+					}
 					$scope.projects = projects;
 				});
 
