@@ -3,15 +3,33 @@
 		<thead>
 		<tr>
 			<th><!-- Aktion --></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'">Titel</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">Beschreibung</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignedTo') ? '-assignedTo' : 'assignedTo'">Zugewiesen</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">Status</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'start') ? '-start' : 'start'">Start</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'end') ? '-end' : 'end'">Ende</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">Aufwand geschätzt</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'time') ? '-time' : 'time'">Zeit aufgewendet</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">Fortschritt</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
+				<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
+				<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
+				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
+				<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'startDate') ? '-startDate' : 'startDate'">
+				<nobr>Start <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'startDate', 'glyphicon-arrow-up': sorting === '-startDate' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'endDate') ? '-endDate' : 'endDate'">
+				<nobr>Ende <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'endDate', 'glyphicon-arrow-up': sorting === '-endDate' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'duration') ? '-duration' : 'duration'">
+				<nobr>Aufwand<br />geschätzt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'duration', 'glyphicon-arrow-up': sorting === '-duration' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">
+				<nobr>Zeit<br />aufgewendet <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'effort', 'glyphicon-arrow-up': sorting === '-effort' }"></span></nobr>
+			</a></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
+				<nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
+			</a></th>
 		</tr>
 		</thead>
 		<tbody>
@@ -91,7 +109,7 @@
 				<!--</div>-->
 			</td>
 		</tr>
-		<tr ng-repeat-end="" ng-repeat="task in project.getTasks() | orderBy:sorting" ng-show="project.$ui.showTasks">
+		<tr ng-repeat="task in project.getTasks() | orderBy:taskSorting" ng-show="project.$ui.showTasks" ng-init="taskSorting = 'title'" ng-repeat-end="">
 			<td></td>
 			<td>{{ task.title }}</td>
 			<td>{{ task.description | limitTo: 20 }}</td>
