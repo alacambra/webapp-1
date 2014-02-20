@@ -11,7 +11,7 @@ import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
-import poolingpeople.persistence.neo4j.ineritance.*;
+import poolingpeople.persistence.neo4j.inheritance.*;
 public class ManagedTask implements Task {
 
 	@Override

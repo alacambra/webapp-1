@@ -1,4 +1,4 @@
-package poolingpeople.persistence.neo4j.ineritance;
+package poolingpeople.persistence.neo4j.inheritance;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package poolingpeople.persistence.neo4j.ineritance;
+package poolingpeople.persistence.neo4j.inheritance;
 
 /**
  * The indicated object will be updated when the propagation is TOP-BOTTOM or ALL
