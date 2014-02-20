@@ -120,7 +120,27 @@
                     return q.promise;
                 },
 
-                getTasks: function() {
+				getTasks: function () {
+					var q = $q.defer();
+
+					$http.get(baseUrl + '/tasks')
+						.success(function (data, status, headers, config) {
+							var tasks = [];
+							for (var i = 0; i < data.length; i++) {
+								var task = factory.task(data[i]);
+								task.setId(data[i].id);
+								tasks.push(task);
+							}
+							q.resolve(tasks, status, headers, config);
+
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+
+					return q.promise;
+				},
+
+                _getTasks: function() {
                     var q = $q.defer();
                     $http.get(baseUrl + "/tasks/")
                         .success(function(data) {

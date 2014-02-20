@@ -64,7 +64,11 @@
 				};
 
 				$scope.showTasks = function (project) {
-					$log.log('show tasks');
+					if (_.isNull(project.getTasks())) {
+						DataProvider.getTasks().then(function (tasks) {
+							project.setTasks(tasks);
+						});
+					}
 				};
 
 				/*
