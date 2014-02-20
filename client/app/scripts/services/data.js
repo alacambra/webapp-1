@@ -49,7 +49,7 @@
 				},
 
                 createTask: function(data) {
-                    return DataSources[getDataSource()].createTask(id);
+                    return DataSources[getDataSource()].createTask(data);
                 },
 
                 updateTask: function(data) {

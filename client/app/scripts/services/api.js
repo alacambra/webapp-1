@@ -8,15 +8,18 @@
 			var baseUrl = '/webapplication/rest';
             $http.defaults.headers.common['Content-type'] = 'application/json';
 
-            var serialize = function(obj) {
-                var str = [];
-                for(var p in obj) {
-                    if (obj.hasOwnProperty(p)) {
-                       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    }
-                }
-                return str.join("&");
-            }
+//            var serialize = function(obj) {
+//                var str = [];
+//                for(var p in obj) {
+//                    if (obj.hasOwnProperty(p)) {
+//                       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+//                    }
+//                }
+//                return str.join("&");
+//            }
+			var serialize = function (obj) {
+				return JSON.stringify(obj);
+			};
             
             return {
 
@@ -52,7 +55,7 @@
 
                 createUser: function(data) {
                     var q = $q.defer();
-                    $http.post(baseUrl + "/users/", {data: serialize(data)})
+                    $http.post(baseUrl + "/users/", data)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -101,27 +104,7 @@
                     return q.promise;
                 },
 
-				getTasks: function () {
-					var q = $q.defer();
-
-					$http.get(baseUrl + '/tasks')
-						.success(function (data, status, headers, config) {
-							var tasks = [];
-							for (var i = 0; i < data.length; i++) {
-								var task = factory.task(data[i]);
-								task.setId(data[i].id);
-								tasks.push(task);
-							}
-							q.resolve(tasks, status, headers, config);
-
-						}).error(function (data, status, headers, config) {
-							q.reject(data, status, headers, config);
-						});
-
-					return q.promise;
-				},
-
-                _getTasks: function() {
+                getTasks: function() {
                     var q = $q.defer();
                     $http.get(baseUrl + "/tasks")
                         .success(function (data, status, headers, config) {
@@ -134,7 +117,7 @@
 
                 createTask: function(data) {
                     var q = $q.defer();
-                    $http.post(baseUrl + "/tasks/", {data: serialize(data)})
+                    $http.post(baseUrl + "/tasks/", data)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -306,20 +289,9 @@
 					return q.promise;
 				},
 
-                _getProjects: function() {
-                    var q = $q.defer();
-                    $http.get(baseUrl + "/projects")
-                        .success(function (data, status, headers, config) {
-                            q.resolve(data, status, headers, config);
-                        }).error(function (data, status, headers, config) {
-                            q.reject(data, status, headers, config);
-                        });
-                    return q.promise;
-                },
-
                 createProject: function(data) {
                     var q = $q.defer();
-                    $http.post(baseUrl + "/projects/", {data: serialize(data)})
+                    $http.post(baseUrl + "/projects/", data)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -328,9 +300,9 @@
                     return q.promise;
                 },
 
-                updateProject: function(data) {
+                updateProject: function(projectId, data) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/projects/" + id, {data: serialize(data)})
+                    $http.put(baseUrl + "/projects/" + projectId, data)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {

@@ -38,7 +38,7 @@
 				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
 			</td>
 		</tr>
-		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-init="project.hideTasks = false" ng-controller="ProjectCtrl">
+		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
 				<input type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
@@ -60,7 +60,7 @@
 						   ng-model="project.title"
 						   pp-model=""
 						   set-focus=""
-						   ng-blur="editable.title = false">
+						   ng-blur="editable.title = false; updateProject();">
 				</div>
 			</td>
 
@@ -78,7 +78,7 @@
 					<select ng-model="project.assignee"
 							ng-options="user as user.name for user in assignableUsers track by user.id"
 							set-focus=""
-							ng-blur="editable.assignee = false">
+							ng-blur="editable.assignee = false; updateProject();">
 					</select>
 				</div>
 			</td>
@@ -92,40 +92,40 @@
 					<select ng-model="project.status"
 							ng-options="project.statusList.indexOf(value) as value for value in project.statusList"
 							set-focus=""
-							ng-blur="editable.status = false">
+							ng-blur="editable.status = false; updateProject();">
 					</select>
 				</div>
 			</td>
 
 			<!-- Start Date -->
 			<td>
-				<nobr ng-hide="editable.startDate || editable.startDatePicker">
-					<span ng-click="editable.startDate = true; openDatePicker($event, 'startDatePicker')">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
+				<nobr ng-hide="editable.startDate || editable.datepicker.startDate">
+					<span ng-click="editable.startDate = true; openDatePicker($event, 'startDate')">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
 				</nobr>
-				<div ng-if="editable.startDate || editable.startDatePicker">
+				<div ng-if="editable.startDate || editable.datepicker.startDate">
 					<input ng-model="project.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
-						   is-open="editable.startDatePicker"
-						   ng-blur="editable.startDate = false">
+						   is-open="editable.datepicker.startDate"
+						   ng-blur="editable.startDate = false; updateProject();">
 				</div>
 			</td>
 
 			<!-- End Date -->
 			<td>
-				<nobr ng-hide="editable.endDate || editable.endDatePicker">
-					<span ng-click="editable.endDate = true; openDatePicker($event, 'endDatePicker')">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
+				<nobr ng-hide="editable.endDate || editable.datepicker.endDate">
+					<span ng-click="editable.endDate = true; openDatePicker($event, 'endDate')">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
 				</nobr>
-				<div ng-if="editable.endDate || editable.endDatePicker">
+				<div ng-if="editable.endDate || editable.datepicker.endDate">
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
-						   is-open="editable.endDatePicker"
-						   ng-blur="editable.endDate = false">
+						   is-open="editable.datepicker.endDate"
+						   ng-blur="editable.endDate = false; updateProject();">
 				</div>
 			</td>
 
@@ -140,7 +140,7 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
-						   ng-blur="editable.duration = false">
+						   ng-blur="editable.duration = false; updateProject();">
 				</div>
 			</td>
 
@@ -155,7 +155,7 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
-						   ng-blur="editable.effort = false">
+						   ng-blur="editable.effort = false; updateProject();">
 				</div>
 			</td>
 
@@ -172,11 +172,11 @@
 						   min="0"
 						   max="100"
 						   set-focus=""
-						   ng-blur="editable.progress = false">
+						   ng-blur="editable.progress = false; updateProject();">
 				</div>
 			</td>
 		</tr>
-		<tr ng-repeat="task in project.getTasks() | orderBy:taskSorting" ng-show="project.$ui.showTasks" ng-init="taskSorting = 'title'" ng-repeat-end="">
+		<tr ng-repeat="task in project.getTasks() | orderBy:taskSorting" ng-if="project.$ui.showTasks" ng-init="taskSorting = 'title'" ng-repeat-end="">
 			<td></td>
 			<td>{{ task.title }}</td>
 			<td>{{ task.description | limitTo: 20 }}</td>
@@ -200,7 +200,7 @@
 				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
 			</li>
 			<li>
-				<a href="javascript:void(0);" ng-click="createSubProject()">Unterprojekt erstellen</a>
+				<!--<a href="javascript:void(0);" ng-click="createSubProject()">Unterprojekt erstellen</a>-->
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>

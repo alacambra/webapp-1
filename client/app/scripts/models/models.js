@@ -106,6 +106,8 @@
 	 * Factory that produces user instances.
 	 */
 	factory.user = stampit.compose(idMod, userMod).methods({
+		isUser: true,
+
 		isValid: function () {
 			var validFirstName = !_.isNull(this.firstName),
 				validLastName = !_.isNull(this.lastName),
@@ -139,6 +141,8 @@
 		};
 
 	}).methods({
+		isTask: true,
+
 		clearProject: function () {
 			this.setProject(null);
 		},
@@ -180,6 +184,8 @@
 		}
 
 	}).methods({
+		isProject: true,
+
 		getUrl: function () {
 			if (this.isNew()) {
 				return '/projects';

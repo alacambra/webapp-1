@@ -32,7 +32,15 @@
 
 				$scope.save = function () {
 					if (!$scope.form.model.$invalid) {
-						$modalInstance.close(_.extend(options.model, $scope.modal.model));
+						if ($scope.modal.model.isTask) {
+							$scope.addNewTaskToProject(options.model, $scope.modal.model);
+
+						} else if ($scope.modal.model.isProject) {
+							$scope.saveProject(options.model, $scope.modal.model);
+						}
+
+						$modalInstance.close();
+
 					} else {
 						for (var attr in $scope.form.model) {
 							if ($scope.form.model.hasOwnProperty(attr) && $scope.form.model[attr].hasOwnProperty('$dirty')) {

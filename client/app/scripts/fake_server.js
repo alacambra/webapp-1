@@ -29,8 +29,6 @@
 
 				$httpBackend.whenGET(/.*\.tpl\.html/).passThrough();
 
-//				$httpBackend.whenGET(baseUrl + '/projects').respond(projects, 200, { valid: true });
-
 				$httpBackend.whenGET(baseUrl + '/projects').respond(function (method, url, data, headers) {
 					return [200, JSON.stringify(projects), { valid: true }];
 				});
@@ -41,6 +39,34 @@
 
 				$httpBackend.whenGET(baseUrl + '/tasks').respond(function (method, url, data, headers) {
 					return [200, JSON.stringify(tasks)];
+				});
+
+				$httpBackend.whenGET(/.+\/projects\/[^\/]+\/tasks/).respond(function (method, url, data, headers) {
+					return [200, JSON.stringify(tasks)];
+				});
+
+				$httpBackend.whenPOST(baseUrl + '/projects/').respond(function (method, url, data, headers) {
+					data = JSON.parse(data);
+					data.id = 'p-' + parseInt(Math.random() * 10000, 10);
+					return [200, JSON.stringify(data)];
+				});
+
+				$httpBackend.whenPOST(baseUrl + '/tasks/').respond(function (method, url, data, headers) {
+					data = JSON.parse(data);
+					data.id = 't-' + parseInt(Math.random() * 10000, 10);
+					return [200, JSON.stringify(data)];
+				});
+
+				$httpBackend.whenPUT(/.+\/tasks\/[^\/]+\/in\/project\/[^\/]+/).respond(function (method, url, data, headers) {
+					return [200];
+				});
+
+				$httpBackend.whenDELETE(/.+\/projects\/.+/).respond(function (method, url, data, headers) {
+					return [200];
+				});
+
+				$httpBackend.whenPUT(/.+\/projects\/.+/).respond(function (method, url, data, headers) {
+					return [200];
 				});
 			}]);
 }());

@@ -25,32 +25,32 @@
 							showTasks: false
 						};
 
-						if (project.getId() !== 'p001') {
-							DataProvider.getTasks().then(function (tasks) {
-								project.setTasks(tasks);
-							});
-						}
+						DataProvider.getProjectTasks(project.getId()).then(function (tasks) {
+							project.setTasks(tasks);
+						});
 					});
 
-					for (var j = 0; j < 0; j++) {
-						var p = factory.project({
-							title: 'Project' + j,
-							description: 'lalala',
-							assignee: {
-								id: 'u001',
-								name: 'Anton Alpha'
-							},
-							status: 1,
-							startDate: 1392850800000 + j * 24 * 60 * 60 * 1000,
-							endDate: 1392850800000 + (j + 1) * 24 * 60 * 60 * 1000,
-							duration: 15 * (j + 1),
-							effort: 15 * j,
-							progress: Math.random()
-						});
-						p.setId('p11' + j);
 
-						$scope.projects.push(p);
-					}
+//					var numberOfProjectsToAdd = 100;
+//					for (var j = 0; j < numberOfProjectsToAdd; j++) {
+//						var p = factory.project({
+//							title: 'Project' + j,
+//							description: 'lalala',
+//							assignee: {
+//								id: 'u001',
+//								name: 'Anton Alpha'
+//							},
+//							status: 1,
+//							startDate: 1392850800000 + j * 24 * 60 * 60 * 1000,
+//							endDate: 1392850800000 + (j + 1) * 24 * 60 * 60 * 1000,
+//							duration: 15 * (j + 1),
+//							effort: 15 * j,
+//							progress: Math.random()
+//						});
+//						p.setId('p11' + j);
+//
+//						$scope.projects.push(p);
+//					}
 				});
 
 				DataProvider.getUsers().then(function (users) {
@@ -66,11 +66,43 @@
 					return $modal.open({
 						templateUrl: 'views/project_modal.tpl.html',
 						controller: 'ProjectModalCtrl',
+						scope: $scope,
 						resolve: {
 							options: function () {
 								return options;
 							}
 						}
+					});
+				};
+
+				$scope.saveProject = function (originProject, project) {
+					DataProvider.createProject(project).then(function (response) {
+						// update origin project with new data
+						_.extend(originProject, response);
+
+						// if origin project is a new project add it to projects
+						if ($scope.projects.indexOf(originProject) < 0) {
+							$scope.projects.push(originProject);
+						}
+
+					}, function (response) {
+						$log.error(response);
+					});
+				};
+
+				$scope.addNewTaskToProject = function (originTask, task) {
+					DataProvider.createTask(task).then(function (response) {
+						DataProvider.addTaskToProject(response.id, task.getProject().id).then(function () {
+							_.extend(originTask, response);
+
+							for (var i = 0; i < $scope.projects.length; i++) {
+								var project = $scope.projects[i];
+								if (project.getId() === originTask.getProject().id) {
+									project.addTask(originTask);
+									return;
+								}
+							}
+						});
 					});
 				};
 
@@ -86,10 +118,6 @@
 					var modalInstance = openModal({
 						title: 'Neues Projekt',
 						model: factory.project()
-					});
-
-					modalInstance.result.then(function (project) {
-						$scope.projects.push(project);
 					});
 				};
 
@@ -108,10 +136,6 @@
 						title: 'Neue Aufgabe für Projekt "' + $scope.selectedProject.title + '" anlegen',
 						model: task
 					});
-
-					modalInstance.result.then(function (task) {
-						$scope.selectedProject.addTask(task);
-					});
 				};
 
 				$scope.createSubProject = function () {
@@ -123,8 +147,12 @@
 
 					if (confirmed) {
 						var index = $scope.projects.indexOf($scope.selectedProject);
-						$scope.selectedProject = null;
-						$scope.projects.splice(index, 1);
+						DataProvider.deleteProject($scope.selectedProject.getId()).then(function (response) {
+							$scope.selectedProject = null;
+							$scope.projects.splice(index, 1);
+						}, function (response) {
+							$log.error(response);
+						});
 					}
 				};
 
@@ -144,20 +172,27 @@
 
 			}])
 
-		.controller('ProjectCtrl', ['$scope', '$log', '$timeout',
-			function ($scope, $log, $timeout) {
+		.controller('ProjectCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
+			function ($scope, $log, $timeout, DataProvider) {
+				var origin = angular.copy($scope.project);
+
 				$scope.editable = {};
 
-				$scope.openDatePicker = function ($event, datePicker) {
-					$event.preventDefault();
-					$event.stopPropagation();
-					$scope.editable[datePicker] = true;
+				$scope.updateProject = function () {
+					DataProvider.updateProject($scope.project.getId(), $scope.project).then(function (response) {
+						origin = angular.copy($scope.project);
+
+					}, function (response) {
+						$log.error(response);
+						$scope.project = origin;
+					})
 				};
 
-//				$scope.hideStartDatePicker = function ($event) {
-//					$timeout(function () {
-//						$scope.editable.startDate = false;
-//					}, 100);
-//				};
+				$scope.openDatePicker = function ($event, date) {
+					$event.preventDefault();
+					$event.stopPropagation();
+					$scope.editable.datepicker = {};
+					$scope.editable.datepicker[date] = true;
+				};
 			}]);
 }());
