@@ -3,24 +3,22 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ProjectModalCtrl', ['$scope', '$modalInstance', 'project', '$log', 'DataProvider',
-			function ($scope, $modalInstance, project, $log, DataProvider) {
+		.controller('ProjectModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
+			function ($scope, $modalInstance, options, $log, DataProvider) {
 				$scope.modal = {
-					title: _.isNull(project) ? 'New Project' : 'Edit Project',
+					title: options.title,
 
-					assignableUsers: [],
+					model: options.model,
 
-					project: angular.copy(project) || factory.project({}),
+					assignableUsers: []
+				};
 
-					projectForm: null,
+				$scope.form = {
+					model: null,
 
 					startDatePickerOpened: false,
 
 					endDatePickerOpened: false
-				};
-
-				$scope.form = {
-					project: null
 				};
 
 				DataProvider.getUsers().then(function (users) {
@@ -32,26 +30,26 @@
 					});
 				});
 
-				$scope.close = function () {
-					$modalInstance.dismiss('cancel');
-				};
-
 				$scope.save = function () {
-					if (!$scope.form.project.$invalid) {
-						$modalInstance.close(_.extend(project || {}, $scope.modal.project));
+					if (!$scope.form.model.$invalid) {
+						$modalInstance.close(_.extend(options.model, $scope.modal.model));
 					} else {
-						for (var attr in $scope.form.project) {
-							if ($scope.form.project.hasOwnProperty(attr) && $scope.form.project[attr].hasOwnProperty('$dirty')) {
-								$scope.form.project[attr].$dirty = true;
+						for (var attr in $scope.form.model) {
+							if ($scope.form.model.hasOwnProperty(attr) && $scope.form.model[attr].hasOwnProperty('$dirty')) {
+								$scope.form.model[attr].$dirty = true;
 							}
 						}
 					}
 				};
 
+				$scope.close = function () {
+					$modalInstance.dismiss('cancel');
+				};
+
 				$scope.openDatePicker = function ($event, opened) {
 					$event.preventDefault();
 					$event.stopPropagation();
-					$scope.modal[opened] = true;
+					$scope.form[opened] = true;
 				};
 
 			}]);

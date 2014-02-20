@@ -4,7 +4,7 @@
 		<h4 class="modal-title">{{ modal.title }}</h4>
 	</div>
 	<div class="modal-body">
-		<form name="form.project" class="form-horizontal" role="form" novalidate="">
+		<form name="form.model" class="form-horizontal" role="form" novalidate="">
 
 			<!-- Title -->
 			<div class="form-group">
@@ -12,7 +12,7 @@
 
 				<div class="col-sm-9">
 					<input name="title"
-						   ng-model="modal.project.title"
+						   ng-model="modal.model.title"
 						   pp-model=""
 						   type="text"
 						   class="form-control"
@@ -22,10 +22,10 @@
 						   ng-maxlength="50"
 						   required="">
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.project.title.$dirty && form.project.title.$invalid">
-					<small class="error" ng-show="form.project.title.$error.required">Project title is required.</small>
-					<small class="error" ng-show="form.project.title.$error.minlength">Project title is required to be at least 3 characters.</small>
-					<small class="error" ng-show="form.project.title.$error.maxlength">Project title can't be longer than 50 characters.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.title.$dirty && form.model.title.$invalid">
+					<small class="error" ng-show="form.model.title.$error.required">Project title is required.</small>
+					<small class="error" ng-show="form.model.title.$error.minlength">Project title is required to be at least 3 characters.</small>
+					<small class="error" ng-show="form.model.title.$error.maxlength">Project title can't be longer than 50 characters.</small>
 				</div>
 			</div>
 
@@ -34,22 +34,36 @@
 				<label for="descriptionInput" class="col-sm-3 control-label">
 					<span>Description</span>
 					<br/>
-					<small ng-show="form.project.description.$viewValue" ng-class="{ error: form.project.description.$viewValue.length > 3000 }">
-						<span>({{ form.project.description.$viewValue.length }}/3000)</span>
+					<small ng-show="form.model.description.$viewValue" ng-class="{ error: form.model.description.$viewValue.length > 3000 }">
+						<span>({{ form.model.description.$viewValue.length }}/3000)</span>
 					</small>
 				</label>
 
 				<div class="col-sm-9">
 					<textarea name="description"
-							  ng-model="modal.project.description"
+							  ng-model="modal.model.description"
 							  rows="3"
 							  class="form-control"
 							  id="descriptionInput"
 							  placeholder="Description"
 							  ng-maxlength="3000"></textarea>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.project.description.$dirty && form.project.description.$invalid">
-					<small class="error" ng-show="form.project.description.$error.maxlength">Project description can't be longer than 3000 characters.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.description.$dirty && form.model.description.$invalid">
+					<small class="error" ng-show="form.model.description.$error.maxlength">Project description can't be longer than 3000 characters.</small>
+				</div>
+			</div>
+
+			<!-- Project (Task only) -->
+			<div ng-if="modal.model.hasProject()" class="form-group">
+				<label for="projectInput" class="col-sm-3 control-label">Project</label>
+
+				<div class="col-sm-9">
+					<input name="project"
+						   ng-model="modal.model.getProject().name"
+						   type="text"
+						   class="form-control"
+						   id="projectInput"
+						   disabled="">
 				</div>
 			</div>
 
@@ -59,14 +73,14 @@
 
 				<div class="col-sm-5">
 					<select name="assignee"
-							ng-model="modal.project.assignee"
+							ng-model="modal.model.assignee"
 							class="form-control"
 							id="assigneeInput"
 							ng-options="user as user.name for user in modal.assignableUsers track by user.id"
 							required=""></select>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.project.assignee.$dirty && form.project.assignee.$invalid">
-					<small class="error" ng-show="form.project.assignee.$error.required">An Assignee is required.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.assignee.$dirty && form.model.assignee.$invalid">
+					<small class="error" ng-show="form.model.assignee.$error.required">An Assignee is required.</small>
 				</div>
 			</div>
 
@@ -76,10 +90,10 @@
 
 				<div class="col-sm-5">
 					<select name="status"
-							ng-model="modal.project.status"
+							ng-model="modal.model.status"
 							class="form-control"
 							id="statusInput"
-							ng-options="modal.project.statusList.indexOf(value) as value for value in modal.project.statusList"></select>
+							ng-options="modal.model.statusList.indexOf(value) as value for value in modal.model.statusList"></select>
 				</div>
 			</div>
 
@@ -89,14 +103,14 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="startDate"
-						   ng-model="modal.project.startDate"
+						   ng-model="modal.model.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   class="form-control"
 						   id="startDateInput"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
-						   is-open="modal.startDatePickerOpened">
+						   is-open="form.startDatePickerOpened">
 					<span class="input-group-btn">
 						<button class="btn btn-default" ng-click="openDatePicker($event, 'startDatePickerOpened')">
 							<i class="glyphicon glyphicon-calendar"></i>
@@ -111,14 +125,14 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="endDate"
-						   ng-model="modal.project.endDate"
+						   ng-model="modal.model.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   class="form-control"
 						   id="endDateInput"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
-						   is-open="modal.endDatePickerOpened">
+						   is-open="form.endDatePickerOpened">
 					<span class="input-group-btn">
 						<button class="btn btn-default" ng-click="openDatePicker($event, 'endDatePickerOpened')">
 							<i class="glyphicon glyphicon-calendar"></i>
@@ -133,7 +147,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="duration"
-						   ng-model="modal.project.duration"
+						   ng-model="modal.model.duration"
 						   pp-model=""
 						   pp-convert-time=""
 						   type="text"
@@ -143,8 +157,8 @@
 						   required="">
 					<span class="input-group-addon">hours</span>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.project.duration.$dirty && form.project.duration.$invalid">
-					<small class="error" ng-show="form.project.duration.$error.required">A duration is required.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.duration.$dirty && form.model.duration.$invalid">
+					<small class="error" ng-show="form.model.duration.$error.required">A duration is required.</small>
 				</div>
 			</div>
 
@@ -154,7 +168,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="effort"
-						   ng-model="modal.project.effort"
+						   ng-model="modal.model.effort"
 						   pp-model=""
 						   pp-convert-time=""
 						   type="text"
@@ -164,8 +178,8 @@
 						   required="">
 					<span class="input-group-addon">hours</span>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.project.effort.$dirty && form.project.effort.$invalid">
-					<small class="error" ng-show="form.project.effort.$error.required">An effort is required.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.effort.$dirty && form.model.effort.$invalid">
+					<small class="error" ng-show="form.model.effort.$error.required">An effort is required.</small>
 				</div>
 			</div>
 
@@ -175,7 +189,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="progress"
-						   ng-model="modal.project.progress"
+						   ng-model="modal.model.progress"
 						   pp-model=""
 						   type="number"
 						   class="form-control text-right"
@@ -186,14 +200,14 @@
 						   required="">
 					<span class="input-group-addon">%</span>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.project.progress.$dirty && form.project.progress.$invalid">
-					<small class="error" ng-show="form.project.progress.$error.required">A progress is required.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.progress.$dirty && form.model.progress.$invalid">
+					<small class="error" ng-show="form.model.progress.$error.required">A progress is required.</small>
 				</div>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-default" ng-click="close()">Cancel</button>
-		<button type="button" class="btn btn-primary" ng-click="save()">Save Project</button>
+		<button type="button" class="btn btn-default" ng-click="close()">Abbrechen</button>
+		<button type="button" class="btn btn-primary" ng-click="save()">Speichern und Schließen</button>
 	</div>
 </div>

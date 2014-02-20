@@ -33,10 +33,15 @@
 		</tr>
 		</thead>
 		<tbody>
+		<tr>
+			<td colspan="10">
+				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
+			</td>
+		</tr>
 		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-init="project.hideTasks = false">
 			<!-- Action -->
 			<td class="text-center">
-				<input type="checkbox" ng-click="selectProject(project)" ng-checked="checkedItems[project.getId()]"/>
+				<input type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
 			</td>
 			<!-- Title -->
 			<td>
@@ -45,7 +50,8 @@
 					<a href="javascript:void(0);"
 					   class="glyphicon"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
-					   ng-click="showTasks(project)">
+					   ng-click="showTasks(project)"
+					   ng-show="project.hasTasks()">
 					</a>
 				</nobr>
 				<!--<div ng-if="editing(project)">-->
@@ -124,16 +130,19 @@
 		</tbody>
 	</table>
 	<div class="dropdown">
-		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default">Select Action</button>
+		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
 		<ul class="dropdown-menu">
 			<li>
-				<a href="javascript:void(0);" ng-click="newProject()">Create new Project</a>
+				<a href="javascript:void(0);" ng-click="editSelected()">Projekt bearbeiten</a>
 			</li>
 			<li>
-				<a href="javascript:void(0);" ng-click="editSelected()">Edit selected Projects</a>
+				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
 			</li>
 			<li>
-				<a href="javascript:void(0);" ng-click="deleteSelected()">Delete selected Projects</a>
+				<a href="javascript:void(0);" ng-click="createSubProject()">Unterprojekt erstellen</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
 			</li>
 		</ul>
 	</div>

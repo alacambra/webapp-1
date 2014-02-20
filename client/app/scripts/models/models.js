@@ -119,12 +119,32 @@
 	/**
 	 * Factory that produces task instances.
 	 */
-	factory.task = stampit.compose(idMod, processMod).methods({
-		getUrl: function () {
-			if (this.isNew()) {
-				return '/tasks';
+	factory.task = stampit.compose(idMod, processMod).enclose(function () {
+		var project = null;
+
+		this.setProject = function (_project) {
+			if (_project) {
+				project = {
+					id: _project.getId(),
+					name: _project.title
+				};
+
+			} else {
+				project = null;
 			}
-			return '/tasks/' + this.getId();
+		};
+
+		this.getProject = function () {
+			return project;
+		};
+
+	}).methods({
+		clearProject: function () {
+			this.setProject(null);
+		},
+
+		hasProject: function () {
+			return !_.isNull(this.getProject());
 		}
 	});
 
@@ -132,7 +152,7 @@
 	 * Factory that produces project instances.
 	 */
 	factory.project = stampit.compose(idMod, processMod).enclose(function () {
-		var tasks = null;
+		var tasks = [];
 
 		this.getTasks = function () {
 			return tasks;
@@ -152,8 +172,12 @@
 		};
 
 		this.clearTasks = function () {
-			tasks = null;
+			tasks = [];
 		};
+
+		this.hasTasks = function () {
+			return tasks.length > 0;
+		}
 
 	}).methods({
 		getUrl: function () {
