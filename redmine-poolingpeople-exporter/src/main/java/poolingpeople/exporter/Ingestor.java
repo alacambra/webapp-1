@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -14,13 +13,13 @@ import org.neo4j.graphdb.Transaction;
 
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.TaskStatus;
-import poolingpeople.persistance.neo4j.GraphDatabaseServiceProducer;
-import poolingpeople.persistance.neo4j.NeoManager;
-import poolingpeople.persistance.neo4j.entities.PersistedEffort;
-import poolingpeople.persistance.neo4j.entities.PersistedProject;
-import poolingpeople.persistance.neo4j.entities.PersistedTask;
-import poolingpeople.persistance.neo4j.entities.PersistedUser;
 import poolingpeople.exporter.redmine.*;
+import poolingpeople.persistence.neo4j.GraphDatabaseServiceProducer;
+import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.entities.PersistedEffort;
+import poolingpeople.persistence.neo4j.entities.PersistedProject;
+import poolingpeople.persistence.neo4j.entities.PersistedTask;
+import poolingpeople.persistence.neo4j.entities.PersistedUser;
 
 public class Ingestor {
 
