@@ -4,13 +4,15 @@
     angular.module('poolingpeopleApp')
 
         .service('SessionService', function (Base64, $cookieStore, $http) {
-		    $http.defaults.headers.common.Authorization = $cookieStore.get('authdata') ? ('Basic ' + $cookieStore.get('authdata')) : "";
+			if ($cookieStore.get('authdata')) {
+				$http.defaults.headers.common.Authorization = 'Basic ' + $cookieStore.get('authdata');
+			}
 		 
 		    var userData = {
 		    	id: 0,
 		    	username: "",
 		    	password: ""
-		    }
+		    };
 
 	        var setCredentials = function (username, password) {
 
@@ -20,12 +22,12 @@
 	            var encoded = Base64.encode(username + ':' + password);
 	            $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
 	            $cookieStore.put('authdata', encoded);
-	        }
+	        };
 
 	        var clearCredentials = function () {
 	            $cookieStore.remove('authdata');
 	            delete $http.defaults.headers.common.Authorization;
-	        }
+	        };
 
 		    return {
 
