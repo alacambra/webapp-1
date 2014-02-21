@@ -63,7 +63,8 @@
 					   ng-model="task.title"
 					   pp-model=""
 					   set-focus=""
-					   ng-blur="editable.title = false; updateTask();">
+					   ng-blur="editable.title = false; updateTask();"
+					   ng-enter="editable.title = false; updateTask();">
 			</div>
 		</td>
 
@@ -143,7 +144,8 @@
 					   pp-convert-time=""
 					   type="text"
 					   set-focus=""
-					   ng-blur="editable.duration = false; updateTask();">
+					   ng-blur="editable.duration = false; updateTask();"
+					   ng-enter="editable.duration = false; updateTask();">
 			</div>
 		</td>
 
@@ -158,7 +160,8 @@
 					   pp-convert-time=""
 					   type="text"
 					   set-focus=""
-					   ng-blur="editable.effort = false; updateTask();">
+					   ng-blur="editable.effort = false; updateTask();"
+					   ng-enter="editable.effort = false; updateTask();">
 			</div>
 		</td>
 
@@ -175,7 +178,8 @@
 					   min="0"
 					   max="100"
 					   set-focus=""
-					   ng-blur="editable.progress = false; updateTask();">
+					   ng-blur="editable.progress = false; updateTask();"
+					   ng-enter="editable.progress = false; updateTask();">
 			</div>
 		</td>
 
