@@ -25,8 +25,8 @@
                     return DataSources[getDataSource()].createUser(data);
                 },
 
-                updateUser: function(data) {
-                    return DataSources[getDataSource()].updateUser(data);
+                updateUser: function(id, data) {
+                    return DataSources[getDataSource()].updateUser(id, data);
                 },
 
                 deleteUser: function(id) {
@@ -52,8 +52,8 @@
                     return DataSources[getDataSource()].createTask(data);
                 },
 
-                updateTask: function(data) {
-                    return DataSources[getDataSource()].updateTask(data);
+                updateTask: function(id, data) {
+                    return DataSources[getDataSource()].updateTask(id, data);
                 },
 
                 deleteTask: function(id) {
@@ -119,8 +119,8 @@
                     return DataSources[getDataSource()].createProject(data);
                 },
 
-                updateProject: function(data) {
-                    return DataSources[getDataSource()].updateProject(data);
+                updateProject: function(id, data) {
+                    return DataSources[getDataSource()].updateProject(id, data);
                 },
 
                 deleteProject: function(id) {
