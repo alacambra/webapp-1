@@ -11,3 +11,9 @@
 /favicon.ico
 /index.html
 /robots.txt
+/bower_components
+/controllers
+/directives
+/filters
+/models
+/services

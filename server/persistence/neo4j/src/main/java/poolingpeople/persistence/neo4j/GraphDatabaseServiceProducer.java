@@ -4,6 +4,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
@@ -12,6 +13,7 @@ public class GraphDatabaseServiceProducer{
 
 	private final static String db_uri = "/opt/neo4j";
 	private final GraphDatabaseService graphDb;
+	Logger logger = Logger.getLogger(this.getClass().getName());
 	
 	public GraphDatabaseServiceProducer() {
 		
@@ -20,10 +22,13 @@ public class GraphDatabaseServiceProducer{
 		try {
 			
 			tmp = new GraphDatabaseFactory().newEmbeddedDatabase( db_uri );
+			logger.info("using db:" + db_uri);
 			
 		} catch(Exception e){
-			
-			tmp =  new GraphDatabaseFactory().newEmbeddedDatabase("neo4j");
+			logger.error(db_uri + " not found", e);
+//			tmp =  new GraphDatabaseFactory().newEmbeddedDatabase("neo4j");
+			tmp = new GraphDatabaseFactory().newEmbeddedDatabase( db_uri );
+			logger.info("Using default db");
 			
 		}
 		
