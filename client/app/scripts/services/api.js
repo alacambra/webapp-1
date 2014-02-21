@@ -8,15 +8,6 @@
 			var baseUrl = '/webapplication/rest';
             $http.defaults.headers.common['Content-type'] = 'application/json';
 
-//            var serialize = function(obj) {
-//                var str = [];
-//                for(var p in obj) {
-//                    if (obj.hasOwnProperty(p)) {
-//                       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-//                    }
-//                }
-//                return str.join("&");
-//            }
 			var serialize = function (obj) {
 				return JSON.stringify(obj);
 			};

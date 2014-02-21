@@ -4,7 +4,7 @@
     angular.module('poolingpeopleApp')
 
         .service('SessionService', function (Base64, $cookieStore, $http) {
-		    $http.defaults.headers.common.Authorization = 'Basic ' + $cookieStore.get('authdata');
+		    $http.defaults.headers.common.Authorization = $cookieStore.get('authdata') ? ('Basic ' + $cookieStore.get('authdata')) : "";
 		 
 		    var userData = {
 		    	id: 0,
@@ -37,7 +37,7 @@
 		        logIn: function (username, password) {
 		        	setCredentials(username, password);
 		        },
-		        
+
 		        logOut: function () {
 		        	clearCredentials();
 		        },

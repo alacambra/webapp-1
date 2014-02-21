@@ -130,17 +130,27 @@
 				};
 
 				$scope.deleteSelected = function () {
-					var confirmed = $window.confirm('Soll das Projekt "' + $scope.selectedTask.title + '" wirklich gelöscht werden?');
 
-					if (confirmed) {
-						var index = $scope.tasks.indexOf($scope.selectedTask);
-						DataProvider.deleteTask($scope.selectedTask.getId()).then(function (response) {
-							$scope.selectedTask = null;
-							$scope.tasks.splice(index, 1);
-						}, function (response) {
-							$log.error(response);
-						});
-					}
+					var modalInstance = $modal.open({
+						templateUrl: 'views/confirm_modal.tpl.html',
+						controller: 'ConfirmModalCtrl',
+						resolve: {
+							message: function() {
+								return "Soll die Aufgabe '" + $scope.selectedTask.title + "' wirklich gelöscht werden?"
+							}
+						}
+					});
+
+					modalInstance.result.then(function () {
+							var index = $scope.tasks.indexOf($scope.selectedTask);
+							DataProvider.deleteTask($scope.selectedTask.getId()).then(function (response) {
+								$scope.selectedTask = null;
+								$scope.tasks.splice(index, 1);
+							}, function (response) {
+								$log.error(response);
+							});
+					});
+
 				};
 
 				$scope.showTasks = function (task) {

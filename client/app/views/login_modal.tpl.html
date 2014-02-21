@@ -24,7 +24,7 @@
 						   ng-maxlength="50"
 						   required="">
 				</div>
-				<div class="error col-sm-6 col-sm-offset-3" ng-if="form.login.username.$dirty && form.login.username.$invalid">
+				<div class="error col-sm-6 col-sm-offset-3" ng-if="form.login.username.$dirty && form.login.username.$invalid && modal.login.username != ''">
 					<small class="error" ng-show="form.login.username.$error.required">Username is required.</small>
 					<small class="error" ng-show="form.login.username.$error.minlength">Username is required to be at least 3 characters.</small>
 					<small class="error" ng-show="form.login.username.$error.maxlength">Username can't be longer than 50 characters.</small>

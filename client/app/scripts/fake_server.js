@@ -68,6 +68,10 @@
 					return [200];
 				});
 
+				$httpBackend.whenDELETE(/.+\/tasks\/.+/).respond(function (method, url, data, headers) {
+					return [200];
+				});
+
 				$httpBackend.whenPUT(/.+\/projects\/.+/).respond(function (method, url, data, headers) {
 					return [200];
 				});

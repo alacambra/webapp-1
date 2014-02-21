@@ -146,9 +146,18 @@
 				};
 
 				$scope.deleteSelected = function () {
-					var confirmed = $window.confirm('Soll das Projekt "' + $scope.selectedProject.title + '" wirklich gelöscht werden?');
 
-					if (confirmed) {
+					var modalInstance = $modal.open({
+						templateUrl: 'views/confirm_modal.tpl.html',
+						controller: 'ConfirmModalCtrl',
+						resolve: {
+							message: function() {
+								return "Soll das Projekt '" + $scope.selectedProject.title + "' wirklich gelöscht werden?"
+							}
+						}
+					});
+
+					modalInstance.result.then(function () {
 						var index = $scope.projects.indexOf($scope.selectedProject);
 						DataProvider.deleteProject($scope.selectedProject.getId()).then(function (response) {
 							$scope.selectedProject = null;
@@ -156,7 +165,7 @@
 						}, function (response) {
 							$log.error(response);
 						});
-					}
+					});
 				};
 
 				$scope.showTasks = function (project) {
