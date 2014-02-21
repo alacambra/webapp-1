@@ -25,6 +25,26 @@ module.exports = function (grunt) {
 			dist: 'dist'
 		},
 
+		// Environment settings
+		env: {
+			dev: {
+				ENV: 'DEVELOPMENT'
+			},
+
+			prod: {
+				ENV: 'PRODUCTION'
+			}
+		},
+
+		preprocess: {
+			html: {
+				options: {
+					inline: true
+				},
+				src: '<%= yeoman.dist %>/index.html'
+			}
+		},
+
 		// Watches files for changes and runs tasks based on the changed files
 		watch: {
 			js: {
@@ -408,7 +428,8 @@ module.exports = function (grunt) {
 		'uglify',
 		'rev',
 		'usemin',
-		'htmlmin'
+		'env:prod',
+		'preprocess:html'
 	]);
 
 	grunt.registerTask('default', [
