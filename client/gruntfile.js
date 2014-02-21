@@ -349,20 +349,6 @@ module.exports = function (grunt) {
                 'svgmin'
             ]
         },
-
-        // By default, your `index.html`'s <!-- Usemin block --> will take care of
-        // minification. These next options are pre-configured if you do not wish
-        // to use the Usemin blocks.
-        // cssmin: {
-        //   dist: {
-        //     files: {
-        //       '<%= yeoman.dist %>/styles/main.css': [
-        //         '.tmp/styles/{,*/}*.css',
-        //         '<%= yeoman.app %>/styles/{,*/}*.css'
-        //       ]
-        //     }
-        //   }
-        // },
         uglify: {
             dist: {
                 files: {
@@ -378,6 +364,27 @@ module.exports = function (grunt) {
             }
         },
 
+        // By default, your `index.html`'s <!-- Usemin block --> will take care of
+        // minification. These next options are pre-configured if you do not wish
+        // to use the Usemin blocks.
+        // cssmin: {
+        //   dist: {
+        //     files: {
+        //       '<%= yeoman.dist %>/styles/main.css': [
+        //         '.tmp/styles/{,*/}*.css',
+        //         '<%= yeoman.app %>/styles/{,*/}*.css'
+        //       ]
+        //     }
+        //   }
+        // },
+        // uglify: {
+        //   dist: {
+        //     files: {
+        //       '<%= yeoman.dist %>/scripts/scripts.js': [
+        //         '<%= yeoman.dist %>/scripts/scripts.js'
+        //       ]
+        //     }
+        //   }
         // },
         // concat: {
         //   dist: {}
@@ -401,6 +408,19 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'env:dev',
+            'preprocess:html',
+            'bower-install',
+            'concurrent:server',
+            'autoprefixer',
+            'connect:livereload',
+            'watch'
+        ]);
+    });
+
+    grunt.registerTask('serveProd', function () {
+        grunt.task.run([
+            'clean:server',
+            'env:prod',
             'preprocess:html',
             'bower-install',
             'concurrent:server',
@@ -467,3 +487,4 @@ module.exports = function (grunt) {
         'build'
     ]);
 };
+
