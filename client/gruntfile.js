@@ -38,10 +38,8 @@ module.exports = function (grunt) {
 
 		preprocess: {
 			html: {
-				options: {
-					inline: true
-				},
-				src: '<%= yeoman.dist %>/index.html'
+				src: '<%= yeoman.app %>/index.tpl.html',
+				dest: '<%= yeoman.app %>/index.html'
 			}
 		},
 
@@ -106,6 +104,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				options: {
+					open: true,
 					base: '<%= yeoman.dist %>'
 				}
 			}
@@ -313,6 +312,7 @@ module.exports = function (grunt) {
 							'*.{ico,png,txt}',
 							'.htaccess',
 							'*.html',
+							'!index.tpl.html',
 							'views/{,*/}*.html',
 							'bower_components/**/*',
 							'images/{,*/}*.{webp}',
@@ -393,6 +393,8 @@ module.exports = function (grunt) {
 
 		grunt.task.run([
 			'clean:server',
+			'env:dev',
+			'preprocess:html',
 			'bower-install',
 			'concurrent:server',
 			'autoprefixer',
@@ -408,6 +410,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('test', [
 		'clean:server',
+		'env:dev',
+		'preprocess:html',
 		'concurrent:test',
 		'autoprefixer',
 		'connect:test',
@@ -416,6 +420,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('build', [
 		'clean:dist',
+		'env:prod',
+		'preprocess:html',
 		'bower-install',
 		'useminPrepare',
 		'concurrent:dist',
@@ -423,13 +429,29 @@ module.exports = function (grunt) {
 		'concat',
 		'ngmin',
 		'copy:dist',
-		'cdnify',
+		'cssmin',
+		'uglify',
+		'rev',
+		'usemin'
+	]);
+
+	grunt.registerTask('build:dev', [
+		'clean:dist',
+		'env:dev',
+		'preprocess:html',
+		'bower-install',
+		'useminPrepare',
+		'concurrent:dist',
+		'autoprefixer',
+		'concat',
+		'ngmin',
+		'copy:dist',
 		'cssmin',
 		'uglify',
 		'rev',
 		'usemin',
-		'env:prod',
-		'preprocess:html'
+		'connect:dist',
+		'watch'
 	]);
 
 	grunt.registerTask('default', [

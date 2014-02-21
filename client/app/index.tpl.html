@@ -37,7 +37,14 @@
     <!-- endbuild -->
 </head>
 
+<!-- @if ENV == 'DEVELOPMENT' -->
+<body ng-app="poolingpeopleAppDev">
+<!-- @endif -->
+
+<!-- @if ENV == 'PRODUCTION' -->
 <body ng-app="poolingpeopleApp">
+<!-- @endif -->
+
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -81,8 +88,15 @@
 <!-- endbower -->
 <!-- endbuild -->
 
+<!-- @if ENV == 'DEVELOPMENT' -->
+<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+<!-- @endif -->
+
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
+<!-- @if ENV == 'DEVELOPMENT' -->
+<script src="scripts/fake_server.js"></script>
+<!-- @endif -->
 <script src="scripts/models/models.js"></script>
 <script src="scripts/filters/filters.js"></script>
 <script src="scripts/directives/directives.js"></script>
