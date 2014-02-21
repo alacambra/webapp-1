@@ -12,8 +12,10 @@
 				};
 
 				$scope.form = {
-					username: "",
-					password: ""
+					login: {
+						username: "",
+						password: ""
+					}
 				};
 
 				$scope.close = function () {
@@ -22,7 +24,8 @@
 
 				$scope.save = function () {
 					if (!$scope.form.login.$invalid) {
-						$modalInstance.close(username, password);
+						$modalInstance.close($scope.modal.login);
+
 					} else {
 						for (var attr in $scope.form.login) {
 							if ($scope.form.login.hasOwnProperty(attr) && $scope.form.login[attr].hasOwnProperty('$dirty')) {

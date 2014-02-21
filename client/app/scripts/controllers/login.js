@@ -23,8 +23,8 @@
 					}
 				});
 
-				modalInstance.result.then(function (username, password) {
-					SessionService.logIn(username, password);
+				modalInstance.result.then(function (loginData) {
+					SessionService.logIn(loginData.username, loginData.password);
 				});
 			};
 
