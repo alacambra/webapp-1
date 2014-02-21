@@ -1,0 +1,13 @@
+/fixtures
+/images
+/scripts
+/styles
+/views
+/WEB-INF
+/.buildignore
+/.htaccess
+/404.html
+/app.js
+/favicon.ico
+/index.html
+/robots.txt
