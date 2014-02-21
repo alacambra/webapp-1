@@ -68,23 +68,6 @@ public class NeoManager {
 		return true;
 	}
 
-//	@Deprecated
-//	public Node getUniqueNode(UUIDIndexContainer indexContainer)  {
-//
-//
-//		IndexHits<Node> indexHits = this.getNodes(indexContainer);
-//
-//		if ( indexHits.size() > 1 ) {
-//			throw new NotUniqueException();
-//		} else if ( indexHits.size() == 0 ) {
-//			throw new NodeNotFoundException();
-//		} else {
-//			Node single = indexHits.getSingle();
-//			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
-//			return single;
-//		}
-//	}
-	
 	public Node getUniqueNode(String labelName, String key, Object value){
 		String q = "MATCH (n:" + labelName + "{" + key + ":\"" + value.toString() + "\"}) return n;";
 		ResourceIterator<Node> it = runCypherQuery(q, null).columnAs("n");
@@ -105,28 +88,6 @@ public class NeoManager {
 
 	}
 
-
-//	public Node getUniqueNode( PoolingpeopleObjectType objectType, Object value )  {
-//		ResourceIterable<Node> nodes = 
-//				graphDb.findNodesByLabelAndProperty(DynamicLabel.label(objectType.name()), NodePropertyName.ID.name(), value);
-//
-//		ResourceIterator<Node> it = nodes.iterator(); 
-//
-//		if ( it.hasNext() ){
-//			Node n = it.next();
-//			if (it .hasNext()){
-//				throw new NodeNotFoundException();
-//			}
-//
-//			it.close();
-//			return n;
-//
-//		} else {
-//			throw new NodeNotFoundException();
-//		}
-//	}
-
-	@Deprecated
 	public IndexHits<Node> getNodes(IndexContainer indexContainer) {
 
 		IndexHits<Node> indexHits = 
@@ -138,10 +99,6 @@ public class NeoManager {
 
 	public Collection<Node> getNodes(String label) {
 
-		/**
-		 * @todo investigate why is not possible to use it as a parameter
-		 */
-		//		ExecutionResult result = runCypherQuery("MATCH(n:{label}) RETURN n", genericMap("label", label));
 		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n LIMIT 10", null);
 		Iterator<Node> n_column = result.columnAs("n");
 		return IteratorUtil.asCollection(n_column);
@@ -153,13 +110,14 @@ public class NeoManager {
 	}
 
 	public Node createNode(
-			Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType poolingpeopleObjectType) 
-	{
+			Map<String, Object> properties, 
+			UUIDIndexContainer indexContainer, 
+			PoolingpeopleObjectType poolingpeopleObjectType
+	){
 		Node node = null;
 
 		if (uniqueNodeExist(poolingpeopleObjectType.name(), NodePropertyName.ID.name(), indexContainer.getValue()))
 			throw new NodeExistsException("Node " + indexContainer.getValue() + " already exists and can not be created again");
-
 
 		node = graphDb.createNode();
 
@@ -175,16 +133,9 @@ public class NeoManager {
 		label = DynamicLabel.label(poolingpeopleObjectType.name());
 		node.addLabel(label);
 
-		/*
-		 * Legacy support 
-		 */
-//		addToIndex(node, new TypeIndexContainer(poolingpeopleObjectType));
-//		addToIndex(node, indexContainer);
-
 		return node;
 	}
 
-	@Deprecated
 	public void addToIndex(Node node, IndexContainer indexContainer) {
 		graphDb.index().forNodes(indexContainer.getType()).add(node, indexContainer.getKey(), indexContainer.getValue());
 	}
@@ -395,12 +346,6 @@ public class NeoManager {
 		}
 	}
 
-	public void removeRelations(Relationship... rels) {
-		for ( int i = 0; i < rels.length; i++ ) {
-			rels[i].delete();
-		}
-	}
-
 	public boolean hasProperty(Node node, String key) {
 		return node.hasProperty(key);
 	}
@@ -410,6 +355,12 @@ public class NeoManager {
 	 * @param n
 	 */
 	public void removeNode(Node n) {
+		
+//		MATCH (n) 
+//		OPTIONAL MATCH (n)-[r]-() 
+//		DELETE n, r
+		
+		
 		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodePropertyName.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
 

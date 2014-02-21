@@ -101,9 +101,9 @@ public abstract class AbstractBoundryTest {
 
 			manager.runCypherQuery(FileLoader.getText(structurePath + cypherStructure), null);
 			Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-			for(Node n : iterable) {
-				manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
-			}
+//			for(Node n : iterable) {
+//				manager.addToIndex(n, new UUIDIndexContainer((String) n.getProperty("ID")));
+//			}
 			tx.success();
 		}finally {
 			tx.close();
