@@ -29,7 +29,6 @@ import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
 
 import poolingpeople.commons.exceptions.RootApplicationException;
-import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
 @Singleton
 public class NeoManager {
@@ -48,57 +47,84 @@ public class NeoManager {
 	}
 
 
-	public boolean uniqueNodeExist(IndexContainer indexContainer) {
-
-		IndexHits<Node> indexHits = graphDb.index()
-				.forNodes( indexContainer.getType() ).get( indexContainer.getKey(), indexContainer.getValue());
-
-		if ( indexHits != null && indexHits.size() == 1 ) {
-			indexHits.close();
-			return true;
-		} else if ( indexHits != null && indexHits.size() > 1 ) {
-			throw new NodeExistsException();
-		}
-
-		return false;
-	}
-
-	@Deprecated
-	public Node getUniqueNode(UUIDIndexContainer indexContainer)  {
-
-
-		IndexHits<Node> indexHits = this.getNodes(indexContainer);
-
-		if ( indexHits.size() > 1 ) {
-			throw new NotUniqueException();
-		} else if ( indexHits.size() == 0 ) {
-			throw new NodeNotFoundException();
-		} else {
-			Node single = indexHits.getSingle();
-			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
-			return single;
-		}
-	}
-	
-	public Node getUniqueNode( PoolingpeopleObjectType objectType, Object value )  {
-		ResourceIterable<Node> nodes = 
-				graphDb.findNodesByLabelAndProperty(DynamicLabel.label(objectType.name()), NodePropertyName.ID.name(), value);
+	public boolean uniqueNodeExist(String labelName, String key, Object value){
 		
-		ResourceIterator<Node> it = nodes.iterator(); 
+		String q = "MATCH (n:" + labelName + "{" + key + ":\"" + value.toString() + "\"}) return n;";
+		ResourceIterator<Node> it = runCypherQuery(q, null).columnAs("n");
 		
-		if ( it.hasNext() ){
-			Node n = it.next();
-			if (it .hasNext()){
-				throw new NodeNotFoundException();
-			}
-			
+		if (!it.hasNext()){
 			it.close();
-			return n;
-			
-		} else {
+			return false;
+		}
+		
+		it.next();
+		
+		if (it.hasNext()){
+			it.close();
+			throw new NotUniqueException();
+		}
+		
+		it.close();
+		return true;
+	}
+
+//	@Deprecated
+//	public Node getUniqueNode(UUIDIndexContainer indexContainer)  {
+//
+//
+//		IndexHits<Node> indexHits = this.getNodes(indexContainer);
+//
+//		if ( indexHits.size() > 1 ) {
+//			throw new NotUniqueException();
+//		} else if ( indexHits.size() == 0 ) {
+//			throw new NodeNotFoundException();
+//		} else {
+//			Node single = indexHits.getSingle();
+//			if(single == null) throw new ConsistenceException("Index found but not its entity."); 
+//			return single;
+//		}
+//	}
+	
+	public Node getUniqueNode(String labelName, String key, Object value){
+		String q = "MATCH (n:" + labelName + "{" + key + ":\"" + value.toString() + "\"}) return n;";
+		ResourceIterator<Node> it = runCypherQuery(q, null).columnAs("n");
+		
+		if (!it.hasNext()){
+			it.close();
 			throw new NodeNotFoundException();
 		}
+		
+		Node n = it.next();
+		it.close();
+		
+		if (it.hasNext()){
+			throw new NotUniqueException();
+		}
+		
+		return n;
+
 	}
+
+
+//	public Node getUniqueNode( PoolingpeopleObjectType objectType, Object value )  {
+//		ResourceIterable<Node> nodes = 
+//				graphDb.findNodesByLabelAndProperty(DynamicLabel.label(objectType.name()), NodePropertyName.ID.name(), value);
+//
+//		ResourceIterator<Node> it = nodes.iterator(); 
+//
+//		if ( it.hasNext() ){
+//			Node n = it.next();
+//			if (it .hasNext()){
+//				throw new NodeNotFoundException();
+//			}
+//
+//			it.close();
+//			return n;
+//
+//		} else {
+//			throw new NodeNotFoundException();
+//		}
+//	}
 
 	@Deprecated
 	public IndexHits<Node> getNodes(IndexContainer indexContainer) {
@@ -126,11 +152,12 @@ public class NeoManager {
 		return MapUtil.genericMap(new HashMap<String, Object>(), objects);
 	}
 
-	public Node createNode(Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType poolingpeopleObjectType) 
+	public Node createNode(
+			Map<String, Object> properties, UUIDIndexContainer indexContainer, PoolingpeopleObjectType poolingpeopleObjectType) 
 	{
 		Node node = null;
 
-		if (uniqueNodeExist(indexContainer))
+		if (uniqueNodeExist(poolingpeopleObjectType.name(), NodePropertyName.ID.name(), indexContainer.getValue()))
 			throw new NodeExistsException("Node " + indexContainer.getValue() + " already exists and can not be created again");
 
 
@@ -151,8 +178,8 @@ public class NeoManager {
 		/*
 		 * Legacy support 
 		 */
-		addToIndex(node, new TypeIndexContainer(poolingpeopleObjectType));
-		addToIndex(node, indexContainer);
+//		addToIndex(node, new TypeIndexContainer(poolingpeopleObjectType));
+//		addToIndex(node, indexContainer);
 
 		return node;
 	}
@@ -416,8 +443,8 @@ public class NeoManager {
 			return 0L;
 		}
 	}
-	
-	
+
+
 	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
 
 		for ( Node n : nodes ) {

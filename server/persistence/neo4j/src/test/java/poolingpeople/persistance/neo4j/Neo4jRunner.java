@@ -12,17 +12,19 @@ import poolingpeople.persistence.neo4j.NeoManager;
 public class Neo4jRunner extends BlockJUnit4ClassRunner{
 
 	Transaction tx;
-	private final GraphDatabaseService graphDb;
+	private GraphDatabaseService graphDb;
 	private Object clazz;
 
 	public Neo4jRunner(Class<?> klass) throws InitializationError {
 		super(klass);
-		GraphDatabaseServiceProducerTest databaseServiceProducer = new GraphDatabaseServiceProducerTest();
-		graphDb = databaseServiceProducer.getGraphDb();
+//		GraphDatabaseServiceProducerTest databaseServiceProducer = new GraphDatabaseServiceProducerTest();
+//		graphDb = databaseServiceProducer.getGraphDb();
 		this.clazz = klass;
 	}
 
 	protected Object createTest() throws Exception {
+		GraphDatabaseServiceProducerTest databaseServiceProducer = new GraphDatabaseServiceProducerTest();
+		graphDb = databaseServiceProducer.getGraphDb();
 		Object o = getTestClass().getOnlyConstructor().newInstance();
 		o.getClass().getMethod("setManager", NeoManager.class).invoke(o, new NeoManager(graphDb));
 		return o;
@@ -32,11 +34,11 @@ public class Neo4jRunner extends BlockJUnit4ClassRunner{
 	@Override
 	protected Statement methodBlock(final FrameworkMethod method) {
 		final Statement defaultStatement = super.methodBlock(method);
-
 		return new Statement() {
 
 			@Override
 			public void evaluate() throws Throwable {
+				
 
 				try (Transaction tx = graphDb.beginTx()) {
 

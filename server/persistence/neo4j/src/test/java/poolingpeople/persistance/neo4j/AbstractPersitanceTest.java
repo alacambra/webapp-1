@@ -14,7 +14,6 @@ public abstract class AbstractPersitanceTest {
 	protected String structurePath = "cypher-graphs/";
 	
 	protected NeoManager manager;
-	protected Transaction tx;
 	
 	public void setManager(NeoManager manager) {
 		this.manager = manager;
@@ -30,9 +29,15 @@ public abstract class AbstractPersitanceTest {
 	
 	@After
 	public void tearDown() {
-		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
-		for(Node n : iterable) {
-			manager.removeNode(n);
-		}
+//		Iterable<Node> iterable = GlobalGraphOperations.at(manager.getGraphDbService()).getAllNodes();
+		String q = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r";
+//		manager.runCypherQuery(q, null);
+		
+//		for(Node n : iterable) {
+//			try {
+//				manager.removeNode(n);
+//			} catch (Exception e ){
+//			}
+//		}
 	}
 }

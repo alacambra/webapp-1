@@ -123,7 +123,6 @@ public class PersistedProjectTest extends AbstractPersitanceTest{
 	 * @ASK: Shpuld the projects date also compute?
 	 */
 	@Test
-	@Ignore
 	public void testRemoveTaskDatesAreCorrect() {
 
 		addRelatedStructure();
@@ -148,7 +147,6 @@ public class PersistedProjectTest extends AbstractPersitanceTest{
 	}
 
 	@Test
-	@Ignore
 	public void testRemoveTaskProgressIsCorrect() {
 		addRelatedStructure();
 
@@ -173,7 +171,6 @@ public class PersistedProjectTest extends AbstractPersitanceTest{
 	}
 
 	@Test
-	@Ignore
 	public void testRemoveTaskEffortIsCorrect() {
 		addRelatedStructure();
 		target = new PersistedProject(manager, "1");
