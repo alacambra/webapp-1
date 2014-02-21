@@ -3,12 +3,12 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ProjectModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
+		.controller('ProcessModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
 			function ($scope, $modalInstance, options, $log, DataProvider) {
 				$scope.modal = {
 					title: options.title,
 
-					model: options.model,
+					model: angular.copy(options.model),
 
 					assignableUsers: []
 				};
@@ -33,7 +33,7 @@
 				$scope.save = function () {
 					if (!$scope.form.model.$invalid) {
 						if ($scope.modal.model.isTask) {
-							$scope.addNewTaskToProject(options.model, $scope.modal.model);
+							$scope.saveTask(options.model, $scope.modal.model);
 
 						} else if ($scope.modal.model.isProject) {
 							$scope.saveProject(options.model, $scope.modal.model);

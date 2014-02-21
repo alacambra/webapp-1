@@ -1,30 +1,209 @@
 <div>
-	<h1>{{ title }}</h1>
+<table class="table">
+	<thead>
+	<tr>
+		<th><!-- Aktion --></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
+			<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
+			<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
+			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
+			<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'startDate') ? '-startDate' : 'startDate'">
+			<nobr>Start <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'startDate', 'glyphicon-arrow-up': sorting === '-startDate' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'endDate') ? '-endDate' : 'endDate'">
+			<nobr>Ende <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'endDate', 'glyphicon-arrow-up': sorting === '-endDate' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'duration') ? '-duration' : 'duration'">
+			<nobr>Aufwand<br />geschätzt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'duration', 'glyphicon-arrow-up': sorting === '-duration' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">
+			<nobr>Zeit<br />aufgewendet <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'effort', 'glyphicon-arrow-up': sorting === '-effort' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
+			<nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
+		</a></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'task.name') ? '-task.name' : 'task.name'">
+			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'task.name', 'glyphicon-arrow-up': sorting === '-task.name' }"></span></nobr>
+		</a></th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td colspan="10">
+			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
+		</td>
+	</tr>
+	<tr ng-repeat="task in tasks | orderBy:sorting" ng-controller="TaskCtrl">
+		<!-- Action -->
+		<td class="text-center">
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="selectedTask === task"/>
+		</td>
 
-	<table class="table">
-		<thead>
-		<tr>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Status</th>
-			<th>Priority</th>
-			<th>Start</th>
-			<th>End</th>
-			<th>Duration</th>
-			<th>Progress</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="task in tasks">
-			<td>{{ task.title }}</td>
-			<td>{{ task.description }}</td>
-			<td>{{ task.status }}</td>
-			<td>{{ task.priority }}</td>
-			<td>{{ task.startDate * 1000 | date:'yyyy-MM-dd' }}</td>
-			<td>{{ task.endDate * 1000 | date:'yyyy-MM-dd' }}</td>
-			<td>{{ task.duration }}</td>
-			<td>{{ task.progress }}</td>
-		</tr>
-		</tbody>
-	</table>
+		<!-- Title -->
+		<td>
+			<nobr ng-hide="editable.title">
+				<span ng-click="editable.title = true">{{ task.title }} </span>
+				<a href="javascript:void(0);"
+				   class="glyphicon"
+				   ng-class="{ 'glyphicon-plus': !task.$ui.showTasks, 'glyphicon-minus': task.$ui.showTasks }"
+				   ng-click="showSubTasks(task)"
+				   ng-show="task.hasTasks()">
+				</a>
+			</nobr>
+			<div ng-if="editable.title">
+				<input type="text"
+					   ng-model="task.title"
+					   pp-model=""
+					   set-focus=""
+					   ng-blur="editable.title = false; updateTask();">
+			</div>
+		</td>
+
+		<!-- Description -->
+		<td>
+			<nobr>{{ task.description | limitTo:20 }}</nobr>
+		</td>
+
+		<!-- Assignee -->
+		<td>
+			<nobr ng-hide="editable.assignee">
+				<span ng-click="editable.assignee = true">{{ task.assignee.name }}</span>
+			</nobr>
+			<div ng-if="editable.assignee">
+				<select ng-model="task.assignee"
+						ng-options="user as user.name for user in assignableUsers track by user.id"
+						set-focus=""
+						ng-blur="editable.assignee = false; updateTask();">
+				</select>
+			</div>
+		</td>
+
+		<!-- Status -->
+		<td>
+			<nobr ng-hide="editable.status">
+				<span ng-click="editable.status = true">{{ task.getStatus() }}</span>
+			</nobr>
+			<div ng-if="editable.status">
+				<select ng-model="task.status"
+						ng-options="task.statusList.indexOf(value) as value for value in task.statusList"
+						set-focus=""
+						ng-blur="editable.status = false; updateTask();">
+				</select>
+			</div>
+		</td>
+
+		<!-- Start Date -->
+		<td>
+			<nobr ng-hide="editable.startDate || editable.datepicker.startDate">
+				<span ng-click="editable.startDate = true; openDatePicker($event, 'startDate')">{{ task.startDate | date:'dd.MM.yyyy' }}</span>
+			</nobr>
+			<div ng-if="editable.startDate || editable.datepicker.startDate">
+				<input ng-model="task.startDate"
+					   pp-convert-date="dd.MM.yyyy"
+					   datepicker-popup="dd.MM.yyyy"
+					   min="'1900-01-01'"
+					   max="'2100-01-01'"
+					   is-open="editable.datepicker.startDate"
+					   ng-blur="editable.startDate = false; updateTask();">
+			</div>
+		</td>
+
+		<!-- End Date -->
+		<td>
+			<nobr ng-hide="editable.endDate || editable.datepicker.endDate">
+				<span ng-click="editable.endDate = true; openDatePicker($event, 'endDate')">{{ task.endDate | date:'dd.MM.yyyy' }}</span>
+			</nobr>
+			<div ng-if="editable.endDate || editable.datepicker.endDate">
+				<input ng-model="task.endDate"
+					   pp-convert-date="dd.MM.yyyy"
+					   datepicker-popup="dd.MM.yyyy"
+					   min="'1900-01-01'"
+					   max="'2100-01-01'"
+					   is-open="editable.datepicker.endDate"
+					   ng-blur="editable.endDate = false; updateTask();">
+			</div>
+		</td>
+
+		<!-- Duration -->
+		<td>
+			<nobr ng-hide="editable.duration">
+				<span ng-click="editable.duration = true">{{ task.duration | minutesToHours | number:2 }}h</span>
+			</nobr>
+			<div ng-if="editable.duration">
+				<input ng-model="task.duration"
+					   pp-model=""
+					   pp-convert-time=""
+					   type="text"
+					   set-focus=""
+					   ng-blur="editable.duration = false; updateTask();">
+			</div>
+		</td>
+
+		<!-- Effort -->
+		<td>
+			<nobr ng-hide="editable.effort">
+				<span ng-click="editable.effort = true">{{ task.effort | minutesToHours | number:2 }}h</span>
+			</nobr>
+			<div ng-if="editable.effort">
+				<input ng-model="task.effort"
+					   pp-model=""
+					   pp-convert-time=""
+					   type="text"
+					   set-focus=""
+					   ng-blur="editable.effort = false; updateTask();">
+			</div>
+		</td>
+
+		<!-- Progress -->
+		<td>
+			<nobr ng-hide="editable.progress">
+				<span ng-click="editable.progress = true">{{ task.progress * 100 | number:2 }}%</span>
+			</nobr>
+			<div ng-if="editable.progress">
+				<input ng-model="task.progress"
+					   pp-model=""
+					   pp-convert-percent=""
+					   type="number"
+					   min="0"
+					   max="100"
+					   set-focus=""
+					   ng-blur="editable.progress = false; updateTask();">
+			</div>
+		</td>
+
+		<!-- Project -->
+		<td>
+			<nobr ng-hide="editable.project">
+				<span ng-click="editable.project = true">{{ task.project.name }}</span>
+			</nobr>
+			<div ng-if="editable.project">
+				<select ng-model="task.project"
+						ng-options="project as project.name for project in assignableProjects track by project.id"
+						set-focus=""
+						ng-blur="editable.project = false; updateTaskProject();">
+				</select>
+			</div>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<div class="dropdown">
+	<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
+	<ul class="dropdown-menu">
+		<li>
+			<a href="javascript:void(0);" ng-click="editSelected()">Task bearbeiten</a>
+		</li>
+		<li>
+			<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
+		</li>
+	</ul>
+</div>
 </div>

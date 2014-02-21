@@ -5,11 +5,11 @@
 
         .service('DataProvider', function(API) {
 
-            var DataSources = {API:API}
+            var DataSources = { API: API };
 
             var getDataSource = function() {
                 return "API";
-            }
+            };
 
             return {
                 
@@ -71,7 +71,7 @@
                 },
 
                 getUsersFromTask: function(idTask) {
-                    return DataSources[getDataSource()].getUsersFromTask(id);
+                    return DataSources[getDataSource()].getUsersFromTask(idTask);
                 },
 
                 deleteUserFromTask: function(idTask, idUser) {
@@ -135,7 +135,7 @@
 
                 assignProjectToUser: function(idProject, idUser) {
                     return DataSources[getDataSource()].assignProjectToUser(idProject, idUser);
-                },
+                }
             }
     });
 

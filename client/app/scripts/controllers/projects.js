@@ -64,8 +64,8 @@
 
 				var openModal = function (options) {
 					return $modal.open({
-						templateUrl: 'views/project_modal.tpl.html',
-						controller: 'ProjectModalCtrl',
+						templateUrl: 'views/process_modal.tpl.html',
+						controller: 'ProcessModalCtrl',
 						scope: $scope,
 						resolve: {
 							options: function () {
@@ -93,14 +93,14 @@
 					});
 				};
 
-				$scope.addNewTaskToProject = function (originTask, task) {
+				$scope.saveTask = function (originTask, task) {
 					DataProvider.createTask(task).then(function (response) {
-						DataProvider.addTaskToProject(response.id, task.getProject().id).then(function () {
+						DataProvider.addTaskToProject(response.id, task.project.id).then(function () {
 							_.extend(originTask, response);
 
 							for (var i = 0; i < $scope.projects.length; i++) {
 								var project = $scope.projects[i];
-								if (project.getId() === originTask.getProject().id) {
+								if (project.getId() === originTask.project.id) {
 									project.addTask(originTask);
 									return;
 								}

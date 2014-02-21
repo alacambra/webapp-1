@@ -12,7 +12,11 @@
 		"endDate": 1390172400000,
 		"duration": 45,
 		"effort": 15,
-		"progress": 0.7
+		"progress": 0.7,
+		"project": {
+			"id": "p001",
+			"name": "Project I"
+		}
 	},
 	{
 		"id": "t002",
@@ -27,7 +31,11 @@
 		"endDate": 1389222000000,
 		"duration": 30,
 		"effort": 15,
-		"progress": 0.5
+		"progress": 0.5,
+		"project": {
+			"id": "p001",
+			"name": "Project I"
+		}
 	},
 	{
 		"id": "t003",
@@ -42,7 +50,11 @@
 		"endDate": 1392418800000,
 		"duration": 60,
 		"effort": 30,
-		"progress": 0.8
+		"progress": 0.8,
+		"project": {
+			"id": "p002",
+			"name": "Project II"
+		}
 	},
 	{
 		"id": "t004",
@@ -57,7 +69,11 @@
 		"endDate": 1391122800000,
 		"duration": 45,
 		"effort": 60,
-		"progress": 1
+		"progress": 1,
+		"project": {
+			"id": "p005",
+			"name": "Project V"
+		}
 	},
 	{
 		"id": "t005",
@@ -72,6 +88,10 @@
 		"endDate": 1391554800000,
 		"duration": 60,
 		"effort": 0,
-		"progress": 0
+		"progress": 0,
+		"project": {
+			"id": "p005",
+			"name": "Project V"
+		}
 	}
 ]
