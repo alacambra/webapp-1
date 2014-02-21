@@ -15,6 +15,9 @@
 					users = null,
 					tasks = null;
 
+				var _baseUrl = new RegExp(/\/webapplication\/rest/);
+				var _id = new RegExp(/[\w\d-]+/);
+
 				$.get('fixtures/users.json', function (data) {
 					users = data;
 				});
@@ -66,6 +69,12 @@
 				});
 
 				$httpBackend.whenPUT(/.+\/projects\/.+/).respond(function (method, url, data, headers) {
+					return [200];
+				});
+
+//				$httpBackend.
+
+				$httpBackend.whenPUT(/.+\/tasks\/.+/).respond(function (method, url, data, headers) {
 					return [200];
 				});
 			}]);

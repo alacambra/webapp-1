@@ -105,7 +105,7 @@
 	/**
 	 * Factory that produces user instances.
 	 */
-	factory.user = stampit.compose(idMod, userMod).methods({
+	var user = stampit.compose(idMod, userMod).methods({
 		isUser: true,
 
 		isValid: function () {
@@ -118,44 +118,34 @@
 		}
 	});
 
+	factory.user = function (data, options) {
+		return user(data);
+	};
+
 	/**
 	 * Factory that produces task instances.
 	 */
-	factory.task = stampit.compose(idMod, processMod).enclose(function () {
-		var project = null;
-
-		this.setProject = function (_project) {
-			if (_project) {
-				project = {
-					id: _project.getId(),
-					name: _project.title
-				};
-
-			} else {
-				project = null;
-			}
-		};
-
-		this.getProject = function () {
-			return project;
-		};
-
+	var task = stampit.compose(idMod, processMod).state({
+		project: null
 	}).methods({
 		isTask: true,
 
-		clearProject: function () {
-			this.setProject(null);
-		},
-
-		hasProject: function () {
-			return !_.isNull(this.getProject());
+		setProject: function (project) {
+			this.project = {
+				id: project.getId(),
+				name: project.title
+			};
 		}
 	});
+
+	factory.task = function (data, options) {
+		return task(data);
+	};
 
 	/**
 	 * Factory that produces project instances.
 	 */
-	factory.project = stampit.compose(idMod, processMod).enclose(function () {
+	var project = stampit.compose(idMod, processMod).enclose(function () {
 		var tasks = [];
 
 		this.getTasks = function () {
@@ -194,9 +184,17 @@
 		}
 	});
 
+	factory.project = function (data, options) {
+		return project(data);
+	};
+
 	/**
 	 * Factory that produces effort instances.
 	 */
-	factory.effort = stampit.compose(idMod, effortMod);
+	var effort = stampit.compose(idMod, effortMod);
+
+	factory.effort = function (data, options) {
+		return effort(data);
+	};
 
 }());

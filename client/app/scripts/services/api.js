@@ -64,9 +64,9 @@
                     return q.promise;
                 },
 
-                updateUser: function(data) {
+                updateUser: function(userId, data) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/users/" + id, {data: serialize(data)})
+                    $http.put(baseUrl + "/users/" + userId, {data: serialize(data)})
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -126,9 +126,9 @@
                     return q.promise;
                 },
 
-                updateTask: function(data) {
+                updateTask: function(taskId, data) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/tasks/" + id, {data: serialize(data)})
+                    $http.put(baseUrl + "/tasks/" + taskId, data)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -172,7 +172,7 @@
                     return q.promise;
                 },
 
-                getUsersFromTask: function(idTask) {
+                getUsersFromTask: function(idUser) {
                     var q = $q.defer();
                     $http.get(baseUrl + "/tasks/" + idTask + "/getUsers/" + idUser)
                     .success(function (data, status, headers, config) {
@@ -249,9 +249,9 @@
                     return q.promise;
                 },
 
-                moveTaskFromProjectToProject: function(idSource, idParent) {
+                moveTaskFromProjectToProject: function(taskId, idSource, idParent) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/tasks/from/" + idSource + "/to/" + idParent)
+                    $http.put(baseUrl + "/tasks/" + taskId + "/from/" + idSource + "/to/" + idParent)
                     .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -344,7 +344,7 @@
                             q.reject(data, status, headers, config);
                         });
                     return q.promise;
-                },
+                }
             }
     })
 
