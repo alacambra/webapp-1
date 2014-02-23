@@ -72,12 +72,9 @@ public class ProjectBoundary extends AbstractBoundry{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllProjects() throws JsonGenerationException,
 			JsonMappingException, IOException {
-		
-		String r = 
+		String r =
 				mapper.writerWithView(JsonViews.BasicProject.class)
 				.writeValueAsString(entityFactory.getAllProject());
-		entityFactory.getAllProject().get(0).getOwner();
-		entityFactory.getAllProject().get(1).getOwner();
 		return Response.ok().entity(r).build();
 	}
 

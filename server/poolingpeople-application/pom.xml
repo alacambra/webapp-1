@@ -41,12 +41,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>				
+				<version>3.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.9</version>
 				<configuration>
 					<!-- configuration elements goes here -->
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
@@ -59,7 +59,7 @@
 						<webModule>
 							<groupId>poolingpeople</groupId>
 							<artifactId>webapp-restapi</artifactId>
-							<!-- <bundleFileName>ROOT.war</bundleFileName> -->
+							<contextRoot>/</contextRoot>
 						</webModule>
 					</modules>
 				</configuration>

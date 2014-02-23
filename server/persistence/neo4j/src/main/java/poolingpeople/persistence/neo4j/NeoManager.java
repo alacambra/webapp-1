@@ -22,7 +22,6 @@ import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.ResourceIterable;
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.helpers.collection.IteratorUtil;
@@ -30,6 +29,7 @@ import org.neo4j.helpers.collection.MapUtil;
 
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.exceptions.*;
+
 @Singleton
 public class NeoManager {
 
@@ -98,8 +98,12 @@ public class NeoManager {
 	}
 
 	public Collection<Node> getNodes(String label) {
+		return getNodes(label, 500, 15);
+	}
+	
+	public Collection<Node> getNodes(String label, int start, int total) {
 
-		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n LIMIT 10", null);
+		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n SKIP " + start + " LIMIT " + total, null);
 		Iterator<Node> n_column = result.columnAs("n");
 		return IteratorUtil.asCollection(n_column);
 
@@ -143,6 +147,8 @@ public class NeoManager {
 
 	public Relationship createRelationshipTo(Node from, Node to, RelationshipType relation, Map<String, Object> properties) {
 
+//		String q = "START from=node(" + from.getId() + "), to=node(" + to.getId() + "), CREATE from-[r:" + relation.name()+ "]->to";
+		
 		Relationship rel = null;
 
 		for(Relationship r : from.getRelationships(Direction.OUTGOING, relation)) {

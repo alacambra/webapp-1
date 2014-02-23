@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.IgnoreAttribute;
@@ -20,8 +19,6 @@ public class TaskDTO implements Task {
 	private String id;
 	private String title;
 	private String description;
-	private int priority;
-	private int status;
 	private Long startDate;
 	private Long endDate;
 	private Float progress;
@@ -43,13 +40,11 @@ public class TaskDTO implements Task {
 		return description;
 	}
 
-	@IgnoreAttribute
 	@Override
 	public TaskPriority getPriority() {
 		return null;
 	}
 
-	@IgnoreAttribute
 	@Override
 	public TaskStatus getStatus() {
 		return null;

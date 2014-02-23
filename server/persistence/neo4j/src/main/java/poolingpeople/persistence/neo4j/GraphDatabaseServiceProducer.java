@@ -2,6 +2,7 @@ package poolingpeople.persistence.neo4j;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 @ApplicationScoped
+@Alternative
 public class GraphDatabaseServiceProducer{
 
 	private final static String db_uri = "/opt/neo4j";
