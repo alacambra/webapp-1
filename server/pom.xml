@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>poolingpeople</groupId>
-  <artifactId>parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>poolingpeople</name>
-  <modules>
-    <module>webapp-restapi</module>
-    <module>persistence/neo4j</module>
-    <module>shared</module>
-    <module>poolingpeople-application</module>
-  </modules>
-  <distributionManagement>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>poolingpeople</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>poolingpeople</name>
+	<modules>
+		<module>webapp-restapi</module>
+		<module>persistence/neo4j</module>
+		<module>shared</module>
+		<module>poolingpeople-application</module>
+	</modules>
+	<distributionManagement>
 		<repository>
 			<id>snapshots</id>
 			<name>Uploadable Nexus Repo</name>
@@ -75,6 +76,25 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.0.1.Final</version>
+				<executions>
+					<execution>
+<!-- 						<phase>deploy</phase> -->
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<force>true</force>
+					<username>alacambra</username>
+					<password>lacambra1982.</password>
+					<port>9992</port>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>

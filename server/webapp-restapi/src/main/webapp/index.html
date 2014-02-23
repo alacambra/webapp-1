@@ -1,66 +1,66 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+<![endif]-->
+
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8">
+<![endif]-->
+
+<!--[if IE 8]>
+<html class="no-js lt-ie9">
+<![endif]-->
+
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 
 <head>
-<script data-require="angular.js@*" data-semver="1.2.0-rc3-nonmin"
-        src="http://code.angularjs.org/1.2.0-rc.3/angular.js"></script>
-<script src="app.js"></script>
-<link data-require="bootstrap-css@*" data-semver="3.0.0"
-        rel="stylesheet"
-        href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="styles/6c454a34.vendor.css"/>
+
+    <link rel="stylesheet" href="styles/d11ec82a.main.css"/>
 </head>
 
-<body ng-app="main" ng-init="output">
-        <div ng-controller="FormCtrl" ng-init="action = 'users'">
-                <form action="{{ action }}">
-                        <h2>User</h2>
-                        <input type="text" ng-model="formData.firstName"
-                                placeholder="firstName" /> <input type="text"
-                                ng-model="formData.lastName" placeholder="lastName" /> <input
-                                type="text" ng-model="formData.email" placeholder="email" /> <input
-                                type="text" ng-model="formData.password" placeholder="password" />
-                        <!--             <input type="date" ng-model="formData.birthDate" placeholder="birthDate" /> -->
-                        <input type="button" ng-click="submit()" value="Submit" />
-                </form>
-                <button ng-click="getData()">USERS</button>
-                <pre>resource = {{output | json}}</pre>
-        </div>
-        <div ng-controller="FormCtrl" ng-init="action = 'projects'">
-                <form action="{{ action }}">
-                        <h2>Project</h2>
-                        <input type="text" ng-model="formData.title" placeholder="title" />
-                        <input type="text" ng-model="formData.description"
-                                placeholder="description" /> <input type="text"
-                                ng-model="formData.priority" placeholder="priority" /> <input
-                                type="text" ng-model="formData.status" placeholder="status" /> <input
-                                type="text" ng-model="formData.progress" placeholder="progress" />
-                        <input type="calendar" ng-model="formData.start" placeholder="start" />
-                        <input type="calendar" ng-model="formData.end" placeholder="end" />
-                        <input type="text" ng-model="formData.estimatedDuration"
-                                placeholder="estimatedDuration" /> <input type="button"
-                                ng-click="submit()" value="Submit" />
-                </form>
-                <button ng-click="getData()">PROJECTS</button>
-                <pre>resource = {{output | json}}</pre>
-        </div>
-        <div ng-controller="FormCtrl" ng-init="action = 'tasks'">
-                <form action="{{ action }}">
-                        <h2>Task</h2>
-                        <input type="text" ng-model="formData.title" placeholder="title" />
-                        <input type="text" ng-model="formData.description"
-                                placeholder="description" /> <input type="text"
-                                ng-model="formData.priority" placeholder="priority" /> <input
-                                type="text" ng-model="formData.status" placeholder="status" /> <input
-                                type="text" ng-model="formData.progress" placeholder="progress" />
-                        <input type="calendar" ng-model="formData.start" placeholder="start" />
-                        <input type="calendar" ng-model="formData.end" placeholder="end" />
-                        <input type="text" ng-model="formData.estimatedDuration"
-                                placeholder="estimatedDuration" /> <input type="button"
-                                ng-click="submit()" value="Submit" />
-                </form>
-                <button ng-click="getData()">TASKS</button>
-                <pre>resource = {{output | json}}</pre>
-        </div>
+<body ng-app="poolingpeopleApp">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
+    <div class="container">
+        <ul class="nav navbar-nav">
+			<li ng-repeat="state in $state.get()" ng-class="{ active: $state.current.name === state.name }" ng-if="state.navbar">
+				<a ui-sref="{{ state.name }}" class="capitalize">{{ state.name }}</a>
+			</li>
+        </ul>
+		<ul class="nav navbar-nav navbar-right" ng-controller="LoginCtrl">
+			<li ng-hide="loggedIn()"><button class="btn btn-default navbar-btn" ng-click="showLoginModal()">Log In</button></li>
+			<li ng-show="loggedIn()"><button class="btn btn-default navbar-btn" ng-click="logOut()">Log Out</button></li>
+		</ul>
+    </div>
+</nav>
+
+<!-- Add your site or application content here -->
+<div class="container" ui-view=""></div>
+
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<script src="scripts/cd257268.vendor.js"></script>
+
+<script src="scripts/489bccac.scripts.js"></script>
 </body>
 </html>

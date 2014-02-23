@@ -27,7 +27,7 @@ public class Ingestor {
 
 		GraphDatabaseServiceProducer producer = new GraphDatabaseServiceProducer();
 		NeoManager manager = new NeoManager(producer.getGraphDb());
-		
+
 		Logger logger = Logger.getLogger(Ingestor.class);
 
 		//User - Users
@@ -66,6 +66,7 @@ public class Ingestor {
 			}
 
 			logger.error("Projects.......................");
+			int i = 0;
 			for( Entry<Integer, Projects> p : projects.entrySet() ){
 
 				PersistedProject pp = new PersistedProject(manager, new FakedProject());
@@ -79,6 +80,7 @@ public class Ingestor {
 			}
 
 			logger.error("Tasks.......................");
+			i = 0;
 			for( Entry<Integer, Issues> t : issues.entrySet() ){
 
 				PersistedTask pt = new PersistedTask(manager, new FakedTask());
@@ -88,55 +90,70 @@ public class Ingestor {
 				pt.setTitle(t.getValue().getSubject());
 				persistedTasks.put(pt.getId(), pt);
 				tasksIds.put(t.getKey(), pt.getId());
+				if ( i%100==0 ){
+					System.out.println(issues.size() + " : adding task: " + i);
+				}
+				i++;
 
 			}
 
 			logger.error("Efforts.......................");
+			i = 0;
 			for( Entry<Integer, TimeEntries> te : entries.entrySet() ){
 
 				PersistedTask task = persistedTasks.get(tasksIds.get(te.getValue().getIssueId()));
-				
+
 				if (task == null){
-					
+
 					logger.error("Skiping entry without task");
 					continue;
-					
+
 				}
-				
+
 				PersistedEffort effort = new PersistedEffort(manager, new FakedEffort());
 				task.addEffort(effort);
-				
+
 				effort.setComment(te.getValue().getComments());
 				effort.setDate(te.getValue().getCreatedOn().getTime());
 				effort.setTime(Math.round(te.getValue().getHours()));
 				persistedEfforts.put(effort.getId(), effort);
 				effortsIds.put(te.getKey(), effort.getId());
-				
-//				PersistedUser user = persistedUsers.get(userIds.get(te.getValue().getUserId()));
-				
+				if ( i%100==0 ){
+					System.out.println(entries.size() + " : adding effort: " + i);
+				}
+				i++;
+				//				PersistedUser user = persistedUsers.get(userIds.get(te.getValue().getUserId()));
+
 
 			}
 
-//			for( Entry<Integer, Projects> p : projects.entrySet() ){
-//				persistedProjects.get(projectsIds.get(p.getKey())).addTask(persistedTasks.get(tasksIds.get(key));
-//			}
-			
+			//			for( Entry<Integer, Projects> p : projects.entrySet() ){
+			//				persistedProjects.get(projectsIds.get(p.getKey())).addTask(persistedTasks.get(tasksIds.get(key));
+			//			}
+
+			i = 0;
 			for(Entry<Integer, Issues> t : issues.entrySet()){
+
 				PersistedProject pp = persistedProjects.get(projectsIds.get(t.getValue().getProjectId()));
-				
+
 				if (pp == null){
 					continue;
 				}
-				
+
 				PersistedTask task = persistedTasks.get(tasksIds.get(t.getKey()));
 				pp.addTask(task);
-				
+
 				PersistedTask parent = persistedTasks.get(tasksIds.get(t.getValue().getParentId()));
 				if (parent == null){
 					continue;
 				}
+				parent.addSubtask(task);
+				if ( i%100==0 ){
+					System.out.println(issues.size() + " : adding subtask: " + i);
+				}
+				i++;
 			}
-			
+
 			tx.success();
 			session.getTransaction().commit();
 		}
@@ -176,7 +193,7 @@ public class Ingestor {
 			return ProjectStatus.NEW;
 		}
 	}
-	
+
 	public static String getEmail(Users redmineUser) {
 		return redmineUser.getMail() == null || "".equals(redmineUser.getMail()) ? String.valueOf(new Date().getTime()) + "@s.com" : redmineUser.getMail();
 	}

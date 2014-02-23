@@ -285,6 +285,10 @@ public class NeoManager {
 
 		return result;
 	}
+	
+	public ExecutionResult runCypherQuery(String query) {
+		return runCypherQuery(query, null);
+	}
 
 	public Collection<Node> getRelatedNodes(Node node, RelationshipType relation) {
 		return loadRelatedNodesTo(node, relation, null);
