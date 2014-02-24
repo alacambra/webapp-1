@@ -59,6 +59,7 @@
 						   ng-model="project.title"
 						   pp-model=""
 						   set-focus=""
+						   ng-blur="editable.title = false"
 						   ng-change="editable.title = false; updateProject()">
 				</div>
 			</td>
@@ -77,6 +78,7 @@
 					<select ng-model="project.assignee"
 							ng-options="user as user.name for user in assignableUsers track by user.id"
 							set-focus=""
+							ng-blur="editable.assignee = false"
 							ng-change="editable.assignee = false; updateProject()">
 					</select>
 				</div>
@@ -91,6 +93,7 @@
 					<select ng-model="project.status"
 							ng-options="value for value in project.statusList"
 							set-focus=""
+							ng-blur="editable.status = false"
 							ng-change="editable.status = false; updateProject()">
 					</select>
 				</div>
@@ -98,33 +101,35 @@
 
 			<!-- Start Date -->
 			<td>
-				<nobr ng-hide="editable.startDate || editable.datepicker.startDate">
-					<span ng-click="editable.startDate = true; openDatePicker($event, 'startDate')">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
+				<nobr ng-hide="editable.datepicker.startDate">
+					<span ng-click="openDatePicker($event, 'startDate')">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
 				</nobr>
-				<div ng-if="editable.startDate || editable.datepicker.startDate">
+				<div ng-if="editable.datepicker.startDate">
 					<input ng-model="project.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
 						   is-open="editable.datepicker.startDate"
-						   ng-change="editable.startDate = false; updateProject()">
+						   disabled="disabled"
+						   ng-change="updateProject()">
 				</div>
 			</td>
 
 			<!-- End Date -->
 			<td>
-				<nobr ng-hide="editable.endDate || editable.datepicker.endDate">
-					<span ng-click="editable.endDate = true; openDatePicker($event, 'endDate')">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
+				<nobr ng-hide="editable.datepicker.endDate">
+					<span ng-click="openDatePicker($event, 'endDate')">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
 				</nobr>
-				<div ng-if="editable.endDate || editable.datepicker.endDate">
+				<div ng-if="editable.datepicker.endDate">
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
 						   is-open="editable.datepicker.endDate"
-						   ng-change="editable.endDate = false; updateProject()">
+						   disabled="disabled"
+						   ng-change="updateProject()">
 				</div>
 			</td>
 
@@ -139,6 +144,7 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
+						   ng-blur="editable.duration = false"
 						   ng-change="editable.duration = false; updateProject()">
 				</div>
 			</td>
@@ -154,6 +160,7 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
+						   ng-blur="editable.effort = false"
 						   ng-change="editable.effort = false; updateProject()">
 				</div>
 			</td>
@@ -171,6 +178,7 @@
 						   min="0"
 						   max="100"
 						   set-focus=""
+						   ng-blur="editable.progress = false"
 						   ng-change="editable.progress = false; updateProject()">
 				</div>
 			</td>

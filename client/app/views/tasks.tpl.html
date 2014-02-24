@@ -63,6 +63,7 @@
 					   ng-model="task.title"
 					   pp-model=""
 					   set-focus=""
+					   ng-blur="editable.title = false"
 					   ng-change="editable.title = false; updateTask()">
 			</div>
 		</td>
@@ -81,6 +82,7 @@
 				<select ng-model="task.assignee"
 						ng-options="user as user.name for user in assignableUsers track by user.id"
 						set-focus=""
+						ng-blur="editable.assignee = false"
 						ng-change="editable.assignee = false; updateTask()">
 				</select>
 			</div>
@@ -95,6 +97,7 @@
 				<select ng-model="task.status"
 						ng-options="value for value in task.statusList"
 						set-focus=""
+						ng-blur="editable.status = false"
 						ng-change="editable.status = false; updateTask()">
 				</select>
 			</div>
@@ -102,35 +105,33 @@
 
 		<!-- Start Date -->
 		<td>
-			<nobr ng-hide="editable.startDate || editable.datepicker.startDate">
-				<span ng-click="editable.startDate = true; openDatePicker($event, 'startDate')">{{ task.startDate | date:'dd.MM.yyyy' }}</span>
+			<nobr ng-hide="editable.datepicker.startDate">
+				<span ng-click="openDatePicker($event, 'startDate')">{{ task.startDate | date:'dd.MM.yyyy' }}</span>
 			</nobr>
-			<div ng-if="editable.startDate || editable.datepicker.startDate">
+			<div ng-if="editable.datepicker.startDate">
 				<input ng-model="task.startDate"
 					   pp-convert-date="dd.MM.yyyy"
 					   datepicker-popup="dd.MM.yyyy"
 					   min="'1900-01-01'"
 					   max="'2100-01-01'"
 					   is-open="editable.datepicker.startDate"
-					   ng-blur="editable.startDate = false"
+					   disabled="disabled"
 					   ng-change="updateTask()">
 			</div>
 		</td>
 
 		<!-- End Date -->
 		<td>
-			<nobr ng-hide="editable.endDate || editable.datepicker.endDate">
-				<span ng-click="editable.endDate = true; openDatePicker($event, 'endDate')">{{ task.endDate | date:'dd.MM.yyyy' }}</span>
+			<nobr ng-hide="editable.datepicker.endDate">
+				<span ng-click="openDatePicker($event, 'endDate')">{{ task.endDate | date:'dd.MM.yyyy' }}</span>
 			</nobr>
-			<div ng-if="editable.endDate || editable.datepicker.endDate">
+			<div ng-if="editable.datepicker.endDate">
 				<input ng-model="task.endDate"
 					   pp-convert-date="dd.MM.yyyy"
 					   datepicker-popup="dd.MM.yyyy"
 					   min="'1900-01-01'"
 					   max="'2100-01-01'"
 					   is-open="editable.datepicker.endDate"
-					   ng-blur="editable.endDate = false"
-					   ng-enter="editable.endDate = false"
 					   ng-change="updateTask()">
 			</div>
 		</td>
@@ -146,6 +147,7 @@
 					   pp-convert-time=""
 					   type="text"
 					   set-focus=""
+					   ng-blur="editable.duration = false"
 					   ng-change="editable.duration = false; updateTask()">
 			</div>
 		</td>
@@ -161,6 +163,7 @@
 					   pp-convert-time=""
 					   type="text"
 					   set-focus=""
+					   ng-blur="editable.effort = false"
 					   ng-change="editable.effort = false; updateTask()">
 			</div>
 		</td>
@@ -178,6 +181,7 @@
 					   min="0"
 					   max="100"
 					   set-focus=""
+					   ng-blur="editable.progress = false"
 					   ng-change="editable.progress = false; updateTask()">
 			</div>
 		</td>
@@ -191,6 +195,7 @@
 				<select ng-model="task.project"
 						ng-options="project as project.name for project in assignableProjects track by project.id"
 						set-focus=""
+						ng-blur="editable.project = false"
 						ng-change="editable.project = false; updateTaskProject();">
 				</select>
 			</div>
