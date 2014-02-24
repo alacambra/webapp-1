@@ -59,8 +59,7 @@
 						   ng-model="project.title"
 						   pp-model=""
 						   set-focus=""
-						   ng-blur="editable.title = false; updateProject();"
-						   ng-enter="editable.title = false; updateProject();">
+						   ng-change="editable.title = false; updateProject()">
 				</div>
 			</td>
 
@@ -78,7 +77,7 @@
 					<select ng-model="project.assignee"
 							ng-options="user as user.name for user in assignableUsers track by user.id"
 							set-focus=""
-							ng-blur="editable.assignee = false; updateProject();">
+							ng-change="editable.assignee = false; updateProject()">
 					</select>
 				</div>
 			</td>
@@ -92,7 +91,7 @@
 					<select ng-model="project.status"
 							ng-options="value for value in project.statusList"
 							set-focus=""
-							ng-blur="editable.status = false; updateProject();">
+							ng-change="editable.status = false; updateProject()">
 					</select>
 				</div>
 			</td>
@@ -109,7 +108,7 @@
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
 						   is-open="editable.datepicker.startDate"
-						   ng-blur="editable.startDate = false; updateProject();">
+						   ng-change="editable.startDate = false; updateProject()">
 				</div>
 			</td>
 
@@ -125,7 +124,7 @@
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
 						   is-open="editable.datepicker.endDate"
-						   ng-blur="editable.endDate = false; updateProject();">
+						   ng-change="editable.endDate = false; updateProject()">
 				</div>
 			</td>
 
@@ -140,8 +139,7 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
-						   ng-blur="editable.duration = false; updateProject();"
-						   ng-enter="editable.duration = false; updateProject();">
+						   ng-change="editable.duration = false; updateProject()">
 				</div>
 			</td>
 
@@ -156,8 +154,7 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
-						   ng-blur="editable.effort = false; updateProject();"
-						   ng-enter="editable.effort = false; updateProject();">
+						   ng-change="editable.effort = false; updateProject()">
 				</div>
 			</td>
 
@@ -174,8 +171,7 @@
 						   min="0"
 						   max="100"
 						   set-focus=""
-						   ng-blur="editable.progress = false; updateProject();"
-						   ng-enter="editable.progress = false; updateProject();">
+						   ng-change="editable.progress = false; updateProject()">
 				</div>
 			</td>
 		</tr>

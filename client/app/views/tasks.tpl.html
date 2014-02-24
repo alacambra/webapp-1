@@ -63,8 +63,7 @@
 					   ng-model="task.title"
 					   pp-model=""
 					   set-focus=""
-					   ng-blur="editable.title = false; updateTask();"
-					   ng-enter="editable.title = false; updateTask();">
+					   ng-change="editable.title = false; updateTask()">
 			</div>
 		</td>
 
@@ -82,7 +81,7 @@
 				<select ng-model="task.assignee"
 						ng-options="user as user.name for user in assignableUsers track by user.id"
 						set-focus=""
-						ng-blur="editable.assignee = false; updateTask();">
+						ng-change="editable.assignee = false; updateTask()">
 				</select>
 			</div>
 		</td>
@@ -96,7 +95,7 @@
 				<select ng-model="task.status"
 						ng-options="value for value in task.statusList"
 						set-focus=""
-						ng-blur="editable.status = false; updateTask();">
+						ng-change="editable.status = false; updateTask()">
 				</select>
 			</div>
 		</td>
@@ -113,7 +112,8 @@
 					   min="'1900-01-01'"
 					   max="'2100-01-01'"
 					   is-open="editable.datepicker.startDate"
-					   ng-blur="editable.startDate = false; updateTask();">
+					   ng-blur="editable.startDate = false"
+					   ng-change="updateTask()">
 			</div>
 		</td>
 
@@ -129,7 +129,9 @@
 					   min="'1900-01-01'"
 					   max="'2100-01-01'"
 					   is-open="editable.datepicker.endDate"
-					   ng-blur="editable.endDate = false; updateTask();">
+					   ng-blur="editable.endDate = false"
+					   ng-enter="editable.endDate = false"
+					   ng-change="updateTask()">
 			</div>
 		</td>
 
@@ -144,8 +146,7 @@
 					   pp-convert-time=""
 					   type="text"
 					   set-focus=""
-					   ng-blur="editable.duration = false; updateTask();"
-					   ng-enter="editable.duration = false; updateTask();">
+					   ng-change="editable.duration = false; updateTask()">
 			</div>
 		</td>
 
@@ -160,8 +161,7 @@
 					   pp-convert-time=""
 					   type="text"
 					   set-focus=""
-					   ng-blur="editable.effort = false; updateTask();"
-					   ng-enter="editable.effort = false; updateTask();">
+					   ng-change="editable.effort = false; updateTask()">
 			</div>
 		</td>
 
@@ -178,8 +178,7 @@
 					   min="0"
 					   max="100"
 					   set-focus=""
-					   ng-blur="editable.progress = false; updateTask();"
-					   ng-enter="editable.progress = false; updateTask();">
+					   ng-change="editable.progress = false; updateTask()">
 			</div>
 		</td>
 
@@ -192,7 +191,7 @@
 				<select ng-model="task.project"
 						ng-options="project as project.name for project in assignableProjects track by project.id"
 						set-focus=""
-						ng-blur="editable.project = false; updateTaskProject();">
+						ng-change="editable.project = false; updateTaskProject();">
 				</select>
 			</div>
 		</td>
