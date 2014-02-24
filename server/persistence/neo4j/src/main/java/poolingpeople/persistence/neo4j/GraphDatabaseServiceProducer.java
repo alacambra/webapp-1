@@ -28,8 +28,7 @@ public class GraphDatabaseServiceProducer{
 			
 		} catch(Exception e){
 			logger.error(db_uri + " not found", e);
-//			tmp =  new GraphDatabaseFactory().newEmbeddedDatabase("neo4j");
-			tmp = new GraphDatabaseFactory().newEmbeddedDatabase( db_uri );
+			tmp =  new GraphDatabaseFactory().newEmbeddedDatabase("neo4j");
 			logger.info("Using default db");
 			
 		}
