@@ -335,7 +335,64 @@
                             q.reject(data, status, headers, config);
                         });
                     return q.promise;
-                }
+                },
+
+				/* Effort */
+
+				getEffort: function (taskId, effortId) {
+					var q = $q.defer();
+					$http.get(baseUrl + '/tasks/' + taskId + '/efforts/' + effortId)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				getEfforts: function (taskId) {
+					var q = $q.defer();
+					$http.get(baseUrl + '/tasks/' + taskId + '/efforts')
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				createEffort: function (taskId, data) {
+					var q = $q.defer();
+					$http.post(baseUrl + '/tasks/' + taskId + '/efforts', data)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				updateEffort: function (taskId, effortId, data) {
+					var q = $q.defer();
+					$http.put(baseUrl + '/tasks/' + taskId + '/efforts/' + effortId)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				deleteEffort: function (taskId, effortId) {
+					var q = $q.defer();
+					$http.delete(baseUrl + '/tasks/' + taskId + '/efforts/' + effortId)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				}
             }
     })
 

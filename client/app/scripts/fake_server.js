@@ -13,7 +13,8 @@
 				var baseUrl = 'rest',
 					projects = null,
 					users = null,
-					tasks = null;
+					tasks = null,
+					efforts = null;
 
 				var _baseUrl = new RegExp(/\/webapplication\/rest/);
 				var _id = new RegExp(/[\w\d-]+/);
@@ -28,6 +29,10 @@
 
 				$.get('fixtures/tasks.json', function (data) {
 					tasks = data;
+				});
+
+				$.get('fixtures/efforts.json', function (data) {
+					efforts = data;
 				});
 
 				$httpBackend.whenGET(/.*\.tpl\.html/).passThrough();
@@ -104,6 +109,26 @@
 
 				// URI: PUT /tasks/:taskId
 				$httpBackend.whenPUT(/\/tasks\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
+					return [200];
+				});
+
+				// URI: POST /tasks/:taskId/efforts
+				$httpBackend.whenPOST(/\/tasks\/[\w-]+\/efforts$/).respond(function (method, url, data, headers) {
+					console.log(url);
+					data = JSON.parse(data);
+					data.id = 'e-' + parseInt(Math.random() * 10000, 10);
+					return [200, JSON.stringify(data)];
+				});
+
+				// URI: GET /tasks/:taskId/efforts
+				$httpBackend.whenGET(/\/tasks\/[\w-]+\/efforts$/).respond(function (method, url, data, headers) {
+					console.log(url);
+					return [200, JSON.stringify(efforts)];
+				});
+
+				// URI: DELETE /tasks/:taskId/efforts/:effortId
+				$httpBackend.whenDELETE(/\/tasks\/[\w-]+\/efforts\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(url);
 					return [200];
 				});

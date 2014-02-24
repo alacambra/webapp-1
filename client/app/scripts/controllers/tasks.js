@@ -47,10 +47,23 @@
 					});
 				});
 
-				var openModal = function (options) {
+				var openProcessModal = function (options) {
 					return $modal.open({
 						templateUrl: 'views/process_modal.tpl.html',
 						controller: 'ProcessModalCtrl',
+						scope: $scope,
+						resolve: {
+							options: function () {
+								return options;
+							}
+						}
+					});
+				};
+
+				var openEffortModal = function (options) {
+					return $modal.open({
+						templateUrl: 'views/effort_modal.tpl.html',
+						controller: 'EffortModalCtrl',
 						scope: $scope,
 						resolve: {
 							options: function () {
@@ -102,26 +115,16 @@
 				};
 
 				$scope.newTask = function () {
-					var modalInstance = openModal({
-						title: 'Neues Projekt',
+					var modalInstance = openProcessModal({
+						title: 'Neue Aufgabe',
 						model: factory.task()
 					});
 				};
 
 				$scope.editSelected = function () {
-					var modalInstance = openModal({
-						title: 'Projekt "' + $scope.selectedTask.title + '" bearbeiten',
+					var modalInstance = openProcessModal({
+						title: 'Aufgabe "' + $scope.selectedTask.title + '" bearbeiten',
 						model: $scope.selectedTask
-					});
-				};
-
-				$scope.createTaskTask = function () {
-					var task = factory.task();
-					task.setTask($scope.selectedTask);
-
-					var modalInstance = openModal({
-						title: 'Neue Aufgabe für Projekt "' + $scope.selectedTask.title + '" anlegen',
-						model: task
 					});
 				};
 
@@ -160,6 +163,13 @@
 						} else {
 							p.$ui.showTasks = false;
 						}
+					});
+				};
+
+				$scope.bookEffort = function (task) {
+					var modalInstance = openEffortModal({
+						title: 'Neuer Aufwand für Aufgabe "' + task.title + '"',
+						task: task
 					});
 				};
 

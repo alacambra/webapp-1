@@ -75,27 +75,45 @@
 		]
 	});
 
-	var effortMod = stampit().enclose(function () {
-		var taskId = null;
+	var taskMod = stampit().enclose(function () {
+		var _efforts = [];
 
-		this.getTaskId = function () {
-			return taskId;
+		this.getEfforts = function () {
+			return _efforts;
 		};
 
-		this.setTaskId = function (_taskId) {
-			taskId = _taskId;
-		}
-	}).state({
-		date: null,
-		comment: null,
-		activity: null
+		this.setEfforts = function (efforts) {
+			_efforts = efforts;
+		};
+
 	}).methods({
-		getUrl: function () {
-			if (this.isNew()) {
-				return '/' + this.getTaskId() + '/efforts';
+		getEffort: function (effortId) {
+			for (var i = 0; i < this.getEfforts().length; i++) {
+				if (this.getEfforts()[i].getId() === effortId) {
+					return this.getEfforts()[i];
+				}
 			}
-			return '/' + this.getTaskId() + '/efforts/' + this.getId();
+			return null;
+		},
+
+		addEffort: function (effort) {
+			this.getEfforts().push(effort);
+		},
+
+		removeEffort: function (effort) {
+			for (var i = 0; i < this.getEfforts().length; i++) {
+				if (this.getEfforts()[i] === effort) {
+					this.getEfforts().splice(i, 1);
+				}
+			}
 		}
+	});
+
+	var effortMod = stampit().state({
+		date: null,
+		time: null,
+		comment: null,
+		taskId: null
 	});
 
 	/*
@@ -127,7 +145,7 @@
 	/**
 	 * Factory that produces task instances.
 	 */
-	var task = stampit.compose(idMod, processMod).state({
+	var task = stampit.compose(idMod, taskMod, processMod).state({
 		project: null
 	}).methods({
 		isTask: true,
