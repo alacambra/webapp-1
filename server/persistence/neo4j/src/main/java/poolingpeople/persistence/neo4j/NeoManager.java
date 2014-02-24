@@ -98,7 +98,7 @@ public class NeoManager {
 	}
 
 	public Collection<Node> getNodes(String label) {
-		return getNodes(label, 500, 15);
+		return getNodes(label, 0, 15);
 	}
 	
 	public Collection<Node> getNodes(String label, int start, int total) {
