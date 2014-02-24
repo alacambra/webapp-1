@@ -86,11 +86,11 @@
 			<!-- Status -->
 			<td>
 				<nobr ng-hide="editable.status">
-					<span ng-click="editable.status = true">{{ project.getStatus() }}</span>
+					<span ng-click="editable.status = true">{{ project.status }}</span>
 				</nobr>
 				<div ng-if="editable.status">
 					<select ng-model="project.status"
-							ng-options="project.statusList.indexOf(value) as value for value in project.statusList"
+							ng-options="value for value in project.statusList"
 							set-focus=""
 							ng-blur="editable.status = false; updateProject();">
 					</select>

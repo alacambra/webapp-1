@@ -7,7 +7,7 @@
 			"id": "u001",
 			"name": "Anton Alpha"
 		},
-		"status": 4,
+		"status": "completed",
 		"startDate": 1389308400000,
 		"endDate": 1390172400000,
 		"duration": 45,
@@ -26,7 +26,7 @@
 			"id": "u001",
 			"name": "Anton Alpha"
 		},
-		"status": 2,
+		"status": "assigned",
 		"startDate": 1388617200000,
 		"endDate": 1389222000000,
 		"duration": 30,
@@ -45,7 +45,7 @@
 			"id": "u002",
 			"name": "Berta Bravo"
 		},
-		"status": 7,
+		"status": "offered",
 		"startDate": 1391900400000,
 		"endDate": 1392418800000,
 		"duration": 60,
@@ -64,7 +64,7 @@
 			"id": "u003",
 			"name": "Cäsar Charlie"
 		},
-		"status": 0,
+		"status": "todo",
 		"startDate": 1390172400000,
 		"endDate": 1391122800000,
 		"duration": 45,
@@ -83,7 +83,7 @@
 			"id": "u005",
 			"name": "Emil Echo"
 		},
-		"status": 2,
+		"status": "assigned",
 		"startDate": 1391122800000,
 		"endDate": 1391554800000,
 		"duration": 60,

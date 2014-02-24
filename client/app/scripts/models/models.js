@@ -48,8 +48,8 @@
 	var processMod = stampit().state({
 		title: null,
 		description: null,
-		status: 1,
-		priority: 1,
+		status: 'new',
+		priority: 'normal',
 		startDate: null,
 		endDate: null,
 		duration: 0,
@@ -68,9 +68,11 @@
 			'offered'
 		],
 
-		getStatus: function () {
-			return this.statusList[this.status];
-		}
+		priorityList: [
+			'low',
+			'normal',
+			'high'
+		]
 	});
 
 	var effortMod = stampit().enclose(function () {
