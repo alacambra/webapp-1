@@ -132,5 +132,11 @@
 					console.log(url);
 					return [200];
 				});
+
+				// URI: PUT /tasks/:taskId/efforts/:effortId
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/efforts\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
+					return [200];
+				});
 			}]);
 }());

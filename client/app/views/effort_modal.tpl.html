@@ -82,15 +82,40 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="effort in modal.task.getEfforts() | orderBy:'-date'">
+			<tr ng-repeat="effort in modal.task.getEfforts() | orderBy:'-date'" ng-controller="EffortCtrl">
 				<td>
-					<nobr>{{ effort.time }}</nobr>
+					<nobr ng-hide="editable.time" ng-click="editable.time = true">{{ effort.time | minutesToHours | number:2 }}</nobr>
+					<div ng-if="editable.time">
+						<input ng-model="editableEffort.time"
+							   pp-model=""
+							   pp-convert-time=""
+							   type="text"
+							   set-focus=""
+							   ng-blur="editable.time = false; updateEffort()">
+					</div>
 				</td>
 				<td>
-					<nobr>{{ effort.comment }}</nobr>
+					<nobr ng-hide="editable.comment" ng-click="editable.comment = true">{{ effort.comment }}</nobr>
+					<div ng-if="editable.comment">
+						<input ng-model="editableEffort.comment"
+							   pp-model=""
+							   type="text"
+							   set-focus=""
+							   ng-blur="editable.comment = false; updateEffort()">
+					</div>
 				</td>
 				<td>
-					<nobr>{{ effort.date | date:'dd.MM.yyyy' }}</nobr>
+					<nobr ng-hide="editable.datepicker.date" ng-click="openDatePicker($event)">{{ effort.date | date:'dd.MM.yyyy' }}</nobr>
+					<div ng-if="editable.datepicker.date">
+						<input ng-model="editableEffort.date"
+							   pp-convert-date="dd.MM.yyyy"
+							   datepicker-popup="dd.MM.yyyy"
+							   min="'1900-01-01'"
+							   max="'2100-01-01'"
+							   is-open="editable.datepicker.date"
+							   disabled="disabled"
+							   ng-change="updateEffort()">
+					</div>
 				</td>
 				<td>
 					<button type="button" class="close" ng-click="remove(effort)">&times;</button>

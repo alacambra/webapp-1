@@ -19,6 +19,7 @@
 					var effortsList = [];
 					efforts.forEach(function (effort) {
 						var _effort = factory.effort(effort);
+						_effort.taskId = $scope.modal.task.getId();
 						_effort.setId(effort.id);
 						effortsList.push(_effort);
 					});
@@ -28,6 +29,12 @@
 
 				$scope.form = {
 					datePickerOpened: false
+				};
+
+				$scope.editable = {
+					datepicker: {
+						date: false
+					}
 				};
 
 				$scope.save = function () {
@@ -54,11 +61,32 @@
 					$modalInstance.dismiss('cancel');
 				};
 
-				$scope.openDatePicker = function ($event, opened) {
-					$event.preventDefault();
-					$event.stopPropagation();
-					$scope.form[opened] = true;
+			}])
+
+		.controller('EffortCtrl', ['$scope', '$log', 'DataProvider',
+			function($scope, $log, DataProvider) {
+				$scope.editableEffort = angular.copy($scope.effort);
+
+				$scope.editable = {
+					datepicker: {
+						date: false
+					}
 				};
 
+				$scope.updateEffort = function () {
+					console.log("TEST");
+					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.getId(), $scope.editableEffort).then(function (response) {
+						$scope.effort = angular.copy($scope.editableEffort);
+					}, function (response) {
+						$scope.editableEffort = angular.copy($scope.effort);
+						$log.error(response);
+					});
+				};
+
+				$scope.openDatePicker = function ($event) {
+					$event.preventDefault();
+					$event.stopPropagation();
+					$scope.editable.datepicker.date = true;
+				};
 			}]);
 }());
