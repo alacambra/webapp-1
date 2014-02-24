@@ -51,8 +51,7 @@
 					<a href="javascript:void(0);"
 					   class="glyphicon"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
-					   ng-click="showTasks(project)"
-					   ng-show="project.hasTasks()">
+					   ng-click="showTasks(project)">
 					</a>
 				</nobr>
 				<div ng-if="editable.title">

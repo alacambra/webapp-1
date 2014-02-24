@@ -24,10 +24,6 @@
 						project.$ui = {
 							showTasks: false
 						};
-
-						DataProvider.getProjectTasks(project.getId()).then(function (tasks) {
-							project.setTasks(tasks);
-						});
 					});
 
 
@@ -169,6 +165,10 @@
 				};
 
 				$scope.showTasks = function (project) {
+					DataProvider.getProjectTasks(project.getId()).then(function (tasks) {
+						project.setTasks(tasks);
+					});
+
 					$scope.projects.forEach(function (p) {
 						if (project === p) {
 							p.$ui.showTasks = !p.$ui.showTasks;
