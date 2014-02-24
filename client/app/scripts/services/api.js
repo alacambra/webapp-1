@@ -5,7 +5,7 @@
 
         .service('API', function($q, $http) {
 
-			var baseUrl = '/webapplication/rest';
+			var baseUrl = 'rest';
             $http.defaults.headers.common['Content-type'] = 'application/json';
 
 			var serialize = function (obj) {
