@@ -24,7 +24,6 @@ public class ProjectDTO implements Project {
 	private String id;
 	private String title;
 	private String description;
-	private int status;
 	private Long startDate;
 	private Long endDate;
 	private Float progress;
