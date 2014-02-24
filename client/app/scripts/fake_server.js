@@ -10,7 +10,7 @@
 
 		.run(['$httpBackend', '$log',
 			function ($httpBackend, $log) {
-				var baseUrl = '/webapplication/rest',
+				var baseUrl = 'rest',
 					projects = null,
 					users = null,
 					tasks = null;
