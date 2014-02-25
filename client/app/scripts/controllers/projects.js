@@ -72,21 +72,29 @@
 				};
 
 				$scope.saveProject = function (originProject, project) {
-					DataProvider.createProject(project).then(function (response) {
-						// update origin project with new data
-						_.extend(originProject, response);
+					if ($scope.projects.indexOf(originProject) < 0) {
+						DataProvider.createProject(project).then(function (response) {
+							// update origin project with new data
+							_.extend(originProject, response);
 
-						// if origin project is a new project add it to projects
-						if ($scope.projects.indexOf(originProject) < 0) {
+							// if origin project is a new project add it to projects
 							originProject.$ui = {
 								showTasks: true
-							};
+							}
 							$scope.projects.push(originProject);
-						}
 
-					}, function (response) {
-						$log.error(response);
-					});
+						}, function (response) {
+							$log.error(response);
+						});
+					} else {
+						DataProvider.updateProject(project.getId(), project).then(function (response) {
+							// update origin project with new data
+							_.extend(originProject, project);
+
+						}, function (response) {
+							$log.error(response);
+						});
+					}
 				};
 
 				$scope.saveTask = function (originTask, task) {
