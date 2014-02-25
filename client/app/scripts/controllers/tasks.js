@@ -173,7 +173,7 @@
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
-					DataProvider.updateTask($scope.task.getId(), $scope.task).then(function (response) {
+					DataProvider.updateTask($scope.task.getId(), $scope.task.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {

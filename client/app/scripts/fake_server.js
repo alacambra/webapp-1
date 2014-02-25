@@ -138,6 +138,7 @@
 				// URI: PUT /tasks/:taskId
 				$httpBackend.whenPUT(/\/tasks\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
+					console.log(data);
 					return [200];
 				});
 

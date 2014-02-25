@@ -38,7 +38,7 @@
 				};
 
 				$scope.save = function () {
-					DataProvider.createEffort($scope.modal.task.getId(), $scope.modal.newEffort).then(function (response) {
+					DataProvider.createEffort($scope.modal.task.getId(), $scope.modal.newEffort.getRequestObj()).then(function (response) {
 						console.log(response);
 						response.taskId = $scope.modal.task.getId();
 						$scope.modal.task.addEffort(factory.effort(response));
@@ -75,7 +75,7 @@
 
 				$scope.updateEffort = function () {
 					console.log("TEST");
-					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.getId(), $scope.editableEffort).then(function (response) {
+					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.getId(), $scope.editableEffort.getRequestObj()).then(function (response) {
 						$scope.effort = angular.copy($scope.editableEffort);
 					}, function (response) {
 						$scope.editableEffort = angular.copy($scope.effort);

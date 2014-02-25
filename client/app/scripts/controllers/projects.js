@@ -197,7 +197,7 @@
 
 				$scope.updateProject = function () {
 					$scope.item.loader.edit = true;
-					DataProvider.updateProject($scope.project.getId(), $scope.project).then(function (response) {
+					DataProvider.updateProject($scope.project.getId(), $scope.project.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.project);
 						$scope.item.loader.edit = false;
 

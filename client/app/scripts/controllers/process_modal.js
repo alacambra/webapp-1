@@ -74,7 +74,7 @@
 
 				var saveProject = function () {
 					$scope.modal.loader.model.save = true;
-					DataProvider.createProject($scope.modal.model).then(function (response) {
+					DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
 						// update origin project with new data
 						_.extend(options.model, $scope.modal.model);
 
@@ -98,7 +98,7 @@
 				var saveTask = function () {
 					$scope.modal.loader.model.save = true;
 
-					DataProvider.createTask($scope.modal.model).then(function (response) {
+					DataProvider.createTask($scope.modal.model.getRequestObj()).then(function (response) {
 						_.extend(options.model, $scope.modal.model);
 
 						DataProvider.addTaskToProject(options.model.project.id, options.model.getId()).then(function (response) {

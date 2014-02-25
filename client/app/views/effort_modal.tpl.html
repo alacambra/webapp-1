@@ -105,7 +105,7 @@
 					</div>
 				</td>
 				<td>
-					<nobr ng-hide="editable.datepicker.date" ng-click="openDatePicker($event)">{{ effort.date | date:'dd.MM.yyyy' }}</nobr>
+					<nobr ng-hide="editable.datepicker.date" ng-click="openDatePicker($event)">{{ (effort.date | date:'dd.MM.yyyy') || '-----' }}</nobr>
 					<div ng-if="editable.datepicker.date">
 						<input ng-model="editableEffort.date"
 							   pp-convert-date="dd.MM.yyyy"

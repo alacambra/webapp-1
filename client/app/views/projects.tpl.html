@@ -107,7 +107,7 @@
 			<!-- Start Date -->
 			<td>
 				<nobr ng-hide="editable.datepicker.startDate">
-					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
+					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
 				<div ng-if="editable.datepicker.startDate">
 					<input ng-model="project.startDate"
@@ -124,7 +124,7 @@
 			<!-- End Date -->
 			<td>
 				<nobr ng-hide="editable.datepicker.endDate">
-					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
+					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
 				<div ng-if="editable.datepicker.endDate">
 					<input ng-model="project.endDate"

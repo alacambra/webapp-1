@@ -9,7 +9,7 @@
 			"lastName": "Alpha"
 		},
 		"status": "COMPLETED",
-		"startDate": 1389308400000,
+		"startDate": -99999999999999,
 		"endDate": 1390172400000,
 		"duration": 45,
 		"effort": 15,
