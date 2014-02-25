@@ -126,7 +126,7 @@ public class ProjectBoundary extends AbstractBoundry{
 	/************************************* USER - TASK *************************************/
 	@PUT 
 	@Path(idPattern + "/to/user/{userId:" + uuidRegexPattern + "}")
-	public Response assignTaskToUser(@PathParam("id") String projectId, @PathParam("userId") String userId){
+	public Response assignProjectToUser(@PathParam("id") String projectId, @PathParam("userId") String userId){
 
 		User user = entityFactory.getUserById(userId);
 		Project project = entityFactory.getProjectById(projectId);

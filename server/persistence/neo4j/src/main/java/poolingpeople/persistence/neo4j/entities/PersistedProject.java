@@ -377,7 +377,8 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public void setOwner(User owner) {
 		
 		if (relationExistsFrom((AbstractPersistedModel<?>) owner, Relations.IS_PROJECT_OWNER)) {
-			throw new RelationAlreadyExistsException();
+//			throw new RelationAlreadyExistsException();
+			return;
 		}
 
 		removeRelationsTo(Relations.IS_PROJECT_OWNER);
