@@ -96,7 +96,7 @@ public class ProjectBoundary extends AbstractBoundry{
 			throws JsonParseException, JsonMappingException, IOException {
 		
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		PersistedProject persistedProject = dtoConverter.fromDTOtoPersitedBean(dtoProject, entityFactory.getProjectById(uuid));
+		Project persistedProject = dtoConverter.fromDTOtoPersitedBean(dtoProject, entityFactory.getProjectById(uuid));
 		String serializedProject = mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(persistedProject);
 		return Response.ok().entity(serializedProject).build();
 	}

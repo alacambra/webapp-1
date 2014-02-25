@@ -17,10 +17,9 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
-import poolingpeople.commons.entities.EntityFactory;
+import poolingpeople.persistence.neo4j.Neo4jEntityFactory;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.TransactionInterceptor;
-import poolingpeople.persistence.neo4j.UUIDIndexContainer;
 import poolingpeople.webapplication.business.boundary.CatchWebExceptionInterceptor;
 import poolingpeople.webapplication.business.boundary.ObjectMapperProducer;
 import poolingpeople.webapplication.business.project.boundary.ProjectBoundary;
@@ -58,7 +57,7 @@ public abstract class AbstractBoundryTest {
 	protected RestObjectsHelper restObjectsHelper;
 
 	@Inject
-	protected EntityFactory entityFactory;
+	protected Neo4jEntityFactory entityFactory;
 
 	@Inject 
 	protected NeoManager manager;
@@ -231,7 +230,6 @@ public abstract class AbstractBoundryTest {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	protected <K,V> EffortWithTaskContainer<K,V> insertEffortFromJson(String json) {
