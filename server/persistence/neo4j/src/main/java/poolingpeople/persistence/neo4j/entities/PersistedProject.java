@@ -164,7 +164,7 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	 * @return
 	 */
 	public boolean getProgressIsDefault() {
-		return getRelatedTasks().size() == 0 || getCalculatedProgress() == null || getCalculatedProgress() == 0;
+		return getRelatedTasks().size() == 0 || getCalculatedProgress() == null || getCalculatedProgress() == DefaultValues.defaultProgress;
 	}
 
 
@@ -258,7 +258,7 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 			totalProgress += t.getDuration() * t.getProgress();
 		}
 
-		setCalculatedProgress(totalEstimation > 0 ? totalProgress / totalEstimation : -1);
+		setCalculatedProgress(totalEstimation > 0 ? totalProgress / totalEstimation : DefaultValues.defaultProgress);
 	}
 
 	@Override
