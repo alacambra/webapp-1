@@ -73,7 +73,7 @@ public class ProjectMixin implements Project{
 	}
 
 	@Override
-	@JsonIgnore
+	@JsonView(JsonViews.BasicProject.class)
 	public ProjectStatus getStatus() {
 		return null;
 	}

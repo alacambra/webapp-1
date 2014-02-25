@@ -27,6 +27,7 @@ public class ProjectDTO implements Project {
 	private Long startDate;
 	private Long endDate;
 	private Float progress;
+	private ProjectStatus status;
 
 	@IgnoreAttribute
 	@Override
@@ -45,10 +46,9 @@ public class ProjectDTO implements Project {
 	}
 
 
-	@IgnoreAttribute
 	@Override
 	public ProjectStatus getStatus() {
-		return null;
+		return status;
 	}
 
 	@Override
@@ -83,9 +83,9 @@ public class ProjectDTO implements Project {
 		this.description = description;
 	}
 
-	@IgnoreAttribute
 	@Override
 	public void setStatus(ProjectStatus status) {
+		this.status = status;
 	}
 
 	@Override
