@@ -5,7 +5,6 @@ public enum TaskPriority {
 	LOW,
 	NORMAL,
 	HIGH;
-	
 }
 
 
