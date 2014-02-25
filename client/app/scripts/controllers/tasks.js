@@ -14,40 +14,64 @@
 
 				$scope.tasks = [];
 
-				DataProvider.getTasks().then(function (data) {
-					var tasks = [];
-					for (var i = 0; i < data.length; i++) {
-						var task = factory.task(data[i]);
-						task.setId(data[i].id);
-						tasks.push(task);
-					}
-					$scope.tasks = tasks;
-					$scope.tasks.forEach(function (task) {
-						task.$ui = {
-							showTasks: false
-						};
-					});
-				});
+				$scope.loader = {
+					tasks: false,
+					users: false,
+					projects: false
+				};
 
-				DataProvider.getUsers().then(function (users) {
-					users.forEach(function (user) {
-						$scope.assignableUsers.push({
-							id: user.id,
-							name: user.firstName + ' ' + user.lastName
+				var loadTasks = function () {
+					$scope.loader.tasks = true;
+					DataProvider.getTasks().then(function (data) {
+						var tasks = [];
+						for (var i = 0; i < data.length; i++) {
+							var task = factory.task(data[i]);
+							task.setId(data[i].id);
+							tasks.push(task);
+						}
+						$scope.tasks = tasks;
+						$scope.tasks.forEach(function (task) {
+							task.$ui = {
+								showTasks: false
+							};
 						});
+						$scope.loader.tasks = false;
 					});
-				});
+				};
 
-				DataProvider.getProjects().then(function (projects) {
-					projects.forEach(function (project) {
-						$scope.assignableProjects.push({
-							id: project.id,
-							title: project.title
+				loadTasks();
+
+				var loadUsers = function () {
+					$scope.loader.users = true;
+					DataProvider.getUsers().then(function (users) {
+						users.forEach(function (user) {
+							$scope.assignableUsers.push({
+								id: user.id,
+								name: user.firstName + ' ' + user.lastName
+							});
 						});
+						$scope.loader.users = false;
 					});
-				});
+				};
 
-				var openModal = function (options) {
+				loadUsers();
+
+				var loadProjects = function () {
+					$scope.loader.projects = true;
+					DataProvider.getProjects().then(function (projects) {
+						projects.forEach(function (project) {
+							$scope.assignableProjects.push({
+								id: project.id,
+								name: project.title
+							});
+						});
+						$scope.loader.projects = false;
+					});
+				};
+
+				loadProjects();
+
+				var openProcessModal = function (options) {
 					return $modal.open({
 						templateUrl: 'views/process_modal.tpl.html',
 						controller: 'ProcessModalCtrl',
@@ -60,37 +84,17 @@
 					});
 				};
 
-				$scope.saveTask = function (originTask, task) {
-					if ($scope.tasks.indexOf(originTask) < 0) {
-						// create new task
-						DataProvider.createTask(task).then(function (response) {
-							// update origin task with new data
-							_.extend(originTask, response);
-
-							// add to other tasks
-							originTask.$ui = {
-								showTasks: true
-							};
-							$scope.tasks.push(originTask);
-
-						}, function (response) {
-							$log.error(response);
-						});
-
-					} else {
-						// update task
-						DataProvider.updateTask(task.getId(), task).then(function (response) {
-							// update origin task with new data
-							_.extend(originTask, response);
-
-						}, function (response) {
-							$log.error(response);
-						});
-					}
-				};
-
-				$scope.saveProject = function (originProject, project) {
-					// not implemented
+				var openEffortModal = function (options) {
+					return $modal.open({
+						templateUrl: 'views/effort_modal.tpl.html',
+						controller: 'EffortModalCtrl',
+						scope: $scope,
+						resolve: {
+							options: function () {
+								return options;
+							}
+						}
+					});
 				};
 
 				$scope.selectTask = function (task) {
@@ -102,31 +106,17 @@
 				};
 
 				$scope.newTask = function () {
-					var modalInstance = openModal({
-						title: 'Neues Projekt',
-						model: factory.task()
-					});
-				};
-
-				$scope.editSelected = function () {
-					var modalInstance = openModal({
-						title: 'Projekt "' + $scope.selectedTask.title + '" bearbeiten',
-						model: $scope.selectedTask
-					});
-				};
-
-				$scope.createTaskTask = function () {
-					var task = factory.task();
-					task.setTask($scope.selectedTask);
-
-					var modalInstance = openModal({
-						title: 'Neue Aufgabe für Projekt "' + $scope.selectedTask.title + '" anlegen',
+					var modalInstance = openProcessModal({
+						title: 'Neue Aufgabe',
 						model: task
 					});
 				};
 
-				$scope.createSubTask = function () {
-
+				$scope.editSelected = function () {
+					var modalInstance = openProcessModal({
+						title: 'Aufgabe "' + $scope.selectedTask.title + '" bearbeiten',
+						model: $scope.selectedTask
+					});
 				};
 
 				$scope.deleteSelected = function () {
@@ -163,6 +153,13 @@
 					});
 				};
 
+				$scope.bookEffort = function (task) {
+					var modalInstance = openEffortModal({
+						title: 'Neuer Aufwand für Aufgabe "' + task.title + '"',
+						task: task
+					});
+				};
+
 				$scope.disableActions = function () {
 					return _.isNull($scope.selectedTask);
 				};
@@ -176,7 +173,7 @@
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
-					DataProvider.updateTask($scope.task.getId(), $scope.task).then(function (response) {
+					DataProvider.updateTask($scope.task.getId(), $scope.task.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {

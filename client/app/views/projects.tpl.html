@@ -1,5 +1,6 @@
 <div>
-	<table class="table">
+	<div class="loader" ng-show="loader.projects || loader.users"></div>
+	<table class="table" ng-hide="loader.projects || loader.users">
 		<thead>
 		<tr>
 			<th><!-- Aktion --></th>
@@ -34,14 +35,15 @@
 		</thead>
 		<tbody>
 		<tr>
-			<td colspan="10">
+			<td colspan="11">
 				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
 			</td>
 		</tr>
 		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
-				<input type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
+				<img ng-show="item.loader.edit" src="images/load_indicator.gif" height="18px" width="18px" />
+				<input ng-hide="item.loader.edit" type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
 			</td>
 
 			<!-- Title -->
@@ -50,10 +52,12 @@
 					<span class="editable" ng-click="editable.title = true">{{ project.title }} </span>
 					<a href="javascript:void(0);"
 					   class="glyphicon"
+					   ng-hide="item.loader.tasks.load"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
 					   ng-click="showTasks(project)"
 					   ng-if="project.taskCount > 0">
 					</a>
+					<img src="images/load_indicator.gif" height="12px" width="12px" ng-show="item.loader.tasks.load" />
 				</nobr>
 				<div ng-if="editable.title">
 					<input type="text"
@@ -103,7 +107,7 @@
 			<!-- Start Date -->
 			<td>
 				<nobr ng-hide="editable.datepicker.startDate">
-					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
+					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
 				<div ng-if="editable.datepicker.startDate">
 					<input ng-model="project.startDate"
@@ -120,7 +124,7 @@
 			<!-- End Date -->
 			<td>
 				<nobr ng-hide="editable.datepicker.endDate">
-					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
+					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
 				<div ng-if="editable.datepicker.endDate">
 					<input ng-model="project.endDate"
@@ -206,9 +210,6 @@
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
-			</li>
-			<li>
-				<!--<a href="javascript:void(0);" ng-click="createSubProject()">Unterprojekt erstellen</a>-->
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>

@@ -135,7 +135,29 @@
 
                 assignProjectToUser: function(idProject, idUser) {
                     return DataSources[getDataSource()].assignProjectToUser(idProject, idUser);
-                }
+                },
+
+				/* Effort */
+
+				getEffort: function (taskId, effortId) {
+					return DataSources[getDataSource()].getProject(taskId, effortId);
+				},
+
+				getEfforts: function (taskId) {
+					return DataSources[getDataSource()].getEfforts(taskId);
+				},
+
+				createEffort: function (taskId, data) {
+					return DataSources[getDataSource()].createEffort(taskId, data);
+				},
+
+				updateEffort: function (taskId, effortId, data) {
+					return DataSources[getDataSource()].updateEffort(taskId, effortId, data);
+				},
+
+				deleteEffort: function (taskId, effortId) {
+					return DataSources[getDataSource()].deleteEffort(taskId, effortId);
+				}
             }
     });
 

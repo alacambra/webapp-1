@@ -1,6 +1,20 @@
 (function () {
 	'use strict';
 
+	var convertDate = function convertDate (date) {
+		if (date <= -99999999999999 || date >= 99999999999999) {
+			return null;
+		}
+		return date;
+	};
+
+	var reconvertDate = function reconvertDate (date) {
+		if (_.isNull(date)) {
+			return 99999999999999;
+		}
+		return date;
+	};
+
 	/*
 	 -------------------- MODS --------------------
 	 */
@@ -42,6 +56,12 @@
 	}).methods({
 		getFullName: function () {
 			return this.firstName + ' ' + this.lastName;
+		},
+
+		getRequestObj: function () {
+			var requestObj = _.extend({}, this);
+			requestObj.birthday = reconvertDate(requestObj.birthday);
+			return requestObj;
 		}
 	});
 
@@ -72,29 +92,60 @@
 			'low',
 			'normal',
 			'high'
-		]
+		],
+
+		getRequestObj: function () {
+			var requestObj = _.extend({}, this);
+			requestObj.startDate = reconvertDate(requestObj.startDate);
+			requestObj.endDate = reconvertDate(requestObj.endDate);
+			return requestObj;
+		}
 	});
 
-	var effortMod = stampit().enclose(function () {
-		var taskId = null;
+	var taskMod = stampit().enclose(function () {
+		var _efforts = [];
 
-		this.getTaskId = function () {
-			return taskId;
+		this.getEfforts = function () {
+			return _efforts;
 		};
 
-		this.setTaskId = function (_taskId) {
-			taskId = _taskId;
-		}
-	}).state({
-		date: null,
-		comment: null,
-		activity: null
+		this.setEfforts = function (efforts) {
+			_efforts = efforts;
+		};
+
 	}).methods({
-		getUrl: function () {
-			if (this.isNew()) {
-				return '/' + this.getTaskId() + '/efforts';
+		getEffort: function (effortId) {
+			for (var i = 0; i < this.getEfforts().length; i++) {
+				if (this.getEfforts()[i].getId() === effortId) {
+					return this.getEfforts()[i];
+				}
 			}
-			return '/' + this.getTaskId() + '/efforts/' + this.getId();
+			return null;
+		},
+
+		addEffort: function (effort) {
+			this.getEfforts().push(effort);
+		},
+
+		removeEffort: function (effort) {
+			for (var i = 0; i < this.getEfforts().length; i++) {
+				if (this.getEfforts()[i] === effort) {
+					this.getEfforts().splice(i, 1);
+				}
+			}
+		}
+	});
+
+	var effortMod = stampit().state({
+		date: null,
+		time: null,
+		comment: null,
+		taskId: null
+	}).methods({
+		getRequestObj: function () {
+			var requestObj = _.extend({}, this);
+			requestObj.date = reconvertDate(date);
+			return requestObj;
 		}
 	});
 
@@ -121,13 +172,14 @@
 	});
 
 	factory.user = function (data, options) {
+		data.birthday = convertDate(data.birthday);
 		return user(data);
 	};
 
 	/**
 	 * Factory that produces task instances.
 	 */
-	var task = stampit.compose(idMod, processMod).state({
+	var task = stampit.compose(idMod, taskMod, processMod).state({
 		project: null
 	}).methods({
 		isTask: true,
@@ -141,6 +193,8 @@
 	});
 
 	factory.task = function (data, options) {
+		data.startDate = convertDate(data.startDate);
+		data.endDate = convertDate(data.endDate);
 		return task(data);
 	};
 
@@ -187,6 +241,8 @@
 	});
 
 	factory.project = function (data, options) {
+		data.startDate = convertDate(data.startDate);
+		data.endDate = convertDate(data.endDate);
 		return project(data);
 	};
 
@@ -196,6 +252,7 @@
 	var effort = stampit.compose(idMod, effortMod);
 
 	factory.effort = function (data, options) {
+		data.date = convertDate(data.date);
 		return effort(data);
 	};
 
