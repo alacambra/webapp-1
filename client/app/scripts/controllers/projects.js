@@ -191,15 +191,13 @@
 				$scope.editable = {};
 
 				$scope.updateProject = function () {
-					$timeout(function () {
-						DataProvider.updateProject($scope.project.getId(), $scope.project).then(function (response) {
-							origin = angular.copy($scope.project);
+					DataProvider.updateProject($scope.project.getId(), $scope.project).then(function (response) {
+						origin = angular.copy($scope.project);
 
-						}, function (response) {
-							$log.error(response);
-							$scope.project = origin;
-						});
-					}, 100);
+					}, function (response) {
+						$log.error(response);
+						$scope.project = origin;
+					});
 				};
 
 				$scope.openDatePicker = function ($event, date) {

@@ -47,11 +47,12 @@
 			<!-- Title -->
 			<td>
 				<nobr ng-hide="editable.title">
-					<span ng-click="editable.title = true">{{ project.title }} </span>
+					<span class="editable" ng-click="editable.title = true">{{ project.title }} </span>
 					<a href="javascript:void(0);"
 					   class="glyphicon"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
-					   ng-click="showTasks(project)">
+					   ng-click="showTasks(project)"
+					   ng-if="project.taskCount > 0">
 					</a>
 				</nobr>
 				<div ng-if="editable.title">
@@ -59,8 +60,8 @@
 						   ng-model="project.title"
 						   pp-model=""
 						   set-focus=""
-						   ng-blur="editable.title = false; updateProject();"
-						   ng-enter="editable.title = false; updateProject();">
+						   ng-blur="editable.title = false"
+						   ng-change="editable.title = false; updateProject()">
 				</div>
 			</td>
 
@@ -72,13 +73,14 @@
 			<!-- Assignee -->
 			<td>
 				<nobr ng-hide="editable.assignee">
-					<span ng-click="editable.assignee = true">{{ project.assignee.name }}</span>
+					<span class="editable" ng-click="editable.assignee = true">{{ project.assignee.name }}</span>
 				</nobr>
 				<div ng-if="editable.assignee">
 					<select ng-model="project.assignee"
 							ng-options="user as user.name for user in assignableUsers track by user.id"
 							set-focus=""
-							ng-blur="editable.assignee = false; updateProject();">
+							ng-blur="editable.assignee = false"
+							ng-change="editable.assignee = false; updateProject()">
 					</select>
 				</div>
 			</td>
@@ -86,53 +88,56 @@
 			<!-- Status -->
 			<td>
 				<nobr ng-hide="editable.status">
-					<span ng-click="editable.status = true">{{ project.status }}</span>
+					<span class="editable" ng-click="editable.status = true">{{ project.statusList[project.status] }}</span>
 				</nobr>
 				<div ng-if="editable.status">
 					<select ng-model="project.status"
-							ng-options="value for value in project.statusList"
+							ng-options="key as status for (key, status) in project.statusList"
 							set-focus=""
-							ng-blur="editable.status = false; updateProject();">
+							ng-blur="editable.status = false"
+							ng-change="editable.status = false; updateProject()">
 					</select>
 				</div>
 			</td>
 
 			<!-- Start Date -->
 			<td>
-				<nobr ng-hide="editable.startDate || editable.datepicker.startDate">
-					<span ng-click="editable.startDate = true; openDatePicker($event, 'startDate')">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
+				<nobr ng-hide="editable.datepicker.startDate">
+					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
 				</nobr>
-				<div ng-if="editable.startDate || editable.datepicker.startDate">
+				<div ng-if="editable.datepicker.startDate">
 					<input ng-model="project.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
 						   is-open="editable.datepicker.startDate"
-						   ng-blur="editable.startDate = false; updateProject();">
+						   disabled="disabled"
+						   ng-change="updateProject()">
 				</div>
 			</td>
 
 			<!-- End Date -->
 			<td>
-				<nobr ng-hide="editable.endDate || editable.datepicker.endDate">
-					<span ng-click="editable.endDate = true; openDatePicker($event, 'endDate')">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
+				<nobr ng-hide="editable.datepicker.endDate">
+					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
 				</nobr>
-				<div ng-if="editable.endDate || editable.datepicker.endDate">
+				<div ng-if="editable.datepicker.endDate">
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
 						   is-open="editable.datepicker.endDate"
-						   ng-blur="editable.endDate = false; updateProject();">
+						   disabled="disabled"
+						   ng-change="updateProject()">
 				</div>
 			</td>
 
 			<!-- Duration -->
 			<td>
 				<nobr ng-hide="editable.duration">
-					<span ng-click="editable.duration = true">{{ project.duration | minutesToHours | number:2 }}h</span>
+					<span class="editable" ng-click="editable.duration = true">{{ project.duration | minutesToHours | number:2 }}h</span>
 				</nobr>
 				<div ng-if="editable.duration">
 					<input ng-model="project.duration"
@@ -140,15 +145,15 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
-						   ng-blur="editable.duration = false; updateProject();"
-						   ng-enter="editable.duration = false; updateProject();">
+						   ng-blur="editable.duration = false"
+						   ng-change="editable.duration = false; updateProject()">
 				</div>
 			</td>
 
 			<!-- Effort -->
 			<td>
 				<nobr ng-hide="editable.effort">
-					<span ng-click="editable.effort = true">{{ project.effort | minutesToHours | number:2 }}h</span>
+					<span class="editable" ng-click="editable.effort = true">{{ project.effort | minutesToHours | number:2 }}h</span>
 				</nobr>
 				<div ng-if="editable.effort">
 					<input ng-model="project.effort"
@@ -156,15 +161,15 @@
 						   pp-convert-time=""
 						   type="text"
 						   set-focus=""
-						   ng-blur="editable.effort = false; updateProject();"
-						   ng-enter="editable.effort = false; updateProject();">
+						   ng-blur="editable.effort = false"
+						   ng-change="editable.effort = false; updateProject()">
 				</div>
 			</td>
 
 			<!-- Progress -->
 			<td>
 				<nobr ng-hide="editable.progress">
-					<span ng-click="editable.progress = true">{{ project.progress * 100 | number:2 }}%</span>
+					<span class="editable" ng-click="editable.progress = true">{{ project.progress * 100 | number:2 }}%</span>
 				</nobr>
 				<div ng-if="editable.progress">
 					<input ng-model="project.progress"
@@ -174,8 +179,8 @@
 						   min="0"
 						   max="100"
 						   set-focus=""
-						   ng-blur="editable.progress = false; updateProject();"
-						   ng-enter="editable.progress = false; updateProject();">
+						   ng-blur="editable.progress = false"
+						   ng-change="editable.progress = false; updateProject()">
 				</div>
 			</td>
 		</tr>

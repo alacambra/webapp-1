@@ -32,53 +32,79 @@
 
 				$httpBackend.whenGET(/.*\.tpl\.html/).passThrough();
 
-				$httpBackend.whenGET(baseUrl + '/projects').respond(function (method, url, data, headers) {
+				// URI: GET - /projects
+				$httpBackend.whenGET(/\/projects$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200, JSON.stringify(projects), { valid: true }];
 				});
 
-				$httpBackend.whenGET(baseUrl + '/users').respond(function (method, url, data, headers) {
+				// URI: GET - /users
+				$httpBackend.whenGET(/\/users$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200, JSON.stringify(users)];
 				});
 
-				$httpBackend.whenGET(baseUrl + '/tasks').respond(function (method, url, data, headers) {
+				// URI: GET - /tasks
+				$httpBackend.whenGET(/\/tasks$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200, JSON.stringify(tasks)];
 				});
 
-				$httpBackend.whenGET(/.+\/projects\/[^\/]+\/tasks/).respond(function (method, url, data, headers) {
+				// URI: GET /projects/:projectId/tasks
+				$httpBackend.whenGET(/\/projects\/[\w-]\/tasks$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200, JSON.stringify(tasks)];
 				});
 
-				$httpBackend.whenPOST(baseUrl + '/projects/').respond(function (method, url, data, headers) {
+				// URI: POST /projects
+				$httpBackend.whenPOST(/\/projects$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					data = JSON.parse(data);
 					data.id = 'p-' + parseInt(Math.random() * 10000, 10);
 					return [200, JSON.stringify(data)];
 				});
 
-				$httpBackend.whenPOST(baseUrl + '/tasks/').respond(function (method, url, data, headers) {
+				// URI: POST /tasks
+				$httpBackend.whenPOST(/\/tasks$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					data = JSON.parse(data);
 					data.id = 't-' + parseInt(Math.random() * 10000, 10);
 					return [200, JSON.stringify(data)];
 				});
 
-				$httpBackend.whenPUT(/.+\/tasks\/[^\/]+\/in\/project\/[^\/]+/).respond(function (method, url, data, headers) {
+				// URI: PUT /tasks/:taskId/in/project/:projectId
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/in\/project\/[\w-]$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200];
 				});
 
-				$httpBackend.whenDELETE(/.+\/projects\/.+/).respond(function (method, url, data, headers) {
+				// URI: DELETE /projects/:projectId
+				$httpBackend.whenDELETE(/\/projects\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200];
 				});
 
-				$httpBackend.whenDELETE(/.+\/tasks\/.+/).respond(function (method, url, data, headers) {
+				// URI: DELETE /tasks/:taskId
+				$httpBackend.whenDELETE(/\/tasks\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200];
 				});
 
-				$httpBackend.whenPUT(/.+\/projects\/.+/).respond(function (method, url, data, headers) {
+				// URI: PUT /projects/:projectId
+				$httpBackend.whenPUT(/\/projects\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200];
 				});
 
-//				$httpBackend.
+				// URI: PUT /tasks/:taskId/from/:projectSourceId/to/:projectTargetId
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/from\/[\w-]+\/to\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
+					return [200];
+				});
 
-				$httpBackend.whenPUT(/.+\/tasks\/.+/).respond(function (method, url, data, headers) {
+				// URI: PUT /tasks/:taskId
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(url);
 					return [200];
 				});
 			}]);

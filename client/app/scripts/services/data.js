@@ -98,8 +98,8 @@
                     return DataSources[getDataSource()].moveSubtaskFromTaskToTask(idSource, idParent);
                 },
 
-                moveTaskFromProjectToProject: function(idSource, idParent) {
-                    return DataSources[getDataSource()].moveTaskFromProjectToProject(idSource, idParent);
+                moveTaskFromProjectToProject: function(id, idSource, idParent) {
+                    return DataSources[getDataSource()].moveTaskFromProjectToProject(id, idSource, idParent);
                 },
 
                 /* Project */
