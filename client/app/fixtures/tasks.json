@@ -5,9 +5,10 @@
 		"description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
 		"assignee": {
 			"id": "u001",
-			"name": "Anton Alpha"
+			"firstName": "Anton",
+			"lastName": "Alpha"
 		},
-		"status": "completed",
+		"status": "COMPLETED",
 		"startDate": 1389308400000,
 		"endDate": 1390172400000,
 		"duration": 45,
@@ -15,7 +16,7 @@
 		"progress": 0.7,
 		"project": {
 			"id": "p001",
-			"name": "Project I"
+			"title": "Project I"
 		}
 	},
 	{
@@ -24,9 +25,10 @@
 		"description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
 		"assignee": {
 			"id": "u001",
-			"name": "Anton Alpha"
+			"firstName": "Anton",
+			"lastName": "Alpha"
 		},
-		"status": "assigned",
+		"status": "ASSIGNED",
 		"startDate": 1388617200000,
 		"endDate": 1389222000000,
 		"duration": 30,
@@ -34,7 +36,7 @@
 		"progress": 0.5,
 		"project": {
 			"id": "p001",
-			"name": "Project I"
+			"title": "Project I"
 		}
 	},
 	{
@@ -43,9 +45,10 @@
 		"description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
 		"assignee": {
 			"id": "u002",
-			"name": "Berta Bravo"
+			"firstName": "Anton",
+			"lastName": "Alpha"
 		},
-		"status": "offered",
+		"status": "OFFERED",
 		"startDate": 1391900400000,
 		"endDate": 1392418800000,
 		"duration": 60,
@@ -53,7 +56,7 @@
 		"progress": 0.8,
 		"project": {
 			"id": "p002",
-			"name": "Project II"
+			"title": "Project II"
 		}
 	},
 	{
@@ -62,9 +65,10 @@
 		"description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
 		"assignee": {
 			"id": "u003",
-			"name": "Cäsar Charlie"
+			"firstName": "Anton",
+			"lastName": "Alpha"
 		},
-		"status": "todo",
+		"status": "TODO",
 		"startDate": 1390172400000,
 		"endDate": 1391122800000,
 		"duration": 45,
@@ -72,7 +76,7 @@
 		"progress": 1,
 		"project": {
 			"id": "p005",
-			"name": "Project V"
+			"title": "Project V"
 		}
 	},
 	{
@@ -81,9 +85,10 @@
 		"description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
 		"assignee": {
 			"id": "u005",
-			"name": "Emil Echo"
+			"firstName": "Anton",
+			"lastName": "Alpha"
 		},
-		"status": "assigned",
+		"status": "ASSIGNED",
 		"startDate": 1391122800000,
 		"endDate": 1391554800000,
 		"duration": 60,
@@ -91,7 +96,7 @@
 		"progress": 0,
 		"project": {
 			"id": "p005",
-			"name": "Project V"
+			"title": "Project V"
 		}
 	}
 ]

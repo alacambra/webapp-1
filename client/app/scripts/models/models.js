@@ -57,21 +57,21 @@
 		progress: 0,
 		assignee: null
 	}).methods({
-		statusList: [
-			{key: 'TODO', value: 'todo'},
-			{key: 'NEW', value: 'new'},
-			{key: 'ASSIGNED', value: 'assigned'},
-			{key: 'ON HOLD', value: 'on hold'},
-			{key: 'COMPLETED', value: 'completed'},
-			{key: 'ARCHIVED', value: 'archived'},
-			{key: 'REQUESTED', value: 'requested'},
-			{key: 'OFFERED', value: 'offered'}
-		],
+		statusList: {
+			'TODO': 'todo',
+			'NEW': 'new',
+			'ASSIGNED': 'assigned',
+			'ON HOLD': 'on hold',
+			'COMPLETED': 'completed',
+			'ARCHIVED': 'archived',
+			'REQUESTED': 'requested',
+			'OFFERED': 'offered'
+		},
 
 		priorityList: [
-			{key: "LOW", value: 'low'},
-			{key: "NORMAL", value: 'normal'},
-			{key: "HIGH", value: 'high'}
+			'low',
+			'normal',
+			'high'
 		]
 	});
 

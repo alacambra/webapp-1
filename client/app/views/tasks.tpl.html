@@ -91,11 +91,11 @@
 		<!-- Status -->
 		<td>
 			<nobr ng-hide="editable.status">
-				<span class="editable" ng-click="editable.status = true">{{ task.status }}</span>
+				<span class="editable" ng-click="editable.status = true">{{ task.statusList[task.status] }}</span>
 			</nobr>
 			<div ng-if="editable.status">
 				<select ng-model="task.status"
-						ng-options="value for value in task.statusList"
+						ng-options="key as status for (key, status) in task.statusList"
 						set-focus=""
 						ng-blur="editable.status = false"
 						ng-change="editable.status = false; updateTask()">
@@ -189,11 +189,11 @@
 		<!-- Project -->
 		<td>
 			<nobr ng-hide="editable.project">
-				<span class="editable" ng-click="editable.project = true">{{ task.project.name }}</span>
+				<span class="editable" ng-click="editable.project = true">{{ task.project.title }}</span>
 			</nobr>
 			<div ng-if="editable.project">
 				<select ng-model="task.project"
-						ng-options="project as project.name for project in assignableProjects track by project.id"
+						ng-options="project as project.title for project in assignableProjects track by project.id"
 						set-focus=""
 						ng-blur="editable.project = false"
 						ng-change="editable.project = false; updateTaskProject();">

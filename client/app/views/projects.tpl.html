@@ -51,7 +51,8 @@
 					<a href="javascript:void(0);"
 					   class="glyphicon"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
-					   ng-click="showTasks(project)">
+					   ng-click="showTasks(project)"
+					   ng-if="project.taskCount > 0">
 					</a>
 				</nobr>
 				<div ng-if="editable.title">
@@ -87,11 +88,11 @@
 			<!-- Status -->
 			<td>
 				<nobr ng-hide="editable.status">
-					<span class="editable" ng-click="editable.status = true">{{ project.status }}</span>
+					<span class="editable" ng-click="editable.status = true">{{ project.statusList[project.status] }}</span>
 				</nobr>
 				<div ng-if="editable.status">
 					<select ng-model="project.status"
-							ng-options="value for value in project.statusList"
+							ng-options="key as status for (key, status) in project.statusList"
 							set-focus=""
 							ng-blur="editable.status = false"
 							ng-change="editable.status = false; updateProject()">

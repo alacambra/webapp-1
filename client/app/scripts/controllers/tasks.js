@@ -42,7 +42,7 @@
 					projects.forEach(function (project) {
 						$scope.assignableProjects.push({
 							id: project.id,
-							name: project.title
+							title: project.title
 						});
 					});
 				});
