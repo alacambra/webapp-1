@@ -12,51 +12,56 @@
 
 				$scope.projects = [];
 
-				DataProvider.getProjects().then(function (data) {
-					var projects = [];
-					for (var i = 0; i < data.length; i++) {
-						var project = factory.project(data[i]);
-						project.setId(data[i].id);
-						projects.push(project);
-					}
-					$scope.projects = projects;
-					$scope.projects.forEach(function (project) {
-						project.$ui = {
-							showTasks: false
-						};
-					});
+				$scope.loader = {
+					projects: false,
+					user: false
+				};
 
-
-//					var numberOfProjectsToAdd = 100;
-//					for (var j = 0; j < numberOfProjectsToAdd; j++) {
-//						var p = factory.project({
-//							title: 'Project' + j,
-//							description: 'lalala',
-//							assignee: {
-//								id: 'u001',
-//								name: 'Anton Alpha'
-//							},
-//							status: 1,
-//							startDate: 1392850800000 + j * 24 * 60 * 60 * 1000,
-//							endDate: 1392850800000 + (j + 1) * 24 * 60 * 60 * 1000,
-//							duration: 15 * (j + 1),
-//							effort: 15 * j,
-//							progress: Math.random()
-//						});
-//						p.setId('p11' + j);
-//
-//						$scope.projects.push(p);
-//					}
-				});
-
-				DataProvider.getUsers().then(function (users) {
-					users.forEach(function (user) {
-						$scope.assignableUsers.push({
-							id: user.id,
-							name: user.firstName + ' ' + user.lastName
+				var loadProjects = function () {
+					$scope.loader.projects = true;
+					DataProvider.getProjects().then(function (data) {
+						var projects = [];
+						for (var i = 0; i < data.length; i++) {
+							var project = factory.project(data[i]);
+							project.setId(data[i].id);
+							projects.push(project);
+						}
+						$scope.projects = projects;
+						$scope.projects.forEach(function (project) {
+							project.$ui = {
+								showTasks: false
+							};
 						});
+
+					}, function (response) {
+						$log.error(response);
+
+					}).finally(function () {
+						$scope.loader.projects = false;
 					});
-				});
+				};
+
+				loadProjects();
+
+				var loadUsers = function () {
+					$scope.loader.users = true;
+					DataProvider.getUsers().then(function (users) {
+						users.forEach(function (user) {
+							$scope.assignableUsers.push({
+								id: user.id,
+								name: user.firstName + ' ' + user.lastName
+							});
+						});
+
+					}, function (response) {
+						$log.error(response);
+
+					}).finally(function () {
+						$scope.loader.users = false;
+					});
+				};
+
+				loadUsers();
 
 				var openModal = function (options) {
 					return $modal.open({
@@ -68,40 +73,6 @@
 								return options;
 							}
 						}
-					});
-				};
-
-				$scope.saveProject = function (originProject, project) {
-					DataProvider.createProject(project).then(function (response) {
-						// update origin project with new data
-						_.extend(originProject, response);
-
-						// if origin project is a new project add it to projects
-						if ($scope.projects.indexOf(originProject) < 0) {
-							originProject.$ui = {
-								showTasks: true
-							};
-							$scope.projects.push(originProject);
-						}
-
-					}, function (response) {
-						$log.error(response);
-					});
-				};
-
-				$scope.saveTask = function (originTask, task) {
-					DataProvider.createTask(task).then(function (response) {
-						DataProvider.addTaskToProject(response.id, task.project.id).then(function () {
-							_.extend(originTask, response);
-
-							for (var i = 0; i < $scope.projects.length; i++) {
-								var project = $scope.projects[i];
-								if (project.getId() === originTask.project.id) {
-									project.addTask(originTask);
-									return;
-								}
-							}
-						});
 					});
 				};
 
@@ -133,12 +104,11 @@
 
 					var modalInstance = openModal({
 						title: 'Neue Aufgabe für Projekt "' + $scope.selectedProject.title + '" anlegen',
-						model: task
+						model: task,
+						disabled: {
+							project: true
+						}
 					});
-				};
-
-				$scope.createSubProject = function () {
-
 				};
 
 				$scope.deleteSelected = function () {
@@ -154,13 +124,60 @@
 					});
 
 					modalInstance.result.then(function () {
+						var modalInstance2 = $modal.open({
+							template: '<div class="loader"></div><p class="text-center">deleting project "' + $scope.selectedProject.title + '" ...</p>'
+						});
 						var index = $scope.projects.indexOf($scope.selectedProject);
 						DataProvider.deleteProject($scope.selectedProject.getId()).then(function (response) {
 							$scope.selectedProject = null;
 							$scope.projects.splice(index, 1);
 						}, function (response) {
 							$log.error(response);
+						}).finally(function () {
+							modalInstance2.close();
 						});
+					});
+				};
+
+				$scope.disableActions = function () {
+					return _.isNull($scope.selectedProject);
+				};
+
+				$scope.list = {
+					showProjectTasks: function (projectId) {
+						$scope.projects.forEach(function (project) {
+							project.$ui.showTasks = project.getId() === projectId;
+						});
+					}
+				};
+
+			}])
+
+		.controller('ProjectCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
+			function ($scope, $log, $timeout, DataProvider) {
+				var origin = angular.copy($scope.project);
+
+				$scope.editable = {};
+
+				$scope.item = {
+					loader: {
+						edit: false,
+						tasks: {
+							load: false
+						}
+					}
+				};
+
+				$scope.loadProjectTasks = function () {
+					$scope.list.showProjectTasks($scope.project.getId());
+					$scope.item.loader.tasks.load = true;
+
+					DataProvider.getProjectTasks($scope.project.getId()).then(function (response) {
+						$scope.project.setTasks(response);
+						$scope.item.loader.tasks.load = false;
+
+					}, function (response) {
+						$scope.item.loader.tasks.load = false;
 					});
 				};
 
@@ -178,25 +195,16 @@
 					});
 				};
 
-				$scope.disableActions = function () {
-					return _.isNull($scope.selectedProject);
-				};
-
-			}])
-
-		.controller('ProjectCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
-			function ($scope, $log, $timeout, DataProvider) {
-				var origin = angular.copy($scope.project);
-
-				$scope.editable = {};
-
 				$scope.updateProject = function () {
+					$scope.item.loader.edit = true;
 					DataProvider.updateProject($scope.project.getId(), $scope.project).then(function (response) {
 						origin = angular.copy($scope.project);
+						$scope.item.loader.edit = false;
 
 					}, function (response) {
 						$log.error(response);
 						$scope.project = origin;
+						$scope.item.loader.edit = false;
 					});
 				};
 

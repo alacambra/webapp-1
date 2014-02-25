@@ -1,5 +1,6 @@
 <div>
-<table class="table">
+<div class="loader" ng-show="loader.projects || loader.users || loader.tasks"></div>
+<table class="table" ng-hide="loader.projects || loader.users || loader.tasks">
 	<thead>
 	<tr>
 		<th><!-- Aktion --></th>

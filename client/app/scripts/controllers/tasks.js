@@ -14,38 +14,62 @@
 
 				$scope.tasks = [];
 
-				DataProvider.getTasks().then(function (data) {
-					var tasks = [];
-					for (var i = 0; i < data.length; i++) {
-						var task = factory.task(data[i]);
-						task.setId(data[i].id);
-						tasks.push(task);
-					}
-					$scope.tasks = tasks;
-					$scope.tasks.forEach(function (task) {
-						task.$ui = {
-							showTasks: false
-						};
-					});
-				});
+				$scope.loader = {
+					tasks: false,
+					users: false,
+					projects: false
+				};
 
-				DataProvider.getUsers().then(function (users) {
-					users.forEach(function (user) {
-						$scope.assignableUsers.push({
-							id: user.id,
-							name: user.firstName + ' ' + user.lastName
+				var loadTasks = function () {
+					$scope.loader.tasks = true;
+					DataProvider.getTasks().then(function (data) {
+						var tasks = [];
+						for (var i = 0; i < data.length; i++) {
+							var task = factory.task(data[i]);
+							task.setId(data[i].id);
+							tasks.push(task);
+						}
+						$scope.tasks = tasks;
+						$scope.tasks.forEach(function (task) {
+							task.$ui = {
+								showTasks: false
+							};
 						});
+						$scope.loader.tasks = false;
 					});
-				});
+				};
 
-				DataProvider.getProjects().then(function (projects) {
-					projects.forEach(function (project) {
-						$scope.assignableProjects.push({
-							id: project.id,
-							name: project.title
+				loadTasks();
+
+				var loadUsers = function () {
+					$scope.loader.users = true;
+					DataProvider.getUsers().then(function (users) {
+						users.forEach(function (user) {
+							$scope.assignableUsers.push({
+								id: user.id,
+								name: user.firstName + ' ' + user.lastName
+							});
 						});
+						$scope.loader.users = false;
 					});
-				});
+				};
+
+				loadUsers();
+
+				var loadProjects = function () {
+					$scope.loader.projects = true;
+					DataProvider.getProjects().then(function (projects) {
+						projects.forEach(function (project) {
+							$scope.assignableProjects.push({
+								id: project.id,
+								name: project.title
+							});
+						});
+						$scope.loader.projects = false;
+					});
+				};
+
+				loadProjects();
 
 				var openProcessModal = function (options) {
 					return $modal.open({
@@ -73,39 +97,6 @@
 					});
 				};
 
-				$scope.saveTask = function (originTask, task) {
-					if ($scope.tasks.indexOf(originTask) < 0) {
-						// create new task
-						DataProvider.createTask(task).then(function (response) {
-							// update origin task with new data
-							_.extend(originTask, response);
-
-							// add to other tasks
-							originTask.$ui = {
-								showTasks: true
-							};
-							$scope.tasks.push(originTask);
-
-						}, function (response) {
-							$log.error(response);
-						});
-
-					} else {
-						// update task
-						DataProvider.updateTask(task.getId(), task).then(function (response) {
-							// update origin task with new data
-							_.extend(originTask, response);
-
-						}, function (response) {
-							$log.error(response);
-						});
-					}
-				};
-
-				$scope.saveProject = function (originProject, project) {
-					// not implemented
-				};
-
 				$scope.selectTask = function (task) {
 					if ($scope.selectedTask === task) {
 						$scope.selectedTask = null;
@@ -117,7 +108,7 @@
 				$scope.newTask = function () {
 					var modalInstance = openProcessModal({
 						title: 'Neue Aufgabe',
-						model: factory.task()
+						model: task
 					});
 				};
 
@@ -126,10 +117,6 @@
 						title: 'Aufgabe "' + $scope.selectedTask.title + '" bearbeiten',
 						model: $scope.selectedTask
 					});
-				};
-
-				$scope.createSubTask = function () {
-
 				};
 
 				$scope.deleteSelected = function () {

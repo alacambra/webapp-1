@@ -4,7 +4,8 @@
 		<h4 class="modal-title">{{ modal.title }}</h4>
 	</div>
 	<div class="modal-body">
-		<form name="form.model" class="form-horizontal" role="form" novalidate="">
+		<div class="loader" ng-show="loader.users"></div>
+		<form name="form.model" class="form-horizontal" role="form" novalidate="" ng-hide="loader.users">
 
 			<!-- Title -->
 			<div class="form-group">
@@ -54,16 +55,16 @@
 			</div>
 
 			<!-- Project (Task only) -->
-			<div ng-if="modal.model.hasProject()" class="form-group">
+			<div ng-if="modal.model.project" class="form-group">
 				<label for="projectInput" class="col-sm-3 control-label">Project</label>
 
-				<div class="col-sm-9">
-					<input name="project"
-						   ng-model="modal.model.getProject().name"
-						   type="text"
-						   class="form-control"
-						   id="projectInput"
-						   disabled="">
+				<div class="col-sm-5">
+					<select name="project"
+							ng-model="modal.model.project"
+							class="form-control"
+							id="projectInput"
+							ng-disabled="modal.disabled.project"
+							ng-options="project as project.name for project in modal.assignableProjects track by project.id"></select>
 				</div>
 			</div>
 
@@ -205,10 +206,13 @@
 					<small class="error" ng-show="form.model.progress.$error.required">A progress is required.</small>
 				</div>
 			</div>
+
 		</form>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="close()">Abbrechen</button>
 		<button type="button" class="btn btn-primary" ng-click="save()">Speichern und Schließen</button>
+		<div class="loader" ng-show="modal.loader.model.save"></div>
+		<p class="error text-left" ng-show="error">{{ error }}</p>
 	</div>
 </div>
