@@ -94,7 +94,7 @@
 							ng-model="modal.model.status"
 							class="form-control"
 							id="statusInput"
-							ng-options="modal.model.statusList.indexOf(value) as value for value in modal.model.statusList"></select>
+							ng-options="key as status for (key, status) in modal.model.statusList"></select>
 				</div>
 			</div>
 

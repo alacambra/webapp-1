@@ -51,7 +51,7 @@
 		<!-- Title -->
 		<td>
 			<nobr ng-hide="editable.title">
-				<span ng-click="editable.title = true">{{ task.title }} </span>
+				<span class="editable" ng-click="editable.title = true">{{ task.title }} </span>
 				<a href="javascript:void(0);"
 				   class="glyphicon"
 				   ng-class="{ 'glyphicon-plus': !task.$ui.showTasks, 'glyphicon-minus': task.$ui.showTasks }"
@@ -77,7 +77,7 @@
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span ng-click="editable.assignee = true">{{ task.assignee.name }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name }}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
@@ -92,11 +92,11 @@
 		<!-- Status -->
 		<td>
 			<nobr ng-hide="editable.status">
-				<span ng-click="editable.status = true">{{ task.status }}</span>
+				<span class="editable" ng-click="editable.status = true">{{ task.statusList[task.status] }}</span>
 			</nobr>
 			<div ng-if="editable.status">
 				<select ng-model="task.status"
-						ng-options="value for value in task.statusList"
+						ng-options="key as status for (key, status) in task.statusList"
 						set-focus=""
 						ng-blur="editable.status = false"
 						ng-change="editable.status = false; updateTask()">
@@ -107,7 +107,7 @@
 		<!-- Start Date -->
 		<td>
 			<nobr ng-hide="editable.datepicker.startDate">
-				<span ng-click="openDatePicker($event, 'startDate')">{{ task.startDate | date:'dd.MM.yyyy' }}</span>
+				<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ task.startDate | date:'dd.MM.yyyy' }}</span>
 			</nobr>
 			<div ng-if="editable.datepicker.startDate">
 				<input ng-model="task.startDate"
@@ -124,7 +124,7 @@
 		<!-- End Date -->
 		<td>
 			<nobr ng-hide="editable.datepicker.endDate">
-				<span ng-click="openDatePicker($event, 'endDate')">{{ task.endDate | date:'dd.MM.yyyy' }}</span>
+				<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ task.endDate | date:'dd.MM.yyyy' }}</span>
 			</nobr>
 			<div ng-if="editable.datepicker.endDate">
 				<input ng-model="task.endDate"
@@ -140,7 +140,7 @@
 		<!-- Duration -->
 		<td>
 			<nobr ng-hide="editable.duration">
-				<span ng-click="editable.duration = true">{{ task.duration | minutesToHours | number:2 }}h</span>
+				<span class="editable" ng-click="editable.duration = true">{{ task.duration | minutesToHours | number:2 }}h</span>
 			</nobr>
 			<div ng-if="editable.duration">
 				<input ng-model="task.duration"
@@ -156,14 +156,14 @@
 		<!-- Effort -->
 		<td>
 			<nobr>
-				<span ng-click="bookEffort(task)">{{ task.effort | minutesToHours | number:2 }}h</span>
+				<span class="editable" ng-click="bookEffort(task)">{{ task.effort | minutesToHours | number:2 }}h</span>
 			</nobr>
 		</td>
 
 		<!-- Progress -->
 		<td>
 			<nobr ng-hide="editable.progress">
-				<span ng-click="editable.progress = true">{{ task.progress * 100 | number:2 }}%</span>
+				<span class="editable" ng-click="editable.progress = true">{{ task.progress * 100 | number:2 }}%</span>
 			</nobr>
 			<div ng-if="editable.progress">
 				<input ng-model="task.progress"
@@ -181,11 +181,11 @@
 		<!-- Project -->
 		<td>
 			<nobr ng-hide="editable.project">
-				<span ng-click="editable.project = true">{{ task.project.name }}</span>
+				<span class="editable" ng-click="editable.project = true">{{ task.project.title }}</span>
 			</nobr>
 			<div ng-if="editable.project">
 				<select ng-model="task.project"
-						ng-options="project as project.name for project in assignableProjects track by project.id"
+						ng-options="project as project.title for project in assignableProjects track by project.id"
 						set-focus=""
 						ng-blur="editable.project = false"
 						ng-change="editable.project = false; updateTaskProject();">
