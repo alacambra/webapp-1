@@ -22,6 +22,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
@@ -33,7 +34,6 @@ import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.entity.DTOConverter;
-import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 @Path("tasks")
@@ -71,8 +71,8 @@ public class TaskBoundary extends AbstractBoundry{
 	public Response getAllTask() throws JsonGenerationException,
 	JsonMappingException, IOException {
 		
-		 List<PersistedTask> list = new ArrayList<>();
-		 for ( PersistedTask t : entityFactory.getAllTask() ){
+		 List<Task> list = new ArrayList<>();
+		 for ( Task t : entityFactory.getAllTask() ){
 			 if ( t.getParent() == null ) {
 				 list.add(t);
 			 }

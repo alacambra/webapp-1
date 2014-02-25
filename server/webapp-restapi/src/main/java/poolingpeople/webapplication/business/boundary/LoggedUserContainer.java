@@ -1,7 +1,7 @@
 package poolingpeople.webapplication.business.boundary;
 
+import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.User;
-import poolingpeople.webapplication.business.entity.EntityFactory;
 
 public class LoggedUserContainer implements ILoggedUserContainer {
 

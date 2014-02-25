@@ -1,4 +1,4 @@
-package poolingpeople.webapplication.business.entity;
+package poolingpeople.persistence.neo4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import poolingpeople.commons.entities.Effort;
+import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
@@ -20,12 +20,13 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
 
 @Singleton
-@EntityPersistenceRollback
-public class EntityFactory { 
+//@EntityPersistenceRollback
+public class Neo4jEntityFactory implements EntityFactory { 
 
 	@Inject
 	private NeoManager manager;
 
+	@Override
 	public void deleteTask(String uuid)  {
 
 		PersistedTask task = getTaskById(uuid);
@@ -40,45 +41,57 @@ public class EntityFactory {
 		
 	}
 
+	@Override
 	public PersistedTask getTaskById(String uuid)  {
 		return new PersistedTask(manager, uuid);
 	}
 
+	@Override
 	public PersistedTask createTask(Task task)  {
 		return new PersistedTask(manager, task);
 	}
 
-	public List<PersistedTask> getAllTask() {
+	@Override
+	public List<Task> getAllTask() {
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedTask.NODE_TYPE.name()), 
-				new ArrayList<PersistedTask>(), 
-				PersistedTask.class);
+					manager.getNodes(PersistedTask.NODE_TYPE.name()), 
+					new ArrayList<Task>(), 
+					PersistedTask.class, 
+					Task.class
+				);
 	}
 
+	@Override
 	public PersistedProject createProject(Project project) {
 		return new PersistedProject(manager, project);
 	}
 
+	@Override
 	public PersistedProject getProjectById(
 			String uuid) {
 		return new PersistedProject(manager, uuid);
 	}
 
-	public List<PersistedProject> getAllProject() {
+	@Override
+	public List<Project> getAllProject() {
 		return manager.getPersistedObjects(
 				manager.getNodes(PersistedProject.NODE_TYPE.name()), 
-				new ArrayList<PersistedProject>(), 
-				PersistedProject.class);
+				new ArrayList<Project>(), 
+				PersistedProject.class,
+				Project.class);
 	}
 
+	@Override
 	public void deleteProject(String uuid) {
 		manager.removeNode(getProjectById(uuid).getNode());
 	}
 
+	@Override
 	public User getUserById(String uuid) {
 		return new PersistedUser(manager, uuid);
 	}
 
+	@Override
 	public User getUserByCredentials(String email, String password) {
 
 		try{
@@ -123,23 +136,28 @@ public class EntityFactory {
 	}
 
 
+	@Override
 	public void deleteUser(String uuid) {
 		manager.removeNode(getTaskById(uuid).getNode());
 
 	}
 
-	public List<PersistedUser> getAllUsers() {
+	@Override
+	public List<User> getAllUsers() {
 
 		return manager.getPersistedObjects(
 				manager.getNodes(PersistedUser.NODE_TYPE.name()), 
-				new ArrayList<PersistedUser>(), 
-				PersistedUser.class);
+				new ArrayList<User>(), 
+				PersistedUser.class,
+				User.class);
 	}
 
+	@Override
 	public User createUser(String email, String password, User user) {
 		return new PersistedUser(manager, email, password, user);
 	}
 
+	@Override
 	public Effort getEffortById(String uuid) {
 		return new PersistedEffort(manager, uuid);
 	}
@@ -147,6 +165,7 @@ public class EntityFactory {
 	/*
 	 * Creating a persisted effort from a transient effort
 	 */
+	@Override
 	public Effort createEffort(Effort effort) {
 		return new PersistedEffort(manager, effort);
 	}

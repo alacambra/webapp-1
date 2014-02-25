@@ -424,8 +424,11 @@ public class NeoManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IM, IN> AbstractCollection<IN> getPersistedObjects( 
-			Collection<Node> nodes, AbstractCollection<IN> objects, Class<IM> implementationClass,  Class<IN> interfaceClass ) {
+	public <IM, IN, COL extends AbstractCollection<IN>> COL getPersistedObjects( 
+			Collection<Node> nodes,
+			COL objects, 
+			Class<IM> implementationClass,  
+			Class<IN> interfaceClass ) {
 
 		if(!interfaceClass.isAssignableFrom(implementationClass)){
 			throw new RootApplicationException(implementationClass.getCanonicalName() 

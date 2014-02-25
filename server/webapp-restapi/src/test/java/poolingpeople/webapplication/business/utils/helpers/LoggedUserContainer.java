@@ -4,10 +4,11 @@ import javax.inject.Inject;
 
 import org.neo4j.graphdb.Transaction;
 
+import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.User;
+import poolingpeople.persistence.neo4j.Neo4jEntityFactory;
 import poolingpeople.persistence.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
-import poolingpeople.webapplication.business.entity.EntityFactory;
 import poolingpeople.webapplication.business.user.boundary.UserDTO;
 
 public class LoggedUserContainer implements ILoggedUserContainer {
@@ -21,7 +22,7 @@ public class LoggedUserContainer implements ILoggedUserContainer {
 	public LoggedUserContainer(EntityFactory entityFactory){
 
 		this.entityFactory = entityFactory;
-		Transaction tx = entityFactory.getManager().getGraphDbService().beginTx();
+		Transaction tx = ((Neo4jEntityFactory) entityFactory).getManager().getGraphDbService().beginTx();
 		try{
 			email = "a@a.cat";
 			password = "aaaa";
@@ -34,7 +35,7 @@ public class LoggedUserContainer implements ILoggedUserContainer {
 				dto.setEmail(email);
 				dto.setPassword(password);
 
-				user = new PersistedUser(entityFactory.getManager(), email, password, dto);
+				user = new PersistedUser(((Neo4jEntityFactory) entityFactory).getManager(), email, password, dto);
 				tx.success();
 			}
 		} finally {
