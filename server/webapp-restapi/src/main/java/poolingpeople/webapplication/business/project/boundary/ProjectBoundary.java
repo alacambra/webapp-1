@@ -25,6 +25,7 @@ import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
+import poolingpeople.persistence.neo4j.entities.PersistedProject;
 import poolingpeople.webapplication.business.boundary.AbstractBoundry;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
@@ -95,9 +96,9 @@ public class ProjectBoundary extends AbstractBoundry{
 			throws JsonParseException, JsonMappingException, IOException {
 		
 		Project dtoProject = mapper.readValue(json, ProjectDTO.class);
-		dtoConverter.fromDTOtoPersitedBean(dtoProject, entityFactory.getProjectById(uuid));
-		
-		return Response.noContent().build();
+		PersistedProject persistedProject = dtoConverter.fromDTOtoPersitedBean(dtoProject, entityFactory.getProjectById(uuid));
+		String serializedProject = mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(persistedProject);
+		return Response.ok().entity(serializedProject).build();
 	}
 
 	@DELETE

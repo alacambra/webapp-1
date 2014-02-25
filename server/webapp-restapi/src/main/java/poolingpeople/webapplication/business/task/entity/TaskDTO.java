@@ -23,6 +23,8 @@ public class TaskDTO implements Task {
 	private Long endDate;
 	private Float progress;
 	private Integer duration;
+	private TaskStatus taskStatus;
+	private TaskPriority taskPriority;
 
 	@IgnoreAttribute
 	@Override
@@ -42,12 +44,12 @@ public class TaskDTO implements Task {
 
 	@Override
 	public TaskPriority getPriority() {
-		return null;
+		return taskPriority;
 	}
 
 	@Override
 	public TaskStatus getStatus() {
-		return null;
+		return taskStatus;
 	}
 
 	@Override
@@ -91,15 +93,14 @@ public class TaskDTO implements Task {
 		this.description = description;
 	}
 
-	@IgnoreAttribute
-	@JsonIgnore
 	@Override
 	public void setPriority(TaskPriority priority) {
+		this.taskPriority = priority;
 	}
 
-	@IgnoreAttribute
 	@Override
 	public void setStatus(TaskStatus status) {
+		this.taskStatus = status;
 	}
 
 	@Override
