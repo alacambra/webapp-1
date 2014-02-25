@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.neo4j.cypher.internal.compiler.v2_0.functions.In;
 import org.neo4j.graphdb.Transaction;
 
 import poolingpeople.commons.entities.ProjectStatus;
@@ -24,16 +25,14 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 public class Ingestor {
 
 	public static void main(String[] args){
-
+		new Ingestor().load();
+	}
+	
+	public void load(){
 		GraphDatabaseServiceProducer producer = new GraphDatabaseServiceProducer();
 		NeoManager manager = new NeoManager(producer.getGraphDb());
 
 		Logger logger = Logger.getLogger(Ingestor.class);
-
-		//User - Users
-		//Project - projects
-		//Task - issues
-		//Effort - time entries
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -101,7 +100,7 @@ public class Ingestor {
 			i = 0;
 			for( Entry<Integer, TimeEntries> te : entries.entrySet() ){
 
-				PersistedTask task = persistedTasks.get(tasksIds.get(te.getValue().getIssueId()));
+				PersistedTask task = persistedTasks.get(getUUIDForId(te.getValue().getIssueId(), tasksIds)); 
 
 				if (task == null){
 
@@ -134,39 +133,50 @@ public class Ingestor {
 			i = 0;
 			for(Entry<Integer, Issues> t : issues.entrySet()){
 
-				PersistedProject pp = persistedProjects.get(projectsIds.get(t.getValue().getProjectId()));
-
-				if (pp == null){
-					continue;
-				}
-
-				PersistedTask task = persistedTasks.get(tasksIds.get(t.getKey()));
-				pp.addTask(task);
-
-				PersistedTask parent = persistedTasks.get(tasksIds.get(t.getValue().getParentId()));
-				if (parent == null){
-					continue;
-				}
-				parent.addSubtask(task);
 				if ( i%100==0 ){
 					System.out.println(issues.size() + " : adding subtask: " + i);
 				}
 				i++;
+				
+				String taskUUID = tasksIds.get(t.getKey());
+				
+				PersistedProject pp = persistedProjects.get(projectsIds.get(t.getValue().getProjectId()));
+				
+				PersistedTask task = persistedTasks.get(taskUUID);
+				
+				if (pp != null){
+					pp.addTask(task);
+				}
+
+				PersistedTask parent = persistedTasks.get(getUUIDForId(t.getValue().getParentId(), tasksIds));
+				if (parent != null){
+					parent.addSubtask(task);
+				}
+				
+				PersistedUser user = persistedUsers.get(getUUIDForId(t.getValue().getAssignedToId(), userIds));
+				if( user != null ){
+					task.setAssignee(user);
+				}
+				
 			}
 
 			tx.success();
 			session.getTransaction().commit();
 		}
 	}
+	
+	private String getUUIDForId(Integer rmId, Map<Integer, String> container){
+		return container.get(rmId);
+	}
 
-	public static PersistedUser loadDefaultUser(NeoManager manager){
+	private PersistedUser loadDefaultUser(NeoManager manager){
 		PersistedUser pu = new PersistedUser(manager, "a@a.com", "a", new FakedUser());
 		pu.setFirstName("DefaultUser");
 		pu.setPassword("a");
 		return pu;
 	}
 
-	public static <T extends HasId> Map<Integer, T> getItems(Session session, Class<T> clazz) {
+	private <T extends HasId> Map<Integer, T> getItems(Session session, Class<T> clazz) {
 
 		Criteria criteria = session.createCriteria(clazz);
 		List<T> resource = criteria.list();
@@ -180,7 +190,7 @@ public class Ingestor {
 		return set;
 	}
 
-	public static ProjectStatus getProjectStatus(int status){
+	private ProjectStatus getProjectStatus(int status){
 		switch(status){
 		case 1:
 			return ProjectStatus.NEW;
@@ -194,11 +204,11 @@ public class Ingestor {
 		}
 	}
 
-	public static String getEmail(Users redmineUser) {
+	private String getEmail(Users redmineUser) {
 		return redmineUser.getMail() == null || "".equals(redmineUser.getMail()) ? String.valueOf(new Date().getTime()) + "@s.com" : redmineUser.getMail();
 	}
 
-	public static TaskStatus getTaskStatus(int status){
+	private TaskStatus getTaskStatus(int status){
 		switch(status){
 		case 1:
 			return TaskStatus.NEW;
