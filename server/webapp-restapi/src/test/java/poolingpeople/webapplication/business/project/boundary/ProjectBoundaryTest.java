@@ -81,7 +81,7 @@ public class ProjectBoundaryTest extends AbstractBoundryTest {
 		expected.put("title", title);
 		String json = convertMapToJson(expected);
 		Response r = target.updateProject((String) expected.get("id"), json);
-		assertEquals(Status.NO_CONTENT.getStatusCode(), r.getStatus());
+		assertEquals(Status.OK.getStatusCode(), r.getStatus());
 		Map<Object,Object> actual = convertJsonToMap((String)target.getProjectById((String) inserted.get("id")).getEntity());
 //		assertTrue(mapsAreEquals(expected, actual));
 	}
