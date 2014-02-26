@@ -6,7 +6,7 @@ public enum ProjectStatus {
 	HOLD,
 	COMPLETED,
 	ARCHIVED,
-	OFFERES;
+	OFFERED;
 }
 
 
