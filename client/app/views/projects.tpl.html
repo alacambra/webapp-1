@@ -1,5 +1,6 @@
 <div>
-	<table class="table">
+	<div class="loader" ng-show="loader.projects || loader.users"></div>
+	<table class="table" ng-hide="loader.projects || loader.users">
 		<thead>
 		<tr>
 			<th><!-- Aktion --></th>
@@ -34,14 +35,15 @@
 		</thead>
 		<tbody>
 		<tr>
-			<td colspan="10">
+			<td colspan="11">
 				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
 			</td>
 		</tr>
-		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-controller="ProjectCtrl">
+		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
-				<input type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
+				<img ng-show="item.loader.edit" src="images/load_indicator.gif" height="18px" width="18px" />
+				<input ng-hide="item.loader.edit" type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
 			</td>
 
 			<!-- Title -->
@@ -50,10 +52,12 @@
 					<span class="editable" ng-click="editable.title = true">{{ project.title }} </span>
 					<a href="javascript:void(0);"
 					   class="glyphicon"
+					   ng-hide="item.loader.tasks.load"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
 					   ng-click="showTasks(project)"
 					   ng-if="project.taskCount > 0">
 					</a>
+					<img src="images/load_indicator.gif" height="12px" width="12px" ng-show="item.loader.tasks.load" />
 				</nobr>
 				<div ng-if="editable.title">
 					<input type="text"
@@ -70,17 +74,17 @@
 				<nobr>{{ project.description | limitTo:20 }}</nobr>
 			</td>
 
-			<!-- Assignee -->
+			<!-- Owner -->
 			<td>
-				<nobr ng-hide="editable.assignee">
-					<span class="editable" ng-click="editable.assignee = true">{{ project.assignee.name }}</span>
+				<nobr ng-hide="editable.owner">
+					<span class="editable" ng-click="editable.owner = true">{{ (project.owner) ? project.owner.firstName + ' ' + project.owner.lastName : 'no owner'}}</span>
 				</nobr>
-				<div ng-if="editable.assignee">
-					<select ng-model="project.assignee"
-							ng-options="user as user.name for user in assignableUsers track by user.id"
+				<div ng-if="editable.owner">
+					<select ng-model="project.owner"
+							ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 							set-focus=""
-							ng-blur="editable.assignee = false"
-							ng-change="editable.assignee = false; updateProject()">
+							ng-blur="editable.owner = false"
+							ng-change="editable.owner = false; assignProjectToUser(project)">
 					</select>
 				</div>
 			</td>
@@ -103,7 +107,7 @@
 			<!-- Start Date -->
 			<td>
 				<nobr ng-hide="editable.datepicker.startDate">
-					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ project.startDate | date:'dd.MM.yyyy' }}</span>
+					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
 				<div ng-if="editable.datepicker.startDate">
 					<input ng-model="project.startDate"
@@ -120,7 +124,7 @@
 			<!-- End Date -->
 			<td>
 				<nobr ng-hide="editable.datepicker.endDate">
-					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ project.endDate | date:'dd.MM.yyyy' }}</span>
+					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
 				<div ng-if="editable.datepicker.endDate">
 					<input ng-model="project.endDate"
@@ -188,8 +192,8 @@
 			<td></td>
 			<td>{{ task.title }}</td>
 			<td>{{ task.description | limitTo: 20 }}</td>
-			<td>{{ task.assignee.name }}</td>
-			<td>{{ task.getStatus() }}</td>
+			<td>{{ task.assignee.firstName + ' ' + task.assignee.lastName }}</td>
+			<td>{{ task.statusList[project.status] }}</td>
 			<td>{{ task.startDate | date:'dd.MM.yyyy' }}</td>
 			<td>{{ task.endDate | date:'dd.MM.yyyy' }}</td>
 			<td>{{ task.duration | minutesToHours | number:2 }}h</td>
@@ -202,13 +206,10 @@
 		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
 		<ul class="dropdown-menu">
 			<li>
-				<a href="javascript:void(0);" ng-click="editSelected()">Projekt bearbeiten</a>
+				<a href="javascript:void(0);" ng-click="editSelectedProject()">Projekt bearbeiten</a>
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
-			</li>
-			<li>
-				<!--<a href="javascript:void(0);" ng-click="createSubProject()">Unterprojekt erstellen</a>-->
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>

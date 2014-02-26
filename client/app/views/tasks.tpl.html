@@ -41,10 +41,10 @@
 			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
 		</td>
 	</tr>
-	<tr ng-repeat="task in tasks | orderBy:sorting" ng-controller="TaskCtrl">
+	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
 		<!-- Action -->
 		<td class="text-center">
-			<input type="checkbox" ng-click="selectTask(task)" ng-checked="selectedTask === task"/>
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="list.selectedTask === task"/>
 		</td>
 
 		<!-- Title -->
@@ -76,14 +76,14 @@
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name || 'no assignee' }}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
 						ng-options="user as user.name for user in assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
-						ng-change="editable.assignee = false; updateTask()">
+						ng-change="editable.assignee = false; assignUserToTask(task)">
 				</select>
 			</div>
 		</td>
@@ -106,7 +106,7 @@
 		<!-- Start Date -->
 		<td>
 			<nobr ng-hide="editable.datepicker.startDate">
-				<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ task.startDate | date:'dd.MM.yyyy' }}</span>
+				<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (task.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
 			<div ng-if="editable.datepicker.startDate">
 				<input ng-model="task.startDate"
@@ -123,7 +123,7 @@
 		<!-- End Date -->
 		<td>
 			<nobr ng-hide="editable.datepicker.endDate">
-				<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ task.endDate | date:'dd.MM.yyyy' }}</span>
+				<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (task.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
 			<div ng-if="editable.datepicker.endDate">
 				<input ng-model="task.endDate"
@@ -132,6 +132,7 @@
 					   min="'1900-01-01'"
 					   max="'2100-01-01'"
 					   is-open="editable.datepicker.endDate"
+					   disabled="disabled"
 					   ng-change="updateTask()">
 			</div>
 		</td>
@@ -154,18 +155,9 @@
 
 		<!-- Effort -->
 		<td>
-			<nobr ng-hide="editable.effort">
-				<span class="editable" ng-click="editable.effort = true">{{ task.effort | minutesToHours | number:2 }}h</span>
+			<nobr>
+				<span class="editable" ng-click="bookEffort(task)">{{ task.effort | minutesToHours | number:2 }}h</span>
 			</nobr>
-			<div ng-if="editable.effort">
-				<input ng-model="task.effort"
-					   pp-model=""
-					   pp-convert-time=""
-					   type="text"
-					   set-focus=""
-					   ng-blur="editable.effort = false"
-					   ng-change="editable.effort = false; updateTask()">
-			</div>
 		</td>
 
 		<!-- Progress -->
@@ -206,6 +198,9 @@
 <div class="dropdown">
 	<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
 	<ul class="dropdown-menu">
+		<li>
+			<a href="javascript:void(0);" ng-click="bookEffort()">Effort buchen</a>
+		</li>
 		<li>
 			<a href="javascript:void(0);" ng-click="editSelected()">Task bearbeiten</a>
 		</li>

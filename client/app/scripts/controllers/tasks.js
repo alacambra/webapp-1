@@ -6,51 +6,54 @@
 		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', '$window',
 			function ($scope, $modal, $log, DataProvider, $window) {
 
-				$scope.assignableUsers = [];
+				$scope.list = {
+					tasks: [],
 
-				$scope.assignableProjects = [];
+					assignableUsers: [],
 
-				$scope.selectedTask = null;
+					assignableProjects: [],
 
-				$scope.tasks = [];
+					selectedTask: null
+				};
 
-				DataProvider.getTasks().then(function (data) {
-					var tasks = [];
-					for (var i = 0; i < data.length; i++) {
-						var task = factory.task(data[i]);
-						task.setId(data[i].id);
-						tasks.push(task);
-					}
-					$scope.tasks = tasks;
-					$scope.tasks.forEach(function (task) {
-						task.$ui = {
-							showTasks: false
-						};
-					});
-				});
-
-				DataProvider.getUsers().then(function (users) {
-					users.forEach(function (user) {
-						$scope.assignableUsers.push({
-							id: user.id,
-							name: user.firstName + ' ' + user.lastName
+				var loadTasks = function () {
+					DataProvider.getTasks().then(function (tasks) {
+						$scope.list.tasks = [];
+						tasks.forEach(function (task) {
+							var _task = factory.task(task);
+							_task.setId(task.id);
+							$scope.list.tasks.push(_task);
 						});
 					});
-				});
+				};
 
-				DataProvider.getProjects().then(function (projects) {
-					projects.forEach(function (project) {
-						$scope.assignableProjects.push({
-							id: project.id,
-							title: project.title
+				loadTasks();
+
+				var loadUsers = function () {
+					DataProvider.getUsers().then(function (users) {
+						$scope.list.assignableUsers = [];
+						users.forEach(function (user) {
+							$scope.list.assignableUsers.push(user);
 						});
 					});
-				});
+				};
 
-				var openModal = function (options) {
+				loadUsers();
+
+				var loadProjects = function () {
+					DataProvider.getProjects().then(function (projects) {
+						projects.forEach(function (project) {
+							$scope.list.assignableProjects.push(project);
+						});
+					});
+				};
+
+				loadProjects();
+
+				var openTaskModal = function (options) {
 					return $modal.open({
-						templateUrl: 'views/process_modal.tpl.html',
-						controller: 'ProcessModalCtrl',
+						templateUrl: 'views/task_modal.tpl.html',
+						controller: 'TaskModalCtrl',
 						scope: $scope,
 						resolve: {
 							options: function () {
@@ -60,92 +63,61 @@
 					});
 				};
 
-				$scope.saveTask = function (originTask, task) {
-					if ($scope.tasks.indexOf(originTask) < 0) {
-						// create new task
-						DataProvider.createTask(task).then(function (response) {
-							// update origin task with new data
-							_.extend(originTask, response);
-
-							// add to other tasks
-							originTask.$ui = {
-								showTasks: true
-							};
-							$scope.tasks.push(originTask);
-
-						}, function (response) {
-							$log.error(response);
-						});
-
-					} else {
-						// update task
-						DataProvider.updateTask(task.getId(), task).then(function (response) {
-							// update origin task with new data
-							_.extend(originTask, response);
-
-						}, function (response) {
-							$log.error(response);
-						});
-					}
-				};
-
-				$scope.saveProject = function (originProject, project) {
-					// not implemented
+				var openEffortModal = function (options) {
+					return $modal.open({
+						templateUrl: 'views/effort_modal.tpl.html',
+						controller: 'EffortModalCtrl',
+						scope: $scope,
+						resolve: {
+							options: function () {
+								return options;
+							}
+						}
+					});
 				};
 
 				$scope.selectTask = function (task) {
-					if ($scope.selectedTask === task) {
-						$scope.selectedTask = null;
+					if ($scope.list.selectedTask === task) {
+						$scope.list.selectedTask = null;
 					} else {
-						$scope.selectedTask = task;
+						$scope.list.selectedTask = task;
 					}
 				};
 
+				$scope.assignUserToTask = function (task) {
+					DataProvider.assignTaskToUser(task.getId(), task.assignee.id);
+				};
+
 				$scope.newTask = function () {
-					var modalInstance = openModal({
-						title: 'Neues Projekt',
-						model: factory.task()
+					var modalInstance = openTaskModal({
+						title: 'Neue Aufgabe',
+						task: factory.task()
 					});
 				};
 
 				$scope.editSelected = function () {
-					var modalInstance = openModal({
-						title: 'Projekt "' + $scope.selectedTask.title + '" bearbeiten',
-						model: $scope.selectedTask
+					var modalInstance = openTaskModal({
+						title: 'Aufgabe "' + $scope.list.selectedTask.title + '" bearbeiten',
+						task: $scope.list.selectedTask
 					});
-				};
-
-				$scope.createTaskTask = function () {
-					var task = factory.task();
-					task.setTask($scope.selectedTask);
-
-					var modalInstance = openModal({
-						title: 'Neue Aufgabe für Projekt "' + $scope.selectedTask.title + '" anlegen',
-						model: task
-					});
-				};
-
-				$scope.createSubTask = function () {
-
 				};
 
 				$scope.deleteSelected = function () {
-
 					var modalInstance = $modal.open({
 						templateUrl: 'views/confirm_modal.tpl.html',
 						controller: 'ConfirmModalCtrl',
 						resolve: {
 							message: function() {
-								return "Soll die Aufgabe '" + $scope.selectedTask.title + "' wirklich gelöscht werden?"
+								return "Soll die Aufgabe '" + $scope.list.selectedTask.title + "' wirklich gelöscht werden?";
 							}
 						}
 					});
 
 					modalInstance.result.then(function () {
-							var index = $scope.tasks.indexOf($scope.selectedTask);
-							DataProvider.deleteTask($scope.selectedTask.getId()).then(function (response) {
-								$scope.selectedTask = null;
-								$scope.tasks.splice(index, 1);
+							DataProvider.deleteTask($scope.list.selectedTask.getId()).then(function (response) {
+								var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
+								$scope.list.selectedTask = null;
+								$scope.list.tasks.splice(index, 1);
 							}, function (response) {
 								$log.error(response);
 							});
@@ -154,12 +126,19 @@
 				};
 
 				$scope.showTasks = function (task) {
-					$scope.tasks.forEach(function (p) {
-						if (task === p) {
-							p.$ui.showTasks = !p.$ui.showTasks;
+					$scope.tasks.forEach(function (_task) {
+						if (task === _task) {
+							_task.$ui.showTasks = !_task.$ui.showTasks;
 						} else {
-							p.$ui.showTasks = false;
+							_task.$ui.showTasks = false;
 						}
+					});
+				};
+
+				$scope.bookEffort = function (task) {
+					var modalInstance = openEffortModal({
+						title: 'Neuer Aufwand für Aufgabe "' + task.title + '"',
+						task: task
 					});
 				};
 
@@ -176,7 +155,7 @@
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
-					DataProvider.updateTask($scope.task.getId(), $scope.task).then(function (response) {
+					DataProvider.updateTask($scope.task.getId(), $scope.task.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {

@@ -1,6 +1,20 @@
 (function () {
 	'use strict';
 
+	var convertDate = function convertDate (date) {
+		if (date <= -99999999999999 || date >= 99999999999999) {
+			return null;
+		}
+		return date;
+	};
+
+	var reconvertDate = function reconvertDate (date) {
+		if (_.isNull(date)) {
+			return 99999999999999;
+		}
+		return date;
+	};
+
 	/*
 	 -------------------- MODS --------------------
 	 */
@@ -42,59 +56,105 @@
 	}).methods({
 		getFullName: function () {
 			return this.firstName + ' ' + this.lastName;
+		},
+
+		getRequestObj: function () {
+			var requestObj = _.extend({}, this);
+			requestObj.birthday = reconvertDate(requestObj.birthday);
+			return requestObj;
 		}
 	});
 
 	var processMod = stampit().state({
 		title: null,
 		description: null,
-		status: 'new',
-		priority: 'normal',
+		status: 'NEW',
+		priority: 'NORMAL',
 		startDate: null,
 		endDate: null,
 		duration: 0,
 		effort: 0,
-		progress: 0,
-		assignee: null
+		progress: 0
+	}).methods({
+		priorityList: [
+			'LOW',
+			'NORMAL',
+			'HIGH'
+		],
+
+		getRequestObj: function () {
+			var requestObj = _.extend({}, this);
+			requestObj.startDate = reconvertDate(requestObj.startDate);
+			requestObj.endDate = reconvertDate(requestObj.endDate);
+			return requestObj;
+		}
+	});
+
+	var taskMod = stampit().enclose(function () {
+		var _efforts = [];
+
+		this.getEfforts = function () {
+			return _efforts;
+		};
+
+		this.setEfforts = function (efforts) {
+			_efforts = efforts;
+		};
+
 	}).methods({
 		statusList: {
 			'TODO': 'todo',
 			'NEW': 'new',
 			'ASSIGNED': 'assigned',
-			'ON HOLD': 'on hold',
+			'HOLD': 'on hold',
 			'COMPLETED': 'completed',
 			'ARCHIVED': 'archived',
 			'REQUESTED': 'requested',
 			'OFFERED': 'offered'
 		},
 
-		priorityList: [
-			'low',
-			'normal',
-			'high'
-		]
+		getEffort: function (effortId) {
+			for (var i = 0; i < this.getEfforts().length; i++) {
+				if (this.getEfforts()[i].getId() === effortId) {
+					return this.getEfforts()[i];
+				}
+			}
+			return null;
+		},
+
+		addEffort: function (effort) {
+			this.getEfforts().push(effort);
+		},
+
+		removeEffort: function (effort) {
+			for (var i = 0; i < this.getEfforts().length; i++) {
+				if (this.getEfforts()[i] === effort) {
+					this.getEfforts().splice(i, 1);
+				}
+			}
+		}
 	});
 
-	var effortMod = stampit().enclose(function () {
-		var taskId = null;
-
-		this.getTaskId = function () {
-			return taskId;
-		};
-
-		this.setTaskId = function (_taskId) {
-			taskId = _taskId;
+	var projectMod = stampit().methods({
+		statusList: {
+			'NEW': 'new',
+			'ASSIGNED': 'assigned',
+			'HOLD': 'on hold',
+			'COMPLETED': 'completed',
+			'ARCHIVED': 'archived'
 		}
-	}).state({
+	});
+
+	var effortMod = stampit().state({
 		date: null,
+		time: null,
 		comment: null,
-		activity: null
+		taskId: null
 	}).methods({
-		getUrl: function () {
-			if (this.isNew()) {
-				return '/' + this.getTaskId() + '/efforts';
-			}
-			return '/' + this.getTaskId() + '/efforts/' + this.getId();
+		getRequestObj: function () {
+			var requestObj = _.extend({}, this);
+			requestObj.date = reconvertDate(date);
+			return requestObj;
 		}
 	});
 
@@ -121,14 +181,18 @@
 	});
 
 	factory.user = function (data, options) {
+		data = data || {};
+		options = options || {};
+		data.birthday = convertDate(data.birthday);
 		return user(data);
 	};
 
 	/**
 	 * Factory that produces task instances.
 	 */
-	var task = stampit.compose(idMod, processMod).state({
-		project: null
+	var task = stampit.compose(idMod, taskMod, processMod).state({
+		project: null,
+		assignee: null
 	}).methods({
 		isTask: true,
 
@@ -141,13 +205,19 @@
 	});
 
 	factory.task = function (data, options) {
+		data = data || {};
+		options = options || {};
+		data.startDate = convertDate(data.startDate);
+		data.endDate = convertDate(data.endDate);
 		return task(data);
 	};
 
 	/**
 	 * Factory that produces project instances.
 	 */
-	var project = stampit.compose(idMod, processMod).enclose(function () {
+	var project = stampit.compose(idMod, projectMod, processMod).state({
+			owner: null
+		}).enclose(function () {
 		var tasks = [];
 
 		this.getTasks = function () {
@@ -187,6 +257,10 @@
 	});
 
 	factory.project = function (data, options) {
+		data = data || {};
+		options = options || {};
+		data.startDate = convertDate(data.startDate);
+		data.endDate = convertDate(data.endDate);
 		return project(data);
 	};
 
@@ -196,6 +270,9 @@
 	var effort = stampit.compose(idMod, effortMod);
 
 	factory.effort = function (data, options) {
+		data = data || {};
+		options = options || {};
+		data.date = convertDate(data.date);
 		return effort(data);
 	};
 

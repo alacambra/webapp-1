@@ -152,9 +152,9 @@
                     return q.promise;
                 },
 
-                addUserToTask: function(idTask, idUser) {
+                assignTaskToUser: function(idTask, idUser) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/tasks/" + idTask + "/addusers/" + idUser)
+                    $http.put(baseUrl + "/tasks/" + idTask + "/to/user/" + idUser)
                     .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -242,7 +242,7 @@
 
                 moveTaskFromProjectToProject: function(taskId, idSource, idParent) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/tasks/" + taskId + "/from/" + idSource + "/to/" + idParent)
+                    $http.put(baseUrl + "/tasks/" + taskId + "/from/project/" + idSource + "/to/" + idParent)
                     .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -293,12 +293,19 @@
 
                 updateProject: function(projectId, data) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/projects/" + projectId, data)
-                        .success(function (data, status, headers, config) {
-                            q.resolve(data, status, headers, config);
+
+                    $http.put(baseUrl + "/projects/" + projectId + "/to/user/" + data.owner.id)
+                        .success(function (_data, status, headers, config) {
+                            $http.put(baseUrl + "/projects/" + projectId, data)
+                                .success(function (data, status, headers, config) {
+                                    q.resolve(data, status, headers, config);
+                                }).error(function (data, status, headers, config) {
+                                    q.reject(data, status, headers, config);
+                                });
                         }).error(function (data, status, headers, config) {
                             q.reject(data, status, headers, config);
                         });
+
                     return q.promise;
                 },
 
@@ -328,14 +335,71 @@
 
                 assignProjectToUser: function(idProject, idUser) {
                     var q = $q.defer();
-                    $http.put(baseUrl + idProject + "/to/user/" + idUser)
+                    $http.put(baseUrl + "/projects/" + idProject + "/to/user/" + idUser)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
                             q.reject(data, status, headers, config);
                         });
                     return q.promise;
-                }
+                },
+
+				/* Effort */
+
+				getEffort: function (taskId, effortId) {
+					var q = $q.defer();
+					$http.get(baseUrl + '/tasks/' + taskId + '/efforts/' + effortId)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				getEfforts: function (taskId) {
+					var q = $q.defer();
+					$http.get(baseUrl + '/tasks/' + taskId + '/efforts')
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				createEffort: function (taskId, data) {
+					var q = $q.defer();
+					$http.post(baseUrl + '/tasks/' + taskId + '/efforts', data)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				updateEffort: function (taskId, effortId, data) {
+					var q = $q.defer();
+					$http.put(baseUrl + '/tasks/' + taskId + '/efforts/' + effortId)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				},
+
+				deleteEffort: function (taskId, effortId) {
+					var q = $q.defer();
+					$http.delete(baseUrl + '/tasks/' + taskId + '/efforts/' + effortId)
+						.success(function (data, status, headers, config) {
+							q.resolve(data, status, headers, config);
+						}).error(function (data, status, headers, config) {
+							q.reject(data, status, headers, config);
+						});
+					return q.promise;
+				}
             }
     })
 
