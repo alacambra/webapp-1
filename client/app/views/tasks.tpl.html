@@ -37,7 +37,7 @@
 	</thead>
 	<tbody>
 	<tr>
-		<td colspan="10">
+		<td colspan="11">
 			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
 		</td>
 	</tr>
@@ -70,17 +70,19 @@
 
 		<!-- Description -->
 		<td>
-			<nobr>{{ task.description | limitTo:20 }}</nobr>
+			<nobr>
+				<span class="editable" ng-click="list.selectedTask = task; editSelected()">{{ task.description | limitTo:20 }}</span>
+			</nobr>
 		</td>
 
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name || 'no assignee' }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ (task.assignee) ? task.assignee.firstName + ' ' + task.assignee.lastName : 'no assignee'}}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
-						ng-options="user as user.name for user in assignableUsers track by user.id"
+						ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
 						ng-change="editable.assignee = false; assignUserToTask(task)">
@@ -185,7 +187,7 @@
 			</nobr>
 			<div ng-if="editable.project">
 				<select ng-model="task.project"
-						ng-options="project as project.title for project in assignableProjects track by project.id"
+						ng-options="project as project.title for project in list.assignableProjects track by project.id"
 						set-focus=""
 						ng-blur="editable.project = false"
 						ng-change="editable.project = false; updateTaskProject();">
