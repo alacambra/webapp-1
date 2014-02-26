@@ -61,6 +61,12 @@
 					$modalInstance.dismiss('cancel');
 				};
 
+				$scope.openDatePicker = function ($event, datepicker) {
+					$event.preventDefault();
+					$event.stopPropagation();
+					$scope.form[datepicker] = true;
+				};
+
 			}])
 
 		.controller('EffortCtrl', ['$scope', '$log', 'DataProvider',

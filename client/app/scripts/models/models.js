@@ -153,7 +153,7 @@
 	}).methods({
 		getRequestObj: function () {
 			var requestObj = _.extend({}, this);
-			requestObj.date = reconvertDate(date);
+			requestObj.date = reconvertDate(requestObj.date);
 			return requestObj;
 		}
 	});
