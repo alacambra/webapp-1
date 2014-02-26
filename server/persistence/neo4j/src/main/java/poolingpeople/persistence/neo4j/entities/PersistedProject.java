@@ -1,6 +1,5 @@
 package poolingpeople.persistence.neo4j.entities;
 
-import java.security.acl.Owner;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
-import scala.collection.generic.BitOperations.Int;
+
 public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;

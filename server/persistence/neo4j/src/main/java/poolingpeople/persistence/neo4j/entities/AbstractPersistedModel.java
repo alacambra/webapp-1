@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
-import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.commons.entities.IgnoreAttribute;
@@ -114,10 +113,6 @@ public abstract class AbstractPersistedModel<T>{
 	public void runDeletePreconditions(){
 
 	}
-	
-	public void setRedmineId(Integer id){
-		manager.setProperty(underlyingNode, NodePropertyName.REDMINE_ID.name(), id);
-	}
 
 	private void fromDTOtoPersitedBean(Object dto) {
 
@@ -190,7 +185,7 @@ public abstract class AbstractPersistedModel<T>{
 	protected void createRelationshipFrom(AbstractPersistedModel<?> from, Relations relation) {
 		manager.createRelationshipTo(from.getNode(), underlyingNode, relation);
 	}
-	
+
 	protected void onCreate() {
 
 	}
