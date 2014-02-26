@@ -71,6 +71,13 @@ public class ProjectMixin implements Project{
 	public void setDefaultEndDate(Long endDate) {
 
 	}
+	
+	@Override
+	@JsonProperty("effort")
+	public void setDefaultEffort(Integer effort) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	@JsonView(JsonViews.BasicProject.class)
@@ -158,4 +165,5 @@ public class ProjectMixin implements Project{
 	public User getOwner() {
 		return null;
 	}
+
 }
