@@ -5,3 +5,4 @@ target/
 bin/
 visualee
 webapplication/neo4j/
+logs/
