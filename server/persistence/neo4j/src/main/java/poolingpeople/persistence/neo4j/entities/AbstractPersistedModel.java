@@ -114,6 +114,10 @@ public abstract class AbstractPersistedModel<T>{
 	public void runDeletePreconditions(){
 
 	}
+	
+	public void setRedmineId(Integer id){
+		manager.setProperty(underlyingNode, NodePropertyName.REDMINE_ID.name(), id);
+	}
 
 	private void fromDTOtoPersitedBean(Object dto) {
 
@@ -186,7 +190,7 @@ public abstract class AbstractPersistedModel<T>{
 	protected void createRelationshipFrom(AbstractPersistedModel<?> from, Relations relation) {
 		manager.createRelationshipTo(from.getNode(), underlyingNode, relation);
 	}
-
+	
 	protected void onCreate() {
 
 	}
