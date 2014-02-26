@@ -28,6 +28,7 @@ public class ProjectDTO implements Project {
 	private Long endDate;
 	private Float progress;
 	private ProjectStatus status;
+	private Integer effort;
 
 	@IgnoreAttribute
 	@Override
@@ -117,8 +118,12 @@ public class ProjectDTO implements Project {
 
 	@Override
 	public Integer getEffort() {
-		// TODO Auto-generated method stub
-		return null;
+		return effort;
+	}
+	
+	@Override
+	public void setDefaultEffort(Integer effort) {
+		this.effort = effort;
 	}
 
 	@Override
@@ -141,8 +146,11 @@ public class ProjectDTO implements Project {
 	
 	@Override
 	public void setDefaultProgress(Float progress) {
-		// TODO Auto-generated method stub
  		this.progress = progress;
+	}
+	
+	public Integer getDefaultEffort() {
+		return effort;
 	}
 	
 	public Float getDefaultProgress() {

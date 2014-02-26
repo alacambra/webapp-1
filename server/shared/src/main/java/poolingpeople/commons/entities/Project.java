@@ -93,6 +93,7 @@ public interface Project{
 	
 	public void setOwner(User owner);
 	public User getOwner();
+	void setDefaultEffort(Integer effort);
 
 }
 
