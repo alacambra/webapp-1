@@ -54,34 +54,20 @@
 				</div>
 			</div>
 
-			<!-- Project (Task only) -->
-			<div ng-if="modal.model.project" class="form-group">
-				<label for="projectInput" class="col-sm-3 control-label">Project</label>
-
-				<div class="col-sm-5">
-					<select name="project"
-							ng-model="modal.model.project"
-							class="form-control"
-							id="projectInput"
-							ng-disabled="modal.disabled.project"
-							ng-options="project as project.name for project in modal.assignableProjects track by project.id"></select>
-				</div>
-			</div>
-
-			<!-- Assignee -->
+			<!-- Owner -->
 			<div class="form-group">
-				<label for="assigneeInput" class="col-sm-3 control-label">Assignee</label>
+				<label for="ownerInput" class="col-sm-3 control-label">Owner</label>
 
 				<div class="col-sm-5">
-					<select name="assignee"
-							ng-model="modal.model.assignee"
+					<select name="owner"
+							ng-model="modal.model.owner"
 							class="form-control"
-							id="assigneeInput"
+							id="ownerInput"
 							ng-options="user as user.name for user in modal.assignableUsers track by user.id"
 							required=""></select>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.assignee.$dirty && form.model.assignee.$invalid">
-					<small class="error" ng-show="form.model.assignee.$error.required">An Assignee is required.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.owner.$dirty && form.model.owner.$invalid">
+					<small class="error" ng-show="form.model.owner.$error.required">An Owner is required.</small>
 				</div>
 			</div>
 
@@ -156,12 +142,8 @@
 						   type="text"
 						   class="form-control text-right"
 						   id="durationInput"
-						   placeholder="Duration"
-						   required="">
+						   placeholder="Duration">
 					<span class="input-group-addon">hours</span>
-				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.duration.$dirty && form.model.duration.$invalid">
-					<small class="error" ng-show="form.model.duration.$error.required">A duration is required.</small>
 				</div>
 			</div>
 
@@ -177,12 +159,8 @@
 						   type="text"
 						   class="form-control text-right"
 						   id="effortInput"
-						   placeholder="Effort"
-						   required="">
+						   placeholder="Effort">
 					<span class="input-group-addon">hours</span>
-				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.effort.$dirty && form.model.effort.$invalid">
-					<small class="error" ng-show="form.model.effort.$error.required">An effort is required.</small>
 				</div>
 			</div>
 
@@ -198,14 +176,8 @@
 						   type="number"
 						   class="form-control text-right"
 						   id="progressInput"
-						   placeholder="Progress"
-						   min="0"
-						   max="100"
-						   required="">
+						   placeholder="Progress">
 					<span class="input-group-addon">%</span>
-				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.progress.$dirty && form.model.progress.$invalid">
-					<small class="error" ng-show="form.model.progress.$error.required">A progress is required.</small>
 				</div>
 			</div>
 

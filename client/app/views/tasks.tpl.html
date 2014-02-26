@@ -77,14 +77,14 @@
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name || 'no assignee' }}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
 						ng-options="user as user.name for user in assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
-						ng-change="editable.assignee = false; updateTask()">
+						ng-change="editable.assignee = false; assignUserToTask(task)">
 				</select>
 			</div>
 		</td>

@@ -61,7 +61,7 @@
 								id: project.id,
 								name: project.title
 							});
-							$scope.modal.projects.push(factory.project(project));
+							$scope.list.projects.push(factory.project(project));
 							$scope.modal.loader.projects = false;
 						});
 					}, function (response) {
@@ -74,25 +74,39 @@
 
 				var saveProject = function () {
 					$scope.modal.loader.model.save = true;
-					DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
-						// update origin project with new data
-						_.extend(options.model, $scope.modal.model);
 
-						// if origin project is a new project add it to projects
-						if ($scope.projects.indexOf(options.model) < 0) {
+					if (_.isNull($scope.modal.model.getId())) {
+						DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
+							// update origin project with new data
+							_.extend(options.model, $scope.modal.model);
+							options.model.setId(response.id);
+
 							options.model.$ui = {
-								showTasks: true
+								showTasks: false
 							};
-							$scope.projects.push(options.model);
-						}
+							$scope.list.projects.push(options.model);
 
-						$scope.modal.loader.model.save = false;
-						$modalInstance.close();
+							$modalInstance.close();
 
-					}, function (response) {
-						$scope.modal.loader.model.save = false;
-						$scope.error = 'Couldn\'t save project: ' + response;
-					});
+						}, function (response) {
+							$scope.error = 'Couldn\'t save project: ' + response;
+						}).finally(function () {
+							$scope.modal.loader.model.save = false;
+						});
+
+					} else {
+						DataProvider.updateProject($scope.modal.model.getId(), $scope.modal.model.getRequestObj()).then(function (response) {
+							_.extend(options.model, $scope.modal.model);
+							$modalInstance.close();
+						}, function (response) {
+							$scope.error = 'Couldn\'t update project: ' + response;
+						}).finally(function () {
+							$scope.modal.loader.model.save = false;
+						});
+					}
+
+
+
 				};
 
 				var saveTask = function () {
@@ -117,6 +131,7 @@
 				};
 
 				$scope.save = function () {
+					console.log($scope.form);
 					if (!$scope.form.model.$invalid) {
 						if ($scope.modal.model.isTask) {
 							saveTask();

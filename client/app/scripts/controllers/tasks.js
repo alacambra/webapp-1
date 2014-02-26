@@ -20,6 +20,10 @@
 					projects: false
 				};
 
+				$scope.assignUserToTask = function (task) {
+					DataProvider.assignTaskToUser(task.getId(), task.assignee.id);
+				};
+
 				var loadTasks = function () {
 					$scope.loader.tasks = true;
 					DataProvider.getTasks().then(function (data) {

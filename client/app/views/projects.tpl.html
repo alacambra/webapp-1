@@ -39,7 +39,7 @@
 				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
 			</td>
 		</tr>
-		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-controller="ProjectCtrl">
+		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
 				<img ng-show="item.loader.edit" src="images/load_indicator.gif" height="18px" width="18px" />
@@ -74,17 +74,17 @@
 				<nobr>{{ project.description | limitTo:20 }}</nobr>
 			</td>
 
-			<!-- Assignee -->
+			<!-- Owner -->
 			<td>
-				<nobr ng-hide="editable.assignee">
-					<span class="editable" ng-click="editable.assignee = true">{{ project.assignee.name }}</span>
+				<nobr ng-hide="editable.owner">
+					<span class="editable" ng-click="editable.owner = true">{{ (project.owner) ? project.owner.firstName + ' ' + project.owner.lastName : 'no owner'}}</span>
 				</nobr>
-				<div ng-if="editable.assignee">
-					<select ng-model="project.assignee"
-							ng-options="user as user.name for user in assignableUsers track by user.id"
+				<div ng-if="editable.owner">
+					<select ng-model="project.owner"
+							ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 							set-focus=""
-							ng-blur="editable.assignee = false"
-							ng-change="editable.assignee = false; updateProject()">
+							ng-blur="editable.owner = false"
+							ng-change="editable.owner = false; assignProjectToUser(project)">
 					</select>
 				</div>
 			</td>
@@ -206,7 +206,7 @@
 		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
 		<ul class="dropdown-menu">
 			<li>
-				<a href="javascript:void(0);" ng-click="editSelected()">Projekt bearbeiten</a>
+				<a href="javascript:void(0);" ng-click="editSelectedProject()">Projekt bearbeiten</a>
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
