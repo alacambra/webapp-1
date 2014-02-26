@@ -136,9 +136,10 @@
 				};
 
 				$scope.bookEffort = function (task) {
+					var targetTask = task || $scope.list.selectedTask;
 					var modalInstance = openEffortModal({
-						title: 'Neuer Aufwand für Aufgabe "' + $scope.list.selectedTask.title + '"',
-						task: $scope.list.selectedTask
+						title: 'Neuer Aufwand für Aufgabe "' + targetTask.title + '"',
+						task: targetTask
 					});
 				};
 

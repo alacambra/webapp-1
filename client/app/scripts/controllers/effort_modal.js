@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('EffortModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
-			function ($scope, $modalInstance, options, $log, DataProvider) {
+		.controller('EffortModalCtrl', ['$scope', '$modalInstance', '$modal', 'options', '$log', 'DataProvider',
+			function ($scope, $modalInstance, $modal, options, $log, DataProvider) {
 				$scope.modal = {
 					title: options.title,
 
@@ -37,24 +37,39 @@
 					}
 				};
 
+				$scope.clearFields = function() {
+					$scope.modal.newEffort.time = $scope.modal.newEffort.comment = ""
+					$scope.modal.newEffort.date = moment().valueOf();
+				}
+
 				$scope.save = function () {
 					DataProvider.createEffort($scope.modal.task.getId(), $scope.modal.newEffort.getRequestObj()).then(function (response) {
-						console.log(response);
 						response.taskId = $scope.modal.task.getId();
 						$scope.modal.task.addEffort(factory.effort(response));
+						$scope.clearFields();
 					}, function (response) {
 						$log.error(response);
 					});
 				};
 
 				$scope.remove = function (effort) {
-					if (window.confirm('Effort "' + effort.comment + '" wirklich löschen?')) {
+					var modalInstance = $modal.open({
+						templateUrl: 'views/confirm_modal.tpl.html',
+						controller: 'ConfirmModalCtrl',
+						resolve: {
+							message: function() {
+								return "Soll die  effort wirklich gelöscht werden?";
+							}
+						}
+					});
+
+					modalInstance.result.then(function () {
 						DataProvider.deleteEffort($scope.modal.task.getId(), effort.getId()).then(function (response) {
 							$scope.modal.task.removeEffort(effort);
 						}, function (response) {
 							$log.error(response);
 						});
-					}
+					});
 				};
 
 				$scope.close = function () {
