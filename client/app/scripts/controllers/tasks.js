@@ -137,13 +137,13 @@
 
 				$scope.bookEffort = function (task) {
 					var modalInstance = openEffortModal({
-						title: 'Neuer Aufwand für Aufgabe "' + task.title + '"',
-						task: task
+						title: 'Neuer Aufwand für Aufgabe "' + $scope.list.selectedTask.title + '"',
+						task: $scope.list.selectedTask
 					});
 				};
 
 				$scope.disableActions = function () {
-					return _.isNull($scope.selectedTask);
+					return _.isNull($scope.list.selectedTask);
 				};
 
 			}])
