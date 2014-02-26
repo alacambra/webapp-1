@@ -159,4 +159,10 @@ public class FakedProject implements Project{
 		return null;
 	}
 
+	@Override
+	public void setDefaultEffort(Integer effort) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

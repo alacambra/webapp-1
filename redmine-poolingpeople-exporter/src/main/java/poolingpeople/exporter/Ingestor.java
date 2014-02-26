@@ -189,7 +189,7 @@ public class Ingestor {
 		PersistedUser pu = new PersistedUser(manager, getEmail(user), "a", new FakedUser());
 		pu.setFirstName(user.getFirstname());
 		persistedUsers.put(pu.getId(), pu);
-		userIds.put(u.getKey(), pu.getId());
+//		userIds.put(user.getId(), pu.getId());
 	}
 	
 	private String getUUIDForId(Integer rmId, Map<Integer, String> container){
