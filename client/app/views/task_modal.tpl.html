@@ -4,8 +4,7 @@
 		<h4 class="modal-title">{{ modal.title }}</h4>
 	</div>
 	<div class="modal-body">
-		<div class="loader" ng-show="loader.users"></div>
-		<form name="form.model" class="form-horizontal" role="form" novalidate="" ng-hide="loader.users">
+		<form name="form.task" class="form-horizontal" role="form" novalidate="">
 
 			<!-- Title -->
 			<div class="form-group">
@@ -13,7 +12,7 @@
 
 				<div class="col-sm-9">
 					<input name="title"
-						   ng-model="modal.model.title"
+						   ng-model="modal.task.title"
 						   pp-model=""
 						   type="text"
 						   class="form-control"
@@ -23,10 +22,10 @@
 						   ng-maxlength="50"
 						   required="">
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.title.$dirty && form.model.title.$invalid">
-					<small class="error" ng-show="form.model.title.$error.required">Project title is required.</small>
-					<small class="error" ng-show="form.model.title.$error.minlength">Project title is required to be at least 3 characters.</small>
-					<small class="error" ng-show="form.model.title.$error.maxlength">Project title can't be longer than 50 characters.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.title.$dirty && form.task.title.$invalid">
+					<small class="error" ng-show="form.task.title.$error.required">Project title is required.</small>
+					<small class="error" ng-show="form.task.title.$error.minlength">Project title is required to be at least 3 characters.</small>
+					<small class="error" ng-show="form.task.title.$error.maxlength">Project title can't be longer than 50 characters.</small>
 				</div>
 			</div>
 
@@ -35,38 +34,56 @@
 				<label for="descriptionInput" class="col-sm-3 control-label">
 					<span>Description</span>
 					<br/>
-					<small ng-show="form.model.description.$viewValue" ng-class="{ error: form.model.description.$viewValue.length > 3000 }">
-						<span>({{ form.model.description.$viewValue.length }}/3000)</span>
+					<small ng-show="form.task.description.$viewValue" ng-class="{ error: form.task.description.$viewValue.length > 3000 }">
+						<span>({{ form.task.description.$viewValue.length }}/3000)</span>
 					</small>
 				</label>
 				<div class="col-sm-9">
 					<textarea name="description"
-							  ng-model="modal.model.description"
+							  ng-model="modal.task.description"
 							  rows="3"
 							  class="form-control"
 							  id="descriptionInput"
 							  placeholder="Description"
 							  ng-maxlength="3000"></textarea>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.description.$dirty && form.model.description.$invalid">
-					<small class="error" ng-show="form.model.description.$error.maxlength">Project description can't be longer than 3000 characters.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.description.$dirty && form.task.description.$invalid">
+					<small class="error" ng-show="form.task.description.$error.maxlength">Project description can't be longer than 3000 characters.</small>
 				</div>
 			</div>
 
-			<!-- Owner -->
+			<!-- Assignee -->
 			<div class="form-group">
-				<label for="ownerInput" class="col-sm-3 control-label">Owner</label>
+				<label for="assigneeInput" class="col-sm-3 control-label">Assignee</label>
 				
 				<div class="col-sm-5">
-					<select name="owner"
-							ng-model="modal.model.owner"
+					<select name="assignee"
+							ng-model="modal.task.assignee"
 							class="form-control"
-							id="ownerInput"
+							id="assigneeInput"
 							ng-options="user as (user.firstName + ' ' + user.lastName) for user in modal.assignableUsers track by user.id"
 							required=""></select>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.owner.$dirty && form.model.owner.$invalid">
-					<small class="error" ng-show="form.model.owner.$error.required">An Owner is required.</small>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.assignee.$dirty && form.task.assignee.$invalid">
+					<small class="error" ng-show="form.task.assignee.$error.required">An Assignee is required.</small>
+				</div>
+			</div>
+
+			<!-- Project -->
+			<div class="form-group">
+				<label for="projectInput" class="col-sm-3 control-label">Project</label>
+				
+				<div class="col-sm-5">
+					<select name="project"
+							ng-model="modal.task.project"
+							class="form-control"
+							id="projectInput"
+							ng-options="project as project.title for project in modal.assignableProjects track by project.id"
+							ng-disabled="modal.disabled.project"
+							required=""></select>
+				</div>
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.project.$dirty && form.task.project.$invalid">
+					<small class="error" ng-show="form.task.project.$error.required">A Project is required.</small>
 				</div>
 			</div>
 
@@ -76,10 +93,10 @@
 
 				<div class="col-sm-5">
 					<select name="status"
-							ng-model="modal.model.status"
+							ng-model="modal.task.status"
 							class="form-control"
 							id="statusInput"
-							ng-options="key as status for (key, status) in modal.model.statusList"></select>
+							ng-options="key as status for (key, status) in modal.task.statusList"></select>
 				</div>
 			</div>
 
@@ -89,7 +106,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="startDate"
-						   ng-model="modal.model.startDate"
+						   ng-model="modal.task.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   class="form-control"
 						   id="startDateInput"
@@ -112,7 +129,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="endDate"
-						   ng-model="modal.model.endDate"
+						   ng-model="modal.task.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   class="form-control"
 						   id="endDateInput"
@@ -135,7 +152,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="duration"
-						   ng-model="modal.model.duration"
+						   ng-model="modal.task.duration"
 						   pp-model=""
 						   pp-convert-time=""
 						   type="text"
@@ -152,7 +169,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="effort"
-						   ng-model="modal.model.effort"
+						   ng-model="modal.task.effort"
 						   pp-model=""
 						   pp-convert-time=""
 						   type="text"
@@ -169,7 +186,7 @@
 
 				<div class="col-sm-5 input-group">
 					<input name="progress"
-						   ng-model="modal.model.progress"
+						   ng-model="modal.task.progress"
 						   pp-model=""
 						   pp-convert-percent=""
 						   type="number"

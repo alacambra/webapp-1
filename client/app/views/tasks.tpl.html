@@ -1,6 +1,5 @@
 <div>
-<div class="loader" ng-show="loader.projects || loader.users || loader.tasks"></div>
-<table class="table" ng-hide="loader.projects || loader.users || loader.tasks">
+<table class="table">
 	<thead>
 	<tr>
 		<th><!-- Aktion --></th>
@@ -42,10 +41,10 @@
 			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
 		</td>
 	</tr>
-	<tr ng-repeat="task in tasks | orderBy:sorting" ng-controller="TaskCtrl">
+	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
 		<!-- Action -->
 		<td class="text-center">
-			<input type="checkbox" ng-click="selectTask(task)" ng-checked="selectedTask === task"/>
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="list.selectedTask === task"/>
 		</td>
 
 		<!-- Title -->

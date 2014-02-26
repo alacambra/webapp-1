@@ -68,29 +68,18 @@
 	var processMod = stampit().state({
 		title: null,
 		description: null,
-		status: 'new',
-		priority: 'normal',
+		status: 'NEW',
+		priority: 'NORMAL',
 		startDate: null,
 		endDate: null,
 		duration: 0,
 		effort: 0,
 		progress: 0
 	}).methods({
-		statusList: {
-			'TODO': 'todo',
-			'NEW': 'new',
-			'ASSIGNED': 'assigned',
-			'HOLD': 'on hold',
-			'COMPLETED': 'completed',
-			'ARCHIVED': 'archived',
-			'REQUESTED': 'requested',
-			'OFFERED': 'offered'
-		},
-
 		priorityList: [
-			'low',
-			'normal',
-			'high'
+			'LOW',
+			'NORMAL',
+			'HIGH'
 		],
 
 		getRequestObj: function () {
@@ -113,6 +102,17 @@
 		};
 
 	}).methods({
+		statusList: {
+			'TODO': 'todo',
+			'NEW': 'new',
+			'ASSIGNED': 'assigned',
+			'HOLD': 'on hold',
+			'COMPLETED': 'completed',
+			'ARCHIVED': 'archived',
+			'REQUESTED': 'requested',
+			'OFFERED': 'offered'
+		},
+
 		getEffort: function (effortId) {
 			for (var i = 0; i < this.getEfforts().length; i++) {
 				if (this.getEfforts()[i].getId() === effortId) {
@@ -132,6 +132,16 @@
 					this.getEfforts().splice(i, 1);
 				}
 			}
+		}
+	});
+
+	var projectMod = stampit().methods({
+		statusList: {
+			'NEW': 'new',
+			'ASSIGNED': 'assigned',
+			'HOLD': 'on hold',
+			'COMPLETED': 'completed',
+			'ARCHIVED': 'archived'
 		}
 	});
 
@@ -205,7 +215,7 @@
 	/**
 	 * Factory that produces project instances.
 	 */
-	var project = stampit.compose(idMod, processMod).state({
+	var project = stampit.compose(idMod, projectMod, processMod).state({
 			owner: null
 		}).enclose(function () {
 		var tasks = [];

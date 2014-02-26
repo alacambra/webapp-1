@@ -242,7 +242,7 @@
 
                 moveTaskFromProjectToProject: function(taskId, idSource, idParent) {
                     var q = $q.defer();
-                    $http.put(baseUrl + "/tasks/" + taskId + "/from/" + idSource + "/to/" + idParent)
+                    $http.put(baseUrl + "/tasks/" + taskId + "/from/project/" + idSource + "/to/" + idParent)
                     .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {

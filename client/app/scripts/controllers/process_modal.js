@@ -38,13 +38,11 @@
 				var loadUsers = function () {
 					$scope.modal.loader.users = true;
 					DataProvider.getUsers().then(function (users) {
+						console.log(users);
 						users.forEach(function (user) {
-							$scope.modal.assignableUsers.push({
-								id: user.id,
-								name: user.firstName + ' ' + user.lastName
-							});
-							$scope.modal.loader.users = false;
+							$scope.modal.assignableUsers.push(user);
 						});
+						$scope.modal.loader.users = false;
 					}, function (response) {
 						$scope.modal.loader.users = false;
 						$scope.error = 'Couldn\'t load users: ' + response;
@@ -61,7 +59,6 @@
 								id: project.id,
 								name: project.title
 							});
-							$scope.list.projects.push(factory.project(project));
 							$scope.modal.loader.projects = false;
 						});
 					}, function (response) {
@@ -78,6 +75,7 @@
 					if (_.isNull($scope.modal.model.getId())) {
 						DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
 							// update origin project with new data
+							console.log(options.model, $scope.modal.model);
 							_.extend(options.model, $scope.modal.model);
 							options.model.setId(response.id);
 

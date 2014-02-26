@@ -192,8 +192,8 @@
 			<td></td>
 			<td>{{ task.title }}</td>
 			<td>{{ task.description | limitTo: 20 }}</td>
-			<td>{{ task.assignee.name }}</td>
-			<td>{{ task.getStatus() }}</td>
+			<td>{{ task.assignee.firstName + ' ' + task.assignee.lastName }}</td>
+			<td>{{ task.statusList[project.status] }}</td>
 			<td>{{ task.startDate | date:'dd.MM.yyyy' }}</td>
 			<td>{{ task.endDate | date:'dd.MM.yyyy' }}</td>
 			<td>{{ task.duration | minutesToHours | number:2 }}h</td>
