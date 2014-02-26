@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.neo4j.cypher.internal.compiler.v2_0.functions.In;
 import org.neo4j.graphdb.Transaction;
 
 import poolingpeople.commons.entities.ProjectStatus;
@@ -23,16 +22,37 @@ import poolingpeople.persistence.neo4j.entities.PersistedTask;
 import poolingpeople.persistence.neo4j.entities.PersistedUser;
 
 public class Ingestor {
+	
+	Logger logger = Logger.getLogger(Ingestor.class);
 
+	Map<Integer, Users> users;
+	Map<Integer, Projects> projects;
+	Map<Integer, Issues> issues;
+	Map<Integer, TimeEntries> entries;
+
+	Map<Integer, String> userIds;
+	Map<Integer, String> projectsIds;
+	Map<Integer, String> tasksIds;
+	Map<Integer, String> effortsIds;
+	
+	Map<String, PersistedUser> persistedUsers;
+	Map<String, PersistedProject> persistedProjects;
+	Map<String, PersistedTask> persistedTasks;
+	Map<String, PersistedEffort> persistedEfforts;
+	
+	GraphDatabaseServiceProducer producer;
+	NeoManager manager;
+	
 	public static void main(String[] args){
 		new Ingestor().load();
 	}
 	
+	public Ingestor() {
+		producer = new GraphDatabaseServiceProducer();
+		manager = new NeoManager(producer.getGraphDb());
+	}
+	
 	public void load(){
-		GraphDatabaseServiceProducer producer = new GraphDatabaseServiceProducer();
-		NeoManager manager = new NeoManager(producer.getGraphDb());
-
-		Logger logger = Logger.getLogger(Ingestor.class);
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -163,6 +183,13 @@ public class Ingestor {
 			tx.success();
 			session.getTransaction().commit();
 		}
+	}
+	
+	private void duplicateUser(PersistedUser persistedUser, Users user){
+		PersistedUser pu = new PersistedUser(manager, getEmail(user), "a", new FakedUser());
+		pu.setFirstName(user.getFirstname());
+		persistedUsers.put(pu.getId(), pu);
+//		userIds.put(user.getId(), pu.getId());
 	}
 	
 	private String getUUIDForId(Integer rmId, Map<Integer, String> container){

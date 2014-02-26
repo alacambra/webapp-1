@@ -1,6 +1,5 @@
 package poolingpeople.persistence.neo4j.entities;
 
-import java.security.acl.Owner;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
+
 public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
@@ -130,6 +130,10 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	private Long getDefaultEndDate() {
 		return getLongProperty(NodePropertyName.DEFAULT_END_DATE);
 	}
+	
+	private Integer getDefaultEffort(){
+		return getIntegerProperty(NodePropertyName.DEFAULT_EFFORT);
+	}
 
 	/*
 	 * **** PROGRESS METHODS ****
@@ -154,6 +158,11 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 
 	public void setDefaultProgress(Float progress) {
 		setProperty(NodePropertyName.DEFAULT_PROGRESS, progress);
+	}
+	
+	@Override
+	public void setDefaultEffort(Integer effort) {
+		setProperty(NodePropertyName.DEFAULT_EFFORT, effort);
 	}
 
 	/**************** FLAGS FOR INHERITABLE ATTRIBUTES *****************/
@@ -240,7 +249,8 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public Integer getEffort() {
 
 		Integer effort = getIntegerProperty(NodePropertyName.EFFORT);
-		return effort == null ? 0 : effort;
+		return effort == null ? getDefaultEffort() : effort;
+		
 	}
 
 	private void setEffort(int effort) {
@@ -368,8 +378,8 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 		if ( getDefaultProgress() == null )
 			setDefaultProgress(DefaultValues.defaultProgress);
 		
-		if ( getEffort() == null )
-			setEffort(DefaultValues.defaultEffort);
+		if ( getDefaultEffort() == null )
+			setDefaultEffort(DefaultValues.defaultEffort);
 		
 	}
 
@@ -389,6 +399,8 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public User getOwner() {
 		return getRelatedNode(Relations.IS_PROJECT_OWNER, PersistedUser.class, Direction.INCOMING);
 	}
+
+	
 
 }
 
