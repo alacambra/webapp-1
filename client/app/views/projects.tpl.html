@@ -7,9 +7,7 @@
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
 				<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
 			</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
-				<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
-			</a></th>
+			<th></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
 				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
 			</a></th>
@@ -43,7 +41,7 @@
 			<!-- Action -->
 			<td class="text-center">
 				<img ng-show="item.loader.edit" src="images/load_indicator.gif" height="18px" width="18px" />
-				<input ng-hide="item.loader.edit" type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
+				<input ng-hide="item.loader.edit" type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project"/>
 			</td>
 
 			<!-- Title -->
@@ -71,7 +69,9 @@
 
 			<!-- Description -->
 			<td>
-				<nobr>{{ project.description | limitTo:20 }}</nobr>
+				<nobr>
+					<button type="button" class="btn btn-xs btn-default" ng-click="list.selectedProject = project; editSelectedProject()">Bearbeiten</button>
+				</nobr>
 			</td>
 
 			<!-- Owner -->

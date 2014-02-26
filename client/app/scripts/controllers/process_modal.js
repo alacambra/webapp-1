@@ -129,7 +129,6 @@
 				};
 
 				$scope.save = function () {
-					console.log($scope.form);
 					if (!$scope.form.model.$invalid) {
 						if ($scope.modal.model.isTask) {
 							saveTask();
