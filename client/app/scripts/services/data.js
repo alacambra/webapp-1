@@ -66,8 +66,8 @@
                     return DataSources[getDataSource()].getProjectFromTask(id);
                 },
 
-                addUserToTask: function(idTask, idUser) {
-                    return DataSources[getDataSource()].addUserToTask(idTask, idUser);
+                assignTaskToUser: function(idTask, idUser) {
+                    return DataSources[getDataSource()].assignTaskToUser(idTask, idUser);
                 },
 
                 getUsersFromTask: function(idTask) {

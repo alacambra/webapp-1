@@ -14,7 +14,9 @@
 
 					assignableProjects: [],
 
-					disabled: options.disabled
+					disabled: options.disabled,
+
+					datepicker: {}
 				};
 
 				$scope.form = {
@@ -38,13 +40,11 @@
 				var loadUsers = function () {
 					$scope.modal.loader.users = true;
 					DataProvider.getUsers().then(function (users) {
+						console.log(users);
 						users.forEach(function (user) {
-							$scope.modal.assignableUsers.push({
-								id: user.id,
-								name: user.firstName + ' ' + user.lastName
-							});
-							$scope.modal.loader.users = false;
+							$scope.modal.assignableUsers.push(user);
 						});
+						$scope.modal.loader.users = false;
 					}, function (response) {
 						$scope.modal.loader.users = false;
 						$scope.error = 'Couldn\'t load users: ' + response;
@@ -61,7 +61,6 @@
 								id: project.id,
 								name: project.title
 							});
-							$scope.modal.projects.push(factory.project(project));
 							$scope.modal.loader.projects = false;
 						});
 					}, function (response) {
@@ -74,57 +73,45 @@
 
 				var saveProject = function () {
 					$scope.modal.loader.model.save = true;
-					DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
-						// update origin project with new data
-						_.extend(options.model, $scope.modal.model);
 
-						// if origin project is a new project add it to projects
-						if ($scope.projects.indexOf(options.model) < 0) {
+					if (_.isNull($scope.modal.model.id)) {
+						DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
+							// update origin project with new data
+							console.log(options.model, $scope.modal.model);
+							_.extend(options.model, $scope.modal.model);
+							options.model.id = response.id;
+
 							options.model.$ui = {
-								showTasks: true
+								showTasks: false
 							};
-							$scope.projects.push(options.model);
-						}
+							$scope.list.projects.push(options.model);
 
-						$scope.modal.loader.model.save = false;
-						$modalInstance.close();
-
-					}, function (response) {
-						$scope.modal.loader.model.save = false;
-						$scope.error = 'Couldn\'t save project: ' + response;
-					});
-				};
-
-				var saveTask = function () {
-					$scope.modal.loader.model.save = true;
-
-					DataProvider.createTask($scope.modal.model.getRequestObj()).then(function (response) {
-						_.extend(options.model, $scope.modal.model);
-
-						DataProvider.addTaskToProject(options.model.project.id, options.model.getId()).then(function (response) {
-							$scope.modal.loader.model.save = false;
 							$modalInstance.close();
 
 						}, function (response) {
+							$scope.error = 'Couldn\'t save project: ' + response;
+						}).finally(function () {
 							$scope.modal.loader.model.save = false;
-							$scope.error = 'Couldn\'t add task to project: ' + response;
 						});
 
-					}, function (response) {
-						$scope.modal.loader.model.save = false;
-						$scope.error = 'Couldn\'t save task: ' + response;
-					});
+					} else {
+						DataProvider.updateProject($scope.modal.model.id, $scope.modal.model.getRequestObj()).then(function (response) {
+							_.extend(options.model, $scope.modal.model);
+							$modalInstance.close();
+						}, function (response) {
+							$scope.error = 'Couldn\'t update project: ' + response;
+						}).finally(function () {
+							$scope.modal.loader.model.save = false;
+						});
+					}
+
+
+
 				};
 
 				$scope.save = function () {
 					if (!$scope.form.model.$invalid) {
-						if ($scope.modal.model.isTask) {
-							saveTask();
-
-						} else if ($scope.modal.model.isProject) {
-							saveProject();
-						}
-
+						saveProject();
 					} else {
 						for (var attr in $scope.form.model) {
 							if ($scope.form.model.hasOwnProperty(attr) && $scope.form.model[attr].hasOwnProperty('$dirty')) {
@@ -141,7 +128,9 @@
 				$scope.openDatePicker = function ($event, opened) {
 					$event.preventDefault();
 					$event.stopPropagation();
-					$scope.form[opened] = true;
+
+					$scope.modal.datepicker = {};
+					$scope.modal.datepicker[opened] = true;
 				};
 
 			}]);

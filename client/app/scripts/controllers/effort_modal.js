@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('EffortModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
-			function ($scope, $modalInstance, options, $log, DataProvider) {
+		.controller('EffortModalCtrl', ['$scope', '$modalInstance', '$modal', 'options', '$log', 'DataProvider',
+			function ($scope, $modalInstance, $modal, options, $log, DataProvider) {
 				$scope.modal = {
 					title: options.title,
 
@@ -15,12 +15,12 @@
 					})
 				};
 
-				DataProvider.getEfforts($scope.modal.task.getId()).then(function (efforts) {
+				DataProvider.getEfforts($scope.modal.task.id).then(function (efforts) {
 					var effortsList = [];
 					efforts.forEach(function (effort) {
 						var _effort = factory.effort(effort);
-						_effort.taskId = $scope.modal.task.getId();
-						_effort.setId(effort.id);
+						_effort.taskId = $scope.modal.task.id;
+						_effort.id = effort.id;
 						effortsList.push(_effort);
 					});
 					$scope.modal.task.setEfforts(effortsList);
@@ -37,28 +37,49 @@
 					}
 				};
 
+				$scope.clearFields = function() {
+					$scope.modal.newEffort.time = $scope.modal.newEffort.comment = ""
+					$scope.modal.newEffort.date = moment().valueOf();
+				}
+
 				$scope.save = function () {
-					DataProvider.createEffort($scope.modal.task.getId(), $scope.modal.newEffort.getRequestObj()).then(function (response) {
-						console.log(response);
-						response.taskId = $scope.modal.task.getId();
+					DataProvider.createEffort($scope.modal.task.id, $scope.modal.newEffort.getRequestObj()).then(function (response) {
+						response.taskId = $scope.modal.task.id;
 						$scope.modal.task.addEffort(factory.effort(response));
+						$scope.clearFields();
 					}, function (response) {
 						$log.error(response);
 					});
 				};
 
 				$scope.remove = function (effort) {
-					if (window.confirm('Effort "' + effort.comment + '" wirklich löschen?')) {
-						DataProvider.deleteEffort($scope.modal.task.getId(), effort.getId()).then(function (response) {
+					var modalInstance = $modal.open({
+						templateUrl: 'views/confirm_modal.tpl.html',
+						controller: 'ConfirmModalCtrl',
+						resolve: {
+							message: function() {
+								return "Soll die  effort wirklich gelöscht werden?";
+							}
+						}
+					});
+
+					modalInstance.result.then(function () {
+						DataProvider.deleteEffort($scope.modal.task.id, effort.id).then(function (response) {
 							$scope.modal.task.removeEffort(effort);
 						}, function (response) {
 							$log.error(response);
 						});
-					}
+					});
 				};
 
 				$scope.close = function () {
 					$modalInstance.dismiss('cancel');
+				};
+
+				$scope.openDatePicker = function ($event, datepicker) {
+					$event.preventDefault();
+					$event.stopPropagation();
+					$scope.form[datepicker] = true;
 				};
 
 			}])
@@ -75,7 +96,7 @@
 
 				$scope.updateEffort = function () {
 					console.log("TEST");
-					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.getId(), $scope.editableEffort.getRequestObj()).then(function (response) {
+					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.id, $scope.editableEffort.getRequestObj()).then(function (response) {
 						$scope.effort = angular.copy($scope.editableEffort);
 					}, function (response) {
 						$scope.editableEffort = angular.copy($scope.effort);

@@ -7,11 +7,9 @@
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
 				<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
 			</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
-				<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
-			</a></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
-				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+			<th></th>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'owner.firstName') ? '-owner.firstName' : 'owner.firstName'">
+				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'owner.firstName', 'glyphicon-arrow-up': sorting === '-owner.firstName' }"></span></nobr>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
 				<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
@@ -39,11 +37,10 @@
 				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
 			</td>
 		</tr>
-		<tr class="ng-table-group" ng-repeat-start="project in projects | orderBy:sorting" ng-controller="ProjectCtrl">
+		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
-				<img ng-show="item.loader.edit" src="images/load_indicator.gif" height="18px" width="18px" />
-				<input ng-hide="item.loader.edit" type="checkbox" ng-click="selectProject(project)" ng-checked="selectedProject === project"/>
+				<input type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project"/>
 			</td>
 
 			<!-- Title -->
@@ -57,7 +54,6 @@
 					   ng-click="showTasks(project)"
 					   ng-if="project.taskCount > 0">
 					</a>
-					<img src="images/load_indicator.gif" height="12px" width="12px" ng-show="item.loader.tasks.load" />
 				</nobr>
 				<div ng-if="editable.title">
 					<input type="text"
@@ -71,20 +67,22 @@
 
 			<!-- Description -->
 			<td>
-				<nobr>{{ project.description | limitTo:20 }}</nobr>
+				<nobr>
+					<button type="button" class="btn btn-xs btn-default" ng-click="list.selectedProject = project; editSelectedProject()">Bearbeiten</button>
+				</nobr>
 			</td>
 
-			<!-- Assignee -->
+			<!-- Owner -->
 			<td>
-				<nobr ng-hide="editable.assignee">
-					<span class="editable" ng-click="editable.assignee = true">{{ project.assignee.name }}</span>
+				<nobr ng-hide="editable.owner">
+					<span class="editable" ng-click="editable.owner = true">{{ (project.owner) ? project.owner.firstName + ' ' + project.owner.lastName : 'no owner'}}</span>
 				</nobr>
-				<div ng-if="editable.assignee">
-					<select ng-model="project.assignee"
-							ng-options="user as user.name for user in assignableUsers track by user.id"
+				<div ng-if="editable.owner">
+					<select ng-model="project.owner"
+							ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 							set-focus=""
-							ng-blur="editable.assignee = false"
-							ng-change="editable.assignee = false; updateProject()">
+							ng-blur="editable.owner = false"
+							ng-change="editable.owner = false; assignProjectToUser(project)">
 					</select>
 				</div>
 			</td>
@@ -106,16 +104,16 @@
 
 			<!-- Start Date -->
 			<td>
-				<nobr ng-hide="editable.datepicker.startDate">
-					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
+				<nobr ng-hide="list.datepicker[project.id + 'startDate']">
+					<span ng-click="openDatePicker($event, project.id + 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
-				<div ng-if="editable.datepicker.startDate">
+				<div ng-if="list.datepicker[project.id + 'startDate']">
 					<input ng-model="project.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
-						   max="'2100-01-01'"
-						   is-open="editable.datepicker.startDate"
+						   max="project.endDate"
+						   is-open="list.datepicker[project.id + 'startDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
 				</div>
@@ -123,16 +121,16 @@
 
 			<!-- End Date -->
 			<td>
-				<nobr ng-hide="editable.datepicker.endDate">
-					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
+				<nobr ng-hide="list.datepicker[project.id + 'endDate']">
+					<span ng-click="openDatePicker($event, project.id + 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
-				<div ng-if="editable.datepicker.endDate">
+				<div ng-if="list.datepicker[project.id + 'endDate']">
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
-						   min="'1900-01-01'"
+						   min="project.startDate"
 						   max="'2100-01-01'"
-						   is-open="editable.datepicker.endDate"
+						   is-open="list.datepicker[project.id + 'endDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
 				</div>
@@ -192,8 +190,8 @@
 			<td></td>
 			<td>{{ task.title }}</td>
 			<td>{{ task.description | limitTo: 20 }}</td>
-			<td>{{ task.assignee.name }}</td>
-			<td>{{ task.getStatus() }}</td>
+			<td>{{ task.assignee.firstName + ' ' + task.assignee.lastName }}</td>
+			<td>{{ task.statusList[project.status] }}</td>
 			<td>{{ task.startDate | date:'dd.MM.yyyy' }}</td>
 			<td>{{ task.endDate | date:'dd.MM.yyyy' }}</td>
 			<td>{{ task.duration | minutesToHours | number:2 }}h</td>
@@ -206,7 +204,7 @@
 		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
 		<ul class="dropdown-menu">
 			<li>
-				<a href="javascript:void(0);" ng-click="editSelected()">Projekt bearbeiten</a>
+				<a href="javascript:void(0);" ng-click="editSelectedProject()">Projekt bearbeiten</a>
 			</li>
 			<li>
 				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>

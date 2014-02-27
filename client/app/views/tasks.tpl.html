@@ -1,6 +1,5 @@
 <div>
-<div class="loader" ng-show="loader.projects || loader.users || loader.tasks"></div>
-<table class="table" ng-hide="loader.projects || loader.users || loader.tasks">
+<table class="table">
 	<thead>
 	<tr>
 		<th><!-- Aktion --></th>
@@ -10,8 +9,8 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
 			<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
 		</a></th>
-		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
-			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.firstName') ? '-assignee.firstName' : 'assignee.firstName'">
+			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.firstName', 'glyphicon-arrow-up': sorting === '-assignee.firstName' }"></span></nobr>
 		</a></th>
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
 			<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
@@ -31,8 +30,8 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
 			<nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
 		</a></th>
-		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'task.name') ? '-task.name' : 'task.name'">
-			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'task.name', 'glyphicon-arrow-up': sorting === '-task.name' }"></span></nobr>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'project.title') ? '-project.title' : 'project.title'">
+			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'project.title', 'glyphicon-arrow-up': sorting === '-project.title' }"></span></nobr>
 		</a></th>
 	</tr>
 	</thead>
@@ -42,10 +41,10 @@
 			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
 		</td>
 	</tr>
-	<tr ng-repeat="task in tasks | orderBy:sorting" ng-controller="TaskCtrl">
+	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
 		<!-- Action -->
 		<td class="text-center">
-			<input type="checkbox" ng-click="selectTask(task)" ng-checked="selectedTask === task"/>
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="listselectedTask === task"/>
 		</td>
 
 		<!-- Title -->
@@ -77,14 +76,14 @@
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ (task.assignee) ? task.assignee.firstName + ' ' + task.assignee.lastName : 'no assignee'}}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
-						ng-options="user as user.name for user in assignableUsers track by user.id"
+						ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
-						ng-change="editable.assignee = false; updateTask()">
+						ng-change="editable.assignee = false; assignUserToTask(task)">
 				</select>
 			</div>
 		</td>
@@ -106,16 +105,16 @@
 
 		<!-- Start Date -->
 		<td>
-			<nobr ng-hide="editable.datepicker.startDate">
-				<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (task.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
+			<nobr ng-hide="list.datepicker[task.id + 'startDate']">
+				<span ng-click="openDatePicker($event, task.id + 'startDate')" class="editable">{{ (task.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
-			<div ng-if="editable.datepicker.startDate">
+			<div ng-if="list.datepicker[task.id + 'startDate']">
 				<input ng-model="task.startDate"
 					   pp-convert-date="dd.MM.yyyy"
 					   datepicker-popup="dd.MM.yyyy"
 					   min="'1900-01-01'"
-					   max="'2100-01-01'"
-					   is-open="editable.datepicker.startDate"
+					   max="task.endDate"
+					   is-open="list.datepicker[task.id + 'startDate']"
 					   disabled="disabled"
 					   ng-change="updateTask()">
 			</div>
@@ -123,16 +122,16 @@
 
 		<!-- End Date -->
 		<td>
-			<nobr ng-hide="editable.datepicker.endDate">
-				<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (task.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
+			<nobr ng-hide="list.datepicker[task.id + 'endDate']">
+				<span ng-click="openDatePicker($event, task.id + 'endDate')" class="editable">{{ (task.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
-			<div ng-if="editable.datepicker.endDate">
+			<div ng-if="list.datepicker[task.id + 'endDate']">{{list.datepicker[task.id]}}
 				<input ng-model="task.endDate"
 					   pp-convert-date="dd.MM.yyyy"
 					   datepicker-popup="dd.MM.yyyy"
-					   min="'1900-01-01'"
+					   min="task.startDate"
 					   max="'2100-01-01'"
-					   is-open="editable.datepicker.endDate"
+					   is-open="list.datepicker[task.id + 'endDate']"
 					   disabled="disabled"
 					   ng-change="updateTask()">
 			</div>
@@ -186,7 +185,7 @@
 			</nobr>
 			<div ng-if="editable.project">
 				<select ng-model="task.project"
-						ng-options="project as project.title for project in assignableProjects track by project.id"
+						ng-options="project as project.title for project in list.assignableProjects track by project.id"
 						set-focus=""
 						ng-blur="editable.project = false"
 						ng-change="editable.project = false; updateTaskProject();">

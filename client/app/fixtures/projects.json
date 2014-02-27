@@ -67,7 +67,14 @@
     "taskCount": 2,
     "progress": -1.0,
     "owner": null,
-    "id": "82a22328-f1c9-48d9-83a6-6d6743503dce"
+    "id": "82a22328-f1c9-48d9-83a6-6d6743503dce",
+    "owner": {
+    	"lastName": null,
+		"birthDate": null,
+		"firstName": "Andre",
+		"email": "andre.weiland@ion2s.com",
+		"id": "6b826041-9e25-47b9-bddb-083b8d865bcf"
+    }
 }, {
     "startDate": 1254210346000,
     "endDate": -99999999999999,
