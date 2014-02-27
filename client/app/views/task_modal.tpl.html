@@ -79,11 +79,7 @@
 							class="form-control"
 							id="projectInput"
 							ng-options="project as project.title for project in modal.assignableProjects track by project.id"
-							ng-disabled="modal.disabled.project"
-							required=""></select>
-				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.project.$dirty && form.task.project.$invalid">
-					<small class="error" ng-show="form.task.project.$error.required">A Project is required.</small>
+							ng-disabled="modal.disabled.project"></select>
 				</div>
 			</div>
 

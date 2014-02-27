@@ -57,7 +57,20 @@
 							_.extend(options.task, $scope.modal.task);
 							options.task.id = response.id;
 
-							DataProvider.addTaskToProject(options.task.id, options.task.project.id).then(function (response) {
+							if (!_.isNull(options.task.project)) {
+								DataProvider.addTaskToProject(options.task.id, options.task.project.id).then(function (response) {
+									if ($scope.list.tasks) {
+										$scope.list.tasks.push(options.task);
+									} else {
+										$scope.list.selectedProject.addTask(options.task);
+										$scope.list.selectedProject.taskCount++;
+									}
+									$modalInstance.close();
+
+								}, function (response) {
+									$scope.error = 'Couldn\'t add task to project: ' + response;
+								});
+							} else {
 								if ($scope.list.tasks) {
 									$scope.list.tasks.push(options.task);
 								} else {
@@ -65,10 +78,7 @@
 									$scope.list.selectedProject.taskCount++;
 								}
 								$modalInstance.close();
-
-							}, function (response) {
-								$scope.error = 'Couldn\'t add task to project: ' + response;
-							});
+							}
 
 						}, function (response) {
 							$scope.error = 'Couldn\'t save task: ' + response;
@@ -79,18 +89,22 @@
 						DataProvider.updateTask(options.task.id, $scope.modal.task.getRequestObj()).then(function (response) {
 							_.extend(options.task, $scope.modal.task);
 							DataProvider.assignTaskToUser(options.task.id, options.task.assignee.id).then(function (response) {
-								if (_.isNull(sourceProject)) {
-									DataProvider.addTaskToProject(options.task.id, options.task.project.id).then(function (response) {
-										$modalInstance.close();
-									}, function (response) {
-										$scope.error = 'Couldn\'t add project to task: ' + response;
-									});
+								if (!_.isNull(options.task.project)) {
+									if (_.isNull(sourceProject)) {
+										DataProvider.addTaskToProject(options.task.id, options.task.project.id).then(function (response) {
+											$modalInstance.close();
+										}, function (response) {
+											$scope.error = 'Couldn\'t add project to task: ' + response;
+										});
+									} else {
+										DataProvider.moveTaskFromProjectToProject(options.task.id, sourceProject.id, options.task.project.id).then(function (response) {
+											$modalInstance.close();
+										}, function (response) {
+											$scope.error = 'Couldn\'t move task to another project: ' + response;
+										});
+									}
 								} else {
-									DataProvider.moveTaskFromProjectToProject(options.task.id, sourceProject.id, options.task.project.id).then(function (response) {
-										$modalInstance.close();
-									}, function (response) {
-										$scope.error = 'Couldn\'t move task to another project: ' + response;
-									});
+									$modalInstance.close();
 								}
 
 							}, function (response) {

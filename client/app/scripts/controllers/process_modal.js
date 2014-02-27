@@ -109,36 +109,9 @@
 
 				};
 
-				var saveTask = function () {
-					$scope.modal.loader.model.save = true;
-
-					DataProvider.createTask($scope.modal.model.getRequestObj()).then(function (response) {
-						_.extend(options.model, $scope.modal.model);
-
-						DataProvider.addTaskToProject(options.model.project.id, options.model.id).then(function (response) {
-							$scope.modal.loader.model.save = false;
-							$modalInstance.close();
-
-						}, function (response) {
-							$scope.modal.loader.model.save = false;
-							$scope.error = 'Couldn\'t add task to project: ' + response;
-						});
-
-					}, function (response) {
-						$scope.modal.loader.model.save = false;
-						$scope.error = 'Couldn\'t save task: ' + response;
-					});
-				};
-
 				$scope.save = function () {
 					if (!$scope.form.model.$invalid) {
-						if ($scope.modal.model.isTask) {
-							saveTask();
-
-						} else if ($scope.modal.model.isProject) {
-							saveProject();
-						}
-
+						saveProject();
 					} else {
 						for (var attr in $scope.form.model) {
 							if ($scope.form.model.hasOwnProperty(attr) && $scope.form.model[attr].hasOwnProperty('$dirty')) {
