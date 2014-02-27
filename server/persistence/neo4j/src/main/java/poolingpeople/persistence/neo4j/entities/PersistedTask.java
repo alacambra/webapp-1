@@ -320,7 +320,8 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	public void setAssignee(User u) {
 
 		if (relationExistsFrom((AbstractPersistedModel<?>) u, Relations.DOES)) {
-			throw new RelationAlreadyExistsException();
+//			throw new RelationAlreadyExistsException();
+			return;
 		}
 
 		removeRelationsTo(Relations.DOES);

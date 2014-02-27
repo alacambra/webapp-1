@@ -197,7 +197,7 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 
 	@Override
 	public void setDefaultDuration(Integer duration) {
-		if(getIntegerProperty(NodePropertyName.DURATION) == null) {
+		if(getCalculatedDuration() == null) {
 			setCalculatedDuration(duration);
 		}
 
@@ -356,12 +356,26 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 		}
 
 	}
+	
+//	@Override
+	public void updateDuration() {
+
+		int duration = 0;
+
+		for (Task t : getRelatedTasks()) {
+			duration += t.getDuration();
+		}
+
+		setCalculatedDuration(duration);
+	}
+
 
 	@Override
 	public void updateAll() {
 		updateEffort();
 		updateDates();
 		updateProgress();
+		updateDuration();
 	}
 
 	/**************** PROPAGATION METHODS *****************/
@@ -420,6 +434,9 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 		
 		if ( getDefaultEffort() == null )
 			setDefaultEffort(DefaultValues.defaultEffort);
+		
+		if ( getDefaultDuration() == null )
+			setDefaultEffort(DefaultValues.defaultDuration);
 		
 	}
 
