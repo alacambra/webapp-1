@@ -30,7 +30,7 @@
 			<type>ejb</type>
 		</dependency>
 		<dependency>
-			<artifactId>webapp-restapi</artifactId>
+			<artifactId>webapp-http-server-api</artifactId>
 			<groupId>poolingpeople</groupId>
 			<version>${project.version}</version>
 			<type>war</type>
