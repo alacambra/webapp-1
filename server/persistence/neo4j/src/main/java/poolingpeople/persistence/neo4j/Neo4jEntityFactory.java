@@ -37,8 +37,6 @@ public class Neo4jEntityFactory implements EntityFactory {
 		for(AbstractPersistedModel<?> model : objects){
 			model.updateAll();
 		}
-			
-		
 	}
 
 	@Override

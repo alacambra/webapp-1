@@ -25,7 +25,6 @@ import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
-import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.task.entity.EffortDto;
 import poolingpeople.webapplication.business.task.entity.EffortMixin;
 
@@ -40,9 +39,6 @@ public class EffortBoundary {
 
 	@Inject
 	EntityFactory entityFactory;
-
-	@Inject
-	DTOConverter dtoConverter;
 
 	@GET
 	@Path("{id:[\\w\\d-]+}")
@@ -70,7 +66,8 @@ public class EffortBoundary {
 			throws JsonParseException, JsonMappingException, IOException{
 
 		Effort dtoEffort = mapper.readValue(json, EffortDto.class);
-		Effort effort = dtoConverter.fromDTOtoPersitedBean(dtoEffort, entityFactory.getEffortById(uuid));
+		Effort effort =  entityFactory.getEffortById(uuid);
+		effort.synchronizeWith(dtoEffort);
 		String r = mapper.writeValueAsString(effort);
 		return Response.noContent().build();
 

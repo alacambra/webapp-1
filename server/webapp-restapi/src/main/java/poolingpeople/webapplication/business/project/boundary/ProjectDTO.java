@@ -209,6 +209,12 @@ public class ProjectDTO implements Project {
 	public Integer getDefaultDuration() {
 		return duration;
 	}
+
+	@Override
+	public void synchronizeWith(Project tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

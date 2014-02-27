@@ -2,7 +2,6 @@ package poolingpeople.persistence.neo4j;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
-import javax.resource.spi.work.WorkManager;
 
 import org.apache.log4j.Logger;
 

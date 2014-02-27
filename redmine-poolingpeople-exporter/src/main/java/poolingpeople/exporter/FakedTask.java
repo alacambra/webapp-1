@@ -228,4 +228,10 @@ public class FakedTask implements Task {
 		return null;
 	}
 
+	@Override
+	public void synchronizeWith(Task tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

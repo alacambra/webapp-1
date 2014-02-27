@@ -52,4 +52,10 @@ public class FakedEffort implements Effort {
 		return null;
 	}
 
+	@Override
+	public void synchronizeWith(Effort tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -32,7 +32,6 @@ import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
 import poolingpeople.webapplication.business.boundary.JsonViews;
-import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 @Path("tasks")
@@ -47,9 +46,6 @@ public class TaskBoundary extends AbstractBoundry{
 
 	@Inject
 	private EntityFactory entityFactory;
-
-	@Inject
-	private DTOConverter dtoConverter;
 
 	@Inject
 	private ILoggedUserContainer loggedUserContainer;
@@ -108,7 +104,8 @@ public class TaskBoundary extends AbstractBoundry{
 	public Response updateTask(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
-		Task task = dtoConverter.fromDTOtoPersitedBean(dtoTask, entityFactory.getTaskById(uuid));
+		Task task = entityFactory.getTaskById(uuid);
+		task.synchronizeWith(dtoTask);
 		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
 	}

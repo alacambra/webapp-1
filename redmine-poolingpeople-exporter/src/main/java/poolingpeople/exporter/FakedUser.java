@@ -73,4 +73,10 @@ public class FakedUser implements User{
 		return null;
 	}
 
+	@Override
+	public void synchronizeWith(User tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -2,13 +2,11 @@ package poolingpeople.commons.entities;
 
 import java.util.List;
 
-public interface User {
+public interface User extends IsSynchronizable<User> {
 	
 	String getId();
 
 	String getEmail();
-
-//	void setEmail(String email);
 
 	String getFirstName();
 	

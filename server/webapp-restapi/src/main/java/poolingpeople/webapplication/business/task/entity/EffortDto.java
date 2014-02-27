@@ -39,6 +39,11 @@ public class EffortDto implements Effort{
 	public String getTaskId() {
 		return null;
 	}
+	@Override
+	public void synchronizeWith(Effort tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

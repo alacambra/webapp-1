@@ -21,7 +21,6 @@ import org.mockito.MockitoAnnotations;
 
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;
-import poolingpeople.webapplication.business.entity.DTOConverter;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 public class TaskBoundaryOldTest {
@@ -33,9 +32,6 @@ public class TaskBoundaryOldTest {
 
     @Mock
     EntityFactory entityFactoryMock;
-
-    @Mock
-    DTOConverter dtoConverterMock;
 
     @Mock
     PersistedTask persistedTaskMock;

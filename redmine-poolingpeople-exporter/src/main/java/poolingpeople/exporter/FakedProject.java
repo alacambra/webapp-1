@@ -177,4 +177,10 @@ public class FakedProject implements Project{
 		
 	}
 
+	@Override
+	public void synchronizeWith(Project tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

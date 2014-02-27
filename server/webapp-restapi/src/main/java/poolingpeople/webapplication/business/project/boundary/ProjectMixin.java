@@ -177,4 +177,10 @@ public class ProjectMixin implements Project{
 	public void setDefaultDuration(Integer progress) {
 	}
 
+	@Override
+	public void synchronizeWith(Project tplObject) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

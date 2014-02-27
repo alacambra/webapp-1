@@ -32,7 +32,6 @@ import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AuthNotRequired;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
-import poolingpeople.webapplication.business.entity.DTOConverter;
 
 @Path("users")
 @Stateless
@@ -48,9 +47,6 @@ public class UserBoundary {
 
 	@Inject
 	EntityFactory entityFactory;
-
-	@Inject
-	DTOConverter dtoConverter;
 
 	@Inject
 	Validator validator;
@@ -93,7 +89,8 @@ public class UserBoundary {
 			throws JsonParseException, JsonMappingException, IOException {
 
 		User dtoUser = deserializeAndValidate(json, UserDTO.class);
-		User user = dtoConverter.fromDTOtoPersitedBean(dtoUser, entityFactory.getUserById(uuid));
+		User user = entityFactory.getUserById(uuid);
+		user.synchronizeWith(dtoUser);
 		String r = mapper.writeValueAsString(user);
 		return Response.ok().entity(r).build();
 	}
