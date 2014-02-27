@@ -9,8 +9,8 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
 			<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
 		</a></th>
-		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
-			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.firstName') ? '-assignee.firstName' : 'assignee.firstName'">
+			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.firstName', 'glyphicon-arrow-up': sorting === '-assignee.firstName' }"></span></nobr>
 		</a></th>
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
 			<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
@@ -30,8 +30,8 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
 			<nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
 		</a></th>
-		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'task.name') ? '-task.name' : 'task.name'">
-			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'task.name', 'glyphicon-arrow-up': sorting === '-task.name' }"></span></nobr>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'project.title') ? '-project.title' : 'project.title'">
+			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'project.title', 'glyphicon-arrow-up': sorting === '-project.title' }"></span></nobr>
 		</a></th>
 	</tr>
 	</thead>
@@ -76,11 +76,11 @@
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name || 'no assignee' }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ (task.assignee) ? task.assignee.firstName + ' ' + task.assignee.lastName : 'no assignee'}}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
-						ng-options="user as user.name for user in assignableUsers track by user.id"
+						ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
 						ng-change="editable.assignee = false; assignUserToTask(task)">
