@@ -13,7 +13,9 @@
 
 					assignableProjects: [],
 
-					selectedTask: null
+					selectedTask: null,
+
+					datepicker: {}
 				};
 
 				var loadTasks = function () {
@@ -147,6 +149,15 @@
 					return _.isNull($scope.list.selectedTask);
 				};
 
+				$scope.openDatePicker = function ($event, key) {
+					$event.preventDefault();
+					$event.stopPropagation();
+
+
+					$scope.list.datepicker = {};
+					$scope.list.datepicker[key] = true;
+				};
+
 			}])
 
 		.controller('TaskCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
@@ -173,13 +184,6 @@
 						$log.error(response);
 						$scope.task = origin;
 					});
-				};
-
-				$scope.openDatePicker = function ($event, date) {
-					$event.preventDefault();
-					$event.stopPropagation();
-					$scope.editable.datepicker = {};
-					$scope.editable.datepicker[date] = true;
 				};
 			}]);
 }());

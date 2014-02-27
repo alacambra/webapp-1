@@ -18,7 +18,9 @@
 						$scope.list.projects.forEach(function (project) {
 							project.$ui.showTasks = project.id === projectId;
 						});
-					}
+					},
+
+					datepicker: {}
 				};
 
 				// Load all projects
@@ -156,6 +158,14 @@
 					DataProvider.assignProjectToUser(project.id, project.owner.id);
 				};
 
+				$scope.openDatePicker = function ($event, key) {
+					$event.preventDefault();
+					$event.stopPropagation();
+
+					$scope.list.datepicker = {};
+					$scope.list.datepicker[key] = true;
+				};
+
 			}])
 
 		.controller('ProjectCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
@@ -184,13 +194,6 @@
 						$log.error(response);
 						$scope.project = angular.copy(origin);
 					});
-				};
-
-				$scope.openDatePicker = function ($event, date) {
-					$event.preventDefault();
-					$event.stopPropagation();
-					$scope.editable.datepicker = {};
-					$scope.editable.datepicker[date] = true;
 				};
 			}]);
 }());
