@@ -165,4 +165,16 @@ public class FakedProject implements Project{
 		
 	}
 
+	@Override
+	public Integer getDuration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultDuration(Integer duration) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
