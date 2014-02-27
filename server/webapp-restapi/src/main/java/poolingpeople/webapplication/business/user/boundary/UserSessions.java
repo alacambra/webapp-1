@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,7 +34,7 @@ public class UserSessions {
 	@Inject
 	private ObjectMapper mapper;
 	
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response credentialsAreValid() throws JsonGenerationException, JsonMappingException, IOException{
 		
