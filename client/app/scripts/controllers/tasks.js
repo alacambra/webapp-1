@@ -21,7 +21,7 @@
 						$scope.list.tasks = [];
 						tasks.forEach(function (task) {
 							var _task = factory.task(task);
-							_task.setId(task.id);
+							_task.id = task.id;
 							$scope.list.tasks.push(_task);
 						});
 					});
@@ -85,7 +85,7 @@
 				};
 
 				$scope.assignUserToTask = function (task) {
-					DataProvider.assignTaskToUser(task.getId(), task.assignee.id);
+					DataProvider.assignTaskToUser(task.id, task.assignee.id);
 				};
 
 				$scope.newTask = function () {
@@ -114,7 +114,7 @@
 					});
 
 					modalInstance.result.then(function () {
-							DataProvider.deleteTask($scope.list.selectedTask.getId()).then(function (response) {
+							DataProvider.deleteTask($scope.list.selectedTask.id).then(function (response) {
 								var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
 								$scope.list.selectedTask = null;
 								$scope.list.tasks.splice(index, 1);
@@ -156,7 +156,7 @@
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
-					DataProvider.updateTask($scope.task.getId(), $scope.task.getRequestObj()).then(function (response) {
+					DataProvider.updateTask($scope.task.id, $scope.task.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {
@@ -166,7 +166,7 @@
 				};
 
 				$scope.updateTaskProject = function () {
-					DataProvider.moveTaskFromProjectToProject($scope.task.getId(), origin.project.id, $scope.task.project.id).then(function (response) {
+					DataProvider.moveTaskFromProjectToProject($scope.task.id, origin.project.id, $scope.task.project.id).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {

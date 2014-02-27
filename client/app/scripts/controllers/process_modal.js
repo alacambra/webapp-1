@@ -72,12 +72,12 @@
 				var saveProject = function () {
 					$scope.modal.loader.model.save = true;
 
-					if (_.isNull($scope.modal.model.getId())) {
+					if (_.isNull($scope.modal.model.id)) {
 						DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
 							// update origin project with new data
 							console.log(options.model, $scope.modal.model);
 							_.extend(options.model, $scope.modal.model);
-							options.model.setId(response.id);
+							options.model.id = response.id;
 
 							options.model.$ui = {
 								showTasks: false
@@ -93,7 +93,7 @@
 						});
 
 					} else {
-						DataProvider.updateProject($scope.modal.model.getId(), $scope.modal.model.getRequestObj()).then(function (response) {
+						DataProvider.updateProject($scope.modal.model.id, $scope.modal.model.getRequestObj()).then(function (response) {
 							_.extend(options.model, $scope.modal.model);
 							$modalInstance.close();
 						}, function (response) {
@@ -113,7 +113,7 @@
 					DataProvider.createTask($scope.modal.model.getRequestObj()).then(function (response) {
 						_.extend(options.model, $scope.modal.model);
 
-						DataProvider.addTaskToProject(options.model.project.id, options.model.getId()).then(function (response) {
+						DataProvider.addTaskToProject(options.model.project.id, options.model.id).then(function (response) {
 							$scope.modal.loader.model.save = false;
 							$modalInstance.close();
 

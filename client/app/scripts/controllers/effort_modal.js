@@ -15,12 +15,12 @@
 					})
 				};
 
-				DataProvider.getEfforts($scope.modal.task.getId()).then(function (efforts) {
+				DataProvider.getEfforts($scope.modal.task.id).then(function (efforts) {
 					var effortsList = [];
 					efforts.forEach(function (effort) {
 						var _effort = factory.effort(effort);
-						_effort.taskId = $scope.modal.task.getId();
-						_effort.setId(effort.id);
+						_effort.taskId = $scope.modal.task.id;
+						_effort.id = effort.id;
 						effortsList.push(_effort);
 					});
 					$scope.modal.task.setEfforts(effortsList);
@@ -43,8 +43,8 @@
 				}
 
 				$scope.save = function () {
-					DataProvider.createEffort($scope.modal.task.getId(), $scope.modal.newEffort.getRequestObj()).then(function (response) {
-						response.taskId = $scope.modal.task.getId();
+					DataProvider.createEffort($scope.modal.task.id, $scope.modal.newEffort.getRequestObj()).then(function (response) {
+						response.taskId = $scope.modal.task.id;
 						$scope.modal.task.addEffort(factory.effort(response));
 						$scope.clearFields();
 					}, function (response) {
@@ -64,7 +64,7 @@
 					});
 
 					modalInstance.result.then(function () {
-						DataProvider.deleteEffort($scope.modal.task.getId(), effort.getId()).then(function (response) {
+						DataProvider.deleteEffort($scope.modal.task.id, effort.id).then(function (response) {
 							$scope.modal.task.removeEffort(effort);
 						}, function (response) {
 							$log.error(response);
@@ -96,7 +96,7 @@
 
 				$scope.updateEffort = function () {
 					console.log("TEST");
-					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.getId(), $scope.editableEffort.getRequestObj()).then(function (response) {
+					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.id, $scope.editableEffort.getRequestObj()).then(function (response) {
 						$scope.effort = angular.copy($scope.editableEffort);
 					}, function (response) {
 						$scope.editableEffort = angular.copy($scope.effort);
