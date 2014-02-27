@@ -185,7 +185,7 @@
 			</nobr>
 			<div ng-if="editable.project">
 				<select ng-model="task.project"
-						ng-options="project as project.title for project in assignableProjects track by project.id"
+						ng-options="project as project.title for project in list.assignableProjects track by project.id"
 						set-focus=""
 						ng-blur="editable.project = false"
 						ng-change="editable.project = false; updateTaskProject();">
