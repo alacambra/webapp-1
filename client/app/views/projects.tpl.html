@@ -114,7 +114,7 @@
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
-						   max="'2100-01-01'"
+						   max="project.endDate"
 						   is-open="list.datepicker[project.id + 'startDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
@@ -130,7 +130,7 @@
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
-						   min="'1900-01-01'"
+						   min="project.startDate"
 						   max="'2100-01-01'"
 						   is-open="list.datepicker[project.id + 'endDate']"
 						   disabled="disabled"
