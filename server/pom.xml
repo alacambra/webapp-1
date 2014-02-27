@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<name>poolingpeople</name>
 	<modules>
-		<module>webapp-restapi</module>
+		<module>webapp-http-server-api</module>
 		<module>persistence/neo4j</module>
 		<module>shared</module>
 		<module>poolingpeople-application</module>

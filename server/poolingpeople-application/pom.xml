@@ -58,7 +58,7 @@
 						</ejbModule>
 						<webModule>
 							<groupId>poolingpeople</groupId>
-							<artifactId>webapp-restapi</artifactId>
+							<artifactId>webapp-http-server-api</artifactId>
 							<contextRoot>/</contextRoot>
 						</webModule>
 					</modules>

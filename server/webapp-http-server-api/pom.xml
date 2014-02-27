@@ -8,7 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>webapp-restapi</artifactId>
+	<artifactId>webapp-http-server-api</artifactId>
 	<packaging>war</packaging>
 
 	<name>webapp-restapi</name>
