@@ -29,6 +29,7 @@ public class ProjectDTO implements Project {
 	private Float progress;
 	private ProjectStatus status;
 	private Integer effort;
+	private Integer duration;
 
 	@IgnoreAttribute
 	@Override
@@ -193,6 +194,20 @@ public class ProjectDTO implements Project {
 	public User getOwner() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Integer getDuration() {
+		return duration;
+	}
+
+	@Override
+	public void setDefaultDuration(Integer duration) {
+		this.duration = duration;
+	}
+	
+	public Integer getDefaultDuration() {
+		return duration;
 	}
 }
 

@@ -131,10 +131,6 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 		return getLongProperty(NodePropertyName.DEFAULT_END_DATE);
 	}
 	
-	private Integer getDefaultEffort(){
-		return getIntegerProperty(NodePropertyName.DEFAULT_EFFORT);
-	}
-
 	/*
 	 * **** PROGRESS METHODS ****
 	 */
@@ -164,6 +160,54 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public void setDefaultEffort(Integer effort) {
 		setProperty(NodePropertyName.DEFAULT_EFFORT, effort);
 	}
+	
+	private Integer getCalculatedEffort(){
+		 return getIntegerProperty(NodePropertyName.EFFORT);
+	}
+	
+	@Override
+	public Integer getEffort() {
+
+		Integer effort = getCalculatedEffort();
+		return effort == null ? getDefaultEffort() : effort;
+		
+	}
+
+	private void setEffort(int effort) {
+		setProperty(NodePropertyName.EFFORT, effort);
+	}
+	
+	private Integer getDefaultEffort(){
+		return getIntegerProperty(NodePropertyName.DEFAULT_EFFORT);
+	}
+
+	private void setCalculatedDuration(Integer duration) {
+		setProperty(NodePropertyName.DURATION, duration);
+	}
+
+	@Override
+	public Integer getDuration() {
+		Integer duration = getCalculatedDuration();
+		return duration == null ? getDefaultDuration() : duration;
+	}
+	
+	private Integer getCalculatedDuration(){
+		 return getIntegerProperty(NodePropertyName.DURATION);
+	}
+
+	@Override
+	public void setDefaultDuration(Integer duration) {
+		if(getIntegerProperty(NodePropertyName.DURATION) == null) {
+			setCalculatedDuration(duration);
+		}
+
+		setProperty(NodePropertyName.DEFAULT_DURATION, duration);
+	}
+	
+	private Integer getDefaultDuration(){
+		return getIntegerProperty(NodePropertyName.DEFAULT_DURATION);
+	}
+
 
 	/**************** FLAGS FOR INHERITABLE ATTRIBUTES *****************/
 
@@ -187,6 +231,14 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 
 	public boolean getStatusIsDefault() {
 		return true;
+	}
+	
+	public boolean getDurationIsDefault() {
+		return getRelatedTasks().size() == 0 || getCalculatedDuration() == null;
+	}
+	
+	public boolean getEffortIsDefault() {
+		return getRelatedTasks().size() == 0 || getCalculatedEffort() == null;
 	}
 
 	/**************** RELATIONAL METHODS *****************/
@@ -243,18 +295,6 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	@Override
 	public Collection<Task> getTasks() {
 		return getRelatedNodes(Relations.PROJECT_HAS_TASK, PersistedTask.class, Task.class);
-	}
-
-	@Override
-	public Integer getEffort() {
-
-		Integer effort = getIntegerProperty(NodePropertyName.EFFORT);
-		return effort == null ? getDefaultEffort() : effort;
-		
-	}
-
-	private void setEffort(int effort) {
-		setProperty(NodePropertyName.EFFORT, effort);
 	}
 
 	/**************** UPDATE METHODS *****************/
@@ -399,8 +439,6 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public User getOwner() {
 		return getRelatedNode(Relations.IS_PROJECT_OWNER, PersistedUser.class, Direction.INCOMING);
 	}
-
-	
 
 }
 

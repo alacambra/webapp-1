@@ -166,4 +166,15 @@ public class ProjectMixin implements Project{
 		return null;
 	}
 
+	@Override
+	public Integer getDuration() {
+		return null;
+	}
+
+	@Override
+	@JsonView(JsonViews.BasicProject.class)
+	@JsonProperty(value="duration")
+	public void setDefaultDuration(Integer progress) {
+	}
+
 }

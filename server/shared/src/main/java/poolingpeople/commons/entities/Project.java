@@ -62,6 +62,13 @@ public interface Project{
 	Integer getEffort();
 	
 	/**
+	 * 
+	 * @return
+	 */
+	Integer getDuration();
+	void setDefaultDuration(Integer duration);
+	
+	/**
 	 * indicates the project that must update its effort
 	 */
 	void updateEffort();
