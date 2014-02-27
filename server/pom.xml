@@ -82,17 +82,16 @@
 				<version>1.0.1.Final</version>
 				<executions>
 					<execution>
-<!-- 						<phase>deploy</phase> -->
 						<goals>
 							<goal>deploy</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
+					<jbossHome>/home/alacambra/wildfly-8.0.0.Final</jbossHome>
 					<force>true</force>
 					<username>alacambra</username>
 					<password>lacambra1982.</password>
-					<port>9992</port>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -111,4 +110,31 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>aws</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.wildfly.plugins</groupId>
+						<artifactId>wildfly-maven-plugin</artifactId>
+						<version>1.0.1.Final</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<force>true</force>
+							<username>alacambra</username>
+							<password>lacambra1982.</password>
+							<port>9992</port>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
