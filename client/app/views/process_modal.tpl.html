@@ -95,11 +95,11 @@
 						   id="startDateInput"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
-						   max="'2100-01-01'"
+						   max="modal.model.endDate"
 						   disabled="disabled"
-						   is-open="form.startDatePickerOpened">
+						   is-open="modal.datepicker.startDate">
 					<span class="input-group-btn">
-						<button class="btn btn-default" ng-click="openDatePicker($event, 'startDatePickerOpened')">
+						<button class="btn btn-default" ng-click="openDatePicker($event, 'startDate')">
 							<i class="glyphicon glyphicon-calendar"></i>
 						</button>
 					</span>
@@ -109,7 +109,6 @@
 			<!-- End -->
 			<div class="form-group">
 				<label for="endDateInput" class="col-sm-3 control-label">End Date</label>
-
 				<div class="col-sm-5 input-group">
 					<input name="endDate"
 						   ng-model="modal.model.endDate"
@@ -117,12 +116,12 @@
 						   class="form-control"
 						   id="endDateInput"
 						   datepicker-popup="dd.MM.yyyy"
-						   min="'1900-01-01'"
+						   min="modal.model.startDate"
 						   max="'2100-01-01'"
 						   disabled="disabled"
-						   is-open="form.endDatePickerOpened">
+						   is-open="modal.datepicker.endDate">
 					<span class="input-group-btn">
-						<button class="btn btn-default" ng-click="openDatePicker($event, 'endDatePickerOpened')">
+						<button class="btn btn-default" ng-click="openDatePicker($event, 'endDate')">
 							<i class="glyphicon glyphicon-calendar"></i>
 						</button>
 					</span>

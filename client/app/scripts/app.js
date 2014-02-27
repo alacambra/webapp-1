@@ -82,7 +82,7 @@
 						name: 'User2 Last2'
 					}
 				});
-				project.setId('project-0000' + i);
+				project.id = 'project-0000' + i;
 				projects.push(project);
 			}
 
@@ -102,7 +102,7 @@
 					birthday: moment('1991-01-0' + (i + 1)).valueOf(),
 					email: 'user' + i + '@mail.de'
 				});
-				user.setId('user-0000' + i);
+				user.id = 'user-0000' + i;
 				users.push(user);
 			}
 

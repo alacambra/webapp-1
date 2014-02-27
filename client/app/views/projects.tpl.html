@@ -106,16 +106,16 @@
 
 			<!-- Start Date -->
 			<td>
-				<nobr ng-hide="editable.datepicker.startDate">
-					<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
+				<nobr ng-hide="list.datepicker[project.id + 'startDate']">
+					<span ng-click="openDatePicker($event, project.id + 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
-				<div ng-if="editable.datepicker.startDate">
+				<div ng-if="list.datepicker[project.id + 'startDate']">
 					<input ng-model="project.startDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
-						   max="'2100-01-01'"
-						   is-open="editable.datepicker.startDate"
+						   max="project.endDate"
+						   is-open="list.datepicker[project.id + 'startDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
 				</div>
@@ -123,16 +123,16 @@
 
 			<!-- End Date -->
 			<td>
-				<nobr ng-hide="editable.datepicker.endDate">
-					<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
+				<nobr ng-hide="list.datepicker[project.id + 'endDate']">
+					<span ng-click="openDatePicker($event, project.id + 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 				</nobr>
-				<div ng-if="editable.datepicker.endDate">
+				<div ng-if="list.datepicker[project.id + 'endDate']">
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
 						   datepicker-popup="dd.MM.yyyy"
-						   min="'1900-01-01'"
+						   min="project.startDate"
 						   max="'2100-01-01'"
-						   is-open="editable.datepicker.endDate"
+						   is-open="list.datepicker[project.id + 'endDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
 				</div>

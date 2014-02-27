@@ -16,9 +16,11 @@
 
 					showProjectTasks: function (projectId) {
 						$scope.list.projects.forEach(function (project) {
-							project.$ui.showTasks = project.getId() === projectId;
+							project.$ui.showTasks = project.id === projectId;
 						});
-					}
+					},
+
+					datepicker: {}
 				};
 
 				// Load all projects
@@ -27,7 +29,7 @@
 						var projects = [];
 						data.forEach(function (project) {
 							var project = factory.project(project);
-							project.setId(project.id);
+							project.id = project.id;
 							project.$ui = {};
 							projects.push(project);
 						});
@@ -136,7 +138,7 @@
 							template: '<div class="loader"></div><p class="text-center">deleting project "' + $scope.list.selectedProject.title + '" ...</p>'
 						});
 
-						DataProvider.deleteProject($scope.list.selectedProject.getId()).then(function (response) {
+						DataProvider.deleteProject($scope.list.selectedProject.id).then(function (response) {
 							var index = $scope.list.projects.indexOf($scope.list.selectedProject);
 							$scope.list.projects.splice(index, 1);
 							$scope.list.selectedProject = null;
@@ -153,7 +155,15 @@
 				};
 
 				$scope.assignProjectToUser = function (project) {
-					DataProvider.assignProjectToUser(project.getId(), project.owner.id);
+					DataProvider.assignProjectToUser(project.id, project.owner.id);
+				};
+
+				$scope.openDatePicker = function ($event, key) {
+					$event.preventDefault();
+					$event.stopPropagation();
+
+					$scope.list.datepicker = {};
+					$scope.list.datepicker[key] = true;
 				};
 
 			}])
@@ -170,27 +180,20 @@
 						return;
 					}
 
-					$scope.list.showProjectTasks($scope.project.getId());
+					$scope.list.showProjectTasks($scope.project.id);
 
-					DataProvider.getProjectTasks(project.getId()).then(function (tasks) {
+					DataProvider.getProjectTasks(project.id).then(function (tasks) {
 						project.setTasks(tasks);
 					});
 				};
 
 				$scope.updateProject = function () {
-					DataProvider.updateProject($scope.project.getId(), $scope.project.getRequestObj()).then(function (response) {
+					DataProvider.updateProject($scope.project.id, $scope.project.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.project);
 					}, function (response) {
 						$log.error(response);
 						$scope.project = angular.copy(origin);
 					});
-				};
-
-				$scope.openDatePicker = function ($event, date) {
-					$event.preventDefault();
-					$event.stopPropagation();
-					$scope.editable.datepicker = {};
-					$scope.editable.datepicker[date] = true;
 				};
 			}]);
 }());

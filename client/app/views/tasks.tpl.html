@@ -6,7 +6,9 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
 			<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
 		</a></th>
-		<th></th>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
+			<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
+		</a></th>
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
 			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
 		</a></th>
@@ -35,14 +37,14 @@
 	</thead>
 	<tbody>
 	<tr>
-		<td colspan="11">
+		<td colspan="10">
 			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
 		</td>
 	</tr>
 	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
 		<!-- Action -->
 		<td class="text-center">
-			<input type="checkbox" ng-click="selectTask(task)" ng-checked="list.selectedTask === task"/>
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="listselectedTask === task"/>
 		</td>
 
 		<!-- Title -->
@@ -68,19 +70,17 @@
 
 		<!-- Description -->
 		<td>
-			<nobr>
-				<button type="button" class="btn btn-xs btn-default" ng-click="list.selectedTask = task; editSelected()">Bearbeiten</button>
-			</nobr>
+			<nobr>{{ task.description | limitTo:20 }}</nobr>
 		</td>
 
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ (task.assignee) ? task.assignee.firstName + ' ' + task.assignee.lastName : 'no assignee'}}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name || 'no assignee' }}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
-						ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
+						ng-options="user as user.name for user in assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
 						ng-change="editable.assignee = false; assignUserToTask(task)">
@@ -105,16 +105,16 @@
 
 		<!-- Start Date -->
 		<td>
-			<nobr ng-hide="editable.datepicker.startDate">
-				<span ng-click="openDatePicker($event, 'startDate')" class="editable">{{ (task.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
+			<nobr ng-hide="list.datepicker[task.id + 'startDate']">
+				<span ng-click="openDatePicker($event, task.id + 'startDate')" class="editable">{{ (task.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
-			<div ng-if="editable.datepicker.startDate">
+			<div ng-if="list.datepicker[task.id + 'startDate']">
 				<input ng-model="task.startDate"
 					   pp-convert-date="dd.MM.yyyy"
 					   datepicker-popup="dd.MM.yyyy"
 					   min="'1900-01-01'"
-					   max="'2100-01-01'"
-					   is-open="editable.datepicker.startDate"
+					   max="task.endDate"
+					   is-open="list.datepicker[task.id + 'startDate']"
 					   disabled="disabled"
 					   ng-change="updateTask()">
 			</div>
@@ -122,16 +122,16 @@
 
 		<!-- End Date -->
 		<td>
-			<nobr ng-hide="editable.datepicker.endDate">
-				<span ng-click="openDatePicker($event, 'endDate')" class="editable">{{ (task.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
+			<nobr ng-hide="list.datepicker[task.id + 'endDate']">
+				<span ng-click="openDatePicker($event, task.id + 'endDate')" class="editable">{{ (task.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
-			<div ng-if="editable.datepicker.endDate">
+			<div ng-if="list.datepicker[task.id + 'endDate']">{{list.datepicker[task.id]}}
 				<input ng-model="task.endDate"
 					   pp-convert-date="dd.MM.yyyy"
 					   datepicker-popup="dd.MM.yyyy"
-					   min="'1900-01-01'"
+					   min="task.startDate"
 					   max="'2100-01-01'"
-					   is-open="editable.datepicker.endDate"
+					   is-open="list.datepicker[task.id + 'endDate']"
 					   disabled="disabled"
 					   ng-change="updateTask()">
 			</div>

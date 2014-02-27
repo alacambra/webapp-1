@@ -21,30 +21,11 @@
 
 	var cidCounter = 0;
 
-	var idMod = stampit().enclose(function () {
-		var cid = cidCounter++,
-			id = null;
-
-		this.getClientId = function () {
-			return cid;
-		};
-
-		this.getId = function () {
-			return id;
-		};
-
-		this.setId = function (_id) {
-			if (!_.isNull(id)) {
-				throw new Error('Id already exist.');
-			}
-
-			if (_id && _.isNull(id)) {
-				id = _id;
-			}
-		};
-
-		this.isNew = function () {
-			return _.isNull(id);
+	var idMod = stampit().state({
+		id: null
+	}).methods({
+		isNew: function () {
+			return _.isNull(this.id);
 		}
 	});
 
@@ -115,7 +96,7 @@
 
 		getEffort: function (effortId) {
 			for (var i = 0; i < this.getEfforts().length; i++) {
-				if (this.getEfforts()[i].getId() === effortId) {
+				if (this.getEfforts()[i].id === effortId) {
 					return this.getEfforts()[i];
 				}
 			}
@@ -198,7 +179,7 @@
 
 		setProject: function (project) {
 			this.project = {
-				id: project.getId(),
+				id: project.id,
 				name: project.title
 			};
 		}
@@ -246,14 +227,7 @@
 		}
 
 	}).methods({
-		isProject: true,
-
-		getUrl: function () {
-			if (this.isNew()) {
-				return '/projects';
-			}
-			return '/projects/' + this.getId();
-		}
+		isProject: true
 	});
 
 	factory.project = function (data, options) {
