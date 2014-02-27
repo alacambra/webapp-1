@@ -36,8 +36,7 @@ public abstract class AbstractPersistedModel<T>{
 
 	private final PoolingpeopleObjectType NODE_TYPE;
 
-
-	public AbstractPersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
+	protected AbstractPersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
 			throws NotUniqueException, NodeNotFoundException {
 
 		this(objectType);
@@ -46,7 +45,7 @@ public abstract class AbstractPersistedModel<T>{
 
 	}
 
-	public AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
+	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
 		this(objectType);
 
 		isCreated = false;
@@ -56,7 +55,7 @@ public abstract class AbstractPersistedModel<T>{
 		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
 				.randomUUID().toString()), NODE_TYPE);
 
-		fromDTOtoPersitedBean(dtoModel);
+		synchronizeWith(dtoModel);
 		initializeVariables();
 
 		isCreated = true;
@@ -71,7 +70,7 @@ public abstract class AbstractPersistedModel<T>{
 		this.manager = manager;
 	}
 
-	public AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
+	protected AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
 
 		this(objectType);
 
@@ -112,38 +111,6 @@ public abstract class AbstractPersistedModel<T>{
 
 	public void runDeletePreconditions(){
 
-	}
-
-	private void fromDTOtoPersitedBean(Object dto) {
-
-		Method[] methods = dto.getClass().getMethods();
-
-		for(int i = 0; i < methods.length; i++) {
-			Method dtoMethod = methods[i];
-			if(dtoMethod.isAnnotationPresent(IgnoreAttribute.class)) {
-				continue;
-			}
-
-			Method beanMethod = getSetterMethod(dtoMethod.getName(), dtoMethod.getReturnType(), this);
-
-			if(beanMethod == null){
-				continue;
-			}
-
-			try {
-
-				if ( dtoMethod.invoke(dto) == null )
-					continue;
-
-				beanMethod.invoke(this, dtoMethod.invoke(dto));
-
-			} catch (Exception e) {
-				throw new RootApplicationException(
-						"error for method " + dto.getClass().getCanonicalName() + "." + dtoMethod.getName() + "|" 
-						+ this.getClass().getCanonicalName() + "." + beanMethod.getName() + ":" + e.getMessage(), e);
-			}
-
-		}
 	}
 
 	private Method getSetterMethod(String getterName, Class<?> param, Object target) {
@@ -227,11 +194,6 @@ public abstract class AbstractPersistedModel<T>{
 	}
 
 	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
-		//		return (List<IN>) manager.getPersistedObjects(
-		//				manager.getRelatedNodes(underlyingNode, relation), 
-		//				new ArrayList<IN>(), 
-		//				implementationClass, 
-		//				interfaceClass);
 		return getRelatedNodes(relation, implementationClass, interfaceClass, null);
 	}
 
@@ -343,6 +305,37 @@ public abstract class AbstractPersistedModel<T>{
 	
 	protected void removeRelationsTo(Relations relation) {
 		manager.removeRelationsTo(underlyingNode, relation);
+	}
+	
+	public void synchronizeWith(T tplObject) {
+		
+		Method[] methods = tplObject.getClass().getMethods();
+
+		for(int i = 0; i < methods.length; i++) {
+			Method dtoMethod = methods[i];
+			if(dtoMethod.isAnnotationPresent(IgnoreAttribute.class)) {
+				continue;
+			}
+
+			Method beanMethod = getSetterMethod(dtoMethod.getName(), dtoMethod.getReturnType(), this);
+
+			if(beanMethod == null){
+				continue;
+			}
+
+			try {
+
+				if ( dtoMethod.invoke(tplObject) == null )
+					continue;
+
+				beanMethod.invoke(this, dtoMethod.invoke(tplObject));
+
+			} catch (Exception e) {
+				throw new RootApplicationException(
+						"error for method " + tplObject.getClass().getCanonicalName() + "." + dtoMethod.getName() + "|" 
+						+ this.getClass().getCanonicalName() + "." + beanMethod.getName() + ":" + e.getMessage(), e);
+			}
+		}
 	}
 }
 
