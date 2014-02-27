@@ -62,6 +62,7 @@
 									$scope.list.tasks.push(options.task);
 								} else {
 									$scope.list.selectedProject.addTask(options.task);
+									$scope.list.selectedProject.taskCount++;
 								}
 								$modalInstance.close();
 
