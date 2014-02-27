@@ -122,7 +122,9 @@
 				$scope.openDatePicker = function ($event, opened) {
 					$event.preventDefault();
 					$event.stopPropagation();
-					$scope.form[opened] = true;
+
+					$scope.modal.datepicker = {};
+					$scope.modal.datepicker[opened] = true;
 				};
 
 			}]);

@@ -114,9 +114,9 @@
 						   min="'1900-01-01'"
 						   max="modal.task.endDate"
 						   disabled="disabled"
-						   is-open="form.startDatePickerOpened">
+						   is-open="modal.datepicker.startDate">
 					<span class="input-group-btn">
-						<button class="btn btn-default" ng-click="openDatePicker($event, 'startDatePickerOpened')">
+						<button class="btn btn-default" ng-click="openDatePicker($event, 'startDate')">
 							<i class="glyphicon glyphicon-calendar"></i>
 						</button>
 					</span>
@@ -137,9 +137,9 @@
 						   min="modal.task.startDate"
 						   max="'2100-01-01'"
 						   disabled="disabled"
-						   is-open="form.endDatePickerOpened">
+						   is-open="modal.datepicker.endDate">
 					<span class="input-group-btn">
-						<button class="btn btn-default" ng-click="openDatePicker($event, 'endDatePickerOpened')">
+						<button class="btn btn-default" ng-click="openDatePicker($event, 'endDate')">
 							<i class="glyphicon glyphicon-calendar"></i>
 						</button>
 					</span>
