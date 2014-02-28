@@ -99,7 +99,6 @@
 				};
 
 				$scope.updateEffort = function () {
-					console.log("TEST");
 					DataProvider.updateEffort($scope.editableEffort.taskId, $scope.editableEffort.id, $scope.editableEffort.getRequestObj()).then(function (response) {
 						$scope.effort = angular.copy($scope.editableEffort);
 					}, function (response) {

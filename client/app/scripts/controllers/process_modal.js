@@ -40,7 +40,6 @@
 				var loadUsers = function () {
 					$scope.modal.loader.users = true;
 					DataProvider.getUsers().then(function (users) {
-						console.log(users);
 						users.forEach(function (user) {
 							$scope.modal.assignableUsers.push(user);
 						});
