@@ -8,8 +8,8 @@
 				<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
 			</a></th>
 			<th></th>
-			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
-				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'owner.firstName') ? '-owner.firstName' : 'owner.firstName'">
+				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'owner.firstName', 'glyphicon-arrow-up': sorting === '-owner.firstName' }"></span></nobr>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
 				<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
@@ -40,8 +40,7 @@
 		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
-				<img ng-show="item.loader.edit" src="images/load_indicator.gif" height="18px" width="18px" />
-				<input ng-hide="item.loader.edit" type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project"/>
+				<input type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project"/>
 			</td>
 
 			<!-- Title -->
@@ -55,7 +54,6 @@
 					   ng-click="showTasks(project)"
 					   ng-if="project.taskCount > 0">
 					</a>
-					<img src="images/load_indicator.gif" height="12px" width="12px" ng-show="item.loader.tasks.load" />
 				</nobr>
 				<div ng-if="editable.title">
 					<input type="text"
