@@ -11,9 +11,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.neo4j.graphdb.Transaction;
 
+import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.TaskStatus;
+import poolingpeople.exporter.models.neo4j.R2NPersistedEffort;
 import poolingpeople.exporter.models.neo4j.R2NPersistedProject;
 import poolingpeople.exporter.models.neo4j.R2NPersistedTask;
 import poolingpeople.exporter.models.neo4j.R2NPersistedUser;
@@ -81,10 +83,7 @@ public class Ingestor {
 
 			for( Entry<Integer, Users> u : users.entrySet() ){
 
-				PersistedUser pu = new PersistedUser(manager, getEmail(u.getValue()), "a", new FakedUser());
-				pu.setFirstName(u.getValue().getFirstname());
-				persistedUsers.put(pu.getId(), pu);
-				userIds.put(u.getKey(), pu.getId());
+				duplicateUser(u.getValue());
 
 			}
 
@@ -92,13 +91,7 @@ public class Ingestor {
 			int i = 0;
 			for( Entry<Integer, Projects> p : projects.entrySet() ){
 
-				PersistedProject pp = new PersistedProject(manager, new FakedProject());
-				pp.setDefaultStartDate(p.getValue().getCreatedOn().getTime());
-				pp.setDescription(p.getValue().getDescription());
-				pp.setStatus(getProjectStatus(p.getValue().getStatus()));
-				pp.setTitle(p.getValue().getName());
-				persistedProjects.put(pp.getId(), pp);
-				projectsIds.put(p.getKey(), pp.getId());
+				duplicateProject(p.getValue());
 
 			}
 
@@ -106,13 +99,7 @@ public class Ingestor {
 			i = 0;
 			for( Entry<Integer, Issues> t : issues.entrySet() ){
 
-				PersistedTask pt = new PersistedTask(manager, new FakedTask());
-				pt.setDefaultStartDate(t.getValue().getCreatedOn().getTime());
-				pt.setDescription(t.getValue().getDescription());
-				pt.setStatus(getTaskStatus(t.getValue().getStatusId()));
-				pt.setTitle(t.getValue().getSubject());
-				persistedTasks.put(pt.getId(), pt);
-				tasksIds.put(t.getKey(), pt.getId());
+				duplicateTask(t.getValue());
 				if ( i%100==0 ){
 					System.out.println(issues.size() + " : adding task: " + i);
 				}
@@ -189,16 +176,18 @@ public class Ingestor {
 		}
 	}
 	
-	private void duplicateUser(Users user){
+	private R2NPersistedUser duplicateUser(Users user){
 		R2NPersistedUser pu = new R2NPersistedUser(manager, getEmail(user), "a", new FakedUser());
 		pu.setFirstName(user.getFirstname());
 		pu.setRedmineId(user.getId());
 		persistedUsers.put(pu.getId(), pu);
 		
-//		userIds.put(user.getId(), pu.getId());
+		userIds.put(user.getId(), pu.getId());
+		
+		return pu;
 	}
 	
-	private void duplicateTask(Issues issue){
+	private R2NPersistedTask duplicateTask(Issues issue){
 		R2NPersistedTask pt = new R2NPersistedTask(manager, new FakedTask());
 		pt.setDefaultStartDate(issue.getCreatedOn().getTime());
 		pt.setDescription(issue.getDescription());
@@ -206,14 +195,34 @@ public class Ingestor {
 		pt.setTitle(issue.getSubject());
 		persistedTasks.put(pt.getId(), pt);
 		tasksIds.put(issue.getId(), pt.getId());
-	}
-	
-	private void duplicateProject(Projects project){
-		R2NPersistedProject persistedProject = new R2NPersistedProject(manager, new FakedProject());
-	}
-	
-	private void duplicateEffort(PersistedEffort effort, TimeEntries timeEntrie){
 		
+		return pt;
+	}
+	
+	private R2NPersistedProject duplicateProject(Projects project){
+		R2NPersistedProject pp = new R2NPersistedProject(manager, new FakedProject());
+		pp.setDefaultStartDate(project.getCreatedOn().getTime());
+		pp.setDescription(project.getDescription());
+		pp.setStatus(getProjectStatus(project.getStatus()));
+		pp.setTitle(project.getName());
+		pp.setRedmineId(project.getId());
+		persistedProjects.put(pp.getId(), pp);
+		projectsIds.put(project.getId(), pp.getId());
+		
+		return pp;
+	}
+	
+	private Effort duplicateEffort(TimeEntries timeEntry){
+		
+		R2NPersistedEffort effort = new R2NPersistedEffort(manager, new FakedEffort());
+		effort.setComment(timeEntry.getComments());
+		effort.setDate(timeEntry.getCreatedOn().getTime());
+		effort.setTime(Math.round(timeEntry.getHours()));
+		effort.setRedmineId(timeEntry.getId());
+		persistedEfforts.put(effort.getId(), effort);
+		effortsIds.put(timeEntry.getId(), effort.getId());
+		
+		return effort;
 	}
 	
 	private String getUUIDForId(Integer rmId, Map<Integer, String> container){

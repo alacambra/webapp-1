@@ -74,6 +74,10 @@ public class PersistedEffort extends AbstractPersistedModel<Effort> implements E
 		if ( task == null ) {
 			throw new ConsistenceException("Effort " + getId() + " has no task");
 		}
+
+		/*
+		 * @todo that requires some kind o update manager 
+		 */
 		
 		task.updateEfforts();
 
