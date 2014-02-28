@@ -11,9 +11,13 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.neo4j.graphdb.Transaction;
 
+import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.TaskStatus;
-import poolingpeople.exporter.redmine.*;
+import poolingpeople.exporter.models.neo4j.R2NPersistedProject;
+import poolingpeople.exporter.models.neo4j.R2NPersistedTask;
+import poolingpeople.exporter.models.neo4j.R2NPersistedUser;
+import poolingpeople.exporter.models.redmine.*;
 import poolingpeople.persistence.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
@@ -185,11 +189,31 @@ public class Ingestor {
 		}
 	}
 	
-	private void duplicateUser(PersistedUser persistedUser, Users user){
-		PersistedUser pu = new PersistedUser(manager, getEmail(user), "a", new FakedUser());
+	private void duplicateUser(Users user){
+		R2NPersistedUser pu = new R2NPersistedUser(manager, getEmail(user), "a", new FakedUser());
 		pu.setFirstName(user.getFirstname());
+		pu.setRedmineId(user.getId());
 		persistedUsers.put(pu.getId(), pu);
+		
 //		userIds.put(user.getId(), pu.getId());
+	}
+	
+	private void duplicateTask(Issues issue){
+		R2NPersistedTask pt = new R2NPersistedTask(manager, new FakedTask());
+		pt.setDefaultStartDate(issue.getCreatedOn().getTime());
+		pt.setDescription(issue.getDescription());
+		pt.setStatus(getTaskStatus(issue.getStatusId()));
+		pt.setTitle(issue.getSubject());
+		persistedTasks.put(pt.getId(), pt);
+		tasksIds.put(issue.getId(), pt.getId());
+	}
+	
+	private void duplicateProject(Projects project){
+		R2NPersistedProject persistedProject = new R2NPersistedProject(manager, new FakedProject());
+	}
+	
+	private void duplicateEffort(PersistedEffort effort, TimeEntries timeEntrie){
+		
 	}
 	
 	private String getUUIDForId(Integer rmId, Map<Integer, String> container){
