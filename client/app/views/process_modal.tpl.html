@@ -97,6 +97,7 @@
 						   min="'1900-01-01'"
 						   max="modal.model.endDate"
 						   disabled="disabled"
+						   ng-blur="form.datePickerOpened = false"
 						   is-open="modal.datepicker.startDate">
 					<span class="input-group-btn">
 						<button class="btn btn-default" ng-click="openDatePicker($event, 'startDate')">

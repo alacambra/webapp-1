@@ -20,6 +20,8 @@
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="'2100-01-01'"
+						   ng-blur="form.datePickerOpened = false"
+						   disabled="disabled"
 						   is-open="form.datePickerOpened">
 					<span class="input-group-btn">
 						<button class="btn btn-default" ng-click="openDatePicker($event, 'datePickerOpened')">
@@ -38,14 +40,16 @@
 						   ng-model="modal.newEffort.time"
 						   pp-model=""
 						   pp-convert-time=""
-						   type="text"
+						   type="number"
 						   class="form-control text-right"
 						   id="timeInput"
 						   placeholder="Zeit"
-						   required="">
+						   required=""
+						   ng-enter=""
+						   min="1">
 					<span class="input-group-addon">Stunden</span>
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.time.$dirty && form.model.time.$invalid">
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.time.$invalid">
 					<small class="error" ng-show="form.model.time.$error.required">Eine Zeit Angabe ist erforderlich.</small>
 				</div>
 			</div>
@@ -62,9 +66,9 @@
 						   class="form-control"
 						   id="commentInput"
 						   placeholder="Kommentar"
-						   required="">
+						   ng-enter="editable.comment = false; save()">
 				</div>
-				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.title.$dirty && form.model.title.$invalid">
+				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.model.title.$invalid">
 					<small class="error" ng-show="form.model.title.$error.required">Ein Kommentar ist erforderlich.</small>
 				</div>
 			</div>
@@ -91,7 +95,8 @@
 							   pp-convert-time=""
 							   type="text"
 							   set-focus=""
-							   ng-blur="editable.time = false; updateEffort()">
+							   ng-blur="editable.time = false; updateEffort()"
+						   	   ng-enter="editable.comment = false; save()">
 					</div>
 				</td>
 				<td>
@@ -101,7 +106,8 @@
 							   pp-model=""
 							   type="text"
 							   set-focus=""
-							   ng-blur="editable.comment = false; updateEffort()">
+							   ng-blur="editable.comment = false; updateEffort()"
+						   	   ng-enter="editable.comment = false; save()">
 					</div>
 				</td>
 				<td>
@@ -114,7 +120,8 @@
 							   max="'2100-01-01'"
 							   is-open="editable.datepicker.date"
 							   disabled="disabled"
-							   ng-change="updateEffort()">
+							   ng-change="updateEffort()"
+						   	   ng-enter="editable.comment = false; save()">
 					</div>
 				</td>
 				<td>

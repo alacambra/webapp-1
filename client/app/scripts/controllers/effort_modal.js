@@ -38,18 +38,22 @@
 				};
 
 				$scope.clearFields = function() {
-					$scope.modal.newEffort.time = $scope.modal.newEffort.comment = ""
-					$scope.modal.newEffort.date = moment().valueOf();
+					$scope.form.model.$setPristine();
+					$scope.modal.newEffort = factory.effort({
+						date: moment().valueOf()
+					})
 				}
 
 				$scope.save = function () {
-					DataProvider.createEffort($scope.modal.task.id, $scope.modal.newEffort.getRequestObj()).then(function (response) {
-						response.taskId = $scope.modal.task.id;
-						$scope.modal.task.addEffort(factory.effort(response));
-						$scope.clearFields();
-					}, function (response) {
-						$log.error(response);
-					});
+					if (!$scope.form.model.$invalid) {
+						DataProvider.createEffort($scope.modal.task.id, $scope.modal.newEffort.getRequestObj()).then(function (response) {
+							response.taskId = $scope.modal.task.id;
+							$scope.modal.task.addEffort(factory.effort(response));
+							$scope.clearFields();
+						}, function (response) {
+							$log.error(response);
+						});
+					}
 				};
 
 				$scope.remove = function (effort) {
@@ -58,7 +62,7 @@
 						controller: 'ConfirmModalCtrl',
 						resolve: {
 							message: function() {
-								return "Soll die  effort wirklich gelöscht werden?";
+								return "Soll die effort wirklich gelöscht werden?";
 							}
 						}
 					});

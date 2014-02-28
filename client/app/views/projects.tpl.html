@@ -115,6 +115,7 @@
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="project.endDate"
+						   ng-blur="form.datePickerOpened = false"
 						   is-open="list.datepicker[project.id + 'startDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
@@ -132,6 +133,7 @@
 						   datepicker-popup="dd.MM.yyyy"
 						   min="project.startDate"
 						   max="'2100-01-01'"
+						   ng-blur="form.datePickerOpened = false"
 						   is-open="list.datepicker[project.id + 'endDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">

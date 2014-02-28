@@ -12,7 +12,17 @@
             };
 
             return {
+
+                /* SESSION */
+
+                getAuthStatus: function() {
+                    return DataSources[getDataSource()].getAuthStatus();
+                },
+
+                /* User */
                 
+                /* CRUD */
+
                 getUser: function(id) {
                     return DataSources[getDataSource()].getUser(id);
                 },

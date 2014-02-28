@@ -3,7 +3,7 @@
 
     angular.module('poolingpeopleApp')
 
-        .service('SessionService', function (Base64, $cookieStore, $http) {
+        .service('SessionService', function (Base64, $cookieStore, $http, $q, DataProvider) {
 			if ($cookieStore.get('authdata')) {
 				$http.defaults.headers.common.Authorization = 'Basic ' + $cookieStore.get('authdata');
 			}
@@ -37,7 +37,23 @@
 		        },
 
 		        logIn: function (username, password) {
+
+                    var q = $q.defer(),
+                    	username = username, 
+                    	password = password;
+
 		        	setCredentials(username, password);
+
+		        	var authRequest = DataProvider.getAuthStatus().then(function (response) {
+		        		setCredentials(username, password);
+		        		q.resolve(response);
+		        	}, function (response) {
+		        		q.reject(response);
+		        	});
+
+		        	clearCredentials();
+
+                    return q.promise;
 		        },
 
 		        logOut: function () {
