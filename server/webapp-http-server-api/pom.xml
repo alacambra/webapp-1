@@ -11,32 +11,11 @@
 	<artifactId>webapp-http-server-api</artifactId>
 	<packaging>war</packaging>
 
-	<name>webapp-restapi</name>
+	<name>webapp-http-server-api</name>
 
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 	</properties>
-
-<!-- 	<repositories> -->
-<!-- 		<repository> -->
-<!-- 			<id>JBoss</id> -->
-<!-- 			<name>JBoss repository</name> -->
-<!-- 			<url>https://repository.jboss.org/nexus/content/groups/public/</url> -->
-<!-- 		</repository> -->
-<!-- 	</repositories> -->
-
-
-<!-- 	<dependencyManagement> -->
-<!-- 		<dependencies> -->
-<!-- 			<dependency> -->
-<!-- 				<groupId>org.jboss.arquillian</groupId> -->
-<!-- 				<artifactId>arquillian-bom</artifactId> -->
-<!-- 				<version>1.0.3.Final</version> -->
-<!-- 				<scope>import</scope> -->
-<!-- 				<type>pom</type> -->
-<!-- 			</dependency> -->
-<!-- 		</dependencies> -->
-<!-- 	</dependencyManagement> -->
 
 	<dependencies>
 		<dependency>
