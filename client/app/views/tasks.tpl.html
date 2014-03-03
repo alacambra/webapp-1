@@ -36,11 +36,6 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr>
-		<td colspan="10">
-			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
-		</td>
-	</tr>
 	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
 		<!-- Action -->
 		<td class="text-center">
@@ -196,16 +191,19 @@
 	</tbody>
 </table>
 <div class="dropdown">
-	<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
+	<button href="javascript:void(0);" class="dropdown-toggle btn btn-default">Aktion auswählen</button>
 	<ul class="dropdown-menu">
 		<li>
-			<a href="javascript:void(0);" ng-click="bookEffort()">Effort buchen</a>
+			<a href="javascript:void(0);" ng-click="newTask()">Neue Aufgabe</a>
 		</li>
 		<li>
-			<a href="javascript:void(0);" ng-click="editSelected()">Task bearbeiten</a>
+			<a href="javascript:void(0);" ng-click="bookEffort()" ng-if="list.selectedTask">Effort buchen</a>
 		</li>
 		<li>
-			<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
+			<a href="javascript:void(0);" ng-click="editSelected()" ng-if="list.selectedTask">Task bearbeiten</a>
+		</li>
+		<li>
+			<a href="javascript:void(0);" ng-click="deleteSelected()" ng-if="list.selectedTask">Löschen</a>
 		</li>
 	</ul>
 </div>

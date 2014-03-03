@@ -5,6 +5,7 @@
 
 		.controller('EffortModalCtrl', ['$scope', '$modalInstance', '$modal', 'options', '$log', 'DataProvider',
 			function ($scope, $modalInstance, $modal, options, $log, DataProvider) {
+				
 				$scope.modal = {
 					title: options.title,
 
@@ -91,6 +92,10 @@
 		.controller('EffortCtrl', ['$scope', '$log', 'DataProvider',
 			function($scope, $log, DataProvider) {
 				$scope.editableEffort = angular.copy($scope.effort);
+
+				$scope.loading = {
+					updatingEffort: false
+				}
 
 				$scope.editable = {
 					datepicker: {

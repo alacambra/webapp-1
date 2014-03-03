@@ -145,10 +145,6 @@
 					});
 				};
 
-				$scope.disableActions = function () {
-					return _.isNull($scope.list.selectedTask);
-				};
-
 				$scope.openDatePicker = function ($event, key) {
 					$event.preventDefault();
 					$event.stopPropagation();

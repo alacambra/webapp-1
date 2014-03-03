@@ -22,7 +22,8 @@
 						   placeholder="Username"
 						   ng-minlength="1"
 						   ng-maxlength="50"
-						   required="">
+						   required=""
+						   ng-enter="save()">
 				</div>
 				<div class="error col-sm-6 col-sm-offset-3" ng-if="form.login.username.$dirty && form.login.username.$invalid && modal.login.username != ''">
 					<small class="error" ng-show="form.login.username.$error.required">Username is required.</small>
@@ -43,7 +44,8 @@
 						   placeholder="Password"
 						   ng-minlength="1"
 						   ng-maxlength="50"
-						   required="">
+						   required=""
+						   ng-enter="save()">
 				</div>
 				<div class="error col-sm-6 col-sm-offset-3" ng-if="form.login.password.$dirty && form.login.password.$invalid">
 					<small class="error" ng-show="form.login.password.$error.required">Password is required.</small>

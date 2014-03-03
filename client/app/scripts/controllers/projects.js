@@ -7,6 +7,7 @@
 			function ($scope, $modal, $log, DataProvider, $window) {
 
 				// Properties that are defined in this scope attached to $scope.list
+
 				$scope.list = {
 					projects: [],
 
@@ -34,12 +35,9 @@
 							projects.push(project);
 						});
 						$scope.list.projects = projects;
-
 					}, function (response) {
 						$log.error(response);
 
-					}).finally(function () {
-						// ajax loader
 					});
 				};
 
@@ -54,8 +52,6 @@
 					}, function (response) {
 						$log.error(response);
 
-					}).finally(function () {
-						$scope.loader.users = false;
 					});
 				};
 
@@ -148,10 +144,6 @@
 							modalAjaxLoader.close();
 						});
 					});
-				};
-
-				$scope.disableActions = function () {
-					return _.isNull($scope.list.selectedProject);
 				};
 
 				$scope.assignProjectToUser = function (project) {
