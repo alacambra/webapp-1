@@ -27,7 +27,7 @@ import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.boundary.AbstractBoundry;
+import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
@@ -39,7 +39,7 @@ import poolingpeople.webapplication.business.task.entity.TaskDTO;
 @Neo4jTransaction
 @AuthValidator
 @CatchWebAppException
-public class TaskBoundary extends AbstractBoundry{
+public class TaskBoundary extends AbstractBoundary{
 
 	@Inject
 	private ObjectMapper mapper;

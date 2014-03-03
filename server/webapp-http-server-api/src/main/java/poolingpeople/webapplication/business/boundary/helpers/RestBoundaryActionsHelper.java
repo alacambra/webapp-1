@@ -21,7 +21,7 @@ import poolingpeople.persistence.neo4j.entities.PersistedProject;
 @Path("help")
 @Stateless
 @Neo4jTransaction
-public class RestBoundryActionsHelper {
+public class RestBoundaryActionsHelper {
 
 	Logger logger = Logger.getLogger("RestBoundryActionsHelper");
 

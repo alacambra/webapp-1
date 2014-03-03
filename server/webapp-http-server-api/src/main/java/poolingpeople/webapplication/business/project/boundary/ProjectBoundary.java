@@ -24,7 +24,7 @@ import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
-import poolingpeople.webapplication.business.boundary.AbstractBoundry;
+import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.JsonViews;
@@ -34,7 +34,7 @@ import poolingpeople.webapplication.business.boundary.JsonViews;
 @Neo4jTransaction
 @CatchWebAppException
 @AuthValidator
-public class ProjectBoundary extends AbstractBoundry{
+public class ProjectBoundary extends AbstractBoundary{
 
 	@Inject
 	ObjectMapper mapper;
