@@ -39,7 +39,7 @@
 	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
 		<!-- Action -->
 		<td class="text-center">
-			<input type="checkbox" ng-click="selectTask(task)" ng-checked="listselectedTask === task"/>
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="list.selectedTask === task"/>
 		</td>
 
 		<!-- Title -->
