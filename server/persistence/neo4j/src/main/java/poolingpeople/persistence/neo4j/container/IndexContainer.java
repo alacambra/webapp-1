@@ -1,4 +1,4 @@
-package poolingpeople.persistence.neo4j;
+package poolingpeople.persistence.neo4j.container;
 
 public class IndexContainer {
 	private String type;

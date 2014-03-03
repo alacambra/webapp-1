@@ -1,6 +1,8 @@
-package poolingpeople.persistence.neo4j;
+package poolingpeople.persistence.neo4j.container;
 
 import java.util.UUID;
+
+import poolingpeople.persistence.neo4j.NodePropertyName;
 
 public class UUIDIndexContainer extends IndexContainer{
 	public UUIDIndexContainer(String uuid) {

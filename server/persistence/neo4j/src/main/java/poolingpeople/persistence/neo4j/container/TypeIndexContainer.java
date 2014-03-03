@@ -1,6 +1,9 @@
-package poolingpeople.persistence.neo4j;
+package poolingpeople.persistence.neo4j.container;
 
 import org.neo4j.graphdb.Label;
+
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 
 /**
  * use {@link Label}s instead

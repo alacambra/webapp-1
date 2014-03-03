@@ -28,6 +28,8 @@ import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
 
 import poolingpeople.commons.exceptions.RootApplicationException;
+import poolingpeople.persistence.neo4j.container.IndexContainer;
+import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
 
 @Singleton

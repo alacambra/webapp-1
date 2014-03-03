@@ -20,6 +20,8 @@ import org.neo4j.graphdb.index.IndexHits;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
+import poolingpeople.persistence.neo4j.container.IndexContainer;
+import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
 
 public abstract class AbstractPersistedModel<T>{

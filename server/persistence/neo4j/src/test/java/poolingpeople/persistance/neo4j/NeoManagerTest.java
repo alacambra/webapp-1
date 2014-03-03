@@ -19,12 +19,12 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.test.TestGraphDatabaseFactory;
 
-import poolingpeople.persistence.neo4j.IndexContainer;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
-import poolingpeople.persistence.neo4j.TypeIndexContainer;
-import poolingpeople.persistence.neo4j.UUIDIndexContainer;
+import poolingpeople.persistence.neo4j.container.IndexContainer;
+import poolingpeople.persistence.neo4j.container.TypeIndexContainer;
+import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.NodeExistsException;
 import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;

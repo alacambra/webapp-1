@@ -7,7 +7,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 import poolingpeople.persistence.neo4j.NeoManager;
-import poolingpeople.persistence.neo4j.UUIDIndexContainer;
+import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 
 @RunWith(Neo4jRunner.class)
 public abstract class AbstractPersitanceTest {

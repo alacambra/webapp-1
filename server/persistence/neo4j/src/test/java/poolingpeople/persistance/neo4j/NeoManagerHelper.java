@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.persistence.neo4j.IndexContainer;
 import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.container.IndexContainer;
 
 public class NeoManagerHelper {
 

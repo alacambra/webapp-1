@@ -10,6 +10,7 @@ import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
+import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
 public class PersistedUser extends AbstractPersistedModel<User> implements User {
 
