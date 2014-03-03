@@ -12,7 +12,6 @@ import org.hibernate.Session;
 import org.neo4j.graphdb.Transaction;
 
 import poolingpeople.commons.entities.Effort;
-import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.exporter.models.neo4j.R2NPersistedEffort;
@@ -22,10 +21,6 @@ import poolingpeople.exporter.models.neo4j.R2NPersistedUser;
 import poolingpeople.exporter.models.redmine.*;
 import poolingpeople.persistence.neo4j.GraphDatabaseServiceProducer;
 import poolingpeople.persistence.neo4j.NeoManager;
-import poolingpeople.persistence.neo4j.entities.PersistedEffort;
-import poolingpeople.persistence.neo4j.entities.PersistedProject;
-import poolingpeople.persistence.neo4j.entities.PersistedTask;
-import poolingpeople.persistence.neo4j.entities.PersistedUser;
 
 public class Ingestor {
 	
@@ -41,10 +36,10 @@ public class Ingestor {
 	Map<Integer, String> tasksIds;
 	Map<Integer, String> effortsIds;
 	
-	Map<String, PersistedUser> persistedUsers;
-	Map<String, PersistedProject> persistedProjects;
-	Map<String, PersistedTask> persistedTasks;
-	Map<String, PersistedEffort> persistedEfforts;
+	Map<String, R2NPersistedUser> R2NPersistedUsers;
+	Map<String, R2NPersistedProject> persistedProjects;
+	Map<String, R2NPersistedTask> persistedTasks;
+	Map<String, R2NPersistedEffort> persistedEfforts;
 	
 	GraphDatabaseServiceProducer producer;
 	NeoManager manager;
@@ -62,19 +57,19 @@ public class Ingestor {
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		Map<Integer, Users> users = getItems(session, Users.class);
-		Map<Integer, Projects> projects = getItems(session, Projects.class);
-		Map<Integer, Issues> issues = getItems(session, Issues.class);
-		Map<Integer, TimeEntries> entries = getItems(session, TimeEntries.class);
+		users = getItems(session, Users.class);
+		projects = getItems(session, Projects.class);
+		issues = getItems(session, Issues.class);
+		entries = getItems(session, TimeEntries.class);
 
-		Map<String, PersistedUser> persistedUsers = new HashMap<String, PersistedUser>();
-		Map<Integer, String> userIds = new HashMap<Integer, String>();
-		Map<Integer, String> projectsIds = new HashMap<Integer, String>();
-		Map<Integer, String> tasksIds = new HashMap<Integer, String>();
-		Map<Integer, String> effortsIds = new HashMap<Integer, String>();
-		Map<String, PersistedProject> persistedProjects = new HashMap<String, PersistedProject>();
-		Map<String, PersistedTask> persistedTasks = new HashMap<String, PersistedTask>();
-		Map<String, PersistedEffort> persistedEfforts = new HashMap<String, PersistedEffort>();
+		R2NPersistedUsers = new HashMap<String, R2NPersistedUser>();
+		userIds = new HashMap<Integer, String>();
+		projectsIds = new HashMap<Integer, String>();
+		tasksIds = new HashMap<Integer, String>();
+		effortsIds = new HashMap<Integer, String>();
+		persistedProjects = new HashMap<String, R2NPersistedProject>();
+		persistedTasks = new HashMap<String, R2NPersistedTask>();
+		persistedEfforts = new HashMap<String, R2NPersistedEffort>();
 
 		try ( Transaction tx = manager.getGraphDbService().beginTx() )
 		{
@@ -100,6 +95,7 @@ public class Ingestor {
 			for( Entry<Integer, Issues> t : issues.entrySet() ){
 
 				duplicateTask(t.getValue());
+				
 				if ( i%100==0 ){
 					System.out.println(issues.size() + " : adding task: " + i);
 				}
@@ -111,7 +107,7 @@ public class Ingestor {
 			i = 0;
 			for( Entry<Integer, TimeEntries> te : entries.entrySet() ){
 
-				PersistedTask task = persistedTasks.get(getUUIDForId(te.getValue().getIssueId(), tasksIds)); 
+				R2NPersistedTask task = persistedTasks.get(getUUIDForId(te.getValue().getIssueId(), tasksIds)); 
 
 				if (task == null){
 
@@ -120,7 +116,7 @@ public class Ingestor {
 
 				}
 
-				PersistedEffort effort = new PersistedEffort(manager, new FakedEffort());
+				R2NPersistedEffort effort = new R2NPersistedEffort(manager, new FakedEffort());
 				task.addEffort(effort);
 
 				effort.setComment(te.getValue().getComments());
@@ -132,7 +128,7 @@ public class Ingestor {
 					System.out.println(entries.size() + " : adding effort: " + i);
 				}
 				i++;
-				//				PersistedUser user = persistedUsers.get(userIds.get(te.getValue().getUserId()));
+				//				R2NPersistedUser user = R2NPersistedUsers.get(userIds.get(te.getValue().getUserId()));
 
 
 			}
@@ -151,20 +147,20 @@ public class Ingestor {
 				
 				String taskUUID = tasksIds.get(t.getKey());
 				
-				PersistedProject pp = persistedProjects.get(projectsIds.get(t.getValue().getProjectId()));
+				R2NPersistedProject pp = persistedProjects.get(projectsIds.get(t.getValue().getProjectId()));
 				
-				PersistedTask task = persistedTasks.get(taskUUID);
+				R2NPersistedTask task = persistedTasks.get(taskUUID);
 				
 				if (pp != null){
 					pp.addTask(task);
 				}
 
-				PersistedTask parent = persistedTasks.get(getUUIDForId(t.getValue().getParentId(), tasksIds));
+				R2NPersistedTask parent = persistedTasks.get(getUUIDForId(t.getValue().getParentId(), tasksIds));
 				if (parent != null){
 					parent.addSubtask(task);
 				}
 				
-				PersistedUser user = persistedUsers.get(getUUIDForId(t.getValue().getAssignedToId(), userIds));
+				R2NPersistedUser user = R2NPersistedUsers.get(getUUIDForId(t.getValue().getAssignedToId(), userIds));
 				if( user != null ){
 					task.setAssignee(user);
 				}
@@ -180,7 +176,7 @@ public class Ingestor {
 		R2NPersistedUser pu = new R2NPersistedUser(manager, getEmail(user), "a", new FakedUser());
 		pu.setFirstName(user.getFirstname());
 		pu.setRedmineId(user.getId());
-		persistedUsers.put(pu.getId(), pu);
+		R2NPersistedUsers.put(pu.getId(), pu);
 		
 		userIds.put(user.getId(), pu.getId());
 		
@@ -229,8 +225,8 @@ public class Ingestor {
 		return container.get(rmId);
 	}
 
-	private PersistedUser loadDefaultUser(NeoManager manager){
-		PersistedUser pu = new PersistedUser(manager, "a@a.com", "a", new FakedUser());
+	private R2NPersistedUser loadDefaultUser(NeoManager manager){
+		R2NPersistedUser pu = new R2NPersistedUser(manager, "a@a.com", "a", new FakedUser());
 		pu.setFirstName("DefaultUser");
 		pu.setPassword("a");
 		return pu;

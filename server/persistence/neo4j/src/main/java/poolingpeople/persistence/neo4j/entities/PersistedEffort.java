@@ -6,6 +6,7 @@ import org.neo4j.graphdb.Node;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
+import poolingpeople.persistence.neo4j.inheritance.Inheritable;
 
 public class PersistedEffort extends AbstractPersistedModel<Effort> implements Effort{
 

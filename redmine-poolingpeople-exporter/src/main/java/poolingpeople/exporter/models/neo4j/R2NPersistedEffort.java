@@ -25,4 +25,6 @@ public class R2NPersistedEffort extends PersistedEffort implements IsRedmineEnti
 		return getIntegerProperty(NodePropertyName.REDMINE_ID);
 	}
 	
+	
+	
 }

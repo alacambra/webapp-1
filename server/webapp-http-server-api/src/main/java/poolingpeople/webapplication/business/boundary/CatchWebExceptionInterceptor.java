@@ -38,8 +38,12 @@ public class CatchWebExceptionInterceptor {
             
         } catch (JsonGenerationException | JsonParseException generationException) {
             
-        	throw new WebApplicationException(generationException, Response
+        	WebApplicationException e = new WebApplicationException(generationException, Response
                     .status(Status.BAD_REQUEST).entity(invalidJson).build());
+        	
+        	e.setStackTrace(generationException.getStackTrace());
+        	throw e;
+        	
         	
         } catch (JsonMappingException jsonMappingException) {
             
