@@ -3,7 +3,7 @@ package poolingpeople.commons.entities;
 import java.util.Collection;
 import java.util.List;
 
-public interface Task extends IsSynchronizable<Task>{
+public interface Task extends Synchronizable<Task>{
 	
 	/**
 	 * UUID of a node. 

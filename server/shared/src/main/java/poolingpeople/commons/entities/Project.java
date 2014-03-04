@@ -2,7 +2,7 @@ package poolingpeople.commons.entities;
 
 import java.util.Collection;
 
-public interface Project extends IsSynchronizable<Project>{
+public interface Project extends Synchronizable<Project>{
 	
 	/**
 	 * UUID of a node. 

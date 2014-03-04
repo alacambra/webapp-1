@@ -1,5 +1,5 @@
 package poolingpeople.commons.entities;
 
-public interface IsSynchronizable<T> {
+public interface Synchronizable<T> {
 	void synchronizeWith(T tplObject);
 }

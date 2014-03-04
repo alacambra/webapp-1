@@ -1,6 +1,6 @@
 package poolingpeople.commons.entities;
 
-public interface Effort extends IsSynchronizable<Effort>{
+public interface Effort extends Synchronizable<Effort>{
 	String getId();
 	Long getDate();
 	void setDate(Long date);
