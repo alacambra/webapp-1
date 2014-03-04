@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('TaskModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
-			function ($scope, $modalInstance, options, $log, DataProvider) {
+		.controller('TaskModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider', 'LoadStatusService',
+			function ($scope, $modalInstance, options, $log, DataProvider, LoadStatusService) {
 				$scope.modal = {
 					title: options.title,
 

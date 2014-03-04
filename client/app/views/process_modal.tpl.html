@@ -183,9 +183,11 @@
 		</form>
 	</div>
 	<div class="modal-footer">
+		<div ng-loading="projectModal.saveProject" class="text-center">
+				<img src="images/load_indicator.gif" alt="" style="padding:5px 0px 15px;" />
+		</div>
 		<button type="button" class="btn btn-default" ng-click="close()">Abbrechen</button>
 		<button type="button" class="btn btn-primary" ng-click="save()">Speichern und Schließen</button>
-		<div class="loader" ng-show="modal.loader.model.save"></div>
 		<p class="error text-left" ng-show="error">{{ error }}</p>
 	</div>
 </div>

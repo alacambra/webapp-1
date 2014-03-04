@@ -22,8 +22,9 @@
 				var loadTasks = function () {
 					LoadStatusService.setStatus("tasks.taskList", LoadStatusService.RESOLVING);
 					DataProvider.getTasks().then(function (tasks) {
-					LoadStatusService.setStatus("tasks.taskList", LoadStatusService.COMPLETED);
 						$scope.list.tasks = tasks;
+					}).finally(function() {
+						LoadStatusService.setStatus("tasks.taskList", LoadStatusService.COMPLETED);
 					});
 				};
 
@@ -85,7 +86,10 @@
 				};
 
 				$scope.assignUserToTask = function (task) {
-					DataProvider.assignTaskToUser(task.id, task.assignee.id);
+						LoadStatusService.setStatus("tasks.taskList.task." + task.id, LoadStatusService.RESOLVING);	
+					DataProvider.assignTaskToUser(task.id, task.assignee.id).finally(function() {
+						LoadStatusService.setStatus("tasks.taskList.task." + task.id, LoadStatusService.COMPLETED);	
+					});
 				};
 
 				$scope.newTask = function () {
@@ -114,13 +118,16 @@
 					});
 
 					modalInstance.result.then(function () {
-							DataProvider.deleteTask($scope.list.selectedTask.id).then(function (response) {
-								var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
-								$scope.list.selectedTask = null;
-								$scope.list.tasks.splice(index, 1);
-							}, function (response) {
-								$log.error(response);
-							});
+						LoadStatusService.setStatus("tasks.taskList.task." + $scope.list.selectedTask.id, LoadStatusService.RESOLVING);	
+						DataProvider.deleteTask($scope.list.selectedTask.id).then(function (response) {
+							var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
+							$scope.list.selectedTask = null;
+							$scope.list.tasks.splice(index, 1);
+						}, function (response) {
+							$log.error(response);
+						}).finally(function() {
+							LoadStatusService.setStatus("tasks.taskList.task." + $scope.list.selectedTask.id, LoadStatusService.COMPLETED);	
+						});
 					});
 
 				};
@@ -143,6 +150,10 @@
 					});
 				};
 
+				$scope.addEffort = function() {
+					console.log("effort added")
+				}
+
 				$scope.openDatePicker = function ($event, key) {
 					$event.preventDefault();
 					$event.stopPropagation();
@@ -154,28 +165,29 @@
 
 			}])
 
-		.controller('TaskCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
-			function ($scope, $log, $timeout, DataProvider) {
+		.controller('TaskCtrl', ['$scope', '$log', '$timeout', 'DataProvider', "LoadStatusService",
+			function ($scope, $log, $timeout, DataProvider, LoadStatusService) {
 				var origin = angular.copy($scope.task);
 
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
 
-					LoadStatusService['updateTask'] = true;
+					LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.RESOLVING);
 
-					DataProvider.updateTask($scope.task.id, $scope.task.getRequestObj()).then(function (response) {
+					DataProvider.updateTask($scope.task.id, $scope.task).then(function (response) {
 						origin = angular.copy($scope.task);
 					}, function (response) {
 						$log.error(response);
 						$scope.task = origin;
 					}).finally(function() {
-						LoadStatusService['updateTask'] = false;
+						LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.COMPLETED);	
 					})
 				};
 
 				$scope.updateTaskProject = function () {
-					LoadStatusService['updateTask'] = true;
+					LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.RESOLVING);	
+
 					DataProvider.moveTaskFromProjectToProject($scope.task.id, origin.project.id, $scope.task.project.id).then(function (response) {
 						origin = angular.copy($scope.task);
 
@@ -183,7 +195,7 @@
 						$log.error(response);
 						$scope.task = origin;
 					}).finally(function() {
-						LoadStatusService['updateTask'] = false;
+						LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.COMPLETED);	
 					});
 				};
 			}]);

@@ -84,8 +84,20 @@
 				<th></th>
 			</tr>
 			</thead>
-			<tbody>
-			<tr ng-repeat="effort in modal.task.getEfforts() | orderBy:'-date'" ng-controller="EffortCtrl">
+			<tbody ng-loading="effortModal.efforts.{{ modal.task.id }}" >
+				<tr>
+					<td colspan="4" class="text-center">
+						<img src="images/load_indicator.gif" alt="" style="padding:50px" />
+					</td>
+				</tr>
+			</tbody>
+			<tbody ng-loading="!effortModal.efforts.{{ modal.task.id }}" >
+			<tr ng-loading="effortModal.newEffort">
+				<td class="text-center" colspan="4">
+					<img src="images/load_indicator.gif" alt="" width="16" />
+				</td>
+			</tr>
+			<tr ng-repeat="effort in modal.task.efforts | orderBy:'-date'" ng-controller="EffortCtrl">
 				<td>
 					<nobr ng-hide="editable.time" ng-click="editable.time = true">{{ effort.time | minutesToHours | number:2 }}</nobr>
 					<div ng-if="editable.time">
@@ -124,7 +136,8 @@
 					</div>
 				</td>
 				<td>
-					<button type="button" class="close" ng-click="remove(effort)">&times;</button>
+					<button type="button" class="close" ng-click="remove(effort)" ng-loading="!effortModal.effortList.effort.{{ effort.id }}">&times;</button>
+					<img src="images/load_indicator.gif" alt="" width="16" ng-loading="effortModal.effortList.effort.{{ effort.id }}" />
 				</td>
 			</tr>
 			</tbody>
