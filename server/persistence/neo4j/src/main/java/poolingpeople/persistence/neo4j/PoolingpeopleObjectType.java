@@ -6,7 +6,11 @@ public enum PoolingpeopleObjectType {
 	USER(true), 
 	POOL(true), 
 	ROLL, 
-	SERVICE, EFFORT;
+	SERVICE,
+	EFFORT,
+	BACKLOG,
+	BACKLOG_SUBJECT,
+	BACKLOG_ACTION;
 
 	PoolingpeopleObjectType(boolean isSubject) {
 		this.isSubject = isSubject;

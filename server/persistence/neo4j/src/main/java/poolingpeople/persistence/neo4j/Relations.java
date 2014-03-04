@@ -1,7 +1,7 @@
 package poolingpeople.persistence.neo4j;
 
-import java.util.HashMap;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +110,10 @@ public enum Relations implements RelationshipType {
 			})), 
 	@Deprecated
 	IS_SUBPOOL_OF(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.POOL),
-	IS_DIVISION_OF(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.POOL);
+	IS_DIVISION_OF(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.POOL),
+	
+	HAS_SUBJECT(PoolingpeopleObjectType.BACKLOG,PoolingpeopleObjectType.BACKLOG_SUBJECT),
+	HAS_ACTION(PoolingpeopleObjectType.BACKLOG,PoolingpeopleObjectType.BACKLOG_ACTION);
 	
 	private Map<Object, Object> validPairs;
 	
