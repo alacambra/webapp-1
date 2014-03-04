@@ -3,8 +3,9 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', '$window',
-			function ($scope, $modal, $log, DataProvider, $window) {
+		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
+			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
+
 
 				$scope.list = {
 					tasks: [],
@@ -19,38 +20,35 @@
 				};
 
 				var loadTasks = function () {
+					LoadStatusService.setStatus("tasks.taskList", LoadStatusService.RESOLVING);
 					DataProvider.getTasks().then(function (tasks) {
-						$scope.list.tasks = [];
-						tasks.forEach(function (task) {
-							var _task = factory.task(task);
-							_task.id = task.id;
-							$scope.list.tasks.push(_task);
-						});
+					LoadStatusService.setStatus("tasks.taskList", LoadStatusService.COMPLETED);
+						$scope.list.tasks = tasks;
 					});
 				};
-
-				loadTasks();
 
 				var loadUsers = function () {
 					DataProvider.getUsers().then(function (users) {
-						$scope.list.assignableUsers = [];
-						users.forEach(function (user) {
-							$scope.list.assignableUsers.push(user);
-						});
+						$scope.list.assignableUsers = users;
 					});
 				};
-
-				loadUsers();
 
 				var loadProjects = function () {
 					DataProvider.getProjects().then(function (projects) {
-						projects.forEach(function (project) {
-							$scope.list.assignableProjects.push(project);
-						});
+						$scope.list.assignableProjects = projects;
 					});
 				};
 
-				loadProjects();
+				var init = (function() {
+
+					loadTasks();
+					loadUsers();
+					loadProjects();
+
+					return this; 
+
+				})();
+
 
 				var openTaskModal = function (options) {
 					return $modal.open({
@@ -163,22 +161,29 @@
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
+
+					LoadStatusService['updateTask'] = true;
+
 					DataProvider.updateTask($scope.task.id, $scope.task.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.task);
-
 					}, function (response) {
 						$log.error(response);
 						$scope.task = origin;
+					}).finally(function() {
+						LoadStatusService['updateTask'] = false;
 					})
 				};
 
 				$scope.updateTaskProject = function () {
+					LoadStatusService['updateTask'] = true;
 					DataProvider.moveTaskFromProjectToProject($scope.task.id, origin.project.id, $scope.task.project.id).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {
 						$log.error(response);
 						$scope.task = origin;
+					}).finally(function() {
+						LoadStatusService['updateTask'] = false;
 					});
 				};
 			}]);
