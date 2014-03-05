@@ -2,18 +2,18 @@ package poolingpeople.persistence.neo4j.entities;
 
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.commons.entities.BacklogAction;
-import poolingpeople.commons.entities.Backlog;
-import poolingpeople.commons.entities.BacklogSubject;
+import poolingpeople.commons.entities.ChangeLogAction;
+import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.ChangeLogSubject;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
 
-public class PersistedBacklog extends AbstractPersistedModel<Backlog> implements Backlog {
+public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implements ChangeLog {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.BACKLOG;
-	public PersistedBacklog(NeoManager manager, Node node,
+	public PersistedChangeLog(NeoManager manager, Node node,
 			PoolingpeopleObjectType objectType) {
 		super(manager, node, NODE_TYPE);
 	}
@@ -23,13 +23,13 @@ public class PersistedBacklog extends AbstractPersistedModel<Backlog> implements
 	}
 
 	@Override
-	public BacklogSubject getSubject() {
-		return getRelatedNode(Relations.HAS_SUBJECT , PersistedBacklogSubject.class);
+	public ChangeLogSubject getSubject() {
+		return getRelatedNode(Relations.HAS_SUBJECT , PersistedChangeLogSubject.class);
 	}
 
 	@Override
-	public BacklogAction getAction() {
-		return getRelatedNode(Relations.HAS_ACTION, PersistedBacklogAction.class);
+	public ChangeLogAction getAction() {
+		return getRelatedNode(Relations.HAS_ACTION, PersistedChangeLogAction.class);
 	}
 
 	@Override

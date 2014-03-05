@@ -1,6 +1,6 @@
 package poolingpeople.commons.entities;
 
-public interface BacklogAction {
+public interface ChangeLogAction {
 	String getId();
 
 	String getChangedAttribute();

@@ -1,6 +1,6 @@
 package poolingpeople.commons.entities;
 
-public interface BacklogSubject {
+public interface ChangeLogSubject {
 	String getFirstName();
 
 	String getLastName();
