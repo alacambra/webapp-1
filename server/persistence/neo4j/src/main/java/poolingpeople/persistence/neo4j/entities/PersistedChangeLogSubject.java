@@ -9,7 +9,7 @@ import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 
 public class PersistedChangeLogSubject extends AbstractPersistedModel<PersistedChangeLogSubject> implements ChangeLogSubject {
 
-	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.BACKLOG_SUBJECT;
+	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.CHANGELOG_SUBJECT;
 	public PersistedChangeLogSubject(NeoManager manager, Node node,
 			PoolingpeopleObjectType objectType) {
 		super(manager, node, NODE_TYPE);

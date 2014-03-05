@@ -12,7 +12,7 @@ import poolingpeople.persistence.neo4j.Relations;
 
 public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implements ChangeLog {
 
-	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.BACKLOG;
+	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.CHANGELOG;
 	public PersistedChangeLog(NeoManager manager, Node node,
 			PoolingpeopleObjectType objectType) {
 		super(manager, node, NODE_TYPE);
