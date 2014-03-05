@@ -460,7 +460,7 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	}
 
 	@Override
-	public List<ChangeLog> getChangeLogSet() {
+	public List<ChangeLog> getChangeLogList() {
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
 	}
 

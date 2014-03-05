@@ -187,7 +187,7 @@ public class FakedProject implements Project{
 	}
 
 	@Override
-	public List<ChangeLog> getChangeLogSet() {
+	public List<ChangeLog> getChangeLogList() {
 		// TODO Auto-generated method stub
 		return null;
 	}
