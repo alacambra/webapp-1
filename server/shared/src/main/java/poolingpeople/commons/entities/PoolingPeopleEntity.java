@@ -1,8 +1,8 @@
 package poolingpeople.commons.entities;
 
-import java.util.Set;
+import java.util.List;
 
 public interface PoolingPeopleEntity {
 	String getId();
-	Set<ChangeLog> getChangeLogSet();
+	List<ChangeLog> getChangeLogSet();
 }
