@@ -1,4 +1,3 @@
-<div>
 <table class="table">
 	<thead>
 	<tr>
@@ -6,11 +5,12 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
 			<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
 		</a></th>
+		<th></th>
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
 			<nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
 		</a></th>
-		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.name') ? '-assignee.name' : 'assignee.name'">
-			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.name', 'glyphicon-arrow-up': sorting === '-assignee.name' }"></span></nobr>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.firstName') ? '-assignee.firstName' : 'assignee.firstName'">
+			<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.firstName', 'glyphicon-arrow-up': sorting === '-assignee.firstName' }"></span></nobr>
 		</a></th>
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
 			<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
@@ -30,21 +30,43 @@
 		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
 			<nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
 		</a></th>
-		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'task.name') ? '-task.name' : 'task.name'">
-			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'task.name', 'glyphicon-arrow-up': sorting === '-task.name' }"></span></nobr>
+		<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'project.title') ? '-project.title' : 'project.title'">
+			<nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'project.title', 'glyphicon-arrow-up': sorting === '-project.title' }"></span></nobr>
 		</a></th>
 	</tr>
 	</thead>
-	<tbody>
+	<tbody ng-loading="tasks.taskList">
+		<tr>
+			<td class="text-center" colspan="12">
+				<img src="images/load_indicator.gif" alt="" style="padding:50px" />
+			</td>
+		</tr>
+	</tbody>
+	<tbody ng-loading="!tasks.taskList">
 	<tr>
-		<td colspan="10">
-			<button class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe erstellen</b></button>
+		<td colspan="12">
+			<button ng-if="!list.selectedTask" class="btn btn-default btn-block" ng-click="newTask()"><b>Neue Aufgabe</b></button>
+			<div class="dropdown" ng-if="list.selectedTask">
+				<button href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-block" ng-disabled="disableActions()"><b>Aktion auswählen</b></button>
+				<ul class="dropdown-menu btn-block">
+					<li class="text-center">
+						<a href="javascript:void(0);" ng-click="bookEffort()">Effort buchen</a>
+					</li>
+					<li class="text-center">
+						<a href="javascript:void(0);" ng-click="editSelected()">Task bearbeiten</a>
+					</li>
+					<li class="text-center">
+						<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
+					</li>
+				</ul>
+			</div>
 		</td>
 	</tr>
-	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl">
+	<tr ng-repeat="task in list.tasks | orderBy:sorting" ng-controller="TaskCtrl" ng-class="{'danger': (task.priority == 'HIGH'), 'warning': (task.priority == 'LOW')}">
 		<!-- Action -->
 		<td class="text-center">
-			<input type="checkbox" ng-click="selectTask(task)" ng-checked="listselectedTask === task"/>
+			<input type="checkbox" ng-click="selectTask(task)" ng-checked="list.selectedTask === task" ng-loading="!tasks.taskList.task.{{ task.id }}" />
+			<img src="images/load_indicator.gif" alt="" width="16" ng-loading="tasks.taskList.task.{{ task.id }}" />
 		</td>
 
 		<!-- Title -->
@@ -68,6 +90,12 @@
 			</div>
 		</td>
 
+		<td>
+			<nobr>
+				<button type="button" class="btn btn-xs btn-default" ng-click="list.selectedTask = task; editSelected()">Bearbeiten</button>
+			</nobr>
+		</td>
+
 		<!-- Description -->
 		<td>
 			<nobr>{{ task.description | limitTo:20 }}</nobr>
@@ -76,11 +104,11 @@
 		<!-- Assignee -->
 		<td>
 			<nobr ng-hide="editable.assignee">
-				<span class="editable" ng-click="editable.assignee = true">{{ task.assignee.name || 'no assignee' }}</span>
+				<span class="editable" ng-click="editable.assignee = true">{{ (task.assignee) ? task.assignee.firstName + ' ' + task.assignee.lastName : 'no assignee'}}</span>
 			</nobr>
 			<div ng-if="editable.assignee">
 				<select ng-model="task.assignee"
-						ng-options="user as user.name for user in assignableUsers track by user.id"
+						ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
 						set-focus=""
 						ng-blur="editable.assignee = false"
 						ng-change="editable.assignee = false; assignUserToTask(task)">
@@ -195,18 +223,4 @@
 	</tr>
 	</tbody>
 </table>
-<div class="dropdown">
-	<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
-	<ul class="dropdown-menu">
-		<li>
-			<a href="javascript:void(0);" ng-click="bookEffort()">Effort buchen</a>
-		</li>
-		<li>
-			<a href="javascript:void(0);" ng-click="editSelected()">Task bearbeiten</a>
-		</li>
-		<li>
-			<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
-		</li>
-	</ul>
-</div>
 </div>

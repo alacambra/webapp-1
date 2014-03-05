@@ -67,7 +67,19 @@
 			<th>lastName</th>
 		</tr>
 		</thead>
-		<tbody>
+		<tbody ng-loading="users.userList">
+			<tr>
+				<td class="text-center" colspan="10">
+					<img src="images/load_indicator.gif" alt="" style="padding:50px" />
+				</td>
+			</tr>
+		</tbody>
+		<tbody ng-loading="!users.userList">
+		<tr ng-loading="users.newUser">
+			<td class="text-center" colspan="4">
+				<img src="images/load_indicator.gif" alt="" width="16" />
+			</td>
+		</tr>
 		<tr ng-repeat="user in users">
 			<td>{{ user.email }}</td>
 			<td>{{ user.firstName }}</td>

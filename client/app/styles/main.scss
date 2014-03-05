@@ -31,19 +31,3 @@ body {
   padding-top: 70px;
   padding-bottom: 100px;
 }
-
-div.loader {
-  background-image: url('../images/load_indicator.gif');
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 32px;
-  padding: 20px 0;
-  width: 100%;
-}
-
-span.loader {
-  background-image: url('../images/load_indicator.gif');
-  background-repeat: no-repeat;
-  height: 32px;
-  width: 32px;
-}

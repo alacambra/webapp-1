@@ -71,6 +71,10 @@
 					return [200, JSON.stringify(projects), { valid: true }];
 				});
 
+				$httpBackend.whenGET(/\/user_sessions$/).respond(function (method, url, data, headers) {
+					return [200];
+				});
+
 				// URI: GET - /users
 				$httpBackend.whenGET(/\/users$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);

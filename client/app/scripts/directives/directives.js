@@ -157,5 +157,25 @@
 		            }
 		        });
 		    };
+		})
+		.directive('ngLoading', function (LoadStatusService) {
+		  return {
+		    priority: 100,
+		    restrict: 'A',
+		    link: function ($scope, $element, $attr) {
+		    	var doContrary = $attr.ngLoading.indexOf("!") === 0,
+		    		targetResource = doContrary ? $attr.ngLoading.substr(1) : $attr.ngLoading;
+
+			    	$scope.$watch(function() {
+		    		if (LoadStatusService.isLoading(targetResource)) {
+		    			if (!doContrary) $element.show();
+		    			else $element.hide();
+		    		} else {
+		    			if (doContrary) $element.show();
+		    			else $element.hide();
+		    		}
+		    	}, true);
+		    }
+		  };
 		});
 }());

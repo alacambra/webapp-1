@@ -3,8 +3,9 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', '$window',
-			function ($scope, $modal, $log, DataProvider, $window) {
+		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
+			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
+
 
 				$scope.list = {
 					tasks: [],
@@ -19,38 +20,36 @@
 				};
 
 				var loadTasks = function () {
+					LoadStatusService.setStatus("tasks.taskList", LoadStatusService.RESOLVING);
 					DataProvider.getTasks().then(function (tasks) {
-						$scope.list.tasks = [];
-						tasks.forEach(function (task) {
-							var _task = factory.task(task);
-							_task.id = task.id;
-							$scope.list.tasks.push(_task);
-						});
+						$scope.list.tasks = tasks;
+					}).finally(function() {
+						LoadStatusService.setStatus("tasks.taskList", LoadStatusService.COMPLETED);
 					});
 				};
-
-				loadTasks();
 
 				var loadUsers = function () {
 					DataProvider.getUsers().then(function (users) {
-						$scope.list.assignableUsers = [];
-						users.forEach(function (user) {
-							$scope.list.assignableUsers.push(user);
-						});
+						$scope.list.assignableUsers = users;
 					});
 				};
-
-				loadUsers();
 
 				var loadProjects = function () {
 					DataProvider.getProjects().then(function (projects) {
-						projects.forEach(function (project) {
-							$scope.list.assignableProjects.push(project);
-						});
+						$scope.list.assignableProjects = projects;
 					});
 				};
 
-				loadProjects();
+				var init = (function() {
+
+					loadTasks();
+					loadUsers();
+					loadProjects();
+
+					return this; 
+
+				})();
+
 
 				var openTaskModal = function (options) {
 					return $modal.open({
@@ -87,7 +86,10 @@
 				};
 
 				$scope.assignUserToTask = function (task) {
-					DataProvider.assignTaskToUser(task.id, task.assignee.id);
+						LoadStatusService.setStatus("tasks.taskList.task." + task.id, LoadStatusService.RESOLVING);	
+					DataProvider.assignTaskToUser(task.id, task.assignee.id).finally(function() {
+						LoadStatusService.setStatus("tasks.taskList.task." + task.id, LoadStatusService.COMPLETED);	
+					});
 				};
 
 				$scope.newTask = function () {
@@ -116,13 +118,16 @@
 					});
 
 					modalInstance.result.then(function () {
-							DataProvider.deleteTask($scope.list.selectedTask.id).then(function (response) {
-								var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
-								$scope.list.selectedTask = null;
-								$scope.list.tasks.splice(index, 1);
-							}, function (response) {
-								$log.error(response);
-							});
+						LoadStatusService.setStatus("tasks.taskList.task." + $scope.list.selectedTask.id, LoadStatusService.RESOLVING);	
+						DataProvider.deleteTask($scope.list.selectedTask.id).then(function (response) {
+							var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
+							$scope.list.selectedTask = null;
+							$scope.list.tasks.splice(index, 1);
+						}, function (response) {
+							$log.error(response);
+						}).finally(function() {
+							LoadStatusService.setStatus("tasks.taskList.task." + $scope.list.selectedTask.id, LoadStatusService.COMPLETED);	
+						});
 					});
 
 				};
@@ -145,9 +150,9 @@
 					});
 				};
 
-				$scope.disableActions = function () {
-					return _.isNull($scope.list.selectedTask);
-				};
+				$scope.addEffort = function() {
+					console.log("effort added")
+				}
 
 				$scope.openDatePicker = function ($event, key) {
 					$event.preventDefault();
@@ -160,29 +165,37 @@
 
 			}])
 
-		.controller('TaskCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
-			function ($scope, $log, $timeout, DataProvider) {
+		.controller('TaskCtrl', ['$scope', '$log', '$timeout', 'DataProvider', "LoadStatusService",
+			function ($scope, $log, $timeout, DataProvider, LoadStatusService) {
 				var origin = angular.copy($scope.task);
 
 				$scope.editable = {};
 
 				$scope.updateTask = function () {
-					DataProvider.updateTask($scope.task.id, $scope.task.getRequestObj()).then(function (response) {
-						origin = angular.copy($scope.task);
 
+					LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.RESOLVING);
+
+					DataProvider.updateTask($scope.task.id, $scope.task).then(function (response) {
+						origin = angular.copy($scope.task);
 					}, function (response) {
 						$log.error(response);
 						$scope.task = origin;
+					}).finally(function() {
+						LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.COMPLETED);	
 					})
 				};
 
 				$scope.updateTaskProject = function () {
+					LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.RESOLVING);	
+
 					DataProvider.moveTaskFromProjectToProject($scope.task.id, origin.project.id, $scope.task.project.id).then(function (response) {
 						origin = angular.copy($scope.task);
 
 					}, function (response) {
 						$log.error(response);
 						$scope.task = origin;
+					}).finally(function() {
+						LoadStatusService.setStatus("tasks.taskList.task." + $scope.task.id, LoadStatusService.COMPLETED);	
 					});
 				};
 			}]);
