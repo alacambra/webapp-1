@@ -29,4 +29,14 @@ public class PersistedChangeLogSubject extends AbstractPersistedModel<PersistedC
 		return getStringProperty(NodePropertyName.LASTNAME);
 	}
 
+	@Override
+	public void setFirstName(String firstName) {
+		setProperty(NodePropertyName.FIRSTNAME, firstName);
+	}
+
+	@Override
+	public void setLastName(String lastName) {
+		setProperty(NodePropertyName.LASTNAME, lastName);
+	}
+
 }
