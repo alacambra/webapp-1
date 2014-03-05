@@ -28,7 +28,10 @@ public class Neo4JSchemaLoader {
 			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.POOL, NodePropertyName.ID);
 			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.TASK, NodePropertyName.ID);
 			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.PROJECT, NodePropertyName.ID);
-
+			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.CHANGELOG, NodePropertyName.ID);
+			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.CHANGELOG_ACTION, NodePropertyName.ID);
+			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.CHANGELOG_SUBJECT, NodePropertyName.ID);
+			
 			tx.success();
 		}
 		// END SNIPPET: createIndex
