@@ -1,7 +1,9 @@
 package poolingpeople.exporter;
 
 import java.util.Collection;
+import java.util.Set;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
@@ -181,6 +183,12 @@ public class FakedProject implements Project{
 	public void synchronizeWith(Project tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Set<ChangeLog> getChangeLogSet() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
