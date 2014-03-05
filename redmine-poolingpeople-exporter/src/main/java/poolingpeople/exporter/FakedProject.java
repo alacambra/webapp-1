@@ -1,6 +1,7 @@
 package poolingpeople.exporter;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import poolingpeople.commons.entities.ChangeLog;
@@ -186,7 +187,7 @@ public class FakedProject implements Project{
 	}
 
 	@Override
-	public Set<ChangeLog> getChangeLogSet() {
+	public List<ChangeLog> getChangeLogSet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
