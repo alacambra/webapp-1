@@ -1,6 +1,7 @@
 package poolingpeople.webapplication.business.project.boundary;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -8,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
@@ -181,6 +183,12 @@ public class ProjectMixin implements Project{
 	public void synchronizeWith(Project tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogSet() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

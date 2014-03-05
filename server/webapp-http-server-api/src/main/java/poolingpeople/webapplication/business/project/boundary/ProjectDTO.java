@@ -1,7 +1,9 @@
 package poolingpeople.webapplication.business.project.boundary;
 
 import java.util.Collection;
+import java.util.List;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
@@ -214,6 +216,12 @@ public class ProjectDTO implements Project {
 	public void synchronizeWith(Project tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogSet() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

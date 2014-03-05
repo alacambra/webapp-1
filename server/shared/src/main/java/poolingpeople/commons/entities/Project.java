@@ -2,13 +2,8 @@ package poolingpeople.commons.entities;
 
 import java.util.Collection;
 
-public interface Project extends Synchronizable<Project>{
+public interface Project extends PoolingPeopleEntity, Synchronizable<Project>{
 	
-	/**
-	 * UUID of a node. 
-	 * @return
-	 */
-	String getId();
 	String getTitle();
 	void setTitle(String title);
 	String getDescription();

@@ -2,10 +2,12 @@ package poolingpeople.persistence.neo4j.entities;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
@@ -456,6 +458,12 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	public User getOwner() {
 		return getRelatedNode(Relations.IS_PROJECT_OWNER, PersistedUser.class, Direction.INCOMING);
 	}
+
+	@Override
+	public List<ChangeLog> getChangeLogSet() {
+		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
+	}
+
 
 }
 
