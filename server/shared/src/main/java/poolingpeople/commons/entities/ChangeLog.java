@@ -4,7 +4,7 @@ public interface ChangeLog {
 
 	String getId();
 
-	ChangeLogSubject getSubject();
+	Subject getSubject();
 
 	ChangeLogAction getAction();
 
@@ -12,7 +12,7 @@ public interface ChangeLog {
 
 	void setId(String id);
 
-	void setSubject(ChangeLogSubject subject);
+	void setSubject(Subject subject);
 
 	void setAction(ChangeLogAction action);
 

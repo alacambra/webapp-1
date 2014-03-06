@@ -1,6 +1,6 @@
 package poolingpeople.commons.entities;
 
-public interface ChangeLogSubject {
+public interface Subject {
 	String getFirstName();
 
 	String getLastName();

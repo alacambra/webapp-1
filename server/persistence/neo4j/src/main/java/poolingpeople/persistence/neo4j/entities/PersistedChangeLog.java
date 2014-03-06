@@ -4,7 +4,7 @@ import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.ChangeLogAction;
 import poolingpeople.commons.entities.ChangeLog;
-import poolingpeople.commons.entities.ChangeLogSubject;
+import poolingpeople.commons.entities.Subject;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -24,8 +24,8 @@ public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implem
 	}
 
 	@Override
-	public ChangeLogSubject getSubject() {
-		return getRelatedNode(Relations.HAS_SUBJECT , PersistedChangeLogSubject.class);
+	public Subject getSubject() {
+		return getRelatedNode(Relations.HAS_SUBJECT , PersistedSubject.class);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implem
 	}
 
 	@Override
-	public void setSubject(ChangeLogSubject subject) {
+	public void setSubject(Subject subject) {
 		if(relationExistsTo((AbstractPersistedModel<?>) subject	, Relations.HAS_SUBJECT)) {
 			throw new RelationAlreadyExistsException();
 		}

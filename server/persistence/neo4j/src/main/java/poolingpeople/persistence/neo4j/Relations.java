@@ -112,7 +112,7 @@ public enum Relations implements RelationshipType {
 	IS_SUBPOOL_OF(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.POOL),
 	IS_DIVISION_OF(PoolingpeopleObjectType.POOL, PoolingpeopleObjectType.POOL),
 	
-	HAS_SUBJECT(PoolingpeopleObjectType.CHANGELOG, PoolingpeopleObjectType.CHANGELOG_SUBJECT),
+	HAS_SUBJECT(PoolingpeopleObjectType.CHANGELOG, PoolingpeopleObjectType.SUBJECT),
 	HAS_ACTION(PoolingpeopleObjectType.CHANGELOG, PoolingpeopleObjectType.CHANGELOG_ACTION),
 	HAS_CHANGE_LOG(ArrayUtils.toMap(new PoolingpeopleObjectType[][] {
 			{PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.CHANGELOG} 
