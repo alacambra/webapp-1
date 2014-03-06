@@ -35,7 +35,7 @@
 						templateUrl: 'views/tasks.tpl.html',
 						controller: 'TasksCtrl',
 						navbar: true,
-						needAuth: true
+						needAuth: false
 					},
 					projectsState = {
 						url: '/projects',

@@ -1,3 +1,4 @@
+<pre>{{ list.tasks[0].getFormatedEndTime() | json}}</pre>
 <table class="table">
 	<thead>
 	<tr>
@@ -134,7 +135,7 @@
 		<!-- Start Date -->
 		<td>
 			<nobr ng-hide="list.datepicker[task.id + 'startDate']">
-				<span ng-click="openDatePicker($event, task.id + 'startDate')" class="editable">{{ (task.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
+				<span ng-click="openDatePicker($event, task.id + 'startDate')" class="editable">{{ (task.getStartTimestamp() | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
 			<div ng-if="list.datepicker[task.id + 'startDate']">
 				<input ng-model="task.startDate"
@@ -151,7 +152,7 @@
 		<!-- End Date -->
 		<td>
 			<nobr ng-hide="list.datepicker[task.id + 'endDate']">
-				<span ng-click="openDatePicker($event, task.id + 'endDate')" class="editable">{{ (task.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
+				<span ng-click="openDatePicker($event, task.id + 'endDate')" class="editable">{{ (task.getEndTimestamp() | date:'dd.MM.yyyy') || '-----' }}</span>
 			</nobr>
 			<div ng-if="list.datepicker[task.id + 'endDate']">{{list.datepicker[task.id]}}
 				<input ng-model="task.endDate"

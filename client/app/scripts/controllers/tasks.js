@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
-			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
+		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window', "ModelsService",
+			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window, ModelsService) {
 
 
 				$scope.list = {

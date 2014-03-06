@@ -5,28 +5,29 @@
         .service('ModelStampsService', function() {
             var poolingpeopleObject = stampit().methods({
                 getUUID: function(){
-                    return this.uuid;
+                    return this.id;
                 }
             }).state({
-                    uuid: ""
+                    id : ""
                 });
 
             var scheduledObject = stampit().methods({
                 getStartTimestamp: function() {
-                    return this.startTime;
+                    return this.startDate;
                 },
 
                 getEndTimestamp: function() {
-                    return this.endTime;
+                    return this.endDate ===  -99999999999999 ? null : this.endDate;
                 },
 
                 getFormatedStartTime: function(){
-                    return this.startTime;
+                    return this.startDate;
                 },
 
                 getFormatedEndTime: function(){
-                    return this.endTime;
+                    return this.endDate ===  -99999999999999 ? null : Date(this.endDate);
                 }
+
             }).state({
                     title: null,
                     description: null,
@@ -35,8 +36,39 @@
                     duration: 0,
                     effort: 0,
                     progress: 0,
-                    startTime : 0,
-                    endTime : 0
+                    startDate : 0,
+                    endDate : 0
                 });
+
+            var task = stampit.compose(poolingpeopleObject, scheduledObject).state({
+
+                project: null,
+                assignee: null
+
+            }).methods({
+                    setProject: function (project) {
+                        this.project = {
+                            id: project.id,
+                            name: project.title
+                        };
+                    }
+                }).enclose(function () {
+                    var _efforts = [];
+
+                    this.getEfforts = function () {
+                        return _efforts;
+                    };
+
+                    this.setEfforts = function (efforts) {
+                        _efforts = efforts;
+                    };
+
+                });
+            return {
+                task: task,
+                project: null,
+                user: null,
+                effort: null
+            }
         });
 }());
