@@ -82,6 +82,7 @@ public class UserDTO implements User {
 		
 	}
 
+	@JsonIgnore
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		// TODO Auto-generated method stub

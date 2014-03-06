@@ -256,6 +256,7 @@ public class TaskDTO implements Task {
 		
 	}
 
+	@JsonIgnore
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		// TODO Auto-generated method stub

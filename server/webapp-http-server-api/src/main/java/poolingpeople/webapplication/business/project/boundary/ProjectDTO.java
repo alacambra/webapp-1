@@ -3,6 +3,8 @@ package poolingpeople.webapplication.business.project.boundary;
 import java.util.Collection;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Project;
@@ -218,6 +220,7 @@ public class ProjectDTO implements Project {
 		
 	}
 
+	@JsonIgnore
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		// TODO Auto-generated method stub
