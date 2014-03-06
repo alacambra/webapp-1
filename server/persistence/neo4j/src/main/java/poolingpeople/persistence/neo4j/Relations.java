@@ -114,8 +114,10 @@ public enum Relations implements RelationshipType {
 	
 	HAS_SUBJECT(PoolingpeopleObjectType.CHANGELOG, PoolingpeopleObjectType.SUBJECT),
 	HAS_ACTION(PoolingpeopleObjectType.CHANGELOG, PoolingpeopleObjectType.CHANGELOG_ACTION),
-	HAS_CHANGE_LOG(ArrayUtils.toMap(new PoolingpeopleObjectType[][] {
-			{PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.CHANGELOG} 
+	HAS_CHANGE_LOG(ArrayUtils.toMap(new Object[][] {
+			{Arrays.asList(PoolingpeopleObjectType.PROJECT,
+					PoolingpeopleObjectType.TASK,
+					PoolingpeopleObjectType.USER), PoolingpeopleObjectType.CHANGELOG} 
 	}));
 	
 	private Map<Object, Object> validPairs;
