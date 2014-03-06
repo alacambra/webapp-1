@@ -3,21 +3,11 @@ package poolingpeople.webapplication.business.task.boundary;
 import java.io.IOException;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.*;
-
-import org.mockito.MockitoAnnotations;
 
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;

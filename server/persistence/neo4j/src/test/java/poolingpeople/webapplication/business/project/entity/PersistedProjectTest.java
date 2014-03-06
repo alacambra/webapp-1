@@ -1,16 +1,13 @@
 package poolingpeople.webapplication.business.project.entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import poolingpeople.commons.entities.Task;
-import poolingpeople.commons.entities.User;
 import poolingpeople.persistance.neo4j.AbstractPersitanceTest;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;
-import poolingpeople.persistence.neo4j.entities.PersistedUser;
 
 
 public class PersistedProjectTest extends AbstractPersitanceTest{

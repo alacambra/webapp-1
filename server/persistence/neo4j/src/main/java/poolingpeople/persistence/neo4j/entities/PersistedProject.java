@@ -2,7 +2,6 @@ package poolingpeople.persistence.neo4j.entities;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -12,8 +11,16 @@ import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.persistence.neo4j.*;
-import poolingpeople.persistence.neo4j.exceptions.*;
+import poolingpeople.persistence.neo4j.DefaultValues;
+import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.Relations;
+import poolingpeople.persistence.neo4j.exceptions.NodeExistsException;
+import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
+import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
+import poolingpeople.persistence.neo4j.exceptions.RelationNotFoundException;
 
 public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
 

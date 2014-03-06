@@ -2,7 +2,6 @@ package poolingpeople.exporter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Project;
