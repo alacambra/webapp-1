@@ -41,7 +41,7 @@ public class PersistedChangeLogAction extends AbstractPersistedModel<ChangeLogAc
 
 	@Override
 	public void setChangeMessage(String message) {
-		setProperty(NodePropertyName.CHANGED_PROPERTY, message);
+		setProperty(NodePropertyName.BACKLOG_MESSAGE, message);
 	}
 
 }
