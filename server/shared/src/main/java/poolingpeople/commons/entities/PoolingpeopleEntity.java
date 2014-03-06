@@ -2,7 +2,7 @@ package poolingpeople.commons.entities;
 
 import java.util.List;
 
-public interface PoolingPeopleEntity {
+public interface PoolingpeopleEntity {
 	String getId();
 	List<ChangeLog> getChangeLogList();
 }

@@ -2,7 +2,7 @@ package poolingpeople.commons.entities;
 
 import java.util.Collection;
 
-public interface Project extends PoolingPeopleEntity, Synchronizable<Project>{
+public interface Project extends PoolingpeopleEntity, Synchronizable<Project>{
 	
 	String getTitle();
 	void setTitle(String title);
