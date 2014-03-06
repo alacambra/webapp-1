@@ -21,10 +21,10 @@ import poolingpeople.webapplication.business.utils.configuration.boundary.Config
 @CatchWebAppException
 public class CatchWebExceptionInterceptor {
 
-	@Inject
-	@Configurable("invalidJson")
-	private String invalidJson;
-
+    @Inject
+    @Configurable("invalidJson")
+    private String invalidJson;
+ 
 	@AroundInvoke
 	public Object catchRootException(InvocationContext context) {
 		try {
