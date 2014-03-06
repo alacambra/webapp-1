@@ -30,11 +30,6 @@ public class PersistedChangeLogAction extends AbstractPersistedModel<ChangeLogAc
 	}
 
 	@Override
-	public void setId(String id) {
-		setProperty(NodePropertyName.ID, id);
-	}
-
-	@Override
 	public void setChangedAttribute(String attribute) {
 		setProperty(NodePropertyName.CHANGED_PROPERTY, attribute);
 	}

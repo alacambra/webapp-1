@@ -39,11 +39,6 @@ public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implem
 	}
 
 	@Override
-	public void setId(String id) {
-		setProperty(NodePropertyName.ID, id);
-	}
-
-	@Override
 	public void setSubject(Subject subject) {
 		if(relationExistsTo((AbstractPersistedModel<?>) subject	, Relations.HAS_SUBJECT)) {
 			throw new RelationAlreadyExistsException();

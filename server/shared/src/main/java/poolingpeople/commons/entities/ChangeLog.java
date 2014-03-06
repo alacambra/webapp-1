@@ -10,8 +10,6 @@ public interface ChangeLog {
 
 	Long getDate();
 
-	void setId(String id);
-
 	void setSubject(Subject subject);
 
 	void setAction(ChangeLogAction action);

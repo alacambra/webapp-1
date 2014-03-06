@@ -7,8 +7,6 @@ public interface ChangeLogAction {
 
 	String getChangeMessage();
 
-	void setId(String id);
-
 	void setChangedAttribute(String attribute);
 
 	void setChangeMessage(String message);
