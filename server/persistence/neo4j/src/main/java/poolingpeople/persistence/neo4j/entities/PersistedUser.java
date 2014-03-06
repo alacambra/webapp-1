@@ -6,6 +6,7 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
@@ -145,6 +146,11 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User 
 	@Override
 	protected void initializeVariables() {
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
 	}
 }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
@@ -79,5 +80,11 @@ public class UserDTO implements User {
 	public void synchronizeWith(User tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
