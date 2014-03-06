@@ -3,6 +3,7 @@ package poolingpeople.persistence.neo4j.entities;
 import java.util.Collection;
 import java.util.List;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
@@ -245,6 +246,12 @@ public class ManagedTask implements Task {
 	public void synchronizeWith(Task tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

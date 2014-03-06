@@ -3,6 +3,7 @@ package poolingpeople.exporter;
 import java.util.Collection;
 import java.util.List;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
@@ -232,6 +233,12 @@ public class FakedTask implements Task {
 	public void synchronizeWith(Task tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

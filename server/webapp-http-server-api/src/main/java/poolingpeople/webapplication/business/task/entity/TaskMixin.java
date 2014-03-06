@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
@@ -239,5 +240,11 @@ public class TaskMixin implements Task{
 	public void synchronizeWith(Task tplObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

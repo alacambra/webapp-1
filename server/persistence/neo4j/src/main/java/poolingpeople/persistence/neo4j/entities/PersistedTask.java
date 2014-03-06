@@ -8,6 +8,7 @@ import java.util.Set;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
@@ -600,6 +601,11 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 			objects.add((AbstractPersistedModel<?>) parentTask);
 
 		return objects;
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
 	}
 
 }
