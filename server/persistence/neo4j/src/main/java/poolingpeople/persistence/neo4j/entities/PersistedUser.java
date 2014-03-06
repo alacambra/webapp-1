@@ -7,13 +7,14 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
-public class PersistedUser extends AbstractPersistedModel<User> implements User {
+public class PersistedUser extends AbstractPersistedModel<User> implements User, Subject {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 

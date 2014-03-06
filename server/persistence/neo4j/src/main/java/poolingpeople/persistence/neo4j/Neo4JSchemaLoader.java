@@ -30,7 +30,6 @@ public class Neo4JSchemaLoader {
 			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.PROJECT, NodePropertyName.ID);
 			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.CHANGELOG, NodePropertyName.ID);
 			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.CHANGELOG_ACTION, NodePropertyName.ID);
-			indexDefinition = loadIndexFor(schema, indexDefinition, PoolingpeopleObjectType.SUBJECT, NodePropertyName.ID);
 			
 			tx.success();
 		}

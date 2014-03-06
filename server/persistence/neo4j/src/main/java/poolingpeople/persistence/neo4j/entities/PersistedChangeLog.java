@@ -25,7 +25,7 @@ public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implem
 
 	@Override
 	public Subject getSubject() {
-		return getRelatedNode(Relations.HAS_SUBJECT , PersistedSubject.class);
+		return getRelatedNode(Relations.HAS_SUBJECT , PersistedUser.class);
 	}
 
 	@Override
