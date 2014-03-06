@@ -9,7 +9,7 @@ public enum PoolingpeopleObjectType {
 	SERVICE,
 	EFFORT,
 	CHANGELOG,
-	SUBJECT,
+	SUBJECT (true),
 	CHANGELOG_ACTION;
 
 	PoolingpeopleObjectType(boolean isSubject) {
