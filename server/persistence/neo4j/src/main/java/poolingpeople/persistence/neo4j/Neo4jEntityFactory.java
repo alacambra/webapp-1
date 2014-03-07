@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import poolingpeople.commons.cdihelper.InstanceProvider;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Project;
@@ -20,12 +21,14 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
 
 @Singleton
-//@EntityPersistenceRollback
 public class Neo4jEntityFactory implements EntityFactory { 
 
 	@Inject
 	private NeoManager manager;
 
+	@Inject
+	private InstanceProvider instanceProvider;
+	
 	@Override
 	public void deleteTask(String uuid)  {
 
@@ -65,9 +68,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public PersistedProject getProjectById(
-			String uuid) {
-		return new PersistedProject(manager, uuid);
+	public PersistedProject getProjectById(String uuid) {
+		return instanceProvider.getInstance(PersistedProject.class).loadExistingNode(uuid, PoolingpeopleObjectType.PROJECT);
 	}
 
 	@Override
