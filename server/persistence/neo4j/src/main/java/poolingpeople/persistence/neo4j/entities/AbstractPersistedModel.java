@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -19,18 +23,23 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.exceptions.RootApplicationException;
-import poolingpeople.persistence.neo4j.*;
+import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.container.IndexContainer;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
-import poolingpeople.persistence.neo4j.exceptions.*;
+import poolingpeople.persistence.neo4j.exceptions.ConsistenceException;
+import poolingpeople.persistence.neo4j.exceptions.NodeExistsException;
+import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
+import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
+import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 
-public abstract class AbstractPersistedModel<T>{
+public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>>{
 
 	protected Node underlyingNode;
 	
-	/*
-	 * @todo make it private
-	 */
+	@Inject 
 	protected NeoManager manager;
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;
@@ -38,6 +47,15 @@ public abstract class AbstractPersistedModel<T>{
 
 	private final PoolingpeopleObjectType NODE_TYPE;
 
+	public T loadExistingNode(String id, PoolingpeopleObjectType objectType) {
+		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
+		return  (T) this;
+	}
+	
+	public AbstractPersistedModel() {
+		NODE_TYPE = null;
+	}
+	
 	protected AbstractPersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
 			throws NotUniqueException, NodeNotFoundException {
 
