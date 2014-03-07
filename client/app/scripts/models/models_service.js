@@ -4,13 +4,14 @@
     angular.module('poolingpeopleApp')
         .service('ModelsService', ['ModelStampsService', function(ModelStampsService) {
 
-            var getTask = function(data, options) {
+            var getTask = function(data) {
                 data = data || {};
-                options = options || {};
-                return ModelStampsService.task(data);
+                var task = ModelStampsService.task(data);
+                task.assignee = getUser(data.assignee);
+                return task;
             };
 
-            var getTaskList = function(data, options) {
+            var getTaskList = function(data) {
 
                 var tasks = [];
 
@@ -19,6 +20,11 @@
                 });
 
                 return tasks;
+            };
+
+            var getUser = function (data) {
+                data = data || {};
+                return ModelStampsService.user(data);
             };
 
             return {

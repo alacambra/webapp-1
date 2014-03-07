@@ -43,7 +43,7 @@
 						templateUrl: 'views/projects.tpl.html',
 						controller: 'ProjectsCtrl',
 						navbar: true,
-						needAuth: true
+						needAuth: false
 					};
 
 				$urlRouterProvider.otherwise(homeState.url);

@@ -12,20 +12,41 @@
                 });
 
             var scheduledObject = stampit().methods({
-                getStartTimestamp: function() {
+                getStartDate: function() {
                     return this.startDate;
                 },
 
-                getEndTimestamp: function() {
+                getEndDate: function() {
                     return this.endDate ===  -99999999999999 ? null : this.endDate;
                 },
 
-                getFormatedStartTime: function(){
-                    return this.startDate;
+                getFormatedStartDate: function(){
+                    return Date(this.startDate);
                 },
 
-                getFormatedEndTime: function(){
+                getFormatedEndDate: function(){
                     return this.endDate ===  -99999999999999 ? null : Date(this.endDate);
+                },
+
+                getShortTitle: function(){
+                    if(this.title.length > 100){
+                        return this.title.substring(0, 100) + "..."
+                    }
+
+                    return this.title
+                },
+
+                getShortDescription: function(){
+                    var size = 50;
+                    if(this.description.length > size){
+                        return this.description.substring(0, size) + "..."
+                    }
+
+                    return this.title
+                },
+
+                getAssignee: function(){
+                    return this.assignee;
                 }
 
             }).state({
@@ -37,7 +58,8 @@
                     effort: 0,
                     progress: 0,
                     startDate : 0,
-                    endDate : 0
+                    endDate : 0,
+                    assignee: null
                 });
 
             var task = stampit.compose(poolingpeopleObject, scheduledObject).state({
@@ -64,10 +86,34 @@
                     };
 
                 });
+
+
+            var user = stampit.compose(poolingpeopleObject).state({
+                firstName: null,
+                lastName: null,
+                birthday: null,
+                email: null
+            }).methods({
+                    getPrettyName: function () {
+
+                        var name = "";
+
+                        if ( this.lastName != null ){
+                            name = this.lastName + ", ";
+                        }
+
+                        if ( this.firstName != null ){
+                            name += this.firstName;
+                        }
+
+                        return name;
+                    }
+                });
+
             return {
                 task: task,
                 project: null,
-                user: null,
+                user: user,
                 effort: null
             }
         });
