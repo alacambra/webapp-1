@@ -19,6 +19,12 @@
                     return DataSources[getDataSource()].getAuthStatus();
                 },
 
+                /* LOG */
+
+                getLog: function(id) {
+                    return DataSources[getDataSource()].getLog(id);
+                },
+
                 /* User */
                 
                 /* CRUD */

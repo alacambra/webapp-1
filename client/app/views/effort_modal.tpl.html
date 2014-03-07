@@ -111,7 +111,7 @@
 					</div>
 				</td>
 				<td>
-					<nobr ng-hide="editable.comment" ng-click="editable.comment = true">{{ effort.comment }}</nobr>
+					<div ng-hide="editable.comment" ng-click="editable.comment = true">{{ effort.comment }}</div>
 					<div ng-if="editable.comment">
 						<input ng-model="editableEffort.comment"
 							   pp-model=""

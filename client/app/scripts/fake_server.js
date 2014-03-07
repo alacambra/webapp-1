@@ -42,7 +42,8 @@
 					projects = null,
 					users = null,
 					tasks = null,
-					efforts = null;
+					efforts = null,
+					log = null;
 
 				var _baseUrl = new RegExp(/\/webapplication\/rest/);
 				var _id = new RegExp(/[\w\d-]+/);
@@ -61,6 +62,10 @@
 
 				$.get('fixtures/efforts.json', function (data) {
 					efforts = data;
+				});
+
+				$.get('fixtures/log.json', function (data) {
+					log = data;
 				});
 
 				$httpBackend.whenGET(/.*\.tpl\.html/).passThrough();
@@ -170,6 +175,12 @@
 				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/efforts\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200];
+				});
+
+				// URI: GET /log/:id
+				$httpBackend.whenGET(/\/log\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
+					return [200, JSON.stringify(log)];
 				});
 			}]);
 }());

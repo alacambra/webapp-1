@@ -5,7 +5,7 @@
 
         .service('API', function($q, $http) {
 
-			var baseUrl = 'rest';
+			var baseUrl = '';
             $http.defaults.headers.common['Content-type'] = 'application/json';
 
 			var serialize = function (obj) {
@@ -19,6 +19,19 @@
                 getAuthStatus: function() {
                     var q = $q.defer();
                     $http.get(baseUrl + "/user_sessions/")
+                        .success(function (data, status, headers, config) {
+                            q.resolve(data, status, headers, config);
+                        }).error(function (data, status, headers, config) {
+                            q.reject(data, status, headers, config);
+                        });
+                    return q.promise;
+                },
+
+                /* LOG */
+
+                getLog: function(id) {
+                    var q = $q.defer();
+                    $http.get(baseUrl + "/log/" + id)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {

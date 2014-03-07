@@ -72,7 +72,7 @@
 		<!-- Title -->
 		<td>
 			<nobr ng-hide="editable.title">
-				<span class="editable" ng-click="editable.title = true">{{ task.title }} </span>
+				<span class="editable" ng-click="editable.title = true">{{ task.title | limitTo:20 }}{{ task.title.length > 20 ? "..." : "" }} </span>
 				<a href="javascript:void(0);"
 				   class="glyphicon"
 				   ng-class="{ 'glyphicon-plus': !task.$ui.showTasks, 'glyphicon-minus': task.$ui.showTasks }"

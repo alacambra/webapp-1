@@ -3,8 +3,22 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
-			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
+		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window', '$q',
+			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window, $q) {
+
+				var q = $q.defer();
+
+				var prom = q.promise;
+
+
+				prom.then(function(data) {
+					console.log(data.value++);
+					return {value: data.value};
+				}).then(function(data) {
+					console.log(data.value);
+				})
+
+				q.resolve({value: 1});
 
 
 				$scope.list = {
