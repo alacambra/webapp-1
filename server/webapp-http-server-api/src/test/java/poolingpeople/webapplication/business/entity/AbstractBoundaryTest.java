@@ -17,6 +17,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
+import poolingpeople.commons.cdihelper.CDIInstanceProvider;
 import poolingpeople.persistence.neo4j.Neo4jEntityFactory;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.TransactionInterceptor;
@@ -43,7 +44,8 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	ConfigurationProducer.class,
 	EmailValidation.class,
 	ValidatorProducer.class,
-	LoggedUserContainerProducer.class
+	LoggedUserContainerProducer.class,
+	CDIInstanceProvider.class
 })
 
 public abstract class AbstractBoundaryTest {
