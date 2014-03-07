@@ -1,4 +1,5 @@
-package poolingpeople.webapplication.business.boundary;
+package poolingpeople.commons.cdihelper;
+
 
 public class InstanceProviderProducer {
 	public InstanceProvider getInstanceProvider(){
