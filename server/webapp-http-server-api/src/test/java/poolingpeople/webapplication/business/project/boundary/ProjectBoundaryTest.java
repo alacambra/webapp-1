@@ -17,10 +17,10 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
+import poolingpeople.webapplication.business.entity.AbstractBoundaryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
-public class ProjectBoundaryTest extends AbstractBoundryTest {
+public class ProjectBoundaryTest extends AbstractBoundaryTest {
 	
 	@Inject
 	ProjectBoundary target;

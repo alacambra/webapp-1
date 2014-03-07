@@ -16,11 +16,11 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
 
-import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
+import poolingpeople.webapplication.business.entity.AbstractBoundaryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper.EffortWithTaskContainer;
 
-public class EffortBoundryTest extends AbstractBoundryTest{
+public class EffortBoundryTest extends AbstractBoundaryTest{
 
 	@Inject 
 	EffortBoundary target;

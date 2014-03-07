@@ -46,7 +46,7 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	LoggedUserContainerProducer.class
 })
 
-public abstract class AbstractBoundryTest {
+public abstract class AbstractBoundaryTest {
 
 	protected final String jsonModelsPath = "json-models/";
 

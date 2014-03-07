@@ -21,10 +21,10 @@ import static org.junit.Assert.*;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.webapplication.business.entity.AbstractBoundryTest;
+import poolingpeople.webapplication.business.entity.AbstractBoundaryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 
-public class TaskBoundaryTest extends AbstractBoundryTest{
+public class TaskBoundaryTest extends AbstractBoundaryTest{
 
 	@Inject
 	TaskBoundary target;
