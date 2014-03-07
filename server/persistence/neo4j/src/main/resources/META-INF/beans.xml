@@ -7,7 +7,4 @@ http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
 		<class>poolingpeople.persistence.neo4j.TransactionInterceptor</class>
 	</interceptors>
 
-	<alternatives>
-		<class>poolingpeople.persistence.neo4j.GraphDatabaseServiceProducer</class>
-	</alternatives>
 </beans>

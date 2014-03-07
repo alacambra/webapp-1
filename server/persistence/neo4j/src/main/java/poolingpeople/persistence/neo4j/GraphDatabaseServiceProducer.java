@@ -10,7 +10,6 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 @ApplicationScoped
-@Alternative
 public class GraphDatabaseServiceProducer{
 
 	private final static String db_uri = "/opt/neo4j";
