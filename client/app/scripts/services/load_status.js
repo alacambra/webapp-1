@@ -70,7 +70,6 @@
                     }
 
                     resourceTarget.status = newStatus;
-                    console.log(loadStatus)
                 }
             }
     });
