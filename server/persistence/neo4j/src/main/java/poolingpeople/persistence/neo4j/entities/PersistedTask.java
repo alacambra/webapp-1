@@ -19,7 +19,7 @@ import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
 
-public class PersistedTask extends AbstractPersistedModel<Task> implements Task {
+public class PersistedTask extends AbstractPersistedModel<PersistedTask> implements Task {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 	private List<PersistedTask> subtasks;
@@ -30,7 +30,7 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	}
 
 	public PersistedTask(NeoManager manager, Task task) throws NodeExistsException {
-		super(manager, NODE_TYPE, task);
+//		super(manager, NODE_TYPE, task);
 	}
 
 	public PersistedTask(NeoManager manager, Node node) {
@@ -606,6 +606,12 @@ public class PersistedTask extends AbstractPersistedModel<Task> implements Task 
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
+	}
+
+	@Override
+	public void synchronizeWith(Task tplObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

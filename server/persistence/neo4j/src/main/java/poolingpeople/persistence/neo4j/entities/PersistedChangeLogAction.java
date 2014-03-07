@@ -7,7 +7,7 @@ import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 
-public class PersistedChangeLogAction extends AbstractPersistedModel<ChangeLogAction> implements ChangeLogAction {
+public class PersistedChangeLogAction extends AbstractPersistedModel<PersistedChangeLogAction> implements ChangeLogAction {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.CHANGELOG_ACTION;
 	public PersistedChangeLogAction(NeoManager manager, Node node,

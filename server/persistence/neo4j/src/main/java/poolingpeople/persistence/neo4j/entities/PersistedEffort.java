@@ -8,7 +8,7 @@ import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.exceptions.*;
 import poolingpeople.persistence.neo4j.inheritance.Inheritable;
 
-public class PersistedEffort extends AbstractPersistedModel<Effort> implements Effort{
+public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> implements Effort{
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	
@@ -25,7 +25,7 @@ public class PersistedEffort extends AbstractPersistedModel<Effort> implements E
 	 * @todo: in the system defaults must be loaded
 	 */
 	public PersistedEffort(NeoManager manager, Effort effort) throws NodeExistsException {
-		super(manager, NODE_TYPE, effort);
+//		super(manager, NODE_TYPE, effort);
 		if(getTime() == null) {
 			setTime(0);
 		}
@@ -93,6 +93,12 @@ public class PersistedEffort extends AbstractPersistedModel<Effort> implements E
 	@Override
 	public String getTaskId() {
 		return getRelatedNode(Relations.HAS_EFFORT, PersistedTask.class, Direction.INCOMING).getId();
+	}
+
+	@Override
+	public void synchronizeWith(Effort tplObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

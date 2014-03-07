@@ -14,7 +14,7 @@ import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
-public class PersistedUser extends AbstractPersistedModel<User> implements User, Subject {
+public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User, Subject {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 
@@ -23,7 +23,7 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User,
 	}
 
 	public PersistedUser(NeoManager manager, String email, String password, User user) throws NodeExistsException {
-		super(manager, NODE_TYPE, user);
+//		super(manager, NODE_TYPE, user);
 		isCreated = false;
 		
 //		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
@@ -152,6 +152,12 @@ public class PersistedUser extends AbstractPersistedModel<User> implements User,
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
+	}
+
+	@Override
+	public void synchronizeWith(User tplObject) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

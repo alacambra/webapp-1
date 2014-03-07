@@ -22,18 +22,23 @@ import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 import poolingpeople.persistence.neo4j.exceptions.RelationNotFoundException;
 
-public class PersistedProject extends AbstractPersistedModel<Project> implements Project {
+
+public class PersistedProject extends AbstractPersistedModel<PersistedProject> implements Project {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
 	private List<PersistedTask> relatedTasks;
 
+	public PersistedProject() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public PersistedProject(NeoManager manager, String id)
 			throws NotUniqueException, NodeNotFoundException {
 		super(manager, id, NODE_TYPE);
 	}
 
 	public PersistedProject(NeoManager manager, Project project) throws NodeExistsException {
-		super(manager, NODE_TYPE, project);
+		//super(manager, NODE_TYPE, project);
 	}
 
 	public PersistedProject(NeoManager manager, Node node) {
@@ -469,6 +474,12 @@ public class PersistedProject extends AbstractPersistedModel<Project> implements
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
+	}
+
+	@Override
+	public void synchronizeWith(Project tplObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

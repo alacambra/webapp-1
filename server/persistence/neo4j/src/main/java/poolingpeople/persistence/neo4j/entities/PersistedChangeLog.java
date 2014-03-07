@@ -11,7 +11,7 @@ import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 
-public class PersistedChangeLog extends AbstractPersistedModel<ChangeLog> implements ChangeLog {
+public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLog> implements ChangeLog {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.CHANGELOG;
 	public PersistedChangeLog(NeoManager manager, Node node,
