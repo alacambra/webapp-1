@@ -18,7 +18,7 @@
                     tasks.push(getTask(task));
                 });
 
-                return data;
+                return tasks;
             };
 
             return {

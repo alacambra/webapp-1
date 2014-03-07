@@ -3,7 +3,7 @@
 
     angular.module('poolingpeopleApp')
 
-        .service('DataProvider', function(API, ModelsService) {
+        .service('DataProvider', ['API', 'ModelsService', function(API, ModelsService) {
 
             var DataSources = { API: API };
 
@@ -51,12 +51,16 @@
                 /* CRUD */
 
                 getTask: function(id) {
-                    return ModelsService.getTask(getDataSource().getTasks(id));
+
+                    return getDataSource().getTask().then(function (data) {
+                        return ModelsService.getTask(data);
+                    });
                 },
 
                 getTasks: function () {
-//                    return ModelsService.getTaskList(getDataSource().getTasks());
-                    return ModelsService.getTaskList(getDataSource().getTasks());
+                    return getDataSource().getTasks().then(function(data){
+                        return ModelsService.getTaskList(data);
+                    });
                 },
 
                 createTask: function(data) {
@@ -170,6 +174,6 @@
                     return getDataSource().deleteEffort(taskId, effortId);
                 }
             }
-        });
+        }]);
 
 }());
