@@ -3,10 +3,11 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ProjectsCtrl', ['$scope', '$modal', '$log', 'DataProvider', '$window',
-			function ($scope, $modal, $log, DataProvider, $window) {
+		.controller('ProjectsCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
+			function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
 
 				// Properties that are defined in this scope attached to $scope.list
+
 				$scope.list = {
 					projects: [],
 
@@ -25,6 +26,7 @@
 
 				// Load all projects
 				var loadProjects = function () {
+					LoadStatusService.setStatus("projects.projectList", LoadStatusService.RESOLVING);
 					DataProvider.getProjects().then(function (data) {
 						var projects = [];
 						data.forEach(function (project) {
@@ -34,12 +36,11 @@
 							projects.push(project);
 						});
 						$scope.list.projects = projects;
-
 					}, function (response) {
 						$log.error(response);
 
-					}).finally(function () {
-						// ajax loader
+					}).finally(function() {
+						LoadStatusService.setStatus("projects.projectList", LoadStatusService.COMPLETED);
 					});
 				};
 
@@ -54,8 +55,6 @@
 					}, function (response) {
 						$log.error(response);
 
-					}).finally(function () {
-						$scope.loader.users = false;
 					});
 				};
 
@@ -134,8 +133,10 @@
 					});
 
 					modalInstance.result.then(function () {
+						var projectId = $scope.list.selectedProject.id;
+						LoadStatusService.setStatus("projects.projectList.project." + projectId, LoadStatusService.RESOLVING);
 						var modalAjaxLoader = $modal.open({
-							template: '<div class="loader"></div><p class="text-center">deleting project "' + $scope.list.selectedProject.title + '" ...</p>'
+							template: '<div class="modal-body text-center"><img src="images/load_indicator.gif" alt="" style="padding: 10px 0px 20px" ><p class="text-center">Deleting project "' + $scope.list.selectedProject.title + '" ...</p></div>'
 						});
 
 						DataProvider.deleteProject($scope.list.selectedProject.id).then(function (response) {
@@ -145,17 +146,17 @@
 						}, function (response) {
 							$log.error(response);
 						}).finally(function () {
+							LoadStatusService.setStatus("projects.projectList.project." + projectId, LoadStatusService.COMPLETED);
 							modalAjaxLoader.close();
 						});
 					});
 				};
 
-				$scope.disableActions = function () {
-					return _.isNull($scope.list.selectedProject);
-				};
-
 				$scope.assignProjectToUser = function (project) {
-					DataProvider.assignProjectToUser(project.id, project.owner.id);
+					LoadStatusService.setStatus("projects.projectList.project." + project.id, LoadStatusService.RESOLVING);
+					DataProvider.assignProjectToUser(project.id, project.owner.id).finally(function () {
+						LoadStatusService.setStatus("projects.projectList.project." + project.id, LoadStatusService.COMPLETED);
+					});
 				};
 
 				$scope.openDatePicker = function ($event, key) {
@@ -168,8 +169,8 @@
 
 			}])
 
-		.controller('ProjectCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
-			function ($scope, $log, $timeout, DataProvider) {
+		.controller('ProjectCtrl', ['$scope', '$log', '$timeout', 'DataProvider', 'LoadStatusService',
+			function ($scope, $log, $timeout, DataProvider, LoadStatusService) {
 				var origin = angular.copy($scope.project);
 
 				$scope.editable = {};
@@ -180,19 +181,25 @@
 						return;
 					}
 
+					LoadStatusService.setStatus("projects.projectList.project." + $scope.project.id + ".subtasks", LoadStatusService.RESOLVING);
 					$scope.list.showProjectTasks($scope.project.id);
 
 					DataProvider.getProjectTasks(project.id).then(function (tasks) {
 						project.setTasks(tasks);
+					}).finally(function() {
+						LoadStatusService.setStatus("projects.projectList.project." + $scope.project.id + ".subtasks", LoadStatusService.COMPLETED);
 					});
 				};
 
 				$scope.updateProject = function () {
+					LoadStatusService.setStatus("projects.projectList.project." + $scope.project.id, LoadStatusService.RESOLVING);
 					DataProvider.updateProject($scope.project.id, $scope.project.getRequestObj()).then(function (response) {
 						origin = angular.copy($scope.project);
 					}, function (response) {
 						$log.error(response);
 						$scope.project = angular.copy(origin);
+					}).finally(function () {
+						LoadStatusService.setStatus("projects.projectList.project." + $scope.project.id, LoadStatusService.COMPLETED);
 					});
 				};
 			}]);

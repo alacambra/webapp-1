@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ConfirmModalCtrl', ['$scope', '$modalInstance', 'message',
-			function ($scope, $modalInstance, message) {
+		.controller('ConfirmModalCtrl', ['$scope', '$modalInstance', 'message', 'LoadStatusService',
+			function ($scope, $modalInstance, message, LoadStatusService) {
 
 				$scope.modal = {
 					message: message

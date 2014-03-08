@@ -1,189 +1,93 @@
 (function () {
-	'use strict';
+    'use strict';
 
-	angular.module('poolingpeopleApp')
+    angular.module('poolingpeopleApp')
+        .controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window', "ModelsService",
+            function ($scope, $modal, $log, DataProvider, LoadStatusService, $window, ModelsService) {
 
-		.controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', '$window',
-			function ($scope, $modal, $log, DataProvider, $window) {
+                $scope.editingObjects = [];
 
-				$scope.list = {
-					tasks: [],
+                $scope.checkedItems = {};
 
-					assignableUsers: [],
+                DataProvider.getTasks().then(function(data){
+                    $scope.data = data;
+                });
 
-					assignableProjects: [],
+                var doAction = function(items, action) {
+                    var toDoChanges = items[0] ? items : [items];
+                    for (var i = 0; i < $scope.data.length; i++) {
+                        for (var j = 0, jj = toDoChanges.length; j < jj; j++) {
+                            if ($scope.data[i].id === toDoChanges[j].id) {
+                                action(i);
+                            }
+                        }
+                    }
+                };
 
-					selectedTask: null,
+                var getSelectedItems = function() {
+                    var items = [];
+                    for (var key in $scope.checkedItems) {
+                        if (typeof $scope.checkedItems[key] === "object") items.push($scope.checkedItems[key]);
+                    }
+                    return items;
+                };
 
-					datepicker: {}
-				};
+                $scope.deleteSelected = function() {
+                    $scope.delete(getSelectedItems());
+                };
 
-				var loadTasks = function () {
-					DataProvider.getTasks().then(function (tasks) {
-						$scope.list.tasks = [];
-						tasks.forEach(function (task) {
-							var _task = factory.task(task);
-							_task.id = task.id;
-							$scope.list.tasks.push(_task);
-						});
-					});
-				};
+                $scope.delete = function (items) {
+                    doAction(items, function (index) {
+                        $scope.editingObjects[$scope.data[index].id] = false;
+                        $scope.data.splice(index, 1)
+                    })
+                };
 
-				loadTasks();
+                $scope.editSelected = function() {
+                    $scope.edit(getSelectedItems());
+                };
 
-				var loadUsers = function () {
-					DataProvider.getUsers().then(function (users) {
-						$scope.list.assignableUsers = [];
-						users.forEach(function (user) {
-							$scope.list.assignableUsers.push(user);
-						});
-					});
-				};
+                $scope.edit = function(items) {
+                    doAction(items, function(index) {
+                        var item = {};
+                        for (var key in $scope.data[index]) {
+                            item[key] = $scope.data[index][key];
+                        }
+                        $scope.editingObjects[$scope.data[index].id] = item;
+                    })
+                };
 
-				loadUsers();
+                $scope.revertSelected = function() {
+                    $scope.revert(getSelectedItems());
+                };
 
-				var loadProjects = function () {
-					DataProvider.getProjects().then(function (projects) {
-						projects.forEach(function (project) {
-							$scope.list.assignableProjects.push(project);
-						});
-					});
-				};
+                $scope.revert = function(items) {
+                    doAction(items, function(index) {
+                        if ($scope.editingObjects[$scope.data[index].id]) {
+                            var item = $scope.data[index];
+                            for (var key in $scope.editingObjects[$scope.data[index].id]) {
+                                item[key] = $scope.editingObjects[$scope.data[index].id][key];
+                            }
+                            $scope.editingObjects[$scope.data[index].id] = false;
+                        }
+                    })
+                };
 
-				loadProjects();
+                $scope.saveSelected = function() {
+                    $scope.save(getSelectedItems());
+                };
 
-				var openTaskModal = function (options) {
-					return $modal.open({
-						templateUrl: 'views/task_modal.tpl.html',
-						controller: 'TaskModalCtrl',
-						scope: $scope,
-						resolve: {
-							options: function () {
-								return options;
-							}
-						}
-					});
-				};
+                $scope.save = function(items) {
+                    doAction(items, function(index) {
+                        if ($scope.editingObjects[$scope.data[index].id]) {
+                            $scope.editingObjects[$scope.data[index].id] = false;
+                        }
+                    })
+                };
 
-				var openEffortModal = function (options) {
-					return $modal.open({
-						templateUrl: 'views/effort_modal.tpl.html',
-						controller: 'EffortModalCtrl',
-						scope: $scope,
-						resolve: {
-							options: function () {
-								return options;
-							}
-						}
-					});
-				};
+                $scope.editing = function(item) {
+                    return (typeof $scope.editingObjects[item.id] === "object");
+                };
 
-				$scope.selectTask = function (task) {
-					if ($scope.list.selectedTask === task) {
-						$scope.list.selectedTask = null;
-					} else {
-						$scope.list.selectedTask = task;
-					}
-				};
-
-				$scope.assignUserToTask = function (task) {
-					DataProvider.assignTaskToUser(task.id, task.assignee.id);
-				};
-
-				$scope.newTask = function () {
-					var modalInstance = openTaskModal({
-						title: 'Neue Aufgabe',
-						task: factory.task()
-					});
-				};
-
-				$scope.editSelected = function () {
-					var modalInstance = openTaskModal({
-						title: 'Aufgabe "' + $scope.list.selectedTask.title + '" bearbeiten',
-						task: $scope.list.selectedTask
-					});
-				};
-
-				$scope.deleteSelected = function () {
-					var modalInstance = $modal.open({
-						templateUrl: 'views/confirm_modal.tpl.html',
-						controller: 'ConfirmModalCtrl',
-						resolve: {
-							message: function() {
-								return "Soll die Aufgabe '" + $scope.list.selectedTask.title + "' wirklich gelöscht werden?";
-							}
-						}
-					});
-
-					modalInstance.result.then(function () {
-							DataProvider.deleteTask($scope.list.selectedTask.id).then(function (response) {
-								var index = $scope.list.tasks.indexOf($scope.list.selectedTask);
-								$scope.list.selectedTask = null;
-								$scope.list.tasks.splice(index, 1);
-							}, function (response) {
-								$log.error(response);
-							});
-					});
-
-				};
-
-				$scope.showTasks = function (task) {
-					$scope.tasks.forEach(function (_task) {
-						if (task === _task) {
-							_task.$ui.showTasks = !_task.$ui.showTasks;
-						} else {
-							_task.$ui.showTasks = false;
-						}
-					});
-				};
-
-				$scope.bookEffort = function (task) {
-					var targetTask = task || $scope.list.selectedTask;
-					var modalInstance = openEffortModal({
-						title: 'Neuer Aufwand für Aufgabe "' + targetTask.title + '"',
-						task: targetTask
-					});
-				};
-
-				$scope.disableActions = function () {
-					return _.isNull($scope.list.selectedTask);
-				};
-
-				$scope.openDatePicker = function ($event, key) {
-					$event.preventDefault();
-					$event.stopPropagation();
-
-
-					$scope.list.datepicker = {};
-					$scope.list.datepicker[key] = true;
-				};
-
-			}])
-
-		.controller('TaskCtrl', ['$scope', '$log', '$timeout', 'DataProvider',
-			function ($scope, $log, $timeout, DataProvider) {
-				var origin = angular.copy($scope.task);
-
-				$scope.editable = {};
-
-				$scope.updateTask = function () {
-					DataProvider.updateTask($scope.task.id, $scope.task.getRequestObj()).then(function (response) {
-						origin = angular.copy($scope.task);
-
-					}, function (response) {
-						$log.error(response);
-						$scope.task = origin;
-					})
-				};
-
-				$scope.updateTaskProject = function () {
-					DataProvider.moveTaskFromProjectToProject($scope.task.id, origin.project.id, $scope.task.project.id).then(function (response) {
-						origin = angular.copy($scope.task);
-
-					}, function (response) {
-						$log.error(response);
-						$scope.task = origin;
-					});
-				};
-			}]);
+            }]);
 }());

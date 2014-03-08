@@ -18,28 +18,32 @@
 						name: 'home',
 						templateUrl: 'views/home.tpl.html',
 						controller: 'HomeCtrl',
-						navbar: true
+						navbar: true,
+						needAuth: false
 					},
 					usersState = {
 						url: '/users',
 						name: 'users',
 						templateUrl: 'views/users.tpl.html',
 						controller: 'UsersCtrl',
-						navbar: true
+						navbar: true,
+						needAuth: true
 					},
 					tasksState = {
 						url: '/tasks',
 						name: 'tasks',
 						templateUrl: 'views/tasks.tpl.html',
 						controller: 'TasksCtrl',
-						navbar: true
+						navbar: true,
+						needAuth: false
 					},
 					projectsState = {
 						url: '/projects',
 						name: 'projects',
 						templateUrl: 'views/projects.tpl.html',
 						controller: 'ProjectsCtrl',
-						navbar: true
+						navbar: true,
+						needAuth: false
 					};
 
 				$urlRouterProvider.otherwise(homeState.url);
@@ -50,64 +54,18 @@
 				$stateProvider.state(projectsState);
 			}])
 
-		.run(['$rootScope', '$state', '$stateParams',
-			function ($rootScope, $state, $stateParams) {
+		.run(['$rootScope', '$state', '$stateParams', 'SessionService', 
+			function ($rootScope, $state, $stateParams, SessionService) {
 
-				window.$state = $state;
 				$rootScope.$state = $state;
 				$rootScope.$stateParams = $stateParams;
+
+			    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+			    	if (toState.needAuth && !SessionService.loggedIn()) {
+				    	event.preventDefault();
+				    	$rootScope.$broadcast("requiredAuth", toState, toParams, fromState, fromParams);
+			    	}
+			    })
+
 			}])
-
-		.run(function () {
-			var projects = [],
-				projectsNumber = 11;
-
-			function randomInt(start, end) {
-				return parseInt(Math.random() * (end - start + 1) + start);
-			}
-
-			for (var i = 0; i < projectsNumber; i++) {
-				var project = factory.project({
-					title: 'Project' + i,
-					description: 'Lorem ipsum ...',
-					status: randomInt(0, 7),
-					priority: randomInt(0, 10),
-					startDate: moment('2014-02-11').valueOf(),
-					endDate: moment('2014-02-20').valueOf(),
-					duration: randomInt(15, 300),
-					effort: randomInt(15, 300),
-					progress: randomInt(0, 100),
-					assignee: {
-						id: 'user-00002',
-						name: 'User2 Last2'
-					}
-				});
-				project.id = 'project-0000' + i;
-				projects.push(project);
-			}
-
-			window.getMyProjects = function () {
-				return projects;
-			}
-		})
-
-		.run(function () {
-			var users = [],
-				usersNumber = 8;
-
-			for (var i = 0; i < usersNumber; i++) {
-				var user = factory.user({
-					firstName: 'User' + i,
-					lastName: 'Last' + i,
-					birthday: moment('1991-01-0' + (i + 1)).valueOf(),
-					email: 'user' + i + '@mail.de'
-				});
-				user.id = 'user-0000' + i;
-				users.push(user);
-			}
-
-			window.getMyUsers = function () {
-				return users;
-			}
-		});
 }());

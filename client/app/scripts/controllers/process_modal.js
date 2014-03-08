@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('ProcessModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider',
-			function ($scope, $modalInstance, options, $log, DataProvider) {
+		.controller('ProcessModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider', 'LoadStatusService',
+			function ($scope, $modalInstance, options, $log, DataProvider, LoadStatusService) {
 				$scope.modal = {
 					title: options.title,
 
@@ -40,7 +40,6 @@
 				var loadUsers = function () {
 					$scope.modal.loader.users = true;
 					DataProvider.getUsers().then(function (users) {
-						console.log(users);
 						users.forEach(function (user) {
 							$scope.modal.assignableUsers.push(user);
 						});
@@ -51,7 +50,6 @@
 					});
 				};
 
-				loadUsers();
 
 				var loadProjects = function () {
 					$scope.modal.loader.projects = true;
@@ -69,12 +67,12 @@
 					});
 				};
 
-				loadProjects();
 
 				var saveProject = function () {
 					$scope.modal.loader.model.save = true;
 
 					if (_.isNull($scope.modal.model.id)) {
+						LoadStatusService.setStatus("projectModal.saveProject", LoadStatusService.RESOLVING);
 						DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
 							// update origin project with new data
 							console.log(options.model, $scope.modal.model);
@@ -92,9 +90,11 @@
 							$scope.error = 'Couldn\'t save project: ' + response;
 						}).finally(function () {
 							$scope.modal.loader.model.save = false;
+							LoadStatusService.setStatus("projectModal.saveProject", LoadStatusService.COMPLETED);
 						});
 
 					} else {
+						LoadStatusService.setStatus("projectModal.saveProject", LoadStatusService.RESOLVING);
 						DataProvider.updateProject($scope.modal.model.id, $scope.modal.model.getRequestObj()).then(function (response) {
 							_.extend(options.model, $scope.modal.model);
 							$modalInstance.close();
@@ -102,12 +102,22 @@
 							$scope.error = 'Couldn\'t update project: ' + response;
 						}).finally(function () {
 							$scope.modal.loader.model.save = false;
+							LoadStatusService.setStatus("projectModal.saveProject", LoadStatusService.COMPLETED);
 						});
 					}
 
 
 
 				};
+
+				var init = (function() {
+
+					loadUsers();
+					loadProjects();
+
+					return this;
+
+				})()
 
 				$scope.save = function () {
 					if (!$scope.form.model.$invalid) {

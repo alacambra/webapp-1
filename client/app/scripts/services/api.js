@@ -14,6 +14,19 @@
             
             return {
 
+                /* SESSION */
+
+                getAuthStatus: function() {
+                    var q = $q.defer();
+                    $http.get(baseUrl + "/user_sessions/")
+                        .success(function (data, status, headers, config) {
+                            q.resolve(data, status, headers, config);
+                        }).error(function (data, status, headers, config) {
+                            q.reject(data, status, headers, config);
+                        });
+                    return q.promise;
+                },
+
                 /* User */
 
 

@@ -31,29 +31,53 @@
 			</a></th>
 		</tr>
 		</thead>
-		<tbody>
+		<tbody ng-loading="projects.projectList">
+			<tr>
+				<td class="text-center" colspan="10">
+					<img src="images/load_indicator.gif" alt="" style="padding:50px" />
+				</td>
+			</tr>
+		</tbody>
+		<tbody ng-loading="!projects.projectList">
 		<tr>
-			<td colspan="11">
-				<button class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Projekt erstellen</b></button>
+			<td colspan="10">
+				<button ng-if="!list.selectedProject" class="btn btn-default btn-block" ng-click="newProject()"><b>Neues Project erstellen</b></button>
+				<div class="dropdown" ng-if="list.selectedProject">
+					<button href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-block" ng-disabled="disableActions()"><b>Aktion auswählen</b></button>
+					<ul class="dropdown-menu btn-block">
+						<li class="text-center">
+							<a href="javascript:void(0);" ng-click="editSelectedProject()">Projekt bearbeiten</a>
+						</li>
+						<li class="text-center">
+							<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
+						</li>
+						<li class="text-center">
+							<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
+						</li>
+					</ul>
+				</div>
 			</td>
 		</tr>
 		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
-				<input type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project"/>
+				<input type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project" ng-loading="!projects.projectList.project.{{ project.id }}" />
+				<img src="images/load_indicator.gif" alt="" width="16" ng-loading="projects.projectList.project.{{ project.id }}" />
 			</td>
 
 			<!-- Title -->
 			<td>
 				<nobr ng-hide="editable.title">
 					<span class="editable" ng-click="editable.title = true">{{ project.title }} </span>
-					<a href="javascript:void(0);"
+					<a ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"
+					   href="javascript:void(0);"
 					   class="glyphicon"
 					   ng-hide="item.loader.tasks.load"
 					   ng-class="{ 'glyphicon-plus': !project.$ui.showTasks, 'glyphicon-minus': project.$ui.showTasks }"
 					   ng-click="showTasks(project)"
 					   ng-if="project.taskCount > 0">
 					</a>
+					<img ng-loading="projects.projectList.project.{{ project.id }}.subtasks" src="images/load_indicator.gif" alt="" width="16" />
 				</nobr>
 				<div ng-if="editable.title">
 					<input type="text"
@@ -113,6 +137,7 @@
 						   datepicker-popup="dd.MM.yyyy"
 						   min="'1900-01-01'"
 						   max="project.endDate"
+						   ng-blur="form.datePickerOpened = false"
 						   is-open="list.datepicker[project.id + 'startDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
@@ -130,6 +155,7 @@
 						   datepicker-popup="dd.MM.yyyy"
 						   min="project.startDate"
 						   max="'2100-01-01'"
+						   ng-blur="form.datePickerOpened = false"
 						   is-open="list.datepicker[project.id + 'endDate']"
 						   disabled="disabled"
 						   ng-change="updateProject()">
@@ -187,31 +213,18 @@
 			</td>
 		</tr>
 		<tr ng-repeat="task in project.getTasks() | orderBy:taskSorting" ng-if="project.$ui.showTasks" ng-init="taskSorting = 'title'" ng-repeat-end="">
-			<td></td>
-			<td>{{ task.title }}</td>
-			<td>{{ task.description | limitTo: 20 }}</td>
-			<td>{{ task.assignee.firstName + ' ' + task.assignee.lastName }}</td>
-			<td>{{ task.statusList[project.status] }}</td>
-			<td>{{ task.startDate | date:'dd.MM.yyyy' }}</td>
-			<td>{{ task.endDate | date:'dd.MM.yyyy' }}</td>
-			<td>{{ task.duration | minutesToHours | number:2 }}h</td>
-			<td>{{ task.effort | minutesToHours | number:2 }}h</td>
-			<td>{{ task.progress * 100 }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"></td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.title }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"></td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.description | limitTo: 20 }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.assignee.firstName + ' ' + task.assignee.lastName }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.statusList[project.status] }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.startDate | date:'dd.MM.yyyy' }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.endDate | date:'dd.MM.yyyy' }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.duration | minutesToHours | number:2 }}h</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.effort | minutesToHours | number:2 }}h</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.progress * 100 }}</td>
 		</tr>
 		</tbody>
 	</table>
-	<div class="dropdown">
-		<button href="javascript:void(0);" class="dropdown-toggle btn btn-default" ng-disabled="disableActions()">Aktion auswählen</button>
-		<ul class="dropdown-menu">
-			<li>
-				<a href="javascript:void(0);" ng-click="editSelectedProject()">Projekt bearbeiten</a>
-			</li>
-			<li>
-				<a href="javascript:void(0);" ng-click="createProjectTask()">Aufgabe für Projekt erstellen</a>
-			</li>
-			<li>
-				<a href="javascript:void(0);" ng-click="deleteSelected()">Löschen</a>
-			</li>
-		</ul>
-	</div>
 </div>
