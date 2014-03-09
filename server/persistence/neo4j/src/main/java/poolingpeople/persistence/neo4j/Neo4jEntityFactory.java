@@ -8,12 +8,15 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import poolingpeople.commons.cdihelper.InstanceProvider;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.EntityFactory;
+import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
+import poolingpeople.persistence.neo4j.entities.PersistedComment;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;
@@ -28,7 +31,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Inject
 	private InstanceProvider instanceProvider;
-	
+
 	@Override
 	public void deleteTask(String uuid)  {
 
@@ -36,7 +39,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 		task.runDeletePreconditions();
 		Set<AbstractPersistedModel<?>> objects = task.loadObjectsToInform();
 		manager.removeNode(task.getNode());
-		
+
 		for(AbstractPersistedModel<?> model : objects){
 			model.updateAll();
 		}
@@ -55,10 +58,10 @@ public class Neo4jEntityFactory implements EntityFactory {
 	@Override
 	public List<Task> getAllTask() {
 		return manager.getPersistedObjects(
-					manager.getNodes(PersistedTask.NODE_TYPE.name()), 
-					new ArrayList<Task>(), 
-					PersistedTask.class, 
-					Task.class
+				manager.getNodes(PersistedTask.NODE_TYPE.name()), 
+				new ArrayList<Task>(), 
+				PersistedTask.class, 
+				Task.class
 				);
 	}
 
@@ -97,10 +100,10 @@ public class Neo4jEntityFactory implements EntityFactory {
 		try{
 
 			PersistedUser persistedUser = new PersistedUser(manager, email, password);
-//			persistedUser.loadByCredentials(email, password);
-			
+			//			persistedUser.loadByCredentials(email, password);
+
 			return persistedUser;
-			
+
 		} catch(Exception e) {
 			/*
 			 * @todo Exception is catched here because if catched in interceptor or directly in the LiggedUSerContainer
@@ -109,7 +112,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 			if (!isNodeNotFoundException(e)){
 				throw e;
 			}
-			
+
 			return null;
 		}
 	}
@@ -169,9 +172,34 @@ public class Neo4jEntityFactory implements EntityFactory {
 	public Effort createEffort(Effort effort) {
 		return new PersistedEffort(manager, effort);
 	}
-	
+
 	public NeoManager getManager() {
 		return manager;
+	}
+
+	@Override
+	public List<Comment> getObjectComments(PoolingpeopleEntity entity) {
+		return null;
+	}
+
+	@Override
+	public void createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
+		instanceProvider.getInstance(PersistedComment.class).createExistingNode(PoolingpeopleObjectType.COMMENT, comment);
+	}
+
+	@Override
+	public void deleteComment(String commentId) {
+		manager.removeNode(instanceProvider.getInstance(PersistedComment.class).loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT).getNode());
+	}
+
+	@Override
+	public Comment getComment(String commentId) {
+		return instanceProvider.getInstance(PersistedComment.class).loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT);
+	}
+
+	@Override
+	public PoolingpeopleEntity getPoolingpeopleEntity(String uuid) {
+		return manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid);
 	}
 
 }

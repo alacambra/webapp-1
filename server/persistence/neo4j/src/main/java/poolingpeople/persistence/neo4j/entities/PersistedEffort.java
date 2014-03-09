@@ -96,7 +96,7 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 	}
 
 	@Override
-	public void synchronizeWith(Effort tplObject) {
+	public void synchronizeWith(Object tplObject) {
 		// TODO Auto-generated method stub
 		
 	}

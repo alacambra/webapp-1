@@ -119,13 +119,13 @@ public class NeoManager {
 
 	public Node createNode(
 			Map<String, Object> properties, 
-			UUIDIndexContainer indexContainer, 
+			UUIDIndexContainer uuidIndexContainer, 
 			PoolingpeopleObjectType poolingpeopleObjectType
 			){
 		Node node = null;
 
-		if (uniqueNodeExist(poolingpeopleObjectType.name(), NodePropertyName.ID.name(), indexContainer.getValue()))
-			throw new NodeExistsException("Node " + indexContainer.getValue() + " already exists and can not be created again");
+		if (uniqueNodeExist(poolingpeopleObjectType.name(), NodePropertyName.ID.name(), uuidIndexContainer.getValue()))
+			throw new NodeExistsException("Node " + uuidIndexContainer.getValue() + " already exists and can not be created again");
 
 		node = graphDb.createNode();
 
@@ -133,10 +133,10 @@ public class NeoManager {
 			node.setProperty(prop.getKey(), prop.getValue());
 		}
 
-		node.setProperty(NodePropertyName.ID.name(), indexContainer.getValue());
+		node.setProperty(NodePropertyName.ID.name(), uuidIndexContainer.getValue());
 		node.setProperty(NodePropertyName.TYPE.name(), poolingpeopleObjectType.name());
 
-		Label label = DynamicLabel.label(indexContainer.getKey());
+		Label label = DynamicLabel.label(uuidIndexContainer.getKey());
 		node.addLabel(label);
 		label = DynamicLabel.label(poolingpeopleObjectType.name());
 		node.addLabel(label);

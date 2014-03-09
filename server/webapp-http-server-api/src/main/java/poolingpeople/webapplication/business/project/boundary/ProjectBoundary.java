@@ -36,12 +36,6 @@ import poolingpeople.webapplication.business.boundary.JsonViews;
 @AuthValidator
 public class ProjectBoundary extends AbstractBoundary{
 
-	@Inject
-	ObjectMapper mapper;
-
-	@Inject
-	EntityFactory entityFactory;
-
 	@GET
 	@Path(idPattern)
 	@Produces(MediaType.APPLICATION_JSON)

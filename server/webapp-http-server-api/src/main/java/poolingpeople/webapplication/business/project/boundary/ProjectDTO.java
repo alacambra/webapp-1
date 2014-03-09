@@ -216,7 +216,7 @@ public class ProjectDTO implements Project {
 	}
 
 	@Override
-	public void synchronizeWith(Project tplObject) {
+	public void synchronizeWith(Object tplObject) {
 		// TODO Auto-generated method stub
 		
 	}

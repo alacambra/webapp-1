@@ -41,16 +41,6 @@ import poolingpeople.webapplication.business.task.entity.TaskDTO;
 @CatchWebAppException
 public class TaskBoundary extends AbstractBoundary{
 
-	@Inject
-	private ObjectMapper mapper;
-
-	@Inject
-	private EntityFactory entityFactory;
-
-	@Inject
-	private ILoggedUserContainer loggedUserContainer;
-
-
 	/************************************* TASK CRUD *************************************/
 	@GET
 	@Path(idPattern)

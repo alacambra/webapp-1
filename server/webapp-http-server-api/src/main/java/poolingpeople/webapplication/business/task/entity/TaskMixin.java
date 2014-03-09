@@ -238,7 +238,7 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
-	public void synchronizeWith(Task tplObject) {
+	public void synchronizeWith(Object tplObject) {
 		// TODO Auto-generated method stub
 		
 	}

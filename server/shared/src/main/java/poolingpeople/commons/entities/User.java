@@ -2,7 +2,7 @@ package poolingpeople.commons.entities;
 
 import java.util.List;
 
-public interface User extends PoolingpeopleEntity, Synchronizable<User> {
+public interface User extends PoolingpeopleEntity, Synchronizable, Subject {
 	
 	String getId();
 

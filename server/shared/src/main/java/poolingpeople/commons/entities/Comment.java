@@ -1,6 +1,6 @@
 package poolingpeople.commons.entities;
 
-public interface Comment {
+public interface Comment extends PoolingpeopleEntity{
 	
 	public String getComment();
 	public Long getDate();

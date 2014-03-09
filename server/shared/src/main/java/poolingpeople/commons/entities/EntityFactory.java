@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface EntityFactory {
 
+	PoolingpeopleEntity getPoolingpeopleEntity(String uuid);
+	
 	void deleteTask(String uuid);
 
 	Task getTaskById(String uuid);
@@ -38,6 +40,8 @@ public interface EntityFactory {
 	 */
 	Effort createEffort(Effort effort);
 
-//	NeoManager getManager();
-
+	List<Comment> getObjectComments(PoolingpeopleEntity entity);
+	void createCommentOnObject(Comment comment, PoolingpeopleEntity entity);
+	void deleteComment(String commentId);
+	Comment getComment(String commentId);
 }

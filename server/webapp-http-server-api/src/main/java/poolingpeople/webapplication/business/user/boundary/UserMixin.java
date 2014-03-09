@@ -84,7 +84,7 @@ public class UserMixin implements User{
 	}
 
 	@Override
-	public void synchronizeWith(User tplObject) {
+	public void synchronizeWith(Object tplObject) {
 		// TODO Auto-generated method stub
 		
 	}

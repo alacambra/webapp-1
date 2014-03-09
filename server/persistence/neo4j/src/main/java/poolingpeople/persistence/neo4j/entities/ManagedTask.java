@@ -244,12 +244,6 @@ public class ManagedTask implements Task {
 	}
 
 	@Override
-	public void synchronizeWith(Task tplObject) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<ChangeLog> getChangeLogList() {
 		// TODO Auto-generated method stub
 		return null;
@@ -259,6 +253,12 @@ public class ManagedTask implements Task {
 	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void synchronizeWith(Object tplObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

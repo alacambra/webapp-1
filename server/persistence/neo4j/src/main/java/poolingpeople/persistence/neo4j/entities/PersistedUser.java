@@ -14,7 +14,7 @@ import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
-public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User, Subject {
+public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 
@@ -155,7 +155,7 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 	}
 
 	@Override
-	public void synchronizeWith(User tplObject) {
+	public void synchronizeWith(Object tplObject) {
 		// TODO Auto-generated method stub
 		
 	}

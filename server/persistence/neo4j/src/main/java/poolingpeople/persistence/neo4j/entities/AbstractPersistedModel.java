@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -55,6 +53,20 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 	public T loadExistingNode(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
+		return  (T) this;
+	}
+	
+	public T createExistingNode(PoolingpeopleObjectType objectType, Object dtoModel) {
+		
+		isCreated = false;
+		HashMap<String, Object> props = new HashMap<String, Object>();
+		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
+				.randomUUID().toString()), NODE_TYPE);
+
+		synchronizeWith(dtoModel);
+		initializeVariables();
+		isCreated = true;
+		
 		return  (T) this;
 	}
 	
@@ -350,7 +362,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		manager.removeRelationsTo(underlyingNode, relation);
 	}
 	
-	public void synchronizeWith(T tplObject) {
+	public void synchronizeWith(Object tplObject) {
 		
 		Method[] methods = tplObject.getClass().getMethods();
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.PoolingpeopleEntity;
@@ -83,6 +84,12 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 	
 	@Override
 	public List<Comment> getObjectComments(){
+		return null;
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

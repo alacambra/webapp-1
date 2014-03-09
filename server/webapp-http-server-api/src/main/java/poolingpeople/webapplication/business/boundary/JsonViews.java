@@ -76,4 +76,50 @@ public class JsonViews {
 	 * All attributes of an entity with subentities
 	 */
 	public static interface FullEffortWithElements extends BasicEffortWithElements, FullEffort{}
+	
+	/************************************** COMMENTS's VIEWS ***********************************************/
+	public static interface BasicComments extends Shared{}
+	public static interface CommentsWithObject extends BasicComments{}
+	public static interface CommentsWithSubject extends BasicComments{}
+	public static interface CommentsFull extends CommentsWithObject, CommentsWithSubject{}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
