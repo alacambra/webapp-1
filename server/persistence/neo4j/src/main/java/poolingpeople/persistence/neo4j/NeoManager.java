@@ -224,25 +224,29 @@ public class NeoManager {
 		node.setProperty(key, value);
 	}
 
-	public Node getRelatedNode(Node node, RelationshipType relation) {
-		return loadRelatedNodeTo(node, relation, null);
+	public Node getEndNode(Node to, RelationshipType relation) {
+		return getRelatedNode(to, relation, Direction.OUTGOING);
+	}
+	
+	public Node getFromNode(Node from, RelationshipType relation) {
+		return getRelatedNode(from, relation, Direction.INCOMING);
 	}
 
 	public Node getRelatedNode(Node node, RelationshipType relation, Direction direction) {
 
 		if ( direction == null ) {
-			throw new RuntimeException("Direction can not be null");
+			throw new RootApplicationException("Direction can not be null");
 		}
 
-		return loadRelatedNodeTo(node, relation, direction);
+		return loadRelatedNode(node, relation, direction);
 	}
 
-	private Node loadRelatedNodeTo(Node node, RelationshipType relation, Direction direction) {
+	private Node loadRelatedNode(Node node, RelationshipType relation, Direction direction) {
 
 		Iterator<Relationship> iterator = null;
 
 		if ( direction == null ) {
-			iterator = node.getRelationships(relation).iterator();
+			throw new RootApplicationException("Relation direction must be given");
 		} else {
 			iterator = node.getRelationships(relation, direction).iterator();
 		}
@@ -250,7 +254,7 @@ public class NeoManager {
 		if (iterator.hasNext()) {
 			Relationship rel = iterator.next();
 			if ( iterator.hasNext() ) {
-				throw new RuntimeException("More than one relations has been found");
+				throw new RootApplicationException("More than one relations has been found");
 			}
 			Node relatedNode = rel.getStartNode().equals(node) ? rel.getEndNode() : rel.getStartNode(); 
 			return relatedNode;

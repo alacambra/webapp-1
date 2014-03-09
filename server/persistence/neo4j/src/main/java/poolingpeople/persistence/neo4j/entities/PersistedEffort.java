@@ -66,7 +66,7 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 	public void setTime(Integer time) {
 
 		setProperty(NodePropertyName.TIME, time);
-		PersistedTask task = getRelatedNode(Relations.HAS_EFFORT, PersistedTask.class);
+		PersistedTask task = getEndNode(Relations.HAS_EFFORT, PersistedTask.class);
 
 		if ( !isCreated ) {
 			return;

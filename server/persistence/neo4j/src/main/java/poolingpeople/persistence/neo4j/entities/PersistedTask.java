@@ -313,7 +313,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 
 	public Project getProject() {
 
-		Project p = getRelatedNode(Relations.PROJECT_HAS_TASK, PersistedProject.class);
+		Project p = getEndNode(Relations.PROJECT_HAS_TASK, PersistedProject.class);
 		return p;
 	}
 

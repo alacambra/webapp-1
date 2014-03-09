@@ -41,9 +41,14 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	
 	@Inject 
 	protected NeoManager manager;
+	
+	@Inject
+	private PersistedClassResolver persistedClassResolver;
+	
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;
 	protected Set<IndexContainer> indexContainers;
+	
 
 	private final PoolingpeopleObjectType NODE_TYPE;
 
@@ -185,9 +190,22 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		onDelete();
 	}
 
-	protected <P extends AbstractPersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz) {
+	protected  AbstractPersistedModel<?> getEndNode(Relations relation) {
 
-		Node n = manager.getRelatedNode(underlyingNode, relation);
+		Node n = manager.getEndNode(underlyingNode, relation);
+		Class<? extends AbstractPersistedModel<?>> clazz = persistedClassResolver.getClassForNodeType(n);
+		
+		if ( n != null ) {
+			return getPersistedObject(n, clazz);
+		}
+		
+		return null;
+
+	}
+	
+	protected <P extends AbstractPersistedModel<?>> P getEndNode(Relations relation, Class<P> clazz) {
+
+		Node n = manager.getEndNode(underlyingNode, relation);
 		
 		if ( n != null ) {
 			return getPersistedObject(n, clazz);

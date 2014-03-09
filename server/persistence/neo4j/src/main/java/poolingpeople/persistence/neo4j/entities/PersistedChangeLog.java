@@ -25,12 +25,12 @@ public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLo
 
 	@Override
 	public Subject getSubject() {
-		return getRelatedNode(Relations.HAS_SUBJECT , PersistedUser.class);
+		return getEndNode(Relations.HAS_SUBJECT , PersistedUser.class);
 	}
 
 	@Override
 	public ChangeLogAction getAction() {
-		return getRelatedNode(Relations.HAS_ACTION, PersistedChangeLogAction.class);
+		return getEndNode(Relations.HAS_ACTION, PersistedChangeLogAction.class);
 	}
 
 	@Override
