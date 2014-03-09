@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.annotate.JsonView;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
@@ -187,6 +188,12 @@ public class ProjectMixin implements Project{
 
 	@Override
 	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
 	}

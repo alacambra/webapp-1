@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -27,6 +28,7 @@ import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
 
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.container.IndexContainer;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
@@ -228,7 +230,7 @@ public class NeoManager {
 		return getRelatedNode(to, relation, Direction.OUTGOING);
 	}
 
-	public Node getFromNode(Node from, RelationshipType relation) {
+	public Node getStartNode(Node from, RelationshipType relation) {
 		return getRelatedNode(from, relation, Direction.INCOMING);
 	}
 

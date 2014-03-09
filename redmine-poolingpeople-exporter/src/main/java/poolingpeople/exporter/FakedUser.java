@@ -3,6 +3,7 @@ package poolingpeople.exporter;
 import java.util.List;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 
@@ -82,6 +83,12 @@ public class FakedUser implements User{
 
 	@Override
 	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
 	}

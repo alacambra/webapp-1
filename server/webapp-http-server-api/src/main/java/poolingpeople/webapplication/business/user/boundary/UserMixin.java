@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonSetter;
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -90,6 +91,12 @@ public class UserMixin implements User{
 
 	@Override
 	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
 	}

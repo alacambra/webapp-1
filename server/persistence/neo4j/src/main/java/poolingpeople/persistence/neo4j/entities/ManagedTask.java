@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
@@ -250,6 +251,12 @@ public class ManagedTask implements Task {
 
 	@Override
 	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
 	}

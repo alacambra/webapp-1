@@ -308,7 +308,7 @@ public class PersistedProject extends AbstractPersistedModel<PersistedProject> i
 
 	@Override
 	public Collection<Task> getTasks() {
-		return getRelatedNodes(Relations.PROJECT_HAS_TASK, PersistedTask.class, Task.class);
+		return getRelatedEndNodes(Relations.PROJECT_HAS_TASK, PersistedTask.class, Task.class);
 	}
 
 	/**************** UPDATE METHODS *****************/

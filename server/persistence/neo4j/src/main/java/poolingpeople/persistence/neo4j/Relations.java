@@ -118,7 +118,17 @@ public enum Relations implements RelationshipType {
 			{Arrays.asList(PoolingpeopleObjectType.PROJECT,
 					PoolingpeopleObjectType.TASK,
 					PoolingpeopleObjectType.USER), PoolingpeopleObjectType.CHANGELOG} 
-	}));
+	})), 
+	
+	/**
+	 * Comments
+	 */
+	COMMENTED(PoolingpeopleObjectType.USER, PoolingpeopleObjectType.COMMENT),
+	ABOUT_OBJECT((ArrayUtils.toMap(new Object[][]{
+			{PoolingpeopleObjectType.COMMENT, 
+				Arrays.asList(PoolingpeopleObjectType.TASK, PoolingpeopleObjectType.PROJECT, PoolingpeopleObjectType.USER)}
+		})))
+	;
 	
 	private Map<Object, Object> validPairs;
 	

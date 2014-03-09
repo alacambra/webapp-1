@@ -187,8 +187,8 @@ public class NeoManagerTest {
 	@Test
 	public void testGetRelatedNodeNodeRelationshipType() {
 
-		Node to = helper.addNode();
-		Node from = helper.addNode();
+		Node end = helper.addNode();
+		Node start = helper.addNode();
 
 		RelationshipType relationshipType = new RelationshipType() {
 
@@ -198,13 +198,13 @@ public class NeoManagerTest {
 			}
 		};
 
-		from.createRelationshipTo(to, relationshipType);
+		start.createRelationshipTo(end, relationshipType);
 
-		Node n = target.getEndNode(to, relationshipType);
-		assertEquals(from, n);
+		Node n = target.getStartNode(end, relationshipType);
+		assertEquals(start, n);
 
-		n = target.getEndNode(from, relationshipType);
-		assertEquals(to, n);
+		n = target.getEndNode(start, relationshipType);
+		assertEquals(end, n);
 
 	}
 

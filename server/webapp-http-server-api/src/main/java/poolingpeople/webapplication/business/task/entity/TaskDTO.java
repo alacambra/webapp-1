@@ -6,6 +6,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.entities.Project;
@@ -259,6 +260,12 @@ public class TaskDTO implements Task {
 	@JsonIgnore
 	@Override
 	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -21,6 +21,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.NeoManager;
@@ -231,8 +232,12 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return (List<P>) getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation, direction), list, clazz);
 	}
 
-	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
-		return getRelatedNodes(relation, implementationClass, interfaceClass, null);
+	protected <IN, IM> List<IN> getRelatedEndNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
+		return getRelatedNodes(relation, implementationClass, interfaceClass, Direction.OUTGOING);
+	}
+	
+	protected <IN, IM> List<IN> getRelatedStartNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
+		return getRelatedNodes(relation, implementationClass, interfaceClass, Direction.INCOMING);
 	}
 
 	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass, Direction direction){
@@ -374,6 +379,10 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 						+ this.getClass().getCanonicalName() + "." + beanMethod.getName() + ":" + e.getMessage(), e);
 			}
 		}
+	}
+	
+	public List<Comment> getObjectComments(){
+		return getRelatedStartNodes(Relations.ABOUT_OBJECT, PersistedComment.class, Comment.class);
 	}
 }
 

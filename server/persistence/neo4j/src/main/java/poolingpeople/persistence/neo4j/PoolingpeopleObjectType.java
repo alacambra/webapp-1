@@ -9,7 +9,8 @@ public enum PoolingpeopleObjectType {
 	SERVICE,
 	EFFORT,
 	CHANGELOG,
-	CHANGELOG_ACTION;
+	CHANGELOG_ACTION, 
+	COMMENT;
 
 	PoolingpeopleObjectType(boolean isSubject) {
 		this.isSubject = isSubject;
