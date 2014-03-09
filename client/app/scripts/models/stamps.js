@@ -3,17 +3,18 @@
 
     angular.module('poolingpeopleApp')
         .service('ModelStampsService', function() {
+
             var poolingpeopleObject = stampit().methods({
                 getUUID: function(){
                     return this.id;
                 }
             }).state({
-                    id : ""
-                });
+                id : ""
+            });
 
             var scheduledObject = stampit().methods({
                 getStartDate: function() {
-                    return this.startDate;
+                    return this.startDate ===  1254731900000 ? null : this.startDate;
                 },
 
                 getEndDate: function() {
@@ -21,11 +22,11 @@
                 },
 
                 getFormatedStartDate: function(){
-                    return Date(this.startDate);
+                    return new Date(this.startDate);
                 },
 
                 getFormatedEndDate: function(){
-                    return this.endDate ===  -99999999999999 ? null : Date(this.endDate);
+                    return this.endDate === -99999999999999 ? null : new Date(this.endDate);
                 },
 
                 getShortTitle: function(){
@@ -34,6 +35,10 @@
                     }
 
                     return this.title
+                },
+
+                statusEncoder : function(code){
+                    return code.toLowerCase();
                 },
 
                 getShortDescription: function(){
@@ -50,42 +55,46 @@
                 }
 
             }).state({
-                    title: null,
-                    description: null,
-                    status: 'NEW',
-                    priority: 'NORMAL',
-                    duration: 0,
-                    effort: 0,
-                    progress: 0,
-                    startDate : 0,
-                    endDate : 0,
-                    assignee: null
-                });
+                title: null,
+                description: null,
+                status: null,
+                priority: 'NORMAL',
+                duration: 0,
+                effort: 0,
+                progress: 0,
+                startDate : 0,
+                endDate : 0,
+                assignee: null
+            });
 
             var task = stampit.compose(poolingpeopleObject, scheduledObject).state({
 
                 project: null,
-                assignee: null
+                assignee: null,
+                status: [
+                    "TODO",
+                    "NEW",
+                    "ASSIGNED",
+                    "HOLD",
+                    "COMPLETED",
+                    "ARCHIVED",
+                    "REQUESTED",
+                    "OFFERED"
+                ]
 
             }).methods({
-                    setProject: function (project) {
-                        this.project = {
-                            id: project.id,
-                            name: project.title
-                        };
-                    }
-                }).enclose(function () {
-                    var _efforts = [];
+            }).enclose(function () {
+                var _efforts = [];
 
-                    this.getEfforts = function () {
-                        return _efforts;
-                    };
+                this.getEfforts = function () {
+                    return _efforts;
+                };
 
-                    this.setEfforts = function (efforts) {
-                        _efforts = efforts;
-                    };
+                this.setEfforts = function (efforts) {
+                    _efforts = efforts;
+                };
 
-                });
+            });
 
 
             var user = stampit.compose(poolingpeopleObject).state({
@@ -94,21 +103,21 @@
                 birthday: null,
                 email: null
             }).methods({
-                    getPrettyName: function () {
+                getPrettyName: function () {
 
-                        var name = "";
+                    var name = "";
 
-                        if ( this.lastName != null ){
-                            name = this.lastName + ", ";
-                        }
-
-                        if ( this.firstName != null ){
-                            name += this.firstName;
-                        }
-
-                        return name;
+                    if ( this.lastName != null ){
+                        name = this.lastName + ", ";
                     }
-                });
+
+                    if ( this.firstName != null ){
+                        name += this.firstName;
+                    }
+
+                    return name;
+                }
+            });
 
             return {
                 task: task,

@@ -2,14 +2,25 @@
     <thead>
     <tr>
         <th><!-- Aktion --></th>
-        <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
-            <nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }">
-            </span></nobr>
+        <th><a href="javascript:void(0);"
+               ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
+            <nobr>Titel
+                <span class="glyphicon"
+                      ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }">
+                </span>
+            </nobr>
         </a></th>
-        <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
-            <nobr>Beschreibung <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }"></span></nobr>
+        <th>
+            <a href="javascript:void(0);"
+               ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
+            <nobr>Beschreibung
+                <span class="glyphicon"
+                      ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }">
+                      </span>
+            </nobr>
         </a></th>
-        <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.firstName') ? '-assignee.firstName' : 'assignee.firstName'">
+        <th>
+            <a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.firstName') ? '-assignee.firstName' : 'assignee.firstName'">
             <nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.firstName', 'glyphicon-arrow-up': sorting === '-assignee.firstName' }"></span></nobr>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
@@ -29,9 +40,6 @@
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
             <nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
-        </a></th>
-        <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'project.title') ? '-project.title' : 'project.title'">
-            <nobr>Projekt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'project.title', 'glyphicon-arrow-up': sorting === '-project.title' }"></span></nobr>
         </a></th>
     </tr>
     </thead>
@@ -83,7 +91,7 @@
                 </a>
             </div>
             <div ng-show="editing(task)" ng-init="states = ['Neu', 'Zugewiessen', 'Erledigt']">
-                <select ng-model="task.status" ng-options="status for status in states">
+                <select ng-model="task.status" ng-options="status for status in states" />
             </div>
         </td>
 
@@ -101,18 +109,7 @@
         <td>
             <div ng-show="!editing(task)">
                 <a href="" ng-click="task.hideTasks = !task.hideTasks">
-                    <strong>{{ task.start }}</strong>
-                </a>
-            </div>
-            <div ng-show="editing(task)">
-                <input type="text" ng-model="task.start" />
-            </div>
-        </td>
-
-        <td>
-            <div ng-show="!editing(task)">
-                <a href="" ng-click="task.hideTasks = !task.hideTasks">
-                    <strong>{{ task.end }}</strong>
+                    <strong>{{ task.getFormatedEndDate() }}</strong>
                 </a>
             </div>
             <div ng-show="editing(task)">
@@ -123,7 +120,18 @@
         <td>
             <div ng-show="!editing(task)">
                 <a href="" ng-click="task.hideTasks = !task.hideTasks">
-                    <strong>{{ task.time }}h</strong>
+                    <strong>{{ task.duration }}</strong>
+                </a>
+            </div>
+            <div ng-show="editing(task)">
+                <input type="range" max="40" step="0.25" ng-model="task.duration" /> {{ task.duration | number:2 }}h
+            </div>
+        </td>
+
+        <td>
+            <div ng-show="!editing(task)">
+                <a href="" ng-click="task.hideTasks = !task.hideTasks">
+                    <strong>{{ task.effort }}h</strong>
                 </a>
             </div>
             <div ng-show="editing(task)">

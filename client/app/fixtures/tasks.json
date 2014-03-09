@@ -24,45 +24,15 @@
         "startDateIsDefault": true,
         "endDateIsDefault": true,
         "statusIsDefault": true,
-        "progress": 0,
+        "progress": 0.52,
         "status": "COMPLETED",
         "priority": "LOW",
         "id": "5584d38b-b797-41dc-97e1-76206eedf82f"
     },
     {
         "duration": 0,
-        "startDate": 1254731893000,
-        "endDate": -99999999999999,
-        "title": "Review Grobkonzept",
-        "description": "Bitte Dok gegen lesen und kommentieren (090923_konzept_usabilitytest_maßnahmen.doc)\r\n\\\\Projects\\share\\PROJECTS\\00_Aufträge ohne Projektnummer\\2009-09-23 KDG Usability Optimierung",
-        "project": {
-            "title": "ion2s_Key-Account-Management",
-            "progressIsDefault": false,
-            "startDateIsDefault": false,
-            "endDateIsDefault": false,
-            "statusIsDefault": true,
-            "durationIsDefault": true,
-            "effortIsDefault": false,
-            "taskCount": 32,
-            "id": "598a75f4-5aa1-4c40-a847-1431e6f78623"
-        },
-        "assignee": null,
-        "parentId": null,
-        "subtaskCount": 0,
-        "effort": 1,
-        "progressIsDefault": true,
-        "startDateIsDefault": true,
-        "endDateIsDefault": true,
-        "statusIsDefault": true,
-        "progress": 0,
-        "status": "COMPLETED",
-        "priority": "LOW",
-        "id": "9fd6e216-97b5-4f20-aedb-21800948fa53"
-    },
-    {
-        "duration": 0,
-        "startDate": 1254739530000,
-        "endDate": -99999999999999,
+        "startDate": 0,
+        "endDate": 1,
         "title": "Installation Plugin \"Whining\"",
         "description": "Installation Plugin \"Whining\" direkt in laufender Redmine Version",
         "project": {
@@ -274,7 +244,7 @@
     {
         "duration": 3600,
         "startDate": 1254819476000,
-        "endDate": 99999999999999,
+        "endDate": -99999999999999,
         "title": "CSS",
         "description": "- Überflüssige und alte CSS Definitionen entfernen",
         "project": {
@@ -370,7 +340,7 @@
     {
         "duration": 0,
         "startDate": 1254820391000,
-        "endDate": 99999999999999,
+        "endDate": -99999999999999,
         "title": "ale Datenhaltung",
         "description": "- Technische Recherche dezentrale Datenhaltung o.ä.: möglichst geringe und kalkulierbare Serverauslastung \r\n- Ziel: Dokument mit Übersicht der Möglichkeiten, ggf. Schaubild",
         "project": {
@@ -400,7 +370,7 @@
     {
         "duration": 0,
         "startDate": 1254819042000,
-        "endDate": 99999999999999,
+        "endDate": -99999999999999,
         "title": "Tracking ergänzen",
         "description": "folgende Variable auf dem Bestellformular vom \"Digitalen Empfang\" einbinden:\ns.products=\";KA Digitaler Empfang;0;0\"\n\nfolgende Variablen auf der Bestätigungsseite vom \"Digitalen Empfang\" einbinden:\ndas event \"purchase\"\ns.purchaseID mit einer systemisch generierten eineindeutigen ID\ns.products=\";KA Digitaler Empfang;1;2.90\"\ns.eVar12 (VPKN aus JVM-Kampagnencontroller Cookie)\ns.eVar13 (Kampagnen-ID \"source\" aus JVM-Kampagnencontroller Cookie)\n\nIn die Templates werden bereits die PHP-Variablen analog zum MiniBP (MBP) geschrieben. \nDie Variablen müssen nur noch im PHP-Controller gesetzt werden.\n\ngggggggggggg",
         "project": {
