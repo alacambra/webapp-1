@@ -50,22 +50,22 @@ public class NeoManager {
 
 
 	public boolean uniqueNodeExist(String labelName, String key, Object value){
-		
+
 		String q = "MATCH (n:" + labelName + "{" + key + ":\"" + value.toString() + "\"}) return n;";
 		ResourceIterator<Node> it = runCypherQuery(q, null).columnAs("n");
-		
+
 		if (!it.hasNext()){
 			it.close();
 			return false;
 		}
-		
+
 		it.next();
-		
+
 		if (it.hasNext()){
 			it.close();
 			throw new NotUniqueException();
 		}
-		
+
 		it.close();
 		return true;
 	}
@@ -73,19 +73,19 @@ public class NeoManager {
 	public Node getUniqueNode(String labelName, String key, Object value){
 		String q = "MATCH (n:" + labelName + "{" + key + ":\"" + value.toString() + "\"}) return n;";
 		ResourceIterator<Node> it = runCypherQuery(q, null).columnAs("n");
-		
+
 		if (!it.hasNext()){
 			it.close();
 			throw new NodeNotFoundException();
 		}
-		
+
 		Node n = it.next();
 		it.close();
-		
+
 		if (it.hasNext()){
 			throw new NotUniqueException();
 		}
-		
+
 		return n;
 
 	}
@@ -102,7 +102,7 @@ public class NeoManager {
 	public Collection<Node> getNodes(String label) {
 		return getNodes(label, 0, 15);
 	}
-	
+
 	public Collection<Node> getNodes(String label, int start, int total) {
 
 		ExecutionResult result = runCypherQuery("MATCH(n:" + label + ") RETURN n SKIP " + start + " LIMIT " + total, null);
@@ -119,7 +119,7 @@ public class NeoManager {
 			Map<String, Object> properties, 
 			UUIDIndexContainer indexContainer, 
 			PoolingpeopleObjectType poolingpeopleObjectType
-	){
+			){
 		Node node = null;
 
 		if (uniqueNodeExist(poolingpeopleObjectType.name(), NodePropertyName.ID.name(), indexContainer.getValue()))
@@ -149,8 +149,8 @@ public class NeoManager {
 
 	public Relationship createRelationshipTo(Node from, Node to, RelationshipType relation, Map<String, Object> properties) {
 
-//		String q = "START from=node(" + from.getId() + "), to=node(" + to.getId() + "), CREATE from-[r:" + relation.name()+ "]->to";
-		
+		//		String q = "START from=node(" + from.getId() + "), to=node(" + to.getId() + "), CREATE from-[r:" + relation.name()+ "]->to";
+
 		Relationship rel = null;
 
 		for(Relationship r : from.getRelationships(Direction.OUTGOING, relation)) {
@@ -227,7 +227,7 @@ public class NeoManager {
 	public Node getEndNode(Node to, RelationshipType relation) {
 		return getRelatedNode(to, relation, Direction.OUTGOING);
 	}
-	
+
 	public Node getFromNode(Node from, RelationshipType relation) {
 		return getRelatedNode(from, relation, Direction.INCOMING);
 	}
@@ -291,28 +291,28 @@ public class NeoManager {
 
 		return result;
 	}
-	
+
 	public ExecutionResult runCypherQuery(String query) {
 		return runCypherQuery(query, null);
 	}
 
-	public Collection<Node> getRelatedNodes(Node node, RelationshipType relation) {
-		return loadRelatedNodesTo(node, relation, null);
+	public Collection<Node> getRelatedEndNodes(Node node, RelationshipType relation) {
+		return loadRelatedNodes(node, relation, Direction.OUTGOING);
 	}
 
 	public Collection<Node> getRelatedNodes(Node node, RelationshipType relation, Direction direction) {
-		//		if ( direction == null ) {
-		//			throw new RuntimeException("direction can no be null");
-		//		}
-		return loadRelatedNodesTo(node, relation, direction);
+		if ( direction == null ) {
+			throw new RootApplicationException("direction can no be null");
+		}
+		return loadRelatedNodes(node, relation, direction);
 	}
 
-	private Collection<Node> loadRelatedNodesTo(Node node, RelationshipType relation, Direction direction) {
+	private Collection<Node> loadRelatedNodes(Node node, RelationshipType relation, Direction direction) {
 
 		Iterable<Relationship> iterator = null;
 
 		if ( direction == null) {
-			iterator = node.getRelationships(relation);
+			throw new RootApplicationException("direction can no be null");
 		} else {
 			iterator = node.getRelationships(relation, direction);
 		}
@@ -371,12 +371,12 @@ public class NeoManager {
 	 * @param n
 	 */
 	public void removeNode(Node n) {
-		
-//		MATCH (n) 
-//		OPTIONAL MATCH (n)-[r]-() 
-//		DELETE n, r
-		
-		
+
+		//		MATCH (n) 
+		//		OPTIONAL MATCH (n)-[r]-() 
+		//		DELETE n, r
+
+
 		UUIDIndexContainer uuidIndexContainer = new UUIDIndexContainer((String)n.getProperty(NodePropertyName.ID.name()));
 		graphDb.index().forNodes( uuidIndexContainer.getType() ).remove(n);
 
