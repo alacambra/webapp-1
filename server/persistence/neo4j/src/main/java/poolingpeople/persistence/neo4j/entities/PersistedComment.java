@@ -89,7 +89,6 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 
 	@Override
 	public List<ChangeLog> getChangeLogList() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

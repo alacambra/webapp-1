@@ -183,7 +183,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public List<Comment> getObjectComments(PoolingpeopleEntity entity) {
-		return null;
+		return entity.getObjectComments();
 	}
 
 	@Override

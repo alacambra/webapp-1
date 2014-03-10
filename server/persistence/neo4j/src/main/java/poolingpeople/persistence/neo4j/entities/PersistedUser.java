@@ -161,11 +161,6 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
 	}
 
-	@Override
-	public void synchronizeWith(Object tplObject) {
-		// TODO Auto-generated method stub
-		
-	}
 }
 
 
