@@ -206,7 +206,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected  AbstractPersistedModel<?> getEndNode(Relations relation) {
 
 		Node n = manager.getEndNode(underlyingNode, relation);
-		Class<? extends AbstractPersistedModel<?>> clazz = persistedClassResolver.getClassForNodeType(n);
+		Class<? extends AbstractPersistedModel<?>> clazz = persistedClassResolver.getPersistedEntityClassForNode(n);
 		
 		if ( n != null ) {
 			return getPersistedObject(n, clazz);

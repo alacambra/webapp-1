@@ -1,11 +1,17 @@
 package poolingpeople.persistence.neo4j.entities;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.AbstractCollection;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.inject.Inject;
 
 import org.neo4j.graphdb.Node;
 
+import poolingpeople.commons.entities.PoolingpeopleEntity;
+import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -30,7 +36,7 @@ public class PersistedClassResolver {
 		objectTypesMap.put(PersistedChangeLogAction.NODE_TYPE, PersistedChangeLogAction.class);
 	}
 	
-	public Class<? extends AbstractPersistedModel<?>> getClassForNodeType(Node n){
+	public Class<? extends AbstractPersistedModel<?>> getPersistedEntityClassForNode(Node n){
 		
 		String type = manager.getStringProperty(n,NodePropertyName.TYPE.name());
 		
@@ -47,4 +53,57 @@ public class PersistedClassResolver {
 		
 	}
 	
+	public PoolingpeopleEntity getPoolingpeopleEntityFromNode(Node n){
+		
+		Class<?> clazz = getPersistedEntityClassForNode(n);
+		
+		if (clazz.isAssignableFrom(PoolingpeopleEntity.class)) {
+			try {
+				
+				Constructor<?> c = clazz.getConstructor(NeoManager.class, Node.class);
+				return (PoolingpeopleEntity)c.newInstance(this, n);
+				
+			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
+				RootApplicationException applicationException = new RootApplicationException();
+				applicationException.setStackTrace(e.getStackTrace());
+				throw applicationException;
+			}
+		}
+		
+		throw new RootApplicationException("Class " + clazz.getName() + " is not a PoolingpeopleEntity");
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

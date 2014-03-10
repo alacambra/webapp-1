@@ -16,6 +16,7 @@ import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
+import poolingpeople.persistence.neo4j.entities.PersistedClassResolver;
 import poolingpeople.persistence.neo4j.entities.PersistedComment;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
@@ -31,6 +32,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Inject
 	private InstanceProvider instanceProvider;
+	
+	@Inject
+	private PersistedClassResolver classResolver;
 
 	@Override
 	public void deleteTask(String uuid)  {
@@ -199,7 +203,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PoolingpeopleEntity getPoolingpeopleEntity(String uuid) {
-		return manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid);
+		return classResolver.getPoolingpeopleEntityFromNode(
+				manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid));
 	}
 
 }
