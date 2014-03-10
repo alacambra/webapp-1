@@ -6,7 +6,7 @@ describe ("hoursToMinutes", function() {
 	var filter; 
 
 	beforeEach(inject(function($filter) {
-		filter = $filter('hoursToMinutes')
+		filter = $filter('hoursToMinutes');
 	}))
 
 	it("0 hours", function() {

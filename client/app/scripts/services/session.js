@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('poolingpeopleApp')
+    angular.module('poolingpeopleApp', [])
 
         .service('SessionService', function (Base64, $cookieStore, $http, $q, DataProvider) {
 		 
