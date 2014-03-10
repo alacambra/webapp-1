@@ -195,31 +195,7 @@
 
 		</form>
 	</div>
-	<div class="modal-body" ng-controller="LogCtrl" ng-init="idObject = modal.task.id">
-		<h5>
-			<a href="javascript:void(0)" ng-hide="showLog" ng-click="toggleLog()">See history log <span ng-class="{ 'glyphicon-arrow-down': showLog, 'glyphicon-arrow-right': !showLog }" class="glyphicon"></span></a>
-			<a href="javascript:void(0)" ng-show="showLog" ng-click="toggleLog()">Hide history log <span ng-class="{ 'glyphicon-arrow-down': showLog, 'glyphicon-arrow-right': !showLog }" class="glyphicon"></span></a>
-		</h5>
-		<div ng-show="showLog">
-			<div ng-loading="log" class="text-center" >
-				<img src="images/load_indicator.gif" alt="" style="padding:50px" />
-			</div>
-			<div ng-loading="!log">
-			    <div class="btn-group" data-toggle="buttons-checkbox">
-				    <a href="" class="btn btn-primary active" ng-click="filter.edition = !filter.edition">Changes</a>
-				    <a href="" class="btn btn-primary active" ng-click="filter.comment = !filter.comment">Comments</a>
-			    </div>
-			    <ul style="margin-top: 20px; list-style-type: none">
-				    <li ng-repeat="log in getFilteredLogs() | orderBy: 'date'">
-				    	<div ng-switch on="log.type">
-					    	<p ng-switch-when="edition"><span class="glyphicon glyphicon-pencil" style="margin-right: 7px"></span> The <b>{{ log.object.label }}</b> was edited from <b>{{ log.object.oldValue }}</b> to <b>{{ log.object.newValue }}</b> </p>
-					    	<p ng-switch-when="comment"><span class="glyphicon glyphicon-comment" style="margin-right: 7px"></span> <b>{{ log.user }}</b> commented <i>{{ log.comment }}</i><p>
-					    </div>
-				    </li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	<div class="modal-body" ng-controller="LogCtrl" ng-if="modal.task.id" ng-init="idObject = modal.task.id" ng-include="'views/changelog.tpl.html'"></div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="close()">Abbrechen</button>
 		<button type="button" class="btn btn-primary" ng-click="save()">Speichern und Schließen</button>
