@@ -1,4 +1,4 @@
-package poolingpeople.persistence.neo4j;
+package poolingpeople.persistence.neo4j.inheritance;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
