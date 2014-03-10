@@ -41,7 +41,9 @@ public interface EntityFactory {
 	Effort createEffort(Effort effort);
 
 	List<Comment> getObjectComments(PoolingpeopleEntity entity);
-	void createCommentOnObject(Comment comment, PoolingpeopleEntity entity);
+	Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity);
 	void deleteComment(String commentId);
 	Comment getComment(String commentId);
+
+	Comment createCommentOnObject(Comment comment, String uuid);
 }

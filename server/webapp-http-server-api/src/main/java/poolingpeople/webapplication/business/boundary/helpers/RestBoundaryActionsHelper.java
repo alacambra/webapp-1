@@ -12,10 +12,10 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 
-import poolingpeople.persistence.neo4j.DummyAsyncBean;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
+import poolingpeople.persistence.neo4j.inheritance.DummyAsyncBean;
 
 
 @Path("help")

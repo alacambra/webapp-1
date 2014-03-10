@@ -46,14 +46,13 @@ public class CommentsBoundary extends AbstractBoundary{
 	@Path("{objectId:" + uuidRegexPattern + "}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response createComment(@PathParam("objectId") String id, String json)
+	public Response createComment(@PathParam("objectId") String objectId, String json)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		
 		Comment dtoComment = mapper.readValue(json, CommentsDTO.class);
+		String commentId = entityFactory.createCommentOnObject(dtoComment, objectId).getId();
+		return Response.ok().entity(commentId).build();
 		
-		Project project = entityFactory.createProject(dtoProject);
-		
-		return Response.ok().entity(mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString("")).build();
 	}
 
 
@@ -63,10 +62,9 @@ public class CommentsBoundary extends AbstractBoundary{
 	public Response updateComment(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
 		
-		Comment dtoProject = mapper.readValue(json, CommentsDTO.class);
-//		Project persistedProject = entityFactory.getProjectById(uuid);
-//		persistedProject.synchronizeWith(dtoProject);
-//		String serializedProject = mapper.writerWithView(JsonViews.FullProject.class).writeValueAsString(persistedProject);
+		Comment dtoComment = mapper.readValue(json, CommentsDTO.class);
+		entityFactory.getComment(uuid).synchronizeWith(dtoComment);
+		
 		return Response.noContent().build();
 	}
 
