@@ -58,7 +58,7 @@
 				</div>
 			</td>
 		</tr>
-		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting" ng-controller="ProjectCtrl">
+		<tr class="ng-table-group" ng-repeat-start="project in list.projects | orderBy:sorting | startFrom: list.pagination.currentPage*list.pagination.itemsPerPage | limitTo:list.pagination.itemsPerPage" ng-controller="ProjectCtrl">
 			<!-- Action -->
 			<td class="text-center">
 				<input type="checkbox" ng-click="selectProject(project)" ng-checked="list.selectedProject === project" ng-loading="!projects.projectList.project.{{ project.id }}" />
@@ -227,4 +227,17 @@
 		</tr>
 		</tbody>
 	</table>
+    <ul class="pagination" ng-loading="!projects.projectList">
+        <li ng-class="{disabled: list.pagination.currentPage == 0}">
+            <a href ng-click="list.pagination.prevPage()">« Prev</a>
+        </li>
+        <li ng-repeat="i in [] | range:(list.pagination.totalPages() + 1)"
+            ng-class="{active: i == list.pagination.currentPage}"
+        	ng-click="list.pagination.setPage()">
+            <a href="" ng-click="list.pagination.gotoPage(i)" ng-if="list.pagination.showPaginationIndex(i)">{{ i + 1 }}</a>
+        </li>
+        <li ng-class="{disabled: list.pagination.currentPage == list.pagination.totalPages() - 1}">
+            <a href ng-click="list.pagination.nextPage()">Next »</a>
+        </li>
+    </ul>
 </div>

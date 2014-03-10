@@ -21,7 +21,36 @@
 						});
 					},
 
-					datepicker: {}
+					datepicker: {},
+
+					pagination: {
+
+						currentPage: 0,
+						itemsPerPage: 10,
+						totalPages: function() {
+							return $scope.list.projects.length / this.itemsPerPage;
+						},
+
+						showPaginationIndex: function(n) {
+							//return Math.abs(this.currentPage - n) < 2 || n < 2 || n > this.totalPages - 3;
+							return true;
+						},
+
+						nextPage: function() {
+							if (this.currentPage < this.totalPages() - 1)
+								this.gotoPage(this.currentPage + 1);
+						},
+
+						prevPage: function() {
+							if (this.currentPage > 0)
+								this.gotoPage(this.currentPage - 1);
+						},
+
+						gotoPage: function(n) {
+							this.currentPage = n;
+						}
+
+					}
 				};
 
 				// Load all projects
