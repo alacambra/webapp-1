@@ -32,7 +32,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Inject
 	private InstanceProvider instanceProvider;
-	
+
 	@Inject
 	private PersistedClassResolver classResolver;
 
@@ -51,7 +51,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedTask getTaskById(String uuid)  {
-		return new PersistedTask(manager, uuid);
+		return instanceProvider.getInstance(PersistedTask.class).loadExistingNode(uuid, PoolingpeopleObjectType.TASK);
 	}
 
 	@Override
@@ -187,8 +187,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public void createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		instanceProvider.getInstance(PersistedComment.class).createExistingNode(PoolingpeopleObjectType.COMMENT, comment);
+	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
+		return instanceProvider.getInstance(PersistedComment.class).createExistingNode(PoolingpeopleObjectType.COMMENT, comment);
 	}
 
 	@Override
@@ -207,6 +207,12 @@ public class Neo4jEntityFactory implements EntityFactory {
 				manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid));
 	}
 
+	@Override
+	public Comment createCommentOnObject(Comment comment, String uuid) {
+		return createCommentOnObject(comment,
+				classResolver.getPoolingpeopleEntityFromNode(
+						manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid)));
+	}
 }
 
 

@@ -39,6 +39,13 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 		isCreated = true;
 		
 	}
+	
+	public PersistedUser loadExistingNode(String email, String password, User user){
+		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
+		setLoginEmail(email);
+		setPassword(password);
+		return this;
+	}
 
 //	public PersistedUser() throws NodeExistsException {
 //		super(NODE_TYPE);
