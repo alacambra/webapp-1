@@ -2,18 +2,20 @@ package poolingpeople.persistence.neo4j.entities;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.IndexHits;
 
 import poolingpeople.commons.entities.ChangeLog;
-import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.*;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.*;
+
+@Stateless
 public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
@@ -55,6 +57,10 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 //		super(manager, NODE_TYPE);
 //		this.manager = manager;
 //	}
+	
+	public PersistedUser(){
+		
+	}
 	
 	public PersistedUser(NeoManager manager, String email, String password){
 		super(manager, NODE_TYPE);

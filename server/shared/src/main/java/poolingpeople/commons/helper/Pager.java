@@ -1,10 +1,17 @@
 package poolingpeople.commons.helper;
 
+import javax.enterprise.context.RequestScoped;
 
+@RequestScoped
 public class Pager {
 	private Integer start;
 	private Integer size;
 	
+	public Pager() {
+		start = null;
+		size = null;
+	}
+
 	public Pager setStart(Integer start) {
 		this.start = start;
 		return this;
@@ -21,5 +28,10 @@ public class Pager {
 	
 	public Integer getSize() {
 		return size;
+	}
+	
+	@Override
+	public String toString() {
+		return "start:" + start + ", size:" + size;
 	}
 }

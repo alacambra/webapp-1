@@ -1,10 +1,12 @@
 package poolingpeople.webapplication.business.boundary;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.Context;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
 import poolingpeople.commons.entities.EntityFactory;
+import poolingpeople.commons.helper.Pager;
 
 public class AbstractBoundary {
 
@@ -16,6 +18,10 @@ public class AbstractBoundary {
 
 	@Inject
 	protected EntityFactory entityFactory;
+	
+	@Inject
+	Pager pager;
+	
 
 	
 	protected static final String uuidRegexPattern = "[\\w\\d-]+";

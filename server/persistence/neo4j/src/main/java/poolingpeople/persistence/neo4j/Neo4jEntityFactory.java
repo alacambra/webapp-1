@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Singleton;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import poolingpeople.commons.cdihelper.InstanceProvider;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.EntityFactory;
@@ -15,6 +15,7 @@ import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
+import poolingpeople.commons.helper.Pager;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
 import poolingpeople.persistence.neo4j.entities.PersistedClassResolver;
 import poolingpeople.persistence.neo4j.entities.PersistedComment;
@@ -29,12 +30,24 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Inject
 	private NeoManager manager;
-
+	
 	@Inject
-	private InstanceProvider instanceProvider;
+	Instance<Pager> pagerSource;
 
 	@Inject
 	private PersistedClassResolver classResolver;
+	
+	@Inject
+	private Instance<PersistedTask> persistedTaskSource;
+	
+	@Inject
+	private Instance<PersistedUser> persistedUserSource;
+	
+	@Inject
+	private Instance<PersistedProject> persistedProjectSource;
+	
+	@Inject
+	private Instance<PersistedComment> persistedCommentSource;
 
 	@Override
 	public void deleteTask(String uuid)  {
@@ -51,7 +64,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedTask getTaskById(String uuid)  {
-		return instanceProvider.getInstance(PersistedTask.class).loadExistingNode(uuid, PoolingpeopleObjectType.TASK);
+		return persistedTaskSource.get().loadExistingNode(uuid, PoolingpeopleObjectType.TASK);
 	}
 
 	@Override
@@ -62,7 +75,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 	@Override
 	public List<Task> getAllTask() {
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedTask.NODE_TYPE.name()), 
+				manager.getNodes(PersistedTask.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
 				new ArrayList<Task>(), 
 				PersistedTask.class, 
 				Task.class
@@ -76,13 +89,13 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedProject getProjectById(String uuid) {
-		return instanceProvider.getInstance(PersistedProject.class).loadExistingNode(uuid, PoolingpeopleObjectType.PROJECT);
+		return persistedProjectSource.get().loadExistingNode(uuid, PoolingpeopleObjectType.PROJECT);
 	}
 
 	@Override
 	public List<Project> getAllProject() {
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedProject.NODE_TYPE.name()), 
+				manager.getNodes(PersistedProject.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
 				new ArrayList<Project>(), 
 				PersistedProject.class,
 				Project.class);
@@ -142,7 +155,6 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	}
 
-
 	@Override
 	public void deleteUser(String uuid) {
 		manager.removeNode(getTaskById(uuid).getNode());
@@ -153,7 +165,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 	public List<User> getAllUsers() {
 
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedUser.NODE_TYPE.name()), 
+				manager.getNodes(PersistedUser.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
 				new ArrayList<User>(), 
 				PersistedUser.class,
 				User.class);
@@ -161,7 +173,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public User createUser(String email, String password, User user) {
-		return new PersistedUser(manager, email, password, user);
+		return persistedUserSource.get().loadExistingNode(email, password, user);
 	}
 
 	@Override
@@ -188,17 +200,17 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return instanceProvider.getInstance(PersistedComment.class).createExistingNode(PoolingpeopleObjectType.COMMENT, comment);
+		return persistedCommentSource.get().createExistingNode(PoolingpeopleObjectType.COMMENT, comment);
 	}
 
 	@Override
 	public void deleteComment(String commentId) {
-		manager.removeNode(instanceProvider.getInstance(PersistedComment.class).loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT).getNode());
+		manager.removeNode(persistedCommentSource.get().loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT).getNode());
 	}
 
 	@Override
 	public Comment getComment(String commentId) {
-		return instanceProvider.getInstance(PersistedComment.class).loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT);
+		return persistedCommentSource.get().loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT);
 	}
 
 	@Override
