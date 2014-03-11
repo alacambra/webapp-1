@@ -71,7 +71,7 @@
 				$httpBackend.whenGET(/.*\.tpl\.html/).passThrough();
 
 				// URI: GET - /projects
-				$httpBackend.whenGET(/\/projects$/).respond(function (method, url, data, headers) {
+				$httpBackend.whenGET(/\/projects(\?size=\w+(&start=\w+)?)?$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200, JSON.stringify(projects), { valid: true }];
 				});
@@ -88,7 +88,7 @@
 				});
 
 				// URI: GET - /tasks
-				$httpBackend.whenGET(/\/tasks$/).respond(function (method, url, data, headers) {
+				$httpBackend.whenGET(/\/tasks(\?size=\w+(&start=\w+)?)?$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200, JSON.stringify(tasks)];
 				});

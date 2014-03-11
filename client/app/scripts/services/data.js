@@ -63,8 +63,8 @@
                     });
                 },
 
-                getTasks: function () {
-                    return getDataSource().getTasks().then(function(data){
+                getTasks: function (size, start) {
+                    return getDataSource().getTasks(size, start).then(function(data){
                         return ModelsService.getTaskList(data);
                     });
                 },
@@ -132,8 +132,8 @@
                     return getDataSource().getProject(id);
                 },
 
-                getProjects: function() {
-                    return getDataSource().getProjects();
+                getProjects: function(size, start) {
+                    return getDataSource().getProjects(size, start);
                 },
 
                 createProject: function(data) {

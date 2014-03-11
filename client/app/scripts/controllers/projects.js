@@ -56,7 +56,7 @@
 				// Load all projects
 				var loadProjects = function () {
 					LoadStatusService.setStatus("projects.projectList", LoadStatusService.RESOLVING);
-					DataProvider.getProjects().then(function (data) {
+					DataProvider.getProjects(10, 5).then(function (data) {
 						var projects = [];
 						data.forEach(function (project) {
 							var project = factory.project(project);

@@ -4,42 +4,42 @@
         <th><!-- Aktion --></th>
         <th><a href="javascript:void(0);"
                ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
-            <nobr>Titel
+            <span>Titel
                 <span class="glyphicon"
                       ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }">
                 </span>
-            </nobr>
+            </span>
         </a></th>
         <th>
             <a href="javascript:void(0);"
                ng-click="sorting = (sorting === 'description') ? '-description' : 'description'">
-            <nobr>Beschreibung
+            <span>Beschreibung
                 <span class="glyphicon"
                       ng-class="{ 'glyphicon-arrow-down': sorting === 'description', 'glyphicon-arrow-up': sorting === '-description' }">
                       </span>
-            </nobr>
+            </span>
         </a></th>
         <th>
             <a href="javascript:void(0);" ng-click="sorting = (sorting === 'assignee.firstName') ? '-assignee.firstName' : 'assignee.firstName'">
-            <nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.firstName', 'glyphicon-arrow-up': sorting === '-assignee.firstName' }"></span></nobr>
+            <span>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'assignee.firstName', 'glyphicon-arrow-up': sorting === '-assignee.firstName' }"></span></span>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
-            <nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
+            <span>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></span>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'startDate') ? '-startDate' : 'startDate'">
-            <nobr>Start <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'startDate', 'glyphicon-arrow-up': sorting === '-startDate' }"></span></nobr>
+            <span>Start <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'startDate', 'glyphicon-arrow-up': sorting === '-startDate' }"></span></span>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'endDate') ? '-endDate' : 'endDate'">
-            <nobr>Ende <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'endDate', 'glyphicon-arrow-up': sorting === '-endDate' }"></span></nobr>
+            <span>Ende <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'endDate', 'glyphicon-arrow-up': sorting === '-endDate' }"></span></span>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'duration') ? '-duration' : 'duration'">
-            <nobr>Aufwand<br />geschätzt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'duration', 'glyphicon-arrow-up': sorting === '-duration' }"></span></nobr>
+            <span>Aufwand<br />geschätzt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'duration', 'glyphicon-arrow-up': sorting === '-duration' }"></span></span>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">
-            <nobr>Zeit<br />aufgewendet <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'effort', 'glyphicon-arrow-up': sorting === '-effort' }"></span></nobr>
+            <span>Zeit<br />aufgewendet <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'effort', 'glyphicon-arrow-up': sorting === '-effort' }"></span></span>
         </a></th>
         <th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
-            <nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
+            <span>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></span>
         </a></th>
     </tr>
     </thead>

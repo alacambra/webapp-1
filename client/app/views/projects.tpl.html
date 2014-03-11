@@ -5,29 +5,29 @@
 		<tr>
 			<th><!-- Aktion --></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'title') ? '-title' : 'title'" ng-init="sorting = 'title'">
-				<nobr>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></nobr>
+				<span>Titel <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'title', 'glyphicon-arrow-up': sorting === '-title' }"></span></span>
 			</a></th>
 			<th></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'owner.firstName') ? '-owner.firstName' : 'owner.firstName'">
-				<nobr>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'owner.firstName', 'glyphicon-arrow-up': sorting === '-owner.firstName' }"></span></nobr>
+				<span>Zugewiesen <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'owner.firstName', 'glyphicon-arrow-up': sorting === '-owner.firstName' }"></span></span>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'status') ? '-status' : 'status'">
-				<nobr>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></nobr>
+				<span>Status <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'status', 'glyphicon-arrow-up': sorting === '-status' }"></span></span>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'startDate') ? '-startDate' : 'startDate'">
-				<nobr>Start <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'startDate', 'glyphicon-arrow-up': sorting === '-startDate' }"></span></nobr>
+				<span>Start <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'startDate', 'glyphicon-arrow-up': sorting === '-startDate' }"></span></span>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'endDate') ? '-endDate' : 'endDate'">
-				<nobr>Ende <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'endDate', 'glyphicon-arrow-up': sorting === '-endDate' }"></span></nobr>
+				<span>Ende <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'endDate', 'glyphicon-arrow-up': sorting === '-endDate' }"></span></span>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'duration') ? '-duration' : 'duration'">
-				<nobr>Aufwand<br />geschätzt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'duration', 'glyphicon-arrow-up': sorting === '-duration' }"></span></nobr>
+				<span>Aufwand<br />geschätzt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'duration', 'glyphicon-arrow-up': sorting === '-duration' }"></span></span>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'effort') ? '-effort' : 'effort'">
-				<nobr>Zeit<br />aufgewendet <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'effort', 'glyphicon-arrow-up': sorting === '-effort' }"></span></nobr>
+				<span>Zeit<br />aufgewendet <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'effort', 'glyphicon-arrow-up': sorting === '-effort' }"></span></span>
 			</a></th>
 			<th><a href="javascript:void(0);" ng-click="sorting = (sorting === 'progress') ? '-progress' : 'progress'">
-				<nobr>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></nobr>
+				<span>Fortschritt <span class="glyphicon" ng-class="{ 'glyphicon-arrow-down': sorting === 'progress', 'glyphicon-arrow-up': sorting === '-progress' }"></span></span>
 			</a></th>
 		</tr>
 		</thead>
@@ -67,7 +67,8 @@
 
 			<!-- Title -->
 			<td>
-				<nobr ng-hide="editable.title">
+				<span ng-editable type="ddl" callback="updateProject()">{{project.title}}</span>
+				<span ng-hide="editable.title">
 					<span class="editable" ng-click="editable.title = true">{{ project.title }} </span>
 					<a ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"
 					   href="javascript:void(0);"
@@ -78,7 +79,7 @@
 					   ng-if="project.taskCount > 0">
 					</a>
 					<img ng-loading="projects.projectList.project.{{ project.id }}.subtasks" src="images/load_indicator.gif" alt="" width="16" />
-				</nobr>
+				</span>
 				<div ng-if="editable.title">
 					<input type="text"
 						   ng-model="project.title"
@@ -91,16 +92,16 @@
 
 			<!-- Description -->
 			<td>
-				<nobr>
+				<span>
 					<button type="button" class="btn btn-xs btn-default" ng-click="list.selectedProject = project; editSelectedProject()">Bearbeiten</button>
-				</nobr>
+				</span>
 			</td>
 
 			<!-- Owner -->
 			<td>
-				<nobr ng-hide="editable.owner">
+				<span ng-hide="editable.owner">
 					<span class="editable" ng-click="editable.owner = true">{{ (project.owner) ? project.owner.firstName + ' ' + project.owner.lastName : 'no owner'}}</span>
-				</nobr>
+				</span>
 				<div ng-if="editable.owner">
 					<select ng-model="project.owner"
 							ng-options="user as (user.firstName + ' ' + user.lastName) for user in list.assignableUsers track by user.id"
@@ -113,9 +114,9 @@
 
 			<!-- Status -->
 			<td>
-				<nobr ng-hide="editable.status">
+				<span ng-hide="editable.status">
 					<span class="editable" ng-click="editable.status = true">{{ project.statusList[project.status] }}</span>
-				</nobr>
+				</span>
 				<div ng-if="editable.status">
 					<select ng-model="project.status"
 							ng-options="key as status for (key, status) in project.statusList"
@@ -128,9 +129,9 @@
 
 			<!-- Start Date -->
 			<td>
-				<nobr ng-hide="list.datepicker[project.id + 'startDate']">
+				<span ng-hide="list.datepicker[project.id + 'startDate']">
 					<span ng-click="openDatePicker($event, project.id + 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
-				</nobr>
+				</span>
 				<div ng-if="list.datepicker[project.id + 'startDate']">
 					<input ng-model="project.startDate"
 						   pp-convert-date="dd.MM.yyyy"
@@ -146,9 +147,9 @@
 
 			<!-- End Date -->
 			<td>
-				<nobr ng-hide="list.datepicker[project.id + 'endDate']">
+				<span ng-hide="list.datepicker[project.id + 'endDate']">
 					<span ng-click="openDatePicker($event, project.id + 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
-				</nobr>
+				</span>
 				<div ng-if="list.datepicker[project.id + 'endDate']">
 					<input ng-model="project.endDate"
 						   pp-convert-date="dd.MM.yyyy"
@@ -164,9 +165,9 @@
 
 			<!-- Duration -->
 			<td>
-				<nobr ng-hide="editable.duration">
+				<span ng-hide="editable.duration">
 					<span class="editable" ng-click="editable.duration = true">{{ project.duration | minutesToHours | number:2 }}h</span>
-				</nobr>
+				</span>
 				<div ng-if="editable.duration">
 					<input ng-model="project.duration"
 						   pp-model=""
@@ -180,9 +181,9 @@
 
 			<!-- Effort -->
 			<td>
-				<nobr ng-hide="editable.effort">
+				<span ng-hide="editable.effort">
 					<span class="editable" ng-click="editable.effort = true">{{ project.effort | minutesToHours | number:2 }}h</span>
-				</nobr>
+				</span>
 				<div ng-if="editable.effort">
 					<input ng-model="project.effort"
 						   pp-model=""
@@ -196,9 +197,9 @@
 
 			<!-- Progress -->
 			<td>
-				<nobr ng-hide="editable.progress">
+				<span ng-hide="editable.progress">
 					<span class="editable" ng-click="editable.progress = true">{{ project.progress * 100 | number:2 }}%</span>
-				</nobr>
+				</span>
 				<div ng-if="editable.progress">
 					<input ng-model="project.progress"
 						   pp-model=""
@@ -227,17 +228,19 @@
 		</tr>
 		</tbody>
 	</table>
-    <ul class="pagination" ng-loading="!projects.projectList">
-        <li ng-class="{disabled: list.pagination.currentPage == 0}">
-            <a href ng-click="list.pagination.prevPage()">« Prev</a>
-        </li>
-        <li ng-repeat="i in [] | range:(list.pagination.totalPages() + 1)"
-            ng-class="{active: i == list.pagination.currentPage}"
-        	ng-click="list.pagination.setPage()">
-            <a href="" ng-click="list.pagination.gotoPage(i)" ng-if="list.pagination.showPaginationIndex(i)">{{ i + 1 }}</a>
-        </li>
-        <li ng-class="{disabled: list.pagination.currentPage == list.pagination.totalPages() }">
-            <a href ng-click="list.pagination.nextPage()">Next »</a>
-        </li>
-    </ul>
+	<div ng-if="list.pagination.totalPages() > 1">
+	    <ul class="pagination" ng-loading="!projects.projectList">
+	        <li ng-class="{disabled: list.pagination.currentPage == 0}">
+	            <a href ng-click="list.pagination.prevPage()">« Prev</a>
+	        </li>
+	        <li ng-repeat="i in [] | range:(list.pagination.totalPages() + 1)"
+	            ng-class="{active: i == list.pagination.currentPage}"
+	        	ng-click="list.pagination.setPage()">
+	            <a href="" ng-click="list.pagination.gotoPage(i)" ng-if="list.pagination.showPaginationIndex(i)">{{ i + 1 }}</a>
+	        </li>
+	        <li ng-class="{disabled: list.pagination.currentPage == list.pagination.totalPages() }">
+	            <a href ng-click="list.pagination.nextPage()">Next »</a>
+	        </li>
+	    </ul>
+	</div>
 </div>

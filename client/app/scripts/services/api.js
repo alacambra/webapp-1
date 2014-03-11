@@ -11,6 +11,10 @@
 			var serialize = function (obj) {
 				return JSON.stringify(obj);
 			};
+
+            var pagination = function(size, start) {
+                return (size) ? (start ? ('?size=' + size + '&start=' + start) : ('?size=' + size)) : ('');
+            }
             
             return {
 
@@ -110,7 +114,7 @@
 
                 /* CRUD */
 
-                getTask: function(id) {
+                getTask: function(id, size, start) {
                     var q = $q.defer();
                     $http.get(baseUrl + "/tasks/" + id)
                             .success(function (data, status, headers, config) {
@@ -121,9 +125,9 @@
                     return q.promise;
                 },
 
-                getTasks: function() {
+                getTasks: function(size, start) {
                     var q = $q.defer();
-                    $http.get(baseUrl + "/tasks")
+                    $http.get(baseUrl + "/tasks" + pagination(size, start))
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -293,11 +297,11 @@
                     return q.promise;
                 },
 
-				getProjects: function () {
+				getProjects: function (size, start) {
 					var q = $q.defer();
-
-					$http.get(baseUrl + '/projects')
+					$http.get(baseUrl + '/projects' + pagination(size, start))
 						.success(function (data, status, headers, config) {
+                            console.log("ADS")
 							q.resolve(data, status, headers, config);
 						}).error(function (data, status, headers, config) {
 							q.reject(data, status, headers, config);
@@ -319,7 +323,6 @@
 
                 updateProject: function(projectId, data) {
                     var q = $q.defer();
-
                     $http.put(baseUrl + "/projects/" + projectId + "/to/user/" + data.owner.id)
                         .success(function (_data, status, headers, config) {
                             $http.put(baseUrl + "/projects/" + projectId, data)
