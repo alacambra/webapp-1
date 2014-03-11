@@ -28,7 +28,7 @@
 						currentPage: 0,
 						itemsPerPage: 10,
 						totalPages: function() {
-							return $scope.list.projects.length / this.itemsPerPage;
+							return parseInt($scope.list.projects.length / this.itemsPerPage);
 						},
 
 						showPaginationIndex: function(n) {
@@ -37,7 +37,7 @@
 						},
 
 						nextPage: function() {
-							if (this.currentPage < this.totalPages() - 1)
+							if (this.currentPage < this.totalPages())
 								this.gotoPage(this.currentPage + 1);
 						},
 

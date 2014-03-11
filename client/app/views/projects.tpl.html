@@ -236,7 +236,7 @@
         	ng-click="list.pagination.setPage()">
             <a href="" ng-click="list.pagination.gotoPage(i)" ng-if="list.pagination.showPaginationIndex(i)">{{ i + 1 }}</a>
         </li>
-        <li ng-class="{disabled: list.pagination.currentPage == list.pagination.totalPages() - 1}">
+        <li ng-class="{disabled: list.pagination.currentPage == list.pagination.totalPages() }">
             <a href ng-click="list.pagination.nextPage()">Next »</a>
         </li>
     </ul>
