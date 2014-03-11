@@ -31,7 +31,7 @@ public interface EntityFactory {
 
 	List<User> getAllUsers();
 
-	User createUser(String email, String password, User user);
+	User createUser(User user);
 
 	Effort getEffortById(String uuid);
 
