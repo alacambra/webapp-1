@@ -58,7 +58,6 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	}
 	
 	public T loadAttributesFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
-		
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
 		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
@@ -97,7 +96,6 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	}
 
 	protected void createRelationTo(Relations relation, AbstractPersistedModel<?> to, boolean mustBeUnique) {
-
 		if(mustBeUnique && manager.relationExists(underlyingNode, to.getNode(), relation)) {
 			throw new RelationAlreadyExistsException();
 		}
