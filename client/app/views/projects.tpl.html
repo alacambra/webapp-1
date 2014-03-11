@@ -67,7 +67,6 @@
 
 			<!-- Title -->
 			<td>
-				<span ng-editable type="ddl" callback="updateProject()">{{project.title}}</span>
 				<span ng-hide="editable.title">
 					<span class="editable" ng-click="editable.title = true">{{ project.title }} </span>
 					<a ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"

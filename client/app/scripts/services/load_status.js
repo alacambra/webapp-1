@@ -31,6 +31,15 @@
                 return resourceTarget;
             }
 
+            var getParent = function(resource) {
+                var resourceLevels = resource.split(".");
+                return getResource(resourceLevels.slice(0, resourceLevels.length - 1).join("."));
+            }
+
+            var getChild = function(resource, child) {
+                return getResource(resource + "." + child);
+            }
+
             return {
 
                 NOT_REQUESTED : NOT_REQUESTED,
