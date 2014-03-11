@@ -51,8 +51,6 @@ public class AuthFilter implements Filter{
 		String authHeader = ((HttpServletRequest) request).getHeader("Authorization");
 		getPagerParams(r.getQueryString());
 
-		System.out.println(pagerSource.get().toString());
-		
 		authService.loadCredentials(authHeader, loggedUserContainer);
 		chain.doFilter(request, response);
 
@@ -62,27 +60,35 @@ public class AuthFilter implements Filter{
 	public void destroy() {
 	}
 
+	/*
+	 * Just experimental code!!!
+	 */
 	private void getPagerParams(String query){
-		
+
 		if(query == null || "".equals(query)){
 			return;
 		}
-		
+
 		Pager pager = pagerSource.get();
-		String[] params = query.split("&");  
-		for (String param : params)  
-		{  
-			
-			String name = param.split("=")[0];
-			String value = param.split("=")[1];
-			
-			if("start".equals(name)){
-				pager.setStart(Integer.parseInt(value));
-			}else if("size".equals(name)){
-				pager.setSize(Integer.parseInt(value));
+		try{
+			String[] params = query.split("&");  
+			for (String param : params)  
+			{  
+
+				String name = param.split("=")[0];
+				String value = param.split("=")[1];
+
+				if("start".equals(name)){
+					pager.setStart(Integer.parseInt(value));
+				}else if("size".equals(name)){
+					pager.setSize(Integer.parseInt(value));
+				}
 			}
-			
-		}  
+		} catch (Exception e){
+			pager.setSize(15);
+			pager.setStart(0);
+		}
+
 	}
 
 }
