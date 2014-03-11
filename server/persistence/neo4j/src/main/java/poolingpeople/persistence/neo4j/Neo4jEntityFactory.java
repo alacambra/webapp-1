@@ -72,7 +72,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedTask createTask(Task task)  {
-		return new PersistedTask(manager, task);
+		return persistedTaskSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.TASK, task);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedProject createProject(Project project) {
-		return new PersistedProject(manager, project);
+		return persistedProjectSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.PROJECT, project);
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 	 */
 	@Override
 	public Effort createEffort(Effort effort) {
-		return new PersistedEffort(manager, effort);
+		return persistedEffortSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.EFFORT, effort);
 	}
 
 	public NeoManager getManager() {
