@@ -57,7 +57,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return (T) this;
 	}
 	
-	public T loadAttributesFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
+	public T createNodeFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
 		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
@@ -70,7 +70,8 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return (T) this;
 	}
 	
-	protected AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
+	public T loadModelFromExistentNode(Node node, PoolingpeopleObjectType objectType) {
+		
 		String nodeType = manager.getStringProperty(node,
 				NodePropertyName.TYPE.name());
 		if (!PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE)) {
@@ -79,9 +80,9 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		}
 
 		underlyingNode = node;
-		this.manager = manager;
+		return (T) this;
 	}
-
+	
 	public PoolingpeopleObjectType getNodeType() {
 		return NODE_TYPE;
 	}

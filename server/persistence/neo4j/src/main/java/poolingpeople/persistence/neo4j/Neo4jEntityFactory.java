@@ -72,7 +72,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedTask createTask(Task task)  {
-		return persistedTaskSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.TASK, task);
+		return persistedTaskSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.TASK, task);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedProject createProject(Project project) {
-		return persistedProjectSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.PROJECT, project);
+		return persistedProjectSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.PROJECT, project);
 	}
 
 	@Override
@@ -115,16 +115,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public User getUserByCredentials(String email, String password) {
-
 		try{
-
 			return persistedUserSource.get().loadExistingUserWithCredentials(email, password);
-			
-//			PersistedUser persistedUser = new PersistedUser(manager, email, password);
-			//			persistedUser.loadByCredentials(email, password);
-
-//			return persistedUser;
-
 		} catch(Exception e) {
 			/*
 			 * @todo Exception is catched here because if catched in interceptor or directly in the LiggedUSerContainer
@@ -177,7 +169,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public User createUser(User user) {
-		return persistedUserSource.get().loadExistingUserWithCredentials(user.getEmail(), user.getPassword());
+		return persistedUserSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.PROJECT, user);
 	}
 
 	@Override
@@ -190,7 +182,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 	 */
 	@Override
 	public Effort createEffort(Effort effort) {
-		return persistedEffortSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.EFFORT, effort);
+		return persistedEffortSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.EFFORT, effort);
 	}
 
 	public NeoManager getManager() {
@@ -204,7 +196,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return persistedCommentSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.COMMENT, comment);
+		return persistedCommentSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.COMMENT, comment);
 	}
 
 	@Override
