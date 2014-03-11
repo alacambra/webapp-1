@@ -203,7 +203,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return persistedCommentSource.get().createNodeWithDTO(PoolingpeopleObjectType.COMMENT, comment);
+		return persistedCommentSource.get().loadAttributesFromDtoModel(PoolingpeopleObjectType.COMMENT, comment);
 	}
 
 	@Override

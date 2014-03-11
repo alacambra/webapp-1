@@ -54,7 +54,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return  (T) this;
 	}
 	
-	public T createNodeWithDTO(PoolingpeopleObjectType objectType, Object dtoModel) {
+	public T loadAttributesFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
 		
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
