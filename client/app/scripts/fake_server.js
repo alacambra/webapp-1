@@ -76,7 +76,8 @@
 					return [200, JSON.stringify(projects), { valid: true }];
 				});
 
-				$httpBackend.whenGET(/\/user_sessions$/).respond(function (method, url, data, headers) {
+				$httpBackend.whenGET(/user_sessions$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
 					return [200];
 				});
 

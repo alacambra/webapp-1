@@ -27,7 +27,7 @@
 						templateUrl: 'views/users.tpl.html',
 						controller: 'UsersCtrl',
 						navbar: true,
-						needAuth: false
+						needAuth: true
 					},
 					tasksState = {
 						url: '/tasks',
@@ -35,7 +35,7 @@
 						templateUrl: 'views/tasks.tpl.html',
 						controller: 'TasksCtrl',
 						navbar: true,
-						needAuth: false
+						needAuth: true
 					},
 					projectsState = {
 						url: '/projects',
@@ -43,7 +43,7 @@
 						templateUrl: 'views/projects.tpl.html',
 						controller: 'ProjectsCtrl',
 						navbar: true,
-						needAuth: false
+						needAuth: true
 					};
 
 				$urlRouterProvider.otherwise(homeState.url);
