@@ -129,7 +129,7 @@
 			<!-- Start Date -->
 			<td>
 				<span ng-hide="list.datepicker[project.id + 'startDate']">
-					<span ng-click="openDatePicker($event, project.id + 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '-----' }}</span>
+					<span ng-click="openDatePicker($event, project.id + 'startDate')" class="editable">{{ (project.startDate | date:'dd.MM.yyyy') || '---------------' }}</span>
 				</span>
 				<div ng-if="list.datepicker[project.id + 'startDate']">
 					<input ng-model="project.startDate"
@@ -147,7 +147,7 @@
 			<!-- End Date -->
 			<td>
 				<span ng-hide="list.datepicker[project.id + 'endDate']">
-					<span ng-click="openDatePicker($event, project.id + 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '-----' }}</span>
+					<span ng-click="openDatePicker($event, project.id + 'endDate')" class="editable">{{ (project.endDate | date:'dd.MM.yyyy') || '---------------' }}</span>
 				</span>
 				<div ng-if="list.datepicker[project.id + 'endDate']">
 					<input ng-model="project.endDate"
@@ -214,9 +214,7 @@
 		</tr>
 		<tr ng-repeat="task in project.getTasks() | orderBy:taskSorting" ng-if="project.$ui.showTasks" ng-init="taskSorting = 'title'" ng-repeat-end="">
 			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"></td>
-			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.title }}</td>
-			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks"></td>
-			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.description | limitTo: 20 }}</td>
+			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks" colspan="2">{{ task.title }}</td>
 			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.assignee.firstName + ' ' + task.assignee.lastName }}</td>
 			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.statusList[project.status] }}</td>
 			<td ng-loading="!projects.projectList.project.{{ project.id }}.subtasks">{{ task.startDate | date:'dd.MM.yyyy' }}</td>

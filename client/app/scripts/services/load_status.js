@@ -74,7 +74,8 @@
 
                     while (maxDepth > depth) {
                         path.push(resourceLevels[depth]);
-                        resourceTarget.subresources[resourceLevels[depth]] = resourceTarget.subresources[resourceLevels[depth]] || {status: NOT_REQUESTED, subresources: {}, path: path.join(".")}
+                        resourceTarget.subresources[resourceLevels[depth]] = resourceTarget.subresources[resourceLevels[depth]] || 
+                                                                             {status: NOT_REQUESTED, subresources: {}, path: path.join(".")}
                         resourceTarget = resourceTarget.subresources[resourceLevels[depth++]];
                     }
 

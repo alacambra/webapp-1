@@ -301,7 +301,6 @@
 					var q = $q.defer();
 					$http.get(baseUrl + '/projects' + pagination(size, start))
 						.success(function (data, status, headers, config) {
-                            console.log("ADS")
 							q.resolve(data, status, headers, config);
 						}).error(function (data, status, headers, config) {
 							q.reject(data, status, headers, config);
