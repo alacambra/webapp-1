@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import poolingpeople.commons.entities.Task;
-import poolingpeople.persistance.neo4j.AbstractPersitanceTest;
+import poolingpeople.persistence.neo4j.AbstractPersitanceTest;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;
 

@@ -1,4 +1,4 @@
-package poolingpeople.persistance.neo4j;
+package poolingpeople.persistence.neo4j;
 
 import org.junit.After;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package poolingpeople.persistance.neo4j;
+package poolingpeople.persistence.neo4j;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;

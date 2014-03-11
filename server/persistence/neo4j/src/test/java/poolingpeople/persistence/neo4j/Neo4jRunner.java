@@ -1,4 +1,4 @@
-package poolingpeople.persistance.neo4j;
+package poolingpeople.persistence.neo4j;
 
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;

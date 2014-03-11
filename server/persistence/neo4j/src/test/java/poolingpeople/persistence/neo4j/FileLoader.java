@@ -1,4 +1,4 @@
-package poolingpeople.persistance.neo4j;
+package poolingpeople.persistence.neo4j;
 
 import java.io.IOException;
 import java.io.InputStream;
