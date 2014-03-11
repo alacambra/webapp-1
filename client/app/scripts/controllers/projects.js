@@ -73,8 +73,6 @@
 					});
 				};
 
-				loadProjects();
-
 				var loadUsers = function () {
 					DataProvider.getUsers().then(function (data) {
 						data.forEach(function (user) {
@@ -86,8 +84,6 @@
 
 					});
 				};
-
-				loadUsers();
 
 				var openProjectModal = function (options) {
 					return $modal.open({
@@ -114,6 +110,15 @@
 						}
 					});
 				};
+
+				var init = (function() {
+
+					loadProjects();
+					loadUsers();
+
+					return this;
+					
+				})()
 
 				$scope.selectProject = function (project) {
 					if ($scope.list.selectedProject === project) {

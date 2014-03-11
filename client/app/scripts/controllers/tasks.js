@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('poolingpeopleApp')
-        .controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window', "ModelsService",
-            function ($scope, $modal, $log, DataProvider, LoadStatusService, $window, ModelsService) {
+        .controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
+            function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
 
                 $scope.editingObjects = [];
 
