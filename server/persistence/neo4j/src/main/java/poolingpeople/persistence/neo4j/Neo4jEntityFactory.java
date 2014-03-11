@@ -48,6 +48,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 	
 	@Inject
 	private Instance<PersistedComment> persistedCommentSource;
+	
+	@Inject
+	private Instance<PersistedEffort> persistedEffortSource;
 
 	@Override
 	public void deleteTask(String uuid)  {
@@ -108,7 +111,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public User getUserById(String uuid) {
-		return new PersistedUser(manager, uuid);
+		return persistedUserSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.USER);
 	}
 
 	@Override
@@ -178,7 +181,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public Effort getEffortById(String uuid) {
-		return new PersistedEffort(manager, uuid);
+		return persistedEffortSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.EFFORT); 
 	}
 
 	/*
@@ -200,7 +203,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return persistedCommentSource.get().createExistingNodeWithDTO(PoolingpeopleObjectType.COMMENT, comment);
+		return persistedCommentSource.get().createNodeWithDTO(PoolingpeopleObjectType.COMMENT, comment);
 	}
 
 	@Override

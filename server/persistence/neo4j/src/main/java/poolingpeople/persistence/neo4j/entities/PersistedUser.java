@@ -61,7 +61,6 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 	}
 	
 	public PersistedUser(NeoManager manager, String email, String password){
-		super(manager, NODE_TYPE);
 		loadByCredentials(email, password);
 	}
 

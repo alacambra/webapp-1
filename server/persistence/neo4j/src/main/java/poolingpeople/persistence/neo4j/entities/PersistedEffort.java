@@ -16,11 +16,6 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 	 * Used to know if the model is already built and consistent.
 	 */
 	
-	
-	public PersistedEffort(NeoManager manager, Node node) {
-		super(manager, node, NODE_TYPE);
-	}
-
 	/*
 	 * @todo: in the system defaults must be loaded
 	 */
@@ -31,7 +26,9 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 		}
 	}
 
-	 
+	 public PersistedEffort() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Long getDate() {

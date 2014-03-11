@@ -71,10 +71,6 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	public AbstractPersistedModel() {
 	}
 	
-	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType){
-		this.manager = manager;
-	}
-
 	protected AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
 
 		String nodeType = manager.getStringProperty(node,
