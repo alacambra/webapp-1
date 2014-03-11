@@ -54,7 +54,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	
 	public T loadExistingNodeById(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
-		return  (T) this;
+		return (T) this;
 	}
 	
 	public T loadAttributesFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
@@ -67,7 +67,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		initializeVariables();
 		isCreated = true;
 		
-		return  (T) this;
+		return (T) this;
 	}
 	
 	protected AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
