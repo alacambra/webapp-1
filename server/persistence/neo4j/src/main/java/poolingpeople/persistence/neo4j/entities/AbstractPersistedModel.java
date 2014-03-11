@@ -29,7 +29,6 @@ import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.container.IndexContainer;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.ConsistenceException;
-import poolingpeople.persistence.neo4j.exceptions.NodeExistsException;
 import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
@@ -49,14 +48,13 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected Set<IndexContainer> indexContainers;
 	
 	private PoolingpeopleObjectType NODE_TYPE;
-
 	
 	public T loadExistingNodeById(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
 		return  (T) this;
 	}
 	
-	public T createExistingNodeWithDTO(PoolingpeopleObjectType objectType, Object dtoModel) {
+	public T createNodeWithDTO(PoolingpeopleObjectType objectType, Object dtoModel) {
 		
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
@@ -73,36 +71,11 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	public AbstractPersistedModel() {
 	}
 	
- 
-
-	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
-		this(objectType);
-
-		isCreated = false;
-
-		this.manager = manager;
-		HashMap<String, Object> props = new HashMap<String, Object>();
-		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
-				.randomUUID().toString()), NODE_TYPE);
-
-		synchronizeWith(dtoModel);
-		initializeVariables();
-
-		isCreated = true;
-	}
-
-	private AbstractPersistedModel(PoolingpeopleObjectType objectType) throws NodeExistsException{
-		NODE_TYPE = objectType;
-	}
-
 	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType){
-		this(objectType);
 		this.manager = manager;
 	}
 
 	protected AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
-
-		this(objectType);
 
 		String nodeType = manager.getStringProperty(node,
 				NodePropertyName.TYPE.name());
