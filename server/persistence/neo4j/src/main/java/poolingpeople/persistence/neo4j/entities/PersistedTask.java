@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Effort;
@@ -16,23 +15,17 @@ import poolingpeople.commons.entities.TaskPriority;
 import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
-import poolingpeople.persistence.neo4j.*;
-import poolingpeople.persistence.neo4j.exceptions.*;
+import poolingpeople.persistence.neo4j.DefaultValues;
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.Relations;
+import poolingpeople.persistence.neo4j.exceptions.RelationNotFoundException;
 
 public class PersistedTask extends AbstractPersistedModel<PersistedTask> implements Task {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 	private List<PersistedTask> subtasks;
-
 	 
-
-	public PersistedTask(NeoManager manager, Task task) throws NodeExistsException {
-//		super(manager, NODE_TYPE, task);
-	}
-
-	public PersistedTask(NeoManager manager, Node node) {
-		super(manager, node, NODE_TYPE);
-	}
 
 	/**************** NON-INHERITABLE ATTRIBUTES *****************/
 	@Override

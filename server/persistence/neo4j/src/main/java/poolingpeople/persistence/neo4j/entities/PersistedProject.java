@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Project;
@@ -12,13 +11,9 @@ import poolingpeople.commons.entities.ProjectStatus;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.DefaultValues;
-import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
-import poolingpeople.persistence.neo4j.exceptions.NodeExistsException;
-import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
-import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 import poolingpeople.persistence.neo4j.exceptions.RelationNotFoundException;
 
@@ -28,20 +23,7 @@ public class PersistedProject extends AbstractPersistedModel<PersistedProject> i
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.PROJECT;
 	private List<PersistedTask> relatedTasks;
 
-	public PersistedProject() {
-		// TODO Auto-generated constructor stub
-	}
 	
- 
-
-	public PersistedProject(NeoManager manager, Project project) throws NodeExistsException {
-		//super(manager, NODE_TYPE, project);
-	}
-
-	public PersistedProject(NeoManager manager, Node node) {
-		super(manager, node, NODE_TYPE);
-	}
-
 	/**************** NON-INHERITABLE ATTRIBUTES *****************/
 
 	@Override

@@ -1,35 +1,17 @@
 package poolingpeople.persistence.neo4j.entities;
 
 import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.Effort;
-import poolingpeople.persistence.neo4j.*;
-import poolingpeople.persistence.neo4j.exceptions.*;
-import poolingpeople.persistence.neo4j.inheritance.Inheritable;
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.Relations;
+import poolingpeople.persistence.neo4j.exceptions.ConsistenceException;
 
 public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> implements Effort{
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	
-	/*
-	 * Used to know if the model is already built and consistent.
-	 */
-	
-	/*
-	 * @todo: in the system defaults must be loaded
-	 */
-	public PersistedEffort(NeoManager manager, Effort effort) throws NodeExistsException {
-//		super(manager, NODE_TYPE, effort);
-		if(getTime() == null) {
-			setTime(0);
-		}
-	}
-
-	 public PersistedEffort() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public Long getDate() {
 		return getLongProperty(NodePropertyName.DATE);

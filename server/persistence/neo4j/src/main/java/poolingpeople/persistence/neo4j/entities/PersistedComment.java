@@ -9,30 +9,18 @@ import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.entities.User;
-import poolingpeople.persistence.neo4j.*;
-import poolingpeople.persistence.neo4j.exceptions.*;
+import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.Relations;
+import poolingpeople.persistence.neo4j.exceptions.ConsistenceException;
+import poolingpeople.persistence.neo4j.exceptions.NodeExistsException;
 
 public class PersistedComment extends AbstractPersistedModel<PersistedComment> implements Comment
 {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
 	
-	/*
-	 * Used to know if the model is already built and consistent.
-	 */
-	
-	
-	public PersistedComment(NeoManager manager, Node node) {
-		super(manager, node, NODE_TYPE);
-	}
-
-	/*
-	 * @todo: in the system defaults must be loaded
-	 */
-	public PersistedComment(NeoManager manager, Effort effort) throws NodeExistsException {
-	}
-
-	 
 	@Override
 	public Long getDate() {
 		return getLongProperty(NodePropertyName.DATE);

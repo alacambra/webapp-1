@@ -46,15 +46,7 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 		setPassword(password);
 		return this;
 	}
-
-//	public PersistedUser() throws NodeExistsException {
-//		super(NODE_TYPE);
-//	}
-
-//	public PersistedUser(NeoManager manager) throws NodeExistsException {
-//		super(manager, NODE_TYPE);
-//		this.manager = manager;
-//	}
+ 
 	
 	public PersistedUser(){
 		
