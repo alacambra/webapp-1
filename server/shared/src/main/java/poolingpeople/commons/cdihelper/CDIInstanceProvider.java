@@ -6,7 +6,7 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 
-import org.jboss.weld.Weld;
+import poolingpeople.commons.exceptions.RootApplicationException;
 
 @ApplicationScoped
 public class CDIInstanceProvider implements InstanceProvider{
@@ -16,10 +16,9 @@ public class CDIInstanceProvider implements InstanceProvider{
 	
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
-//		BeanManager manager = Weld.current().getBeanManager();
 		Bean<?> bean = manager.resolve(manager.getBeans(clazz));
 		
-		if(bean == null) throw new RuntimeException("Bean could not be resolved for Class: " + clazz.toString());
+		if(bean == null) throw new RootApplicationException("Bean could not be resolved for Class: " + clazz.toString());
 		
 		CreationalContext<?> cc = manager.createCreationalContext(bean);
 		return clazz.cast(manager.getReference(bean, clazz, cc));
