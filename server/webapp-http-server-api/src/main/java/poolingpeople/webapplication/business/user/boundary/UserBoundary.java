@@ -77,7 +77,7 @@ public class UserBoundary {
 	JsonMappingException, IOException {
 
 		User dtoUser = deserializeAndValidate(json, UserDTO.class);
-		User user = entityFactory.createUser(dtoUser.getEmail(), dtoUser.getPassword(), dtoUser);
+		User user = entityFactory.createUser(dtoUser);
 		return Response.ok().entity(mapper.writeValueAsString(user)).build();
 	}
 
