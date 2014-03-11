@@ -48,8 +48,9 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected boolean isCreated = true;
 	protected Set<IndexContainer> indexContainers;
 	
-
-	private final PoolingpeopleObjectType NODE_TYPE;
+	private PoolingpeopleObjectType NODE_TYPE;
+	
+	
 
 	public T loadExistingNode(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
@@ -71,7 +72,6 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	}
 	
 	public AbstractPersistedModel() {
-		NODE_TYPE = null;
 	}
 	
 	protected AbstractPersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
@@ -199,7 +199,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 	}
 
-	protected final void finalDelete() {
+	protected void finalDelete() {
 		onDelete();
 	}
 
