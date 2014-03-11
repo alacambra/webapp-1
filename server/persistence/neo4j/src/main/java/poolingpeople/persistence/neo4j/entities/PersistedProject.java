@@ -32,10 +32,7 @@ public class PersistedProject extends AbstractPersistedModel<PersistedProject> i
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PersistedProject(NeoManager manager, String id)
-			throws NotUniqueException, NodeNotFoundException {
-		super(manager, id, NODE_TYPE);
-	}
+ 
 
 	public PersistedProject(NeoManager manager, Project project) throws NodeExistsException {
 		//super(manager, NODE_TYPE, project);

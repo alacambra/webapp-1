@@ -31,10 +31,7 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 		}
 	}
 
-	public PersistedEffort(NeoManager manager, String id) throws NotUniqueException,
-	NodeNotFoundException {
-		super(manager, id, NODE_TYPE);
-	}
+	 
 
 	@Override
 	public Long getDate() {

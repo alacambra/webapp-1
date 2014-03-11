@@ -20,9 +20,7 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 
-	public PersistedUser(NeoManager manager, String id) throws NotUniqueException, NodeNotFoundException {
-		super(manager, id, NODE_TYPE);
-	}
+	 
 
 	public PersistedUser(NeoManager manager, String email, String password, User user) throws NodeExistsException {
 //		super(manager, NODE_TYPE, user);

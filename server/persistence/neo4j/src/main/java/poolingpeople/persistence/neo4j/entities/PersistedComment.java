@@ -32,11 +32,7 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 	public PersistedComment(NeoManager manager, Effort effort) throws NodeExistsException {
 	}
 
-	public PersistedComment(NeoManager manager, String id) throws NotUniqueException,
-	NodeNotFoundException {
-		super(manager, id, NODE_TYPE);
-	}
-
+	 
 	@Override
 	public Long getDate() {
 		return getLongProperty(NodePropertyName.DATE);

@@ -24,10 +24,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
 	private List<PersistedTask> subtasks;
 
-	public PersistedTask(NeoManager manager, String id)
-			throws NotUniqueException, NodeNotFoundException {
-		super(manager, id, NODE_TYPE);
-	}
+	 
 
 	public PersistedTask(NeoManager manager, Task task) throws NodeExistsException {
 //		super(manager, NODE_TYPE, task);

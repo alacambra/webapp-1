@@ -73,14 +73,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	public AbstractPersistedModel() {
 	}
 	
-	protected AbstractPersistedModel(NeoManager manager, String id, PoolingpeopleObjectType objectType)
-			throws NotUniqueException, NodeNotFoundException {
-
-		this(objectType);
-		this.manager = manager;
-		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
-
-	}
+ 
 
 	protected AbstractPersistedModel(NeoManager manager, PoolingpeopleObjectType objectType, T dtoModel) throws NodeExistsException {
 		this(objectType);
