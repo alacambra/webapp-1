@@ -48,6 +48,9 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected Set<IndexContainer> indexContainers;
 	
 	private PoolingpeopleObjectType NODE_TYPE;
+
+	public AbstractPersistedModel() {
+	}
 	
 	public T loadExistingNodeById(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
@@ -68,11 +71,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return  (T) this;
 	}
 	
-	public AbstractPersistedModel() {
-	}
-	
 	protected AbstractPersistedModel(NeoManager manager, Node node, PoolingpeopleObjectType objectType) {
-
 		String nodeType = manager.getStringProperty(node,
 				NodePropertyName.TYPE.name());
 		if (!PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE)) {
@@ -82,7 +81,6 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 		underlyingNode = node;
 		this.manager = manager;
-
 	}
 
 	public PoolingpeopleObjectType getNodeType() {

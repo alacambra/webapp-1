@@ -81,8 +81,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 				manager.getNodes(PersistedTask.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
 				new ArrayList<Task>(), 
 				PersistedTask.class, 
-				Task.class
-				);
+				Task.class);
 	}
 
 	@Override
