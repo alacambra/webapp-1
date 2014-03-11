@@ -118,10 +118,12 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 		try{
 
-			PersistedUser persistedUser = new PersistedUser(manager, email, password);
+			return persistedUserSource.get().loadExistingUserWithCredentials(email, password);
+			
+//			PersistedUser persistedUser = new PersistedUser(manager, email, password);
 			//			persistedUser.loadByCredentials(email, password);
 
-			return persistedUser;
+//			return persistedUser;
 
 		} catch(Exception e) {
 			/*
@@ -174,8 +176,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public User createUser(String email, String password, User user) {
-		return persistedUserSource.get().loadExistingNode(email, password, user);
+	public User createUser(User user) {
+		return persistedUserSource.get().loadExistingUserWithCredentials(user.getEmail(), user.getPassword());
 	}
 
 	@Override

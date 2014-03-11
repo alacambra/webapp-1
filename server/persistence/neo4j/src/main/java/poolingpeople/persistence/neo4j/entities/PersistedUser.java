@@ -5,76 +5,30 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
-import poolingpeople.commons.exceptions.RootApplicationException;
-import poolingpeople.persistence.neo4j.*;
+import poolingpeople.persistence.neo4j.NodePropertyName;
+import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
+import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
-import poolingpeople.persistence.neo4j.exceptions.*;
 
 @Stateless
 public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
 
-	 
-
-	public PersistedUser(NeoManager manager, String email, String password, User user) throws NodeExistsException {
-//		super(manager, NODE_TYPE, user);
-		isCreated = false;
-		
-//		IndexHits<Node> indexHits = manager.getNodes(new UserIndexContainer(email, password));
-//
-//		if ( indexHits.size() != 0 ) {
-//			throw new NotUniqueException("Too many nodes with the same email/passwords");
-//		}
-		
-		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
-		setLoginEmail(email);
-		setPassword(password);
-		
-		isCreated = true;
-		
+	public PersistedUser(){
 	}
-	
-	public PersistedUser loadExistingNode(String email, String password, User user){
+
+	public PersistedUser loadExistingUserWithCredentials(String email, String password){
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
 		setLoginEmail(email);
 		setPassword(password);
 		return this;
 	}
- 
 	
-	public PersistedUser(){
-		
-	}
-	
-	public PersistedUser(NeoManager manager, String email, String password){
-		loadByCredentials(email, password);
-	}
-
-	public PersistedUser(NeoManager manager, Node node) {
-		super(manager, node, NODE_TYPE);
-	}
-
-	private void loadByCredentials(String email, String password) {
-
-		if (underlyingNode != null) {
-			throw new RootApplicationException("Node already loaded");
-		} 
-		
-		try {
-			underlyingNode = getPersistedObject(new UserIndexContainer(email, password), this.getClass()).getNode();
-		} catch (NotUniqueException e){
-			throw new NotUniqueException("Two many user with the same email/psw", e);
-		}
-		
-		
-	}
-
 	@Override
 	public String getId() {
 		return getStringProperty(NodePropertyName.ID);
