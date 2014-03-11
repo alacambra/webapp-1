@@ -64,7 +64,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedTask getTaskById(String uuid)  {
-		return persistedTaskSource.get().loadExistingNode(uuid, PoolingpeopleObjectType.TASK);
+		return persistedTaskSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.TASK);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public PersistedProject getProjectById(String uuid) {
-		return persistedProjectSource.get().loadExistingNode(uuid, PoolingpeopleObjectType.PROJECT);
+		return persistedProjectSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.PROJECT);
 	}
 
 	@Override
@@ -200,17 +200,17 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return persistedCommentSource.get().createExistingNode(PoolingpeopleObjectType.COMMENT, comment);
+		return persistedCommentSource.get().createExistingNodeWithDTO(PoolingpeopleObjectType.COMMENT, comment);
 	}
 
 	@Override
 	public void deleteComment(String commentId) {
-		manager.removeNode(persistedCommentSource.get().loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT).getNode());
+		manager.removeNode(persistedCommentSource.get().loadExistingNodeById(commentId, PoolingpeopleObjectType.COMMENT).getNode());
 	}
 
 	@Override
 	public Comment getComment(String commentId) {
-		return persistedCommentSource.get().loadExistingNode(commentId, PoolingpeopleObjectType.COMMENT);
+		return persistedCommentSource.get().loadExistingNodeById(commentId, PoolingpeopleObjectType.COMMENT);
 	}
 
 	@Override

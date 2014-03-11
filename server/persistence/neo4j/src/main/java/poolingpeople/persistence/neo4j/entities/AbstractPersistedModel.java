@@ -49,15 +49,14 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected Set<IndexContainer> indexContainers;
 	
 	private PoolingpeopleObjectType NODE_TYPE;
-	
-	
 
-	public T loadExistingNode(String id, PoolingpeopleObjectType objectType) {
+	
+	public T loadExistingNodeById(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
 		return  (T) this;
 	}
 	
-	public T createExistingNode(PoolingpeopleObjectType objectType, Object dtoModel) {
+	public T createExistingNodeWithDTO(PoolingpeopleObjectType objectType, Object dtoModel) {
 		
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
