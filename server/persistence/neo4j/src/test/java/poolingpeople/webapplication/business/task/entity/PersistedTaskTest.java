@@ -6,11 +6,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
-import poolingpeople.persistence.neo4j.AbstractPersitanceTest;
+import poolingpeople.persistence.neo4j.AbstractPersitenceTest;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;
 
-public class PersistedTaskTest extends AbstractPersitanceTest{
+public class PersistedTaskTest extends AbstractPersitenceTest{
 	
 	String relatedStructure = "project-task-task-effort-related.cy";
 	String unrelatedStructure = "project-task-task-effort-unrelated.cy";

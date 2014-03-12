@@ -10,7 +10,7 @@ import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 
 @RunWith(Neo4jRunner.class)
-public abstract class AbstractPersitanceTest {
+public abstract class AbstractPersitenceTest {
 	protected String structurePath = "cypher-graphs/";
 	
 	protected NeoManager manager;
