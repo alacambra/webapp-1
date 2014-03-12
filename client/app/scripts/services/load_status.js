@@ -40,6 +40,20 @@
                 return getResource(resource + "." + child);
             }
 
+            var getChildren = function(resource, recursive) {
+                var children = [],
+                    resourceTarget = getResource(resource);
+                for (var key in resourceTarget.subresources) {
+                    children.push(resourceTarget.subresources[key]);
+                    if (recursive) {
+                        var grandChildren = resourceTarget.subresources[key];
+                        if (grandChildren.length > 0)
+                            children.push(getChildren(grandChildren.path, true));
+                    }
+                }
+                return children;
+            }
+
             return {
 
                 NOT_REQUESTED : NOT_REQUESTED,
