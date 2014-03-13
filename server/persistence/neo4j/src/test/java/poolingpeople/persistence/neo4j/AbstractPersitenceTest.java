@@ -22,7 +22,7 @@ import poolingpeople.persistence.neo4j.entities.PersistedProject;
 public abstract class AbstractPersitenceTest {
 	protected String structurePath = "cypher-graphs/";
 	
-//	@Inject
+	@Inject
 	protected NeoManager manager;
 	
 	public void setManager(NeoManager manager) {

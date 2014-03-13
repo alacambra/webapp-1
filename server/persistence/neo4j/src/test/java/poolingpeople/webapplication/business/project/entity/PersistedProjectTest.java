@@ -2,27 +2,20 @@ package poolingpeople.webapplication.business.project.entity;
 
 import static org.junit.Assert.*;
 
-import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.validation.constraints.AssertTrue;
 
-import org.jglue.cdiunit.AdditionalClasses;
-import org.jglue.cdiunit.CdiRunner;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import poolingpeople.commons.entities.Task;
 import poolingpeople.persistence.neo4j.AbstractPersitenceTest;
-import poolingpeople.persistence.neo4j.GraphDatabaseServiceProducerTest;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
-import poolingpeople.persistence.neo4j.TransactionInterceptor;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
-import poolingpeople.persistence.neo4j.entities.PersistedTask;
 
 public class PersistedProjectTest extends AbstractPersitenceTest{
 
 	@Inject Instance<PersistedProject> injectedProject;
-	PersistedProject target;
 	
 	String unrelatedStructureFileName =  "project-task-effort-unrelated.cy";
 	String relatedStructureFileName =  "project-task-effort-related.cy";
@@ -35,60 +28,16 @@ public class PersistedProjectTest extends AbstractPersitenceTest{
 		addCypherStructure(relatedStructureFileName);
 	}
 
-//	@Test
-//	public void testPersistedProjectConstructors() {
-//		ProjectDTO dto = new ProjectDTO();
-//		dto.setTitle("title");
-//
-//		target = new PersistedProject(manager, dto);
-//
-//		assertEquals("title", target.getTitle());
-//		assertEquals(target, new PersistedProject(manager, target.getId()));
-//		assertEquals(target, new PersistedProject(manager, target.getNode()));
-//
-//	}
-//
-//	@Test
-//	public void test(){
-//		
-//		String p = "a";
-//		
-//		UserDTO u = new UserDTO();
-//		u.setEmail("a@a.com");
-////		
-//		User u1 = new PersistedUser(manager, "aa@a.com", "a", u);
-//		User u2 = new PersistedUser(manager, "a@a.com", "a", u);
-//		
-//		
-////		Node node = manager.getGraphDbService().createNode();
-////		Label label = DynamicLabel.label("USER");
-////		node.addLabel(label);
-//////		node.setProperty("EMAIL", "a");
-////		node.setProperty(NodePropertyName.ID.name(), p);
-////		
-////		node = manager.getGraphDbService().createNode();
-////		label = DynamicLabel.label("USER");
-////		node.addLabel(label);
-//////		node.setProperty("EMAIL", "a");
-////		node.setProperty(NodePropertyName.ID.name(), p);
-//	}
 	
 	@Test
-	public void testInjection() {
-		addUnrelatedStructure();
-		PersistedProject persistedProject = injectedProject.get();
-		assertNotNull(persistedProject);
-	}
+	public void testAddTaskDatesAreCorrect() {
 
-	
-//	@Test
-//	public void testAddTaskDatesAreCorrect() {
-//
-//		addUnrelatedStructure();
-//		target = new PersistedProject(manager, "1");
-//		assertEquals(new Long(10), target.getStartDate());
-//		assertEquals(new Long(20), target.getEndDate());
-//
+		addUnrelatedStructure();
+
+		PersistedProject persistedProject = injectedProject.get().loadExistingNodeById("1", PoolingpeopleObjectType.PROJECT);
+		assertEquals(new Long(10), persistedProject.getStartDate());
+		assertEquals(new Long(20), persistedProject.getEndDate());
+		
 //		Task t2 = new PersistedTask(manager, "3");
 //		target.addTask(t2);
 //		assertEquals(new Long(34), target.getStartDate());
@@ -98,8 +47,8 @@ public class PersistedProjectTest extends AbstractPersitenceTest{
 //		target.addTask(t1);
 //		assertEquals(new Long(1), target.getStartDate());
 //		assertEquals(new Long(51), target.getEndDate());
-//
-//	}
+
+	}
 //
 //	@Test
 //	public void testAddTaskProgressIsCorrect() {
@@ -212,89 +161,3 @@ public class PersistedProjectTest extends AbstractPersitenceTest{
 //		assertEquals(2, target.getTasks().size());
 //	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

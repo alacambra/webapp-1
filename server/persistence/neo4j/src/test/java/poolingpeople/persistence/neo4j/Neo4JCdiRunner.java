@@ -20,8 +20,8 @@ public class Neo4JCdiRunner extends CdiRunner{
 	
 	@Override
 	protected Object createTest() throws Exception {
-		GraphDatabaseServiceProducerTest databaseServiceProducer = new GraphDatabaseServiceProducerTest();
-		GraphDatabaseService graphDb = databaseServiceProducer.getGraphDb();
+//		GraphDatabaseServiceProducerTest databaseServiceProducer = new GraphDatabaseServiceProducerTest();
+//		GraphDatabaseService graphDb = databaseServiceProducer.getGraphDb();
 		
 		//Using the implementation of the CDI Runner
 		Object classOfTheTest = super.createTest();
@@ -29,7 +29,7 @@ public class Neo4JCdiRunner extends CdiRunner{
 		if(!(classOfTheTest instanceof AbstractPersitenceTest))
 			throw new ClassCastException("This Junit Runner implementation is only applicable on a object of type AbstractPersistenceTest");
 
-		((AbstractPersitenceTest) classOfTheTest).setManager(new NeoManager(graphDb));
+//		((AbstractPersitenceTest) classOfTheTest).setManager(new NeoManager(graphDb));
 		
 		this.graphDbService = ((AbstractPersitenceTest) classOfTheTest).getManager().getGraphDbService();
 		
