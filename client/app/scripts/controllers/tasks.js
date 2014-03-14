@@ -199,6 +199,10 @@
                     });
                 };
 
+                $scope.isChecked = function(item) {
+                    return ($scope.checkedItems[item.id] ? true : false)
+                }
+
                 $scope.deleteSelected = function() {
                     $scope.delete($scope.getSelectedItems());
                 };
@@ -223,8 +227,25 @@
                     return (typeof $scope.editingObjects[item.id + "." + field] === "object");
                 };
 
-                $scope.checkItem = function(item) {
-                    $scope.checkedItems[item.id] = $scope.checkedItems[item.id] ? false : item;
+                $scope.checkItem = function(item, event, ignoreTarget) {
+                    if (event.target == event.currentTarget || ignoreTarget) {
+                        if (!event.ctrlKey) {
+                            console.log($scope.getSelectedItems().length);
+                            if ($scope.getSelectedItems().length > 1)
+                                $scope.checkedItems[item.id] = item;
+                            else
+                                $scope.checkedItems[item.id] = $scope.checkedItems[item.id] ? false : item;
+                            angular.forEach($scope.checkedItems, function (value, key) {
+                                console.log(key + " - " + item.id)
+                                if (key != item.id) {
+                                    $scope.checkedItems[key] = false;
+                                }
+                            });
+                        } else {
+                            $scope.checkedItems[item.id] = $scope.checkedItems[item.id] ? false : item;
+                        }
+                    }
+
                 }
 
                 $scope.parseEndDate = function(date) {

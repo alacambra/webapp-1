@@ -1,5 +1,5 @@
 <div>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>
@@ -52,12 +52,12 @@
         </thead>
         <tbody>
         <tr ng-loading="tasks.taskList">
-            <td class="text-center" colspan="10">
+            <td class="text-center no-hover" colspan="12">
                 <img src="images/load_indicator.gif" alt="" style="padding:50px" />
             </td>
         </tr>
         <tr ng-loading="!tasks.taskList">
-            <td colspan="12">
+            <td colspan="12" class="no-hover">
                 <button ng-if="!getSelectedItems().length" class="btn btn-default btn-block" ng-click="create()"><b>Neue Aufgabe</b></button>
                 <div class="dropdown" ng-if="getSelectedItems().length">
                     <button href="javascript:void(0);" class="dropdown-toggle btn btn-default btn-block" ng-disabled="disableActions()"><b>Aktion auswählen</b></button>
@@ -75,13 +75,13 @@
                 </div>
             </td>
         </tr>
-        <tr class="ng-table" ng-repeat-start="task in taskList | orderBy:sorting | startFrom: pagination.currentPage*pagination.itemsPerPage | limitTo:pagination.itemsPerPage" ng-init="task.hideTasks = false">
+        <tr class="ng-table" ng-class="{'warning': isChecked(task)}" ng-repeat-start="task in taskList | orderBy:sorting | startFrom: pagination.currentPage*pagination.itemsPerPage | limitTo:pagination.itemsPerPage">
 
-            <td width="30">
-                <input type="checkbox" ng-click="checkItem(task)" />
+            <td width="30" ng-click="checkItem(task, $event, true)">
+                <span ng-class="{'checkbox checkbox-checked': isChecked(task), 'checkbox checkbox-unchecked': !isChecked(task)}"></span>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'title')">
                     <a href="" ng-click="editField(task, 'title')">
                         <span class="glyphicon" ng-if="task.tasks.length > 0" ng-class="{ 'glyphicon-chevron-right': !task.hideTasks, 'glyphicon-chevron-down': task.hideTasks }"></span>
@@ -94,13 +94,13 @@
             </td>
 
             <!-- Description -->
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <span>
                     <button type="button" class="btn btn-xs btn-default" ng-click="edit(task)">Bearbeiten</button>
                 </span>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'assignee')">
                     <a href="" ng-click="editField(task, 'assignee')">
                         <span class="editable">{{ task.getAssignee().getPrettyName() }}</span>
@@ -116,7 +116,7 @@
                 </div>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'status')">
                     <a href="" ng-click="editField(task, 'status')">
                         <span class="editable">{{ task.getPrettyStatus() }}</span>
@@ -132,7 +132,7 @@
                 </div>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'startDate')">
                     <a href="" ng-click="editField(task, 'startDate')">
                         <span class="editable">{{ (task.startDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
@@ -146,7 +146,7 @@
                 </div>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'endDate')">
                     <a href="" ng-click="editField(task, 'endDate')">
                         <span class="editable">{{ (task.endDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
@@ -160,7 +160,7 @@
                 </div>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div>
                     <a href="" ng-click="editField(task, 'duration')">
                         <span class="editable">{{ task.duration }}</span>
@@ -168,7 +168,7 @@
                 </div>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'effort')">
                     <a href="" ng-click="bookEffort(task)">
                         <span class="editable">{{ task.effort }}h</span>
@@ -179,7 +179,7 @@
                 </div>
             </td>
 
-            <td>
+            <td ng-click="checkItem(task, $event)">
                 <div ng-if="!editingField(task, 'progress')">
                     <a href="" ng-click="editField(task, 'progress')">
                         <span class="editable">{{ task.progress }}%</span>
