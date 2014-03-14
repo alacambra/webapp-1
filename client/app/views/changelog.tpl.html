@@ -18,6 +18,9 @@
 			    	<p ng-switch-when="comment"><span class="glyphicon glyphicon-comment" style="margin-right: 7px"></span> <b>{{ log.user }}</b> commented <i>{{ log.comment }}</i><p>
 			    </div>
 		    </li>
+		    <li ng-if="getFilteredLogs().length == 0">
+		    	<p>(empty)</p>
+		    </li>
 		</ul>
 	</div>
 </div>

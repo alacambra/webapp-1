@@ -30,11 +30,15 @@
                 /* CRUD */
 
                 getUser: function(id) {
-                    return getDataSource().getUser(id);
+                    return getDataSource().getUser(id).then(function (data) {
+                        return ModelsService.getUser(data);
+                    });;
                 },
 
                 getUsers: function() {
-                    return getDataSource().getUsers();
+                    return getDataSource().getUsers().then(function (data) {
+                        return ModelsService.getUserList(data);
+                    });
                 },
 
                 createUser: function(data) {
@@ -57,14 +61,13 @@
                 /* CRUD */
 
                 getTask: function(id) {
-
                     return getDataSource().getTask().then(function (data) {
                         return ModelsService.getTask(data);
                     });
                 },
 
                 getTasks: function (size, start) {
-                    return getDataSource().getTasks(size, start).then(function(data){
+                    return getDataSource().getTasks(size, start).then(function (data){
                         return ModelsService.getTaskList(data);
                     });
                 },

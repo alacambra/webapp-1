@@ -45,7 +45,7 @@
 							  class="form-control"
 							  id="descriptionInput"
 							  placeholder="Description"
-							  ng-maxlength="3000"></textarea>
+							  ng-maxlength="3000"></textarea> 
 				</div>
 				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.description.$dirty && form.task.description.$invalid">
 					<small class="error" ng-show="form.task.description.$error.maxlength">Project description can't be longer than 3000 characters.</small>
@@ -59,23 +59,23 @@
 				<div class="col-sm-5">
 					<select name="assignee"
 							ng-model="modal.task.assignee"
+							ng-init = "modal.assignableUsers[0] = modal.task.assignee"
 							class="form-control"
 							id="assigneeInput"
-							ng-options="user as (user.firstName + ' ' + user.lastName) for user in modal.assignableUsers track by user.id"
+							ng-options="user as user.getPrettyName() for user in modal.assignableUsers track by user.id"
 							required=""></select>
 				</div>
 				<div class="error col-sm-9 col-sm-offset-3" ng-if="form.task.assignee.$dirty && form.task.assignee.$invalid">
 					<small class="error" ng-show="form.task.assignee.$error.required">An Assignee is required.</small>
 				</div>
 			</div>
-
 			<!-- Project -->
 			<div class="form-group">
 				<label for="projectInput" class="col-sm-3 control-label">Project</label>
-				
 				<div class="col-sm-5">
 					<select name="project"
 							ng-model="modal.task.project"
+							ng-init = "modal.assignableProjects[0] = modal.task.project"
 							class="form-control"
 							id="projectInput"
 							ng-options="project as project.title for project in modal.assignableProjects track by project.id"
@@ -92,7 +92,20 @@
 							ng-model="modal.task.status"
 							class="form-control"
 							id="statusInput"
-							ng-options="key as status for (key, status) in modal.task.statusList"></select>
+							ng-options="key as status for (key, status) in modal.task.getStatusList()"></select>
+				</div>
+			</div>
+
+			<!-- Prio -->
+			<div class="form-group">
+				<label for="prioInput" class="col-sm-3 control-label">Priority</label>
+
+				<div class="col-sm-5">
+					<select name="priority"
+							ng-model="modal.task.priority"
+							class="form-control"
+							id="prioInput"
+							ng-options="key as priority for (key, priority) in modal.task.getPriorityList()"></select>
 				</div>
 			</div>
 

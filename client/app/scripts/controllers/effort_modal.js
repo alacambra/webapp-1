@@ -54,7 +54,6 @@
 						LoadStatusService.setStatus("effortModal.newEffort", LoadStatusService.RESOLVING);
 						DataProvider.createEffort($scope.modal.task.id, $scope.modal.newEffort.getRequestObj()).then(function (response) {
 							response.taskId = $scope.modal.task.id;
-							console.log($scope.modal.task)
 							$scope.modal.task.efforts.push(factory.effort(response));
 							$scope.clearFields();
 						}, function (response) {

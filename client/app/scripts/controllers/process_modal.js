@@ -75,7 +75,6 @@
 						LoadStatusService.setStatus("projectModal.saveProject", LoadStatusService.RESOLVING);
 						DataProvider.createProject($scope.modal.model.getRequestObj()).then(function (response) {
 							// update origin project with new data
-							console.log(options.model, $scope.modal.model);
 							_.extend(options.model, $scope.modal.model);
 							options.model.id = response.id;
 

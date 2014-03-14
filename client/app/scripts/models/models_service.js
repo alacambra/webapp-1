@@ -27,9 +27,22 @@
                 return ModelStampsService.user(data);
             };
 
+            var getUserList = function (data) {
+
+                var users = [];
+
+                data.forEach(function(user){
+                    users.push(getUser(user));
+                });
+
+                return users;
+            };
+
             return {
                 getTask:getTask,
-                getTaskList:getTaskList
+                getTaskList:getTaskList,
+                getUser:getUser,
+                getUserList:getUserList
             };
         }]);
 }());

@@ -5,6 +5,7 @@
 
 		.controller('TaskModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider', 'LoadStatusService',
 			function ($scope, $modalInstance, options, $log, DataProvider, LoadStatusService) {
+
 				$scope.modal = {
 					title: options.title,
 
@@ -28,28 +29,25 @@
 				$scope.error = false;
 
 				var loadUsers = function () {
+					var defaultUser = $scope.modal.task.assignee;
 					DataProvider.getUsers().then(function (users) {
-						users.forEach(function (user) {
-							$scope.modal.assignableUsers.push(user);
-						});
+						$scope.modal.assignableUsers = users;
+						$scope.modal.task.assignee = defaultUser;
 					}, function (response) {
 						$scope.error = 'Couldn\'t load users: ' + response;
 					});
 				};
 
-				loadUsers();
 
 				var loadProjects = function () {
-					DataProvider.getProjects().then(function (response) {
-						response.forEach(function (project) {
-							$scope.modal.assignableProjects.push(project);
-						});
+					var defaultProject = $scope.modal.task.project;
+					DataProvider.getProjects().then(function (projects) {
+						$scope.modal.assignableProjects = projects;
+						$scope.modal.task.project = defaultProject;
 					}, function (response) {
 						$scope.error = 'Couldn\'t load projects: ' +response;
-					});
+					})
 				};
-
-				loadProjects();
 
 				var saveTask = function () {
 					if (_.isNull($scope.modal.task.id)) {
@@ -116,6 +114,13 @@
 					}
 
 				};
+
+				var init = (function() {
+
+					loadUsers();
+					loadProjects();				
+
+				})()
 
 				$scope.save = function () {
 					if ($scope.form.task.$valid) {

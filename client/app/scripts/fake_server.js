@@ -12,7 +12,7 @@
 			function ($provide) {
 				// simulate delay for fake_server
 				$provide.decorator('$httpBackend', function ($delegate) {
-					var delay = 800; // ms
+					var delay = 1000; // ms
 					var proxy = function (method, url, data, callback, headers) {
 						var interceptor = function () {
 							var _this = this,
@@ -99,6 +99,12 @@
 					return [200, JSON.stringify(tasks)];
 				});
 
+				// URI: POST /tasks/:taskId/to/user/:userId
+				$httpBackend.whenPOST(/\/tasks\/[\w-]\/to\/user\/[\w-]$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
+					return [200, JSON.stringify(tasks)];
+				});
+
 				// URI: POST /projects
 				$httpBackend.whenPOST(/\/projects\/$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
@@ -148,7 +154,6 @@
 				// URI: PUT /tasks/:taskId
 				$httpBackend.whenPUT(/\/tasks\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
-					console.log(data);
 					return [200];
 				});
 

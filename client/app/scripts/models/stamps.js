@@ -13,6 +13,11 @@
             });
 
             var scheduledObject = stampit().methods({
+
+                setStartDate: function(date) {
+                    this.startDate = Date.UTC(date.getDay(), date.getMonth(), date.getYear());
+                },
+
                 getStartDate: function() {
                     return this.startDate ===  1254731900000 ? null : this.startDate;
                 },
@@ -21,12 +26,25 @@
                     return this.endDate ===  -99999999999999 ? null : this.endDate;
                 },
 
+                setEndDate: function(date) {
+                    this.endDate = Date.UTC(date.getYear(), date.getMonth(), date.getDay());
+                },
+
                 getFormatedStartDate: function(){
-                    return new Date(this.startDate);
+                    var date = new Date(this.startDate),
+                        day = date.getDate(),
+                        month = date.getMonth() + 1,
+                        year = date.getFullYear();
+                    return ((day < 10 ? "0" + day : day) + "." + (month < 10 ? "0" + month : month) + "." + year);
                 },
 
                 getFormatedEndDate: function(){
-                    return this.endDate === -99999999999999 ? null : new Date(this.endDate);
+                    var date = new Date(this.endDate),
+                        day = date.getDate(),
+                        month = date.getMonth() + 1,
+                        year = date.getFullYear();
+                    return this.endDate === -99999999999999 ? null : 
+                            ((day < 10 ? "0" + day : day) + "." + (month < 10 ? "0" + month : month) + "." + year);
                 },
 
                 getShortTitle: function(){
@@ -71,18 +89,19 @@
 
                 project: null,
                 assignee: null,
-                status: [
-                    "TODO",
-                    "NEW",
-                    "ASSIGNED",
-                    "HOLD",
-                    "COMPLETED",
-                    "ARCHIVED",
-                    "REQUESTED",
-                    "OFFERED"
-                ]
 
             }).methods({
+
+                getPrettyStatus: function() {
+                    var statusList = this.getStatusList();
+                    return statusList[this.status];
+                },
+
+                getPrettyPriority: function() {
+                    var priorityList = this.getPriorityList();
+                    return priorityList[this.priority];
+                },
+
             }).enclose(function () {
                 var _efforts = [];
 
@@ -94,14 +113,39 @@
                     _efforts = efforts;
                 };
 
+                this.getStatusList = function() {
+                    
+                    return {
+                        "TODO": "To do",
+                        "NEW": "New",
+                        "ASSIGNED": "Assigned",
+                        "HOLD": "Hold",
+                        "COMPLETED": "Completed",
+                        "ARCHIVED": "Archived",
+                        "REQUESTED": "Requested",
+                        "OFFERED": "Offered"
+                    }
+                };
+
+                this.getPriorityList = function() {
+                    
+                    return {
+                        "LOW": "Low",
+                        "NORMAL": "Normal",
+                        "HIGH": "High"
+                    }
+                };
+
             });
 
 
             var user = stampit.compose(poolingpeopleObject).state({
+
                 firstName: null,
                 lastName: null,
                 birthday: null,
                 email: null
+
             }).methods({
                 getPrettyName: function () {
 
@@ -120,10 +164,12 @@
             });
 
             return {
+                
                 task: task,
                 project: null,
                 user: user,
                 effort: null
+
             }
         });
 }());

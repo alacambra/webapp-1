@@ -19,6 +19,9 @@
 						// the update function
 						var update = function () {
 							$scope.$apply(function () {
+								$elem.off('blur');
+								$elem.off('keydown');
+								$scope.$eval($attrs.ppModel);
 								ngModelCtrl.$setViewValue($elem.val().trim());
 								ngModelCtrl.$render();
 							});
@@ -28,20 +31,21 @@
 						$elem.off('change').off('input').off('keydown');
 
 						// update model on blur
-						$elem.on('blur', update);
-
-						// update model on enter key
-						$elem.bind('keydown', function (event) {
-							if (event.which === ENTER_KEY) {
-								update();
+						$elem.on({
+							blur: function() {
+								update();	
+							},
+							keydown: function (event) {
+								if (event.which === ENTER_KEY) {
+									$elem.blur();
+								}
+							},
+							change: function() {
+								$elem.blur();
 							}
 						});
 
-						// clean up when model is destroyed
-						$elem.on('$destroy', function (event) {
-							$elem.off('blur');
-							$elem.off('keydown');
-						});
+						$elem.focus();
 					}
 				};
 			}])
