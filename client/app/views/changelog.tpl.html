@@ -1,21 +1,21 @@
 <h5>
-	<a href="javascript:void(0)" ng-hide="showLog" ng-click="toggleLog()">See history log <span ng-class="{ 'glyphicon-arrow-down': showLog, 'glyphicon-arrow-right': !showLog }" class="glyphicon"></span></a>
-	<a href="javascript:void(0)" ng-show="showLog" ng-click="toggleLog()">Hide history log <span ng-class="{ 'glyphicon-arrow-down': showLog, 'glyphicon-arrow-right': !showLog }" class="glyphicon"></span></a>
+	<a href="javascript:void(0)" ng-hide="showLog" ng-click="toggleLog()"><b>See history log</b> <span ng-class="{ 'glyphicon-arrow-down': showLog, 'glyphicon-arrow-right': !showLog }" class="glyphicon"></span></a>
+	<a href="javascript:void(0)" ng-show="showLog" ng-click="toggleLog()"><b>Hide history log</b> <span ng-class="{ 'glyphicon-arrow-down': showLog, 'glyphicon-arrow-right': !showLog }" class="glyphicon"></span></a>
 </h5>
 <div ng-show="showLog">
 	<div ng-loading="log" class="text-center" >
 		<img src="images/load_indicator.gif" alt="" style="padding:50px" />
 	</div>
 	<div ng-loading="!log">
-	    <div class="btn-group" data-toggle="buttons-checkbox">
+	    <div class="btn-group" data-toggle="buttons-checkbox" style="padding-left: 20px; margin-top: 10px;">
 		    <a href="" class="btn btn-primary active" ng-click="filter.change = !filter.change">Changes</a>
 		    <a href="" class="btn btn-primary active" ng-click="filter.comment = !filter.comment">Comments</a>
 	    </div>
-	    <ul style="margin-top: 20px; list-style-type: none">
+	    <ul style="margin-top: 20px; padding-left: 20px; padding-right: 20px; list-style-type: none">
 		    <li ng-repeat="log in getFilteredLogs() | orderBy: 'date'">
 		    	<div ng-switch on="getType(log)">
 			    	<p ng-switch-when="change"><span class="glyphicon glyphicon-pencil" style="margin-right: 7px"></span> The <b>{{ log.object.label }}</b> was edited from <b>{{ log.object.oldValue }}</b> to <b>{{ log.object.newValue }}</b> </p>
-			    	<p ng-switch-when="comment"><span class="glyphicon glyphicon-comment" style="margin-right: 7px"></span> <b>{{ log.owner.firstName + ' ' + log.owner.lastName }}</b> commented <i>{{ log.comment }}</i><p>
+			    	<p ng-switch-when="comment" class="text-justify"><span class="glyphicon glyphicon-comment" style="margin-right: 7px"></span> <b>{{ log.owner.firstName + ' ' + log.owner.lastName }}</b> commented <i>{{ log.comment }}</i><p>
 			    </div>
 		    </li>
 		    <li ng-if="getFilteredLogs().length == 0">

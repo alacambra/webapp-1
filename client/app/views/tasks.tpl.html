@@ -82,13 +82,13 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'title')">
+                <div class="editable" ng-if="!editingField(task, 'title')">
                     <a href="" ng-click="editField(task, 'title')">
                         <span class="glyphicon" ng-if="task.tasks.length > 0" ng-class="{ 'glyphicon-chevron-right': !task.hideTasks, 'glyphicon-chevron-down': task.hideTasks }"></span>
                         <span class="editable">{{ task.title }}</span> <a href="" ng-if="hasSubtasks(task)" ng-click="toggleSubtasks(task)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[task.id], 'glyphicon glyphicon-chevron-down': showSubtasks[task.id]}"></span></a>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'title')">
+                <div class="editable" ng-if="editingField(task, 'title')">
                     <input style="position: absolute;" type="text" ng-model="task.title" pp-model="update(task); blurField(task, 'title')" />
                 </div>
             </td>
@@ -101,12 +101,12 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'assignee')">
+                <div class="editable" ng-if="!editingField(task, 'assignee')">
                     <a href="" ng-click="editField(task, 'assignee')">
                         <span class="editable">{{ task.getAssignee().getPrettyName() }}</span>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'assignee')">
+                <div class="editable" ng-if="editingField(task, 'assignee')">
                     <select name="assignee"
                             ng-model="task.assignee"
                             pp-model="update(task); blurField(task, 'assignee')"
@@ -117,12 +117,12 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'status')">
+                <div class="editable" ng-if="!editingField(task, 'status')">
                     <a href="" ng-click="editField(task, 'status')">
                         <span class="editable">{{ task.getPrettyStatus() }}</span>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'status')">
+                <div class="editable" ng-if="editingField(task, 'status')">
                     <select name="status"
                             ng-model="task.status"
                             pp-model="update(task); blurField(task, 'status')"
@@ -133,12 +133,12 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'startDate')">
+                <div class="editable" ng-if="!editingField(task, 'startDate')">
                     <a href="" ng-click="editField(task, 'startDate')">
                         <span class="editable">{{ (task.startDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'startDate')">
+                <div class="editable" ng-if="editingField(task, 'startDate')">
                     <input type="text" 
                         ng-model="task.startDate"
                         pp-model="update(task); blurField(task, 'startDate')"
@@ -147,12 +147,12 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'endDate')">
+                <div class="editable" ng-if="!editingField(task, 'endDate')">
                     <a href="" ng-click="editField(task, 'endDate')">
                         <span class="editable">{{ (task.endDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'endDate')">
+                <div class="editable" ng-if="editingField(task, 'endDate')">
                     <input type="text" 
                         ng-model="task.endDate"
                         pp-model="update(task); blurField(task, 'endDate')"
@@ -161,31 +161,29 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div>
-                    <a href="" ng-click="editField(task, 'duration')">
-                        <span class="editable">{{ task.duration }}</span>
-                    </a>
-                </div>
+                <a href="" ng-click="editField(task, 'duration')">
+                    <span class="editable">{{ task.duration }}</span>
+                </a>
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'effort')">
+                <div class="editable" ng-if="!editingField(task, 'effort')">
                     <a href="" ng-click="bookEffort(task)">
                         <span class="editable">{{ task.effort }}h</span>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'effort')">
+                <div class="editable" ng-if="editingField(task, 'effort')">
                     <input style="position: absolute;" type="text" ng-model="task.effort" pp-model="update(task); blurField(task, 'effort')" />
                 </div>
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div ng-if="!editingField(task, 'progress')">
+                <div class="editable" ng-if="!editingField(task, 'progress')">
                     <a href="" ng-click="editField(task, 'progress')">
                         <span class="editable">{{ task.progress }}%</span>
                     </a>
                 </div>
-                <div ng-if="editingField(task, 'progress')">
+                <div class="editable" ng-if="editingField(task, 'progress')">
                     <input style="position: absolute; width: 40px;" type="text" ng-model="task.progress" pp-model="update(task); blurField(task, 'progress')" />
                 </div>
             </td>
@@ -204,7 +202,7 @@
         </tr>
         </tbody>
     </table>
-    <div ng-if="pagination.totalPages() > 0">
+    <div class="editable" ng-if="pagination.totalPages() > 0">
         <ul class="pagination" ng-loading="!tasks.taskList">
             <li ng-class="{disabled: pagination.currentPage == 0}">
                 <a href ng-click="pagination.prevPage()">« Prev</a>

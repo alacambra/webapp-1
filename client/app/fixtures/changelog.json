@@ -28,8 +28,8 @@
 		"action": "edited",
 		"object": {
 			"label": "end date",
-			"oldValue": "Adjust",
-			"newValue": "Models Adjust"
+			"oldValue": "18.04.2013",
+			"newValue": "19.04.2013"
 		}
 	},
 	{
@@ -49,9 +49,9 @@
 		"owner": "Eduardo",
 		"action": "edited",
 		"object": {
-			"label": "title",
-			"oldValue": "Adjust",
-			"newValue": "Models Adjust"
+			"label": "effort",
+			"oldValue": "10",
+			"newValue": "50"
 		}
 	}
 ]

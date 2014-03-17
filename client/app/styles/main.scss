@@ -43,6 +43,10 @@ input.ng-dirty.ng-invalid {
   background-position: -20px 4px;
 }
 
+.table tbody tr td div.editable {
+  display: inline-block;
+}
+
 .table tbody tr:hover td.no-hover,
 .table tbody tr:hover th.no-hover {
   background-color: transparent;
