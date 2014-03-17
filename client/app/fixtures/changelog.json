@@ -1,10 +1,9 @@
 [
 	{
 		"id": "e001",
-		"type": "comment",
-		"date": 1,
-		"comment": "Das ist der erste Kommentar",
-		"user": "Eduardo",
+		"date": 2324490523,
+		"owner": "Eduardo",
+		"action": "edited",
 		"object": {
 			"label": "title",
 			"oldValue": "Adjust",
@@ -13,10 +12,9 @@
 	},
 	{
 		"id": "e002",
-		"type": "comment",
-		"date": 2,
-		"comment": "Das ist der zweite Kommentar",
-		"user": "Eduardo",
+		"date": 2924490523,
+		"owner": "Eduardo",
+		"action": "edited",
 		"object": {
 			"label": "description",
 			"oldValue": "Adjust",
@@ -25,10 +23,9 @@
 	},
 	{
 		"id": "e003",
-		"type": "comment",
-		"date": 6,
-		"comment": "Das ist der dritte Kommentar",
-		"user": "Eduardo",
+		"date": 1824490523,
+		"owner": "Eduardo",
+		"action": "edited",
 		"object": {
 			"label": "end date",
 			"oldValue": "Adjust",
@@ -37,10 +34,9 @@
 	},
 	{
 		"id": "e004",
-		"type": "edition",
-		"date": 3,
-		"comment": "Das ist der vierte Kommentar",
-		"user": "Eduardo",
+		"date": 2324490523,
+		"owner": "Eduardo",
+		"action": "edited",
 		"object": {
 			"label": "description",
 			"oldValue": "Task deletd",
@@ -49,10 +45,9 @@
 	},
 	{
 		"id": "e005",
-		"type": "edition",
-		"date": 1,
-		"comment": "Das ist der fünfte Kommentar",
-		"user": "Eduardo",
+		"date": 1324490523,
+		"owner": "Eduardo",
+		"action": "edited",
 		"object": {
 			"label": "title",
 			"oldValue": "Adjust",

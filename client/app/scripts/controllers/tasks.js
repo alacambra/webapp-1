@@ -5,6 +5,8 @@
         .controller('TasksCtrl', ['$scope', '$modal', '$log', 'DataProvider', 'LoadStatusService', '$window',
             function ($scope, $modal, $log, DataProvider, LoadStatusService, $window) {
 
+                $scope.showSubtasks = {};
+
                 $scope.editingObjects = {};
 
                 $scope.checkedItems = {};
@@ -81,7 +83,7 @@
                     for (var i = 0; i < $scope.taskList.length; i++) {
                         for (var j = 0, jj = toDoChanges.length; j < jj; j++) {
                             if ($scope.taskList[i].id === toDoChanges[j].id) {
-                                action(i);
+                                action($scope.taskList[i], i);
                             }
                         }
                     }
@@ -103,20 +105,22 @@
                 };
 
                 $scope.update = function(items) {
-                    doAction(items, function(index) {
-                        var sourceProject = $scope.taskList[index].project;
-                        DataProvider.updateTask($scope.taskList[index].id, $scope.taskList[index]).then(function (response) {
-                            DataProvider.assignTaskToUser($scope.taskList[index].id, $scope.taskList[index].assignee.id).then(function (response) {
-                                if (!_.isNull($scope.taskList[index].project)) {
+                    doAction(items, function(item) {
+                        var sourceProject = item.project;
+                        DataProvider.updateTask(item.id, item).then(function (response) {
+                            DataProvider.assignTaskToUser(item.id, item.assignee.id).then(function (response) {
+                                if (!_.isNull(item.project)) {
                                     if (_.isNull(sourceProject)) {
-                                        DataProvider.addTaskToProject($scope.taskList[index].id, $scope.taskList[index].project.id).then(function (response) {
-                                            $modalInstance.close();
+                                        DataProvider.addTaskToProject(item.id, item.project.id).then(function (response) {
+                                            if ($modalInstance) 
+                                                $modalInstance.close();
                                         }, function (response) {
                                             $scope.error = 'Couldn\'t add project to task: ' + response;
                                         });
                                     } else {
-                                        DataProvider.moveTaskFromProjectToProject($scope.taskList[index].id, sourceProject.id, $scope.taskList[index].project.id).then(function (response) {
-                                            $modalInstance.close();
+                                        DataProvider.moveTaskFromProjectToProject(item.id, sourceProject.id, item.project.id).then(function (response) {
+                                            if ($modalInstance)
+                                                $modalInstance.close();
                                         }, function (response) {
                                             $scope.error = 'Couldn\'t move task to another project: ' + response;
                                         });
@@ -135,47 +139,43 @@
                 }
 
                 $scope.edit = function(items) {
-                    doAction(items, function(index) {
+                    doAction(items, function(item) {
                         var modalInstance = openTaskModal({
-                            title: 'Aufgabe "' + $scope.taskList[index].title + '" bearbeiten',
-                            task: $scope.taskList[index]
+                            title: 'Aufgabe "' + item.title + '" bearbeiten',
+                            task: item
                         });
                     })
                 };
 
                 $scope.delete = function (items) {
-                    doAction(items, function (index) {
+                    doAction(items, function (item, index) {
                         var modalInstance = $modal.open({
                             templateUrl: 'views/confirm_modal.tpl.html',
                             controller: 'ConfirmModalCtrl',
                             resolve: {
                                 message: function() {
-                                    return "Soll die Aufgabe '" + $scope.taskList[index].title + "' wirklich gelöscht werden?";
+                                    return "Soll die Aufgabe '" + item.title + "' wirklich gelöscht werden?";
                                 }
                             }
                         });
 
                         modalInstance.result.then(function () {
-                            LoadStatusService.setStatus("tasks.taskList.task." + $scope.taskList[index].id, LoadStatusService.RESOLVING); 
-                            DataProvider.deleteTask($scope.taskList[index].id).then(function (response) {
-                                $scope.editingObjects[$scope.taskList[index].id] = false;
+                            LoadStatusService.setStatus("tasks.taskList.task." + item.id, LoadStatusService.RESOLVING); 
+                            DataProvider.deleteTask(item.id).then(function (response) {
+                                $scope.editingObjects[item.id] = false;
                                 $scope.taskList.splice(index, 1)
                             }, function (response) {
                                 $log.error(response);
                             }).finally(function() {
-                                LoadStatusService.setStatus("tasks.taskList.task." + $scope.taskList[index].id, LoadStatusService.COMPLETED); 
+                                LoadStatusService.setStatus("tasks.taskList.task." + item.id, LoadStatusService.COMPLETED); 
                             });
                         });
                     })
                 };
 
-                $scope.revert = function() {
-                    log("ASD")
-                }
-
                 $scope.bookEffort = function(items) {
-                    doAction(items, function(index) {
-                        var targetTask = $scope.taskList[index];
+                    doAction(items, function(item) {
+                        var targetTask = item;
                         var modalInstance = $modal.open({
                             templateUrl: 'views/effort_modal.tpl.html',
                             controller: 'EffortModalCtrl',
@@ -227,6 +227,14 @@
                     return (typeof $scope.editingObjects[item.id + "." + field] === "object");
                 };
 
+                $scope.toggleSubtasks = function(task) {
+                    $scope.showSubtasks[task.id] = $scope.showSubtasks[task.id] ? !$scope.showSubtasks[task.id] : true;
+                }
+
+                $scope.hasSubtasks = function (task) {
+                    return (task.subtasks && task.subtasks.length > 0);
+                }
+
                 $scope.checkItem = function(item, event, ignoreTarget) {
                     if (event.target == event.currentTarget || ignoreTarget) {
                         if (!event.ctrlKey) {
@@ -246,10 +254,6 @@
                         }
                     }
 
-                }
-
-                $scope.parseEndDate = function(date) {
-                    console.log(date);
                 }
 
             }]);

@@ -75,7 +75,7 @@
                 </div>
             </td>
         </tr>
-        <tr class="ng-table" ng-class="{'warning': isChecked(task)}" ng-repeat-start="task in taskList | orderBy:sorting | startFrom: pagination.currentPage*pagination.itemsPerPage | limitTo:pagination.itemsPerPage">
+        <tr class="ng-table" ng-class="{'warning': isChecked(task), 'success': task.priority == 'LOW', 'danger': task.priority == 'HIGH'}" ng-repeat-start="task in taskList | orderBy:sorting | startFrom: pagination.currentPage*pagination.itemsPerPage | limitTo:pagination.itemsPerPage">
 
             <td width="30" ng-click="checkItem(task, $event, true)">
                 <span ng-class="{'checkbox checkbox-checked': isChecked(task), 'checkbox checkbox-unchecked': !isChecked(task)}"></span>
@@ -85,7 +85,7 @@
                 <div ng-if="!editingField(task, 'title')">
                     <a href="" ng-click="editField(task, 'title')">
                         <span class="glyphicon" ng-if="task.tasks.length > 0" ng-class="{ 'glyphicon-chevron-right': !task.hideTasks, 'glyphicon-chevron-down': task.hideTasks }"></span>
-                        <span class="editable">{{ task.title }}</span>
+                        <span class="editable">{{ task.title }}</span> <a href="" ng-if="hasSubtasks(task)" ng-click="toggleSubtasks(task)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[task.id], 'glyphicon glyphicon-chevron-down': showSubtasks[task.id]}"></span></a>
                     </a>
                 </div>
                 <div ng-if="editingField(task, 'title')">
@@ -191,16 +191,16 @@
             </td>
 
         </tr>
-        <tr ng-repeat="task in task.subtasks | orderBy:sorting" ng-repeat-end>
+        <tr ng-repeat="subtask in task.subtasks | orderBy:sorting" ng-repeat-end ng-if="showSubtasks[task.id]">
             <td></td>
-            <td colspan="2">{{ task.title }}</td>
-            <td>{{ task.assignedTo }}</td>
-            <td>{{ task.status }}</td>
-            <td>{{ task.startDate }}</td>
-            <td>{{ task.endDate }}</td>
-            <td>{{ task.duration }}h</td>
-            <td>{{ task.effort }}</td>
-            <td>{{ task.progress }}%</td>
+            <td colspan="2">{{ subtask.title }}</td>
+            <td>{{ subtask.assignedTo }}</td>
+            <td>{{ subtask.status }}</td>
+            <td>{{ subtask.startDate }}</td>
+            <td>{{ subtask.endDate }}</td>
+            <td>{{ subtask.duration }}h</td>
+            <td>{{ subtask.effort }}</td>
+            <td>{{ subtask.progress }}%</td>
         </tr>
         </tbody>
     </table>
@@ -220,3 +220,4 @@
         </ul>
     </div>
 </div>
+

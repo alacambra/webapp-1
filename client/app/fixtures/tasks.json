@@ -39,7 +39,7 @@
                 "statusIsDefault": true,
                 "progress": 0,
                 "status": "COMPLETED",
-                "priority": "LOW",
+                "priority": "NORMAL",
                 "id": "fcaf3502-ab5c-4703-b9ca-93766c3e87e6"
             },
             {
@@ -69,7 +69,7 @@
                 "statusIsDefault": true,
                 "progress": 0,
                 "status": "COMPLETED",
-                "priority": "LOW",
+                "priority": "NORMAL",
                 "id": "8891d0d7-a953-495c-9b90-ad931d11f177"
             }
         ],
@@ -83,7 +83,7 @@
         "statusIsDefault": true,
         "progress": 0.52,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "5584d38b-b797-41dc-97e1-76206eedf82f"
     },
     {
@@ -119,7 +119,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "fcaf3502-ab5c-4703-b9ca-93766c3e87e6"
     },
     {
@@ -149,7 +149,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "8891d0d7-a953-495c-9b90-ad931d11f177"
     },
     {
@@ -169,7 +169,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "6303ec9a-1e62-44b2-a4b5-1b1b9aff6454"
     },
     {
@@ -199,7 +199,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "73ff0032-d2cc-4006-8d07-c77969ca45cc"
     },
     {
@@ -235,7 +235,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "546256a6-d1bd-4879-9949-7075171f9098"
     },
     {
@@ -265,7 +265,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "d3facda2-a8f5-4521-a543-3d32b138a972"
     },
     {
@@ -295,13 +295,13 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "HIGH",
         "id": "f285d476-2461-4085-8e86-40200c4f5be4"
     },
     {
         "duration": 3600,
         "startDate": 1254819476000,
-        "endDate": -99999999999999,
+        "endDate": 1274819476000,
         "title": "CSS",
         "description": "- Überflüssige und alte CSS Definitionen entfernen",
         "project": {
@@ -331,7 +331,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "ARCHIVED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "61139e31-9546-438f-8feb-a382af211282"
     },
     {
@@ -361,7 +361,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "c1505b3a-7874-49f4-8e43-a9abe0104a59"
     },
     {
@@ -391,7 +391,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "c5cca217-3fe3-4a63-b5af-8889a48fbe91"
     },
     {
@@ -421,7 +421,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "230c7899-1ce9-4146-939b-759d7e680ac8"
     },
     {
@@ -487,7 +487,7 @@
         "statusIsDefault": true,
         "progress": 0,
         "status": "COMPLETED",
-        "priority": "LOW",
+        "priority": "NORMAL",
         "id": "b2161eff-7b1d-4841-a143-71cca6cd8c0c"
     }
 ]

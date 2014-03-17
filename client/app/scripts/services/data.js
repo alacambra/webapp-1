@@ -3,7 +3,7 @@
 
     angular.module('poolingpeopleApp')
 
-        .service('DataProvider', ['API', 'ModelsService', function(API, ModelsService) {
+        .service('DataProvider', ['$q', 'API', 'ModelsService', function($q, API, ModelsService) {
 
             var DataSources = { API: API };
 
@@ -22,7 +22,28 @@
                 /* LOG */
 
                 getLog: function(id) {
-                    return getDataSource().getLog(id);
+                    var that = this,
+                        q = $q.all([
+                            that.getComments(id),
+                            that.getChangeLog(id)
+                        ]).then(function (data) {
+                            var aggregatedData = [];
+                            angular.forEach(data, function (logs) {
+                                angular.forEach(logs, function (log) {
+                                    aggregatedData = aggregatedData.concat(log);
+                                })
+                            });
+                            return aggregatedData;
+                        });
+                    return q;
+                },
+
+                getChangeLog: function(id) {
+                    return getDataSource().getChangeLog(id);
+                },
+
+                getComments: function(id) {
+                    return getDataSource().getComments(id);
                 },
 
                 /* User */
@@ -32,7 +53,7 @@
                 getUser: function(id) {
                     return getDataSource().getUser(id).then(function (data) {
                         return ModelsService.getUser(data);
-                    });;
+                    });
                 },
 
                 getUsers: function() {

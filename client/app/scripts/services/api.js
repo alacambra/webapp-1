@@ -33,9 +33,20 @@
 
                 /* LOG */
 
-                getLog: function(id) {
+                getChangeLog: function(id) {
                     var q = $q.defer();
-                    $http.get(baseUrl + "/log/" + id)
+                    $http.get(baseUrl + "/changelog/of/object/" + id)
+                        .success(function (data, status, headers, config) {
+                            q.resolve(data, status, headers, config);
+                        }).error(function (data, status, headers, config) {
+                            q.reject(data, status, headers, config);
+                        });
+                    return q.promise;
+                },
+
+                getComments: function(id) {
+                    var q = $q.defer();
+                    $http.get(baseUrl + "/comments/of/object/" + id)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
@@ -70,7 +81,6 @@
 						}).error(function (data, status, headers, config) {
 							q.reject(data, status, headers, config);
 						});
-
 					return q.promise;
 				},
 

@@ -12,7 +12,7 @@
         if (_.isNull(date)) {
             return 99999999999999;
         }
-        return date;
+        return date;f
     };
 
     /*
@@ -57,18 +57,6 @@
         effort: 0,
         progress: 0
     }).methods({
-            priorityList: [
-                'LOW',
-                'NORMAL',
-                'HIGH'
-            ],
-
-            getRequestObj: function () {
-                var requestObj = _.extend({}, this);
-                requestObj.startDate = reconvertDate(requestObj.startDate);
-                requestObj.endDate = reconvertDate(requestObj.endDate);
-                return requestObj;
-            }
         });
 
     var taskMod = stampit().enclose(function () {

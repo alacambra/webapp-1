@@ -50,6 +50,7 @@
 				};
 
 				var saveTask = function () {
+					LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
 					if (_.isNull($scope.modal.task.id)) {
 						DataProvider.createTask($scope.modal.task.getRequestObj()).then(function (response) {
 							_.extend(options.task, $scope.modal.task);
@@ -67,6 +68,8 @@
 
 								}, function (response) {
 									$scope.error = 'Couldn\'t add task to project: ' + response;
+								}).finally(function() {
+									LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
 								});
 							} else {
 								if ($scope.list.tasks) {
@@ -80,11 +83,13 @@
 
 						}, function (response) {
 							$scope.error = 'Couldn\'t save task: ' + response;
-						});
+							LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
+						})
 
 					} else {
+						LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
 						var sourceProject = options.task.project;
-						DataProvider.updateTask(options.task.id, $scope.modal.task.getRequestObj()).then(function (response) {
+						DataProvider.updateTask(options.task.id, $scope.modal.task).then(function (response) {
 							_.extend(options.task, $scope.modal.task);
 							DataProvider.assignTaskToUser(options.task.id, options.task.assignee.id).then(function (response) {
 								if (!_.isNull(options.task.project)) {
@@ -93,12 +98,16 @@
 											$modalInstance.close();
 										}, function (response) {
 											$scope.error = 'Couldn\'t add project to task: ' + response;
+										}).finally(function() {
+											LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
 										});
 									} else {
 										DataProvider.moveTaskFromProjectToProject(options.task.id, sourceProject.id, options.task.project.id).then(function (response) {
 											$modalInstance.close();
 										}, function (response) {
 											$scope.error = 'Couldn\'t move task to another project: ' + response;
+										}).finally(function() {
+											LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
 										});
 									}
 								} else {
@@ -107,10 +116,11 @@
 
 							}, function (response) {
 								$scope.error = 'Couldn\'t add user to task: ' + response;
+								LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
 							});
 						}, function (response) {
 							$scope.error = 'Couldn\'t save task: ' + response;
-						});
+						})
 					}
 
 				};
@@ -123,11 +133,13 @@
 				})()
 
 				$scope.save = function () {
+					console.log($scope.form.task);
 					if ($scope.form.task.$valid) {
 						saveTask();
 					} else {
 						for (var attr in $scope.form.task) {
 							if ($scope.form.task.hasOwnProperty(attr) && $scope.form.task[attr].hasOwnProperty('$dirty')) {
+								console.log($scope.form.task[attr])
 								$scope.form.task[attr].$dirty = true;
 							}
 						}

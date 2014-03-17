@@ -10,7 +10,7 @@
 				$scope.showLog = false;
 				$scope.filter = {
 					comment: true,
-					edition: true
+					change: true
 				}
 				$scope.idObject = "0";
 
@@ -18,9 +18,15 @@
 					LoadStatusService.setStatus('log', LoadStatusService.RESOLVING);
 					DataProvider.getLog(id).then(function(data) {
 						$scope.logs = data;
+						console.log(data);
 					}).finally(function() {
 						LoadStatusService.setStatus('log', LoadStatusService.COMPLETED);
 					})
+				}
+
+				$scope.getType = function(log) {
+					if (log.comment) return "comment";
+					if (log.action) return "change"
 				}
 
 				$scope.toggleLog = function() {
@@ -29,7 +35,7 @@
 						getLog($scope.idObject);
 						$scope.filter = {
 							comment: true,
-							edition: true
+							change: true
 						}
 					}
 				}
@@ -37,7 +43,7 @@
 				$scope.getFilteredLogs = function() {
 					var filteredLogs = [];
 					angular.forEach($scope.logs, function (log) {
-						if ($scope.filter[log.type]) filteredLogs.push(log);
+						if ($scope.filter[$scope.getType(log)]) filteredLogs.push(log);
 					})
 					return filteredLogs;
 				}

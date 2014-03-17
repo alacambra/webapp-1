@@ -43,7 +43,8 @@
 					users = null,
 					tasks = null,
 					efforts = null,
-					log = null;
+					comments = null,
+					changelog = null;
 
 				var _baseUrl = new RegExp(/\/webapplication\/rest/);
 				var _id = new RegExp(/[\w\d-]+/);
@@ -64,8 +65,12 @@
 					efforts = data;
 				});
 
-				$.get('fixtures/log.json', function (data) {
-					log = data;
+				$.get('fixtures/changelog.json', function (data) {
+					changelog = data;
+				});
+
+				$.get('fixtures/comments.json', function (data) {
+					comments = data;
 				});
 
 				$httpBackend.whenGET(/.*\.tpl\.html/).passThrough();
@@ -99,8 +104,8 @@
 					return [200, JSON.stringify(tasks)];
 				});
 
-				// URI: POST /tasks/:taskId/to/user/:userId
-				$httpBackend.whenPOST(/\/tasks\/[\w-]\/to\/user\/[\w-]$/).respond(function (method, url, data, headers) {
+				// URI: PUT /tasks/:taskId/to/user/:userId
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/to\/user\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200, JSON.stringify(tasks)];
 				});
@@ -146,7 +151,7 @@
 				});
 
 				// URI: PUT /tasks/:taskId/from/:projectSourceId/to/:projectTargetId
-				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/from\/[\w-]+\/to\/[\w-]+$/).respond(function (method, url, data, headers) {
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/from\/project\/[\w-]+\/to\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200];
 				});
@@ -183,10 +188,16 @@
 					return [200];
 				});
 
-				// URI: GET /log/:id
-				$httpBackend.whenGET(/\/log\/[\w-]+$/).respond(function (method, url, data, headers) {
+				// URI: GET /changelog/of/object/:id
+				$httpBackend.whenGET(/\/changelog\/of\/object\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
-					return [200, JSON.stringify(log)];
+					return [200, JSON.stringify(changelog)];
+				});
+
+				// URI: GET /comments/of/object/:id
+				$httpBackend.whenGET(/\/comments\/of\/object\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
+					return [200, JSON.stringify(comments)];
 				});
 			}]);
 }());
