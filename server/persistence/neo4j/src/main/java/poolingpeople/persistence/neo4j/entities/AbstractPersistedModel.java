@@ -36,53 +36,61 @@ import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException
 public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>>{
 
 	protected Node underlyingNode;
-	
+
 	@Inject 
 	protected NeoManager manager;
-	
+
 	@Inject
 	private PersistedClassResolver persistedClassResolver;
-	
+
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;
 	protected Set<IndexContainer> indexContainers;
-	
+
 	private PoolingpeopleObjectType NODE_TYPE;
 
 	public AbstractPersistedModel() {
 	}
-	
+
 	public T loadExistingNodeById(String id, PoolingpeopleObjectType objectType) {
 		underlyingNode = manager.getUniqueNode(objectType.name(), NodePropertyName.ID.name(), id);
+		NODE_TYPE = objectType;
+		
+		validateNodeTypeOrException();
+
 		return (T) this;
 	}
-	
+
 	public T createNodeFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
-		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID
-				.randomUUID().toString()), NODE_TYPE);
+		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), NODE_TYPE);
 
 		synchronizeWith(dtoModel);
 		initializeVariables();
 		isCreated = true;
-		
-		return (T) this;
-	}
-	
-	public T loadModelFromExistentNode(Node node, PoolingpeopleObjectType objectType) {
-		
-		String nodeType = manager.getStringProperty(node,
-				NodePropertyName.TYPE.name());
-		if (!PoolingpeopleObjectType.valueOf(nodeType).equals(NODE_TYPE)) {
-			throw new IllegalArgumentException("Node must be of type "
-					+ NODE_TYPE + ". " + nodeType + " found.");
-		}
 
-		underlyingNode = node;
 		return (T) this;
 	}
-	
+
+	public T loadModelFromExistentNode(Node node, PoolingpeopleObjectType objectType) {
+
+		NODE_TYPE = objectType;
+		underlyingNode = node;
+		
+		validateNodeTypeOrException();
+		
+		return (T) this;
+	}
+
+	private void validateNodeTypeOrException() {
+		if ( !NODE_TYPE.equals(PoolingpeopleObjectType.valueOf(getStringProperty(NodePropertyName.TYPE)))){
+			underlyingNode = null;
+			NODE_TYPE = null;
+			throw new ConsistenceException("The node has not the type " + NODE_TYPE);
+		}
+	}
+
 	public PoolingpeopleObjectType getNodeType() {
 		return NODE_TYPE;
 	}
@@ -165,23 +173,23 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 		Node n = manager.getEndNode(underlyingNode, relation);
 		Class<? extends AbstractPersistedModel<?>> clazz = persistedClassResolver.getPersistedEntityClassForNode(n);
-		
+
 		if ( n != null ) {
 			return getPersistedObject(n, clazz);
 		}
-		
+
 		return null;
 
 	}
-	
+
 	protected <P extends AbstractPersistedModel<?>> P getEndNode(Relations relation, Class<P> clazz) {
 
 		Node n = manager.getEndNode(underlyingNode, relation);
-		
+
 		if ( n != null ) {
 			return getPersistedObject(n, clazz);
 		}
-		
+
 		return null;
 
 	}
@@ -205,7 +213,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected <IN, IM> List<IN> getRelatedEndNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
 		return getRelatedNodes(relation, implementationClass, interfaceClass, Direction.OUTGOING);
 	}
-	
+
 	protected <IN, IM> List<IN> getRelatedStartNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
 		return getRelatedNodes(relation, implementationClass, interfaceClass, Direction.INCOMING);
 	}
@@ -217,11 +225,11 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 				implementationClass, 
 				interfaceClass);
 	}
-	
+
 	protected boolean relationExistsTo(AbstractPersistedModel<?> to,  Relations relation) {
 		return manager.relationExists(underlyingNode, to.getNode(), relation);
 	}
-	
+
 	protected boolean relationExistsFrom(AbstractPersistedModel<?> from,  Relations relation) {
 		return manager.relationExists(from.getNode(), underlyingNode, relation);
 	}
@@ -270,10 +278,10 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 		return manager.getPersistedObjects(nodes, objects, implementationClass, interfaceClass);
 	}
-	
+
 	public <T extends AbstractPersistedModel<?>> T getPersistedObject(IndexContainer indexContainer, Class<T> clazz) {
 		IndexHits<Node> indexHits = manager.getNodes(indexContainer);
-		
+
 		if ( indexHits.size() == 0 ) {
 			throw new NodeNotFoundException();
 		}
@@ -287,7 +295,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		if (n == null){
 			throw new ConsistenceException("Index found but not its entity."); 
 		}
-		
+
 		return getPersistedObject(n, clazz);
 	}
 
@@ -307,21 +315,21 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 		return super.toString() + " | " + r;
 	}
-	
+
 	protected void removeRelationTo(AbstractPersistedModel<?> relatedObject, Relations relation) {
 		manager.removeRelation(underlyingNode, relatedObject.getNode(), relation);
 	}
-	
+
 	protected void removeRelationFrom(AbstractPersistedModel<?> relatedObject, Relations relation) {
 		manager.removeRelation(relatedObject.getNode(), underlyingNode, relation);
 	}
-	
+
 	protected void removeRelationsTo(Relations relation) {
 		manager.removeRelationsTo(underlyingNode, relation);
 	}
-	
+
 	public void synchronizeWith(Object tplObject) {
-		
+
 		Method[] methods = tplObject.getClass().getMethods();
 
 		for(int i = 0; i < methods.length; i++) {
@@ -346,11 +354,11 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 			} catch (Exception e) {
 				throw new RootApplicationException(
 						"error for method " + tplObject.getClass().getCanonicalName() + "." + dtoMethod.getName() + "|" 
-						+ this.getClass().getCanonicalName() + "." + beanMethod.getName() + ":" + e.getMessage(), e);
+								+ this.getClass().getCanonicalName() + "." + beanMethod.getName() + ":" + e.getMessage(), e);
 			}
 		}
 	}
-	
+
 	public List<Comment> getObjectComments(){
 		return getRelatedStartNodes(Relations.ABOUT_OBJECT, PersistedComment.class, Comment.class);
 	}
