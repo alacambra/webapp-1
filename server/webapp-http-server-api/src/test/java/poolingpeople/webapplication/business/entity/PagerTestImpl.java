@@ -1,10 +1,12 @@
 package poolingpeople.webapplication.business.entity;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
 
 import poolingpeople.commons.helper.Pager;
 
 @ApplicationScoped
+@Alternative
 public class PagerTestImpl implements Pager {
 
 	private Integer start = 0;
