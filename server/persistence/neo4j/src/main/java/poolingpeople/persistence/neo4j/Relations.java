@@ -8,6 +8,8 @@ import java.util.Map;
 import org.apache.commons.lang3.ArrayUtils;
 import org.neo4j.graphdb.RelationshipType;
 
+import poolingpeople.commons.exceptions.RootApplicationException;
+
 public enum Relations implements RelationshipType {
 	/**
 	 * a subject can be a member of pool or project
@@ -166,7 +168,7 @@ public enum Relations implements RelationshipType {
 	
 	public void relationIsPossibleOrException(PoolingpeopleObjectType source, PoolingpeopleObjectType target){
 		if (!relationIsPossible(source, target)) {
-			throw new RuntimeException("Relation " + name() + " between " + source + " and " + target + "not possible");
+			throw new RootApplicationException("Relation " + name() + " between " + source + " and " + target + " not possible");
 		}
 	}
 	 
