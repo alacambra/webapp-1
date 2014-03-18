@@ -6,6 +6,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.HashMap;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.neo4j.graphdb.Node;

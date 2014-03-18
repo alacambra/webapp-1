@@ -32,6 +32,7 @@ import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.container.IndexContainer;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
+import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
 import poolingpeople.persistence.neo4j.exceptions.*;
 
 @Singleton
@@ -42,6 +43,9 @@ public class NeoManager {
 	public static final String FOUND = "found";
 	private ExecutionEngine engine;
 
+	@Inject
+	private InstanceProvider instanceProvider;
+	
 	public NeoManager(){}
 
 	@Inject
@@ -414,14 +418,15 @@ public class NeoManager {
 	}
 
 
-	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
+	public <T extends AbstractPersistedModel<T>, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
 
 		for ( Node n : nodes ) {
 
 			try {
 
-				Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
-				objects.add(c.newInstance(this, n));
+				objects.add(instanceProvider.getInstanceForClass(clazz).loadModelFromExistentNode(n));
+//				Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
+//				objects.add(c.newInstance(this, n));
 
 			} catch (Exception e) {
 				throw new RootApplicationException(e);
@@ -432,7 +437,7 @@ public class NeoManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IM, IN, COL extends AbstractCollection<IN>> COL getPersistedObjects( 
+	public <IM extends AbstractPersistedModel<IM>, IN, COL extends AbstractCollection<IN>> COL getPersistedObjects( 
 			Collection<Node> nodes,
 			COL objects, 
 			Class<IM> implementationClass,  
@@ -447,8 +452,9 @@ public class NeoManager {
 
 			try {
 
-				Constructor<IM> c = implementationClass.getConstructor(NeoManager.class, Node.class);
-				objects.add((IN) c.newInstance(this, n));
+				objects.add((IN) instanceProvider.getInstanceForClass(implementationClass).loadModelFromExistentNode(n));
+//				Constructor<IM> c = implementationClass.getConstructor(NeoManager.class, Node.class);
+//				objects.add((IN) c.newInstance(this, n));
 
 			} catch (Exception e) {
 				throw new RootApplicationException(e);

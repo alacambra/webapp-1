@@ -1,5 +1,6 @@
 package poolingpeople.persistence.neo4j;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.jglue.cdiunit.AdditionalClasses;
@@ -9,21 +10,30 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
+import poolingpeople.commons.entities.Effort;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
+import poolingpeople.persistence.neo4j.entities.PersistedEffort;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
+import poolingpeople.persistence.neo4j.entities.PersistedTask;
 
-@RunWith(Neo4JCdiRunner.class)
+@RunWith(SuperRunner.class)
 @AdditionalClasses({
 	PersistedProject.class,
+	PersistedTask.class,
+	PersistedEffort.class,
 	GraphDatabaseServiceProducerTest.class, 
 	TransactionInterceptor.class, 
+	ProfilerInterceptor.class
 })
 public abstract class AbstractPersitenceTest {
 	protected String structurePath = "cypher-graphs/";
 	
 	@Inject
 	protected NeoManager manager;
+	
+	@Inject
+	protected InstanceProvider instanceProvider;
 	
 	public void setManager(NeoManager manager) {
 		this.manager = manager;

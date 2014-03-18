@@ -22,6 +22,7 @@ import org.neo4j.graphdb.index.IndexHits;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.exceptions.RootApplicationException;
+import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -42,6 +43,9 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 	@Inject
 	private PersistedClassResolver persistedClassResolver;
+	
+	@Inject
+	private InstanceProvider instanceProvider;
 
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;
@@ -64,8 +68,8 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	public T createNodeFromDtoModel(PoolingpeopleObjectType objectType, Object dtoModel) {
 		isCreated = false;
 		HashMap<String, Object> props = new HashMap<String, Object>();
-		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), NODE_TYPE);
-
+		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), objectType);
+		NODE_TYPE = objectType;
 		synchronizeWith(dtoModel);
 		initializeVariables();
 		isCreated = true;
@@ -79,6 +83,14 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		underlyingNode = node;
 		
 		validateNodeTypeOrException();
+		
+		return (T) this;
+	}
+	
+	public T loadModelFromExistentNode(Node node) {
+
+		underlyingNode = node;
+		NODE_TYPE = PoolingpeopleObjectType.valueOf(getStringProperty(NodePropertyName.TYPE));
 		
 		return (T) this;
 	}
@@ -205,20 +217,20 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 	}
 
-	protected <P> List<P> getRelatedNodes(Relations relation, Class<P> clazz, Direction direction){
+	protected <P extends AbstractPersistedModel<P>> List<P> getRelatedNodes(Relations relation, Class<P> clazz, Direction direction){
 		ArrayList<P> list = new ArrayList<>();
 		return (List<P>) getPersistedObjects(manager.getRelatedNodes(underlyingNode, relation, direction), list, clazz);
 	}
 
-	protected <IN, IM> List<IN> getRelatedEndNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
+	protected <IN, IM extends AbstractPersistedModel<IM>> List<IN> getRelatedEndNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
 		return getRelatedNodes(relation, implementationClass, interfaceClass, Direction.OUTGOING);
 	}
 
-	protected <IN, IM> List<IN> getRelatedStartNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
+	protected <IN, IM extends AbstractPersistedModel<IM>> List<IN> getRelatedStartNodes(Relations relation, Class<IM> implementationClass, Class<IN> interfaceClass){
 		return getRelatedNodes(relation, implementationClass, interfaceClass, Direction.INCOMING);
 	}
 
-	protected <IN, IM> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass, Direction direction){
+	protected <IN, IM extends AbstractPersistedModel<IM>> List<IN> getRelatedNodes(Relations relation, Class<IM> implementationClass,  Class<IN> interfaceClass, Direction direction){
 		return (List<IN>) getPersistedObjects(
 				manager.getRelatedNodes(underlyingNode, relation, direction), 
 				new ArrayList<IN>(), 
@@ -257,11 +269,12 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return new HashSet<AbstractPersistedModel<?>>();
 	}
 
-	public <T extends AbstractPersistedModel<?>> T getPersistedObject(Node n, Class<T> clazz) {
+	public <E extends AbstractPersistedModel<?>> E getPersistedObject(Node n, Class<E> clazz) {
 		try {
 
-			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
-			return (c.newInstance(manager, n));
+			return (E) instanceProvider.getInstanceForClass(clazz).loadModelFromExistentNode(n);
+//			Constructor<T> c = clazz.getConstructor(NeoManager.class, Node.class);
+//			return (c.newInstance(manager, n));
 
 		} catch (Exception e) {
 			throw new RootApplicationException(e);
@@ -269,11 +282,11 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	}
 
 
-	public <T, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
+	public <T extends AbstractPersistedModel<T>, C extends AbstractCollection<T>> C getPersistedObjects( Collection<Node> nodes, C objects, Class<T> clazz ) {
 		return manager.getPersistedObjects(nodes, objects, clazz);
 	}
 
-	public <IM, IN> AbstractCollection<IN> getPersistedObjects( 
+	public <IM extends AbstractPersistedModel<IM>, IN> AbstractCollection<IN> getPersistedObjects( 
 			Collection<Node> nodes, AbstractCollection<IN> objects, Class<IM> implementationClass,  Class<IN> interfaceClass ) {
 
 		return manager.getPersistedObjects(nodes, objects, implementationClass, interfaceClass);

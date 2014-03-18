@@ -16,11 +16,13 @@ import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.DefaultValues;
+import poolingpeople.persistence.neo4j.Neo4jProfiler;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.exceptions.RelationNotFoundException;
 
+@Neo4jProfiler
 public class PersistedTask extends AbstractPersistedModel<PersistedTask> implements Task {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.TASK;
