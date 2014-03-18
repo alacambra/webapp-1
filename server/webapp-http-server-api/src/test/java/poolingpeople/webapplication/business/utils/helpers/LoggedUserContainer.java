@@ -6,6 +6,7 @@ import org.neo4j.graphdb.Transaction;
 
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.User;
+import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.Neo4jEntityFactory;
 import poolingpeople.persistence.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
@@ -17,12 +18,13 @@ public class LoggedUserContainer implements ILoggedUserContainer {
 	private String email;
 	private String password;
 	private User user;
-
+	
 	@Inject
-	public LoggedUserContainer(EntityFactory entityFactory){
+	public LoggedUserContainer(EntityFactory entityFactory, InstanceProvider instanceProvider){
 
 		this.entityFactory = entityFactory;
 		Transaction tx = ((Neo4jEntityFactory) entityFactory).getManager().getGraphDbService().beginTx();
+		
 		try{
 			email = "a@a.cat";
 			password = "aaaa";
@@ -35,7 +37,8 @@ public class LoggedUserContainer implements ILoggedUserContainer {
 				dto.setEmail(email);
 				dto.setPassword(password);
 
-				user = new PersistedUser(((Neo4jEntityFactory) entityFactory).getManager(), email, password, dto);
+//				user = new PersistedUser(((Neo4jEntityFactory) entityFactory).getManager(), email, password, dto);
+				user = instanceProvider.getInstanceForClass(PersistedUser.class).createUserWithCredentials(email, password, dto);
 				tx.success();
 			}
 		} finally {

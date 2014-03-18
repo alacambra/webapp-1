@@ -16,7 +16,7 @@ public class LoggedUserContainerProducer {
 	
 	@Produces
 	public ILoggedUserContainer produceLoggedUserContainer() {
-		return new LoggedUserContainer(entityFactory);
+		return new LoggedUserContainer(entityFactory, null);
 	}
 	
 }

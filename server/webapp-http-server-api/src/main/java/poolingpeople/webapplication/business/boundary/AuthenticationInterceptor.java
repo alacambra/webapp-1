@@ -1,18 +1,12 @@
 package poolingpeople.webapplication.business.boundary;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
-import poolingpeople.commons.helper.Pager;
 import poolingpeople.webapplication.business.utils.configuration.boundary.Configurable;
 
 @Interceptor
