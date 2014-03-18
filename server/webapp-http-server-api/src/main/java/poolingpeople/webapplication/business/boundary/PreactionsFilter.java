@@ -21,8 +21,9 @@ import org.jboss.weld.Weld;
 
 import poolingpeople.commons.cdihelper.CDIInstanceProvider;
 import poolingpeople.commons.helper.Pager;
+import poolingpeople.commons.helper.PagerImpl;
 
-public class AuthFilter implements Filter{
+public class PreactionsFilter implements Filter{
 
 	//	@Inject
 	//	ILoggedUserContainer loggedUserContainer;
