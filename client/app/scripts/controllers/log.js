@@ -3,22 +3,28 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('LogCtrl', ['$scope', 'DataProvider', 'LoadStatusService',
-			function ($scope, DataProvider, LoadStatusService) {
+		.controller('LogCtrl', ['$scope', 'DataProvider', 'LoadStatusService', 'SessionService',
+			function ($scope, DataProvider, LoadStatusService, SessionService) {
 
 				$scope.logs = [];
+
 				$scope.showLog = false;
+
 				$scope.filter = {
 					comment: true,
 					change: true
 				}
+
+				$scope.comment = {
+					text: ""
+				};
+
 				$scope.idObject = "0";
 
 				var getLog = function(id) {
 					LoadStatusService.setStatus('log', LoadStatusService.RESOLVING);
 					DataProvider.getLog(id).then(function(data) {
 						$scope.logs = data;
-						console.log(data);
 					}).finally(function() {
 						LoadStatusService.setStatus('log', LoadStatusService.COMPLETED);
 					})
@@ -34,7 +40,7 @@
 					if ($scope.showLog) {
 						getLog($scope.idObject);
 						$scope.filter = {
-							comment: true,
+							comment: true,	
 							change: true
 						}
 					}
@@ -46,6 +52,22 @@
 						if ($scope.filter[$scope.getType(log)]) filteredLogs.push(log);
 					})
 					return filteredLogs;
+				}
+
+				$scope.newComment = function() {
+
+					var data = {
+						comment: $scope.comment.text
+					};
+
+					LoadStatusService.setStatus('log.createComment', LoadStatusService.RESOLVING);
+					DataProvider.createComment($scope.idObject, data).then(function(data) {
+						data.date = Date.now();
+						data.owner = SessionService.userData();
+						$scope.logs.push(data);
+					}).finally(function() {
+						LoadStatusService.setStatus('log.createComment', LoadStatusService.COMPLETED);
+					})
 				}
 
 				var init = (function() {

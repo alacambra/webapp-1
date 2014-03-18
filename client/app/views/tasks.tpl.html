@@ -89,7 +89,7 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'title')">
-                    <input style="position: absolute;" type="text" ng-model="task.title" pp-model="update(task); blurField(task, 'title')" />
+                    <input style="position: relative;" type="text" ng-model="task.title" pp-model="update(task); blurField(task, 'title')" /> <a href="" ng-if="hasSubtasks(task)" ng-click="toggleSubtasks(task)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[task.id], 'glyphicon glyphicon-chevron-down': showSubtasks[task.id]}"></span></a>
                 </div>
             </td>
 
@@ -142,7 +142,7 @@
                     <input type="text" 
                         ng-model="task.startDate"
                         pp-model="update(task); blurField(task, 'startDate')"
-                        style="position: absolute;"/>
+                        style="position: relative;"/>
                 </div>
             </td>
 
@@ -156,7 +156,7 @@
                     <input type="text" 
                         ng-model="task.endDate"
                         pp-model="update(task); blurField(task, 'endDate')"
-                        style="position: absolute;"/>
+                        style="position: relative;"/>
                 </div>
             </td>
 
@@ -173,7 +173,7 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'effort')">
-                    <input style="position: absolute;" type="text" ng-model="task.effort" pp-model="update(task); blurField(task, 'effort')" />
+                    <input style="position: relative;" type="text" ng-model="task.effort" pp-model="update(task); blurField(task, 'effort')" />
                 </div>
             </td>
 
@@ -184,7 +184,7 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'progress')">
-                    <input style="position: absolute; width: 40px;" type="text" ng-model="task.progress" pp-model="update(task); blurField(task, 'progress')" />
+                    <input style="position: relative; width: 40px;" type="text" ng-model="task.progress" pp-model="update(task); blurField(task, 'progress')" />
                 </div>
             </td>
 

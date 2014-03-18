@@ -46,6 +46,10 @@
                     return getDataSource().getComments(id);
                 },
 
+                createComment: function(id, data) {
+                    return getDataSource().createComment(id, data);
+                },
+
                 /* User */
 
                 /* CRUD */

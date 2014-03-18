@@ -4,14 +4,15 @@
     angular.module('poolingpeopleApp')
 
         .service('SessionService', function (Base64, $cookieStore, $http, $q, DataProvider) {
-			if ($cookieStore.get('authdata')) {
-				$http.defaults.headers.common.Authorization = 'Basic ' + $cookieStore.get('authdata');
-			}
 		 
 		    var userData = {
-		    	id: 0,
+		    	id: "",
 		    	username: "",
-		    	password: ""
+		    	password: "",
+		    	lastName: "",
+		    	firstName: "",
+		    	email: "",
+		    	birthDate: 0
 		    };
 
 	        var setCredentials = function (username, password) {
@@ -29,38 +30,60 @@
 	            delete $http.defaults.headers.common.Authorization;
 	        };
 
+	        var loggedIn = function () {
+	        	if ($cookieStore.get('authdata')) return true;
+	        	else return false
+	        }
+
+	        var logIn = function (username, password, cookie) {
+
+                var q = $q.defer(),
+                	username = username, 
+                	password = password;
+
+	        	setCredentials(username, password);
+
+	        	var authRequest = DataProvider.getAuthStatus().then(function (data) {
+	        		setCredentials(username, password);
+	        		userData = _.extend(userData, data[0]);
+	        		q.resolve(data);
+	        	}, function (data) {
+	        		q.reject(data);
+	        	});
+
+	        	if (!cookie) clearCredentials();
+
+                return q.promise;
+	        }
+
+	        var logOut = function () {
+	        	clearCredentials();
+	        }
+
+	        var init = (function() {
+
+				if (loggedIn()) {
+					$http.defaults.headers.common.Authorization = 'Basic ' + $cookieStore.get('authdata');
+					var authdata = Base64.decode($cookieStore.get('authdata')).split(":");
+					logIn(authdata[0], authdata[1], true)
+				}
+
+	        })();
+
+
 		    return {
 
-		        loggedIn: function () {
-		        	if ($cookieStore.get('authdata')) return true;
-		        	else return false
-		        },
+		        loggedIn: loggedIn,
 
-		        logIn: function (username, password) {
+		        logIn: logIn,
 
-                    var q = $q.defer(),
-                    	username = username, 
-                    	password = password;
+		        logOut: logOut,
 
-		        	setCredentials(username, password);
-
-		        	var authRequest = DataProvider.getAuthStatus().then(function (response) {
-		        		setCredentials(username, password);
-		        		q.resolve(response);
-		        	}, function (response) {
-		        		q.reject(response);
-		        	});
-
-		        	clearCredentials();
-
-                    return q.promise;
-		        },
-
-		        logOut: function () {
-		        	clearCredentials();
-		        },
-
-		        userData: userData
+		        userData: function() {
+		        	var userDataWithoutPassword = _.extend({}, userData);
+		        	delete userDataWithoutPassword.password;
+		        	return userDataWithoutPassword;
+		        }
 
 			}
 		});

@@ -44,7 +44,16 @@
 					tasks = null,
 					efforts = null,
 					comments = null,
-					changelog = null;
+					changelog = null,
+					user = [
+						{
+					    	"email": "dev@ion2s.com",
+					    	"id": "8b5f05c1-368e-4d3b-9863-b5bd3c372b54",
+							"firstName": "user1",
+							"lastName": "user001",
+							"birthDate": 1
+						}
+					];
 
 				var _baseUrl = new RegExp(/\/webapplication\/rest/);
 				var _id = new RegExp(/[\w\d-]+/);
@@ -83,7 +92,7 @@
 
 				$httpBackend.whenGET(/user_sessions$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
-					return [200];
+					return [200, JSON.stringify(user)];
 				});
 
 				// URI: GET - /users
@@ -165,6 +174,7 @@
 				// URI: POST /tasks/:taskId/efforts
 				$httpBackend.whenPOST(/\/tasks\/[\w-]+\/efforts$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
+					console.log(data);
 					data = JSON.parse(data);
 					data.id = 'e-' + parseInt(Math.random() * 10000, 10);
 					return [200, JSON.stringify(data)];
@@ -198,6 +208,14 @@
 				$httpBackend.whenGET(/\/comments\/of\/object\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200, JSON.stringify(comments)];
+				});
+
+				// URI: POST /comments
+				$httpBackend.whenPOST(/\/comments\/in\/object\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
+					data = JSON.parse(data);
+					data.id = 'e-' + parseInt(Math.random() * 10000, 10);
+					return [200, JSON.stringify(data)];
 				});
 			}]);
 }());

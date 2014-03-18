@@ -55,7 +55,7 @@
     <div class="container">
         <ul class="nav navbar-nav">
 			<li ng-repeat="state in $state.get()" ng-class="{ active: $state.current.name === state.name }" ng-if="state.navbar">
-				<a ui-sref="{{ state.name }}" class="capitalize">{{ state.name }}</a>
+				<a ui-sref="{{ state.name }}" class="capitalize" ng-bind="state.name"></a>
 			</li>
         </ul>
 		<ul class="nav navbar-nav navbar-right" ng-controller="LoginCtrl">

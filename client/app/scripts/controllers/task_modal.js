@@ -52,7 +52,7 @@
 				var saveTask = function () {
 					LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
 					if (_.isNull($scope.modal.task.id)) {
-						DataProvider.createTask($scope.modal.task.getRequestObj()).then(function (response) {
+						DataProvider.createTask($scope.modal.task).then(function (response) {
 							_.extend(options.task, $scope.modal.task);
 							options.task.id = response.id;
 
