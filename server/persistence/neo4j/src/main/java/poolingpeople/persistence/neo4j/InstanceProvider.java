@@ -7,7 +7,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import poolingpeople.commons.exceptions.RootApplicationException;
-import poolingpeople.commons.helper.Pager;
+import poolingpeople.commons.helper.PagerImpl;
 import poolingpeople.persistence.neo4j.entities.PersistedComment;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
@@ -18,7 +18,7 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 public class InstanceProvider {
 	
 	@Inject
-	Instance<Pager> pagerSource;
+	Instance<PagerImpl> pagerSource;
 
 	@Inject
 	private Instance<PersistedTask> persistedTaskSource;
@@ -45,7 +45,7 @@ public class InstanceProvider {
 	private HashMap<Class<?>, Instance<?>> loadInstancesSources(){
 		instancesSources = new HashMap<>();
 		instancesSources.put(PersistedTask.class, persistedTaskSource);
-		instancesSources.put(Pager.class, pagerSource);
+		instancesSources.put(PagerImpl.class, pagerSource);
 		instancesSources.put(PersistedUser.class, persistedUserSource);
 		instancesSources.put(PersistedComment.class, persistedCommentSource);
 		instancesSources.put(PersistedEffort.class, persistedEffortSource);
