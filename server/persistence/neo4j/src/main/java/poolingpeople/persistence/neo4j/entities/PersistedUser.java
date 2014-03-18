@@ -9,10 +9,12 @@ import org.neo4j.graphdb.Direction;
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
+import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
+import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 
 @Stateless
 public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User {
@@ -23,10 +25,31 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 	}
 
 	public PersistedUser loadExistingUserWithCredentials(String email, String password){
+		loadByCredentials(email, password);
+		return this;
+	}
+	
+	public PersistedUser createUserWithCredentials(String email, String password, User user){
+		super.createNodeFromDtoModel(NODE_TYPE, user);
 		manager.addToIndex(underlyingNode, new UserIndexContainer(email, password));
 		setLoginEmail(email);
 		setPassword(password);
 		return this;
+	}
+	
+	private void loadByCredentials(String email, String password) {
+
+		if (underlyingNode != null) {
+			throw new RootApplicationException("Node already loaded");
+		} 
+		
+		try {
+			underlyingNode = getPersistedObject(new UserIndexContainer(email, password), this.getClass()).getNode();
+		} catch (NotUniqueException e){
+			throw new NotUniqueException("Two many user with the same email/psw", e);
+		}
+		
+		
 	}
 	
 	@Override

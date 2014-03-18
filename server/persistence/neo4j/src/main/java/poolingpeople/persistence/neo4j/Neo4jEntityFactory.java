@@ -169,7 +169,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public User createUser(User user) {
-		return persistedUserSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.PROJECT, user);
+		return persistedUserSource.get().createUserWithCredentials(user.getEmail(), user.getPassword(), user);
 	}
 
 	@Override
