@@ -26,6 +26,7 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
 
 @Singleton
+@UpdateHierarchicalResources
 public class Neo4jEntityFactory implements EntityFactory { 
 
 	@Inject

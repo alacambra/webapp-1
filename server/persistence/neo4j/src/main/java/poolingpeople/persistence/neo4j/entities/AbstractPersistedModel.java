@@ -22,6 +22,7 @@ import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.IgnoreAttribute;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.InstanceProvider;
+import poolingpeople.persistence.neo4j.Neo4jProfiler;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -34,6 +35,7 @@ import poolingpeople.persistence.neo4j.exceptions.NodeNotFoundException;
 import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 
+@Neo4jProfiler
 public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>>{
 
 	protected Node underlyingNode;

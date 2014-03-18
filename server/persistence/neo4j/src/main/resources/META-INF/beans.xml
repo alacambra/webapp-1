@@ -5,6 +5,7 @@ http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
 
 	<interceptors>
 		<class>poolingpeople.persistence.neo4j.TransactionInterceptor</class>
+		<class>poolingpeople.persistence.neo4j.UpdateHierarchicalResourcesInterceptor</class>
 	</interceptors>
 
 </beans>

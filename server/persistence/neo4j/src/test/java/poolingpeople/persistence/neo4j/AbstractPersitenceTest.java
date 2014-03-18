@@ -1,18 +1,14 @@
 package poolingpeople.persistence.neo4j;
 
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.jglue.cdiunit.AdditionalClasses;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
-import poolingpeople.commons.entities.Effort;
 import poolingpeople.persistence.neo4j.NeoManager;
-import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
 import poolingpeople.persistence.neo4j.entities.PersistedProject;
 import poolingpeople.persistence.neo4j.entities.PersistedTask;
@@ -24,7 +20,8 @@ import poolingpeople.persistence.neo4j.entities.PersistedTask;
 	PersistedEffort.class,
 	GraphDatabaseServiceProducerTest.class, 
 	TransactionInterceptor.class, 
-	ProfilerInterceptor.class
+	ProfilerInterceptor.class,
+	UpdateQueue.class
 })
 public abstract class AbstractPersitenceTest {
 	protected String structurePath = "cypher-graphs/";
@@ -34,6 +31,9 @@ public abstract class AbstractPersitenceTest {
 	
 	@Inject
 	protected InstanceProvider instanceProvider;
+	
+	@Inject
+	protected UpdateQueue updateQueue;
 	
 	public void setManager(NeoManager manager) {
 		this.manager = manager;

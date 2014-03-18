@@ -1,12 +1,10 @@
 package poolingpeople.persistence.neo4j;
 
-import java.lang.reflect.Constructor;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,7 +26,6 @@ import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
 
-import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.container.IndexContainer;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
@@ -36,6 +33,7 @@ import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
 import poolingpeople.persistence.neo4j.exceptions.*;
 
 @Singleton
+@Neo4jProfiler
 public class NeoManager {
 
 	private GraphDatabaseService graphDb;

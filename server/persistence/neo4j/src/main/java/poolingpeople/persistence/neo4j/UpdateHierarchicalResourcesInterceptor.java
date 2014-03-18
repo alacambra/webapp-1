@@ -10,7 +10,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 
 @Interceptor
-@Neo4jTransaction
+@UpdateHierarchicalResources
 public class UpdateHierarchicalResourcesInterceptor {
 
 	@Inject

@@ -187,6 +187,8 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		t12.addSubtask(t121);
 		t12.addSubtask(t122);
 		
+		updateQueue.executeUpdates();
+		
 		String q = "MATCH (n:TASK)-->()-->(child:TASK) return sum(child.DEFAULT_DURATION) as total ";
 		Long expectedProgress = (Long) manager.runCypherQuery(q, null).columnAs("total").next();
 		
