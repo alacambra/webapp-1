@@ -102,7 +102,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 	@Override
 	public void setDefaultDuration(Integer progress) {
 		setProperty(NodePropertyName.DEFAULT_DURATION, progress);
-		updateAll();
+		updateQueue.addModelToUpdate(this);
 	}
 
 	private void setEffort(Integer totalEffort) {
@@ -165,7 +165,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 		}
 
 		setProperty(NodePropertyName.DEFAULT_START_DATE, startDate);
-		updateAll();
+		updateQueue.addModelToUpdate(this);
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 		}
 
 		setProperty(NodePropertyName.DEFAULT_END_DATE, endDate);
-		updateAll();
+		updateQueue.addModelToUpdate(this);
 	}
 
 	private Long getDefaultStartDate() {
@@ -213,7 +213,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 	@Override
 	public void setDefaultProgress(Float progress) {
 		setProperty(NodePropertyName.DEFAULT_PROGRESS, progress);
-		updateAll();
+		updateQueue.addModelToUpdate(this);
 	}
 
 
@@ -247,7 +247,7 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 		//		setStartDate(child.getStartDate() < getStartDate() ? child.getStartDate() : getStartDate());
 		//		setEndDate(child.getEndDate() > getEndDate() ? child.getEndDate() : getEndDate());
 		createRelationTo(Relations.HAS_SUBTASK, (AbstractPersistedModel<?>) child, true);
-		updateAll();
+		updateQueue.addModelToUpdate(this);
 	}
 
 	@Override
@@ -270,7 +270,8 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 		isParentOfChildOrException(child);
 
 		manager.removeNode(((AbstractPersistedModel<?>) child).getNode());
-		updateAll();
+//		updateAll();
+		updateQueue.addModelToUpdate(this);
 	}
 
 	@Override
@@ -465,62 +466,36 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 	/**************** PROPAGATION METHODS *****************/
 
 	private void startDateChanged(Long startDate) {
-		Task parent = getParent();
-
-		if (parent != null)
-			getParent().updateDates();
-		
-		Project project = getProject();
-		if ( project != null ) {
-			project.updateAll();
-		}
+		updatesCanBeRequired();
 	}
 
 	private void endDateChanged(Long endDate) {
-		Task parent = getParent();
-
-		if (parent != null)
-			getParent().updateDates();
-		
-		Project project = getProject();
-		if ( project != null ) {
-			project.updateAll();
-		}
+		updatesCanBeRequired();
 	}
 
 	private void durationChanged(Integer duration) {
-		Task parent = getParent();
-
-		if (parent != null)
-			getParent().updateDuration();
-		
-		Project project = getProject();
-		if ( project != null ) {
-			project.updateAll();
-		}
+		updatesCanBeRequired();
 	}
 
 	private void progressChanged(Float progress){
-		Task parent = getParent();
-
-		if (parent != null)
-			getParent().updateProgress();
-		
-		Project project = getProject();
-		if ( project != null ) {
-			project.updateAll();
-		}
+		updatesCanBeRequired();
 	}
 
 	private void effortChanged(Integer effort) {
+		updatesCanBeRequired();
+	}
+	
+	private void updatesCanBeRequired(){
 		Task parent = getParent();
 
 		if (parent != null)
-			getParent().updateEfforts();
+			updateQueue.addModelToUpdate((AbstractPersistedModel<?>) parent);
+//			getParent().updateEfforts();
 
 		Project project = getProject();
 		if ( project != null ) {
-			project.updateAll();
+			updateQueue.addModelToUpdate((AbstractPersistedModel<?>) project);
+//			project.updateAll();
 		}
 	}
 
@@ -582,17 +557,19 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 
 	@Override
 	public Set<AbstractPersistedModel<?>> loadObjectsToInform() {
-		HashSet<AbstractPersistedModel<?>> objects = new HashSet<AbstractPersistedModel<?>>(); 
-
-		Project p = getProject();
-		if ( p != null)
-			objects.add((AbstractPersistedModel<?>) p);
-
-		Task parentTask = getParent();
-		if( parentTask != null )
-			objects.add((AbstractPersistedModel<?>) parentTask);
-
-		return objects;
+//		HashSet<AbstractPersistedModel<?>> objects = new HashSet<AbstractPersistedModel<?>>(); 
+//
+//		Project p = getProject();
+//		if ( p != null)
+//			objects.add((AbstractPersistedModel<?>) p);
+//
+//		Task parentTask = getParent();
+//		if( parentTask != null )
+//			objects.add((AbstractPersistedModel<?>) parentTask);
+//
+//		return objects;
+		updatesCanBeRequired();
+		return null;
 	}
 
 	@Override

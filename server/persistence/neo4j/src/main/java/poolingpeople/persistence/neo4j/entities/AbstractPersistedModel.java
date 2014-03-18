@@ -1,6 +1,5 @@
 package poolingpeople.persistence.neo4j.entities;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
+import poolingpeople.persistence.neo4j.UpdateQueue;
 import poolingpeople.persistence.neo4j.container.IndexContainer;
 import poolingpeople.persistence.neo4j.container.UUIDIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.ConsistenceException;
@@ -46,6 +46,9 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	
 	@Inject
 	private InstanceProvider instanceProvider;
+	
+	@Inject
+	UpdateQueue updateQueue;
 
 	protected Logger logger = Logger.getLogger(this.getClass());
 	protected boolean isCreated = true;

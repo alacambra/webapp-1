@@ -60,9 +60,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 		Set<AbstractPersistedModel<?>> objects = task.loadObjectsToInform();
 		manager.removeNode(task.getNode());
 
-		for(AbstractPersistedModel<?> model : objects){
-			model.updateAll();
-		}
+//		for(AbstractPersistedModel<?> model : objects){
+//			model.updateAll();
+//		}
 	}
 
 	@Override
