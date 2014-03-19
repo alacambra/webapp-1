@@ -89,6 +89,7 @@
 
                 project: null,
                 assignee: null,
+                subtask: []
 
             }).methods({
 
@@ -100,7 +101,7 @@
                 getPrettyPriority: function() {
                     var priorityList = this.getPriorityList();
                     return priorityList[this.priority];
-                },
+                }
 
             }).enclose(function () {
                 var _efforts = [];

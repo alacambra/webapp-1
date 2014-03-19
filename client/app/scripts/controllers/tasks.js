@@ -81,6 +81,13 @@
 
                 var doAction = function(items, action) {
                     var toDoChanges = items[0] ? items : [items];
+                    for (var i = 0; i < toDoChanges.length; i++) {
+                        action(toDoChanges[i], i);
+                    }
+                };
+
+                var _doAction = function(items, action) {
+                    var toDoChanges = items[0] ? items : [items];
                     for (var i = 0; i < $scope.taskList.length; i++) {
                         for (var j = 0, jj = toDoChanges.length; j < jj; j++) {
                             if ($scope.taskList[i].id === toDoChanges[j].id) {
@@ -164,7 +171,7 @@
                             LoadStatusService.setStatus("tasks.taskList.task." + item.id, LoadStatusService.RESOLVING); 
                             DataProvider.deleteTask(item.id).then(function (response) {
                                 $scope.editingObjects[item.id] = false;
-                                $scope.taskList.splice(index, 1)
+                                $scope.taskList.splice($scope.taskList.indexOf(item), 1)
                             }, function (response) {
                                 $log.error(response);
                             }).finally(function() {
@@ -263,6 +270,13 @@
                     }
 
                 }
+                $scope.today = function(task, key) {
+                    task[key] = new Date();
+                };
+
+                $scope.null = function (task, key) {
+                     task[key] = null;
+                };
 
             }]);
 }());

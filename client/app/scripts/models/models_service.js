@@ -7,7 +7,11 @@
             var getTask = function(data) {
                 data = data || {};
                 var task = ModelStampsService.task(data);
+
+                task.subtasks = getTaskList(task.subtasks || []);
+
                 task.assignee = getUser(data.assignee);
+
                 return task;
             };
 
