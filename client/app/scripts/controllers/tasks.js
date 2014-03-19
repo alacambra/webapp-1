@@ -11,6 +11,7 @@
 
                 $scope.checkedItems = {};
 
+
                 $scope.taskList = [];
 
                 $scope.pagination = {
@@ -223,6 +224,15 @@
                     $scope.editingObjects[item.id + "." + field] = false;
                 }
 
+                $scope.blurDatepickers = function() {
+                    angular.forEach($scope.editingObjects, function(item, key) {
+                        if (key.lastIndexOf('.startDate') == key.length - '.startDate'.length ||
+                            key.lastIndexOf('.endDate') == key.length - '.endDate'.length) {
+                            $scope.editingObjects[key] = false;
+                        }
+                    })
+                }
+
                 $scope.editingField = function(item, field) {
                     return (typeof $scope.editingObjects[item.id + "." + field] === "object");
                 };
@@ -238,7 +248,6 @@
                 $scope.checkItem = function(item, event, ignoreTarget) {
                     if (event.target == event.currentTarget || ignoreTarget) {
                         if (!event.ctrlKey) {
-                            console.log($scope.getSelectedItems().length);
                             if ($scope.getSelectedItems().length > 1)
                                 $scope.checkedItems[item.id] = item;
                             else

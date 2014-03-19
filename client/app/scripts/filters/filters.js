@@ -24,8 +24,15 @@
 
 		.filter('dateToNumber', [
 			function () {
+				return function (date) {
+					return moment(date).valueOf();
+				}
+			}])
+
+		.filter('numberToDate', [
+			function () {
 				return function (date, format) {
-					return moment(date, format).valueOf();
+					return moment(date).toDate();
 				}
 			}])
 

@@ -112,12 +112,11 @@
 					require: 'ngModel',
 					link: function ($scope, $elem, $attrs, ngModelCtrl) {
 						ngModelCtrl.$formatters.push(function (modelValue) {
-							var hours = $filter('minutesToHours')(modelValue);
-							return $filter('number')(hours, 2);
+							return $filter('numberToDate')(modelValue, $attrs.ppConvertTime);
 						});
 
 						ngModelCtrl.$parsers.push(function (viewValue) {
-							return $filter('hoursToMinutes')(viewValue);
+							return $filter('dateToNumber')(viewValue, $attrs.ppConvertTime);
 						});
 					}
 				};
@@ -140,21 +139,58 @@
 				};
 			}])
 
-		.directive('setFocus', ['$log',
-			function ($log) {
+		.directive('setFocus', ['$log', '$timeout',
+			function ($log, $timeout) {
 				return {
 					restrict: 'A',
+					priority: 0,
 					link: function ($scope, $elem, $attrs) {
-						$elem.focus();
+						$timeout(function() {
+							$elem.focus();
+						})
 					}
 				}
 			}])
+
+		.directive('ngClickOut', ['$log', '$document',
+			function ($log, $document) {
+				return {
+					restrict: 'A',
+					priority: 0,
+					link: function ($scope, $elem, $attrs) {
+						$elem.on('$destroy', function() {
+							$document.unbind('click');
+						});
+				      $document.bind('click', function(event) {
+				      	var clickedOut = false,
+				      		ancestors = angular.element(event.target).parents(),
+				      		$target = angular.element(event.target);
+				      		console.log($target.is(':visible'))
+				      	if ($target.is(':visible')) {
+				      		clickedOut = true
+					      	angular.forEach(ancestors, function (element) {
+					      		if (element == $elem[0]) {
+					      			clickedOut = false;
+					      		}
+					      	})
+						    if (clickedOut === true) {
+				                $scope.$apply(function (){
+							    	$scope.$eval($attrs.ngClickOut)
+							    });
+						    }
+					      }
+				      });
+					}
+				}
+			}])
+
 		.directive('ngEnter', function () {
 		    return function (scope, element, attrs) {
 		        element.bind("keydown keypress", function (event) {
-		            if(event.which === 13) {
-		                scope.$apply(function (){
-		                    scope.$eval(attrs.ngEnter);
+		            if(event.which === 13 && $elem.is(':focus')) {
+		            	console.log("SAD")
+		                $scope.$apply(function (){
+		                    $scope.$eval($attrs.ngEnter);
 		                });
 
 		                event.preventDefault();
@@ -170,7 +206,7 @@
 		    	var doContrary = $attr.ngLoading.indexOf("!") === 0,
 		    		targetResource = doContrary ? $attr.ngLoading.substr(1) : $attr.ngLoading;
 
-			    	$scope.$watch(function() {
+		    	$scope.$watch(function() { // LoadStatusService.isLoading(targetResource) ⊕ doContrary
 		    		if (LoadStatusService.isLoading(targetResource)) {
 		    			if (!doContrary) $element.show();
 		    			else $element.hide();

@@ -133,31 +133,35 @@
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div class="editable" ng-if="!editingField(task, 'startDate')">
-                    <a href="" ng-click="editField(task, 'startDate')">
+                <span ng-if="!editingField(task, 'startDate')">
+                    <a href="" ng-click=" blurDatepickers(); editField(task, 'startDate')">
                         <span class="editable">{{ (task.startDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
-                </div>
-                <div class="editable" ng-if="editingField(task, 'startDate')">
-                    <input type="text" 
-                        ng-model="task.startDate"
-                        pp-model="update(task); blurField(task, 'startDate')"
-                        style="position: relative;"/>
-                </div>
+                </span>
+                <div class="editable" ng-if="editingField(task, 'startDate')" style="position: absolute; background: white; padding:5px; border: 1px solid rgb(150,150,150); border-radius: 3px;">
+                    <datepicker ng-model="task.startDate"
+                           format="dd.MM.yyyy"
+                           show-weeks="false"
+                           pp-convert-time="dd.MM.yyyy"
+                           ng-change="blurField(task, 'startDate')"
+                           ng-click-out="this.$destroy(); blurField(task, 'startDate')"></datepicker>
+               </div>    
             </td>
 
             <td ng-click="checkItem(task, $event)">
-                <div class="editable" ng-if="!editingField(task, 'endDate')">
-                    <a href="" ng-click="editField(task, 'endDate')">
+                <span ng-if="!editingField(task, 'endDate')">
+                    <a href="" ng-click=" blurDatepickers(); editField(task, 'endDate')">
                         <span class="editable">{{ (task.endDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
-                </div>
-                <div class="editable" ng-if="editingField(task, 'endDate')">
-                    <input type="text" 
-                        ng-model="task.endDate"
-                        pp-model="update(task); blurField(task, 'endDate')"
-                        style="position: relative;"/>
-                </div>
+                </span>
+                <div class="editable" ng-if="editingField(task, 'endDate')" style="position: absolute; background: white; padding:5px; border: 1px solid rgb(150,150,150); border-radius: 3px;">
+                    <datepicker ng-model="task.endDate"
+                           format="dd.MM.yyyy"
+                           show-weeks="false"
+                           pp-convert-time="dd.MM.yyyy"
+                           ng-change="blurField(task, 'endDate')"
+                           ng-click-out="this.$destroy(); blurField(task, 'endDate')"></datepicker>
+               </div>   
             </td>
 
             <td ng-click="checkItem(task, $event)">
