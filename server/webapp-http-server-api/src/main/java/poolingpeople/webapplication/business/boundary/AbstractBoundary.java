@@ -20,7 +20,7 @@ public class AbstractBoundary {
 	protected EntityFactory entityFactory;
 	
 	@Inject
-	Pager pager;
+	protected Pager pager;
 	
 
 	

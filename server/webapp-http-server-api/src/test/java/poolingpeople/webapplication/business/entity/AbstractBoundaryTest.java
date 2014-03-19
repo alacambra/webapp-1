@@ -18,6 +18,8 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 import poolingpeople.commons.cdihelper.CDIInstanceProvider;
+import poolingpeople.commons.helper.Pager;
+import poolingpeople.commons.helper.PagerImpl;
 import poolingpeople.persistence.neo4j.Neo4jEntityFactory;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.TransactionInterceptor;
@@ -54,9 +56,10 @@ import poolingpeople.webapplication.business.utils.validation.EmailValidation;
 	PersistedTask.class,
 	PersistedEffort.class,
 	PersistedUser.class,
-	PagerTestImpl.class
+	Pager.class,
+	PagerTestImpl.class,
+	PagerProducer.class
 })
-
 public abstract class AbstractBoundaryTest {
 
 	protected final String jsonModelsPath = "json-models/";
