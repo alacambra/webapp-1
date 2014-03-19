@@ -13,15 +13,15 @@
                 "title": "St1 Installation Plugin \"Whining\"",
                 "description": "Installation Plugin \"Whining\" direkt in laufender Redmine Version",
                 "project": {
-                    "title": "ion2s_Business Development",
-                    "progressIsDefault": false,
-                    "startDateIsDefault": false,
-                    "endDateIsDefault": false,
+                    "title": "e_2009_139_kdgRetainer0409 - OM",
+                    "progressIsDefault": true,
+                    "endDateIsDefault": true,
+                    "startDateIsDefault": true,
                     "statusIsDefault": true,
-                    "durationIsDefault": true,
+                    "taskCount": 0,
                     "effortIsDefault": false,
-                    "taskCount": 26,
-                    "id": "aa11f519-7409-4f12-8ff7-f623b9f86a41"
+                    "durationIsDefault": true,
+                    "id": "9f197726-8d39-4259-a33f-07ecbe7150fa"
                 },
                 "assignee": {
                     "lastName": null,
