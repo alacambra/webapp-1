@@ -166,7 +166,6 @@ public class TaskBoundary extends AbstractBoundary{
 		Task task = entityFactory.createTask(dtoTask);
 		task.setAssignee(loggedUserContainer.getUser());
 		p.addTask(task);
-
 		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
 	}

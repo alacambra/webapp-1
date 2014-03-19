@@ -37,7 +37,10 @@ public class CommentsBoundary extends AbstractBoundary{
 	public Response getCommentsOfObject(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		
-		String r = mapper.writerWithView(JsonViews.CommentsWithSubject.class).writeValueAsString("");
+		String r = mapper.writerWithView(JsonViews.CommentsWithSubject.class).writeValueAsString(
+				entityFactory.getObjectComments(
+						entityFactory.getPoolingpeopleEntity(id)));
+		
 		return Response.ok().entity(r).build();
 		
 	}

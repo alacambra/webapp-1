@@ -91,6 +91,7 @@ public class UserDTO implements User {
 	}
 
 	@Override
+	@JsonIgnore
 	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;

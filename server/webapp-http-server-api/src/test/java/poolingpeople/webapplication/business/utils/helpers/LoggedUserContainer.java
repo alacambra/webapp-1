@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.utils.helpers;
 
+import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
 import org.neo4j.graphdb.Transaction;
@@ -12,6 +13,7 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 import poolingpeople.webapplication.business.boundary.ILoggedUserContainer;
 import poolingpeople.webapplication.business.user.boundary.UserDTO;
 
+@Alternative
 public class LoggedUserContainer implements ILoggedUserContainer {
 
 	private EntityFactory entityFactory;

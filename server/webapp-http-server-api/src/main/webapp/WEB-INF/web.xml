@@ -18,7 +18,7 @@
 	</context-param>
 	<filter>
 		<filter-name>AuthFilter</filter-name>
-		<filter-class>poolingpeople.webapplication.business.boundary.AuthFilter
+		<filter-class>poolingpeople.webapplication.business.boundary.PreactionsFilter
 		</filter-class>
 	</filter>
 	<filter-mapping>
