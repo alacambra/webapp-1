@@ -1,7 +1,6 @@
 package poolingpeople.commons.entities;
 
 public interface ChangeLog {
-
 	String getId();
 
 	Subject getSubject();
@@ -15,4 +14,5 @@ public interface ChangeLog {
 	void setAction(ChangeLogAction action);
 
 	void setDate(Long date);
+
 }
