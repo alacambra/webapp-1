@@ -144,7 +144,7 @@
                            show-weeks="false"
                            pp-convert-time="dd.MM.yyyy"
                            ng-change="blurField(task, 'startDate')"
-                           ng-click-out="this.$destroy(); blurField(task, 'startDate')"></datepicker>
+                           ng-click-out="blurField(task, 'startDate')"></datepicker>
                </div>    
             </td>
 
@@ -160,7 +160,7 @@
                            show-weeks="false"
                            pp-convert-time="dd.MM.yyyy"
                            ng-change="blurField(task, 'endDate')"
-                           ng-click-out="this.$destroy(); blurField(task, 'endDate')"></datepicker>
+                           ng-click-out="blurField(task, 'endDate')"></datepicker>
                </div>   
             </td>
 

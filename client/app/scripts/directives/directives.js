@@ -165,7 +165,6 @@
 				      	var clickedOut = false,
 				      		ancestors = angular.element(event.target).parents(),
 				      		$target = angular.element(event.target);
-				      		console.log($target.is(':visible'))
 				      	if ($target.is(':visible')) {
 				      		clickedOut = true
 					      	angular.forEach(ancestors, function (element) {
@@ -188,7 +187,6 @@
 		    return function (scope, element, attrs) {
 		        element.bind("keydown keypress", function (event) {
 		            if(event.which === 13 && $elem.is(':focus')) {
-		            	console.log("SAD")
 		                $scope.$apply(function (){
 		                    $scope.$eval($attrs.ngEnter);
 		                });
