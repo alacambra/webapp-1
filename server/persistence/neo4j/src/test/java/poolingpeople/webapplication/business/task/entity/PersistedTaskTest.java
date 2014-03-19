@@ -174,6 +174,8 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		t12.addSubtask(t122);
 		
 		t111.addEffort(effort);
+		updateQueue.executeUpdates();
+		
 		Integer totalEffort = Integer.parseInt(manager.runCypherQuery(q, null).columnAs("total").next().toString());
 		assertEquals(totalEffort, t1.getEffort());
 	}

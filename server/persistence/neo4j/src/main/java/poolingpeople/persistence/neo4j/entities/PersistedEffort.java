@@ -71,11 +71,4 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 		return getRelatedNode(Relations.HAS_EFFORT, PersistedTask.class, Direction.INCOMING).getId();
 	}
 
-	@Override
-	public void synchronizeWith(Object tplObject) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }
