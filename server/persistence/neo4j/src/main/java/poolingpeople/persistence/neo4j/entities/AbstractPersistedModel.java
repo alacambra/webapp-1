@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -38,6 +39,9 @@ import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException
 @Neo4jProfiler
 public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>>{
 
+	@Inject
+	protected Event<T> changeLogEvent;
+	
 	protected Node underlyingNode;
 
 	@Inject 

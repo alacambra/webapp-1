@@ -577,11 +577,10 @@ public class PersistedTask extends AbstractPersistedModel<PersistedTask> impleme
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
 	}
 
-	@Override
-	public void synchronizeWith(Object tplObject) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void synchronizeWith(Object tplObject) {
+//		changeLogEvent.fire(null);
+//	}
 
 }
 
