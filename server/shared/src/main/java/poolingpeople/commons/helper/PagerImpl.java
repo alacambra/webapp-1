@@ -8,8 +8,6 @@ public class PagerImpl implements Pager {
 	private Integer size = 15;
 	
 	public PagerImpl() {
-		start = null;
-		size = null;
 	}
 
 	@Override

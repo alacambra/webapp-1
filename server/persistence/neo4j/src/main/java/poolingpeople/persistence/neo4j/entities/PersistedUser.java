@@ -16,7 +16,6 @@ import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 
-@Stateless
 public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;

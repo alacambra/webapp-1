@@ -17,7 +17,7 @@ public class UpdateHierarchicalResourcesInterceptor {
 	UpdateQueue updateQueue; 
 	
 	@AroundInvoke
-	public Object logMethod(InvocationContext context) throws Exception {
+	public Object doUpdate(InvocationContext context) throws Exception {
 
 			Object o = context.proceed();
 			updateQueue.executeUpdates();
