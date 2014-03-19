@@ -73,6 +73,7 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		Task t11 = instanceProvider.getInstanceForClass(PersistedTask.class).loadExistingNodeById("T11", PoolingpeopleObjectType.TASK);
 		t1.equals(t11);
 		t1.addSubtask(t11);
+		updateQueue.executeUpdates();
 		assertEquals(new Long(34), t1.getStartDate());
 		assertEquals(new Long(51), t1.getEndDate());
 		assertEquals(new Long(34), t11.getStartDate());
@@ -81,6 +82,8 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		Task t111 = instanceProvider.getInstanceForClass(PersistedTask.class).loadExistingNodeById("T111", PoolingpeopleObjectType.TASK);
 		
 		t11.addSubtask(t111);
+		updateQueue.executeUpdates();
+		
 		assertEquals(new Long(4), t1.getStartDate());
 		assertEquals(new Long(510), t1.getEndDate());
 		assertEquals(new Long(4), t11.getStartDate());
@@ -90,6 +93,8 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		
 		Task t112 = instanceProvider.getInstanceForClass(PersistedTask.class).loadExistingNodeById("T112", PoolingpeopleObjectType.TASK);
 		t11.addSubtask(t112);
+		updateQueue.executeUpdates();
+		
 		assertEquals(new Long(4), t1.getStartDate());
 		assertEquals(new Long(510), t1.getEndDate());
 		assertEquals(new Long(4), t11.getStartDate());
@@ -101,12 +106,15 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		
 		Project p = instanceProvider.getInstanceForClass(PersistedProject.class) .loadExistingNodeById("P1", PoolingpeopleObjectType.PROJECT);
 		p.addTask(t1);
+		updateQueue.executeUpdates();
+		
 		assertEquals(new Long(4), p.getStartDate());
 		assertEquals(new Long(510), p.getEndDate());
 		
 		t1.setDefaultStartDate(23L);
 		Task t12 = instanceProvider.getInstanceForClass(PersistedTask.class).loadExistingNodeById("T12", PoolingpeopleObjectType.TASK);
 		t1.addSubtask(t12);
+		updateQueue.executeUpdates();
 		assertEquals(new Long(3), t1.getStartDate());
 		assertEquals(new Long(510), t1.getEndDate());
 		
@@ -135,6 +143,7 @@ public class PersistedTaskTest extends AbstractPersitenceTest{
 		Double expectedProgress = (Double) manager.runCypherQuery(q, null).columnAs("total").next();
 		
 		Float f = Float.parseFloat(expectedProgress.toString());
+		updateQueue.executeUpdates();
 		assertEquals(f, t1.getProgress());
 
 	}
