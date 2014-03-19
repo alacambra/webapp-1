@@ -252,12 +252,11 @@
                                 $scope.checkedItems[item.id] = item;
                             else
                                 $scope.checkedItems[item.id] = $scope.checkedItems[item.id] ? false : item;
-                            angular.forEach($scope.checkedItems, function (value, key) {
-                                console.log(key + " - " + item.id)
-                                if (key != item.id) {
-                                    $scope.checkedItems[key] = false;
-                                }
-                            });
+                                angular.forEach($scope.checkedItems, function (value, key) {
+                                    if (key != item.id) {
+                                        $scope.checkedItems[key] = false;
+                                    }
+                                });
                         } else {
                             $scope.checkedItems[item.id] = $scope.checkedItems[item.id] ? false : item;
                         }

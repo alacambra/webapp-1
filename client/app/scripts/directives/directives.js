@@ -156,11 +156,8 @@
 			function ($log, $document) {
 				return {
 					restrict: 'A',
-					priority: 0,
+					priority: 1000,
 					link: function ($scope, $elem, $attrs) {
-						$elem.on('$destroy', function() {
-							$document.unbind('click');
-						});
 				      $document.bind('click', function(event) {
 				      	var clickedOut = false,
 				      		ancestors = angular.element(event.target).parents(),
@@ -175,6 +172,7 @@
 						    if (clickedOut === true) {
 				                $scope.$apply(function (){
 							    	$scope.$eval($attrs.ngClickOut)
+									$document.unbind('click');
 							    });
 						    }
 					      }
@@ -190,7 +188,6 @@
 		                $scope.$apply(function (){
 		                    $scope.$eval($attrs.ngEnter);
 		                });
-
 		                event.preventDefault();
 		            }
 		        });

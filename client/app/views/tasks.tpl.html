@@ -144,13 +144,13 @@
                            show-weeks="false"
                            pp-convert-time="dd.MM.yyyy"
                            ng-change="blurField(task, 'startDate')"
-                           ng-click-out="blurField(task, 'startDate')"></datepicker>
+                           ng-click-out="blurDatepickers(); blurField(task, 'startDate')"></datepicker>
                </div>    
             </td>
 
             <td ng-click="checkItem(task, $event)">
                 <span ng-if="!editingField(task, 'endDate')">
-                    <a href="" ng-click=" blurDatepickers(); editField(task, 'endDate')">
+                    <a href="" ng-click="blurDatepickers(); editField(task, 'endDate')">
                         <span class="editable">{{ (task.endDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </span>
