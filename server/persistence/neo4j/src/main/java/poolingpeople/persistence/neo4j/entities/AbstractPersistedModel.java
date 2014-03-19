@@ -210,6 +210,18 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return null;
 
 	}
+	
+	protected <P extends AbstractPersistedModel<?>> P getStartNode(Relations relation, Class<P> clazz) {
+
+		Node n = manager.getStartNode(underlyingNode, relation);
+
+		if ( n != null ) {
+			return getPersistedObject(n, clazz);
+		}
+
+		return null;
+
+	}
 
 	protected <P extends AbstractPersistedModel<?>> P getRelatedNode(Relations relation, Class<P> clazz, Direction direction) {
 
