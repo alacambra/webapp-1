@@ -246,11 +246,13 @@ public class PersistedProject extends AbstractPersistedModel<PersistedProject> i
 	public void addTask(Task task) {
 
 		if (relationExistsTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK)) {
-			throw new RelationAlreadyExistsException();
+//			throw new RelationAlreadyExistsException();
+			return;
 		}
 
 		createRelationshipTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK);
 
+		
 		//		Long startDate = task.getStartDate();
 		//		Long endDate = task.getEndDate();
 		//
