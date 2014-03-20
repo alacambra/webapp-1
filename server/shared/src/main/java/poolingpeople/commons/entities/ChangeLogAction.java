@@ -1,13 +1,11 @@
 package poolingpeople.commons.entities;
 
+import org.neo4j.graphdb.Node;
+
 public interface ChangeLogAction {
 	String getId();
 
-	String getChangedAttribute();
-
-	String getChangeMessage();
-
-	void setChangedAttribute(String attribute);
-
-	void setChangeMessage(String message);
+	String getCode();
+	
+	ChangeLogAction loadChangeLogActionFromNode(Node node);
 }
