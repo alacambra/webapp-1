@@ -12,14 +12,14 @@ public class ChangeLogActionResolver {
 	 * There is no need for a serialversion uid
 	 */
 	@SuppressWarnings("serial")
-	private static Map<String, Class<? extends ChangeLogAction>> changeLogActionMap = 
-			new HashMap<String, Class<? extends ChangeLogAction>>() {
+	private static Map<ChangeLogActionType, Class<? extends ChangeLogAction>> changeLogActionMap = 
+			new HashMap<ChangeLogActionType, Class<? extends ChangeLogAction>>() {
 		{
-			put ("PersistedChangeLogAttributeUpdateAction", PersistedChangeLogAttributeUpdateAction.class);
+			put (ChangeLogActionType.AttributeUpdateAction, PersistedChangeLogAttributeUpdateAction.class);
 		}
 	};
 	
-	public Class<? extends ChangeLogAction> resolveChangeLogActionByName(String changeLogActionType) {
+	public Class<? extends ChangeLogAction> resolveChangeLogActionByName(ChangeLogActionType changeLogActionType) {
 		if(!changeLogActionMap.containsKey(changeLogActionType)) 
 			throw new RootApplicationException(String.format("The given ChangeLogAction class does not exist %s", changeLogActionType));
 		return changeLogActionMap.get(changeLogActionType);
