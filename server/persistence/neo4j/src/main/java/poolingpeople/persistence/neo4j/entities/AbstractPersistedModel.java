@@ -39,9 +39,6 @@ import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException
 @Neo4jProfiler
 public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>>{
 
-	@Inject
-	protected Event<T> changeLogEvent;
-	
 	protected Node underlyingNode;
 
 	@Inject 
@@ -362,6 +359,7 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		manager.removeRelationsTo(underlyingNode, relation);
 	}
 
+	
 	public void synchronizeWith(Object tplObject) {
 
 		Method[] methods = tplObject.getClass().getMethods();
