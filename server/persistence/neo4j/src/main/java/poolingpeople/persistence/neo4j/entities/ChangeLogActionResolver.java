@@ -1,6 +1,6 @@
 package poolingpeople.persistence.neo4j.entities;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 import poolingpeople.commons.entities.ChangeLogAction;
@@ -13,7 +13,7 @@ public class ChangeLogActionResolver {
 	 */
 	@SuppressWarnings("serial")
 	private static Map<String, Class<? extends ChangeLogAction>> changeLogActionMap = 
-			new Hashtable<String, Class<? extends ChangeLogAction>>() {
+			new HashMap<String, Class<? extends ChangeLogAction>>() {
 		{
 			put ("PersistedChangeLogAttributeUpdateAction", PersistedChangeLogAttributeUpdateAction.class);
 		}
