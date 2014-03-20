@@ -8,7 +8,6 @@ import poolingpeople.commons.entities.ChangeLogAction;
 import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
-import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 
 public class PersistedChangeLogAttributeUpdateAction implements ChangeLogAttributeUpdate {
 	private Node changeLogNode;
