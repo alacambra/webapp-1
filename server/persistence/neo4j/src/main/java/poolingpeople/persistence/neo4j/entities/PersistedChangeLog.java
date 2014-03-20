@@ -31,7 +31,7 @@ public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLo
 	public ChangeLogAction getAction() {
 		ChangeLogAction actualChangeLogActionObject;
 		String changeLogActionPropertyType = getStringProperty(NodePropertyName.CHANGELOG_ACTION);
-		Class<? extends ChangeLogAction> changeLogActionType = resolver.resolveChangeLogActionByName(changeLogActionPropertyType);
+		Class<? extends ChangeLogAction> changeLogActionType = resolver.resolveChangeLogActionByName(ChangeLogActionType.valueOf(changeLogActionPropertyType));
 		try {
 			actualChangeLogActionObject = changeLogActionType.newInstance().loadChangeLogActionFromNode(underlyingNode);
 		} catch (InstantiationException | IllegalAccessException e) {
