@@ -1,12 +1,17 @@
 package poolingpeople.webapplication.business.boundary;
 
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
-import poolingpeople.persistence.neo4j.entities.PersistedTask;
+import poolingpeople.commons.entities.EntityFactory;
+import poolingpeople.persistence.neo4j.NeoManager;
 
 public class ChangelogManager {
 
-	public void onPersistedTaskChange(@Observes PersistedTask persistedTask) {
-		
+	@Inject
+	private EntityFactory entityFactory;
+	
+	public void onPersistedTaskChange(@Observes UpdateTask updateTask) {
+		// ???
 	}
 }

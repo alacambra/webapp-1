@@ -2,6 +2,7 @@ package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -21,14 +22,21 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+
+import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
+import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.TaskPriority;
+import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.JsonViews;
+import poolingpeople.webapplication.business.boundary.UpdateTask;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 @Path("tasks")
@@ -92,7 +100,15 @@ public class TaskBoundary extends AbstractBoundary{
 			throws JsonParseException, JsonMappingException, IOException {
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.getTaskById(uuid);
+		
+		TaskDTO oldTask = new TaskDTO();
+		oldTask.synchronizeWith(task);
+		
 		task.synchronizeWith(dtoTask);
+		
+		UpdateTask data = new UpdateTask(oldTask, task);
+		updateTaskEvent.fire(data);
+		
 		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
 	}
