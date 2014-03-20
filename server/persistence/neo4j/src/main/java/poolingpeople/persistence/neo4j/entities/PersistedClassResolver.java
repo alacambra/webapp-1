@@ -24,9 +24,6 @@ public class PersistedClassResolver {
 	private NeoManager manager;
 	private HashMap<PoolingpeopleObjectType, Class<? extends AbstractPersistedModel<?>>> objectTypesMap;
 	
-	
-	
-	
 	@Inject
 	public PersistedClassResolver(){
 		objectTypesMap = new HashMap<>();
@@ -34,7 +31,6 @@ public class PersistedClassResolver {
 		objectTypesMap.put(PersistedTask.NODE_TYPE, PersistedTask.class);
 		objectTypesMap.put(PersistedEffort.NODE_TYPE, PersistedEffort.class);
 		objectTypesMap.put(PersistedComment.NODE_TYPE, PersistedComment.class);
-		objectTypesMap.put(PersistedChangeLogAction.NODE_TYPE, PersistedChangeLogAction.class);
 	}
 	
 	public Class<? extends AbstractPersistedModel<?>> getPersistedEntityClassForNode(Node n){
