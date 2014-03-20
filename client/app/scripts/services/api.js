@@ -46,7 +46,7 @@
 
                 createComment: function(id, data) {
                     var q = $q.defer();
-                    $http.post(baseUrl + "/comments/in/object/" + id, data)
+                    $http.post(baseUrl + "/comments/" + id, data)
                         .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {
