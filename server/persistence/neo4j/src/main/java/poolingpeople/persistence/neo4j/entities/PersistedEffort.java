@@ -1,7 +1,10 @@
 package poolingpeople.persistence.neo4j.entities;
 
+import java.util.List;
+
 import org.neo4j.graphdb.Direction;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -70,5 +73,4 @@ public class PersistedEffort extends AbstractPersistedModel<PersistedEffort> imp
 	public String getTaskId() {
 		return getRelatedNode(Relations.HAS_EFFORT, PersistedTask.class, Direction.INCOMING).getId();
 	}
-
 }

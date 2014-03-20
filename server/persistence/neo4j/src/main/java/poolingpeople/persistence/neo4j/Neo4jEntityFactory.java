@@ -13,6 +13,7 @@ import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.helper.Pager;
@@ -31,30 +32,30 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Inject
 	private NeoManager manager;
-	
+
 	@Inject
 	InstanceProvider instanceProvider;
-	
-//	@Inject
-//	Instance<Pager> pagerSource;
-//
+
+	//	@Inject
+	//	Instance<Pager> pagerSource;
+	//
 	@Inject
 	private PersistedClassResolver classResolver;
-//	
-//	@Inject
-//	private Instance<PersistedTask> persistedTaskSource;
-//	
-//	@Inject
-//	private Instance<PersistedUser> persistedUserSource;
-//	
-//	@Inject
-//	private Instance<PersistedProject> persistedProjectSource;
-//	
-//	@Inject
-//	private Instance<PersistedComment> persistedCommentSource;
-//	
-//	@Inject
-//	private Instance<PersistedEffort> persistedEffortSource;
+	//	
+	//	@Inject
+	//	private Instance<PersistedTask> persistedTaskSource;
+	//	
+	//	@Inject
+	//	private Instance<PersistedUser> persistedUserSource;
+	//	
+	//	@Inject
+	//	private Instance<PersistedProject> persistedProjectSource;
+	//	
+	//	@Inject
+	//	private Instance<PersistedComment> persistedCommentSource;
+	//	
+	//	@Inject
+	//	private Instance<PersistedEffort> persistedEffortSource;
 
 	@Override
 	public void deleteTask(String uuid)  {
@@ -64,9 +65,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 		Set<AbstractPersistedModel<?>> objects = task.loadObjectsToInform();
 		manager.removeNode(task.getNode());
 
-//		for(AbstractPersistedModel<?> model : objects){
-//			model.updateAll();
-//		}
+		//		for(AbstractPersistedModel<?> model : objects){
+		//			model.updateAll();
+		//		}
 	}
 
 	@Override
@@ -85,9 +86,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 				manager.getNodes(PersistedTask.NODE_TYPE.name(), 
 						instanceProvider.getInstanceForClass(Pager.class).getStart(),
 						instanceProvider.getInstanceForClass(Pager.class).getSize()), 
-				new ArrayList<Task>(), 
-				PersistedTask.class, 
-				Task.class);
+						new ArrayList<Task>(), 
+						PersistedTask.class, 
+						Task.class);
 	}
 
 	@Override
@@ -106,9 +107,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 				manager.getNodes(PersistedProject.NODE_TYPE.name(), 
 						instanceProvider.getInstanceForClass(Pager.class).getStart(),
 						instanceProvider.getInstanceForClass(Pager.class).getSize()), 
-				new ArrayList<Project>(), 
-				PersistedProject.class,
-				Project.class);
+						new ArrayList<Project>(), 
+						PersistedProject.class,
+						Project.class);
 	}
 
 	@Override
@@ -171,9 +172,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 		return manager.getPersistedObjects(
 				manager.getNodes(PersistedUser.NODE_TYPE.name(), instanceProvider.getInstanceForClass(Pager.class).getStart(),
 						instanceProvider.getInstanceForClass(Pager.class).getSize()), 
-				new ArrayList<User>(), 
-				PersistedUser.class,
-				User.class);
+						new ArrayList<User>(), 
+						PersistedUser.class,
+						User.class);
 	}
 
 	@Override
@@ -204,9 +205,14 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return instanceProvider.getInstanceForClass(PersistedComment.class)
+	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity, Subject author) {
+		Comment c = instanceProvider.getInstanceForClass(PersistedComment.class)
 				.createNodeFromDtoModel(PoolingpeopleObjectType.COMMENT, comment);
+		
+		entity.addComment(c);
+		author.writeComment(c);
+		
+		return c;
 	}
 
 	@Override
@@ -226,10 +232,10 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public Comment createCommentOnObject(Comment comment, String uuid) {
+	public Comment createCommentOnObject(Comment comment, String objectUuid, Subject author) {
 		return createCommentOnObject(comment,
 				classResolver.getPoolingpeopleEntityFromNode(
-						manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid)));
+						manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), objectUuid)), author);
 	}
 }
 

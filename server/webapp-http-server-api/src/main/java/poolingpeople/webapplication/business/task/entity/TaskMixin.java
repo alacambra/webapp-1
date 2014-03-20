@@ -244,14 +244,22 @@ public class TaskMixin implements Task{
 	}
 
 	@Override
+	@JsonIgnore
 	public List<ChangeLog> getChangeLogList() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@JsonIgnore
 	public List<Comment> getObjectComments() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
 	}
 }

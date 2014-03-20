@@ -53,7 +53,7 @@ public class CommentsBoundary extends AbstractBoundary{
 			throws JsonGenerationException, JsonMappingException, IOException {
 		
 		Comment dtoComment = mapper.readValue(json, CommentsDTO.class);
-		String commentId = entityFactory.createCommentOnObject(dtoComment, objectId).getId();
+		String commentId = entityFactory.createCommentOnObject(dtoComment, objectId, loggedUserContainer.getUser()).getId();
 		return Response.ok().entity(commentId).build();
 		
 	}

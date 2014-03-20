@@ -261,4 +261,10 @@ public class ManagedTask implements Task {
 		
 	}
 
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

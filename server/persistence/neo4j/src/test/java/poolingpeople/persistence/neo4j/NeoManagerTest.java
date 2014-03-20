@@ -143,7 +143,7 @@ public class NeoManagerTest {
 
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put(key, value);
-		Relationship r = target.createRelationshipTo(from, to, relationshipType, properties);
+		Relationship r = target.createRelationshipFromTo(from, to, relationshipType, properties);
 
 		assertEquals(from, r.getStartNode());
 		assertEquals(to, r.getEndNode());

@@ -1,8 +1,11 @@
 package poolingpeople.persistence.neo4j.entities;
 
+import java.util.List;
+
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.ChangeLogAction;
 import poolingpeople.commons.entities.Subject;
+import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
@@ -55,6 +58,11 @@ public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLo
 	@Override
 	public void setDate(Long date) {
 		setProperty(NodePropertyName.DATE, date);
+	}
+
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		throw new RootApplicationException("A changelog has no changelog list");
 	}
 
 }

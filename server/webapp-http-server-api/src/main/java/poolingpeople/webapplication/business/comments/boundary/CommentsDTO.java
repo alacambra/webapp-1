@@ -64,6 +64,12 @@ public class CommentsDTO implements Comment {
 		
 	}
 
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 

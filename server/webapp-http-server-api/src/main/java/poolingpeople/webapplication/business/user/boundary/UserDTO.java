@@ -96,4 +96,16 @@ public class UserDTO implements User {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
 }
