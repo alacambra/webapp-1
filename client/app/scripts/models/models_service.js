@@ -8,6 +8,9 @@
                 data = data || {};
                 var task = ModelStampsService.task(data);
 
+                task.startDate = (task.startDate ===  1254731900000) ? null : task.startDate;
+                task.endDate = (task.endDate ===  -99999999999999) ? null : task.endDate;
+
                 task.subtasks = getTaskList(task.subtasks || []);
 
                 task.assignee = getUser(data.assignee);

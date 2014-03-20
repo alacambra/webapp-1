@@ -135,7 +135,7 @@
             <td ng-click="checkItem(task, $event)">
                 <span ng-if="!editingField(task, 'startDate')">
                     <a href="" ng-click=" blurDatepickers(); editField(task, 'startDate')">
-                        <span class="editable">{{ (task.getStartDate() | date: 'dd.MM.yyyy') || '---------------' }}</span>
+                        <span class="editable">{{ (task.startDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </span>
                 <div class="editable" ng-if="editingField(task, 'startDate')" style="position: absolute; background: white; padding:5px; border: 1px solid rgb(150,150,150); border-radius: 3px;">
@@ -154,7 +154,7 @@
             <td ng-click="checkItem(task, $event)">
                 <span ng-if="!editingField(task, 'endDate')">
                     <a href="" ng-click="blurDatepickers(); editField(task, 'endDate')">
-                        <span class="editable">{{ (task.getEndDate() | date: 'dd.MM.yyyy') || '---------------' }}</span>
+                        <span class="editable">{{ (task.endDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </span>
                 <div class="editable" ng-if="editingField(task, 'endDate')" style="position: absolute; background: white; padding:5px; border: 1px solid rgb(150,150,150); border-radius: 3px;">
@@ -163,7 +163,7 @@
                            show-weeks="false"
                            pp-convert-time="dd.MM.yyyy"
                            ng-change="blurField(task, 'endDate')"
-                           ng-click-out="blurField(task, 'endDate')"></datepicker>
+                           ng-click-out="blurDatepickers(); blurField(task, 'endDate')"></datepicker>
                     <div class="text-center">
                         <a href="" ng-click="today(task, 'endDate')" class="btn btn-info" style="margin: 5px;">Today</a>
                     </div>
@@ -265,7 +265,7 @@
             <td ng-click="checkItem(subtask, $event)">
                 <span ng-if="!editingField(subtask, 'startDate')">
                     <a href="" ng-click=" blurDatepickers(); editField(subtask, 'startDate')">
-                        <span class="editable">{{ (subtask.getStartDate() | date: 'dd.MM.yyyy') || '---------------' }}</span>
+                        <span class="editable">{{ (subtask.startDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </span>
                 <div class="editable" ng-if="editingField(subtask, 'startDate')" style="position: absolute; background: white; padding:5px; border: 1px solid rgb(150,150,150); border-radius: 3px;">
@@ -284,7 +284,7 @@
             <td ng-click="checkItem(subtask, $event)">
                 <span ng-if="!editingField(subtask, 'endDate')">
                     <a href="" ng-click="blurDatepickers(); editField(subtask, 'endDate')">
-                        <span class="editable">{{ (subtask.getEndDate() | date: 'dd.MM.yyyy') || '---------------' }}</span>
+                        <span class="editable">{{ (subtask.endDate | date: 'dd.MM.yyyy') || '---------------' }}</span>
                     </a>
                 </span>
                 <div class="editable" ng-if="editingField(subtask, 'endDate')" style="position: absolute; background: white; padding:5px; border: 1px solid rgb(150,150,150); border-radius: 3px;">
