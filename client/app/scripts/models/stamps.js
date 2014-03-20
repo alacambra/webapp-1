@@ -164,11 +164,22 @@
                 }
             });
 
+
+            var comment = stampit.compose(poolingpeopleObject).state({
+
+                id: null,
+                date: null,
+                comment: "",
+                owner: null
+
+            });
+
             return {
                 
                 task: task,
                 project: null,
                 user: user,
+                comment: comment,
                 effort: null
 
             }

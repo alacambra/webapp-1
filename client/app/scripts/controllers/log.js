@@ -3,8 +3,8 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('LogCtrl', ['$scope', 'DataProvider', 'LoadStatusService', 'SessionService',
-			function ($scope, DataProvider, LoadStatusService, SessionService) {
+		.controller('LogCtrl', ['$scope', 'DataProvider', 'LoadStatusService', 'SessionService', 'ModelsService',
+			function ($scope, DataProvider, LoadStatusService, SessionService, ModelsService) {
 
 				$scope.logs = [];
 
@@ -19,7 +19,7 @@
 					text: ""
 				};
 
-				$scope.idObject = "0";
+				$scope.idObject = "";
 
 				var getLog = function(id) {
 					LoadStatusService.setStatus('log', LoadStatusService.RESOLVING);
@@ -56,17 +56,21 @@
 
 				$scope.newComment = function() {
 
-					var data = {
-						comment: $scope.comment.text
+					var body = {
+						comment: $scope.comment.text, 
+						date: Date.now().valueOf()
 					};
 					
-					$scope.comment = "";
+					$scope.comment.text = "";
 
 					LoadStatusService.setStatus('log.createComment', LoadStatusService.RESOLVING);
-					DataProvider.createComment($scope.idObject, data).then(function(data) {
-						data.date = Date.now();
-						data.owner = SessionService.userData();
-						$scope.logs.push(data);
+					DataProvider.createComment($scope.idObject, body).then(function(data) {
+						$scope.logs.push(ModelsService.getComment({
+							id: data, 
+							comment: body.comment,
+							date: body.date,
+							owner: SessionService.userData()
+						}));
 					}).finally(function() {
 						LoadStatusService.setStatus('log.createComment', LoadStatusService.COMPLETED);
 					})

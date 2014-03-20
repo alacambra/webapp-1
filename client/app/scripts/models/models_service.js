@@ -45,11 +45,18 @@
                 return users;
             };
 
+            var getComment = function (data) {
+                data = data || {};
+                return ModelStampsService.comment(data);
+            };
+
+
             return {
-                getTask:getTask,
-                getTaskList:getTaskList,
-                getUser:getUser,
-                getUserList:getUserList
+                getTask: getTask,
+                getTaskList: getTaskList,
+                getUser: getUser,
+                getUserList: getUserList,
+                getComment: getComment
             };
         }]);
 }());
