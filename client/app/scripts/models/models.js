@@ -156,34 +156,6 @@
         return user(data);
     };
 
-    /**
-     * Factory that produces task instances.
-     */
-    var task = stampit.compose(idMod, taskMod, processMod).state({
-        project: null,
-        assignee: null
-    }).methods({
-            isTask: true,
-
-            setProject: function (project) {
-                this.project = {
-                    id: project.id,
-                    name: project.title
-                };
-            }
-        });
-
-    factory.task = function (data, options) {
-        data = data || {};
-        options = options || {};
-        data.startDate = convertDate(data.startDate);
-        data.endDate = convertDate(data.endDate);
-        return task(data);
-    };
-
-    /**
-     * Factory that produces project instances.
-     */
     var project = stampit.compose(idMod, projectMod, processMod).state({
         owner: null
     }).enclose(function () {

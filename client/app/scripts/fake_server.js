@@ -47,11 +47,12 @@
 					changelog = null,
 					user = [
 						{
-					    	"email": "dev@ion2s.com",
-					    	"id": "8b5f05c1-368e-4d3b-9863-b5bd3c372b54",
-							"firstName": "user1",
-							"lastName": "user001",
-							"birthDate": 1
+						    "id": "e8dcba4b-6e86-4a9c-a957-ae27df62cddb",
+						    "firstName": "Felix",
+						    "lastName": null,
+						    "birthday": null,
+						    "email": "felix.schreiber@ion2s.com",
+						    "birthDate": null
 						}
 					];
 
@@ -115,6 +116,12 @@
 
 				// URI: PUT /tasks/:taskId/to/user/:userId
 				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/to\/user\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
+					return [200, JSON.stringify(tasks)];
+				});
+
+				// URI: PUT /tasks/:taskId/in/project/:userId
+				$httpBackend.whenPUT(/\/tasks\/[\w-]+\/in\/project\/[\w-]+$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					return [200, JSON.stringify(tasks)];
 				});

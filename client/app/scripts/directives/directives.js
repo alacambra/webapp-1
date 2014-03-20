@@ -112,11 +112,11 @@
 					require: 'ngModel',
 					link: function ($scope, $elem, $attrs, ngModelCtrl) {
 						ngModelCtrl.$formatters.push(function (modelValue) {
-							return $filter('numberToDate')(modelValue, $attrs.ppConvertTime);
+							return $filter('minutesToHours')(modelValue, $attrs.ppConvertTime);
 						});
 
 						ngModelCtrl.$parsers.push(function (viewValue) {
-							return $filter('dateToNumber')(viewValue, $attrs.ppConvertTime);
+							return $filter('hoursToMinutes')(viewValue, $attrs.ppConvertTime);
 						});
 					}
 				};
@@ -182,8 +182,8 @@
 			}])
 
 		.directive('ngEnter', function () {
-		    return function (scope, element, attrs) {
-		        element.bind("keydown keypress", function (event) {
+		    return function ($scope, $elem, $attrs) {
+		        $elem.bind("keydown keypress", function (event) {
 		            if(event.which === 13 && $elem.is(':focus')) {
 		                $scope.$apply(function (){
 		                    $scope.$eval($attrs.ngEnter);

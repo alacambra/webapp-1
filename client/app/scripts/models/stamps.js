@@ -80,8 +80,8 @@
                 duration: 0,
                 effort: 0,
                 progress: 0,
-                startDate : 0,
-                endDate : 0,
+                startDate : null,
+                endDate : null,
                 assignee: null
             });
 
@@ -89,7 +89,7 @@
 
                 project: null,
                 assignee: null,
-                subtask: []
+                subtasks: []
 
             }).methods({
 

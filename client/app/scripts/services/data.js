@@ -100,8 +100,21 @@
                 createTask: function(data) {
                     return getDataSource().createTask(data);
                 },
-
                 updateTask: function(id, data) {
+                    var that = this,
+                        q = $q.all([
+                            getDataSource().updateTask(id, data),
+                            that.assignTaskToUser(id, data.assignee.id),
+                            that.addTaskToProject(id, data.project.id)
+                        ]).then(function (data) {
+                            return data;
+                        }, function(data) {
+                            return data;
+                        });
+                    return q;
+                },
+
+                _updateTask: function(id, data) {
                     return getDataSource().updateTask(id, data);
                 },
 

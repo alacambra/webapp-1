@@ -3,13 +3,13 @@
 
 	angular.module('poolingpeopleApp')
 
-		.controller('TaskModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider', 'LoadStatusService',
-			function ($scope, $modalInstance, options, $log, DataProvider, LoadStatusService) {
+		.controller('TaskModalCtrl', ['$scope', '$modalInstance', 'options', '$log', 'DataProvider', 'LoadStatusService', 'ModelsService', 'SessionService',
+			function ($scope, $modalInstance, options, $log, DataProvider, LoadStatusService, ModelsService, SessionService) {
 
 				$scope.modal = {
 					title: options.title,
 
-					task: angular.copy(options.task),
+					task: options.task ? angular.copy(options.task) : ModelsService.getTask({assignee: SessionService.userData(), status: "NEW"}),
 
 					assignableUsers: [],
 
@@ -87,40 +87,13 @@
 						})
 
 					} else {
-						LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
-						var sourceProject = options.task.project;
-						DataProvider.updateTask(options.task.id, $scope.modal.task).then(function (response) {
-							_.extend(options.task, $scope.modal.task);
-							DataProvider.assignTaskToUser(options.task.id, options.task.assignee.id).then(function (response) {
-								if (!_.isNull(options.task.project)) {
-									if (_.isNull(sourceProject)) {
-										DataProvider.addTaskToProject(options.task.id, options.task.project.id).then(function (response) {
-											$modalInstance.close();
-										}, function (response) {
-											$scope.error = 'Couldn\'t add project to task: ' + response;
-										}).finally(function() {
-											LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
-										});
-									} else {
-										DataProvider.moveTaskFromProjectToProject(options.task.id, sourceProject.id, options.task.project.id).then(function (response) {
-											$modalInstance.close();
-										}, function (response) {
-											$scope.error = 'Couldn\'t move task to another project: ' + response;
-										}).finally(function() {
-											LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
-										});
-									}
-								} else {
-									$modalInstance.close();
-								}
-
-							}, function (response) {
-								$scope.error = 'Couldn\'t add user to task: ' + response;
-								LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
-							});
-						}, function (response) {
-							$scope.error = 'Couldn\'t save task: ' + response;
-						})
+                        DataProvider.updateTask($scope.modal.task.id, $scope.modal.task).then(function(response) {
+                            $modalInstance.close();
+                        }, function(response) {
+                            $scope.error = 'Couldn\'t save task';
+                        }).finally(function() {
+							LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
+                        })
 					}
 
 				};
@@ -150,12 +123,12 @@
 					$modalInstance.dismiss('cancel');
 				};
 
-				$scope.openDatePicker = function ($event, opened) {
+				$scope.openDatePicker = function ($event, datepicker) {
 					$event.preventDefault();
 					$event.stopPropagation();
 
 					$scope.modal.datepicker = {};
-					$scope.modal.datepicker[opened] = true;
+					$scope.modal.datepicker[datepicker] = true;
 				};
 
 			}]);

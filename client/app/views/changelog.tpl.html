@@ -12,15 +12,15 @@
     <div style="padding:20px;">
 		<label class="control-label" for="newComment">Write new comment</label>
 		<div class="input-group">
-			<input type="text" ng-model="comment.text" class="form-control" id="newComment" placeholder="Comment..." />
+			<input type="text" ng-model="comment.text" class="form-control" id="newComment" ng-enter="newComment()" placeholder="Comment..." />
 			<span class="input-group-btn">
 		  		<button type="submit" class="btn btn-primary" ng-click="newComment()">Send</button>
 			</span>
 		</div>
     </div>
-	<div ng-loading="!log">
+	<div ng-loading="!log" style="height: 250px; overflow-y: scroll;">
 	    <ul style="margin-top: 20px; padding-left: 20px; padding-right: 20px; list-style-type: none">
-	    	<li ng-loading="log.createComment">
+	    	<li ng-loading="log.createComment" ng-if="filter.comment">
 		    	<p class="text-center" style="background-color: rgba(255,255,0,0.1); overflow: auto; padding: 10px; border-radius:10px;">
 		    		<img width="19" src="images/load_indicator.gif" alt="" />
 			    </p>

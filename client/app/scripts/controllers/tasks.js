@@ -86,17 +86,6 @@
                     }
                 };
 
-                var _doAction = function(items, action) {
-                    var toDoChanges = items[0] ? items : [items];
-                    for (var i = 0; i < $scope.taskList.length; i++) {
-                        for (var j = 0, jj = toDoChanges.length; j < jj; j++) {
-                            if ($scope.taskList[i].id === toDoChanges[j].id) {
-                                action($scope.taskList[i], i);
-                            }
-                        }
-                    }
-                };
-
                 $scope.getSelectedItems = function() {
                     var items = [];
                     for (var key in $scope.checkedItems) {
@@ -107,42 +96,18 @@
 
                 $scope.create = function () {
                     var modalInstance = openTaskModal({
-                        title: 'Neue Aufgabe',
-                        task: factory.task()
+                        title: 'Neue Aufgabe'
                     });
                 };
 
                 $scope.update = function(items) {
                     doAction(items, function(item) {
                         var sourceProject = item.project;
-                        DataProvider.updateTask(item.id, item).then(function (response) {
-                            DataProvider.assignTaskToUser(item.id, item.assignee.id).then(function (response) {
-                                if (!_.isNull(item.project)) {
-                                    if (_.isNull(sourceProject)) {
-                                        DataProvider.addTaskToProject(item.id, item.project.id).then(function (response) {
-                                            if ($modalInstance) 
-                                                $modalInstance.close();
-                                        }, function (response) {
-                                            $scope.error = 'Couldn\'t add project to task: ' + response;
-                                        });
-                                    } else {
-                                        DataProvider.moveTaskFromProjectToProject(item.id, sourceProject.id, item.project.id).then(function (response) {
-                                            if ($modalInstance)
-                                                $modalInstance.close();
-                                        }, function (response) {
-                                            $scope.error = 'Couldn\'t move task to another project: ' + response;
-                                        });
-                                    }
-                                } else {
-                                    $modalInstance.close();
-                                }
-
-                            }, function (response) {
-                                $scope.error = 'Couldn\'t add user to task: ' + response;
-                            });
-                        }, function (response) {
-                            $scope.error = 'Couldn\'t save task: ' + response;
-                        });
+                        DataProvider.updateTask(item.id, item).then(function(response) {
+                            
+                        }, function(response) {
+                            $scope.error = 'Couldn\'t save task';
+                        })
                     });
                 }
 

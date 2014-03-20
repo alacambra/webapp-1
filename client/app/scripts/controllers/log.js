@@ -59,6 +59,8 @@
 					var data = {
 						comment: $scope.comment.text
 					};
+					
+					$scope.comment = "";
 
 					LoadStatusService.setStatus('log.createComment', LoadStatusService.RESOLVING);
 					DataProvider.createComment($scope.idObject, data).then(function(data) {
