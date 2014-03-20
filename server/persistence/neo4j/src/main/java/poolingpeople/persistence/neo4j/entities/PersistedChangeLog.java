@@ -6,6 +6,7 @@ import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.ChangeLogAction;
 import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.exceptions.RootApplicationException;
+import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
 import poolingpeople.persistence.neo4j.Relations;
@@ -15,6 +16,9 @@ public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLo
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.CHANGELOG;
 
+	@Inject
+	private InstanceProvider instanceProvider;
+	
 	@Inject
 	private ChangeLogActionResolver resolver;
 	
@@ -32,11 +36,7 @@ public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLo
 		ChangeLogAction actualChangeLogActionObject;
 		String changeLogActionPropertyType = getStringProperty(NodePropertyName.CHANGELOG_ACTION);
 		Class<? extends ChangeLogAction> changeLogActionType = resolver.resolveChangeLogActionByName(ChangeLogActionType.valueOf(changeLogActionPropertyType));
-		try {
-			actualChangeLogActionObject = changeLogActionType.newInstance().loadChangeLogActionFromNode(underlyingNode);
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new RootApplicationException(e);
-		}
+		actualChangeLogActionObject = instanceProvider.getInstanceForClass(changeLogActionType).loadChangeLogActionFromNode(underlyingNode);
 		return actualChangeLogActionObject;
 	}
 
