@@ -11,7 +11,7 @@ import poolingpeople.persistence.neo4j.NodePropertyName;
 
 public class PersistedChangeLogAttributeUpdateAction implements ChangeLogAttributeUpdate {
 	private Node changeLogNode;
-	@Inject NeoManager manager; //geht net
+	@Inject NeoManager manager; 
 	private String changedAtributeName;
 	private String code;
 	private String oldValue;
