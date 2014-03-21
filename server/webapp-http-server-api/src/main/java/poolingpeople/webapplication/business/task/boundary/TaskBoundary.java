@@ -32,9 +32,11 @@ import poolingpeople.commons.entities.TaskPriority;
 import poolingpeople.commons.entities.TaskStatus;
 import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
+import poolingpeople.persistence.neo4j.entities.PersistedTask;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.ChangelogManager;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.boundary.UpdateTask;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
@@ -101,13 +103,17 @@ public class TaskBoundary extends AbstractBoundary{
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.getTaskById(uuid);
 		
-		TaskDTO oldTask = new TaskDTO();
-		oldTask.synchronizeWith(task);
+		Task oldTask = ChangelogManager.deepCopyOfPersistedTask(task);
 		
 		task.synchronizeWith(dtoTask);
 		
-		UpdateTask data = new UpdateTask(oldTask, task);
-		updateTaskEvent.fire(data);
+		UpdateTask updateTaskData = new UpdateTask(oldTask, task);
+		
+		/**
+		 * TODO fire a changelog event asynchronously or change the implementation of the changelog manager (Problem: will there be a active Neo4J Transaction opened?)
+		 */
+		 //Problem: synchronous call -> increased rest response time and increased possibility for throwing an exception
+		updateTaskEvent.fire(updateTaskData);
 		
 		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
 		return Response.ok().entity(r).build();
