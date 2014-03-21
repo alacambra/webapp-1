@@ -8,6 +8,7 @@ import javax.ejb.Singleton;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.EntityFactory;
@@ -17,6 +18,7 @@ import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.helper.Pager;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
+import poolingpeople.persistence.neo4j.entities.PersistedChangeLog;
 import poolingpeople.persistence.neo4j.entities.PersistedClassResolver;
 import poolingpeople.persistence.neo4j.entities.PersistedComment;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
@@ -35,6 +37,11 @@ public class Neo4jEntityFactory implements EntityFactory {
 	@Inject
 	Instance<Pager> pagerSource;
 
+	/**
+	 * TODO : replaced the declared instance sources with the InstanceProvider
+	 * 
+	 */
+	
 	@Inject
 	private PersistedClassResolver classResolver;
 	
@@ -52,6 +59,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 	
 	@Inject
 	private Instance<PersistedEffort> persistedEffortSource;
+
+	private Instance<PersistedChangeLog> persistentChangeLogSource;
 
 	@Override
 	public void deleteTask(String uuid)  {
@@ -222,27 +231,9 @@ public class Neo4jEntityFactory implements EntityFactory {
 				classResolver.getPoolingpeopleEntityFromNode(
 						manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid)));
 	}
+
+	@Override
+	public PersistedChangeLog createChangeLog(ChangeLog changeLogDto) {
+		return persistentChangeLogSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.CHANGELOG, changeLogDto);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
