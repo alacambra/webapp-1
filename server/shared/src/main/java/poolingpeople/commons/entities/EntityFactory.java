@@ -46,4 +46,6 @@ public interface EntityFactory {
 	Comment getComment(String commentId);
 
 	Comment createCommentOnObject(Comment comment, String uuid);
+
+	ChangeLog createChangeLog(ChangeLog changeLog);
 }
