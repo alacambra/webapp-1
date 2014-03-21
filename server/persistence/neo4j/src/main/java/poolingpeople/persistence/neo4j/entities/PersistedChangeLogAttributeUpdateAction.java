@@ -46,12 +46,32 @@ public class PersistedChangeLogAttributeUpdateAction implements ChangeLogAttribu
 	@Override
 	public ChangeLogAction loadChangeLogActionFromNode(Node node) {
 		changeLogNode = node;
-		this.changedAtributeName = manager.getStringProperty(changeLogNode, NodePropertyName.CHANGED_PROPERTY.name());
-		this.code = manager.getStringProperty(changeLogNode, NodePropertyName.CHANGELOG_ACTION_CODE.name());
-		this.oldValue = manager.getStringProperty(changeLogNode, NodePropertyName.OLD_VALUE.name());
-		this.newValue = manager.getStringProperty(changeLogNode, NodePropertyName.NEW_VALUE.name());
-		this.id = manager.getStringProperty(changeLogNode, NodePropertyName.ID.name());
+		changedAtributeName = manager.getStringProperty(changeLogNode, NodePropertyName.CHANGED_PROPERTY.name());
+		code = manager.getStringProperty(changeLogNode, NodePropertyName.CHANGELOG_ACTION_CODE.name());
+		oldValue = manager.getStringProperty(changeLogNode, NodePropertyName.OLD_VALUE.name());
+		newValue = manager.getStringProperty(changeLogNode, NodePropertyName.NEW_VALUE.name());
+		id = manager.getStringProperty(changeLogNode, NodePropertyName.ID.name());
 		return this;
+	}
+
+	@Override
+	public void setChangedAttributeName(String name) {
+		manager.setProperty(changeLogNode, NodePropertyName.CHANGED_PROPERTY.name(), name);
+	}
+
+	@Override
+	public void setOldValue(String oldValue) {
+		manager.setProperty(changeLogNode, NodePropertyName.OLD_VALUE.name(), oldValue);
+	}
+
+	@Override
+	public void setNewValue(String newValue) {
+		manager.setProperty(changeLogNode, NodePropertyName.NEW_VALUE.name(), newValue);
+	}
+
+	@Override
+	public void setChangeLogNode(Node node) {
+		this.changeLogNode = node;
 	}
 
 }
