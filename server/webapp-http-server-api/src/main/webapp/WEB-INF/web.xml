@@ -16,15 +16,15 @@
 		<param-name>resteasy.servlet.mapping.prefix</param-name>
 		<param-value>/rest</param-value>
 	</context-param>
-	<filter>
-		<filter-name>AuthFilter</filter-name>
-		<filter-class>poolingpeople.webapplication.business.boundary.AuthFilter
-		</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>AuthFilter</filter-name>
-		<url-pattern>/rest/*</url-pattern>
-	</filter-mapping>
+<!-- 	<filter> -->
+<!-- 		<filter-name>AuthFilter</filter-name> -->
+<!-- 		<filter-class>poolingpeople.webapplication.business.boundary.AuthFilter -->
+<!-- 		</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>AuthFilter</filter-name> -->
+<!-- 		<url-pattern>/rest/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
 		</listener-class>
