@@ -1,24 +1,23 @@
 package poolingpeople.webapplication.business.boundary;
 
 import poolingpeople.commons.entities.Task;
-import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
 public class UpdateTask {
 
 	private Task updatedTask;
-	private TaskDTO oldTask;
+	private Task oldTask;
 
-	public UpdateTask(TaskDTO oldTask, Task task) {
+	public UpdateTask(Task oldTask, Task updatedTask) {
 		this.oldTask = oldTask;
-		this.updatedTask = task;
+		this.updatedTask = updatedTask;
 	}
 
 	public Task getUpdatedTask() {
 		return updatedTask;
 	}
 
-	public TaskDTO getOldTask() {
+	public Task getOldTask() {
 		return oldTask;
 	}
-	
+
 }
