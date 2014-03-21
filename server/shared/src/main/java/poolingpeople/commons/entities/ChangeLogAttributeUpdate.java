@@ -7,5 +7,10 @@ public interface ChangeLogAttributeUpdate extends ChangeLogAction {
 
 	String getNewValue();
 
+	void setChangedAttributeName(String name);
+	
+	void setOldValue(String oldValue);
+	
+	void setNewValue(String newValue);
 
 }
