@@ -15,4 +15,7 @@ public interface ChangeLog {
 
 	void setDate(Long date);
 
+	ChangeLog load(ChangeLogAttributeUpdate changeLogAttributeUpdate,
+			Subject retrieveSubject, long currentTimeMillis);
+
 }

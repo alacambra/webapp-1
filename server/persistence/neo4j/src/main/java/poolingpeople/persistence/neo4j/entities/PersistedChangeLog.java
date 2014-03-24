@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.ChangeLogAction;
+import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.InstanceProvider;
@@ -69,6 +70,15 @@ public class PersistedChangeLog extends AbstractPersistedModel<PersistedChangeLo
 	@Override
 	public void setDate(Long date) {
 		setProperty(NodePropertyName.DATE, date);
+	}
+
+	@Override
+	public ChangeLog load(ChangeLogAttributeUpdate changeLogAttributeUpdate,
+			Subject retrieveSubject, long currentTimeMillis) {
+		this.setAction(changeLogAttributeUpdate);
+		this.setSubject(retrieveSubject);
+		this.setDate(currentTimeMillis);
+		return this;
 	}
 
 }
