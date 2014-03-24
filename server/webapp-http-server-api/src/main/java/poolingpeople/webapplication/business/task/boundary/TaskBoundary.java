@@ -100,6 +100,7 @@ public class TaskBoundary extends AbstractBoundary{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateTask(@PathParam("id") String uuid, String json)
 			throws JsonParseException, JsonMappingException, IOException {
+		
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.getTaskById(uuid);
 		
@@ -107,6 +108,7 @@ public class TaskBoundary extends AbstractBoundary{
 		
 		task.synchronizeWith(dtoTask);
 		
+		//new mit injection ersetzen
 		UpdateTask updateTaskData = new UpdateTask(oldTask, task);
 		
 		/**
