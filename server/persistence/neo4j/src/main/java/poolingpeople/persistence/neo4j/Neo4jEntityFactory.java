@@ -9,11 +9,13 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.entities.Project;
+import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.helper.Pager;
@@ -233,7 +235,8 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public PersistedChangeLog createChangeLog(ChangeLog changeLogDto) {
-		return persistentChangeLogSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.CHANGELOG, changeLogDto);
+	public ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
+			Subject retrieveSubject, long currentTimeMillis) {
+		return persistentChangeLogSource.get().load(changeLogUpdateAction, retrieveSubject, currentTimeMillis);		
 	}
 }
