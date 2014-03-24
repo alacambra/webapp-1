@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.RelationshipType;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Project;
@@ -249,6 +250,10 @@ public class PersistedProject extends AbstractPersistedModel<PersistedProject> i
 			throw new RelationAlreadyExistsException();
 		}
 
+		if(task.getParent() != null) {
+			manager.removeRelations(((AbstractPersistedModel<?>)task).underlyingNode, Relations.PROJECT_HAS_TASK, Direction.INCOMING);
+		}
+		
 		createRelationshipTo((AbstractPersistedModel<?>) task, Relations.PROJECT_HAS_TASK);
 
 		//		Long startDate = task.getStartDate();
