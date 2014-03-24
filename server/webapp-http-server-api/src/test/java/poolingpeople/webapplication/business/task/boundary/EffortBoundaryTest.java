@@ -20,7 +20,7 @@ import poolingpeople.webapplication.business.entity.AbstractBoundaryTest;
 import poolingpeople.webapplication.business.utils.helpers.FileLoader;
 import poolingpeople.webapplication.business.utils.helpers.RestObjectsHelper.EffortWithTaskContainer;
 
-public class EffortBoundryTest extends AbstractBoundaryTest{
+public class EffortBoundaryTest extends AbstractBoundaryTest{
 
 	@Inject 
 	EffortBoundary target;
