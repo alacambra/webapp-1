@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import poolingpeople.commons.entities.ChangeLog;
@@ -22,27 +23,17 @@ public class ChangelogManager {
 
 	@Inject
 	private ILoggedUserContainer loggedUserContainer;
-	
+
 	/**
 	 * TODO: should use a qualifier based on the ChangeLogActionType enum in order to reuse this event handler for other entities
 	 */
 	//wo wird die Beziehung zum Task gespeichert ?
 	public void onPersistedTaskUpdateChange(@Observes UpdateTask updateTaskEventModel) {
 		List<ChangeLogAttributeUpdate> changes = getChanges(updateTaskEventModel.getOldTask(), updateTaskEventModel.getUpdatedTask());
-		
-		for (ChangeLogAttributeUpdate changeLogUpdateAction : changes) {
-			entityFactory.createChangeLog(createChangeLogDto(changeLogUpdateAction));
-		}
-	}
 
-	private ChangeLog createChangeLogDto(final ChangeLogAttributeUpdate changeLogAttributeUpdate) {
-		return new PersistedChangeLog() {
-			{
-				this.setAction(changeLogAttributeUpdate);
-				this.setSubject(retrieveSubject());
-				this.setDate(System.currentTimeMillis());
-			}
-		};
+		for (ChangeLogAttributeUpdate changeLogUpdateAction : changes) {
+			entityFactory.createChangeLog(changeLogUpdateAction, retrieveSubject(), System.currentTimeMillis());
+		}
 	}
 
 	protected Subject retrieveSubject() {
