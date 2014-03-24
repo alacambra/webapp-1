@@ -32,6 +32,7 @@ import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AuthNotRequired;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.IdWrapper;
 
 @Path("users")
 @Stateless
@@ -78,7 +79,7 @@ public class UserBoundary {
 
 		User dtoUser = deserializeAndValidate(json, UserDTO.class);
 		User user = entityFactory.createUser(dtoUser);
-		return Response.ok().entity(mapper.writeValueAsString(user)).build();
+		return Response.ok().entity(mapper.writeValueAsString(new IdWrapper(user.getId()))).build();
 	}
 
 	@PUT
@@ -99,7 +100,7 @@ public class UserBoundary {
 	@Path("{id:[\\w\\d-]+}")
 	public Response deleteUser(@PathParam("id") String uuid) {
 		entityFactory.deleteUser(uuid);
-		return Response.ok().build();
+		return Response.noContent().build();
 	}
 
 //	@GET

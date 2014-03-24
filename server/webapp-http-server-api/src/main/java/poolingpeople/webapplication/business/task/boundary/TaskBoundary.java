@@ -21,6 +21,7 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
@@ -28,6 +29,7 @@ import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.IdWrapper;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
@@ -81,7 +83,7 @@ public class TaskBoundary extends AbstractBoundary{
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
 		task.setAssignee(loggedUserContainer.getUser());
-		return Response.ok().entity(mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task)).build();
+		return Response.ok().entity(mapper.writeValueAsString(new IdWrapper(task.getId()))).build();
 	}
 
 	@PUT
@@ -93,8 +95,7 @@ public class TaskBoundary extends AbstractBoundary{
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.getTaskById(uuid);
 		task.synchronizeWith(dtoTask);
-		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
-		return Response.ok().entity(r).build();
+		return Response.noContent().build();
 	}
 
 	@DELETE

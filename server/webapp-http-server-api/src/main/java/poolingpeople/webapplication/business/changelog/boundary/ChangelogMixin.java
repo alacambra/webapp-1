@@ -16,7 +16,7 @@ import poolingpeople.commons.entities.User;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChagelogMixin implements ChangeLog{
+public class ChangelogMixin implements ChangeLog{
 
 	@Override
 	@JsonView(JsonViews.Shared.class)
