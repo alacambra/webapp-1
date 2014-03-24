@@ -47,5 +47,6 @@ public interface EntityFactory {
 
 	Comment createCommentOnObject(Comment comment, String uuid);
 
-	ChangeLog createChangeLog(ChangeLog changeLog);
+	ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
+			Subject retrieveSubject, long currentTimeMillis);
 }
