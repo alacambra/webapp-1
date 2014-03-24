@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
@@ -53,11 +54,12 @@ public class ProjectBoundary extends AbstractBoundary{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProjectTasks(@PathParam("id") String projectId)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		
-		String r = mapper.writerWithView(JsonViews.BasicTask.class).writeValueAsString(
-				entityFactory.getProjectById(projectId).getTasks());
-		
-		return Response.ok().entity(r).build();
+//		
+//		String r = mapper.writerWithView(JsonViews.BasicTask.class).writeValueAsString(
+//				entityFactory.getProjectById(projectId).getTasks());
+//		
+//		return Response.ok().entity(r).build();
+		return Response.status(Status.METHOD_NOT_ALLOWED).build();
 	}
 
 	@GET
