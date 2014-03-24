@@ -198,4 +198,10 @@ public class ProjectMixin implements Project{
 		return null;
 	}
 
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

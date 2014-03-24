@@ -270,5 +270,11 @@ public class TaskDTO implements Task {
 		return null;
 	}
 
+	@Override
+	public void addComment(Comment comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -1,18 +1,13 @@
 package poolingpeople.persistence.neo4j.entities;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.AbstractCollection;
-import java.util.Collection;
 import java.util.HashMap;
 
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.neo4j.graphdb.Node;
 
 import poolingpeople.commons.entities.PoolingpeopleEntity;
-import poolingpeople.commons.exceptions.RootApplicationException;
+import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -23,6 +18,9 @@ public class PersistedClassResolver {
 	@Inject
 	private NeoManager manager;
 	private HashMap<PoolingpeopleObjectType, Class<? extends AbstractPersistedModel<?>>> objectTypesMap;
+	
+	@Inject
+	InstanceProvider instanceProvider;
 	
 	@Inject
 	public PersistedClassResolver(){
@@ -51,56 +49,7 @@ public class PersistedClassResolver {
 	}
 	
 	public PoolingpeopleEntity getPoolingpeopleEntityFromNode(Node n){
-		
 		Class<?> clazz = getPersistedEntityClassForNode(n);
-		
-		if (clazz.isAssignableFrom(PoolingpeopleEntity.class)) {
-			try {
-				
-				Constructor<?> c = clazz.getConstructor(NeoManager.class, Node.class);
-				return (PoolingpeopleEntity)c.newInstance(this, n);
-				
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException e) {
-				RootApplicationException applicationException = new RootApplicationException();
-				applicationException.setStackTrace(e.getStackTrace());
-				throw applicationException;
-			}
-		}
-		
-		throw new RootApplicationException("Class " + clazz.getName() + " is not a PoolingpeopleEntity");
+		return ((AbstractPersistedModel<?>)instanceProvider.getInstanceForClass(clazz)).loadModelFromExistentNode(n);
 	}
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

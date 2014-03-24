@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import org.neo4j.graphdb.Direction;
 
 import poolingpeople.commons.entities.ChangeLog;
+import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
 import poolingpeople.commons.exceptions.RootApplicationException;
@@ -16,7 +17,6 @@ import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.container.UserIndexContainer;
 import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 
-@Stateless
 public class PersistedUser extends AbstractPersistedModel<PersistedUser> implements User {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.USER;
@@ -131,6 +131,11 @@ public class PersistedUser extends AbstractPersistedModel<PersistedUser> impleme
 	@Override
 	public List<ChangeLog> getChangeLogList() {
 		return getRelatedNodes(Relations.HAS_CHANGE_LOG, PersistedChangeLog.class, ChangeLog.class, Direction.OUTGOING);
+	}
+
+	@Override
+	public void writeComment(Comment comment) {
+		createRelationshipTo((PersistedComment)comment, Relations.COMMENTED);
 	}
 
 }

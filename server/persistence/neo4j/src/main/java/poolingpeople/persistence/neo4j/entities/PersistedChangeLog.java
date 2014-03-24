@@ -6,7 +6,6 @@ import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.ChangeLogAction;
 import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.entities.Subject;
-import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;

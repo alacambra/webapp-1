@@ -151,7 +151,7 @@ public class NeoManager {
 	}
 
 
-	public Relationship createRelationshipTo(Node from, Node to, RelationshipType relation, Map<String, Object> properties) {
+	public Relationship createRelationshipFromTo(Node from, Node to, RelationshipType relation, Map<String, Object> properties) {
 
 		//		String q = "START from=node(" + from.getId() + "), to=node(" + to.getId() + "), CREATE from-[r:" + relation.name()+ "]->to";
 
@@ -176,7 +176,7 @@ public class NeoManager {
 
 
 	public Relationship createRelationshipTo(Node from, Node to, RelationshipType relation) {
-		return createRelationshipTo(from, to, relation, new HashMap<String, Object>());
+		return createRelationshipFromTo(from, to, relation, new HashMap<String, Object>());
 	}
 
 

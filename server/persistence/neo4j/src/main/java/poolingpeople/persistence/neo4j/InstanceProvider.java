@@ -6,10 +6,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import poolingpeople.commons.entities.ChangeLogAction;
 import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.exceptions.RootApplicationException;
-import poolingpeople.commons.helper.PagerImpl;
+import poolingpeople.commons.helper.Pager;
+import poolingpeople.persistence.neo4j.entities.PersistedChangeLog;
 import poolingpeople.persistence.neo4j.entities.PersistedChangeLogAttributeUpdateAction;
 import poolingpeople.persistence.neo4j.entities.PersistedComment;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
@@ -21,7 +21,7 @@ import poolingpeople.persistence.neo4j.entities.PersistedUser;
 public class InstanceProvider {
 	
 	@Inject
-	Instance<PagerImpl> pagerSource;
+	Instance<Pager> pagerSource;
 
 	@Inject
 	private Instance<PersistedTask> persistedTaskSource;
@@ -41,6 +41,9 @@ public class InstanceProvider {
 	//TODO: use qualifier to determine the implementation at runtime
 	@Inject
 	private Instance<ChangeLogAttributeUpdate> persistedChangeLogAttributeUpdateSource;
+	
+	@Inject
+	private Instance<PersistedChangeLog> persistedChangeLogSource;
 	 
 	private HashMap<Class<?>, Instance<?>> instancesSources;
 	
@@ -52,12 +55,13 @@ public class InstanceProvider {
 	private HashMap<Class<?>, Instance<?>> loadInstancesSources(){
 		instancesSources = new HashMap<>();
 		instancesSources.put(PersistedTask.class, persistedTaskSource);
-		instancesSources.put(PagerImpl.class, pagerSource);
+		instancesSources.put(Pager.class, pagerSource);
 		instancesSources.put(PersistedUser.class, persistedUserSource);
 		instancesSources.put(PersistedComment.class, persistedCommentSource);
 		instancesSources.put(PersistedEffort.class, persistedEffortSource);
 		instancesSources.put(PersistedProject.class, persistedProjectSource);
 		instancesSources.put(PersistedChangeLogAttributeUpdateAction.class, persistedChangeLogAttributeUpdateSource);
+		instancesSources.put(PersistedChangeLog.class, persistedChangeLogSource);
 		return instancesSources; 
 				
 	}

@@ -9,6 +9,7 @@ import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.entities.User;
+import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.NeoManager;
 import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.PoolingpeopleObjectType;
@@ -20,7 +21,7 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 {
 
 	public static final PoolingpeopleObjectType NODE_TYPE = PoolingpeopleObjectType.EFFORT;
-	
+
 	@Override
 	public Long getDate() {
 		return getLongProperty(NodePropertyName.DATE);
@@ -51,12 +52,13 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 
 	@Override
 	public User getOwner() {
-		PersistedUser owner = getEndNode(Relations.COMMENTED, PersistedUser.class);
-		
+		PersistedUser owner = getStartNode(Relations.COMMENTED, PersistedUser.class);
+
 		if ( owner == null ){
-			throw new ConsistenceException("Message without owner found");
+			logger.warn("Comment without owner found for node " + underlyingNode.getId() + ":" + getId());
+			//			throw new ConsistenceException("Message without owner found");
 		}
-		
+
 		return owner;
 	}
 
@@ -65,16 +67,12 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 		AbstractPersistedModel<?> object = getEndNode(Relations.ABOUT_OBJECT);
 		return (PoolingpeopleEntity) object;
 	}
-	
-	@Override
-	public List<Comment> getObjectComments(){
-		return null;
-	}
 
 	@Override
-	public List<ChangeLog> getChangeLogList() {
-		return null;
+	public List<Comment> getObjectComments(){
+		throw new RootApplicationException("A comment has no comments on it");
 	}
+
 }
 
 

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.Stateless;
+
 import org.neo4j.graphdb.Direction;
 
 import poolingpeople.commons.entities.ChangeLog;

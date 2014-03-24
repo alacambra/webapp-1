@@ -17,11 +17,13 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.IdWrapper;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 
 @Path("comments")
@@ -37,7 +39,10 @@ public class CommentsBoundary extends AbstractBoundary{
 	public Response getCommentsOfObject(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		
-		String r = mapper.writerWithView(JsonViews.CommentsWithSubject.class).writeValueAsString("");
+		String r = mapper.writerWithView(JsonViews.CommentsWithSubject.class).writeValueAsString(
+				entityFactory.getObjectComments(
+						entityFactory.getPoolingpeopleEntity(id)));
+		
 		return Response.ok().entity(r).build();
 		
 	}
@@ -45,13 +50,13 @@ public class CommentsBoundary extends AbstractBoundary{
 	@POST
 	@Path("{objectId:" + uuidRegexPattern + "}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response createComment(@PathParam("objectId") String objectId, String json)
 			throws JsonGenerationException, JsonMappingException, IOException {
 		
 		Comment dtoComment = mapper.readValue(json, CommentsDTO.class);
-		String commentId = entityFactory.createCommentOnObject(dtoComment, objectId).getId();
-		return Response.ok().entity(commentId).build();
+		String commentId = entityFactory.createCommentOnObject(dtoComment, objectId, loggedUserContainer.getUser()).getId();
+		return Response.ok().entity(mapper.writeValueAsString(new IdWrapper(commentId))).build();
 		
 	}
 

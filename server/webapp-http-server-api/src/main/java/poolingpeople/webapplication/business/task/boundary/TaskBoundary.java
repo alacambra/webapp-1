@@ -2,7 +2,6 @@ package poolingpeople.webapplication.business.task.boundary;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -14,29 +13,21 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 
-import poolingpeople.commons.entities.ChangeLog;
-import poolingpeople.commons.entities.Comment;
-import poolingpeople.commons.entities.Effort;
-import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
-import poolingpeople.commons.entities.TaskPriority;
-import poolingpeople.commons.entities.TaskStatus;
-import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
-import poolingpeople.persistence.neo4j.entities.PersistedTask;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
 import poolingpeople.webapplication.business.boundary.ChangelogManager;
+import poolingpeople.webapplication.business.boundary.IdWrapper;
 import poolingpeople.webapplication.business.boundary.JsonViews;
 import poolingpeople.webapplication.business.boundary.UpdateTask;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
@@ -74,6 +65,7 @@ public class TaskBoundary extends AbstractBoundary{
 		return Response.ok().entity(r).build();
 	}
 	
+	// should this also be removed ?
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path(idPattern + "/subtasks")
@@ -91,7 +83,7 @@ public class TaskBoundary extends AbstractBoundary{
 		Task dtoTask = mapper.readValue(json, TaskDTO.class);
 		Task task = entityFactory.createTask(dtoTask);
 		task.setAssignee(loggedUserContainer.getUser());
-		return Response.ok().entity(mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task)).build();
+		return Response.ok().entity(mapper.writeValueAsString(new IdWrapper(task.getId()))).build();
 	}
 
 	@PUT
@@ -130,6 +122,7 @@ public class TaskBoundary extends AbstractBoundary{
 
 	/************************************* USER action TASK in TASK *************************************/
 
+	// should this also be removed ?
 	@POST
 	@Path("/as/subtask/" + "{parentId:" + uuidRegexPattern + "}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -185,14 +178,14 @@ public class TaskBoundary extends AbstractBoundary{
 	public Response createTaskInProject(@PathParam("projectId") String projectId, String json) 
 			throws JsonParseException, JsonMappingException, IOException{
 
-		Project p = entityFactory.getProjectById(projectId);
-		Task dtoTask = mapper.readValue(json, TaskDTO.class);
-		Task task = entityFactory.createTask(dtoTask);
-		task.setAssignee(loggedUserContainer.getUser());
-		p.addTask(task);
-
-		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
-		return Response.ok().entity(r).build();
+//		Project p = entityFactory.getProjectById(projectId);
+//		Task dtoTask = mapper.readValue(json, TaskDTO.class);
+//		Task task = entityFactory.createTask(dtoTask);
+//		task.setAssignee(loggedUserContainer.getUser());
+//		p.addTask(task);
+//		String r = mapper.writerWithView(JsonViews.FullTask.class).writeValueAsString(task);
+//		return Response.ok().entity(r).build();
+		return Response.status(Status.METHOD_NOT_ALLOWED).build();
 	}
 
 
@@ -201,10 +194,11 @@ public class TaskBoundary extends AbstractBoundary{
 	public Response addTaskToProject(@PathParam("id") String taskId, @PathParam("projectId") String projectId) 
 			throws JsonParseException, JsonMappingException, IOException{
 
-		Project p = entityFactory.getProjectById(projectId);
-		Task task = entityFactory.getTaskById(taskId);
-		p.addTask(task);
-		return Response.noContent().build();
+//		Project p = entityFactory.getProjectById(projectId);
+//		Task task = entityFactory.getTaskById(taskId);
+//		p.addTask(task);
+//		return Response.noContent().build();
+		return Response.status(Status.METHOD_NOT_ALLOWED).build();
 	}
 
 	@PUT
@@ -214,15 +208,16 @@ public class TaskBoundary extends AbstractBoundary{
 			@PathParam("id") String uuid, 
 			@PathParam("sourceId") String sourceId, 
 			@PathParam("targetId") String targetId){
-
-		Project source = entityFactory.getProjectById(sourceId);
-		Project target = entityFactory.getProjectById(targetId);
-		Task t =  entityFactory.getTaskById(uuid);
-
-		source.removeTaskRelation(t);
-		target.addTask(t);
-
-		return Response.noContent().build();
+//
+//		Project source = entityFactory.getProjectById(sourceId);
+//		Project target = entityFactory.getProjectById(targetId);
+//		Task t =  entityFactory.getTaskById(uuid);
+//
+//		source.removeTaskRelation(t);
+//		target.addTask(t);
+//
+//		return Response.noContent().build();
+		return Response.status(Status.METHOD_NOT_ALLOWED).build();
 	}
 
 	/************************************* USER - TASK *************************************/
@@ -230,29 +225,30 @@ public class TaskBoundary extends AbstractBoundary{
 	@Path(idPattern + "/to/user/{userId:" + uuidRegexPattern + "}")
 	public Response assignTaskToUser(@PathParam("id") String taskId, @PathParam("userId") String userId){
 
-		User user = entityFactory.getUserById(userId);
-		Task task = entityFactory.getTaskById(taskId);
-		
-		List<Task> tasks = user.getTasks();
-		boolean error = false;
-		for (Task oldTask : tasks) {
-			
-			/*
-			 * new task is future || in past
-			 */
-			if ((oldTask.getEndDate() < task.getStartDate() && oldTask.getEndDate() < task.getEndDate())
-					|| (oldTask.getStartDate() > task.getEndDate() && oldTask.getStartDate() > task.getStartDate())) {
-				continue;
-			}
-			
-			error = true;
-			break;
-			
-		}
-		
-		task.setAssignee(user);
-		
-		return error ? Response.noContent().header("X-Warning", true).build() : Response.noContent().build();
+//		User user = entityFactory.getUserById(userId);
+//		Task task = entityFactory.getTaskById(taskId);
+//		
+//		List<Task> tasks = user.getTasks();
+//		boolean error = false;
+//		for (Task oldTask : tasks) {
+//			
+//			/*
+//			 * new task is future || in past
+//			 */
+//			if ((oldTask.getEndDate() < task.getStartDate() && oldTask.getEndDate() < task.getEndDate())
+//					|| (oldTask.getStartDate() > task.getEndDate() && oldTask.getStartDate() > task.getStartDate())) {
+//				continue;
+//			}
+//			
+//			error = true;
+//			break;
+//			
+//		}
+//		
+//		task.setAssignee(user);
+//		
+//		return error ? Response.noContent().header("X-Warning", true).build() : Response.noContent().build();
+		return Response.status(Status.METHOD_NOT_ALLOWED).build();
 	}
 }
 

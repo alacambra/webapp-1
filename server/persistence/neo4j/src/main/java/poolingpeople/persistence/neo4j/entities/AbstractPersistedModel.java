@@ -19,8 +19,10 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.index.IndexHits;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.IgnoreAttribute;
+import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.Neo4jProfiler;
@@ -37,7 +39,7 @@ import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 
 @Neo4jProfiler
-public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>>{
+public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>> implements PoolingpeopleEntity{
 
 	protected Node underlyingNode;
 
@@ -358,7 +360,6 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 	protected void removeRelationsTo(Relations relation) {
 		manager.removeRelationsTo(underlyingNode, relation);
 	}
-
 	
 	public void synchronizeWith(Object tplObject) {
 
@@ -393,6 +394,15 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 
 	public List<Comment> getObjectComments(){
 		return getRelatedStartNodes(Relations.ABOUT_OBJECT, PersistedComment.class, Comment.class);
+	}
+	
+	public void addComment(Comment comment){
+		createRelationshipFrom((PersistedComment)comment, Relations.ABOUT_OBJECT);
+	}
+	
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		throw new RootApplicationException("Not implemented");
 	}
 }
 

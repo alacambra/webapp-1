@@ -8,4 +8,6 @@ public interface Subject {
 	void setFirstName(String firstName);
 
 	void setLastName(String lastName);
+	
+	void writeComment(Comment comment);
 }

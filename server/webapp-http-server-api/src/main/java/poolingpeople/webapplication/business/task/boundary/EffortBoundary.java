@@ -25,6 +25,7 @@ import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.CatchWebAppException;
+import poolingpeople.webapplication.business.boundary.IdWrapper;
 import poolingpeople.webapplication.business.task.entity.EffortDto;
 import poolingpeople.webapplication.business.task.entity.EffortMixin;
 
@@ -84,7 +85,7 @@ public class EffortBoundary {
 		Effort effort = entityFactory.createEffort(dtoEffort);
 		task.addEffort(effort);
 
-		return Response.ok().entity(mapper.writeValueAsString(effort)).build();
+		return Response.ok().entity(mapper.writeValueAsString(new IdWrapper(effort.getId()))).build();
 	}
 	
 	@DELETE

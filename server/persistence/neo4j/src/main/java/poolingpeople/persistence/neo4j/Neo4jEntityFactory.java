@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Singleton;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import poolingpeople.commons.entities.ChangeLog;
@@ -35,9 +34,6 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Inject
 	private NeoManager manager;
-	
-	@Inject
-	Instance<Pager> pagerSource;
 
 	/**
 	 * TODO : replaced the declared instance sources with the InstanceProvider
@@ -45,24 +41,14 @@ public class Neo4jEntityFactory implements EntityFactory {
 	 */
 	
 	@Inject
-	private PersistedClassResolver classResolver;
-	
-	@Inject
-	private Instance<PersistedTask> persistedTaskSource;
-	
-	@Inject
-	private Instance<PersistedUser> persistedUserSource;
-	
-	@Inject
-	private Instance<PersistedProject> persistedProjectSource;
-	
-	@Inject
-	private Instance<PersistedComment> persistedCommentSource;
-	
-	@Inject
-	private Instance<PersistedEffort> persistedEffortSource;
+	InstanceProvider instanceProvider;
 
-	private Instance<PersistedChangeLog> persistentChangeLogSource;
+	//	@Inject
+	//	Instance<Pager> pagerSource;
+	//
+	@Inject
+	private PersistedClassResolver classResolver;
+
 
 	@Override
 	public void deleteTask(String uuid)  {
@@ -72,47 +58,51 @@ public class Neo4jEntityFactory implements EntityFactory {
 		Set<AbstractPersistedModel<?>> objects = task.loadObjectsToInform();
 		manager.removeNode(task.getNode());
 
-//		for(AbstractPersistedModel<?> model : objects){
-//			model.updateAll();
-//		}
+		//		for(AbstractPersistedModel<?> model : objects){
+		//			model.updateAll();
+		//		}
 	}
 
 	@Override
 	public PersistedTask getTaskById(String uuid)  {
-		return persistedTaskSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.TASK);
+		return instanceProvider.getInstanceForClass(PersistedTask.class).loadExistingNodeById(uuid, PoolingpeopleObjectType.TASK);
 	}
 
 	@Override
 	public PersistedTask createTask(Task task)  {
-		return persistedTaskSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.TASK, task);
+		return instanceProvider.getInstanceForClass(PersistedTask.class).createNodeFromDtoModel(PoolingpeopleObjectType.TASK, task);
 	}
 
 	@Override
 	public List<Task> getAllTask() {
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedTask.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
-				new ArrayList<Task>(), 
-				PersistedTask.class, 
-				Task.class);
+				manager.getNodes(PersistedTask.NODE_TYPE.name(), 
+						instanceProvider.getInstanceForClass(Pager.class).getStart(),
+						instanceProvider.getInstanceForClass(Pager.class).getSize()), 
+						new ArrayList<Task>(), 
+						PersistedTask.class, 
+						Task.class);
 	}
 
 	@Override
 	public PersistedProject createProject(Project project) {
-		return persistedProjectSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.PROJECT, project);
+		return instanceProvider.getInstanceForClass(PersistedProject.class).createNodeFromDtoModel(PoolingpeopleObjectType.PROJECT, project);
 	}
 
 	@Override
 	public PersistedProject getProjectById(String uuid) {
-		return persistedProjectSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.PROJECT);
+		return instanceProvider.getInstanceForClass(PersistedProject.class).loadExistingNodeById(uuid, PoolingpeopleObjectType.PROJECT);
 	}
 
 	@Override
 	public List<Project> getAllProject() {
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedProject.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
-				new ArrayList<Project>(), 
-				PersistedProject.class,
-				Project.class);
+				manager.getNodes(PersistedProject.NODE_TYPE.name(), 
+						instanceProvider.getInstanceForClass(Pager.class).getStart(),
+						instanceProvider.getInstanceForClass(Pager.class).getSize()), 
+						new ArrayList<Project>(), 
+						PersistedProject.class,
+						Project.class);
 	}
 
 	@Override
@@ -122,13 +112,13 @@ public class Neo4jEntityFactory implements EntityFactory {
 
 	@Override
 	public User getUserById(String uuid) {
-		return persistedUserSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.USER);
+		return instanceProvider.getInstanceForClass(PersistedUser.class).loadExistingNodeById(uuid, PoolingpeopleObjectType.USER);
 	}
 
 	@Override
 	public User getUserByCredentials(String email, String password) {
 		try{
-			return persistedUserSource.get().loadExistingUserWithCredentials(email, password);
+			return instanceProvider.getInstanceForClass(PersistedUser.class).loadExistingUserWithCredentials(email, password);
 		} catch(Exception e) {
 			/*
 			 * @todo Exception is catched here because if catched in interceptor or directly in the LiggedUSerContainer
@@ -173,20 +163,21 @@ public class Neo4jEntityFactory implements EntityFactory {
 	public List<User> getAllUsers() {
 
 		return manager.getPersistedObjects(
-				manager.getNodes(PersistedUser.NODE_TYPE.name(), pagerSource.get().getStart(), pagerSource.get().getSize()), 
-				new ArrayList<User>(), 
-				PersistedUser.class,
-				User.class);
+				manager.getNodes(PersistedUser.NODE_TYPE.name(), instanceProvider.getInstanceForClass(Pager.class).getStart(),
+						instanceProvider.getInstanceForClass(Pager.class).getSize()), 
+						new ArrayList<User>(), 
+						PersistedUser.class,
+						User.class);
 	}
 
 	@Override
 	public User createUser(User user) {
-		return persistedUserSource.get().createUserWithCredentials(user.getEmail(), user.getPassword(), user);
+		return instanceProvider.getInstanceForClass(PersistedUser.class).createUserWithCredentials(user.getEmail(), user.getPassword(), user);
 	}
 
 	@Override
 	public Effort getEffortById(String uuid) {
-		return persistedEffortSource.get().loadExistingNodeById(uuid, PoolingpeopleObjectType.EFFORT); 
+		return instanceProvider.getInstanceForClass(PersistedEffort.class).loadExistingNodeById(uuid, PoolingpeopleObjectType.EFFORT); 
 	}
 
 	/*
@@ -194,7 +185,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 	 */
 	@Override
 	public Effort createEffort(Effort effort) {
-		return persistedEffortSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.EFFORT, effort);
+		return instanceProvider.getInstanceForClass(PersistedEffort.class).createNodeFromDtoModel(PoolingpeopleObjectType.EFFORT, effort);
 	}
 
 	public NeoManager getManager() {
@@ -207,18 +198,24 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity) {
-		return persistedCommentSource.get().createNodeFromDtoModel(PoolingpeopleObjectType.COMMENT, comment);
+	public Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity, Subject author) {
+		Comment c = instanceProvider.getInstanceForClass(PersistedComment.class)
+				.createNodeFromDtoModel(PoolingpeopleObjectType.COMMENT, comment);
+		
+		entity.addComment(c);
+		author.writeComment(c);
+		
+		return c;
 	}
 
 	@Override
 	public void deleteComment(String commentId) {
-		manager.removeNode(persistedCommentSource.get().loadExistingNodeById(commentId, PoolingpeopleObjectType.COMMENT).getNode());
+		manager.removeNode(instanceProvider.getInstanceForClass(PersistedComment.class).loadExistingNodeById(commentId, PoolingpeopleObjectType.COMMENT).getNode());
 	}
 
 	@Override
 	public Comment getComment(String commentId) {
-		return persistedCommentSource.get().loadExistingNodeById(commentId, PoolingpeopleObjectType.COMMENT);
+		return instanceProvider.getInstanceForClass(PersistedComment.class).loadExistingNodeById(commentId, PoolingpeopleObjectType.COMMENT);
 	}
 
 	@Override
@@ -228,15 +225,15 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public Comment createCommentOnObject(Comment comment, String uuid) {
+	public Comment createCommentOnObject(Comment comment, String objectUuid, Subject author) {
 		return createCommentOnObject(comment,
 				classResolver.getPoolingpeopleEntityFromNode(
-						manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), uuid)));
+						manager.getUniqueNode(NodePropertyName.ID.name(), NodePropertyName.ID.name(), objectUuid)), author);
 	}
 
 	@Override
 	public ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
 			Subject retrieveSubject, long currentTimeMillis) {
-		return persistentChangeLogSource.get().load(changeLogUpdateAction, retrieveSubject, currentTimeMillis);		
+		return instanceProvider.getInstanceForClass(PersistedChangeLog.class).load(changeLogUpdateAction, retrieveSubject, currentTimeMillis);		
 	}
 }

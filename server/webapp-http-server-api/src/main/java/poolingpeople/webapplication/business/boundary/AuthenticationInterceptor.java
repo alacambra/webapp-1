@@ -1,6 +1,5 @@
 package poolingpeople.webapplication.business.boundary;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -11,7 +10,6 @@ import poolingpeople.webapplication.business.utils.configuration.boundary.Config
 
 @Interceptor
 @AuthValidator
-@Dependent
 public class AuthenticationInterceptor {
 
 	@Inject

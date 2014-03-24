@@ -41,12 +41,11 @@ public interface EntityFactory {
 	Effort createEffort(Effort effort);
 
 	List<Comment> getObjectComments(PoolingpeopleEntity entity);
-	Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity);
+	Comment createCommentOnObject(Comment comment, PoolingpeopleEntity entity, Subject author);
 	void deleteComment(String commentId);
 	Comment getComment(String commentId);
 
-	Comment createCommentOnObject(Comment comment, String uuid);
-
 	ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
 			Subject retrieveSubject, long currentTimeMillis);
+	Comment createCommentOnObject(Comment comment, String uuid, Subject author);
 }

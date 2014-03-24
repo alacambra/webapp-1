@@ -25,6 +25,15 @@
 <!-- 		<filter-name>AuthFilter</filter-name> -->
 <!-- 		<url-pattern>/rest/*</url-pattern> -->
 <!-- 	</filter-mapping> -->
+	<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>poolingpeople.webapplication.business.boundary.PreactionsFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>/rest/*</url-pattern>
+	</filter-mapping>
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
 		</listener-class>
