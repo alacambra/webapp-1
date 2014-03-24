@@ -30,8 +30,8 @@ public class ChangelogManager {
 	public void onPersistedTaskUpdateChange(@Observes UpdateTask updateTaskEventModel) {
 		List<ChangeLogAttributeUpdate> changes = getChanges(updateTaskEventModel.getOldTask(), updateTaskEventModel.getUpdatedTask());
 		
-		for (ChangeLogAttributeUpdate changeLogAttributeUpdate : changes) {
-			entityFactory.createChangeLog(createChangeLogDto(changeLogAttributeUpdate));
+		for (ChangeLogAttributeUpdate changeLogUpdateAction : changes) {
+			entityFactory.createChangeLog(createChangeLogDto(changeLogUpdateAction));
 		}
 	}
 
