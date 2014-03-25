@@ -101,7 +101,6 @@ public class TaskBoundary extends AbstractBoundary{
 		
 		task.synchronizeWith(dtoTask);
 		
-		//new mit injection ersetzen
 		UpdateTask updateTaskData = new UpdateTask(oldTask, task);
 		
 		/**
