@@ -85,6 +85,15 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		return (T) this;
 	}
 
+	public T createNodePriorLoadingAttributes(PoolingpeopleObjectType poolingpeopleObjectType) {
+		isCreated = false;
+		HashMap<String, Object> props = new HashMap<String, Object>();
+		underlyingNode = manager.createNode(props, new UUIDIndexContainer(UUID.randomUUID().toString()), poolingpeopleObjectType);
+		NODE_TYPE = poolingpeopleObjectType;
+		isCreated = true;
+		return (T) this;
+	}
+	
 	public T loadModelFromExistentNode(Node node, PoolingpeopleObjectType objectType) {
 
 		NODE_TYPE = objectType;
