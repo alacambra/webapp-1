@@ -1,15 +1,27 @@
-describe("ConfirmModalCtrl", function() {
-    
-    beforeEach(module("poolingpeopleApp"))
-    
-    it ("basic test", inject(function ($rootScope, $controller) {
+describe ("controller", function() {
 
-        var scope = $rootScope;
-    
-        var ctrl = $controller('ConfirmModalCtrl', {
-            scope: scope.$new()
-        });
-         
-        
-    }))
-})
+    beforeEach(module("poolingpeopleApp"));
+
+    var $scope, $rootScope, controllerLoader;
+
+    beforeEach(inject(function($injector) {
+        $rootScope = $injector.get('$rootScope');
+        $scope = $rootScope.$new();
+
+        var $controller = $injector.get('$controller');
+
+        controllerLoader = function() {
+            return $controller('NavCtrl', {
+                '$scope': $scope
+            });
+        };
+    }));
+
+    it ("testing injection", function() {
+
+        var controller = controllerLoader();
+        expect($scope).toNotEqual({});
+
+    })
+
+});

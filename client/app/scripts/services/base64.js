@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('poolingpeopleApp', [])
+    angular.module('poolingpeopleApp')
         .factory('Base64', function() {
             var keyStr = 'ABCDEFGHIJKLMNOP' +
                 'QRSTUVWXYZabcdef' +

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('poolingpeopleApp', [])
+    angular.module('poolingpeopleApp')
 
         .service('DataProvider', ['$q', 'API', 'ModelsService', function($q, API, ModelsService) {
 
