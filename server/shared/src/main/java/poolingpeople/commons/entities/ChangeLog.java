@@ -1,5 +1,6 @@
 package poolingpeople.commons.entities;
 
+
 public interface ChangeLog {
 	String getId();
 
@@ -15,7 +16,7 @@ public interface ChangeLog {
 
 	void setDate(Long date);
 
-	ChangeLog load(ChangeLogAttributeUpdate changeLogAttributeUpdate,
+	ChangeLog load(ChangeLogAttributeUpdate changeLogAction,
 			Subject retrieveSubject, long currentTimeMillis);
 
 }
