@@ -22,6 +22,7 @@ import poolingpeople.commons.entities.User;
 import poolingpeople.commons.helper.Pager;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
 import poolingpeople.persistence.neo4j.entities.PersistedChangeLog;
+import poolingpeople.persistence.neo4j.entities.PersistedChangeLogAttributeUpdateAction;
 import poolingpeople.persistence.neo4j.entities.PersistedClassResolver;
 import poolingpeople.persistence.neo4j.entities.PersistedComment;
 import poolingpeople.persistence.neo4j.entities.PersistedEffort;
@@ -234,17 +235,21 @@ public class Neo4jEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
-			Subject retrieveSubject, long currentTimeMillis) {
-		return instanceProvider.getInstanceForClass(PersistedChangeLog.class).load(changeLogUpdateAction, retrieveSubject, currentTimeMillis);		
-	}
-
-	@Override
 	public List<ChangeLog> getChangelogOfObject(String id) {
 		PoolingpeopleEntity poolingpeopleEntity = getPoolingpeopleEntity(id);
 		Node node = ((AbstractPersistedModel<?>) poolingpeopleEntity).getNode();
 		Class<? extends AbstractPersistedModel<?>> persistedEntityClassForNode = classResolver.getPersistedEntityClassForNode(node);
 		AbstractPersistedModel<?> instanceForClass = instanceProvider.getInstanceForClass(persistedEntityClassForNode).loadModelFromExistentNode(node);
 		return instanceForClass.getChangeLogList();
+	}
+	
+	@Override
+	public ChangeLog createChangeLog() {
+		return instanceProvider.getInstanceForClass(PersistedChangeLog.class).createNodePriorLoadingAttributes(PoolingpeopleObjectType.CHANGELOG);
+	}
+
+	@Override
+	public ChangeLogAttributeUpdate createChangeLogAttributeUpdate() {
+		return instanceProvider.getInstanceForClass(PersistedChangeLogAttributeUpdateAction.class);
 	}
 }
