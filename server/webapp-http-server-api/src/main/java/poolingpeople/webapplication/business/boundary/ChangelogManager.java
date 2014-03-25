@@ -1,13 +1,19 @@
 package poolingpeople.webapplication.business.boundary;
 
+import java.util.HashMap;
+
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+
+import org.neo4j.graphdb.RelationshipType;
 
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.entities.Task;
+import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
 import poolingpeople.persistence.neo4j.entities.PersistedChangeLog;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
@@ -19,6 +25,9 @@ public class ChangelogManager {
 
 	@Inject
 	private ILoggedUserContainer loggedUserContainer;
+	
+	@Inject
+	private NeoManager neoManager;
 
 	public void onPersistedTaskUpdateChange(@Observes UpdateTask updateTaskEventModel) {
 		createChangeLog(updateTaskEventModel.getOldTask(), updateTaskEventModel.getUpdatedTask());
@@ -119,6 +128,7 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo(((AbstractPersistedModel<?>)changeLog).getNode(), (((AbstractPersistedModel<?>)updatedTask)).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
 		} else if (!oldTask.getPriority().equals(updatedTask.getPriority())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
