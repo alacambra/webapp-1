@@ -6,7 +6,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.commons.helper.Pager;
 import poolingpeople.persistence.neo4j.entities.PersistedChangeLog;
@@ -38,9 +37,8 @@ public class InstanceProvider {
 	@Inject
 	private Instance<PersistedEffort> persistedEffortSource;
 	
-	//TODO: use qualifier to determine the implementation at runtime
 	@Inject
-	private Instance<ChangeLogAttributeUpdate> persistedChangeLogAttributeUpdateSource;
+	private Instance<PersistedChangeLogAttributeUpdateAction> persistedChangeLogAttributeUpdateActionSource;
 	
 	@Inject
 	private Instance<PersistedChangeLog> persistedChangeLogSource;
@@ -60,7 +58,7 @@ public class InstanceProvider {
 		instancesSources.put(PersistedComment.class, persistedCommentSource);
 		instancesSources.put(PersistedEffort.class, persistedEffortSource);
 		instancesSources.put(PersistedProject.class, persistedProjectSource);
-		instancesSources.put(PersistedChangeLogAttributeUpdateAction.class, persistedChangeLogAttributeUpdateSource);
+		instancesSources.put(PersistedChangeLogAttributeUpdateAction.class, persistedChangeLogAttributeUpdateActionSource);
 		instancesSources.put(PersistedChangeLog.class, persistedChangeLogSource);
 		return instancesSources; 
 				
