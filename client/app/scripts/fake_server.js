@@ -138,7 +138,7 @@
 				$httpBackend.whenPOST(/\/tasks\/$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);
 					data = JSON.parse(data);
-					data.id = 't-' + parseInt(Math.random() * 10000, 10);
+					data.id =  't-' + parseInt(Math.random() * 10000, 10);
 					return [200, JSON.stringify(data)];
 				});
 

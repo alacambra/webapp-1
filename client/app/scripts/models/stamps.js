@@ -9,7 +9,7 @@
                     return this.id;
                 }
             }).state({
-                id : ""
+                id : null
             });
 
             var scheduledObject = stampit().methods({
@@ -70,6 +70,10 @@
 
                 getAssignee: function(){
                     return this.assignee;
+                },
+
+                getDTO: function(omittedFields) {
+                    return _.omit(this, ['id', 'project', 'assignee', 'subtasks'].concat(omittedFields || []))
                 }
 
             }).state({

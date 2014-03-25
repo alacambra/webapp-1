@@ -98,12 +98,13 @@
                 },
 
                 createTask: function(data) {
-                    return getDataSource().createTask(data);
+                    return getDataSource().createTask(data.getDTO());
                 },
+
                 updateTask: function(id, data) {
                     var that = this,
                         q = $q.all([
-                            getDataSource().updateTask(id, data),
+                            getDataSource().updateTask(id, data.getDTO()),
                             that.assignTaskToUser(id, data.assignee.id)
                         ]).then(function (data) {
                             return data;
@@ -111,10 +112,6 @@
                             return data;
                         });
                     return q;
-                },
-
-                _updateTask: function(id, data) {
-                    return getDataSource().updateTask(id, data);
                 },
 
                 deleteTask: function(id) {
@@ -146,7 +143,7 @@
                 addSubtaskToTask: function(idParent) {
                     return getDataSource().addSubtaskToTask(idParent);
                 },
-                
+
                 moveSubtaskFromTaskToTask: function(idSource, idParent) {
                     return getDataSource().moveSubtaskFromTaskToTask(idSource, idParent);
                 },

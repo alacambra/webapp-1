@@ -142,7 +142,7 @@
                     <datepicker ng-model="task.startDate"
                            format="dd.MM.yyyy"
                            show-weeks="false"
-                           pp-convert-time="dd.MM.yyyy"
+                           pp-convert-date="dd.MM.yyyy"
                            ng-change="blurField(task, 'startDate')"
                            ng-click-out="blurDatepickers(); blurField(task, 'startDate')"></datepicker>
                     <div class="text-center">
@@ -161,7 +161,7 @@
                     <datepicker ng-model="task.endDate"
                            format="dd.MM.yyyy"
                            show-weeks="false"
-                           pp-convert-time="dd.MM.yyyy"
+                           pp-convert-date="dd.MM.yyyy"
                            ng-change="blurField(task, 'endDate')"
                            ng-click-out="blurDatepickers(); blurField(task, 'endDate')"></datepicker>
                     <div class="text-center">
@@ -173,18 +173,18 @@
             <td ng-click="checkItem(task, $event)">
                 <div class="editable" ng-if="!editingField(task, 'duration')">
                     <a href="" ng-click="editField(task, 'duration')">
-                        <span class="editable">{{ task.duration }}%</span>
+                        <span class="editable">{{ task.duration | minutesToHours | number:2 }}h</span>
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'duration')">
-                    <input style="position: relative; width: 40px;" type="text" ng-model="task.duration" pp-model="update(task); blurField(task, 'duration')" />
+                    <input style="position: relative; width: 40px;" type="text" ng-model="task.duration" pp-convert-time="" pp-model="update(task); blurField(task, 'duration')" /> 
                 </div>
             </td>
 
             <td ng-click="checkItem(task, $event)">
                 <div class="editable">
                     <a href="" ng-click="bookEffort(task)">
-                        <span class="editable">{{ task.effort }}h</span>
+                        <span class="editable">{{ task.effort | number:2 }}h</span>
                     </a>
                 </div>
             </td>
@@ -192,7 +192,7 @@
             <td ng-click="checkItem(task, $event)">
                 <div class="editable" ng-if="!editingField(task, 'progress')">
                     <a href="" ng-click="editField(task, 'progress')">
-                        <span class="editable">{{ task.progress }}%</span>
+                        <span class="editable">{{ task.progress | number:2 }}%</span>
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'progress')">
@@ -206,7 +206,7 @@
 
         <tr style="background-color: #FBFBFB;" ng-class="{'warning': isChecked(subtask), 'success': subtask.priority == 'LOW', 'danger': subtask.priority == 'HIGH'}"  ng-repeat="subtask in task.subtasks | orderBy:sorting" ng-repeat-end ng-if="showSubtasks[task.id]">
             
-            <td></td>
+            <td ng-click="checkItem(subtask, $event, true)"></td>
             <td width="30" ng-click="checkItem(subtask, $event, true)">
                 <span ng-class="{'checkbox checkbox-checked': isChecked(subtask), 'checkbox checkbox-unchecked': !isChecked(subtask)}"></span>
             </td>
@@ -214,12 +214,12 @@
             <td ng-click="checkItem(subtask, $event)">
                 <div class="editable" ng-if="!editingField(subtask, 'title')">
                     <a href="" ng-click="editField(subtask, 'title')">
-                        <span class="glyphicon" ng-if="subtask.tasks.length > 0" ng-class="{ 'glyphicon-chevron-right': !subtask.hideTasks, 'glyphicon-chevron-down': subtask.hideTasks }"></span>
-                        <span class="editable">{{ subtask.title }}</span> <a href="" ng-if="hasSubtasks(subtask)" ng-click="toggleSubtasks(subtask)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[subtask.id], 'glyphicon glyphicon-chevron-down': showSubtasks[subtask.id]}"></span></a>
+                        <span class="glyphicon" ng-if="subtask.subtasks.length > 0" ng-class="{ 'glyphicon-chevron-right': !subtask.hidesubtasks, 'glyphicon-chevron-down': subtask.hidesubtasks }"></span>
+                        <span class="editable">{{ subtask.title }}</span> <a href="" ng-if="hasSubsubtasks(subtask)" ng-click="toggleSubsubtasks(subtask)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubsubtasks[subtask.id], 'glyphicon glyphicon-chevron-down': showSubsubtasks[subtask.id]}"></span></a>
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(subtask, 'title')">
-                    <input style="position: relative;" type="text" ng-model="subtask.title" pp-model="update(subtask); blurField(subtask, 'title')" /> <a href="" ng-if="hasSubtasks(subtask)" ng-click="toggleSubtasks(subtask)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[subtask.id], 'glyphicon glyphicon-chevron-down': showSubtasks[subtask.id]}"></span></a>
+                    <input style="position: relative;" type="text" ng-model="subtask.title" pp-model="update(subtask); blurField(subtask, 'title')" /> <a href="" ng-if="hasSubsubtasks(subtask)" ng-click="toggleSubsubtasks(subtask)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubsubtasks[subtask.id], 'glyphicon glyphicon-chevron-down': showSubsubtasks[subtask.id]}"></span></a>
                 </div>
             </td>
 
@@ -272,7 +272,7 @@
                     <datepicker ng-model="subtask.startDate"
                            format="dd.MM.yyyy"
                            show-weeks="false"
-                           pp-convert-time="dd.MM.yyyy"
+                           pp-convert-date="dd.MM.yyyy"
                            ng-change="blurField(subtask, 'startDate')"
                            ng-click-out="blurDatepickers(); blurField(subtask, 'startDate')"></datepicker>
                     <div class="text-center">
@@ -291,9 +291,9 @@
                     <datepicker ng-model="subtask.endDate"
                            format="dd.MM.yyyy"
                            show-weeks="false"
-                           pp-convert-time="dd.MM.yyyy"
+                           pp-convert-date="dd.MM.yyyy"
                            ng-change="blurField(subtask, 'endDate')"
-                           ng-click-out="blurField(subtask, 'endDate')"></datepicker>
+                           ng-click-out="blurDatepickers(); blurField(subtask, 'endDate')"></datepicker>
                     <div class="text-center">
                         <a href="" ng-click="today(subtask, 'endDate')" class="btn btn-info" style="margin: 5px;">Today</a>
                     </div>
@@ -303,18 +303,18 @@
             <td ng-click="checkItem(subtask, $event)">
                 <div class="editable" ng-if="!editingField(subtask, 'duration')">
                     <a href="" ng-click="editField(subtask, 'duration')">
-                        <span class="editable">{{ subtask.duration }}%</span>
+                        <span class="editable">{{ subtask.duration | minutesToHours | number:2 }}h</span>
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(subtask, 'duration')">
-                    <input style="position: relative; width: 40px;" type="text" ng-model="subtask.duration" pp-model="update(subtask); blurField(subtask, 'duration')" />
+                    <input style="position: relative; width: 40px;" type="text" ng-model="subtask.duration" pp-convert-time="" pp-model="update(subtask); blurField(subtask, 'duration')" /> 
                 </div>
             </td>
 
             <td ng-click="checkItem(subtask, $event)">
-                <div class="editable" ng-if="!editingField(subtask, 'effort')">
+                <div class="editable">
                     <a href="" ng-click="bookEffort(subtask)">
-                        <span class="editable">{{ subtask.effort }}h</span>
+                        <span class="editable">{{ subtask.effort | number:2 }}h</span>
                     </a>
                 </div>
             </td>
@@ -322,7 +322,7 @@
             <td ng-click="checkItem(subtask, $event)">
                 <div class="editable" ng-if="!editingField(subtask, 'progress')">
                     <a href="" ng-click="editField(subtask, 'progress')">
-                        <span class="editable">{{ subtask.progress }}%</span>
+                        <span class="editable">{{ subtask.progress | number:2 }}%</span>
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(subtask, 'progress')">

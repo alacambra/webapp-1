@@ -71,7 +71,7 @@
                         }
                     });
                 };
-
+ 
                 var init = (function() {
 
                     loadTasks();
@@ -97,6 +97,8 @@
                 $scope.create = function () {
                     var modalInstance = openTaskModal({
                         title: 'Neue Aufgabe'
+                    }).result.then(function (data) {
+                        $scope.taskList.push(data);
                     });
                 };
 

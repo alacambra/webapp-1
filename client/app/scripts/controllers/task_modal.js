@@ -40,10 +40,12 @@
 					LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
 					if (_.isNull($scope.modal.task.id)) {
 						DataProvider.createTask($scope.modal.task).then(function (response) {
-							_.extend(options.task, $scope.modal.task);
-							options.task.id = response.id;
-							$scope.list.tasks.push(options.task);
-							$modalInstance.close();
+							var newTask = _.extend($scope.modal.task, response);
+							DataProvider.assignTaskToUser(response.id, $scope.modal.task.assignee.id).then(function (response) {
+								$modalInstance.close(newTask);
+							}).finally(function (response) {
+								LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
+							});
 						}, function (response) {
 							$scope.error = 'Couldn\'t save task: ' + response;
 							LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);

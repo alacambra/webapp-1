@@ -19,7 +19,7 @@
 		.filter('hoursToMinutes', [
 			function () {
 				return function (hours) {
-					var output = hours * 60;
+					var output = ("" + hours).replace(",", ".") * 60; 
 					return output ? output : 0;
 				}
 			}])
