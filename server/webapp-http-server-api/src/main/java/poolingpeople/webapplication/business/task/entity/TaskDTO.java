@@ -1,5 +1,6 @@
 package poolingpeople.webapplication.business.task.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,6 +28,11 @@ public class TaskDTO implements Task {
 	private Integer duration;
 	private TaskStatus taskStatus;
 	private TaskPriority taskPriority;
+	private Integer effort;
+	private Project project;
+	private User assignee;
+	private Task parent;
+	private List<Task> subTasks = new ArrayList<>();
 
 	@IgnoreAttribute
 	@Override
@@ -139,14 +145,12 @@ public class TaskDTO implements Task {
 
 	@Override
 	public Integer getEffort() {
-		// TODO Auto-generated method stub
-		return null;
+		return effort;
 	}
 
 	@Override
 	public Project getProject() {
-		// TODO Auto-generated method stub
-		return null;
+		return project;
 	}
 
 	@Override
@@ -199,14 +203,12 @@ public class TaskDTO implements Task {
 
 	@Override
 	public void addSubtask(Task child) {
-		// TODO Auto-generated method stub
-		
+		subTasks.add(child);
 	}
 
 	@Override
 	public void removeSubtask(Task child) {
-		// TODO Auto-generated method stub
-		
+		subTasks.remove(child);
 	}
 
 	@Override
@@ -217,38 +219,32 @@ public class TaskDTO implements Task {
 
 	@Override
 	public void setAssignee(User u) {
-		// TODO Auto-generated method stub
-		
+		assignee = u;
 	}
 
 	@Override
 	public Task getParent() {
-		// TODO Auto-generated method stub
-		return null;
+		return parent;
 	}
 
 	@Override
 	public User getAssignee() {
-		// TODO Auto-generated method stub
-		return null;
+		return assignee;
 	}
 
 	@Override
 	public String getParentId() {
-		// TODO Auto-generated method stub
-		return null;
+		return parent.getId();
 	}
 
 	@Override
 	public List<Task> getSubtasks() {
-		// TODO Auto-generated method stub
-		return null;
+		return subTasks; 
 	}
 
 	@Override
 	public Integer getSubtaskCount() {
-		// TODO Auto-generated method stub
-		return null;
+		return subTasks.size();
 	}
 
 	@Override
