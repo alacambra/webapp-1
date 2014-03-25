@@ -48,4 +48,6 @@ public interface EntityFactory {
 	ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
 			Subject retrieveSubject, long currentTimeMillis);
 	Comment createCommentOnObject(Comment comment, String uuid, Subject author);
+
+	List<ChangeLog> getChangelogOfObject(String id);
 }
