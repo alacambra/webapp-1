@@ -66,10 +66,10 @@ public class PersistedChangeLog extends
 	// set the corresponding values on the underlying node as properties
 	@Override
 	public void setAction(ChangeLogAction action) {
-		if (relationExistsTo((AbstractPersistedModel<?>) action, Relations.HAS_SUBJECT)) {
-			throw new RelationAlreadyExistsException();
-		}
-		createRelationshipTo((AbstractPersistedModel<?>) action, Relations.HAS_SUBJECT);
+//		if (relationExistsTo((AbstractPersistedModel<?>) action, Relations.HAS_SUBJECT)) {
+//			throw new RelationAlreadyExistsException();
+//		}
+//		createRelationshipTo((AbstractPersistedModel<?>) action, Relations.HAS_SUBJECT);
 	}
 
 	@Override
