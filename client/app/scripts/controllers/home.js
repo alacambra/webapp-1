@@ -3,7 +3,7 @@
 
     angular.module('poolingpeopleApp')
 
-        .controller('HomeCtrl', function ($scope) {
-            $scope.title = 'poolingpeople';
+        .controller('HomeCtrl', function ($scope, siteTitle) {
+            $scope.title = siteTitle;
         });
 }());

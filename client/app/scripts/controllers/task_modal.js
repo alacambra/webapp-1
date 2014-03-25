@@ -13,8 +13,6 @@
 
 					assignableUsers: [],
 
-					assignableProjects: [],
-
 					disabled: options.disabled
 				};
 
@@ -38,49 +36,14 @@
 					});
 				};
 
-
-				var loadProjects = function () {
-					var defaultProject = $scope.modal.task.project;
-					DataProvider.getProjects().then(function (projects) {
-						$scope.modal.assignableProjects = projects;
-						$scope.modal.task.project = defaultProject;
-					}, function (response) {
-						$scope.error = 'Couldn\'t load projects: ' +response;
-					})
-				};
-
 				var saveTask = function () {
 					LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
 					if (_.isNull($scope.modal.task.id)) {
 						DataProvider.createTask($scope.modal.task).then(function (response) {
 							_.extend(options.task, $scope.modal.task);
 							options.task.id = response.id;
-
-							if (!_.isNull(options.task.project)) {
-								DataProvider.addTaskToProject(options.task.id, options.task.project.id).then(function (response) {
-									if ($scope.list.tasks) {
-										$scope.list.tasks.push(options.task);
-									} else {
-										$scope.list.selectedProject.addTask(options.task);
-										$scope.list.selectedProject.taskCount++;
-									}
-									$modalInstance.close();
-
-								}, function (response) {
-									$scope.error = 'Couldn\'t add task to project: ' + response;
-								}).finally(function() {
-									LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
-								});
-							} else {
-								if ($scope.list.tasks) {
-									$scope.list.tasks.push(options.task);
-								} else {
-									$scope.list.selectedProject.addTask(options.task);
-									$scope.list.selectedProject.taskCount++;
-								}
-								$modalInstance.close();
-							}
-
+							$scope.list.tasks.push(options.task);
+							$modalInstance.close();
 						}, function (response) {
 							$scope.error = 'Couldn\'t save task: ' + response;
 							LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
@@ -101,7 +64,6 @@
 				var init = (function() {
 
 					loadUsers();
-					loadProjects();				
 
 				})()
 

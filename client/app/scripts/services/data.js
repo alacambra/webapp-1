@@ -104,8 +104,7 @@
                     var that = this,
                         q = $q.all([
                             getDataSource().updateTask(id, data),
-                            that.assignTaskToUser(id, data.assignee.id),
-                            that.addTaskToProject(id, data.project.id)
+                            that.assignTaskToUser(id, data.assignee.id)
                         ]).then(function (data) {
                             return data;
                         }, function(data) {
@@ -123,10 +122,6 @@
                 },
 
                 /* END CRUD */
-
-                getProjectFromTask: function(id) {
-                    return getDataSource().getProjectFromTask(id);
-                },
 
                 assignTaskToUser: function(idTask, idUser) {
                     return getDataSource().assignTaskToUser(idTask, idUser);
@@ -151,59 +146,12 @@
                 addSubtaskToTask: function(idParent) {
                     return getDataSource().addSubtaskToTask(idParent);
                 },
-
-                addTaskToProject: function(idTask, idParent) {
-                    return getDataSource().addTaskToProject(idTask, idParent);
-                },
-
+                
                 moveSubtaskFromTaskToTask: function(idSource, idParent) {
                     return getDataSource().moveSubtaskFromTaskToTask(idSource, idParent);
                 },
 
-                moveTaskFromProjectToProject: function(id, idSource, idParent) {
-                    return getDataSource().moveTaskFromProjectToProject(id, idSource, idParent);
-                },
-
-                /* Project */
-
-
-                /* CRUD */
-
-                getProject: function(id) {
-                    return getDataSource().getProject(id);
-                },
-
-                getProjects: function(size, start) {
-                    return getDataSource().getProjects(size, start);
-                },
-
-                createProject: function(data) {
-                    return getDataSource().createProject(data);
-                },
-
-                updateProject: function(id, data) {
-                    return getDataSource().updateProject(id, data);
-                },
-
-                deleteProject: function(id) {
-                    return getDataSource().deleteProject(id);
-                },
-
-                /* END CRUD */
-
-                getProjectTasks: function(id) {
-                    return getDataSource().getProjectTasks(id);
-                },
-
-                assignProjectToUser: function(idProject, idUser) {
-                    return getDataSource().assignProjectToUser(idProject, idUser);
-                },
-
                 /* Effort */
-
-                getEffort: function (taskId, effortId) {
-                    return getDataSource().getProject(taskId, effortId);
-                },
 
                 getEfforts: function (taskId) {
                     return getDataSource().getEfforts(taskId);

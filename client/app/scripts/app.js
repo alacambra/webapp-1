@@ -11,6 +11,8 @@
 
 	angular.module('poolingpeopleApp', dependencies)
 
+		.value('siteTitle', 'poolingpeople')
+
 		.config(['$stateProvider', '$urlRouterProvider',
 			function ($stateProvider, $urlRouterProvider) {
 				var homeState = {
@@ -36,22 +38,13 @@
 						controller: 'TasksCtrl',
 						navbar: true,
 						needAuth: true
-					},
-					projectsState = {
-						url: '/projects',
-						name: 'projects',
-						templateUrl: 'views/projects.tpl.html',
-						controller: 'ProjectsCtrl',
-						navbar: true,
-						needAuth: true
-					};
+					}
 
 				$urlRouterProvider.otherwise(homeState.url);
 
 				$stateProvider.state(homeState);
 				$stateProvider.state(usersState);
 				$stateProvider.state(tasksState);
-				$stateProvider.state(projectsState);
 			}])
 
 		.run(['$rootScope', '$state', '$stateParams', 'SessionService', 
