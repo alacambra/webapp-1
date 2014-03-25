@@ -8,6 +8,7 @@ public interface ChangeLogAction {
 	String getCode();
 	
 	ChangeLogAction loadChangeLogActionFromNode(Node node);
-	
+
 	void setChangeLogNode(Node node);
+	
 }
