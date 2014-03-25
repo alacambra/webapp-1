@@ -83,43 +83,7 @@ public class JsonViews {
 	public static interface CommentsWithSubject extends BasicComments{}
 	public static interface CommentsFull extends CommentsWithObject, CommentsWithSubject{}
 	
+	/************************************Changelog VIEW***************************************************/
+	public static interface Changelog extends Shared{} 
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

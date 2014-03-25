@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import org.neo4j.graphdb.Node;
+
 import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.ChangeLogAttributeUpdate;
 import poolingpeople.commons.entities.Comment;
@@ -235,5 +237,14 @@ public class Neo4jEntityFactory implements EntityFactory {
 	public ChangeLog createChangeLog(ChangeLogAttributeUpdate changeLogUpdateAction,
 			Subject retrieveSubject, long currentTimeMillis) {
 		return instanceProvider.getInstanceForClass(PersistedChangeLog.class).load(changeLogUpdateAction, retrieveSubject, currentTimeMillis);		
+	}
+
+	@Override
+	public List<ChangeLog> getChangelogOfObject(String id) {
+		PoolingpeopleEntity poolingpeopleEntity = getPoolingpeopleEntity(id);
+		Node node = ((AbstractPersistedModel<?>) poolingpeopleEntity).getNode();
+		Class<? extends AbstractPersistedModel<?>> persistedEntityClassForNode = classResolver.getPersistedEntityClassForNode(node);
+		AbstractPersistedModel<?> instanceForClass = instanceProvider.getInstanceForClass(persistedEntityClassForNode).loadModelFromExistentNode(node);
+		return instanceForClass.getChangeLogList();
 	}
 }

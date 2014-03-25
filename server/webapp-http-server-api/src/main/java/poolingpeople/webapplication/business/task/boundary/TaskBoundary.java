@@ -22,6 +22,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 
 import poolingpeople.commons.entities.Task;
+import poolingpeople.commons.entities.User;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
@@ -225,106 +226,29 @@ public class TaskBoundary extends AbstractBoundary{
 	@Path(idPattern + "/to/user/{userId:" + uuidRegexPattern + "}")
 	public Response assignTaskToUser(@PathParam("id") String taskId, @PathParam("userId") String userId){
 
-//		User user = entityFactory.getUserById(userId);
-//		Task task = entityFactory.getTaskById(taskId);
-//		
-//		List<Task> tasks = user.getTasks();
-//		boolean error = false;
-//		for (Task oldTask : tasks) {
-//			
-//			/*
-//			 * new task is future || in past
-//			 */
-//			if ((oldTask.getEndDate() < task.getStartDate() && oldTask.getEndDate() < task.getEndDate())
-//					|| (oldTask.getStartDate() > task.getEndDate() && oldTask.getStartDate() > task.getStartDate())) {
-//				continue;
-//			}
-//			
-//			error = true;
-//			break;
-//			
-//		}
-//		
-//		task.setAssignee(user);
-//		
-//		return error ? Response.noContent().header("X-Warning", true).build() : Response.noContent().build();
-		return Response.status(Status.METHOD_NOT_ALLOWED).build();
+		User user = entityFactory.getUserById(userId);
+		Task task = entityFactory.getTaskById(taskId);
+		
+		List<Task> tasks = user.getTasks();
+		boolean error = false;
+		for (Task oldTask : tasks) {
+			
+			/*
+			 * new task is future || in past
+			 */
+			if ((oldTask.getEndDate() < task.getStartDate() && oldTask.getEndDate() < task.getEndDate())
+					|| (oldTask.getStartDate() > task.getEndDate() && oldTask.getStartDate() > task.getStartDate())) {
+				continue;
+			}
+			
+			error = true;
+			break;
+			
+		}
+		
+		task.setAssignee(user);
+		
+		return error ? Response.noContent().header("X-Warning", true).build() : Response.noContent().build();
+//		return Response.status(Status.METHOD_NOT_ALLOWED).build();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
