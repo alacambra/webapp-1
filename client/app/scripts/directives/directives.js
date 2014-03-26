@@ -21,7 +21,10 @@
 							$scope.$apply(function () {
 								$elem.off('blur');
 								$elem.off('keydown');
-								$scope.$eval($attrs.ppModel);
+		                        if (!$elem.hasClass("ng-pristine"))
+		                            $scope.$eval($attrs.ppModel);
+		                        else
+		                            $scope.$eval($attrs.ppModelPristine);
 								ngModelCtrl.$render();
 							});
 						};

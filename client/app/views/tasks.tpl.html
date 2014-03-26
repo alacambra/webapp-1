@@ -92,7 +92,7 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'title')">
-                    <input style="position: relative;" type="text" ng-model="task.title" pp-model="update(task); blurField(task, 'title')" /> <a href="" ng-if="hasSubtasks(task)" ng-click="toggleSubtasks(task)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[task.id], 'glyphicon glyphicon-chevron-down': showSubtasks[task.id]}"></span></a>
+                    <input style="position: relative;" type="text" ng-model="task.title" pp-model-pristine="blurField(task, 'title')" pp-model="update(task); blurField(task, 'title')" /> <a href="" ng-if="hasSubtasks(task)" ng-click="toggleSubtasks(task)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubtasks[task.id], 'glyphicon glyphicon-chevron-down': showSubtasks[task.id]}"></span></a>
                 </div>
             </td>
 
@@ -112,6 +112,7 @@
                 <div class="editable" ng-if="editingField(task, 'assignee')">
                     <select name="assignee"
                             ng-model="task.assignee"
+                            pp-model-pristine="blurField(task, 'assignee')" 
                             pp-model="update(task); blurField(task, 'assignee')"
                             class="form-control"
                             id="assigneeInput"
@@ -128,6 +129,7 @@
                 <div class="editable" ng-if="editingField(task, 'status')">
                     <select name="status"
                             ng-model="task.status"
+                            pp-model-pristine="blurField(task, 'status')" 
                             pp-model="update(task); blurField(task, 'status')"
                             class="form-control"
                             id="statusInput"
@@ -180,7 +182,8 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'duration')">
-                    <input style="position: relative; width: 40px;" type="text" ng-model="task.duration" pp-convert-time="" pp-model="update(task); blurField(task, 'duration')" /> 
+                    <input style="position: relative; width: 40px;" type="text" ng-model="task.duration" pp-convert-time=""
+                            pp-model-pristine="blurField(task, 'duration')"  pp-model="update(task); blurField(task, 'duration')" /> 
                 </div>
             </td>
 
@@ -199,7 +202,8 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(task, 'progress')">
-                    <input style="position: relative; width: 40px;" type="text" ng-model="task.progress" pp-model="update(task); blurField(task, 'progress')" />
+                    <input style="position: relative; width: 40px;" type="text" ng-model="task.progress" 
+                            pp-model-pristine="blurField(task, 'progress')" pp-model="update(task); blurField(task, 'progress')" />
                 </div>
             </td>
 
@@ -222,7 +226,8 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(subtask, 'title')">
-                    <input style="position: relative;" type="text" ng-model="subtask.title" pp-model="update(subtask); blurField(subtask, 'title')" /> <a href="" ng-if="hasSubsubtasks(subtask)" ng-click="toggleSubsubtasks(subtask)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubsubtasks[subtask.id], 'glyphicon glyphicon-chevron-down': showSubsubtasks[subtask.id]}"></span></a>
+                    <input style="position: relative;" type="text" ng-model="subtask.title" 
+                            pp-model-pristine="blurField(subtask, 'title')" pp-model="update(subtask); blurField(subtask, 'title')" /> <a href="" ng-if="hasSubsubtasks(subtask)" ng-click="toggleSubsubtasks(subtask)"><span ng-class="{'glyphicon glyphicon-chevron-right': !showSubsubtasks[subtask.id], 'glyphicon glyphicon-chevron-down': showSubsubtasks[subtask.id]}"></span></a>
                 </div>
             </td>
 
@@ -242,6 +247,7 @@
                 <div class="editable" ng-if="editingField(subtask, 'assignee')">
                     <select name="assignee"
                             ng-model="subtask.assignee"
+                            pp-model-pristine="blurField(subtask, 'assignee')"
                             pp-model="update(subtask); blurField(subtask, 'assignee')"
                             class="form-control"
                             id="assigneeInput"
@@ -258,6 +264,7 @@
                 <div class="editable" ng-if="editingField(subtask, 'status')">
                     <select name="status"
                             ng-model="subtask.status"
+                            pp-model-pristine="blurField(subtask, 'status')"
                             pp-model="update(subtask); blurField(subtask, 'status')"
                             class="form-control"
                             id="statusInput"
@@ -310,7 +317,8 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(subtask, 'duration')">
-                    <input style="position: relative; width: 40px;" type="text" ng-model="subtask.duration" pp-convert-time="" pp-model="update(subtask); blurField(subtask, 'duration')" /> 
+                    <input style="position: relative; width: 40px;" type="text" ng-model="subtask.duration" pp-convert-time=""
+                            pp-model-pristine="blurField(subtask, 'duration')" pp-model="update(subtask); blurField(subtask, 'duration')" /> 
                 </div>
             </td>
 
@@ -329,7 +337,8 @@
                     </a>
                 </div>
                 <div class="editable" ng-if="editingField(subtask, 'progress')">
-                    <input style="position: relative; width: 40px;" type="text" ng-model="subtask.progress" pp-model="update(subtask); blurField(subtask, 'progress')" />
+                    <input style="position: relative; width: 40px;" type="text" ng-model="subtask.progress"
+                            pp-model-pristine="blurField(subtask, 'progress')" pp-model="update(subtask); blurField(subtask, 'progress')" />
                 </div>
             </td>
         </tr>
