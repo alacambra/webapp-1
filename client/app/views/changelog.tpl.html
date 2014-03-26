@@ -27,7 +27,7 @@
 		    </li>
 		    <li ng-repeat="log in getFilteredLogs() | orderBy:'date':true">
 		    	<div ng-switch on="getType(log)">
-			    	<p ng-switch-when="change" style="background-color: rgba(0,255,255,0.1); overflow: auto; padding: 10px; border-radius:10px; "><span class="glyphicon glyphicon-pencil" style="margin-right: 7px"></span> {{log.date | date:'dd.MM.yyyy'}} <b>{{ log.subject.firstName + ' ' + log.subject.lastName }}</b>: The <b>{{ log.action.changedAttributeName }}</b> was edited from <b>{{ log.action.oldValue }}</b> to <b>{{ log.action.newValue }}</b> </p>
+			    	<p ng-switch-when="change" style="background-color: rgba(0,255,255,0.1); overflow: auto; padding: 10px; border-radius:10px; "><span class="glyphicon glyphicon-pencil" style="margin-right: 7px"></span> {{log.date | date:'dd.MM.yyyy'}} <b>{{ log.subject.firstName + ' ' + log.subject.lastName }}</b>: The <b>{{ log.action.changedAttributeName }}</b> was edited from <b>{{ getOldValue(log) }}</b> to <b>{{ getNewValue(log) }}</b> </p>
 			    	<p ng-switch-when="comment" class="text-justify" style="background-color: rgba(255,255,0,0.1); overflow: auto; padding: 10px; border-radius:10px; "><span class="glyphicon glyphicon-comment" style="margin-right: 7px"></span> {{log.date | date:'dd.MM.yyyy'}} <b>{{ log.subject.firstName + ' ' + log.subject.lastName }}</b>: <i>{{ log.comment }}</i><p>
 			    </div>
 		    </li>
