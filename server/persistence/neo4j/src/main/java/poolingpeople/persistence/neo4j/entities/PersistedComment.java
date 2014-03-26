@@ -73,24 +73,10 @@ public class PersistedComment extends AbstractPersistedModel<PersistedComment> i
 		throw new RootApplicationException("A comment has no comments on it");
 	}
 
+	@Override
+	public List<ChangeLog> getChangeLogList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
