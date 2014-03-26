@@ -74,7 +74,7 @@ public class PersistedChangeLog extends
 
 	@Override
 	public void setDate(Long date) {
-		setProperty(NodePropertyName.DATE, date);
+		setProperty(NodePropertyName.TIME, date);
 	}
 
 	@Override
