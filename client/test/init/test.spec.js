@@ -1,5 +1,5 @@
-describe ("jasmine running", function() {
-	it ("jasmine running", function() {
+describe ("Jasmine running", function() {
+	it ("Jasmine running", function() {
 		expect(true).toBe(true); 
 	})
 }) 

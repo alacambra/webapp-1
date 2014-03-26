@@ -1,27 +1,31 @@
-describe ("controller", function() {
+describe ("HomeCtrl", function() {
 
     beforeEach(module("poolingpeopleApp"));
 
-    var $scope, $rootScope, controllerLoader;
+    var $scope, $rootScope, controllerLoader, DataProvider;
 
     beforeEach(inject(function($injector) {
+
         $rootScope = $injector.get('$rootScope');
+        $controller = $injector.get('$controller');
+        DataProvider = $injector.get('DataProvider');
         $scope = $rootScope.$new();
 
-        var $controller = $injector.get('$controller');
-
         controllerLoader = function() {
-            return $controller('NavCtrl', {
+            return $controller('HomeCtrl', {
                 '$scope': $scope
             });
         };
     }));
 
     it ("testing injection", function() {
-
         var controller = controllerLoader();
-        expect($scope).toNotEqual({});
+        expect($scope).toBeDefined();
+    });
 
-    })
+    it ("site title", function() {
+        var controller = controllerLoader();
+        expect($scope.title).toContain("poolingpeople");
+    });
 
 });

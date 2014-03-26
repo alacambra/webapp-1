@@ -114,10 +114,12 @@
                 }
 
                 $scope.edit = function(items) {
-                    doAction(items, function(item) {
+                    doAction(items, function(item, index) {
                         var modalInstance = openTaskModal({
                             title: 'Aufgabe "' + item.title + '" bearbeiten',
                             task: item
+                        }).result.then(function (data) {
+                            item = _.extend(item, data);
                         });
                     })
                 };

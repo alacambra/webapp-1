@@ -7,17 +7,19 @@
 			function ($scope, $log, DataProvider, LoadStatusService) {
 
 				$scope.model = {
-					password: 'a',
-					firstName: 'a',
-					lastName: 'a'
+					password: '',
+					firstName: '',
+					lastName: ''
 				};
+
+				$scope.userList = [];
 
 				$scope.getUsers = function() {
 					LoadStatusService.setStatus("users.userList", LoadStatusService.RESOLVING);
 
-					DataProvider.getUsers().then(function (users) {
-						$scope.users = users;
-					}).finally(function() {
+					DataProvider.getUsers().then(function (data) {
+						$scope.userList = data;
+					}).finally(function (data) {
 						LoadStatusService.setStatus("users.userList", LoadStatusService.COMPLETED);
 					});				
 				}
@@ -27,8 +29,7 @@
 					LoadStatusService.setStatus("users.newUser", LoadStatusService.RESOLVING);
 					DataProvider.createUser($scope.model).then(function (response) {
 						var user = factory.user(response);
-						$scope.users.push(user);
-
+						$scope.userList.push(user);
 					}, function (response) {
 						$log.error(response);
 					}).finally(function() {

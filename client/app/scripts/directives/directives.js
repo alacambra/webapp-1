@@ -22,13 +22,12 @@
 								$elem.off('blur');
 								$elem.off('keydown');
 								$scope.$eval($attrs.ppModel);
-								ngModelCtrl.$setViewValue($elem.val().trim());
 								ngModelCtrl.$render();
 							});
 						};
 
 						// remove events used by ngModel
-						$elem.off('change').off('input').off('keydown');
+						$elem.off('change').off('keydown');
 
 						// update model on blur
 						$elem.on({
@@ -40,9 +39,9 @@
 									$elem.blur();
 								}
 							},
-							change: function() {
-								$elem.blur();
-							}
+		                    change: function() {
+		                        $elem.blur();
+		                    }
 						});
 
 						$elem.focus();
@@ -202,12 +201,11 @@
 		    		targetResource = doContrary ? $attr.ngLoading.substr(1) : $attr.ngLoading;
 
 		    	$scope.$watch(function() { // LoadStatusService.isLoading(targetResource) ⊕ doContrary
-		    		if (LoadStatusService.isLoading(targetResource)) {
-		    			if (!doContrary) $element.show();
-		    			else $element.hide();
+		    		if ((LoadStatusService.isLoading(targetResource) && doContrary) ||
+		    		    (!LoadStatusService.isLoading(targetResource) && !doContrary)) {
+		    			$element.hide();
 		    		} else {
-		    			if (doContrary) $element.show();
-		    			else $element.hide();
+		    		    $element.show();
 		    		}
 		    	}, true);
 		    }

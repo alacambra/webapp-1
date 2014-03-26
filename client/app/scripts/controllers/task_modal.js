@@ -53,7 +53,7 @@
 
 					} else {
                         DataProvider.updateTask($scope.modal.task.id, $scope.modal.task).then(function(response) {
-                            $modalInstance.close();
+                            $modalInstance.close($scope.modal.task);
                         }, function(response) {
                             $scope.error = 'Couldn\'t save task';
                         }).finally(function() {
