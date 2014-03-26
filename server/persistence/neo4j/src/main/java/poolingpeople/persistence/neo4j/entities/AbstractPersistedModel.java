@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -19,10 +18,8 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.index.IndexHits;
 
-import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.commons.entities.Comment;
 import poolingpeople.commons.entities.IgnoreAttribute;
-import poolingpeople.commons.entities.PoolingpeopleEntity;
 import poolingpeople.commons.exceptions.RootApplicationException;
 import poolingpeople.persistence.neo4j.InstanceProvider;
 import poolingpeople.persistence.neo4j.Neo4jProfiler;
@@ -39,7 +36,7 @@ import poolingpeople.persistence.neo4j.exceptions.NotUniqueException;
 import poolingpeople.persistence.neo4j.exceptions.RelationAlreadyExistsException;
 
 @Neo4jProfiler
-public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>> implements PoolingpeopleEntity{
+public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>> {
 
 	protected Node underlyingNode;
 
@@ -409,8 +406,8 @@ public abstract class AbstractPersistedModel<T extends AbstractPersistedModel<T>
 		createRelationshipFrom((PersistedComment)comment, Relations.ABOUT_OBJECT);
 	}
 	
-	@Override
-	public List<ChangeLog> getChangeLogList() {
-		throw new RootApplicationException("Not implemented");
-	}
+//	@Override
+//	public List<ChangeLog> getChangeLogList() {
+//		throw new RootApplicationException("Not implemented");
+//	}
 }

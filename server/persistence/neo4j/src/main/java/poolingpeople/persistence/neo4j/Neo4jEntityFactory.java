@@ -240,7 +240,7 @@ public class Neo4jEntityFactory implements EntityFactory {
 		Node node = ((AbstractPersistedModel<?>) poolingpeopleEntity).getNode();
 		Class<? extends AbstractPersistedModel<?>> persistedEntityClassForNode = classResolver.getPersistedEntityClassForNode(node);
 		AbstractPersistedModel<?> instanceForClass = instanceProvider.getInstanceForClass(persistedEntityClassForNode).loadModelFromExistentNode(node);
-		List<ChangeLog> changeLogList = instanceForClass.getChangeLogList();
+		List<ChangeLog> changeLogList = ((PoolingpeopleEntity)instanceForClass).getChangeLogList();
 		return changeLogList;
 	}
 	
