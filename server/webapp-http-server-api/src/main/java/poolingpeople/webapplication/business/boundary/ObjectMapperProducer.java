@@ -12,6 +12,7 @@ import poolingpeople.commons.entities.Effort;
 import poolingpeople.commons.entities.Project;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.commons.entities.User;
+import poolingpeople.webapplication.business.changelog.boundary.ChangelogMixin;
 import poolingpeople.webapplication.business.comments.boundary.CommentsMixin;
 import poolingpeople.webapplication.business.project.boundary.ProjectMixin;
 import poolingpeople.webapplication.business.task.entity.EffortMixin;
@@ -34,7 +35,7 @@ public class ObjectMapperProducer {
                 .addMixin(Project.class, ProjectMixin.class)
                 .addMixin(User.class, UserMixin.class)
                 .addMixin(Comment.class, CommentsMixin.class)
-//                .addMixin(Comment.class, ChangeLogMixin.class)
+                .addMixin(ChangeLog.class, ChangelogMixin.class)
         );
         return mapper;
     }
