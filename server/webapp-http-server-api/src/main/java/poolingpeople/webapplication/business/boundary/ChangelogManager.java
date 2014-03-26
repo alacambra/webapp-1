@@ -53,8 +53,10 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 
-		} else if (!oldTask.getDuration().equals(updatedTask.getDuration())) {
+		}  if (!oldTask.getDuration().equals(updatedTask.getDuration())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -68,9 +70,11 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 		}
 
-		else if (!oldTask.getEndDate().equals(updatedTask.getEndDate())) {
+		 if (!oldTask.getEndDate().equals(updatedTask.getEndDate())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -84,9 +88,11 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 		}
 
-		else if (!oldTask.getStartDate().equals(updatedTask.getStartDate())) {
+		 if (!oldTask.getStartDate().equals(updatedTask.getStartDate())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -100,9 +106,11 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 		}
 
-		else if (!oldTask.getStatus().equals(updatedTask.getStatus())) {
+		 if (!oldTask.getStatus().equals(updatedTask.getStatus())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -116,7 +124,9 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
-		} else if (!oldTask.getTitle().equals(updatedTask.getTitle())) {
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
+		}  if (!oldTask.getTitle().equals(updatedTask.getTitle())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -132,7 +142,7 @@ public class ChangelogManager {
 					System.currentTimeMillis());
 			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
 			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
-		} else if (!oldTask.getPriority().equals(updatedTask.getPriority())) {
+		}  if (!oldTask.getPriority().equals(updatedTask.getPriority())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -146,9 +156,11 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 		}
 
-		else if (!oldTask.getProgress().equals(updatedTask.getProgress())) {
+		 if (!oldTask.getProgress().equals(updatedTask.getProgress())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
 					.createChangeLogAttributeUpdate();
@@ -162,6 +174,8 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 		}
 	}
 
