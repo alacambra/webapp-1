@@ -236,9 +236,9 @@
                     return q.promise;
                 },
 
-                createSubtaskInTask: function(idParent) {
+                createSubtaskInTask: function(idParent, data) {
                     var q = $q.defer();
-                    $http.post(baseUrl + "/tasks/as/subtask/" + idParent)
+                    $http.post(baseUrl + "/tasks/as/subtask/" + idParent, data)
                     .success(function (data, status, headers, config) {
                             q.resolve(data, status, headers, config);
                         }).error(function (data, status, headers, config) {

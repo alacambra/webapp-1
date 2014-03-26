@@ -136,8 +136,8 @@
                     return getDataSource().getTaskSubtasks(id);
                 },
 
-                createSubtaskInTask: function(idParent) {
-                    return getDataSource().createSubtaskInTask(idParent);
+                createSubtaskInTask: function(idParent, data) {
+                    return getDataSource().createSubtaskInTask(idParent, data.getDTO());
                 },
 
                 addSubtaskToTask: function(idParent) {

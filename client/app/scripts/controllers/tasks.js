@@ -101,7 +101,6 @@
                         $scope.taskList.push(data);
                     });
                 };
-
                 $scope.update = function(items) {
                     doAction(items, function(item) {
                         var sourceProject = item.project;
@@ -150,6 +149,17 @@
                     })
                 };
 
+                $scope.createSubtask = function (items) {
+                    doAction(items, function(item, index) {
+                        var modalInstance = openTaskModal({
+                            title: 'Neue Subtask in "' + item.title + '"',
+                            parentTask: item
+                        }).result.then(function (data) {
+                            item.subtasks.push(data);
+                        });
+                    })
+                };
+
                 $scope.bookEffort = function(items) {
                     doAction(items, function(item) {
                         var targetTask = item;
@@ -182,6 +192,10 @@
 
                 $scope.deleteSelected = function() {
                     $scope.delete($scope.getSelectedItems());
+                };
+
+                $scope.subtaskInSelected = function() {
+                    $scope.createSubtask($scope.getSelectedItems());  
                 };
 
                 $scope.editSelected = function() {

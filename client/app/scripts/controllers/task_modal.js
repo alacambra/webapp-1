@@ -11,6 +11,8 @@
 
 					task: options.task ? angular.copy(options.task) : ModelsService.getTask({assignee: SessionService.userData(), status: "NEW"}),
 
+					parentTask: options.parentTask ? options.parentTask : null,
+
 					assignableUsers: [],
 
 					disabled: options.disabled
@@ -38,8 +40,8 @@
 
 				var saveTask = function () {
 					LoadStatusService.setStatus("taskModal.save", LoadStatusService.RESOLVING);
-					if (_.isNull($scope.modal.task.id)) {
-						DataProvider.createTask($scope.modal.task).then(function (response) {
+					if (!_.isNull($scope.modal.parentTask)) {
+						DataProvider.createSubtaskInTask($scope.modal.parentTask.id, $scope.modal.task).then(function (response) {
 							var newTask = _.extend($scope.modal.task, response);
 							DataProvider.assignTaskToUser(response.id, $scope.modal.task.assignee.id).then(function (response) {
 								$modalInstance.close(newTask);
@@ -50,15 +52,28 @@
 							$scope.error = 'Couldn\'t save task: ' + response;
 							LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
 						})
-
 					} else {
-                        DataProvider.updateTask($scope.modal.task.id, $scope.modal.task).then(function(response) {
-                            $modalInstance.close($scope.modal.task);
-                        }, function(response) {
-                            $scope.error = 'Couldn\'t save task';
-                        }).finally(function() {
-							LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
-                        })
+						if (_.isNull($scope.modal.task.id)) {
+							DataProvider.createTask($scope.modal.task).then(function (response) {
+								var newTask = _.extend($scope.modal.task, response);
+								DataProvider.assignTaskToUser(response.id, $scope.modal.task.assignee.id).then(function (response) {
+									$modalInstance.close(newTask);
+								}).finally(function (response) {
+									LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
+								});
+							}, function (response) {
+								$scope.error = 'Couldn\'t save task: ' + response;
+								LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
+							})
+						} else {
+	                        DataProvider.updateTask($scope.modal.task.id, $scope.modal.task).then(function(response) {
+	                            $modalInstance.close($scope.modal.task);
+	                        }, function(response) {
+	                            $scope.error = 'Couldn\'t save task';
+	                        }).finally(function() {
+								LoadStatusService.setStatus("taskModal.save", LoadStatusService.COMPLETED);
+	                        })
+						}
 					}
 
 				};
