@@ -84,6 +84,6 @@ public class JsonViews {
 	public static interface CommentsFull extends CommentsWithObject, CommentsWithSubject{}
 	
 	/************************************Changelog VIEW***************************************************/
-	public static interface Changelog extends Shared{} 
+	public interface BasicChangelog extends Shared{} 
 	
 }
