@@ -13,8 +13,10 @@ import poolingpeople.commons.entities.EntityFactory;
 import poolingpeople.commons.entities.Subject;
 import poolingpeople.commons.entities.Task;
 import poolingpeople.persistence.neo4j.NeoManager;
+import poolingpeople.persistence.neo4j.NodePropertyName;
 import poolingpeople.persistence.neo4j.Relations;
 import poolingpeople.persistence.neo4j.entities.AbstractPersistedModel;
+import poolingpeople.persistence.neo4j.entities.ChangeLogActionType;
 import poolingpeople.persistence.neo4j.entities.PersistedChangeLog;
 import poolingpeople.webapplication.business.task.entity.TaskDTO;
 
@@ -128,7 +130,8 @@ public class ChangelogManager {
 
 			changeLog.load(changeLogAction, retrieveSubject(),
 					System.currentTimeMillis());
-			neoManager.createRelationshipFromTo(((AbstractPersistedModel<?>)changeLog).getNode(), (((AbstractPersistedModel<?>)updatedTask)).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.createRelationshipFromTo((((AbstractPersistedModel<?>)updatedTask)).getNode(),((AbstractPersistedModel<?>)changeLog).getNode(), Relations.HAS_CHANGE_LOG, new HashMap<String,Object>());
+			neoManager.setProperty(((AbstractPersistedModel<?>)changeLog).getNode(), NodePropertyName.CHANGELOG_ACTION.name(), ChangeLogActionType.AttributeUpdateAction.name());
 		} else if (!oldTask.getPriority().equals(updatedTask.getPriority())) {
 			ChangeLog changeLog = entityFactory.createChangeLog();
 			ChangeLogAttributeUpdate changeLogAction = entityFactory
