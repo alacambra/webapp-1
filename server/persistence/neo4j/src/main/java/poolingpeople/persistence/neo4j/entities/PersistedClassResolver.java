@@ -50,6 +50,6 @@ public class PersistedClassResolver {
 	
 	public PoolingpeopleEntity getPoolingpeopleEntityFromNode(Node n){
 		Class<?> clazz = getPersistedEntityClassForNode(n);
-		return ((AbstractPersistedModel<?>)instanceProvider.getInstanceForClass(clazz)).loadModelFromExistentNode(n);
+		return (PoolingpeopleEntity) ((AbstractPersistedModel<?>)instanceProvider.getInstanceForClass(clazz)).loadModelFromExistentNode(n);
 	}
 }
