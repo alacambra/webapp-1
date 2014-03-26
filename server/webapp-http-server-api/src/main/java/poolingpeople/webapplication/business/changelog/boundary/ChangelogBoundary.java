@@ -1,6 +1,7 @@
 package poolingpeople.webapplication.business.changelog.boundary;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
+import poolingpeople.commons.entities.ChangeLog;
 import poolingpeople.persistence.neo4j.Neo4jTransaction;
 import poolingpeople.webapplication.business.boundary.AbstractBoundary;
 import poolingpeople.webapplication.business.boundary.AuthValidator;
@@ -31,7 +33,8 @@ public class ChangelogBoundary extends AbstractBoundary{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getChangelogOfObject(@PathParam("id") String id)
 			throws JsonGenerationException, JsonMappingException, IOException {
-		String response = mapper.writerWithView(JsonViews.Changelog.class).writeValueAsString(entityFactory.getChangelogOfObject(id));
+		List<ChangeLog> changelogOfObject = entityFactory.getChangelogOfObject(id);
+		String response = mapper.writerWithView(JsonViews.BasicChangelog.class).writeValueAsString(changelogOfObject);
 		return Response.ok().entity(response).build();
 		
 	}
