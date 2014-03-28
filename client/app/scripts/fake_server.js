@@ -126,6 +126,14 @@
 					return [200, JSON.stringify(tasks)];
 				});
 
+				// URI: PUT /tasks/:taskId/in/project/:userId
+				$httpBackend.whenPOST(/\/tasks\/as\/subtask\/[\w-]+$/).respond(function (method, url, data, headers) {
+					console.log(method + ' - ' + url);
+					data = JSON.parse(data);
+					data.id = 'p-' + parseInt(Math.random() * 10000, 10);
+					return [200, JSON.stringify(data)];
+				});
+
 				// URI: POST /projects
 				$httpBackend.whenPOST(/\/projects\/$/).respond(function (method, url, data, headers) {
 					console.log(method + ' - ' + url);

@@ -148,7 +148,7 @@
                            format="dd.MM.yyyy"
                            show-weeks="false"
                            pp-convert-date="dd.MM.yyyy"
-                           ng-change="blurField(task, 'startDate')"
+                           ng-change="blurField(task, 'startDate'); update(task)"
                            ng-click-out="blurDatepickers(); blurField(task, 'startDate')"></datepicker>
                     <div class="text-center">
                         <a href="" ng-click="today(task, 'startDate')" class="btn btn-info" style="margin: 5px;">Today</a>
@@ -167,7 +167,7 @@
                            format="dd.MM.yyyy"
                            show-weeks="false"
                            pp-convert-date="dd.MM.yyyy"
-                           ng-change="blurField(task, 'endDate')"
+                           ng-change="blurField(task, 'endDate'); update(task)"
                            ng-click-out="blurDatepickers(); blurField(task, 'endDate')"></datepicker>
                     <div class="text-center">
                         <a href="" ng-click="today(task, 'endDate')" class="btn btn-info" style="margin: 5px;">Today</a>
@@ -283,8 +283,8 @@
                            format="dd.MM.yyyy"
                            show-weeks="false"
                            pp-convert-date="dd.MM.yyyy"
-                           ng-change="blurField(subtask, 'startDate')"
-                           ng-click-out="blurDatepickers(); blurField(subtask, 'startDate')"></datepicker>
+                           ng-change="blurField(subtask, 'startDate'); update(subtask)"
+                           ng-click-out="blurDatepickers()"></datepicker>
                     <div class="text-center">
                         <a href="" ng-click="today(subtask, 'startDate')" class="btn btn-info" style="margin: 5px;">Today</a>
                     </div>
@@ -302,8 +302,8 @@
                            format="dd.MM.yyyy"
                            show-weeks="false"
                            pp-convert-date="dd.MM.yyyy"
-                           ng-change="blurField(subtask, 'endDate')"
-                           ng-click-out="blurDatepickers(); blurField(subtask, 'endDate')"></datepicker>
+                           ng-change="blurField(subtask, 'endDate'); update(subtask)"
+                           ng-click-out="blurDatepickers()"></datepicker>
                     <div class="text-center">
                         <a href="" ng-click="today(subtask, 'endDate')" class="btn btn-info" style="margin: 5px;">Today</a>
                     </div>

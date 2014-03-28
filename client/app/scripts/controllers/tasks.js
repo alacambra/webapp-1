@@ -104,11 +104,7 @@
                 $scope.update = function(items) {
                     doAction(items, function(item) {
                         var sourceProject = item.project;
-                        DataProvider.updateTask(item.id, item).then(function(response) {
-                            
-                        }, function(response) {
-                            $scope.error = 'Couldn\'t save task';
-                        })
+                        DataProvider.updateTask(item.id, item);
                     });
                 }
 
@@ -255,6 +251,7 @@
                 }
                 $scope.today = function(task, key) {
                     task[key] = new Date();
+                    $scope.update(task);
                 };
 
                 $scope.null = function (task, key) {

@@ -85,13 +85,11 @@
 				})()
 
 				$scope.save = function () {
-					console.log($scope.form.task);
 					if ($scope.form.task.$valid) {
 						saveTask();
 					} else {
 						for (var attr in $scope.form.task) {
 							if ($scope.form.task.hasOwnProperty(attr) && $scope.form.task[attr].hasOwnProperty('$dirty')) {
-								console.log($scope.form.task[attr])
 								$scope.form.task[attr].$dirty = true;
 							}
 						}
