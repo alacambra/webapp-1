@@ -1,0 +1,74 @@
+<div class="bce">
+    
+    <a href="" class="bce-header" ng-if="isShowed('bce-header')" ng-click="bce.expanded = !bce.expanded">
+
+        <span class="bce-icon" ng-if="isShowed('bce-icon')">
+            
+                <span class="glyphicon glyphicon-{{bce.icon}}"></span>
+                
+        </span>
+        
+        <span class="bce-info">
+            
+            <span class="bce-title" ng-if="isShowed('bce-title')">
+                
+                {{bce.title}}
+                
+            </span>
+            
+            <span class="bce-details" ng-if="isShowed('bce-details')">
+                
+                Termin: {{bce.date}} | Ort: {{bce.location}}
+                
+            </span>
+            
+        </span>
+        
+    </a>
+
+    <div class="bce-body" ng-if="isShowed('bce-body')">
+        
+        <div class="bce-right" ng-if="isShowed('bce-right')">
+            
+            <div class="bce-modules" ng-if="isShowed('bce-modules')">
+                
+                <div class="bce-module" ng-repeat="module in bce.modules">
+                    
+                    <bce size="'SS'" resource="module.resource" ng-click="expandModule(module.resource)" />
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="bce-left" ng-if="isShowed('bce-left')">
+            
+            <div class="bce-description" ng-if="isShowed('bce-description')">
+                
+                {{bce.description}}
+                
+            </div>
+            
+            <div class="bce-expanded-view" ng-if="isShowed('bce-expanded-view') && bce.expanded">
+                
+                <div class="bce-expanded-bce" ng-repeat="bce in bce.expandedView.bces">
+
+                    <bce size="'MM'" resource="bce" />
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <div class="bce-footer" ng-if="isShowed('bce-footer')">
+        
+        Configuration
+        
+    </div>
+
+
+</div>
