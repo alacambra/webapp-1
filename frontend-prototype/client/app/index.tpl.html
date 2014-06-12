@@ -1,0 +1,72 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Frontend Prototype</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css({.tmp,app}) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+    </head>
+
+    <!-- @if ENV == 'DEVELOPMENT' -->
+    <body ng-app="frontendPrototypeDev">
+        <!-- @endif -->
+
+        <!-- @if ENV == 'PRODUCTION' -->
+    <body ng-app="frontendPrototypeApp">
+        <!-- @endif -->
+
+        <!-- Add your site or application content here -->
+        <div data-ng-include="'views/main.tpl.html'" data-ng-controller="MainCtrl"></div>
+
+        <!--[if lt IE 9]>
+        <script src="bower_components/es5-shim/es5-shim.js"></script>
+        <script src="bower_components/json3/lib/json3.min.js"></script>
+        <![endif]-->
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/stampit/dist/stampit.js"></script>
+        <script src="bower_components/underscore/underscore.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- @if ENV == 'DEVELOPMENT' -->
+        <script src="scripts/dev.js"></script>
+        <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+        <!-- @endif -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/MainCtrl.js"></script>
+        <script src="scripts/services/Resource.js"></script>
+        <script src="scripts/services/API.js"></script>
+        <script src="scripts/services/DataService.js"></script>
+        <script src="scripts/services/ModelsService.js"></script>
+        <script src="scripts/services/PersistedModelsService.js"></script>
+        <script src="scripts/services/RecursionHelper.js"></script>
+        <script src="scripts/directives/directives.js"></script>
+        <script src="scripts/directives/bce.js"></script>
+        <script src="scripts/filters/filters.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>

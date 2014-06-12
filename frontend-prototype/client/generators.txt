@@ -1,0 +1,185 @@
+People:
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        location: '{{lorem(1, "words")}}',
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        endDate: '{{integer(1368977326, 1400513284)}}',
+        deleteDate: '{{integer(1368977326, 1400513284)}}',
+        type: '{{integer(1, 9)}}',
+        occupation: '{{lorem(1, "words")}}',
+        progress: '{{floating(0, 100)}}',
+        visibility: '{{bool()}}',
+        privacy: '{{integer(1, 9)}}',
+        verified: '{{bool()}}',
+        updateDate: '{{integer(1368977326, 1400513284)}}'
+    }
+]
+
+
+Pool: 
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        location: '{{lorem(1, "words")}}',
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        endDate: '{{integer(1368977326, 1400513284)}}',
+        deleteDate: '{{integer(1368977326, 1400513284)}}',
+        type: '{{integer(1, 9)}}',
+        visibility: '{{bool()}}',
+        privacy: '{{integer(1, 9)}}',
+        verified: '{{bool()}}',
+        updateDate: '{{integer(1368977326, 1400513284)}}'
+    }
+]
+
+
+Task:
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        location: '{{lorem(1, "words")}}',
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        status: '{{integer(1,9)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        endDate: '{{integer(1368977326, 1400513284)}}',
+        deleteDate: '{{integer(1368977326, 1400513284)}}',
+        occupation: '{{lorem(1, "words")}}',
+        visibility: '{{bool()}}',
+        privacy: '{{integer(1, 9)}}',
+        verified: '{{bool()}}',
+        updateDate: '{{integer(1368977326, 1400513284)}}',
+        estimatedEffort: '{{integer(0, 40)}}',
+        effort: '{{integer(0, 40)}}'
+    }
+]
+
+
+Competence:
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        type: '{{integer(1, 9)}}',
+        verified: '{{bool()}}',
+        updateDate: '{{integer(1368977326, 1400513284)}}'
+    }
+]
+
+
+Communication:
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        endDate: '{{integer(1368977326, 1400513284)}}',
+        deleteDate: '{{integer(1368977326, 1400513284)}}',
+        visibility: '{{bool()}}',
+        privacy: '{{integer(1, 9)}}',
+        verified: '{{bool()}}'
+    }
+]
+
+
+Event:
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        location: '{{lorem(1, "words")}}',
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        endDate: '{{integer(1368977326, 1400513284)}}',
+        deleteDate: '{{integer(1368977326, 1400513284)}}',
+        type: '{{integer(1, 9)}}',
+        visibility: '{{bool()}}',
+        privacy: '{{integer(1, 9)}}',
+        verified: '{{bool()}}',
+        updateDate: '{{integer(1368977326, 1400513284)}}'
+    }
+]
+
+
+Data:
+
+[
+    '{{repeat(7, 10)}}',
+    {
+        _id: '{{guid()}}',
+        title: '{{lorem(4, "words")}}',
+        description: '{{lorem(1, "paragraphs")}}',
+        creator: {
+            _id: '{{guid()}}',
+            name: '{{firstName()}} {{surname()}}'
+        },
+        location: '{{lorem(1, "words")}}',
+        creationDate: '{{integer(1368977326, 1400513284)}}',
+        publishDate: '{{integer(1368977326, 1400513284)}}',
+        startDate: '{{integer(1368977326, 1400513284)}}',
+        endDate: '{{integer(1368977326, 1400513284)}}',
+        deleteDate: '{{integer(1368977326, 1400513284)}}',
+        type: '{{integer(1, 9)}}',
+        visibility: '{{bool()}}',
+        privacy: '{{integer(1, 9)}}',
+        verified: '{{bool()}}',
+        updateDate: '{{integer(1368977326, 1400513284)}}'
+    }
+]
+

@@ -1,0 +1,267 @@
+<div ng-class="{'collapsed': menu.collapsed, 'not-collapsed': !menu.collapsed }" class="navbar_left navbar navbar-inverse navbar-fixed">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse navbar-body">
+        <div class="row menu-header" style="position: relative">
+            <div class="col-md-1"><a style="margin-left: 10px; line-height: 1.5em; position: absolute" href="" id="login" ng-click="toggleLogin()">{{ logged ? "Logout" : "Login"}}</a></div>
+            <div style="position: absolute; top: 10px; right: 20px;"><a href="" ng-click="menu.collapse()">{{ menu.collapsed ? "&gt;&gt;" : "&lt;&lt;"}}</a></div>
+        </div>
+        <ul class="nav nav-stacked menu-bar" ng-class="{'menu-collapsed': menu.collapsed}">
+            <li>
+                <a href="" ng-click="menu.sections['home'].expanded = menu.collapsed ? false : !menu.sections['home'].expanded ">
+                    <span class="glyphicon glyphicon-home"></span>
+                    <span class="menu-root-label">poolingpeople</span>
+                    <span class="toggleList animate-fade glyphicon" ng-class="{'glyphicon-chevron-right': !menu.sections['home'].expanded && !menu.collapsed, 'glyphicon-chevron-down': menu.sections['home'].expanded && !menu.collapsed}"></span>
+                </a>
+                <ul ng-if="menu.sections['home'].expanded" class="section home-section">
+                    <li class="list-item">
+                        <div class="header">
+                            <a href="">About</a>
+                        </div>
+                        <ul class="links">
+                            <li><a href="">Company</a></li>
+                            <li><a href="">Blog</a></li>
+                            <li><a href="">Press</a></li>
+                            <li><a href="">Jobs</a></li>
+                        </ul>
+                    </li>
+                    <li class="list-item">
+                        <div class="header">
+                            <a href="">Help</a>
+                        </div>
+                        <ul class="links">
+                            <li><a href="">FAQ</a></li>
+                            <li><a href="">Tool &amp; Tricks</a></li>
+                            <li><a href="">Drag'n Drop</a></li>
+                        </ul>
+                    </li>
+                    <li class="list-item">
+                        <div class="header">
+                            <a href="">Legal</a>
+                        </div>
+                        <ul class="links">
+                            <li><a href="">Data Privacy</a></li>
+                            <li><a href="">GTC (AGB)</a></li>
+                            <li><a href="">Imprint</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li ng-if="logged" class="animate-fade">
+                <a href="" ng-click="menu.sections['channel'].expanded = (menu.sections['channel'].count() > 0) ? !menu.sections['channel'].expanded : false">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="menu-root-label">My Channel</span>
+                    <span class="toggleList animate-fade glyphicon" ng-if="logged" ng-class="{'glyphicon-chevron-right': !menu.sections['channel'].expanded && !menu.collapsed && menu.sections['channel'].count() > 0, 'glyphicon-chevron-down': menu.sections['channel'].expanded && !menu.collapsed && menu.sections['channel'].count() > 0}"></span>
+                </a>
+
+                <ul ng-if="menu.sections['channel'].expanded && logged" class="section">
+                    <li ng-repeat="subsection in menu.sections['channel'].subsections">
+                        <div ng-if="subsection.collection.length > 0">
+                            <a href="">
+                                <span class="subsection-label menu-label">{{subsection.label}} ({{subsection.collection.length}})</span>
+                            </a>
+                            <ul class="subsection">
+                                <li ng-repeat="item in subsection.collection">
+                                    <div class="subsection-item">
+                                        <div class="subsection-item-header">
+                                            <span class="menu-label">{{item.title}}</span>
+                                        </div>
+                                        <div class="subsection-item-body">
+                                            <span class="menu-label">{{item.description | limitTo: 60}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            <li>
+            <li>
+                <a href="" ng-click="menu.sections['people'].expanded = (menu.sections['people'].count() > 0) ? !menu.sections['people'].expanded : false">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span class="menu-root-label">People</span>
+                    <span class="toggleList animate-fade glyphicon" ng-if="logged" ng-class="{'glyphicon-chevron-right': !menu.sections['people'].expanded && !menu.collapsed && menu.sections['people'].count() > 0, 'glyphicon-chevron-down': menu.sections['people'].expanded && !menu.collapsed && menu.sections['people'].count() > 0}"></span>
+                </a>
+
+                <ul ng-if="menu.sections['people'].expanded && logged" class="section">
+                    <li ng-repeat="subsection in menu.sections['people'].subsections">
+                        <div ng-if="subsection.collection.length > 0">
+                            <a href="" ng-draggable="person">
+                                <span class="subsection-label menu-label">{{subsection.label}} ({{subsection.collection.length}})</span>
+                            </a>
+                            <ul class="subsection">
+                                <li ng-repeat="item in subsection.collection" ng-click="newPeople(item.getId())">
+                                    <div class="subsection-item" ng-draggable="person">
+                                        <div class="subsection-item-header">
+                                            <span class="menu-label">{{item.title}}</span>
+                                        </div>
+                                        <div class="subsection-item-body">
+                                            <span class="menu-label">{{item.description | limitTo: 60}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            <li>
+                <a href="" ng-click="menu.sections['pools'].expanded = (menu.sections['pools'].count() > 0) ? !menu.sections['pools'].expanded : false">
+                    <span class="glyphicon glyphicon-folder-close"></span>
+                    <span class="menu-root-label">Pools</span>
+                    <span class="toggleList animate-fade glyphicon" ng-if="logged" ng-class="{'glyphicon-chevron-right': !menu.sections['pools'].expanded && !menu.collapsed && menu.sections['pools'].count() > 0, 'glyphicon-chevron-down': menu.sections['pools'].expanded && !menu.collapsed && menu.sections['pools'].count() > 0}"></span>
+                </a>
+
+                <ul ng-if="menu.sections['pools'].expanded && logged" class="section">
+                    <li ng-repeat="subsection in menu.sections['pools'].subsections">
+                        <div ng-if="subsection.collection.length > 0">
+                            <a href="" ng-draggable="pool">
+                                <span class="subsection-label menu-label">{{subsection.label}} ({{subsection.collection.length}})</span>
+                            </a>
+                            <ul class="subsection">
+                                <li ng-repeat="item in subsection.collection" ng-click="newPool(item.getId())">
+                                    <div class="subsection-item" ng-draggable="pool">
+                                        <div class="subsection-item-header">
+                                            <span class="menu-label">{{item.title}}</span>
+                                        </div>
+                                        <div class="subsection-item-body">
+                                            <span class="menu-label">{{item.description | limitTo: 60}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            <li>
+                <a href="" ng-click="menu.sections['tasks'].expanded = (menu.sections['tasks'].count() > 0) ? !menu.sections['tasks'].expanded : false">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <span class="menu-root-label">Tasks</span>
+                    <span class="toggleList animate-fade glyphicon" ng-if="logged" ng-class="{'glyphicon-chevron-right': !menu.sections['tasks'].expanded && !menu.collapsed && menu.sections['tasks'].count() > 0, 'glyphicon-chevron-down': menu.sections['tasks'].expanded && !menu.collapsed && menu.sections['tasks'].count() > 0}"></span>
+                </a>
+
+                <ul ng-if="menu.sections['tasks'].expanded && logged" class="section">
+                    <li ng-repeat="subsection in menu.sections['tasks'].subsections">
+                        <div ng-if="subsection.collection.length > 0">
+                            <a href="" ng-draggable="task">
+                                <span class="subsection-label menu-label">{{subsection.label}} ({{subsection.collection.length}})</span>
+                            </a>
+                            <ul class="subsection">
+                                <li ng-repeat="item in subsection.collection" ng-click="newTask(item.getId())">
+                                    <div class="subsection-item" ng-draggable="task">
+                                        <div class="subsection-item-header">
+                                            <span class="menu-label">{{item.title}}</span>
+                                        </div>
+                                        <div class="subsection-item-body">
+                                            <span class="menu-label">{{item.description | limitTo:60}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="" ng-click="menu.sections['competences'].expanded = (menu.sections['competences'].count() > 0 && logged) ? !menu.sections['competences'].expanded : false">
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                    <span class="menu-root-label">Competences</span>
+                    <span class="toggleList animate-fade glyphicon" ng-if="logged" ng-class="{'glyphicon-chevron-right': !menu.sections['competences'].expanded && !menu.collapsed && menu.sections['competences'].count() > 0, 'glyphicon-chevron-down': menu.sections['competences'].expanded && !menu.collapsed && menu.sections['competences'].count() > 0}"></span>
+                </a>
+
+                <ul ng-if="menu.sections['competences'].expanded && logged" class="section">
+                    <li ng-repeat="subsection in menu.sections['competences'].subsections">
+                        <div ng-if="subsection.collection.length > 0">
+                            <a href="" ng-draggable="competence">
+                                <span class="subsection-label menu-label">{{subsection.label}} ({{subsection.collection.length}})</span>
+                            </a>
+                            <ul class="subsection">
+                                <li ng-repeat="item in subsection.collection" ng-click="newCompetence(item.getId())">
+                                    <div class="subsection-item" ng-draggable="competence">
+                                        <div class="subsection-item-header">
+                                            <span class="menu-label">{{item.title}}</span>
+                                        </div>
+                                        <div class="subsection-item-body">
+                                            <span class="menu-label">{{item.description | limitTo: 60}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li> 
+            <li>
+                <a href="">
+                    <span class="glyphicon glyphicon-calendar"></span><span class="menu-root-label">Calendar</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="glyphicon glyphicon-folder-open"></span><span class="menu-root-label">Data</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="glyphicon glyphicon-comment"></span>
+                    <span class="menu-root-label">Communication</span>
+                </a>
+            </li>  
+        </ul>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<div class="content">
+    <div class="container">
+        <div class="row" style="padding: 0px 50px 50px">
+            <div style="text-align: center; padding-top: 20px;">
+                <input type="text" class="form-control" placeholder="Search" style="display: inline-block; width: 300px" ng-model="search">
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <a href="" ng-click="createBox = !createBox" class="button" id="create">
+                    <span class="glyphicon" ng-class="{'glyphicon-plus': !createBox, 'glyphicon-minus': createBox}"></span> Create
+                </a>
+            </div>
+            <div ng-if="createBox" style="text-align: center" class="animate-height-110">
+                <input type="radio" name="option" id="option1" checked="checked" /> <label for="option1">&nbsp;Create</label> <input type="radio" style="margin-left: 20px" name="option" id="option2" /> <label for="option2">&nbsp;Import</label>
+                <br />
+                <br />
+                <a href="" class="button" ng-click="newPeople()">People</a>
+                <a href="" class="button" ng-click="newPool()">Pool</a>
+                <a href="" class="button" ng-click="newTask()" id="newTaskButton">Task</a>
+                <a href="" class="button" ng-click="newCompetence()">Competence</a>
+            </div>
+            
+            <br />
+            <ul>
+                <li style="padding-bottom: 25px" ng-repeat="bce in bces.toArray() | madeBy:makerFilter | softFilter:search | reverse" class="animate-fade">
+                    <bce resource="bce" size="bce.size" ng-droppable="" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="filter-box" ng-class="{'filter-box-expanded': expandedFilters }">
+        <div class="filter-box-arrow" ng-click="expandedFilters = !expandedFilters">{{expandedFilters ? "&gt;": "&lt;"}}</div>
+        <h4>Filter:</h4>
+        <input type="checkbox" ng-true-value="Eduardo Paez" ng-false-value="" ng-model="makerFilter" /> Made by me
+        <br />
+    </div>
+    <script type="text/javascript">
+        (function ($) {
+            var $window = $(window),
+                $html = $('#menu-bar');
+
+            $window.resize(function resize () {
+                if ($window.width() < 768) {
+                    return $html.removeClass('nav-stacked');
+                }
+                $html.addClass('nav-stacked');
+            }).trigger('resize');
+        })(jQuery);
+    </script>
