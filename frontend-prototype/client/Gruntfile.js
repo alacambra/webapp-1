@@ -466,6 +466,8 @@ module.exports = function (grunt) {
     grunt.registerTask('quickbuild', [
         'clean:dist',
         'compass',
+        'env:prod',
+        'preprocess:html',
         'copy:quick'
     ]);
 
